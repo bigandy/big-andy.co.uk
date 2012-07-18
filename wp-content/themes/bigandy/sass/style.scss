@@ -6,4 +6,16 @@ Author: bigandy
 Version: 1.0
 */
 
+@import "reset";
+
 * { -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; font-family: sans-serif; }
+
+a {
+    text-decoration:none;
+}
+
+
+.container {
+    width:100%;
+}
+
