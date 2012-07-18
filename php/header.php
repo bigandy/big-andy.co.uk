@@ -9,7 +9,7 @@
 
 	<!-- CSS: implied media="all" -->
 <!-- for live	<link rel="stylesheet" href="/style/style.css"> -->
-	<link rel="stylesheet" href="/big-andy.co.uk/style/style.css">
+	<link rel="stylesheet" href="/css/style.css">
 
 	<!-- All JavaScript at the bottom, except for Modernizr which enables HTML5 elements & feature detects -->
 	<script src="/js/libs/modernizr-1.7.min.js"></script>
