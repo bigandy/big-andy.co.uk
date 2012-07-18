@@ -1,4 +1,4 @@
-# Numerous always-ignore extensions
+﻿# Numerous always-ignore extensions
 *.diff
 *.err
 *.orig
@@ -21,6 +21,7 @@ Thumbs.db
 nbproject
 *.sublime-project
 *.sublime-workspace
+*.css
 
 # Dreamweaver added files
 _notes
