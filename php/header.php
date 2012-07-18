@@ -31,8 +31,8 @@
 			<img src="/img/bigandy-header.png" alt="header banner with text 'big andy's place'" height="100" width="960" />
 		</a>-->
 		
-		<a href="/big-andy.co.uk/index.php" id="banner">
-			<img src="/big-andy.co.uk/img/bigandy-header.png" alt="header banner with text 'big andy's place'" height="100" width="960" />
+		<a href="/index.php" id="banner">
+			<img src="/img/bigandy-header.png" alt="header banner with text 'big andy's place'" height="100" width="960" />
 		</a>
 		
 	</header><!--end of header-->
