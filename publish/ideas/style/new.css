@@ -1,0 +1,33 @@
+/* Andrew's Additions */
+
+html	{font-family:arial;font-size:medium;}
+
+p {text-align:left;}
+.container_12	{background:;padding-top:20px;}
+.grid_9 , .sub-content  {border:1px solid #666;height:600px; background:rgba(255,255,255,0.5); color:black;text-align:left;margin-bottom:20px;border-left:0;} 
+
+/*making boxes smaller because of border on grid boxes */
+.container_12 .grid_12  {width:938px; background:rgba(0,255,255,0.5);}
+.grid_9 p	{padding-top:10px; font-size:16px;}
+.container_12 .grid_9  {width:699px;}
+.container_12 .grid_3,.container_16 .grid_4 {
+	width: 219px;
+}
+	
+.header, .footer	{border:1px solid blue;margin-bottom:20px;}
+
+.footer				{height:50px;}
+
+h1 		{padding:0;margin:0; color:red; font-size:300%;}
+h3		{margin-top:1em;}
+
+img	{margin-left:0;height:163px;width:219px;}
+
+.container_12 .grid_5 {border:0px solid red;margin-left:240px;width:220px; }
+
+.grid_5 p		{font-size:12px;}
+.grid_5 h1 		{font-size:150%;}
+.grid_9 h1		{font-size:200%;color:black;}
+
+.alpha		{}
+.grid_6		{margin-left:0;padding-left:0;}
