@@ -23,7 +23,7 @@ nbproject
 *.sublime-workspace
 css/
 *.css
-wp-config.php
+/wp-config.php
 
 # Dreamweaver added files
 _notes
