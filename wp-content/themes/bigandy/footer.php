@@ -1,5 +1,8 @@
 </div><!--end of .container-->
 <footer id="footer">
+	<!--temp site login-->
+	<a href="/wp-admin">admin</a>
+	<!--END-->
 	<p>&copy;2004-<?php echo date('Y');?> Andrew JD Hudson . <a href="mailto:andy@big-andy.co.uk">email me</a></p>
 	</footer><!--end of footer-->
 </div><!--end of container-->
