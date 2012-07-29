@@ -33,7 +33,7 @@
 	<link rel="shortcut icon" href="<?php bloginfo( 'template_url' ); ?>/favicon.ico" />
 	<?php wp_head(); ?>
 </head>
-<body>
+<body class="<?php body_class();  ?>">
 <!-- whole page wrapper-->
 <div class="container">
 	<!-- header wrapper-->

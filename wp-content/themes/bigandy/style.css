@@ -312,6 +312,14 @@ td {
 
   h2, h3 {
     page-break-after: avoid; } }
+body.cv-template {
+  background: rgba(255, 0, 0, 0.5); }
+
+.cv-template .container {
+  width: 1000px;
+  background: #fff;
+  margin: auto; }
+
 * {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
