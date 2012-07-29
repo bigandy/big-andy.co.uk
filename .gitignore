@@ -21,8 +21,8 @@ Thumbs.db
 nbproject
 *.sublime-project
 *.sublime-workspace
-css/
-*.css
+/wp-content/themes/big-andy.co.uk/style.css
+
 
 # Dreamweaver added files
 _notes
