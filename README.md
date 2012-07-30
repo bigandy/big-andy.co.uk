@@ -1,4 +1,5 @@
-==Bigandy==
-*New Design
-*Built in WordPress
-*Tracked using Git
+== Bigandy
+
+* New Design
+* Built in WordPress
+* Tracked using Git
