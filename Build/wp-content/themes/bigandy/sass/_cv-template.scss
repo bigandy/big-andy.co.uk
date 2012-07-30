@@ -1,15 +1,18 @@
 // CSS For CV Template 
 
-body.cv-template {
-    background:rgba(red, 0.5);
-}
-
 .cv-template {
+    background:rgba(red, 0.75);
       
     .container {
         width:1000px;
+        padding:10px 20px 20px;
         background:#fff;
         margin:auto;
     }    
 }
 
+footer {
+    width:1000px;
+    margin:auto;
+    padding:20px;
+}

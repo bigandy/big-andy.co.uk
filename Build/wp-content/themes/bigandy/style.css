@@ -5,7 +5,11 @@ Description: The next iteration of my site.
 Author: bigandy
 Version: 1.0
 */
-/* HTML5 Boilerplate Reset*/
+* {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box; }
+
 article, aside, details, figcaption, figure, footer, header, hgroup, nav, section {
   display: block; }
 
@@ -312,19 +316,18 @@ td {
 
   h2, h3 {
     page-break-after: avoid; } }
-body.cv-template {
-  background: rgba(255, 0, 0, 0.5); }
+.cv-template {
+  background: rgba(255, 0, 0, 0.75); }
+  .cv-template .container {
+    width: 1000px;
+    padding: 10px 20px 20px;
+    background: #fff;
+    margin: auto; }
 
-.cv-template .container {
+footer {
   width: 1000px;
-  background: #fff;
-  margin: auto; }
-
-* {
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-  font-family: sans-serif; }
+  margin: auto;
+  padding: 20px; }
 
 a {
   text-decoration: none; }
