@@ -74,7 +74,7 @@ add_shortcode( 'vcard', 'ah_vcard_shortcode' );
 // http://www.wprecipes.com/how-to-remove-menus-in-wordpress-dashboard
 	
 
-function remove_menus () {
+function ah_remove_menus () {
 global $menu;
 	$restricted = array( __('Tools'), __('Users'), __('Comments'));
 	end ($menu);
@@ -83,9 +83,7 @@ global $menu;
 		if(in_array($value[0] != NULL?$value[0]:"" , $restricted)){unset($menu[key($menu)]);}
 	}
 }
-add_action('admin_menu', 'remove_menus');
-
-
+add_action('admin_menu', 'ah_remove_menus');
 
 // see also : http://noeltock.com/wcuk12/
 function change_admin_cap() {
@@ -108,7 +106,12 @@ function change_admin_cap() {
 			$role->remove_cap('promote_users');		
 }
 
-
+// remove comment moderation from admin bar
+function ah_admin_bar_render() {
+	global $wp_admin_bar;
+	$wp_admin_bar->remove_menu('comments');
+}
+add_action( 'wp_before_admin_bar_render', 'ah_admin_bar_render' );
 
 
 
