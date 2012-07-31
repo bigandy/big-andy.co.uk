@@ -18,16 +18,56 @@ global $menu;
 }
 add_action('admin_menu', 'remove_menus');
 
-//[foobar]
+// [address] using microformats : http://microformats.org/code/hcard/creator
 function ah_address_shortcode(){
- return '<div id="hcard-andrew-hudson" class="vcard">
+ return '
  <div class="adr">
   <div class="street-address">19 Cambridge Street</div>
   <span class="locality">Reading</span> 
   <span class="region">Berkshire</span> 
   <span class="postal-code">RG1 7PA</span>
- </div>
-</div>';
+ </div>';
 }
 add_shortcode( 'address', 'ah_address_shortcode' );
+
+// [telephone]
+function ah_telephone_shortcode( $atts, $content = null ){
+ 	extract( shortcode_atts( array(
+		'telephone' => '077 36063 671',
+		'label' => ''		
+	), $atts ) );
+ return '<div class="tel">'. $label . $telephone .'</div>';
+}
+add_shortcode( 'telephone', 'ah_telephone_shortcode' );
+
+// [email]
+function ah_email_shortcode( $atts, $content = null ){
+ return '<a class="email" href="'. $content .'">'. $content .'</a>';
+}
+add_shortcode( 'email', 'ah_email_shortcode' );
+
+// [website]
+function ah_website_shortcode( $atts, $content = null ){
+ 
+ extract( shortcode_atts( array(
+		'url' => 'big-andy.co.uk'
+	), $atts ) );
+	
+	return '<a class="url" href="http://'.$url.'">'.$url.'</a>';
+}
+add_shortcode( 'website', 'ah_website_shortcode' );
+
+// [vcard]
+function ah_vcard_shortcode( $atts, $content = null ){
+ return '<div class="vcard">'. do_shortcode($content) .'</div>';
+}
+add_shortcode( 'vcard', 'ah_vcard_shortcode' );
+
+
+
+
+
+
+
+
 
