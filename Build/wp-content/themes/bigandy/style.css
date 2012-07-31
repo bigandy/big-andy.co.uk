@@ -348,11 +348,11 @@ h3 {
   font-size: 12px;
   line-height: 1.5;
   background: rgba(255, 0, 0, 0.75); }
-  .cv-template > header {
-    padding: 12px 0 0 36px; }
   .cv-template .container {
     width: 1000px;
     margin: auto; }
+    .cv-template .container > header {
+      padding: 12px 0 0 36px; }
   .cv-template .cv-content {
     background-color: #fff;
     padding: 18px 36px; }

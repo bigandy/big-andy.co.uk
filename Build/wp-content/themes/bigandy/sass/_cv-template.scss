@@ -1,22 +1,24 @@
 // CSS For CV Template 
-// TODO : baseline grid, typography, layout
+// TODO : layout
 
 
 .cv-template {
     
-    
+   
     
     font-size:12px;
     line-height:1.5;
     background:rgba(red, 0.75);
     
-    > header {
-        padding:12px 0 0 36px;
-    }
+    
     
     .container {
         width:1000px;
         margin:auto;
+        
+        & > header {
+            padding:12px 0 0 36px;
+        }  
         
     }
     .cv-content {

@@ -106,12 +106,40 @@ function change_admin_cap() {
 			$role->remove_cap('promote_users');		
 }
 
-// remove comment moderation from admin bar
+// remove comment moderation from admin bar 
+	// http://wpmu.org/how-to-add-or-remove-links-from-the-wordpress-3-1-admin-bar/
 function ah_admin_bar_render() {
 	global $wp_admin_bar;
 	$wp_admin_bar->remove_menu('comments');
 }
 add_action( 'wp_before_admin_bar_render', 'ah_admin_bar_render' );
+
+
+// http://codex.wordpress.org/Function_Reference/add_menu
+function mytheme_admin_bar_render() {
+	global $wp_admin_bar;
+        $wp_admin_bar->add_menu( array(
+	        'parent' => false,
+	        'id' => 'ext-link',
+	        'title' => __('BBC'),
+	        'href' => 'http://bbc.co.uk',
+	        'meta' => array(
+							'target' => '_blank',
+							'title' => 'Link opens in new window - BBC'
+						)),
+					$wp_admin_bar->add_menu( array(
+	        'parent' => 'ext-link',
+	        'id' => 'ext-link-child',
+	        'title' => __('BBC Sport'),
+	        'href' => 'http://bbc.co.uk/sport',
+	        'meta' => array(
+							'target' => '_blank',
+							'title' => 'Link opens in new window - BBC Sport'
+						))
+        
+     ));
+}
+add_action( 'wp_before_admin_bar_render', 'mytheme_admin_bar_render' );
 
 
 

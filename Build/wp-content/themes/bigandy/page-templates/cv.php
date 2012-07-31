@@ -43,11 +43,11 @@
 <body class="cv-template">
 <!-- whole page wrapper-->
 <div class="container">
-		<header>		
+		<header class="main-header">		
 			<a href="<?php bloginfo( 'url' ); ?>">
 				<h1>bigandy.co.uk</h1>
 			</a>
-	</header>
+		</header>
 	<section class="cv-content">
 		<?php if ( have_posts() ) : ?>
 	
