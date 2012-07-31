@@ -1,4 +1,3 @@
-</div><!--end of .container-->
 <footer id="footer">
 	<!--temp site login-->
 	<a href="/wp-admin">admin</a>

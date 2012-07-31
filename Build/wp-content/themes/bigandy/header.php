@@ -31,6 +31,7 @@
 	<meta name="description" content="The personal website of Andrew JD Hudson." />
 	<meta name="robots" content="all" />
 	<link rel="shortcut icon" href="<?php bloginfo( 'template_url' ); ?>/favicon.ico" />
+	<link type="text/plain" rel="author" href="/humans.txt" />
 	<?php wp_head(); ?>
 </head>
 <body class="<?php body_class();  ?>">

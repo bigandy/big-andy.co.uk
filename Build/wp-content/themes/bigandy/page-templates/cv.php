@@ -37,6 +37,7 @@
 	<meta name="description" content="The personal website of Andrew JD Hudson." />
 	<meta name="robots" content="all" />
 	<link rel="shortcut icon" href="<?php bloginfo( 'template_url' ); ?>/favicon.ico" />
+	<link type="text/plain" rel="author" href="/humans.txt" />
 	<?php wp_head(); ?>
 </head>
 <body class="cv-template">
@@ -48,24 +49,24 @@
 			<img src="/img/bigandy-header.png" alt="header banner with text 'big andy's place'" height="100" width="960" />
 		</a>-->
 		
-		<a href="/index.php" id="banner">
+		<a href="<?php bloginfo( 'url' ); ?>" id="banner">
 			<h1>bigandy.co.uk</h1>
 		</a>
 		
 	</header><!--end of header-->
 	<!-- navigation -->
-<section>
-	<?php if ( have_posts() ) : ?>
-
-
-				<?php /* Start the Loop */ ?>
-				<?php while ( have_posts() ) : the_post(); ?>
-					
-					<h1><?php the_title(); ?></h1>
-					<?php the_content(); ?>
-
-				<?php endwhile; ?>
-
-				<?php endif; ?>
-</section>
-<?php get_footer(); ?>
+	<section class="cv-content">
+		<?php if ( have_posts() ) : ?>
+	
+	
+					<?php /* Start the Loop */ ?>
+					<?php while ( have_posts() ) : the_post(); ?>
+						
+						<h1><?php the_title(); ?></h1>
+						<?php the_content(); ?>
+	
+					<?php endwhile; ?>
+	
+					<?php endif; ?>
+	</section>
+	<?php get_footer(); ?>

@@ -3,18 +3,20 @@
 
 
 .cv-template {
+    font-size:12px;
+    line-height:1.5;
     background:rgba(red, 0.75);
-      
+    
     .container {
         width:1000px;
-        padding:10px 20px 20px;
-        background:#fff;
         margin:auto;
-    }    
+        
+    }
+    .cv-content {
+        //background-image:url(img/background/gridbg.gif);
+        background-color:#fff;
+        padding:36px;
+    }
 }
 
-footer {
-    width:1000px;
-    margin:auto;
-    padding:20px;
-}
+

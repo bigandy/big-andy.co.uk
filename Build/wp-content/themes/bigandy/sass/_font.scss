@@ -1,0 +1,31 @@
+// Font Styles 
+
+// Start with body text
+
+body {
+    font-size:100%;
+}
+
+p,
+  ul,
+  ol { 
+    margin: 0 0 1.5em; 
+  }
+  ul {
+    list-style-type: square;
+    margin-left: 2em;
+  }
+h1 { 
+    font-size: 2em; 
+    line-height: 36px;
+    margin:0 0 18px; 
+}
+h2 { 
+    font-size: 1.5em; 
+    line-height: 1; 
+    margin:0 0 1em;
+}
+h3 { 
+  font-size: 1em; 
+  line-height: 1.5; 
+}

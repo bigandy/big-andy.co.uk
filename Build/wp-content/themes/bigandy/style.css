@@ -36,15 +36,15 @@ html, button, input, select, textarea {
 body {
   margin: 0;
   font-size: 1em;
-  line-height: 1.4; }
+  line-height: 1.5; }
 
 ::-moz-selection {
-  background: #fe57a1;
+  background: #00BFF3;
   color: #fff;
   text-shadow: none; }
 
 ::selection {
-  background: #fe57a1;
+  background: #00BFF3;
   color: #fff;
   text-shadow: none; }
 
@@ -127,8 +127,8 @@ sub {
   bottom: -0.25em; }
 
 ul, ol {
-  margin: 1em 0;
-  padding: 0 0 0 40px; }
+  margin: 0;
+  padding: 0; }
 
 dd {
   margin: 0 0 0 40px; }
@@ -316,18 +316,42 @@ td {
 
   h2, h3 {
     page-break-after: avoid; } }
+body {
+  font-size: 100%; }
+
+p,
+ul,
+ol {
+  margin: 0 0 1.5em; }
+
+ul {
+  list-style-type: square;
+  margin-left: 2em; }
+
+h1 {
+  font-size: 2em;
+  line-height: 36px;
+  margin: 0 0 18px; }
+
+h2 {
+  font-size: 1.5em;
+  line-height: 1;
+  margin: 0 0 1em; }
+
+h3 {
+  font-size: 1em;
+  line-height: 1.5; }
+
 .cv-template {
+  font-size: 12px;
+  line-height: 1.5;
   background: rgba(255, 0, 0, 0.75); }
   .cv-template .container {
     width: 1000px;
-    padding: 10px 20px 20px;
-    background: #fff;
     margin: auto; }
-
-footer {
-  width: 1000px;
-  margin: auto;
-  padding: 20px; }
+  .cv-template .cv-content {
+    background-color: #fff;
+    padding: 36px; }
 
 a {
   text-decoration: none; }
