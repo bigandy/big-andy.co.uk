@@ -1,7 +1,5 @@
 <?php
 // http://www.wprecipes.com/how-to-remove-menus-in-wordpress-dashboard
-	
-
 function ah_remove_menus () {
 global $menu;
 	$restricted = array( __('Tools'), __('Users'), __('Comments'));
@@ -41,7 +39,6 @@ function ah_admin_bar_render() {
 	$wp_admin_bar->remove_menu('comments');
 }
 add_action( 'wp_before_admin_bar_render', 'ah_admin_bar_render' );
-
 
 // http://codex.wordpress.org/Function_Reference/add_menu
 function mytheme_admin_bar_render() {
