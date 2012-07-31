@@ -54,10 +54,6 @@
 		
 	</header><!--end of header-->
 	<!-- navigation -->
-	<nav id="navigation">
-	<!-- php conditional to get navigation based on where page is hosted: localhost or online -->
-		<?php wp_nav_menu( array( 'theme_location' => 'primary' ) ); ?>
-	</nav>
 <section>
 	<?php if ( have_posts() ) : ?>
 
