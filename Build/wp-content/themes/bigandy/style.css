@@ -321,7 +321,9 @@ body {
 
 p,
 ul,
-ol {
+ol,
+nav ol,
+nav ul {
   margin: 0 0 1.5em; }
 
 ul {
@@ -374,7 +376,8 @@ abbr {
   cursor: pointer; }
 
 .container {
-  width: 100%; }
+  width: 100%;
+  padding: 1em; }
 
 .menu-top-level-nav-container li {
   display: inline-block; }

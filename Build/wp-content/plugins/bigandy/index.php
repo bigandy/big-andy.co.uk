@@ -7,6 +7,7 @@
 // http://www.wprecipes.com/how-to-remove-menus-in-wordpress-dashboard
 	// see also : http://noeltock.com/wcuk12/
 
+/*
 function remove_menus () {
 global $menu;
 	$restricted = array( __('Media'), __('Links'), __('Tools'), __('Users'), __('Comments'));
@@ -17,6 +18,7 @@ global $menu;
 	}
 }
 add_action('admin_menu', 'remove_menus');
+*/
 
 // [address] using microformats : http://microformats.org/code/hcard/creator
 function ah_address_shortcode($atts){

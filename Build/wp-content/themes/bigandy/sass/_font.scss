@@ -7,14 +7,16 @@ body {
 }
 
 p,
-  ul,
-  ol { 
+ul,
+ol,
+nav ol,
+nav ul { 
     margin: 0 0 1.5em; 
-  }
-  ul {
+}
+ul {
     list-style-type: square;
     margin-left: 2em;
-  }
+    }
 h1 { 
     font-size: 2em; 
     line-height: 36px;
