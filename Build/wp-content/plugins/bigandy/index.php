@@ -4,21 +4,6 @@
 * Version : 1.0
 * Description : Shortcode for address, plus other stuff
 */
-// http://www.wprecipes.com/how-to-remove-menus-in-wordpress-dashboard
-	// see also : http://noeltock.com/wcuk12/
-
-/*
-function remove_menus () {
-global $menu;
-	$restricted = array( __('Media'), __('Links'), __('Tools'), __('Users'), __('Comments'));
-	end ($menu);
-	while (prev($menu)){
-		$value = explode(' ',$menu[key($menu)][0]);
-		if(in_array($value[0] != NULL?$value[0]:"" , $restricted)){unset($menu[key($menu)]);}
-	}
-}
-add_action('admin_menu', 'remove_menus');
-*/
 
 // [address] using microformats : http://microformats.org/code/hcard/creator
 function ah_address_shortcode($atts){
@@ -86,7 +71,42 @@ add_shortcode( 'vcard', 'ah_vcard_shortcode' );
 
 
 
+// http://www.wprecipes.com/how-to-remove-menus-in-wordpress-dashboard
+	
 
+function remove_menus () {
+global $menu;
+	$restricted = array( __('Tools'), __('Users'), __('Comments'));
+	end ($menu);
+	while (prev($menu)){
+		$value = explode(' ',$menu[key($menu)][0]);
+		if(in_array($value[0] != NULL?$value[0]:"" , $restricted)){unset($menu[key($menu)]);}
+	}
+}
+add_action('admin_menu', 'remove_menus');
+
+
+
+// see also : http://noeltock.com/wcuk12/
+function change_admin_cap() {
+
+    $role = get_role('administrator');
+			$role->remove_cap('upload_files'); 
+				// $role->add_cap('upload_files');
+    	$role->remove_cap('manage_galleries');
+			$role->remove_cap('export');
+			$role->remove_cap('import');
+			$role->remove_cap('manage_links'); // remove links. Woop!
+			$role->remove_cap('moderate_comments');
+			$role->remove_cap('edit_comments');
+			$role->remove_cap('update_core');
+				// $role->add_cap('update_core');
+			$role->remove_cap('create_users');
+			$role->remove_cap('list_users');
+			$role->remove_cap('add_users');
+			$role->remove_cap('remove_users');
+			$role->remove_cap('promote_users');		
+}
 
 
 
