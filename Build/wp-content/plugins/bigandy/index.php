@@ -20,9 +20,9 @@ add_action('admin_menu', 'remove_menus');
 
 // [address] using microformats : http://microformats.org/code/hcard/creator
 function ah_address_shortcode(){
- return '
- <div class="adr">
-  <div class="street-address">19 Cambridge Street</div>
+ 
+ return '<div class="adr">
+  <span class="street-address">19 Cambridge Street</span>
   <span class="locality">Reading</span> 
   <span class="region">Berkshire</span> 
   <span class="postal-code">RG1 7PA</span>
@@ -42,9 +42,25 @@ add_shortcode( 'telephone', 'ah_telephone_shortcode' );
 
 // [email]
 function ah_email_shortcode( $atts, $content = null ){
+ 	extract( shortcode_atts( array(
+		'email' => 'andy@big-andy.co.uk'		
+	), $atts ) );
+ return '<a class="email" href="mailto:'. $email .'">'. $email .'</a>';
+	
+	
  return '<a class="email" href="'. $content .'">'. $content .'</a>';
 }
 add_shortcode( 'email', 'ah_email_shortcode' );
+
+// [name]
+function ah_name_shortcode( $atts, $content = null ){
+	extract( shortcode_atts( array(
+		'name' => 'Andrew JD Hudson'		
+	), $atts ) );
+ return '<span class="fn">'. $name .'</span>';
+}
+add_shortcode( 'name', 'ah_name_shortcode' );
+
 
 // [website]
 function ah_website_shortcode( $atts, $content = null ){

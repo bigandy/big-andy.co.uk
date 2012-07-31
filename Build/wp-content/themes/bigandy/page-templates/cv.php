@@ -43,18 +43,11 @@
 <body class="cv-template">
 <!-- whole page wrapper-->
 <div class="container">
-	<!-- header wrapper-->
-	<header class="main-header">
-		<!-- use for live <a href="/index.php" id="banner">
-			<img src="/img/bigandy-header.png" alt="header banner with text 'big andy's place'" height="100" width="960" />
-		</a>-->
-		
-		<a href="<?php bloginfo( 'url' ); ?>" id="banner">
-			<h1>bigandy.co.uk</h1>
-		</a>
-		
-	</header><!--end of header-->
-	<!-- navigation -->
+		<header>		
+			<a href="<?php bloginfo( 'url' ); ?>">
+				<h1>bigandy.co.uk</h1>
+			</a>
+	</header>
 	<section class="cv-content">
 		<?php if ( have_posts() ) : ?>
 	

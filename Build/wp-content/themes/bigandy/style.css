@@ -346,12 +346,26 @@ h3 {
   font-size: 12px;
   line-height: 1.5;
   background: rgba(255, 0, 0, 0.75); }
+  .cv-template > header {
+    padding: 12px 0 0 36px; }
   .cv-template .container {
     width: 1000px;
     margin: auto; }
   .cv-template .cv-content {
     background-color: #fff;
-    padding: 36px; }
+    padding: 18px 36px; }
+  .cv-template .personal-info {
+    margin-bottom: 1.5em; }
+  .cv-template article h3 {
+    font-weight: bold;
+    margin-top: 0; }
+  .cv-template h3 span {
+    font-weight: normal;
+    font-style: italic; }
+
+.vcard ul {
+  margin: 0;
+  list-style: none; }
 
 a {
   text-decoration: none; }
