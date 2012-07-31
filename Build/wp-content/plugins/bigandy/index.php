@@ -51,10 +51,7 @@ function ah_email_shortcode( $atts, $content = null ){
 		'email' => 'andy@big-andy.co.uk'		
 	), $atts ) );
  return '<a class="email" href="mailto:'. $email .'">'. $email .'</a>';
-	
-	
- return '<a class="email" href="'. $content .'">'. $content .'</a>';
-}
+ }
 add_shortcode( 'email', 'ah_email_shortcode' );
 
 // [name]
@@ -79,7 +76,7 @@ function ah_website_shortcode( $atts, $content = null ){
 }
 add_shortcode( 'website', 'ah_website_shortcode' );
 
-// [vcard]
+// [vcard] :: allows for the other shortcodes to be within this shortcode!
 function ah_vcard_shortcode( $atts, $content = null ){
  return '<div class="vcard">'. do_shortcode($content) .'</div>';
 }
