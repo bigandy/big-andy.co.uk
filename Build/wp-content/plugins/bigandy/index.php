@@ -19,13 +19,18 @@ global $menu;
 add_action('admin_menu', 'remove_menus');
 
 // [address] using microformats : http://microformats.org/code/hcard/creator
-function ah_address_shortcode(){
- 
+function ah_address_shortcode($atts){
+ extract( shortcode_atts( array(
+		'street' => '19 Cambridge Street',
+		'town' => 'Reading',
+		'county' => 'Berkshire',
+		'postcode' => 'RG1 7PA',		
+	), $atts ) );
  return '<div class="adr">
-  <span class="street-address">19 Cambridge Street</span>
-  <span class="locality">Reading</span> 
-  <span class="region">Berkshire</span> 
-  <span class="postal-code">RG1 7PA</span>
+  <span class="street-address">'. $street .'</span>,
+  <span class="locality">'. $town .'</span>,
+  <span class="region">'. $county .'</span>, 
+  <span class="postal-code">'. $postcode .'</span>
  </div>';
 }
 add_shortcode( 'address', 'ah_address_shortcode' );
@@ -55,9 +60,10 @@ add_shortcode( 'email', 'ah_email_shortcode' );
 // [name]
 function ah_name_shortcode( $atts, $content = null ){
 	extract( shortcode_atts( array(
-		'name' => 'Andrew JD Hudson'		
+		'name' => 'Andrew JD Hudson',
+		'wrapper' => 'span'		
 	), $atts ) );
- return '<span class="fn">'. $name .'</span>';
+ return '<'. $wrapper .' class="fn">'. $name .'</'. $wrapper .'>';
 }
 add_shortcode( 'name', 'ah_name_shortcode' );
 

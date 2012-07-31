@@ -370,6 +370,9 @@ h3 {
 a {
   text-decoration: none; }
 
+abbr {
+  cursor: pointer; }
+
 .container {
   width: 100%; }
 
