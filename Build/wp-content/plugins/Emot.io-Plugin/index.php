@@ -40,7 +40,12 @@ function emotio_plugin_html_page()
 { 
 ?>
 	<style>
-		#emotio_plugin_data { width:300px; }
+		label { 
+		    display:inline-block; width:150px; 
+		}
+		fieldset {
+		     margin-bottom:10px;
+		}
 		.output-container span {color:green;}
 	</style>	
 
@@ -49,64 +54,50 @@ function emotio_plugin_html_page()
 
 		<h2>Emotio Admin Area</h2>
 	
-		<form method="post" action="options.php">
+		<form method="post" action="options.php" class="options">
 			<?php wp_nonce_field('update-options'); ?>
 
-			<label for="emotio_plugin_data">Emotio Plugin Code:</label>
-			<input name="emotio_plugin_data" type="text" id="emotio_plugin_data" placeholder="Enter your Emot.io code"value="<?php echo get_option('emotio_plugin_data'); ?>" />
+			
+			
+			<fieldset>
+				<label for="ah_plugin_az">Text (a-z): </label>
+				<input name="ah_plugin_az" type="text" id="ah_plugin_az" value="<?php echo get_option('ah_plugin_az'); ?>" />
+			</fieldset>
+			
+			<fieldset>
+			    <label for="ah_plugin_AZ">Text (A-Z): </label>
+                <input name="ah_plugin_AZ" type="text" id="ah_plugin_AZ" value="<?php echo get_option('ah_plugin_AZ'); ?>" />
+            </fieldset>
+            
+            <fieldset>
+                <label for="ah_plugin_numbers">Numbers (0-9): </label>
+                <input name="ah_plugin_numbers" type="text" id="ah_plugin_numbers" value="<?php echo get_option('ah_plugin_numbers'); ?>" />
+            </fieldset>
+            
+            <fieldset>
+                <label for="ah_plugin_anything">Anything: </label>
+                <input name="ah_plugin_anything" type="text" id="ah_plugin_anything" value="<?php echo get_option('ah_plugin_anything'); ?>" />
+			</fieldset>
+			
 	
+			
+			<input type="hidden" name="ah_plugin_az" value="ah_plugin_az" />
+			<input type="hidden" name="ah_plugin_AZ" value="ah_plugin_AZ" />
+			<input type="hidden" name="ah_plugin_number" value="ah_plugin_number" />
+			<input type="hidden" name="ah_plugin_anything" value="ah_plugin_anything" />
 			<input type="hidden" name="action" value="update" />
-			<input type="hidden" name="page_options" value="emotio_plugin_data" />
+			
 			<p>
 				<input type="submit" value="<?php _e('Save Changes') ?>" />
 			</p>
 		</form>
 		
 		<div class="output-container">
-			<p><strong>Emotio Code</strong>: <span><?php echo get_option('emotio_plugin_data'); ?></span></p>
+			<p><strong>Text a-z </strong>: <span><?php echo get_option('ah_plugin_az'); ?></span></p>
+			<p><strong>Text A-Z </strong>: <span><?php echo get_option('ah_plugin_AZ'); ?></span></p>
+			<p><strong>Number </strong>: <span><?php echo get_option('ah_plugin_numbers'); ?></span></p>
+			<p><strong>Anything </strong>: <span><?php echo get_option('ah_plugin_anything'); ?></span></p>
 		</div>
 	</div>
 <?php 
 } 
-
-function display_jquery()
-{
-	if( ! is_admin() )
-	{ 
-		wp_enqueue_script( 'jquery' ); 
-	}
-}
-add_action( 'init', 'display_jquery' );
-
-function display_emotio_plugin_code() 
-{
-	// output of the emotio script that goes in the page header , plus the emotio key
-	echo"<script type='text/javascript'>  
-		   var _emq = _emq || [];
-		   (function() {
-			_emq.push(['setPID', '". get_option('emotio_plugin_data')."']);
-		    var s = document.createElement('SCRIPT');
-		    var c = document.getElementsByTagName('script')[0];
-		    s.type = 'text/javascript';
-		    s.async = true;
-		    s.src = 'http://emotio.heroku.com/javascripts/widget/init.js';
-		    c.parentNode.insertBefore(s, c);
-		   })();
-		 </script>";
-}
-add_action('wp_head','display_emotio_plugin_code');
-
-/* add emotio div bar at the end of the content */
-
-function display_emotio_div_feed($post_content) 
-{
-	if( !is_feed() || !is_home() )
-	{
-		$my_shortlink = wp_get_shortlink(); // finds the short url of the post
-		
-		$post_content.= "<div class='emotiobar'><a href='$my_shortlink'></a></div>"; // Combines the emotio bar with the post content
-	
-		return $post_content;
-	}
-}
-add_filter( 'the_content', 'display_emotio_div_feed' );
