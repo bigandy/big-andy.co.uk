@@ -386,3 +386,6 @@ abbr {
 .current_page_item a {
   color: red;
   text-decoration: underline; }
+
+ol {
+  margin-left: 1em; }

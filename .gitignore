@@ -23,6 +23,7 @@ nbproject
 *.sublime-project
 *.sublime-workspace
 /wp-content/themes/big-andy.co.uk/style.css
+/wp-content/uploads/*
 
 
 # Dreamweaver added files

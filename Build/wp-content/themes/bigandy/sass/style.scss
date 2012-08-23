@@ -7,6 +7,8 @@ Version: 1.0
 */
 
 @import "reset";
+@import "mixins";
+@import "extend";
 @import "font";
 @import "cv-template";
 
@@ -31,3 +33,6 @@ abbr {
     text-decoration:underline;
 }
  
+ol {
+    margin-left:1em;
+}

@@ -1,0 +1,15 @@
+// Extensions e.g. clearfix
+
+%clearfix  {
+    &:before, 
+    &:after { 
+        content: ""; 
+        display: table; 
+    }
+    
+    &:after { 
+        clear: both; 
+    }
+}
+
+
