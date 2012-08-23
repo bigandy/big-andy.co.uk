@@ -1,13 +1,8 @@
 <?php
 /**
  * The Header for our theme.
- *
- * Displays all of the <head> section and everything up till <div id="main">
- *
- * @package WordPress
- * @subpackage Boilerplate
- * @since Boilerplate 1.0
  */
+ 
 ?><!DOCTYPE html>
 <!--[if lt IE 7 ]> <html class="no-js ie6" lang="en"> <![endif]-->
 <!--[if IE 7 ]>    <html class="no-js ie7" lang="en"> <![endif]-->
