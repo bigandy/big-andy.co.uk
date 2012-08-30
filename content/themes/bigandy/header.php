@@ -16,9 +16,6 @@
 <!-- for live	<link rel="stylesheet" href="/style/style.css"> -->
 	<link rel="stylesheet" href="<?php bloginfo( 'template_url' ); ?>/style.css">
 
-	<!-- All JavaScript at the bottom, except for Modernizr which enables HTML5 elements & feature detects -->
-	<script src="<?php $template_directory; ?>/js/libs/modernizr-1.7.min.js"></script>
-
 	<!-- All other meta information-->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
 	<meta name="author" content="Andrew JD Hudson" />
