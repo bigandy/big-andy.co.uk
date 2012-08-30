@@ -11,5 +11,8 @@
         clear: both; 
     }
 }
-
+.clearfix,
+.clear {
+	@extend %clearfix;
+}
 
