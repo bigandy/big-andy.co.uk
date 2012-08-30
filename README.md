@@ -6,7 +6,9 @@
 * Deployed using Capistrano
 * CSS precompiled with SASS
 
-## WordPress Skeleton (readme file from [Mark Jaquith's repo](https://github.com/markjaquith/WordPress-Skeleton))
+## WordPress Skeleton 
+
+This is the readme file from [Mark Jaquith's repo](https://github.com/markjaquith/WordPress-Skeleton)
 
 This is simply a skeleton repo for a WordPress site. Use it to jump-start your WordPress site repos, or fork it and customize it to your own liking!
 
