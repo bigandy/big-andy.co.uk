@@ -599,9 +599,6 @@ ol {
 }
 
 .main-header h1 {
-  -webkit-border-radius: 0 20px 20px 0;
-  -moz-border-radius: 0 20px 20px 0;
-  -ms-border-radius: 0 20px 20px 0;
   border-radius: 0 20px 20px 0;
   background: red;
   padding: 20px;
