@@ -1,0 +1,54 @@
+/*
+Theme Name: ba underscore
+Theme URI: http://underscores.me/
+Author: Underscores.me
+Author URI: http://underscores.me/
+Description: Description
+Version: 1.0
+License: GNU General Public License
+License URI: license.txt
+Tags:
+
+This theme, like WordPress, is licensed under the GPL.
+Use it to make something cool, have fun, and share what you've learned with others.
+
+Resetting and rebuilding styles have been helped along thanks to the fine work of
+Eric Meyer http://meyerweb.com/eric/tools/css/reset/index.html
+along with Nicolas Gallagher and Jonathan Neal http://necolas.github.com/normalize.css/
+and Blueprint http://www.blueprintcss.org/
+*/
+
+@import "reset";
+@import "mixins";
+@import "extend";
+@import "font-face";
+@import "font";
+@import "content";
+@import "cv-template";
+
+a {
+    text-decoration:none;
+}
+abbr {
+    cursor:pointer;
+}
+
+.container {
+    width:100%;
+    padding:1em;
+}
+
+.menu-top-level-nav-container li {
+    display:inline-block; 
+}
+
+.current_page_item a {
+    color:red;
+    text-decoration:underline;
+}
+ 
+ol {
+    margin-left:1em; 
+}
+
+
