@@ -37,7 +37,6 @@ abbr {
 
 .current_page_item a {
     color:red;
-    text-decoration:underline;
 }
  
 ol {
@@ -49,6 +48,12 @@ ol {
     background:red;
     padding:20px;
     color:white;
+    @include transition-duration(2s);
+    @include transition-timing-function(ease-in-out);
+    
+    &:hover {
+    	background:rgba(red,0.5);
+    }
 }
 
 
