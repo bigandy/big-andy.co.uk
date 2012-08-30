@@ -43,7 +43,7 @@
 </head>
 
 <body <?php body_class(); ?>>
-<div id="page" class="hfeed site">
+<!-- <div id="page" class="hfeed site">
 	<?php do_action( 'before' ); ?>
 	<header id="masthead" class="site-header" role="banner">
 		<hgroup>
@@ -57,6 +57,21 @@
 
 			<?php wp_nav_menu( array( 'theme_location' => 'primary' ) ); ?>
 		</nav><!-- .site-navigation .main-navigation -->
-	</header><!-- #masthead .site-header -->
+	<!--</header><!-- #masthead .site-header -->
 
-	<div id="main">
+	<!--<div id="main"> -->
+		
+<div class="container">
+
+	<header class="main-header">
+		
+		<a href="/index.php" id="banner">
+			<h1>bigandy.co.uk</h1>
+		</a>
+		
+	</header>
+	
+	<nav>
+	<!-- php conditional to get navigation based on where page is hosted: localhost or online -->
+		<?php wp_nav_menu( array( 'theme_location' => 'primary' ) ); ?>
+	</nav>

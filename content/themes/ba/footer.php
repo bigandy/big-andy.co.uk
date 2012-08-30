@@ -9,7 +9,7 @@
  */
 ?>
 
-	</div><!-- #main -->
+
 
 	<footer id="colophon" class="site-footer" role="contentinfo">
 		<div class="site-info">
@@ -19,8 +19,8 @@
 			<?php printf( __( 'Theme: %1$s by %2$s.', 'ba' ), 'ba', '<a href="http://automattic.com/" rel="designer">Automattic</a>' ); ?>
 		</div><!-- .site-info -->
 	</footer><!-- #colophon .site-footer -->
-</div><!-- #page .hfeed .site -->
 
+	</div><!-- .container -->
 <?php wp_footer(); ?>
 
 </body>

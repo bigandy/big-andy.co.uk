@@ -30,21 +30,18 @@
 	<?php wp_head(); ?>
 </head>
 <body <?php body_class(); ?>>
-<!-- whole page wrapper-->
+
 <div class="container">
-	<!-- header wrapper-->
+
 	<header class="main-header">
-		<!-- use for live <a href="/index.php" id="banner">
-			<img src="/img/bigandy-header.png" alt="header banner with text 'big andy's place'" height="100" width="960" />
-		</a>-->
 		
 		<a href="/index.php" id="banner">
 			<h1>bigandy.co.uk</h1>
 		</a>
 		
-	</header><!--end of header-->
-	<!-- navigation -->
-	<nav id="navigation">
+	</header>
+	
+	<nav>
 	<!-- php conditional to get navigation based on where page is hosted: localhost or online -->
 		<?php wp_nav_menu( array( 'theme_location' => 'primary' ) ); ?>
 	</nav>
