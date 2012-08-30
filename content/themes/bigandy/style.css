@@ -432,6 +432,9 @@ h3 {
   font-size: 1em;
   line-height: 1.5; }
 
+.content ul {
+  margin: 0; }
+
 .cv-template {
   font-size: 12px;
   line-height: 1.5;
@@ -465,6 +468,7 @@ abbr {
   cursor: pointer; }
 
 .container {
+  background: red;
   width: 100%;
   padding: 1em; }
 

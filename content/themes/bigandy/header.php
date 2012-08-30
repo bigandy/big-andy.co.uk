@@ -29,7 +29,7 @@
 	<link type="text/plain" rel="author" href="/humans.txt" />
 	<?php wp_head(); ?>
 </head>
-<body class="<?php body_class();  ?>">
+<body <?php body_class(); ?>>
 <!-- whole page wrapper-->
 <div class="container">
 	<!-- header wrapper-->

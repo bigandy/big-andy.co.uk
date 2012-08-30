@@ -11,6 +11,7 @@ Version: 1.0
 @import "extend";
 @import "font-face";
 @import "font";
+@import "content";
 @import "cv-template";
 
 a {
@@ -21,6 +22,7 @@ abbr {
 }
 
 .container {
+		background:red;
     width:100%;
     padding:1em;
 }
