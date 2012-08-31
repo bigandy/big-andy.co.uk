@@ -4,7 +4,7 @@
 * Built in WordPress
 * Tracked using Git
 * Deployed using Capistrano
-* CSS precompiled with SASS
+* CSS precompiled with SASS/Compass
 
 ## WordPress Skeleton 
 
