@@ -22,6 +22,23 @@ class WP_Stack_Staging_Plugin extends WP_Stack_Plugin {
 	}
 
 	public function replace_domain ( $url ) {
+				if( WP_LOCAL_DEV == true) {
+					// define( 'WP_STAGE', '%%WP_STAGE%%' );
+					define( 'STAGING_DOMAIN', 'big-andy.local' );
+					$this->hook( 'option_home', 'replace_domain' );
+					$this->hook( 'option_siteurl', 'replace_domain' );
+					
+					$current_domain = parse_url( $url, PHP_URL_HOST );
+					$url = str_replace( '//' . $current_domain, '//' . STAGING_DOMAIN, $url );
+					return $url;
+				} else {
+					$current_domain = parse_url( $url, PHP_URL_HOST );
+					$url = str_replace( '//' . $current_domain, '//' . STAGING_DOMAIN, $url );
+					return $url;
+				
+				
+				}
+		
 		$current_domain = parse_url( $url, PHP_URL_HOST );
 		$url = str_replace( '//' . $current_domain, '//' . STAGING_DOMAIN, $url );
 		return $url;
