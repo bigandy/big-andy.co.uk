@@ -106,9 +106,8 @@ span.amp {
 
 /* alerts & notices */
 .alert { 
-	margin: 10px; 
 	padding: 5px 18px; 
-	border: 1px solid; 
+	border: 3px solid; 
 }
 
 .help { 
@@ -231,7 +230,6 @@ probably best not to use it. I mean, were you going to anyway? */
 @mixin box-sizing($type: border-box) {
 	-webkit-box-sizing: $type;
 	-moz-box-sizing:    $type;
-	-ms-box-sizing:     $type;
 	box-sizing:         $type;
 }
 

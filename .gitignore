@@ -6,3 +6,5 @@
 .DS_Store
 .project
 /content/themes/bigandy/.sass-cache/*
+
+*.sass-cache/

@@ -118,12 +118,12 @@ NAVIGATION STYLES
 	background: #eee; 
 	border: 0;
 			
-	li {
-		float: left;
-		position: relative;
+	
 				
 		a {
 			border-bottom: 0;
+			float: left;
+			position: relative;
 					
 			/*
 			you can use hover styles here even though this size
@@ -133,10 +133,9 @@ NAVIGATION STYLES
 				background-color: #dedede;
 					
 			}
-		}
+	
 				
-		&:first-child {}
-		&:last-child {}
+		
 				
 		/*
 		plan your menus and drop-downs wisely.

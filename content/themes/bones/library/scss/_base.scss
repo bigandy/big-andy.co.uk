@@ -90,7 +90,7 @@ a, a:visited {
 
 	/* on hover */
 	&:hover, &:focus {
-		color: lighten($bones-pink, 9%);
+		color: lighten($bones-pink, 19%);
 	}
 
 	/* on click */
@@ -179,7 +179,7 @@ and moe scalable.
 	border: 1px solid #ccc;
 	border-bottom: 0;
 
-	li {
+	
 
 		a {
 			display: block;
@@ -197,7 +197,7 @@ and moe scalable.
 			&:hover, &:focus {
 
 			}
-		}
+		
 
 		&:first-child {}
 
