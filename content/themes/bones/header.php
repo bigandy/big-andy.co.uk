@@ -47,8 +47,18 @@
 					<?php // bloginfo('description'); ?>
 					
 					
-					<nav role="navigation">
-						<?php bones_main_nav(); // Adjust using Menus in Wordpress Admin ?>
+					<nav role="navigation" class="nav top-nav clearfix">
+						
+							<?php 
+							// http://css-tricks.com/snippets/wordpress/remove-li-elements-from-output-of-wp_nav_menu/
+							$menuParameters = array(
+							  'container'       => false,
+							  'echo'            => false,
+							  'items_wrap'      => '%3$s',
+							  'depth'           => 0,
+							);
+							echo strip_tags(wp_nav_menu( $menuParameters ), '<a>' );
+							?>						
 					</nav>
 				
 				</div> <!-- end #inner-header -->
