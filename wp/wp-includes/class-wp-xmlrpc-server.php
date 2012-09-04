@@ -473,12 +473,14 @@ class wp_xmlrpc_server extends IXR_Server {
 				continue;
 
 			$blog_id = $blog->userblog_id;
-			switch_to_blog($blog_id);
-			$is_admin = current_user_can('manage_options');
+
+			switch_to_blog( $blog_id );
+
+			$is_admin = current_user_can( 'manage_options' );
 
 			$struct[] = array(
 				'isAdmin'		=> $is_admin,
-				'url'			=> get_option( 'home' ) . '/',
+				'url'			=> home_url( '/' ),
 				'blogid'		=> (string) $blog_id,
 				'blogName'		=> get_option( 'blogname' ),
 				'xmlrpc'		=> site_url( 'xmlrpc.php' )
@@ -622,7 +624,11 @@ class wp_xmlrpc_server extends IXR_Server {
 			'post_password'     => $post['post_password'],
 			'post_excerpt'      => $post['post_excerpt'],
 			'post_content'      => $post['post_content'],
+			'post_parent'       => strval( $post['post_parent'] ),
+			'post_mime_type'    => $post['post_mime_type'],
 			'link'              => post_permalink( $post['ID'] ),
+			'guid'              => $post['guid'],
+			'menu_order'        => intval( $post['menu_order'] ),
 			'comment_status'    => $post['comment_status'],
 			'ping_status'       => $post['ping_status'],
 			'sticky'            => ( $post['post_type'] === 'post' && is_sticky( $post['ID'] ) ),
@@ -769,7 +775,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		// Get info the page parent if there is one.
 		$parent_title = "";
 		if ( ! empty( $page->post_parent ) ) {
-			$parent = get_page( $page->post_parent );
+			$parent = get_post( $page->post_parent );
 			$parent_title = $parent->post_title;
 		}
 
@@ -1250,7 +1256,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		do_action( 'xmlrpc_call', 'wp.deletePost' );
 
-		$post = wp_get_single_post( $post_id, ARRAY_A );
+		$post = get_post( $post_id, ARRAY_A );
 		if ( empty( $post['ID'] ) )
 			return new IXR_Error( 404, __( 'Invalid post ID.' ) );
 
@@ -1280,7 +1286,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 * groups are 'post' (all basic fields), 'taxonomies', 'custom_fields',
 	 * and 'enclosure'.
 	 *
-	 * @uses wp_get_single_post()
+	 * @uses get_post()
 	 * @param array $args Method parameters. Contains:
 	 *  - int     $post_id
 	 *  - string  $username
@@ -1331,7 +1337,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		do_action( 'xmlrpc_call', 'wp.getPost' );
 
-		$post = wp_get_single_post( $post_id, ARRAY_A );
+		$post = get_post( $post_id, ARRAY_A );
 
 		if ( empty( $post['ID'] ) )
 			return new IXR_Error( 404, __( 'Invalid post ID.' ) );
@@ -1937,7 +1943,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			return $this->error;
 		}
 
-		$page = get_page($page_id);
+		$page = get_post($page_id);
 		if ( ! $page )
 			return new IXR_Error( 404, __( 'Invalid post ID.' ) );
 
@@ -2054,7 +2060,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		// Get the current page based on the page_id and
 		// make sure it is a page and not a post.
-		$actual_page = wp_get_single_post($page_id, ARRAY_A);
+		$actual_page = get_post($page_id, ARRAY_A);
 		if ( !$actual_page || ($actual_page['post_type'] != 'page') )
 			return(new IXR_Error(404, __('Sorry, no such page.')));
 
@@ -2095,7 +2101,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		do_action('xmlrpc_call', 'wp.editPage');
 
 		// Get the page data and make sure it is a page.
-		$actual_page = wp_get_single_post($page_id, ARRAY_A);
+		$actual_page = get_post($page_id, ARRAY_A);
 		if ( !$actual_page || ($actual_page['post_type'] != 'page') )
 			return(new IXR_Error(404, __('Sorry, no such page.')));
 
@@ -3215,9 +3221,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		global $current_blog;
 		$domain = $current_blog->domain;
 		$path = $current_blog->path . 'xmlrpc.php';
-		$protocol = is_ssl() ? 'https' : 'http';
 
-		$rpc = new IXR_Client("$protocol://{$domain}{$path}");
+		$rpc = new IXR_Client( set_url_scheme( "http://{$domain}{$path}" ) );
 		$rpc->query('wp.getUsersBlogs', $args[1], $args[2]);
 		$blogs = $rpc->getResponse();
 
@@ -3290,7 +3295,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( !$user = $this->login($username, $password) )
 			return $this->error;
 
-		$post_data = wp_get_single_post($post_ID, ARRAY_A);
+		$post_data = get_post($post_ID, ARRAY_A);
 		if ( ! $post_data )
 			return new IXR_Error( 404, __( 'Invalid post ID.' ) );
 
@@ -3532,7 +3537,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		do_action('xmlrpc_call', 'blogger.editPost');
 
-		$actual_post = wp_get_single_post($post_ID,ARRAY_A);
+		$actual_post = get_post($post_ID,ARRAY_A);
 
 		if ( !$actual_post || $actual_post['post_type'] != 'post' )
 			return new IXR_Error(404, __('Sorry, no such post.'));
@@ -3586,7 +3591,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		do_action('xmlrpc_call', 'blogger.deletePost');
 
-		$actual_post = wp_get_single_post($post_ID,ARRAY_A);
+		$actual_post = get_post($post_ID,ARRAY_A);
 
 		if ( !$actual_post || $actual_post['post_type'] != 'post' )
 			return new IXR_Error(404, __('Sorry, no such post.'));
@@ -3898,7 +3903,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		// Handle post formats if assigned, value is validated earlier
 		// in this function
 		if ( isset( $content_struct['wp_post_format'] ) )
-			wp_set_post_terms( $post_ID, array( 'post-format-' . $content_struct['wp_post_format'] ), 'post_format' );
+			set_post_format( $post_ID, $content_struct['wp_post_format'] );
 
 		$post_ID = wp_insert_post( $postdata, true );
 		if ( is_wp_error( $post_ID ) )
@@ -3976,7 +3981,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		do_action('xmlrpc_call', 'metaWeblog.editPost');
 
-		$postdata = wp_get_single_post( $post_ID, ARRAY_A );
+		$postdata = get_post( $post_ID, ARRAY_A );
 
 		// If there is no post data for the give post id, stop
 		// now and return an error. Other wise a new post will be
@@ -4215,7 +4220,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		// Handle post formats if assigned, validation is handled
 		// earlier in this function
 		if ( isset( $content_struct['wp_post_format'] ) )
-			wp_set_post_terms( $post_ID, array( 'post-format-' . $content_struct['wp_post_format'] ), 'post_format' );
+			set_post_format( $post_ID, $content_struct['wp_post_format'] );
 
 		do_action( 'xmlrpc_call_success_mw_editPost', $post_ID, $args );
 
@@ -4241,7 +4246,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( !$user = $this->login($username, $password) )
 			return $this->error;
 
-		$postdata = wp_get_single_post($post_ID, ARRAY_A);
+		$postdata = get_post($post_ID, ARRAY_A);
 		if ( ! $postdata )
 			return new IXR_Error( 404, __( 'Invalid post ID.' ) );
 
@@ -4376,6 +4381,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( !$posts_list )
 			return array();
 
+		$struct = array();
 		foreach ($posts_list as $entry) {
 			if ( !current_user_can( 'edit_post', $entry['ID'] ) )
 				continue;
@@ -4820,7 +4826,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		do_action('xmlrpc_call', 'mt.getTrackbackPings');
 
-		$actual_post = wp_get_single_post($post_ID, ARRAY_A);
+		$actual_post = get_post($post_ID, ARRAY_A);
 
 		if ( !$actual_post )
 			return new IXR_Error(404, __('Sorry, no such post.'));
@@ -4867,7 +4873,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		do_action('xmlrpc_call', 'mt.publishPost');
 
-		$postdata = wp_get_single_post($post_ID, ARRAY_A);
+		$postdata = get_post($post_ID, ARRAY_A);
 		if ( ! $postdata )
 			return new IXR_Error( 404, __( 'Invalid post ID.' ) );
 
@@ -5081,7 +5087,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	  		return new IXR_Error(33, __('The specified target URL cannot be used as a target. It either doesn&#8217;t exist, or it is not a pingback-enabled resource.'));
 		}
 
-		$actual_post = wp_get_single_post($post_ID, ARRAY_A);
+		$actual_post = get_post($post_ID, ARRAY_A);
 
 		if ( !$actual_post ) {
 			// No such post = resource not found

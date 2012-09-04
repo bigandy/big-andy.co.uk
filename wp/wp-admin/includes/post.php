@@ -160,7 +160,7 @@ function edit_post( $post_data = null ) {
 
 	// Autosave shouldn't save too soon after a real save
 	if ( 'autosave' == $post_data['action'] ) {
-		$post =& get_post( $post_ID );
+		$post = get_post( $post_ID );
 		$now = time();
 		$then = strtotime($post->post_date_gmt . ' +0000');
 		$delta = AUTOSAVE_INTERVAL / 2;
@@ -399,7 +399,7 @@ function bulk_edit_posts( $post_data = null ) {
  * @since 2.0.0
  *
  * @param string $post_type A post type string, defaults to 'post'.
- * @return object stdClass object containing all the default post data as attributes
+ * @return WP_Post Post object containing all the default post data as attributes
  */
 function get_default_post_to_edit( $post_type = 'post', $create_in_db = false ) {
 	global $wpdb;
@@ -439,6 +439,7 @@ function get_default_post_to_edit( $post_type = 'post', $create_in_db = false ) 
 		$post->page_template = 'default';
 		$post->post_parent = 0;
 		$post->menu_order = 0;
+		$post = new WP_Post( $post );
 	}
 
 	$post->post_content = apply_filters( 'default_content', $post_content, $post );
@@ -454,30 +455,12 @@ function get_default_post_to_edit( $post_type = 'post', $create_in_db = false ) 
  *
  * @since 2.5.0
  *
- * @return object stdClass object containing all the default post data as attributes
+ * @return WP_Post Post object containing all the default post data as attributes
  */
 function get_default_page_to_edit() {
 	$page = get_default_post_to_edit();
 	$page->post_type = 'page';
 	return $page;
-}
-
-/**
- * Get an existing post and format it for editing.
- *
- * @since 2.0.0
- *
- * @param unknown_type $id
- * @return unknown
- */
-function get_post_to_edit( $id ) {
-
-	$post = get_post( $id, OBJECT, 'edit' );
-
-	if ( $post->post_type == 'page' )
-		$post->page_template = get_post_meta( $id, '_wp_page_template', true );
-
-	return $post;
 }
 
 /**
@@ -745,7 +728,7 @@ function update_meta( $meta_id, $meta_key, $meta_value ) {
  * @return unknown
  */
 function _fix_attachment_links( $post_ID ) {
-	$post = & get_post( $post_ID, ARRAY_A );
+	$post = get_post( $post_ID, ARRAY_A );
 	$content = $post['post_content'];
 
 	// quick sanity check, don't run if no pretty permalinks or post is not published
@@ -925,12 +908,14 @@ function get_available_post_mime_types($type = 'attachment') {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Executes a query for attachments. An array of WP_Query arguments
+ * can be passed in, which will override the arguments set by this function.
  *
  * @since 2.5.0
+ * @uses apply_filters() Calls 'upload_per_page' on posts_per_page argument
  *
- * @param unknown_type $q
- * @return unknown
+ * @param array|bool $q Array of query variables to use to build the query or false to use $_GET superglobal.
+ * @return array
  */
 function wp_edit_attachments_query( $q = false ) {
 	if ( false === $q )
@@ -1010,7 +995,7 @@ function postbox_classes( $id, $page ) {
  * @return array With two entries of type string
  */
 function get_sample_permalink($id, $title = null, $name = null) {
-	$post = &get_post($id);
+	$post = get_post($id);
 	if ( !$post->ID )
 		return array('', '');
 
@@ -1076,7 +1061,7 @@ function get_sample_permalink($id, $title = null, $name = null) {
  */
 function get_sample_permalink_html( $id, $new_title = null, $new_slug = null ) {
 	global $wpdb;
-	$post = &get_post($id);
+	$post = get_post($id);
 
 	list($permalink, $post_name) = get_sample_permalink($post->ID, $new_title, $new_slug);
 
@@ -1089,11 +1074,11 @@ function get_sample_permalink_html( $id, $new_title = null, $new_slug = null ) {
 	}
 
 	if ( false === strpos($permalink, '%postname%') && false === strpos($permalink, '%pagename%') ) {
-		$return = '<strong>' . __('Permalink:') . "</strong>\n" . '<span id="sample-permalink">' . $permalink . "</span>\n";
+		$return = '<strong>' . __('Permalink:') . "</strong>\n" . '<span id="sample-permalink" tabindex="-1">' . $permalink . "</span>\n";
 		if ( '' == get_option( 'permalink_structure' ) && current_user_can( 'manage_options' ) && !( 'page' == get_option('show_on_front') && $id == get_option('page_on_front') ) )
 			$return .= '<span id="change-permalinks"><a href="options-permalink.php" class="button" target="_blank">' . __('Change Permalinks') . "</a></span>\n";
 		if ( isset($view_post) )
-			$return .= "<span id='view-post-btn'><a href='$permalink' class='button' target='_blank'>$view_post</a></span>\n";
+			$return .= "<span id='view-post-btn'><a href='$permalink' class='button'>$view_post</a></span>\n";
 
 		$return = apply_filters('get_sample_permalink_html', $return, $id, $new_title, $new_slug);
 
@@ -1118,12 +1103,12 @@ function get_sample_permalink_html( $id, $new_title = null, $new_slug = null ) {
 	$display_link = str_replace(array('%pagename%','%postname%'), $post_name_html, $permalink);
 	$view_link = str_replace(array('%pagename%','%postname%'), $post_name, $permalink);
 	$return =  '<strong>' . __('Permalink:') . "</strong>\n";
-	$return .= '<span id="sample-permalink">' . $display_link . "</span>\n";
+	$return .= '<span id="sample-permalink" tabindex="-1">' . $display_link . "</span>\n";
 	$return .= '&lrm;'; // Fix bi-directional text display defect in RTL languages.
 	$return .= '<span id="edit-slug-buttons"><a href="#post_name" class="edit-slug button hide-if-no-js" onclick="editPermalink(' . $id . '); return false;">' . __('Edit') . "</a></span>\n";
 	$return .= '<span id="editable-post-name-full">' . $post_name . "</span>\n";
 	if ( isset($view_post) )
-		$return .= "<span id='view-post-btn'><a href='$view_link' class='button' target='_blank'>$view_post</a></span>\n";
+		$return .= "<span id='view-post-btn'><a href='$view_link' class='button'>$view_post</a></span>\n";
 
 	$return = apply_filters('get_sample_permalink_html', $return, $id, $new_title, $new_slug);
 
@@ -1164,7 +1149,7 @@ function _wp_post_thumbnail_html( $thumbnail_id = null, $post_id = null ) {
 		$content_width = $old_content_width;
 	}
 
-	return apply_filters( 'admin_post_thumbnail_html', $content );
+	return apply_filters( 'admin_post_thumbnail_html', $content, $post_id );
 }
 
 /**

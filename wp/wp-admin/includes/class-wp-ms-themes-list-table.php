@@ -37,16 +37,10 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 	}
 
 	function ajax_user_can() {
-		$menu_perms = get_site_option( 'menu_items', array() );
-
-		if ( empty( $menu_perms['themes'] ) && ! is_super_admin() )
-			return false;
-
-		if ( $this->is_site_themes && !current_user_can('manage_sites') )
-			return false;
-		elseif ( !$this->is_site_themes && !current_user_can('manage_network_themes') )
-			return false;
-		return true;
+		if ( $this->is_site_themes )
+			return current_user_can( 'manage_sites' );
+		else
+			return current_user_can( 'manage_network_themes' );
 	}
 
 	function prepare_items() {
@@ -240,10 +234,10 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 		if ( 'disabled' != $status )
 			$actions['disable-selected'] = $this->is_site_themes ? __( 'Disable' ) : __( 'Network Disable' );
 		if ( ! $this->is_site_themes ) {
-			if ( current_user_can( 'delete_themes' ) )
-				$actions['delete-selected'] = __( 'Delete' );
 			if ( current_user_can( 'update_themes' ) )
 				$actions['update-selected'] = __( 'Update' );
+			if ( current_user_can( 'delete_themes' ) )
+				$actions['delete-selected'] = __( 'Delete' );
 		}
 		return $actions;
 	}

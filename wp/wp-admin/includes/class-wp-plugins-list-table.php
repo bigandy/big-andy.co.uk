@@ -31,13 +31,6 @@ class WP_Plugins_List_Table extends WP_List_Table {
 	}
 
 	function ajax_user_can() {
-		if ( is_multisite() ) {
-			$menu_perms = get_site_option( 'menu_items', array() );
-
-			if ( empty( $menu_perms['plugins'] ) && ! is_super_admin() )
-				return false;
-		}
-
 		return current_user_can('activate_plugins');
 	}
 
@@ -90,7 +83,9 @@ class WP_Plugins_List_Table extends WP_List_Table {
 
 		foreach ( (array) $plugins['all'] as $plugin_file => $plugin_data ) {
 			// Filter into individual sections
-			if ( ! $screen->is_network && is_plugin_active_for_network( $plugin_file ) ) {
+			if ( is_multisite() && ! $screen->is_network && is_network_only_plugin( $plugin_file ) ) {
+				unset( $plugins['all'][ $plugin_file ] );
+			} elseif ( ! $screen->is_network && is_plugin_active_for_network( $plugin_file ) ) {
 				unset( $plugins['all'][ $plugin_file ] );
 			} elseif ( ( ! $screen->is_network && is_plugin_active( $plugin_file ) )
 				|| ( $screen->is_network && is_plugin_active_for_network( $plugin_file ) ) ) {
@@ -378,7 +373,12 @@ class WP_Plugins_List_Table extends WP_List_Table {
 
 		$class = $is_active ? 'active' : 'inactive';
 		$checkbox_id =  "checkbox_" . md5($plugin_data['Name']);
-		$checkbox = in_array( $status, array( 'mustuse', 'dropins' ) ) ? '' : "<input type='checkbox' name='checked[]' value='" . esc_attr( $plugin_file ) . "' id='" . $checkbox_id . "' /><label class='screen-reader-text' for='" . $checkbox_id . "' >" . __('Select') . " " . $plugin_data['Name'] . "</label>";
+		if ( in_array( $status, array( 'mustuse', 'dropins' ) ) ) {
+			$checkbox = '';
+		} else {
+			$checkbox = "<label class='screen-reader-text' for='" . $checkbox_id . "' >" . sprintf( __( 'Select %s' ), $plugin_data['Name'] ) . "</label>"
+				. "<input type='checkbox' name='checked[]' value='" . esc_attr( $plugin_file ) . "' id='" . $checkbox_id . "' />";
+		}
 		if ( 'dropins' != $context ) {
 			$description = '<p>' . ( $plugin_data['Description'] ? $plugin_data['Description'] : '&nbsp;' ) . '</p>';
 			$plugin_name = $plugin_data['Name'];

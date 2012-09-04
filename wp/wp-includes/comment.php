@@ -222,7 +222,9 @@ class WP_Comment_Query {
 			'type' => '',
 			'user_id' => '',
 			'search' => '',
-			'count' => false
+			'count' => false,
+			// lets us override the status query var by explicitly setting a value for comment_approved
+			'comment_approved' => false,
 		);
 
 		$this->query_vars = wp_parse_args( $query_vars, $defaults );
@@ -254,6 +256,10 @@ class WP_Comment_Query {
 			$approved = "comment_approved = 'trash'";
 		else
 			$approved = "( comment_approved = '0' OR comment_approved = '1' )";
+
+		if ( false !== $comment_approved ) {
+			$approved = $wpdb->prepare( 'comment_approved = %s', $comment_approved );
+		}
 
 		$order = ( 'ASC' == strtoupper($order) ) ? 'ASC' : 'DESC';
 
@@ -399,14 +405,14 @@ function get_comment_statuses( ) {
  *
  * @since 1.5.0
  * @uses $wpdb
- * @global array $cache_lastcommentmodified
  *
  * @param string $timezone Which timezone to use in reference to 'gmt', 'blog',
  *		or 'server' locations.
  * @return string Last comment modified date.
  */
 function get_lastcommentmodified($timezone = 'server') {
-	global $cache_lastcommentmodified, $wpdb;
+	global $wpdb;
+	static $cache_lastcommentmodified = array();
 
 	if ( isset($cache_lastcommentmodified[$timezone]) )
 		return $cache_lastcommentmodified[$timezone];
@@ -650,13 +656,12 @@ function wp_allow_comment($commentdata) {
 
 	do_action( 'check_comment_flood', $comment_author_IP, $comment_author_email, $comment_date_gmt );
 
-	if ( isset($user_id) && $user_id) {
-		$userdata = get_userdata($user_id);
-		$user = new WP_User($user_id);
+	if ( ! empty( $user_id ) ) {
+		$user = get_userdata( $user_id );
 		$post_author = $wpdb->get_var($wpdb->prepare("SELECT post_author FROM $wpdb->posts WHERE ID = %d LIMIT 1", $comment_post_ID));
 	}
 
-	if ( isset($userdata) && ( $user_id == $post_author || $user->has_cap('moderate_comments') ) ) {
+	if ( isset( $user ) && ( $user_id == $post_author || $user->has_cap( 'moderate_comments' ) ) ) {
 		// The author and the admins get respect.
 		$approved = 1;
 	 } else {
@@ -1366,7 +1371,7 @@ function wp_new_comment( $commentdata ) {
 		if ( '0' == $commentdata['comment_approved'] )
 			wp_notify_moderator($comment_ID);
 
-		$post = &get_post($commentdata['comment_post_ID']); // Don't notify if it's your own comment
+		$post = get_post($commentdata['comment_post_ID']); // Don't notify if it's your own comment
 
 		if ( get_option('comments_notify') && $commentdata['comment_approved'] && ( ! isset( $commentdata['user_id'] ) || $post->post_author != $commentdata['user_id'] ) )
 			wp_notify_postauthor($comment_ID, isset( $commentdata['comment_type'] ) ? $commentdata['comment_type'] : '' );
@@ -1704,7 +1709,7 @@ function do_all_pings() {
 function do_trackbacks($post_id) {
 	global $wpdb;
 
-	$post = $wpdb->get_row( $wpdb->prepare("SELECT * FROM $wpdb->posts WHERE ID = %d", $post_id) );
+	$post = get_post( $post_id );
 	$to_ping = get_to_ping($post_id);
 	$pinged  = get_pung($post_id);
 	if ( empty($to_ping) ) {

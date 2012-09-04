@@ -332,17 +332,17 @@ function wp_comment_reply($position = '1', $checkbox = false, $mode = 'single', 
 	<div id="edithead" style="display:none;">
 		<div class="inside">
 		<label for="author"><?php _e('Name') ?></label>
-		<input type="text" name="newcomment_author" size="50" value="" tabindex="101" id="author" />
+		<input type="text" name="newcomment_author" size="50" value="" id="author" />
 		</div>
 
 		<div class="inside">
 		<label for="author-email"><?php _e('E-mail') ?></label>
-		<input type="text" name="newcomment_author_email" size="50" value="" tabindex="102" id="author-email" />
+		<input type="text" name="newcomment_author_email" size="50" value="" id="author-email" />
 		</div>
 
 		<div class="inside">
 		<label for="author-url"><?php _e('URL') ?></label>
-		<input type="text" id="author-url" name="newcomment_author_url" size="103" value="" tabindex="103" />
+		<input type="text" id="author-url" name="newcomment_author_url" size="103" value="" />
 		</div>
 		<div style="clear:both;"></div>
 	</div>
@@ -350,13 +350,13 @@ function wp_comment_reply($position = '1', $checkbox = false, $mode = 'single', 
 	<div id="replycontainer">
 	<?php
 	$quicktags_settings = array( 'buttons' => 'strong,em,link,block,del,ins,img,ul,ol,li,code,spell,close' );
-	wp_editor( '', 'replycontent', array( 'media_buttons' => false, 'tinymce' => false, 'quicktags' => $quicktags_settings, 'tabindex' => 104 ) );
+	wp_editor( '', 'replycontent', array( 'media_buttons' => false, 'tinymce' => false, 'quicktags' => $quicktags_settings ) );
 	?>
 	</div>
 
 	<p id="replysubmit" class="submit">
-	<a href="#comments-form" class="cancel button-secondary alignleft" tabindex="106"><?php _e('Cancel'); ?></a>
-	<a href="#comments-form" class="save button-primary alignright" tabindex="104">
+	<a href="#comments-form" class="cancel button-secondary alignleft"><?php _e('Cancel'); ?></a>
+	<a href="#comments-form" class="save button-primary alignright">
 	<span id="addbtn" style="display:none;"><?php _e('Add Comment'); ?></span>
 	<span id="savebtn" style="display:none;"><?php _e('Update Comment'); ?></span>
 	<span id="replybtn" style="display:none;"><?php _e('Submit Reply'); ?></span></a>
@@ -489,17 +489,17 @@ function _list_meta_row( $entry, &$count ) {
 	$delete_nonce = wp_create_nonce( 'delete-meta_' . $entry['meta_id'] );
 
 	$r .= "\n\t<tr id='meta-{$entry['meta_id']}' class='$style'>";
-	$r .= "\n\t\t<td class='left'><label class='screen-reader-text' for='meta[{$entry['meta_id']}][key]'>" . __( 'Key' ) . "</label><input name='meta[{$entry['meta_id']}][key]' id='meta[{$entry['meta_id']}][key]' tabindex='6' type='text' size='20' value='{$entry['meta_key']}' />";
+	$r .= "\n\t\t<td class='left'><label class='screen-reader-text' for='meta[{$entry['meta_id']}][key]'>" . __( 'Key' ) . "</label><input name='meta[{$entry['meta_id']}][key]' id='meta[{$entry['meta_id']}][key]' type='text' size='20' value='{$entry['meta_key']}' />";
 
 	$r .= "\n\t\t<div class='submit'>";
-	$r .= get_submit_button( __( 'Delete' ), "delete:the-list:meta-{$entry['meta_id']}::_ajax_nonce=$delete_nonce deletemeta", "deletemeta[{$entry['meta_id']}]", false, array( 'tabindex' => '6' ) );
+	$r .= get_submit_button( __( 'Delete' ), "delete:the-list:meta-{$entry['meta_id']}::_ajax_nonce=$delete_nonce deletemeta", "deletemeta[{$entry['meta_id']}]", false );
 	$r .= "\n\t\t";
-	$r .= get_submit_button( __( 'Update' ), "add:the-list:meta-{$entry['meta_id']}::_ajax_nonce-add-meta=$update_nonce updatemeta" , 'updatemeta', false, array( 'tabindex' => '6' ) );
+	$r .= get_submit_button( __( 'Update' ), "add:the-list:meta-{$entry['meta_id']}::_ajax_nonce-add-meta=$update_nonce updatemeta" , 'updatemeta', false );
 	$r .= "</div>";
 	$r .= wp_nonce_field( 'change-meta', '_ajax_nonce', false, false );
 	$r .= "</td>";
 
-	$r .= "\n\t\t<td><label class='screen-reader-text' for='meta[{$entry['meta_id']}][value]'>" . __( 'Value' ) . "</label><textarea name='meta[{$entry['meta_id']}][value]' id='meta[{$entry['meta_id']}][value]' tabindex='6' rows='2' cols='30'>{$entry['meta_value']}</textarea></td>\n\t</tr>";
+	$r .= "\n\t\t<td><label class='screen-reader-text' for='meta[{$entry['meta_id']}][value]'>" . __( 'Value' ) . "</label><textarea name='meta[{$entry['meta_id']}][value]' id='meta[{$entry['meta_id']}][value]' rows='2' cols='30'>{$entry['meta_value']}</textarea></td>\n\t</tr>";
 	return $r;
 }
 
@@ -534,7 +534,7 @@ function meta_form() {
 <tr>
 <td id="newmetaleft" class="left">
 <?php if ( $keys ) { ?>
-<select id="metakeyselect" name="metakeyselect" tabindex="7">
+<select id="metakeyselect" name="metakeyselect">
 <option value="#NONE#"><?php _e( '&mdash; Select &mdash;' ); ?></option>
 <?php
 
@@ -543,19 +543,19 @@ function meta_form() {
 	}
 ?>
 </select>
-<input class="hide-if-js" type="text" id="metakeyinput" name="metakeyinput" tabindex="7" value="" />
+<input class="hide-if-js" type="text" id="metakeyinput" name="metakeyinput" value="" />
 <a href="#postcustomstuff" class="hide-if-no-js" onclick="jQuery('#metakeyinput, #metakeyselect, #enternew, #cancelnew').toggle();return false;">
 <span id="enternew"><?php _e('Enter new'); ?></span>
 <span id="cancelnew" class="hidden"><?php _e('Cancel'); ?></span></a>
 <?php } else { ?>
-<input type="text" id="metakeyinput" name="metakeyinput" tabindex="7" value="" />
+<input type="text" id="metakeyinput" name="metakeyinput" value="" />
 <?php } ?>
 </td>
-<td><textarea id="metavalue" name="metavalue" rows="2" cols="25" tabindex="8"></textarea></td>
+<td><textarea id="metavalue" name="metavalue" rows="2" cols="25"></textarea></td>
 </tr>
 
 <tr><td colspan="2" class="submit">
-<?php submit_button( __( 'Add Custom Field' ), 'add:the-list:newmeta', 'addmeta', false, array( 'id' => 'addmetasub', 'tabindex' => '9' ) ); ?>
+<?php submit_button( __( 'Add Custom Field' ), 'add:the-list:newmeta', 'addmeta', false, array( 'id' => 'addmetasub' ) ); ?>
 <?php wp_nonce_field( 'add-meta', '_ajax_nonce-add-meta', false ); ?>
 </td></tr>
 </tbody>
@@ -705,7 +705,7 @@ function parent_dropdown( $default = 0, $parent = 0, $level = 0 ) {
  */
 function the_attachment_links( $id = false ) {
 	$id = (int) $id;
-	$post = & get_post( $id );
+	$post = get_post( $id );
 
 	if ( $post->post_type != 'attachment' )
 		return false;
@@ -1224,27 +1224,28 @@ function get_settings_errors( $setting = '', $sanitize = false ) {
 	// This allows the $sanitize_callback from register_setting() to run, adding
 	// any settings errors you want to show by default.
 	if ( $sanitize )
-		sanitize_option( $setting, get_option($setting));
+		sanitize_option( $setting, get_option( $setting ) );
 
 	// If settings were passed back from options.php then use them
-	// Ignore transients if $sanitize is true, we don't want the old values anyway
-	if ( isset($_GET['settings-updated']) && $_GET['settings-updated'] && get_transient('settings_errors') ) {
-		$settings_errors = get_transient('settings_errors');
-		delete_transient('settings_errors');
-	// Otherwise check global in case validation has been run on this pageload
-	} elseif ( count( $wp_settings_errors ) ) {
-		$settings_errors = $wp_settings_errors;
-	} else {
-		return;
+	if ( isset( $_GET['settings-updated'] ) && $_GET['settings-updated'] && get_transient( 'settings_errors' ) ) {
+		$wp_settings_errors = array_merge( (array) $wp_settings_errors, get_transient( 'settings_errors' ) );
+		delete_transient( 'settings_errors' );
 	}
+
+	// Check global in case errors have been added on this pageload
+	if ( ! count( $wp_settings_errors ) )
+		return array();
 
 	// Filter the results to those of a specific setting if one was set
 	if ( $setting ) {
-		foreach ( (array) $settings_errors as $key => $details )
-			if ( $setting != $details['setting'] )
-				unset( $settings_errors[$key] );
+		foreach ( (array) $wp_settings_errors as $key => $details ) {
+			if ( $setting == $details['setting'] )
+				$setting_errors[] = $wp_settings_errors[$key];
+		}
+		return $setting_errors;
 	}
-	return $settings_errors;
+
+	return $wp_settings_errors;
 }
 
 /**
@@ -1276,7 +1277,7 @@ function settings_errors( $setting = '', $sanitize = false, $hide_on_update = fa
 
 	$settings_errors = get_settings_errors( $setting, $sanitize );
 
-	if ( ! is_array( $settings_errors ) )
+	if ( empty( $settings_errors ) )
 		return;
 
 	$output = '';
@@ -1394,6 +1395,7 @@ function iframe_header( $title = '', $limit_styles = false ) {
 
 	$current_screen = get_current_screen();
 
+	@header( 'Content-Type: ' . get_option( 'html_type' ) . '; charset=' . get_option( 'blog_charset' ) );
 	_wp_admin_html_begin();
 ?>
 <title><?php bloginfo('name') ?> &rsaquo; <?php echo $title ?> &#8212; <?php _e('WordPress'); ?></title>
@@ -1758,7 +1760,7 @@ final class WP_Internal_Pointers {
 	 *
 	 * @param string $pointer_id The pointer ID.
 	 * @param string $selector The HTML elements, on which the pointer should be attached.
-	 * @param array  $args Arguments to be passed to the pointer JS (see wp-pointer.dev.js).
+	 * @param array  $args Arguments to be passed to the pointer JS (see wp-pointer.js).
 	 */
 	private static function print_js( $pointer_id, $selector, $args ) {
 		if ( empty( $pointer_id ) || empty( $selector ) || empty( $args ) || empty( $args['content'] ) )
