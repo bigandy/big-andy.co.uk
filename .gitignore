@@ -4,4 +4,5 @@
 /db-sync
 /content/upgrade/
 .DS_Store
+.project
 /content/themes/bigandy/.sass-cache/*
