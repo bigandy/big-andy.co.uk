@@ -81,3 +81,11 @@ define( 'STAGING_DOMAIN', '%%WP_STAGING_DOMAIN%%' ); // Does magic in WP Stack t
 if ( !defined( 'ABSPATH' ) )
 	define( 'ABSPATH', dirname( __FILE__ ) . '/wp/' );
 require_once( ABSPATH . 'wp-settings.php' );
+
+
+// ===================================
+// Prevent file editing via admin area
+// ===================================
+// disable file editing from the admin area : 
+// http://www.wpbeginner.com/wp-tutorials/how-to-disable-theme-and-plugin-editors-from-wordpress-admin-panel/
+define( 'DISALLOW_FILE_EDIT', true );
