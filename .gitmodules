@@ -5,4 +5,4 @@
 	
 	path = content/themes/bones
 	
-	url = git@github.com:bigandy/bones.git
+	url = git://github.com/bigandy/bones.git
