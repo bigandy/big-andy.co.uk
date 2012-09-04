@@ -1,0 +1,3 @@
+[submodule "wp"]
+	path = bones
+	url = git@github.com:bigandy/bones.git
