@@ -247,7 +247,8 @@ and moe scalable.
 
 } /* end .nav */
 
-a.current-menu-item {
+a.current-menu-item,
+a.current_page_parent {
 		color:$bones-blue;
 }
 
