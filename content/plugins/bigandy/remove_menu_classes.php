@@ -11,8 +11,10 @@ function my_css_attributes_filter($var) {
 // Strip Classes, except for .current-menu-item
 // http://stackoverflow.com/a/8777624/965191
 
-add_filter ('wp_nav_menu','strip_empty_classes');
- function strip_empty_classes($menu) {
-     $menu = preg_replace('/ class=(["\'])(?!current-menu-item || current_page_parent ).*?\1/','',$menu);
-     return $menu;
- }
+// commenting out as currently doesn't work with more than one class
+
+// add_filter ('wp_nav_menu','strip_empty_classes');
+ // function strip_empty_classes($menu) {
+     // $menu = preg_replace('/ class=(["\'])(?!current-menu-item || current_page_parent ).*?\1/','',$menu);
+     // return $menu;
+// }
