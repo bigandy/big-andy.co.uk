@@ -15,6 +15,6 @@ function my_css_attributes_filter($var) {
 
 // add_filter ('wp_nav_menu','strip_empty_classes');
  // function strip_empty_classes($menu) {
-     // $menu = preg_replace('/ class=(["\'])(?!current-menu-item || current_page_parent ).*?\1/','',$menu);
+     // $menu = preg_replace('/ class=(["\'])(?!current-menu-item ).*?\1/','',$menu);
      // return $menu;
-// }
+// }
