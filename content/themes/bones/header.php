@@ -48,19 +48,7 @@
 					
 					
 					<nav role="navigation" class="nav top-nav clearfix">
-						
-							<?php 
-							// http://css-tricks.com/snippets/wordpress/remove-li-elements-from-output-of-wp_nav_menu/
-							// $menuParameters = array(
-							  // 'container'       => false,
-							  // 'echo'            => false,
-							  // 'items_wrap'      => '%3$s',
-							  // 'depth'           => 0,
-							// );
-							// echo strip_tags(wp_nav_menu( $menuParameters ), '<a>' );
-                            
-                            bones_main_nav();
-							?>						
+							<?php  bones_main_nav(); ?>						
 					</nav>
 				
 				</div> <!-- end #inner-header -->

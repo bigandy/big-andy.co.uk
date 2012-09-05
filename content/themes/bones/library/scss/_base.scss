@@ -187,7 +187,8 @@ and moe scalable.
 			padding: 10px 10px;
 			background-color: #eee;
 			border-bottom: 1px solid #ccc;
-
+			
+			
 			/*
 			remember this is for mobile ONLY, so there's no need
 			to even declare hover styles here, you can do it in
@@ -246,6 +247,9 @@ and moe scalable.
 
 } /* end .nav */
 
+a.current-menu-item {
+		color:$bones-blue;
+}
 
 /*********************
 POSTS & CONTENT STYLES
