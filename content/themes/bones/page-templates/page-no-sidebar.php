@@ -1,6 +1,6 @@
 <?php
 /*
-Template Name: Custom Page Example
+Template Name: No Sidebar, publish info
 */
 ?>
 
@@ -14,15 +14,7 @@ Template Name: Custom Page Example
 
 					    <?php if (have_posts()) : while (have_posts()) : the_post(); ?>
 					
-					    <article id="post-<?php the_ID(); ?>" <?php post_class('clearfix'); ?> role="article">
-						
-						    <header class="article-header">
-							
-							    <h1 class="page-title"><?php the_title(); ?></h1>
-							
-							    <p class="meta"><?php _e("Posted", "bonestheme"); ?> <time datetime="<?php echo the_time('Y-m-j'); ?>" pubdate><?php the_time('F jS, Y'); ?></time> <?php _e("by", "bonestheme"); ?> <?php the_author_posts_link(); ?>.</p>
-						
-						    </header> <!-- end article header -->
+					    <article id="post-<?php the_ID(); ?>" <?php post_class('clearfix no-sidebar'); ?> role="article">							
 					
 						    <section class="post-content">
 							    <?php the_content(); ?>
@@ -34,7 +26,7 @@ Template Name: Custom Page Example
 							
 						    </footer> <!-- end article footer -->
 						    
-						    <?php comments_template(); ?>
+						    <?php // comments_template(); ?>
 					
 					    </article> <!-- end article -->
 					
@@ -58,7 +50,6 @@ Template Name: Custom Page Example
 			
 				    </div> <!-- end #main -->
     
-				    <?php get_sidebar(); // sidebar 1 ?>
 				    
 				</div> <!-- end #inner-content -->
     
