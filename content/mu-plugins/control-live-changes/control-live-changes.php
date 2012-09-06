@@ -20,7 +20,7 @@ if ( ! function_exists( 'add_action' ) ) {
 
 // Initialize settings
 if ( ! defined( 'SLT_CLC_LOCAL_STRING' ) )
-	define( 'SLT_CLC_LOCAL_STRING', 'localhost' );
+	define( 'SLT_CLC_LOCAL_STRING', 'big-andy.local' );
 if ( ! defined( 'SLT_CLC_DISABLE_REMOTE_CORE_UPGRADES' ) )
 	define( 'SLT_CLC_DISABLE_REMOTE_CORE_UPGRADES', false );
 if ( ! defined( 'SLT_CLC_DISABLE_REMOTE_PLUGIN_THEME_UPGRADES' ) )
