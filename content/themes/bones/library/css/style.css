@@ -1470,9 +1470,6 @@ view.
 .wpcf7 input[type="text"],
 .wpcf7 textarea {
   width: 270px;
-}
-/* line 16, ../scss/_contact.scss */
-.wpcf7 input[type="text"] {
   padding: 0.25rem;
   margin-bottom: 1rem;
 }
