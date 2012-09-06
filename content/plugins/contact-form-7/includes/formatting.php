@@ -21,7 +21,7 @@ function wpcf7_autop( $pee, $br = 1 ) {
 	$pees = preg_split( '/\n\s*\n/', $pee, -1, PREG_SPLIT_NO_EMPTY );
 	$pee = '';
 	foreach ( $pees as $tinkle )
-		$pee .= '<p>' . trim( $tinkle, "\n" ) . "</p>\n";
+		$pee .= trim( $tinkle, "\n" ) . "\n";
 	$pee = preg_replace( '|<p>\s*</p>|', '', $pee ); // under certain strange conditions it could create a P of entirely whitespace
 	$pee = preg_replace( '!<p>([^<]+)</(div|address|form|fieldset)>!', "<p>$1</p></$2>", $pee );
 	$pee = preg_replace( '!<p>\s*(</?' . $allblocks . '[^>]*>)\s*</p>!', "$1", $pee ); // don't pee all over a tag
@@ -33,7 +33,7 @@ function wpcf7_autop( $pee, $br = 1 ) {
 	if ( $br ) {
 		/* wpcf7: add textarea */
 		$pee = preg_replace_callback( '/<(script|style|textarea).*?<\/\\1>/s', create_function( '$matches', 'return str_replace("\n", "<WPPreserveNewline />", $matches[0]);' ), $pee );
-		$pee = preg_replace( '|(?<!<br />)\s*\n|', "<br />\n", $pee ); // optionally make line breaks
+		// $pee = preg_replace( '|(?<!<br />)\s*\n|', "<br />\n", $pee ); // optionally make line breaks
 		$pee = str_replace( '<WPPreserveNewline />', "\n", $pee );
 	}
 	$pee = preg_replace( '!(</?' . $allblocks . '[^>]*>)\s*<br />!', "$1", $pee );

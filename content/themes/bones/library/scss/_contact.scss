@@ -2,9 +2,15 @@
 
 .wpcf7 {
 	
-	label {
+	label, 
+	textarea,
+	input[type="text"] {
 		display:block;
 	}
 	
+	input[type="text"],
+	textarea {
+		width:270px;
+	}
 	
 }
