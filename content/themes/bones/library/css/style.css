@@ -1113,7 +1113,7 @@ POSTS & CONTENT STYLES
   height: auto;
 }
 /* line 368, ../scss/_base.scss */
-.post-content pre, .post-content code {
+.post-content code {
   background: #eee;
   border: 1px solid #cecece;
   padding: 0 2px;
