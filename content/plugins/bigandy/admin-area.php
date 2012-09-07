@@ -2,7 +2,7 @@
 // http://www.wprecipes.com/how-to-remove-menus-in-wordpress-dashboard
 function ah_remove_menus () {
 global $menu;
-	$restricted = array( __('Tools'), __('Users'), __('Comments'));
+	$restricted = array( __('Users'), __('Comments'));
 	end ($menu);
 	while (prev($menu)){
 		$value = explode(' ',$menu[key($menu)][0]);
@@ -15,8 +15,8 @@ add_action('admin_menu', 'ah_remove_menus');
 function ah_change_admin_cap() {
 
     $role = get_role('administrator');
-			$role->remove_cap('upload_files'); 
-				// $role->add_cap('upload_files');
+			     //$role->remove_cap('upload_files'); 
+			$role->add_cap('upload_files');
 			$role->remove_cap('manage_galleries');
 			$role->remove_cap('export');
 			$role->remove_cap('import');
