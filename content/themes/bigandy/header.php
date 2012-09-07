@@ -12,11 +12,9 @@
 	<meta charset="utf-8">
 	<title>Big Andy's Place - <?php the_title(); ?></title>
 
-	<!-- CSS: implied media="all" -->
-<!-- for live	<link rel="stylesheet" href="/style/style.css"> -->
 	<link rel="stylesheet" href="<?php bloginfo( 'template_url' ); ?>/style.css">
 
-	<!-- All other meta information-->
+
 	<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
 	<meta name="author" content="Andrew JD Hudson" />
 	<meta name="keywords" content="Big Andy, bigandy, big-andy, Andrew JD Hudson, andrew, hudson, running, photography, css, php, blog, photos, web-design, ciw, running, css, php, wordpress" />
@@ -24,7 +22,11 @@
 	<meta name="robots" content="all" />
 	<link rel="shortcut icon" href="<?php bloginfo( 'template_url' ); ?>/favicon.ico" />
 	<link type="text/plain" rel="author" href="/humans.txt" />
+	
+
 	<?php wp_head(); ?>
+
+	
 </head>
 <body <?php body_class(); ?>>
 
