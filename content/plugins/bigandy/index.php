@@ -8,3 +8,4 @@ require_once('admin-area.php');
 require_once('shortcodes.php');
 require_once('security-stuff.php');
 require_once('remove_menu_classes.php');
+require_once('images.php');
