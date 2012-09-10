@@ -9,4 +9,4 @@ Author URI: http://somadesign.ca/
 */
 
 
-	wp_oembed_add_provider( '#http(s)?://speakerdeck.com/u/.*/p/.*#i', 'http://speakerdeck.com/oembed.json', true );
+	wp_oembed_add_provider( '#http(s)?://speakerdeck.com/u/.*/p/.*#i', '//speakerdeck.com/oembed.json', true );
