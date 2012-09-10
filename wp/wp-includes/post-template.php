@@ -26,8 +26,7 @@ function the_ID() {
  * @return int
  */
 function get_the_ID() {
-	global $post;
-	return $post->ID;
+	return get_post()->ID;
 }
 
 /**
@@ -97,24 +96,25 @@ function the_title_attribute( $args = '' ) {
  *
  * @since 0.71
  *
- * @param int $id Optional. Post ID.
+ * @param mixed $post Optional. Post ID or object.
  * @return string
  */
-function get_the_title( $id = 0 ) {
-	$post = &get_post($id);
+function get_the_title( $post = 0 ) {
+	$post = get_post( $post );
 
-	$title = isset($post->post_title) ? $post->post_title : '';
-	$id = isset($post->ID) ? $post->ID : (int) $id;
+	$title = isset( $post->post_title ) ? $post->post_title : '';
+	$id = isset( $post->ID ) ? $post->ID : 0;
 
-	if ( !is_admin() ) {
-		if ( !empty($post->post_password) ) {
-			$protected_title_format = apply_filters('protected_title_format', __('Protected: %s'));
-			$title = sprintf($protected_title_format, $title);
-		} else if ( isset($post->post_status) && 'private' == $post->post_status ) {
-			$private_title_format = apply_filters('private_title_format', __('Private: %s'));
-			$title = sprintf($private_title_format, $title);
+	if ( ! is_admin() ) {
+		if ( ! empty( $post->post_password ) ) {
+			$protected_title_format = apply_filters( 'protected_title_format', __( 'Protected: %s' ) );
+			$title = sprintf( $protected_title_format, $title );
+		} else if ( isset( $post->post_status ) && 'private' == $post->post_status ) {
+			$private_title_format = apply_filters( 'private_title_format', __( 'Private: %s' ) );
+			$title = sprintf( $private_title_format, $title );
 		}
 	}
+
 	return apply_filters( 'the_title', $title, $id );
 }
 
@@ -148,7 +148,7 @@ function the_guid( $id = 0 ) {
  * @return string
  */
 function get_the_guid( $id = 0 ) {
-	$post = &get_post($id);
+	$post = get_post($id);
 
 	return apply_filters('get_the_guid', $post->guid);
 }
@@ -177,8 +177,10 @@ function the_content($more_link_text = null, $stripteaser = false) {
  * @param bool $stripteaser Optional. Strip teaser content before the more text. Default is false.
  * @return string
  */
-function get_the_content($more_link_text = null, $stripteaser = false) {
-	global $post, $more, $page, $pages, $multipage, $preview;
+function get_the_content( $more_link_text = null, $stripteaser = false ) {
+	global $more, $page, $pages, $multipage, $preview;
+
+	$post = get_post();
 
 	if ( null === $more_link_text )
 		$more_link_text = __( '(more...)' );
@@ -187,7 +189,7 @@ function get_the_content($more_link_text = null, $stripteaser = false) {
 	$hasTeaser = false;
 
 	// If post password required and it doesn't match the cookie.
-	if ( post_password_required($post) )
+	if ( post_password_required() )
 		return get_the_password_form();
 
 	if ( $page > count($pages) ) // if the requested page doesn't exist
@@ -259,14 +261,13 @@ function get_the_excerpt( $deprecated = '' ) {
 	if ( !empty( $deprecated ) )
 		_deprecated_argument( __FUNCTION__, '2.3' );
 
-	global $post;
-	$output = $post->post_excerpt;
-	if ( post_password_required($post) ) {
-		$output = __('There is no excerpt because this is a protected post.');
-		return $output;
+	$post = get_post();
+
+	if ( post_password_required() ) {
+		return __( 'There is no excerpt because this is a protected post.' );
 	}
 
-	return apply_filters('get_the_excerpt', $output);
+	return apply_filters( 'get_the_excerpt', $post->post_excerpt );
 }
 
 /**
@@ -278,7 +279,7 @@ function get_the_excerpt( $deprecated = '' ) {
  * @return bool
  */
 function has_excerpt( $id = 0 ) {
-	$post = &get_post( $id );
+	$post = get_post( $id );
 	return ( !empty( $post->post_excerpt ) );
 }
 
@@ -476,7 +477,7 @@ function get_body_class( $class = '' ) {
 
 		$page_id = $wp_query->get_queried_object_id();
 
-		$post = get_page($page_id);
+		$post = get_post($page_id);
 
 		$classes[] = 'page-id-' . $page_id;
 
@@ -572,20 +573,6 @@ function post_password_required( $post = null ) {
 	$hash = stripslashes( $_COOKIE[ 'wp-postpass_' . COOKIEHASH ] );
 
 	return ! $wp_hasher->CheckPassword( $post->post_password, $hash );
-}
-
-/**
- * Display "sticky" CSS class, if a post is sticky.
- *
- * @since 2.7.0
- *
- * @param int $post_id An optional post ID.
- */
-function sticky_class( $post_id = null ) {
-	if ( !is_sticky($post_id) )
-		return;
-
-	echo " sticky";
 }
 
 /**
@@ -692,7 +679,8 @@ function wp_link_pages($args = '') {
  * @return string Link.
  */
 function _wp_link_page( $i ) {
-	global $post, $wp_rewrite;
+	global $wp_rewrite;
+	$post = get_post();
 
 	if ( 1 == $i ) {
 		$url = get_permalink();
@@ -1031,9 +1019,8 @@ class Walker_Page extends Walker {
 		extract($args, EXTR_SKIP);
 		$css_class = array('page_item', 'page-item-'.$page->ID);
 		if ( !empty($current_page) ) {
-			$_current_page = get_page( $current_page );
-			_get_post_ancestors($_current_page);
-			if ( isset($_current_page->ancestors) && in_array($page->ID, (array) $_current_page->ancestors) )
+			$_current_page = get_post( $current_page );
+			if ( in_array( $page->ID, $_current_page->ancestors ) )
 				$css_class[] = 'current_page_ancestor';
 			if ( $page->ID == $current_page )
 				$css_class[] = 'current_page_item';
@@ -1155,7 +1142,7 @@ function the_attachment_link( $id = 0, $fullsize = false, $deprecated = false, $
  */
 function wp_get_attachment_link( $id = 0, $size = 'thumbnail', $permalink = false, $icon = false, $text = false ) {
 	$id = intval( $id );
-	$_post = & get_post( $id );
+	$_post = get_post( $id );
 
 	if ( empty( $_post ) || ( 'attachment' != $_post->post_type ) || ! $url = wp_get_attachment_url( $_post->ID ) )
 		return __( 'Missing Attachment' );
@@ -1188,7 +1175,7 @@ function wp_get_attachment_link( $id = 0, $size = 'thumbnail', $permalink = fals
  * @return string
  */
 function prepend_attachment($content) {
-	global $post;
+	$post = get_post();
 
 	if ( empty($post->post_type) || $post->post_type != 'attachment' )
 		return $content;
@@ -1215,7 +1202,7 @@ function prepend_attachment($content) {
  * @return string HTML content for password form for password protected post.
  */
 function get_the_password_form() {
-	global $post;
+	$post = get_post();
 	$label = 'pwbox-' . ( empty($post->ID) ? rand() : $post->ID );
 	$output = '<form action="' . esc_url( site_url( 'wp-login.php?action=postpass', 'login_post' ) ) . '" method="post">
 	<p>' . __("This post is password protected. To view it please enter your password below:") . '</p>
@@ -1432,9 +1419,9 @@ function wp_list_post_revisions( $post_id = 0, $args = null ) {
 	<col style="width: 33%" />
 <thead>
 <tr>
-	<th scope="col"><?php /* translators: column name in revisons */ _ex( 'Old', 'revisions column name' ); ?></th>
-	<th scope="col"><?php /* translators: column name in revisons */ _ex( 'New', 'revisions column name' ); ?></th>
-	<th scope="col"><?php /* translators: column name in revisons */ _ex( 'Date Created', 'revisions column name' ); ?></th>
+	<th scope="col"><?php /* translators: column name in revisions */ _ex( 'Old', 'revisions column name' ); ?></th>
+	<th scope="col"><?php /* translators: column name in revisions */ _ex( 'New', 'revisions column name' ); ?></th>
+	<th scope="col"><?php /* translators: column name in revisions */ _ex( 'Date Created', 'revisions column name' ); ?></th>
 	<th scope="col"><?php _e( 'Author' ); ?></th>
 	<th scope="col" class="action-links"><?php _e( 'Actions' ); ?></th>
 </tr>

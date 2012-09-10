@@ -244,9 +244,21 @@ final class WP_Screen {
 	public $id;
 
 	/**
+	 * Which admin the screen is in. network | user | site | false
+	 *
+	 * @since 3.5.0
+	 * @var string
+	 * @access protected
+	 */
+	protected $in_admin;
+
+	/**
 	 * Whether the screen is in the network admin.
 	 *
+	 * Deprecated. Use in_admin() instead.
+	 *
 	 * @since 3.3.0
+	 * @deprecated 3.5.0
 	 * @var bool
 	 * @access public
 	 */
@@ -255,7 +267,10 @@ final class WP_Screen {
 	/**
 	 * Whether the screen is in the user admin.
 	 *
+	 * Deprecated. Use in_admin() instead.
+	 *
 	 * @since 3.3.0
+	 * @deprecated 3.5.0
 	 * @var bool
 	 * @access public
 	 */
@@ -377,7 +392,7 @@ final class WP_Screen {
 			return $hook_name;
 
 		$post_type = $taxonomy = null;
-		$is_network = $is_user = false;
+		$in_admin = false;
 		$action = '';
 
 		if ( $hook_name )
@@ -402,10 +417,10 @@ final class WP_Screen {
 		if ( ! $post_type && $hook_name ) {
 			if ( '-network' == substr( $id, -8 ) ) {
 				$id = substr( $id, 0, -8 );
-				$is_network = true;
+				$in_admin = 'network';
 			} elseif ( '-user' == substr( $id, -5 ) ) {
 				$id = substr( $id, 0, -5 );
-				$is_user = true;
+				$in_admin = 'user';
 			}
 
 			$id = sanitize_key( $id );
@@ -419,13 +434,22 @@ final class WP_Screen {
 					$post_type = $maybe;
 				}
  			}
+
+			if ( ! $in_admin )
+				$in_admin = 'site';
 		} else {
-			$is_network = is_network_admin();
-			$is_user = is_user_admin();
+			if ( defined( 'WP_NETWORK_ADMIN' ) && WP_NETWORK_ADMIN )
+				$in_admin = 'network';
+			elseif ( defined( 'WP_USER_ADMIN' ) && WP_USER_ADMIN )
+				$in_admin = 'user';
+			else
+				$in_admin = 'site';
 		}
 
 		if ( 'index' == $id )
 			$id = 'dashboard';
+		elseif ( 'front' == $id )
+			$in_admin = false;
 
 		$base = $id;
 
@@ -476,10 +500,10 @@ final class WP_Screen {
 				break;
 		}
 
-		if ( $is_network ) {
+		if ( 'network' == $in_admin ) {
 			$id   .= '-network';
 			$base .= '-network';
-		} elseif ( $is_user ) {
+		} elseif ( 'user' == $in_admin ) {
 			$id   .= '-user';
 			$base .= '-user';
  		}
@@ -497,8 +521,9 @@ final class WP_Screen {
 		$screen->action     = $action;
 		$screen->post_type  = (string) $post_type;
 		$screen->taxonomy   = (string) $taxonomy;
-		$screen->is_user    = $is_user;
-		$screen->is_network = $is_network;
+		$screen->is_user    = ( 'user' == $in_admin );
+		$screen->is_network = ( 'network' == $in_admin );
+		$screen->in_admin   = $in_admin;
 
 		self::$_registry[ $id ] = $screen;
 
@@ -526,6 +551,23 @@ final class WP_Screen {
 	 * @access private
 	 */
 	private function __construct() {}
+
+	/**
+	 * Indicates whether the screen is in a particular admin
+	 *
+	 * @since 3.5.0
+	 *
+	 * @param string $admin The admin to check against (network | user | site).
+	 * If empty any of the three admins will result in true.
+	 * @return boolean True if the screen is in the indicated admin, false otherwise.
+	 *
+	 */
+	public function in_admin( $admin = null ) {
+		if ( empty( $admin ) )
+			return (bool) $this->in_admin;
+
+		return ( $admin == $this->in_admin );
+	}
 
 	/**
 	 * Sets the old string-based contextual help for the screen.
@@ -744,7 +786,7 @@ final class WP_Screen {
 		?>
 		<div id="screen-meta" class="metabox-prefs">
 
-			<div id="contextual-help-wrap" class="<?php echo esc_attr( $help_class ); ?>">
+			<div id="contextual-help-wrap" class="<?php echo esc_attr( $help_class ); ?>" tabindex="-1" aria-label="<?php esc_attr_e('Contextual Help Tab'); ?>">
 				<div id="contextual-help-back"></div>
 				<div id="contextual-help-columns">
 					<div class="contextual-help-tabs">
@@ -757,7 +799,7 @@ final class WP_Screen {
 							?>
 
 							<li id="<?php echo esc_attr( $link_id ); ?>"<?php echo $class; ?>>
-								<a href="<?php echo esc_url( "#$panel_id" ); ?>">
+								<a href="<?php echo esc_url( "#$panel_id" ); ?>" aria-controls="<?php echo esc_attr( $panel_id ); ?>">
 									<?php echo esc_html( $tab['title'] ); ?>
 								</a>
 							</li>
@@ -827,12 +869,12 @@ final class WP_Screen {
 		<div id="screen-meta-links">
 		<?php if ( $this->get_help_tabs() ) : ?>
 			<div id="contextual-help-link-wrap" class="hide-if-no-js screen-meta-toggle">
-			<a href="#contextual-help-wrap" id="contextual-help-link" class="show-settings"><?php _e( 'Help' ); ?></a>
+			<a href="#contextual-help-wrap" id="contextual-help-link" class="show-settings" aria-controls="contextual-help-wrap" aria-expanded="false"><?php _e( 'Help' ); ?></a>
 			</div>
 		<?php endif;
 		if ( $this->show_screen_options() ) : ?>
 			<div id="screen-options-link-wrap" class="hide-if-no-js screen-meta-toggle">
-			<a href="#screen-options-wrap" id="show-settings-link" class="show-settings"><?php _e( 'Screen Options' ); ?></a>
+			<a href="#screen-options-wrap" id="show-settings-link" class="show-settings" aria-controls="screen-options-wrap" aria-expanded="false"><?php _e( 'Screen Options' ); ?></a>
 			</div>
 		<?php endif; ?>
 		</div>
@@ -876,7 +918,7 @@ final class WP_Screen {
 		$hidden  = get_hidden_columns( $this );
 
 		?>
-		<div id="screen-options-wrap" class="hidden">
+		<div id="screen-options-wrap" class="hidden" tabindex="-1" aria-label="<?php esc_attr_e('Screen Options Tab'); ?>">
 		<form id="adv-settings" action="" method="post">
 		<?php if ( isset( $wp_meta_boxes[ $this->id ] ) || $this->get_option( 'per_page' ) || ( $columns && empty( $columns['_title'] ) ) ) : ?>
 			<h5><?php _e( 'Show on screen' ); ?></h5>

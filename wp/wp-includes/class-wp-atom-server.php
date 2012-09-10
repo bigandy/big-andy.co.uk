@@ -847,10 +847,9 @@ EOD;
 	 * @param int $postID Post ID.
 	 * @return string
 	 */
-	function get_entry_url($postID = null) {
+	function get_entry_url( $postID = null ) {
 		if (!isset($postID)) {
-			global $post;
-			$postID = (int) $post->ID;
+			$postID = (int) get_post()->ID;
 		}
 
 		$url = $this->app_base . $this->ENTRY_PATH . "/$postID";
@@ -879,8 +878,7 @@ EOD;
 	 */
 	function get_media_url($postID = null) {
 		if (!isset($postID)) {
-			global $post;
-			$postID = (int) $post->ID;
+			$postID = (int) get_post()->ID;
 		}
 
 		$url = $this->app_base . $this->MEDIA_SINGLE_PATH ."/file/$postID";
@@ -914,7 +912,7 @@ EOD;
 			$this->not_found();
 		}
 
-		$entry = wp_get_single_post($postID,ARRAY_A);
+		$entry = get_post($postID,ARRAY_A);
 
 		if (!isset($entry) || !isset($entry['ID']))
 			$this->not_found();
@@ -1411,7 +1409,7 @@ EOD;
 		switch($this->params[0]) {
 			case $this->ENTRY_PATH:
 				global $post;
-				$post = wp_get_single_post($this->params[1]);
+				$post = get_post($this->params[1]);
 				$wp_last_modified = get_post_modified_time('D, d M Y H:i:s', true);
 				$post = null;
 				break;

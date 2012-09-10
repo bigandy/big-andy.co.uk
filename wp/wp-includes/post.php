@@ -372,56 +372,172 @@ function get_extended($post) {
  * @uses $wpdb
  * @link http://codex.wordpress.org/Function_Reference/get_post
  *
- * @param int|object $post Post ID or post object.
+ * @param int|object $post Post ID or post object. Optional, default is the current post from the loop.
  * @param string $output Optional, default is Object. Either OBJECT, ARRAY_A, or ARRAY_N.
  * @param string $filter Optional, default is raw.
- * @return mixed Post data
+ * @return WP_Post|null WP_Post on success or null on failure
  */
-function &get_post(&$post, $output = OBJECT, $filter = 'raw') {
-	global $wpdb;
-	$null = null;
+function get_post( $post = null, $output = OBJECT, $filter = 'raw' ) {
+	if ( empty( $post ) && isset( $GLOBALS['post'] ) )
+		$post = $GLOBALS['post'];
 
-	if ( empty($post) ) {
-		if ( isset($GLOBALS['post']) )
-			$_post = & $GLOBALS['post'];
-		else
-			return $null;
-	} elseif ( is_object($post) && empty($post->filter) ) {
-		_get_post_ancestors($post);
-		$_post = sanitize_post($post, 'raw');
-		wp_cache_add($post->ID, $_post, 'posts');
-	} elseif ( is_object($post) && 'raw' == $post->filter ) {
+	if ( is_a( $post, 'WP_Post' ) ) {
 		$_post = $post;
-	} else {
-		if ( is_object($post) )
-			$post_id = $post->ID;
-		else
-			$post_id = $post;
-
-		$post_id = (int) $post_id;
-		if ( ! $_post = wp_cache_get($post_id, 'posts') ) {
-			$_post = $wpdb->get_row($wpdb->prepare("SELECT * FROM $wpdb->posts WHERE ID = %d LIMIT 1", $post_id));
-			if ( ! $_post )
-				return $null;
-			_get_post_ancestors($_post);
-			$_post = sanitize_post($_post, 'raw');
-			wp_cache_add($_post->ID, $_post, 'posts');
+	} elseif ( is_object( $post ) ) {
+		if ( empty( $post->filter ) ) {
+			$_post = sanitize_post( $post, 'raw' );
+			wp_cache_add( $post->ID, $_post, 'posts' );
+			$_post = new WP_Post( $_post );
+		} elseif ( 'raw' == $post->filter ) {
+			$_post = new WP_Post( $post );
+		} else {
+			$_post = WP_Post::get_instance( $post->ID );
 		}
+	} else {
+		$_post = WP_Post::get_instance( $post );
 	}
 
-	if ($filter != 'raw')
-		$_post = sanitize_post($_post, $filter);
+	if ( ! $_post )
+		return null;
 
-	if ( $output == OBJECT ) {
-		return $_post;
-	} elseif ( $output == ARRAY_A ) {
-		$__post = get_object_vars($_post);
-		return $__post;
-	} elseif ( $output == ARRAY_N ) {
-		$__post = array_values(get_object_vars($_post));
-		return $__post;
-	} else {
-		return $_post;
+	$_post = $_post->filter( $filter );
+
+	if ( $output == ARRAY_A )
+		return $_post->to_array();
+	elseif ( $output == ARRAY_N )
+		return array_values( $_post->to_array() );
+
+	return $_post;
+}
+
+/**
+ * WordPress Post class.
+ *
+ * @since 3.5.0
+ *
+ * @property $ID;
+ * @property $post_author;
+ * @property $post_date;
+ * @property $post_date_gmt;
+ * @property $post_content;
+ * @property $post_title;
+ * @property $post_excerpt;
+ * @property $post_status;
+ * @property $comment_status;
+ * @property $ping_status;
+ * @property $post_password;
+ * @property $post_name;
+ * @property $to_ping;
+ * @property $pinged;
+ * @property $post_modified;
+ * @property $post_modified_gmt;
+ * @property $post_content_filtered;
+ * @property $post_parent;
+ * @property $guid;
+ * @property $menu_order;
+ * @property $post_type;
+ * @property $post_mime_type;
+ * @property $comment_count;
+ * @property $ancestors;
+ */
+final class WP_Post {
+
+	public $filter;
+
+	public static function get_instance( $post_id ) {
+		global $wpdb;
+
+		$post_id = (int) $post_id;
+		if ( !$post_id )
+			return false;
+
+		if ( ! $_post = wp_cache_get( $post_id, 'posts' ) ) {
+			$_post = $wpdb->get_row( $wpdb->prepare( "
+				SELECT * FROM $wpdb->posts WHERE ID = %d LIMIT 1
+			", $post_id ) );
+
+			if ( ! $_post )
+				return false;
+
+			$_post = sanitize_post( $_post, 'raw' );
+			wp_cache_add( $_post->ID, $_post, 'posts' );
+		}
+
+		return new WP_Post( $_post );
+	}
+
+	public function __construct( $post ) {
+		foreach ( get_object_vars( $post ) as $key => $value )
+			$this->$key = $value;
+	}
+
+	public function __isset( $key ) {
+		if ( 'ancestors' == $key )
+			return true;
+
+		if ( 'page_template' == $key )
+			return ( 'page' == $this->post_type );
+
+		if ( 'post_category' == $key )
+		   return true;
+
+		if ( 'tags_input' == $key )
+		   return true;
+
+		return metadata_exists( 'post', $this->ID, $key );
+	}
+
+	public function __get( $key ) {
+		if ( 'page_template' == $key && $this->__isset( $key ) ) {
+			return get_post_meta( $this->ID, '_wp_page_template', true );
+		}
+
+		if ( 'post_category' == $key ) {
+			if ( is_object_in_taxonomy( $this->post_type, 'category' ) )
+				return wp_get_post_categories( $this->ID );
+			else
+				return array();
+		}
+
+		if ( 'tags_input' == $key ) {
+			if ( is_object_in_taxonomy( $this->post_type, 'post_tag' ) )
+				return wp_get_post_tags( $this->ID, array( 'fields' => 'names' ) );
+			else
+				return array();
+		}
+
+		// Rest of the values need filtering
+
+		if ( 'ancestors' == $key )
+			$value = get_post_ancestors( $this );
+		else
+			$value = get_post_meta( $this->ID, $key, true );
+
+		if ( $this->filter )
+			$value = sanitize_post_field( $key, $value, $this->ID, $this->filter );
+
+		return $value;
+	}
+
+	public function filter( $filter ) {
+		if ( $this->filter == $filter )
+			return $this;
+
+		if ( $filter == 'raw' )
+			return self::get_instance( $this->ID );
+
+		return sanitize_post( $this, $filter );
+	}
+
+	public function to_array() {
+		$post = get_object_vars( $this );
+
+		foreach ( array( 'ancestors', 'page_template', 'post_category', 'tags_input' ) as $key ) {
+			if ( $this->__isset( $key ) )
+				$post[ $key ] = $this->__get( $key );
+		}
+
+		return $post;
 	}
 }
 
@@ -433,16 +549,31 @@ function &get_post(&$post, $output = OBJECT, $filter = 'raw') {
  * @param int|object $post Post ID or post object
  * @return array Ancestor IDs or empty array if none are found.
  */
-function get_post_ancestors($post) {
-	$post = get_post($post);
+function get_post_ancestors( $post ) {
+	if ( ! $post )
+		return false;
 
-	if ( ! isset( $post->ancestors ) )
-		_get_post_ancestors( $post );
+	$post = get_post( $post );
 
-	if ( ! empty( $post->ancestors ) )
-		return $post->ancestors;
+	if ( ! $ancestors = wp_cache_get( $post->ID, 'post_ancestors' ) ) {
+		$ancestors = array();
 
-	return array();
+		if ( !empty( $post->post_parent ) && $post->ID != $post->post_parent ) {
+			$id = $ancestors[] = $post->post_parent;
+
+			while ( $ancestor = get_post( $id ) ) {
+				// Loop detection: If the ancestor has been seen before, break.
+				if ( empty( $ancestor->post_parent ) || ( $ancestor->post_parent == $post->ID ) || in_array( $ancestor->post_parent, $ancestors ) )
+					break;
+
+				$id = $ancestors[] = $ancestor->post_parent;
+			}
+		}
+
+		wp_cache_add( $post->ID, $ancestors, 'post_ancestors' );
+	}
+
+	return $ancestors;
 }
 
 /**
@@ -460,16 +591,12 @@ function get_post_ancestors($post) {
  * @param string $field Post field name
  * @param id $post Post ID
  * @param string $context Optional. How to filter the field. Default is display.
- * @return WP_Error|string Value in post field or WP_Error on failure
+ * @return bool|string False on failure or returns the value in post field
  */
 function get_post_field( $field, $post, $context = 'display' ) {
-	$post = (int) $post;
 	$post = get_post( $post );
 
-	if ( is_wp_error($post) )
-		return $post;
-
-	if ( !is_object($post) )
+	if ( !$post )
 		return '';
 
 	if ( !isset($post->$field) )
@@ -490,7 +617,7 @@ function get_post_field( $field, $post, $context = 'display' ) {
  * @return bool|string False on failure or returns the mime type
  */
 function get_post_mime_type($ID = '') {
-	$post = & get_post($ID);
+	$post = get_post($ID);
 
 	if ( is_object($post) )
 		return $post->post_mime_type;
@@ -671,7 +798,21 @@ function register_post_status($post_status, $args = array()) {
 		$wp_post_statuses = array();
 
 	// Args prefixed with an underscore are reserved for internal use.
-	$defaults = array('label' => false, 'label_count' => false, 'exclude_from_search' => null, '_builtin' => false, '_edit_link' => 'post.php?post=%d', 'capability_type' => 'post', 'hierarchical' => false, 'public' => null, 'internal' => null, 'protected' => null, 'private' => null, 'show_in_admin_all' => null, 'publicly_queryable' => null, 'show_in_admin_status_list' => null, 'show_in_admin_all_list' => null, 'single_view_cap' => null);
+	$defaults = array(
+		'label' => false,
+		'label_count' => false,
+		'exclude_from_search' => null,
+		'_builtin' => false,
+		'public' => null,
+		'internal' => null,
+		'protected' => null,
+		'private' => null,
+		'show_in_admin_all' => null,
+		'publicly_queryable' => null,
+		'show_in_admin_status_list' => null,
+		'show_in_admin_all_list' => null,
+		'single_view_cap' => null,
+	);
 	$args = wp_parse_args($args, $defaults);
 	$args = (object) $args;
 
@@ -703,7 +844,7 @@ function register_post_status($post_status, $args = array()) {
 		$args->show_in_admin_all_list = !$args->internal;
 
 	if ( null === $args->show_in_admin_status_list )
-			$args->show_in_admin_status_list = !$args->internal;
+		$args->show_in_admin_status_list = !$args->internal;
 
 	if ( null === $args->single_view_cap )
 		$args->single_view_cap = $args->public ? '' : 'edit';
@@ -804,19 +945,12 @@ function post_type_exists( $post_type ) {
  *
  * @uses $post The Loop current post global
  *
- * @param mixed $the_post Optional. Post object or post ID.
+ * @param mixed $post Optional. Post object or post ID.
  * @return bool|string post type or false on failure.
  */
-function get_post_type( $the_post = false ) {
-	global $post;
-
-	if ( false === $the_post )
-		$the_post = $post;
-	elseif ( is_numeric($the_post) )
-		$the_post = get_post($the_post);
-
-	if ( is_object($the_post) )
-		return $the_post->post_type;
+function get_post_type( $post = null ) {
+	if ( $post = get_post( $post ) )
+		return $post->post_type;
 
 	return false;
 }
@@ -1028,7 +1162,8 @@ function register_post_type( $post_type, $args = array() ) {
 	if ( false !== $args->query_var && !empty($wp) ) {
 		if ( true === $args->query_var )
 			$args->query_var = $post_type;
-		$args->query_var = sanitize_title_with_dashes($args->query_var);
+		else
+			$args->query_var = sanitize_title_with_dashes($args->query_var);
 		$wp->add_query_var($args->query_var);
 	}
 
@@ -1668,9 +1803,9 @@ function is_sticky( $post_id = 0 ) {
  * @since 2.3.0
  * @uses sanitize_post_field() Used to sanitize the fields.
  *
- * @param object|array $post The Post Object or Array
+ * @param object|WP_Post|array $post The Post Object or Array
  * @param string $context Optional, default is 'display'. How to sanitize post fields.
- * @return object|array The now sanitized Post Object or Array (will be the same type as $post)
+ * @return object|WP_Post|array The now sanitized Post Object or Array (will be the same type as $post)
  */
 function sanitize_post($post, $context = 'display') {
 	if ( is_object($post) ) {
@@ -2115,7 +2250,7 @@ function wp_trash_post($post_id = 0) {
 	if ( !EMPTY_TRASH_DAYS )
 		return wp_delete_post($post_id, true);
 
-	if ( !$post = wp_get_single_post($post_id, ARRAY_A) )
+	if ( !$post = get_post($post_id, ARRAY_A) )
 		return $post;
 
 	if ( $post['post_status'] == 'trash' )
@@ -2147,7 +2282,7 @@ function wp_trash_post($post_id = 0) {
  * @return mixed False on failure
  */
 function wp_untrash_post($post_id = 0) {
-	if ( !$post = wp_get_single_post($post_id, ARRAY_A) )
+	if ( !$post = get_post($post_id, ARRAY_A) )
 		return $post;
 
 	if ( $post['post_status'] != 'trash' )
@@ -2375,49 +2510,6 @@ function wp_get_recent_posts( $args = array(), $output = ARRAY_A ) {
 
 	return $results ? $results : false;
 
-}
-
-/**
- * Retrieve a single post, based on post ID.
- *
- * Has categories in 'post_category' property or key. Has tags in 'tags_input'
- * property or key.
- *
- * @since 1.0.0
- *
- * @param int $postid Post ID.
- * @param string $mode How to return result, either OBJECT, ARRAY_N, or ARRAY_A.
- * @return object|array Post object or array holding post contents and information
- */
-function wp_get_single_post($postid = 0, $mode = OBJECT) {
-	$postid = (int) $postid;
-
-	$post = get_post($postid, $mode);
-
-	if (
-		( OBJECT == $mode && empty( $post->ID ) ) ||
-		( OBJECT != $mode && empty( $post['ID'] ) )
-	)
-		return ( OBJECT == $mode ? null : array() );
-
-	// Set categories and tags
-	if ( $mode == OBJECT ) {
-		$post->post_category = array();
-		if ( is_object_in_taxonomy($post->post_type, 'category') )
-			$post->post_category = wp_get_post_categories($postid);
-		$post->tags_input = array();
-		if ( is_object_in_taxonomy($post->post_type, 'post_tag') )
-			$post->tags_input = wp_get_post_tags($postid, array('fields' => 'names'));
-	} else {
-		$post['post_category'] = array();
-		if ( is_object_in_taxonomy($post['post_type'], 'category') )
-			$post['post_category'] = wp_get_post_categories($postid);
-		$post['tags_input'] = array();
-		if ( is_object_in_taxonomy($post['post_type'], 'post_tag') )
-			$post['tags_input'] = wp_get_post_tags($postid, array('fields' => 'names'));
-	}
-
-	return $post;
 }
 
 /**
@@ -2710,9 +2802,10 @@ function wp_insert_post($postarr, $wp_error = false) {
  * @since 1.0.0
  *
  * @param array|object $postarr Post data. Arrays are expected to be escaped, objects are not.
- * @return int 0 on failure, Post ID on success.
+ * @param bool $wp_error Optional. Allow return of WP_Error on failure.
+ * @return int|WP_Error The value 0 or WP_Error on failure. The post ID on success.
  */
-function wp_update_post($postarr = array()) {
+function wp_update_post( $postarr = array(), $wp_error = false ) {
 	if ( is_object($postarr) ) {
 		// non-escaped post was passed
 		$postarr = get_object_vars($postarr);
@@ -2720,7 +2813,7 @@ function wp_update_post($postarr = array()) {
 	}
 
 	// First, get all of the original fields
-	$post = wp_get_single_post($postarr['ID'], ARRAY_A);
+	$post = get_post($postarr['ID'], ARRAY_A);
 
 	// Escape data pulled from DB.
 	$post = add_magic_quotes($post);
@@ -2750,7 +2843,7 @@ function wp_update_post($postarr = array()) {
 	if ($postarr['post_type'] == 'attachment')
 		return wp_insert_attachment($postarr);
 
-	return wp_insert_post($postarr);
+	return wp_insert_post( $postarr, $wp_error );
 }
 
 /**
@@ -2837,6 +2930,8 @@ function wp_unique_post_slug( $slug, $post_ID, $post_status, $post_type, $post_p
 
 	global $wpdb, $wp_rewrite;
 
+	$original_slug = $slug;
+
 	$feeds = $wp_rewrite->feeds;
 	if ( ! is_array( $feeds ) )
 		$feeds = array();
@@ -2887,7 +2982,7 @@ function wp_unique_post_slug( $slug, $post_ID, $post_status, $post_type, $post_p
 		}
 	}
 
-	return apply_filters( 'wp_unique_post_slug', $slug, $post_ID, $post_status, $post_type, $post_parent );
+	return apply_filters( 'wp_unique_post_slug', $slug, $post_ID, $post_status, $post_type, $post_parent, $original_slug );
 }
 
 /**
@@ -3127,7 +3222,7 @@ function get_to_ping($post_id) {
 function trackback_url_list($tb_list, $post_id) {
 	if ( ! empty( $tb_list ) ) {
 		// get post data
-		$postdata = wp_get_single_post($post_id, ARRAY_A);
+		$postdata = get_post($post_id, ARRAY_A);
 
 		// import postdata as variables
 		extract($postdata, EXTR_SKIP);
@@ -3174,16 +3269,18 @@ function get_all_page_ids() {
 /**
  * Retrieves page data given a page ID or page object.
  *
+ * Use get_post() instead of get_page().
+ *
  * @since 1.5.1
+ * @deprecated 3.5.0
  *
  * @param mixed $page Page object or page ID. Passed by reference.
  * @param string $output What to output. OBJECT, ARRAY_A, or ARRAY_N.
  * @param string $filter How the return value should be filtered.
- * @return mixed Page data.
+ * @return WP_Post|null WP_Post on success or null on failure
  */
-function &get_page(&$page, $output = OBJECT, $filter = 'raw') {
-	$p = get_post($page, $output, $filter);
-	return $p;
+function get_page( $page, $output = OBJECT, $filter = 'raw') {
+	return get_post( $page, $output, $filter );
 }
 
 /**
@@ -3195,7 +3292,7 @@ function &get_page(&$page, $output = OBJECT, $filter = 'raw') {
  * @param string $page_path Page path
  * @param string $output Optional. Output type. OBJECT, ARRAY_N, or ARRAY_A. Default OBJECT.
  * @param string $post_type Optional. Post type. Default page.
- * @return mixed Null when complete.
+ * @return WP_Post|null WP_Post on success or null on failure
  */
 function get_page_by_path($page_path, $output = OBJECT, $post_type = 'page') {
 	global $wpdb;
@@ -3235,7 +3332,7 @@ function get_page_by_path($page_path, $output = OBJECT, $post_type = 'page') {
 	}
 
 	if ( $foundid )
-		return get_page( $foundid, $output );
+		return get_post( $foundid, $output );
 
 	return null;
 }
@@ -3249,13 +3346,13 @@ function get_page_by_path($page_path, $output = OBJECT, $post_type = 'page') {
  * @param string $page_title Page title
  * @param string $output Optional. Output type. OBJECT, ARRAY_N, or ARRAY_A. Default OBJECT.
  * @param string $post_type Optional. Post type. Default page.
- * @return mixed
+ * @return WP_Post|null WP_Post on success or null on failure
  */
 function get_page_by_title($page_title, $output = OBJECT, $post_type = 'page' ) {
 	global $wpdb;
 	$page = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_title = %s AND post_type= %s", $page_title, $post_type ) );
 	if ( $page )
-		return get_page($page, $output);
+		return get_post( $page, $output );
 
 	return null;
 }
@@ -3342,16 +3439,11 @@ function _page_traverse_name( $page_id, &$children, &$result ){
  */
 function get_page_uri($page) {
 	if ( ! is_object($page) )
-		$page = get_page($page);
+		$page = get_post( $page );
 	$uri = $page->post_name;
 
-	// A page cannot be it's own parent.
-	if ( $page->post_parent == $page->ID )
-		return $uri;
-
-	while ($page->post_parent != 0) {
-		$page = get_page($page->post_parent);
-		$uri = $page->post_name . "/" . $uri;
+	foreach ( $page->ancestors as $parent ) {
+		$uri = get_post( $parent )->post_name . "/" . $uri;
 	}
 
 	return $uri;
@@ -3373,6 +3465,8 @@ function get_page_uri($page) {
 function &get_pages($args = '') {
 	global $wpdb;
 
+	$pages = false;
+
 	$defaults = array(
 		'child_of' => 0, 'sort_order' => 'ASC',
 		'sort_column' => 'post_title', 'hierarchical' => 1,
@@ -3391,19 +3485,21 @@ function &get_pages($args = '') {
 	// Make sure the post type is hierarchical
 	$hierarchical_post_types = get_post_types( array( 'hierarchical' => true ) );
 	if ( !in_array( $post_type, $hierarchical_post_types ) )
-		return false;
+		return $pages;
 
 	// Make sure we have a valid post status
 	if ( !is_array( $post_status ) )
 		$post_status = explode( ',', $post_status );
 	if ( array_diff( $post_status, get_post_stati() ) )
-		return false;
+		return $pages;
 
 	$cache = array();
 	$key = md5( serialize( compact(array_keys($defaults)) ) );
 	if ( $cache = wp_cache_get( 'get_pages', 'posts' ) ) {
 		if ( is_array($cache) && isset( $cache[ $key ] ) ) {
-			$pages = apply_filters('get_pages', $cache[ $key ], $r );
+			// Convert to WP_Post instances
+			$pages = array_map( 'get_post', $cache[ $key ] );
+			$pages = apply_filters( 'get_pages', $pages, $r );
 			return $pages;
 		}
 	}
@@ -3578,6 +3674,9 @@ function &get_pages($args = '') {
 	$cache[ $key ] = $pages;
 	wp_cache_set( 'get_pages', $cache, 'posts' );
 
+	// Convert to WP_Post instances
+	$pages = array_map( 'get_post', $pages );
+
 	$pages = apply_filters('get_pages', $pages, $r);
 
 	return $pages;
@@ -3601,7 +3700,7 @@ function is_local_attachment($url) {
 	if (strpos($url, home_url('/?attachment_id=')) !== false)
 		return true;
 	if ( $id = url_to_postid($url) ) {
-		$post = & get_post($id);
+		$post = get_post($id);
 		if ( 'attachment' == $post->post_type )
 			return true;
 	}
@@ -3897,7 +3996,7 @@ function wp_delete_attachment( $post_id, $force_delete = false ) {
  */
 function wp_get_attachment_metadata( $post_id = 0, $unfiltered = false ) {
 	$post_id = (int) $post_id;
-	if ( !$post =& get_post( $post_id ) )
+	if ( !$post = get_post( $post_id ) )
 		return false;
 
 	$data = get_post_meta( $post->ID, '_wp_attachment_metadata', true );
@@ -3919,7 +4018,7 @@ function wp_get_attachment_metadata( $post_id = 0, $unfiltered = false ) {
  */
 function wp_update_attachment_metadata( $post_id, $data ) {
 	$post_id = (int) $post_id;
-	if ( !$post =& get_post( $post_id ) )
+	if ( !$post = get_post( $post_id ) )
 		return false;
 
 	$data = apply_filters( 'wp_update_attachment_metadata', $data, $post->ID );
@@ -3937,7 +4036,7 @@ function wp_update_attachment_metadata( $post_id, $data ) {
  */
 function wp_get_attachment_url( $post_id = 0 ) {
 	$post_id = (int) $post_id;
-	if ( !$post =& get_post( $post_id ) )
+	if ( !$post = get_post( $post_id ) )
 		return false;
 
 	if ( 'attachment' != $post->post_type )
@@ -3976,7 +4075,7 @@ function wp_get_attachment_url( $post_id = 0 ) {
  */
 function wp_get_attachment_thumb_file( $post_id = 0 ) {
 	$post_id = (int) $post_id;
-	if ( !$post =& get_post( $post_id ) )
+	if ( !$post = get_post( $post_id ) )
 		return false;
 	if ( !is_array( $imagedata = wp_get_attachment_metadata( $post->ID ) ) )
 		return false;
@@ -3998,7 +4097,7 @@ function wp_get_attachment_thumb_file( $post_id = 0 ) {
  */
 function wp_get_attachment_thumb_url( $post_id = 0 ) {
 	$post_id = (int) $post_id;
-	if ( !$post =& get_post( $post_id ) )
+	if ( !$post = get_post( $post_id ) )
 		return false;
 	if ( !$url = wp_get_attachment_url( $post->ID ) )
 		return false;
@@ -4025,7 +4124,7 @@ function wp_get_attachment_thumb_url( $post_id = 0 ) {
  */
 function wp_attachment_is_image( $post_id = 0 ) {
 	$post_id = (int) $post_id;
-	if ( !$post =& get_post( $post_id ) )
+	if ( !$post = get_post( $post_id ) )
 		return false;
 
 	if ( !$file = get_attached_file( $post->ID ) )
@@ -4033,7 +4132,7 @@ function wp_attachment_is_image( $post_id = 0 ) {
 
 	$ext = preg_match('/\.([^.]+)$/', $file, $matches) ? strtolower($matches[1]) : false;
 
-	$image_exts = array('jpg', 'jpeg', 'gif', 'png');
+	$image_exts = array( 'jpg', 'jpeg', 'jpe', 'gif', 'png' );
 
 	if ( 'image/' == substr($post->post_mime_type, 0, 6) || $ext && 'import' == $post->post_mime_type && in_array($ext, $image_exts) )
 		return true;
@@ -4051,12 +4150,13 @@ function wp_attachment_is_image( $post_id = 0 ) {
 function wp_mime_type_icon( $mime = 0 ) {
 	if ( !is_numeric($mime) )
 		$icon = wp_cache_get("mime_type_icon_$mime");
+
+	$post_id = 0;
 	if ( empty($icon) ) {
-		$post_id = 0;
 		$post_mimes = array();
 		if ( is_numeric($mime) ) {
 			$mime = (int) $mime;
-			if ( $post =& get_post( $mime ) ) {
+			if ( $post = get_post( $mime ) ) {
 				$post_id = (int) $post->ID;
 				$ext = preg_replace('/^.+?\.([^.]+)$/', '$1', $post->guid);
 				if ( !empty($ext) ) {
@@ -4118,7 +4218,7 @@ function wp_mime_type_icon( $mime = 0 ) {
 			if ( isset($types[$wilds[0]])) {
 				$icon = $types[$wilds[0]];
 				if ( !is_numeric($mime) )
-					wp_cache_set("mime_type_icon_$mime", $icon);
+					wp_cache_add("mime_type_icon_$mime", $icon);
 				break;
 			}
 		}
@@ -4383,9 +4483,11 @@ function clean_post_cache( $post ) {
 
 	do_action( 'clean_post_cache', $post->ID, $post );
 
+	if ( is_post_type_hierarchical( $post->post_type ) )
+		wp_cache_delete( 'get_pages', 'posts' );
+
 	if ( 'page' == $post->post_type ) {
 		wp_cache_delete( 'all_page_ids', 'posts' );
-		wp_cache_delete( 'get_pages', 'posts' );
 		do_action( 'clean_page_cache', $post->ID );
 	}
 
@@ -4397,9 +4499,6 @@ function clean_post_cache( $post ) {
 			clean_post_cache( $child );
 		}
 	}
-
-	if ( is_multisite() )
-		wp_cache_delete( $wpdb->blogid . '-' . $post->ID, 'global-posts' );
 }
 
 /**
@@ -4606,45 +4705,6 @@ function _publish_post_hook($post_id) {
  */
 function _save_post_hook( $post_id, $post ) {
 	clean_post_cache( $post );
-}
-
-/**
- * Retrieve post ancestors and append to post ancestors property.
- *
- * Will only retrieve ancestors once, if property is already set, then nothing
- * will be done. If there is not a parent post, or post ID and post parent ID
- * are the same then nothing will be done.
- *
- * The parameter is passed by reference, so nothing needs to be returned. The
- * property will be updated and can be referenced after the function is
- * complete. The post parent will be an ancestor and the parent of the post
- * parent will be an ancestor. There will only be two ancestors at the most.
- *
- * @since 2.5.0
- * @access private
- * @uses $wpdb
- *
- * @param object $_post Post data.
- * @return null When nothing needs to be done.
- */
-function _get_post_ancestors(&$_post) {
-	global $wpdb;
-
-	if ( isset($_post->ancestors) )
-		return;
-
-	$_post->ancestors = array();
-
-	if ( empty($_post->post_parent) || $_post->ID == $_post->post_parent )
-		return;
-
-	$id = $_post->ancestors[] = (int) $_post->post_parent;
-	while ( $ancestor = $wpdb->get_var( $wpdb->prepare("SELECT `post_parent` FROM $wpdb->posts WHERE ID = %d LIMIT 1", $id) ) ) {
-		// Loop detection: If the ancestor has been seen before, break.
-		if ( ( $ancestor == $_post->ID ) || in_array($ancestor,  $_post->ancestors) )
-			break;
-		$id = $_post->ancestors[] = (int) $ancestor;
-	}
 }
 
 /**

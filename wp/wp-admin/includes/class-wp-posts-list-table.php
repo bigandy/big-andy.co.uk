@@ -218,11 +218,11 @@ class WP_Posts_List_Table extends WP_List_Table {
 				wp_dropdown_categories( $dropdown_options );
 			}
 			do_action( 'restrict_manage_posts' );
-			submit_button( __( 'Filter' ), 'secondary', false, false, array( 'id' => 'post-query-submit' ) );
+			submit_button( __( 'Filter' ), 'small', false, false, array( 'id' => 'post-query-submit' ) );
 		}
 
 		if ( $this->is_trash && current_user_can( $post_type_object->cap->edit_others_posts ) ) {
-			submit_button( __( 'Empty Trash' ), 'button-secondary apply', 'delete_all', false );
+			submit_button( __( 'Empty Trash' ), 'small apply', 'delete_all', false );
 		}
 ?>
 		</div>
@@ -269,11 +269,24 @@ class WP_Posts_List_Table extends WP_List_Table {
 		if ( post_type_supports( $post_type, 'author' ) )
 			$posts_columns['author'] = __( 'Author' );
 
-		if ( empty( $post_type ) || is_object_in_taxonomy( $post_type, 'category' ) )
-			$posts_columns['categories'] = __( 'Categories' );
+		$taxonomies = array();
 
-		if ( empty( $post_type ) || is_object_in_taxonomy( $post_type, 'post_tag' ) )
-			$posts_columns['tags'] = __( 'Tags' );
+		$taxonomies = get_object_taxonomies( $post_type, 'objects' );
+		$taxonomies = wp_filter_object_list( $taxonomies, array( 'show_admin_column' => true ), 'and', 'name' );
+
+		$taxonomies = apply_filters( "manage_taxonomies_for_{$post_type}_columns", $taxonomies, $post_type );
+		$taxonomies = array_filter( $taxonomies, 'taxonomy_exists' );
+
+		foreach ( $taxonomies as $taxonomy ) {
+			if ( 'category' == $taxonomy )
+				$column_key = 'categories';
+			elseif ( 'post_tag' == $taxonomy )
+				$column_key = 'tags';
+			else
+				$column_key = 'taxonomy-' . $taxonomy;
+
+			$posts_columns[ $column_key ] = get_taxonomy( $taxonomy )->labels->name;
+		}
 
 		$post_status = !empty( $_REQUEST['post_status'] ) ? $_REQUEST['post_status'] : 'all';
 		if ( post_type_supports( $post_type, 'comments' ) && !in_array( $post_status, array( 'pending', 'draft', 'future' ) ) )
@@ -293,14 +306,13 @@ class WP_Posts_List_Table extends WP_List_Table {
 	function get_sortable_columns() {
 		return array(
 			'title'    => 'title',
-			'author'   => 'author',
 			'parent'   => 'parent',
 			'comments' => 'comment_count',
 			'date'     => array( 'date', true )
 		);
 	}
 
-	function display_rows( $posts = array() ) {
+	function display_rows( $posts = array(), $level = 0 ) {
 		global $wp_query, $post_type_object, $per_page;
 
 		if ( empty( $posts ) )
@@ -311,12 +323,12 @@ class WP_Posts_List_Table extends WP_List_Table {
 		if ( $this->hierarchical_display ) {
 			$this->_display_rows_hierarchical( $posts, $this->get_pagenum(), $per_page );
 		} else {
-			$this->_display_rows( $posts );
+			$this->_display_rows( $posts, $level );
 		}
 	}
 
-	function _display_rows( $posts ) {
-		global $post, $mode;
+	function _display_rows( $posts, $level = 0 ) {
+		global $mode;
 
 		// Create array of post IDs.
 		$post_ids = array();
@@ -327,7 +339,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 		$this->comment_pending_count = get_pending_comments_num( $post_ids );
 
 		foreach ( $posts as $post )
-			$this->single_row( $post );
+			$this->single_row( $post, $level );
 	}
 
 	function _display_rows_hierarchical( $pages, $pagenum = 1, $per_page = 20 ) {
@@ -458,12 +470,12 @@ class WP_Posts_List_Table extends WP_List_Table {
 		unset( $children_pages[$parent] ); //required in order to keep track of orphans
 	}
 
-	function single_row( $a_post, $level = 0 ) {
-		global $post, $mode;
+	function single_row( $post, $level = 0 ) {
+		global $mode;
 		static $alternate;
 
-		$global_post = $post;
-		$post = $a_post;
+		$global_post = get_post();
+		$GLOBALS['post'] = $post;
 		setup_postdata( $post );
 
 		$edit_link = get_edit_post_link( $post->ID );
@@ -492,7 +504,12 @@ class WP_Posts_List_Table extends WP_List_Table {
 
 			case 'cb':
 			?>
-			<th scope="row" class="check-column"><?php if ( $can_edit_post ) { ?><input type="checkbox" name="post[]" value="<?php the_ID(); ?>" /><?php } ?></th>
+			<th scope="row" class="check-column">
+				<?php if ( $can_edit_post ) { ?>
+				<label class="screen-reader-text" for="cb-select-<?php the_ID(); ?>"><?php printf( __( 'Select %s' ), $title ); ?></label>
+				<input id="cb-select-<?php the_ID(); ?>" type="checkbox" name="post[]" value="<?php the_ID(); ?>" />
+				<?php } ?>
+			</th>
 			<?php
 			break;
 
@@ -504,7 +521,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 						//sent level 0 by accident, by default, or because we don't know the actual level
 						$find_main_page = (int) $post->post_parent;
 						while ( $find_main_page > 0 ) {
-							$parent = get_page( $find_main_page );
+							$parent = get_post( $find_main_page );
 
 							if ( is_null( $parent ) )
 								break;
@@ -524,8 +541,10 @@ class WP_Posts_List_Table extends WP_List_Table {
 				}
 				else {
 					$attributes = 'class="post-title page-title column-title"' . $style;
+
+					$pad = str_repeat( '&#8212; ', $level );
 ?>
-			<td <?php echo $attributes ?>><strong><?php if ( $can_edit_post && $post->post_status != 'trash' ) { ?><a class="row-title" href="<?php echo $edit_link; ?>" title="<?php echo esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;' ), $title ) ); ?>"><?php echo $title ?></a><?php } else { echo $title; }; _post_states( $post ); ?></strong>
+			<td <?php echo $attributes ?>><strong><?php if ( $can_edit_post && $post->post_status != 'trash' ) { ?><a class="row-title" href="<?php echo $edit_link; ?>" title="<?php echo esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;' ), $title ) ); ?>"><?php echo $pad; echo $title ?></a><?php } else { echo $pad; echo $title; }; _post_states( $post ); ?></strong>
 <?php
 					if ( 'excerpt' == $mode && current_user_can( 'read_post', $post->ID ) )
 						the_excerpt();
@@ -538,7 +557,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 				}
 				if ( current_user_can( $post_type_object->cap->delete_post, $post->ID ) ) {
 					if ( 'trash' == $post->post_status )
-						$actions['untrash'] = "<a title='" . esc_attr( __( 'Restore this item from the Trash' ) ) . "' href='" . wp_nonce_url( admin_url( sprintf( $post_type_object->_edit_link . '&amp;action=untrash', $post->ID ) ), 'untrash-' . $post->post_type . '_' . $post->ID ) . "'>" . __( 'Restore' ) . "</a>";
+						$actions['untrash'] = "<a title='" . esc_attr( __( 'Restore this item from the Trash' ) ) . "' href='" . wp_nonce_url( admin_url( sprintf( $post_type_object->_edit_link . '&amp;action=untrash', $post->ID ) ), 'untrash-post_' . $post->ID ) . "'>" . __( 'Restore' ) . "</a>";
 					elseif ( EMPTY_TRASH_DAYS )
 						$actions['trash'] = "<a class='submitdelete' title='" . esc_attr( __( 'Move this item to the Trash' ) ) . "' href='" . get_delete_post_link( $post->ID ) . "'>" . __( 'Trash' ) . "</a>";
 					if ( 'trash' == $post->post_status || !EMPTY_TRASH_DAYS )
@@ -561,7 +580,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 			break;
 
 			case 'date':
-				if ( '0000-00-00 00:00:00' == $post->post_date && 'date' == $column_name ) {
+				if ( '0000-00-00 00:00:00' == $post->post_date ) {
 					$t_time = $h_time = __( 'Unpublished' );
 					$time_diff = 0;
 				} else {
@@ -596,48 +615,6 @@ class WP_Posts_List_Table extends WP_List_Table {
 				echo '</td>';
 			break;
 
-			case 'categories':
-			?>
-			<td <?php echo $attributes ?>><?php
-				$categories = get_the_category();
-				if ( !empty( $categories ) ) {
-					$out = array();
-					foreach ( $categories as $c ) {
-						$out[] = sprintf( '<a href="%s">%s</a>',
-							esc_url( add_query_arg( array( 'post_type' => $post->post_type, 'category_name' => $c->slug ), 'edit.php' ) ),
-							esc_html( sanitize_term_field( 'name', $c->name, $c->term_id, 'category', 'display' ) )
-						);
-					}
-					/* translators: used between list items, there is a space after the comma */
-					echo join( __( ', ' ), $out );
-				} else {
-					_e( 'Uncategorized' );
-				}
-			?></td>
-			<?php
-			break;
-
-			case 'tags':
-			?>
-			<td <?php echo $attributes ?>><?php
-				$tags = get_the_tags( $post->ID );
-				if ( !empty( $tags ) ) {
-					$out = array();
-					foreach ( $tags as $c ) {
-						$out[] = sprintf( '<a href="%s">%s</a>',
-							esc_url( add_query_arg( array( 'post_type' => $post->post_type, 'tag' => $c->slug ), 'edit.php' ) ),
-							esc_html( sanitize_term_field( 'name', $c->name, $c->term_id, 'tag', 'display' ) )
-						);
-					}
-					/* translators: used between list items, there is a space after the comma */
-					echo join( __( ', ' ), $out );
-				} else {
-					_e( 'No Tags' );
-				}
-			?></td>
-			<?php
-			break;
-
 			case 'comments':
 			?>
 			<td <?php echo $attributes ?>><div class="post-com-count-wrapper">
@@ -662,6 +639,45 @@ class WP_Posts_List_Table extends WP_List_Table {
 			break;
 
 			default:
+				if ( 'categories' == $column_name )
+					$taxonomy = 'category';
+				elseif ( 'tags' == $column_name )
+					$taxonomy = 'post_tag';
+				elseif ( 0 === strpos( $column_name, 'taxonomy-' ) )
+					$taxonomy = substr( $column_name, 9 );
+
+				if ( ! empty( $taxonomy ) ) {
+					$taxonomy_object = get_taxonomy( $taxonomy );
+					echo '<td ' . $attributes . '>';
+					if ( $terms = get_the_terms( $post->ID, $taxonomy ) ) {
+						$out = array();
+						foreach ( $terms as $t ) {
+							$posts_in_term_qv = array();
+							if ( 'post' != $post->post_type )
+								$posts_in_term_qv['post_type'] = $post->post_type;
+							if ( $taxonomy_object->query_var ) {
+								$posts_in_term_qv[ $taxonomy_object->query_var ] = $t->slug;
+							} else {
+								$posts_in_term_qv['taxonomy'] = $taxonomy;
+								$posts_in_term_qv['term'] = $t->slug;
+							}
+
+							$out[] = sprintf( '<a href="%s">%s</a>',
+								esc_url( add_query_arg( $posts_in_term_qv, 'edit.php' ) ),
+								esc_html( sanitize_term_field( 'name', $t->name, $t->term_id, $taxonomy, 'display' ) )
+							);
+						}
+						/* translators: used between list items, there is a space after the comma */
+						echo join( __( ', ' ), $out );
+					} else {
+						if ( 'category' == $taxonomy )
+							echo __( 'Uncategorized' );
+						else
+							echo '&#8212;';
+					}
+					echo '</td>';
+					break;
+				}
 			?>
 			<td <?php echo $attributes ?>><?php
 				if ( is_post_type_hierarchical( $post->post_type ) )
@@ -672,12 +688,12 @@ class WP_Posts_List_Table extends WP_List_Table {
 			?></td>
 			<?php
 			break;
+			}
 		}
-	}
 	?>
 		</tr>
 	<?php
-		$post = $global_post;
+		$GLOBALS['post'] = $global_post;
 	}
 
 	/**
@@ -752,7 +768,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 	<?php if ( !$bulk ) : ?>
 			<label><span class="title"><?php _e( 'Date' ); ?></span></label>
 			<div class="inline-edit-date">
-				<?php touch_time( 1, 1, 4, 1 ); ?>
+				<?php touch_time( 1, 1, 0, 1 ); ?>
 			</div>
 			<br class="clear" />
 	<?php endif; // $bulk
