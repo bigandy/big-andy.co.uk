@@ -505,7 +505,7 @@ function wp_dashboard_quick_press() {
 	<form name="post" action="<?php echo esc_url( admin_url( 'post.php' ) ); ?>" method="post" id="quick-press">
 		<h4 id="quick-post-title"><label for="title"><?php _e('Title') ?></label></h4>
 		<div class="input-text-wrap">
-			<input type="text" name="post_title" id="title" autocomplete="off" value="<?php echo esc_attr( $post->post_title ); ?>" />
+			<input type="text" name="post_title" id="title" tabindex="1" autocomplete="off" value="<?php echo esc_attr( $post->post_title ); ?>" />
 		</div>
 
 		<?php if ( current_user_can( 'upload_files' ) ) : ?>
@@ -516,14 +516,14 @@ function wp_dashboard_quick_press() {
 
 		<h4 id="content-label"><label for="content"><?php _e('Content') ?></label></h4>
 		<div class="textarea-wrap">
-			<textarea name="content" id="content" class="mceEditor" rows="3" cols="15"><?php echo esc_textarea( $post->post_content ); ?></textarea>
+			<textarea name="content" id="content" class="mceEditor" rows="3" cols="15" tabindex="2"><?php echo esc_textarea( $post->post_content ); ?></textarea>
 		</div>
 
 		<script type="text/javascript">edCanvas = document.getElementById('content');edInsertContent = null;</script>
 
 		<h4><label for="tags-input"><?php _e('Tags') ?></label></h4>
 		<div class="input-text-wrap">
-			<input type="text" name="tags_input" id="tags-input" value="<?php echo get_tags_to_edit( $post->ID ); ?>" />
+			<input type="text" name="tags_input" id="tags-input" tabindex="3" value="<?php echo get_tags_to_edit( $post->ID ); ?>" />
 		</div>
 
 		<p class="submit">
@@ -531,10 +531,10 @@ function wp_dashboard_quick_press() {
 			<input type="hidden" name="post_ID" value="<?php echo $post_ID; ?>" />
 			<input type="hidden" name="post_type" value="post" />
 			<?php wp_nonce_field('add-post'); ?>
-			<?php submit_button( __( 'Save Draft' ), 'button', 'save', false, array( 'id' => 'save-post' ) ); ?>
+			<?php submit_button( __( 'Save Draft' ), 'button', 'save', false, array( 'id' => 'save-post', 'tabindex'=> 4 ) ); ?>
 			<input type="reset" value="<?php esc_attr_e( 'Reset' ); ?>" class="button" />
 			<span id="publishing-action">
-				<input type="submit" name="publish" id="publish" accesskey="p" class="button-primary" value="<?php current_user_can('publish_posts') ? esc_attr_e('Publish') : esc_attr_e('Submit for Review'); ?>" />
+				<input type="submit" name="publish" id="publish" accesskey="p" tabindex="5" class="button-primary" value="<?php current_user_can('publish_posts') ? esc_attr_e('Publish') : esc_attr_e('Submit for Review'); ?>" />
 				<img class="waiting" src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" alt="" />
 			</span>
 			<br class="clear" />
@@ -813,13 +813,10 @@ function wp_dashboard_incoming_links_output() {
 			/* translators: incoming links feed, %1$s is other person, %3$s is content */
 			$text = __( '%1$s linked here saying, "%3$s"' );
 
-		if ( !empty( $show_date ) ) {
-			if ( $link )
-				/* translators: incoming links feed, %1$s is other person, %3$s is content, %4$s is the date */
-				$text = __( '%1$s linked here <a href="%2$s">saying</a>, "%3$s" on %4$s' );
-			else
-				/* translators: incoming links feed, %1$s is other person, %3$s is content, %4$s is the date */
-				$text = __( '%1$s linked here saying, "%3$s" on %4$s' );
+		if ( !empty($show_date) ) {
+			if ( !empty($show_author) || !empty($show_summary) )
+				/* translators: incoming links feed, %4$s is the date */
+				$text .= ' ' . __( 'on %4$s' );
 			$date = esc_html( strip_tags( $item->get_date() ) );
 			$date = strtotime( $date );
 			$date = gmdate( get_option( 'date_format' ), $date );
@@ -964,7 +961,12 @@ function wp_dashboard_plugins_output() {
 		if ( !isset($items[$item_key]) )
 			continue;
 
-		$title = esc_html( $item->get_title() );
+		// current bbPress feed item titles are: user on "topic title"
+		if ( preg_match( '/&quot;(.*)&quot;/s', $item->get_title(), $matches ) )
+			$title = $matches[1];
+		else // but let's make it forward compatible if things change
+			$title = $item->get_title();
+		$title = esc_html( $title );
 
 		$description = esc_html( strip_tags(@html_entity_decode($item->get_description(), ENT_QUOTES, get_option('blog_charset'))) );
 
@@ -1097,7 +1099,7 @@ function wp_dashboard_quota() {
 		return true;
 
 	$quota = get_space_allowed();
-	$used = get_space_used();
+	$used = get_dirsize( BLOGUPLOADDIR ) / 1024 / 1024;
 
 	if ( $used > $quota )
 		$percentused = '100';
@@ -1263,7 +1265,7 @@ function wp_welcome_panel() {
 		<li><?php echo sprintf(	__( '<a href="%s">Choose your privacy setting</a>' ), esc_url( admin_url('options-privacy.php') ) ); ?></li>
 		<li><?php echo sprintf( __( '<a href="%s">Select your tagline and time zone</a>' ), esc_url( admin_url('options-general.php') ) ); ?></li>
 		<li><?php echo sprintf( __( '<a href="%s">Turn comments on or off</a>' ), esc_url( admin_url('options-discussion.php') ) ); ?></li>
-		<li><?php echo sprintf( __( '<a href="%s">Fill in your profile</a>' ), esc_url( get_edit_profile_url( get_current_user_id() ) ) ); ?></li>
+		<li><?php echo sprintf( __( '<a href="%s">Fill in your profile</a>' ), esc_url( admin_url('profile.php') ) ); ?></li>
 		</ul>
 	</div>
 	<div class="welcome-panel-column">

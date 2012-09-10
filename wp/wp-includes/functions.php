@@ -458,7 +458,7 @@ function do_enclose( $content, $post_ID ) {
 				if ( false !== $url_parts ) {
 					$extension = pathinfo( $url_parts['path'], PATHINFO_EXTENSION );
 					if ( !empty( $extension ) ) {
-						foreach ( wp_get_mime_types() as $exts => $mime ) {
+						foreach ( get_allowed_mime_types( ) as $exts => $mime ) {
 							if ( preg_match( '!^(' . $exts . ')$!i', $extension ) ) {
 								$type = $mime;
 								break;
@@ -637,17 +637,16 @@ function _http_build_query($data, $prefix=null, $sep=null, $key='', $urlencode=t
  */
 function add_query_arg() {
 	$ret = '';
-	$args = func_get_args();
-	if ( is_array( $args[0] ) ) {
-		if ( count( $args ) < 2 || false === $args[1] )
+	if ( is_array( func_get_arg(0) ) ) {
+		if ( @func_num_args() < 2 || false === @func_get_arg( 1 ) )
 			$uri = $_SERVER['REQUEST_URI'];
 		else
-			$uri = $args[1];
+			$uri = @func_get_arg( 1 );
 	} else {
-		if ( count( $args ) < 3 || false === $args[2] )
+		if ( @func_num_args() < 3 || false === @func_get_arg( 2 ) )
 			$uri = $_SERVER['REQUEST_URI'];
 		else
-			$uri = $args[2];
+			$uri = @func_get_arg( 2 );
 	}
 
 	if ( $frag = strstr( $uri, '#' ) )
@@ -681,11 +680,11 @@ function add_query_arg() {
 
 	wp_parse_str( $query, $qs );
 	$qs = urlencode_deep( $qs ); // this re-URL-encodes things that were already in the query string
-	if ( is_array( $args[0] ) ) {
-		$kayvees = $args[0];
+	if ( is_array( func_get_arg( 0 ) ) ) {
+		$kayvees = func_get_arg( 0 );
 		$qs = array_merge( $qs, $kayvees );
 	} else {
-		$qs[ $args[0] ] = $args[1];
+		$qs[func_get_arg( 0 )] = func_get_arg( 1 );
 	}
 
 	foreach ( (array) $qs as $k => $v ) {
@@ -1432,7 +1431,7 @@ function get_temp_dir() {
  * @return array See above for description.
  */
 function wp_upload_dir( $time = null ) {
-	global $_wp_switched;
+	global $switched;
 	$siteurl = get_option( 'siteurl' );
 	$upload_path = get_option( 'upload_path' );
 	$upload_path = trim($upload_path);
@@ -1456,12 +1455,12 @@ function wp_upload_dir( $time = null ) {
 			$url = trailingslashit( $siteurl ) . $upload_path;
 	}
 
-	if ( defined('UPLOADS') && ! $main_override && ! $_wp_switched ) {
+	if ( defined('UPLOADS') && !$main_override && ( !isset( $switched ) || $switched === false ) ) {
 		$dir = ABSPATH . UPLOADS;
 		$url = trailingslashit( $siteurl ) . UPLOADS;
 	}
 
-	if ( is_multisite() && ! $main_override && ! $_wp_switched  ) {
+	if ( is_multisite() && !$main_override && ( !isset( $switched ) || $switched === false ) ) {
 		if ( defined( 'BLOGUPLOADDIR' ) )
 			$dir = untrailingslashit(BLOGUPLOADDIR);
 		$url = str_replace( UPLOADS, 'files', $url );
@@ -1487,7 +1486,12 @@ function wp_upload_dir( $time = null ) {
 
 	// Make sure we have an uploads dir
 	if ( ! wp_mkdir_p( $uploads['path'] ) ) {
-		$message = sprintf( __( 'Unable to create directory %s. Is its parent directory writable by the server?' ), $uploads['path'] );
+		if ( 0 === strpos( $uploads['basedir'], ABSPATH ) )
+			$error_path = str_replace( ABSPATH, '', $uploads['basedir'] ) . $uploads['subdir'];
+		else
+			$error_path = basename( $uploads['basedir'] ) . $uploads['subdir'];
+
+		$message = sprintf( __( 'Unable to create directory %s. Is its parent directory writable by the server?' ), $error_path );
 		return array( 'error' => $message );
 	}
 
@@ -1605,7 +1609,12 @@ function wp_upload_bits( $name, $deprecated, $bits, $time = null ) {
 
 	$new_file = $upload['path'] . "/$filename";
 	if ( ! wp_mkdir_p( dirname( $new_file ) ) ) {
-		$message = sprintf( __( 'Unable to create directory %s. Is its parent directory writable by the server?' ), dirname( $new_file ) );
+		if ( 0 === strpos( $upload['basedir'], ABSPATH ) )
+			$error_path = str_replace( ABSPATH, '', $upload['basedir'] ) . $upload['subdir'];
+		else
+			$error_path = basename( $upload['basedir'] ) . $upload['subdir'];
+
+		$message = sprintf( __( 'Unable to create directory %s. Is its parent directory writable by the server?' ), $error_path );
 		return array( 'error' => $message );
 	}
 
@@ -1642,13 +1651,13 @@ function wp_upload_bits( $name, $deprecated, $bits, $time = null ) {
  */
 function wp_ext2type( $ext ) {
 	$ext2type = apply_filters( 'ext2type', array(
-		'audio'       => array( 'aac', 'ac3',  'aif',  'aiff', 'm3a',  'm4a',   'm4b',  'mka',  'mp1',  'mp2',  'mp3', 'ogg', 'oga', 'ram', 'wav', 'wma' ),
-		'video'       => array( 'asf', 'avi',  'divx', 'dv',   'flv',  'm4v',   'mkv',  'mov',  'mp4',  'mpeg', 'mpg', 'mpv', 'ogm', 'ogv', 'qt',  'rm', 'vob', 'wmv' ),
-		'document'    => array( 'doc', 'docx', 'docm', 'dotm', 'odt',  'pages', 'pdf',  'rtf',  'wp',   'wpd' ),
-		'spreadsheet' => array( 'numbers',     'ods',  'xls',  'xlsx', 'xlsm',  'xlsb' ),
-		'interactive' => array( 'swf', 'key',  'ppt',  'pptx', 'pptm', 'pps',   'ppsx', 'ppsm', 'sldx', 'sldm', 'odp' ),
+		'audio'       => array( 'aac', 'ac3',  'aif',  'aiff', 'm3a',  'm4a',   'm4b', 'mka', 'mp1', 'mp2',  'mp3', 'ogg', 'oga', 'ram', 'wav', 'wma' ),
+		'video'       => array( 'asf', 'avi',  'divx', 'dv',   'flv',  'm4v',   'mkv', 'mov', 'mp4', 'mpeg', 'mpg', 'mpv', 'ogm', 'ogv', 'qt',  'rm', 'vob', 'wmv' ),
+		'document'    => array( 'doc', 'docx', 'docm', 'dotm', 'odt',  'pages', 'pdf', 'rtf', 'wp',  'wpd' ),
+		'spreadsheet' => array( 'numbers',     'ods',  'xls',  'xlsx', 'xlsb',  'xlsm' ),
+		'interactive' => array( 'key', 'ppt',  'pptx', 'pptm', 'odp',  'swf' ),
 		'text'        => array( 'asc', 'csv',  'tsv',  'txt' ),
-		'archive'     => array( 'bz2', 'cab',  'dmg',  'gz',   'rar',  'sea',   'sit',  'sqx',  'tar',  'tgz',  'zip', '7z' ),
+		'archive'     => array( 'bz2', 'cab',  'dmg',  'gz',   'rar',  'sea',   'sit', 'sqx', 'tar', 'tgz',  'zip', '7z' ),
 		'code'        => array( 'css', 'htm',  'html', 'php',  'js' ),
 	));
 	foreach ( $ext2type as $type => $exts )
@@ -1754,114 +1763,101 @@ function wp_check_filetype_and_ext( $file, $filename, $mimes = null ) {
 }
 
 /**
- * Retrieve list of mime types and file extensions.
- *
- * @since 3.5.0
- *
- * @uses apply_filters() Calls 'mime_types' on returned array. This filter should
- * be used to add types, not remove them. To remove types use the upload_mimes filter.
- *
- * @return array Array of mime types keyed by the file extension regex corresponding to those types.
- */
-function wp_get_mime_types() {
-	// Accepted MIME types are set here as PCRE unless provided.
-	return apply_filters( 'mime_types', array(
-	// Image formats
-	'jpg|jpeg|jpe' => 'image/jpeg',
-	'gif' => 'image/gif',
-	'png' => 'image/png',
-	'bmp' => 'image/bmp',
-	'tif|tiff' => 'image/tiff',
-	'ico' => 'image/x-icon',
-	// Video formats
-	'asf|asx|wax|wmv|wmx' => 'video/asf',
-	'avi' => 'video/avi',
-	'divx' => 'video/divx',
-	'flv' => 'video/x-flv',
-	'mov|qt' => 'video/quicktime',
-	'mpeg|mpg|mpe' => 'video/mpeg',
-	'mp4|m4v' => 'video/mp4',
-	'ogv' => 'video/ogg',
-	'mkv' => 'video/x-matroska',
-	// Text formats
-	'txt|asc|c|cc|h' => 'text/plain',
-	'csv' => 'text/csv',
-	'tsv' => 'text/tab-separated-values',
-	'ics' => 'text/calendar',
-	'rtx' => 'text/richtext',
-	'css' => 'text/css',
-	'htm|html' => 'text/html',
-	// Audio formats
-	'mp3|m4a|m4b' => 'audio/mpeg',
-	'ra|ram' => 'audio/x-realaudio',
-	'wav' => 'audio/wav',
-	'ogg|oga' => 'audio/ogg',
-	'mid|midi' => 'audio/midi',
-	'wma' => 'audio/wma',
-	'mka' => 'audio/x-matroska',
-	// Misc application formats
-	'rtf' => 'application/rtf',
-	'js' => 'application/javascript',
-	'pdf' => 'application/pdf',
-	'swf' => 'application/x-shockwave-flash',
-	'class' => 'application/java',
-	'tar' => 'application/x-tar',
-	'zip' => 'application/zip',
-	'gz|gzip' => 'application/x-gzip',
-	'rar' => 'application/rar',
-	'7z' => 'application/x-7z-compressed',
-	'exe' => 'application/x-msdownload',
-	// MS Office formats
-	'doc' => 'application/msword',
-	'pot|pps|ppt' => 'application/vnd.ms-powerpoint',
-	'wri' => 'application/vnd.ms-write',
-	'xla|xls|xlt|xlw' => 'application/vnd.ms-excel',
-	'mdb' => 'application/vnd.ms-access',
-	'mpp' => 'application/vnd.ms-project',
-	'docx' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-	'docm' => 'application/vnd.ms-word.document.macroEnabled.12',
-	'dotx' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.template',
-	'dotm' => 'application/vnd.ms-word.template.macroEnabled.12',
-	'xlsx' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-	'xlsm' => 'application/vnd.ms-excel.sheet.macroEnabled.12',
-	'xlsb' => 'application/vnd.ms-excel.sheet.binary.macroEnabled.12',
-	'xltx' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.template',
-	'xltm' => 'application/vnd.ms-excel.template.macroEnabled.12',
-	'xlam' => 'application/vnd.ms-excel.addin.macroEnabled.12',
-	'pptx' => 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
-	'pptm' => 'application/vnd.ms-powerpoint.presentation.macroEnabled.12',
-	'ppsx' => 'application/vnd.openxmlformats-officedocument.presentationml.slideshow',
-	'ppsm' => 'application/vnd.ms-powerpoint.slideshow.macroEnabled.12',
-	'potx' => 'application/vnd.openxmlformats-officedocument.presentationml.template',
-	'potm' => 'application/vnd.ms-powerpoint.template.macroEnabled.12',
-	'ppam' => 'application/vnd.ms-powerpoint.addin.macroEnabled.12',
-	'sldx' => 'application/vnd.openxmlformats-officedocument.presentationml.slide',
-	'sldm' => 'application/vnd.ms-powerpoint.slide.macroEnabled.12',
-	'onetoc|onetoc2|onetmp|onepkg' => 'application/onenote',
-	// OpenOffice formats
-	'odt' => 'application/vnd.oasis.opendocument.text',
-	'odp' => 'application/vnd.oasis.opendocument.presentation',
-	'ods' => 'application/vnd.oasis.opendocument.spreadsheet',
-	'odg' => 'application/vnd.oasis.opendocument.graphics',
-	'odc' => 'application/vnd.oasis.opendocument.chart',
-	'odb' => 'application/vnd.oasis.opendocument.database',
-	'odf' => 'application/vnd.oasis.opendocument.formula',
-	// WordPerfect formats
-	'wp|wpd' => 'application/wordperfect',
-	) );
-}
-/**
  * Retrieve list of allowed mime types and file extensions.
  *
  * @since 2.8.6
  *
- * @uses apply_filters() Calls 'upload_mimes' on returned array
- * @uses wp_get_upload_mime_types() to fetch the list of mime types
- *
  * @return array Array of mime types keyed by the file extension regex corresponding to those types.
  */
 function get_allowed_mime_types() {
-	return apply_filters( 'upload_mimes', wp_get_mime_types() );
+	static $mimes = false;
+
+	if ( !$mimes ) {
+		// Accepted MIME types are set here as PCRE unless provided.
+		$mimes = apply_filters( 'upload_mimes', array(
+		'jpg|jpeg|jpe' => 'image/jpeg',
+		'gif' => 'image/gif',
+		'png' => 'image/png',
+		'bmp' => 'image/bmp',
+		'tif|tiff' => 'image/tiff',
+		'ico' => 'image/x-icon',
+		'asf|asx|wax|wmv|wmx' => 'video/asf',
+		'avi' => 'video/avi',
+		'divx' => 'video/divx',
+		'flv' => 'video/x-flv',
+		'mov|qt' => 'video/quicktime',
+		'mpeg|mpg|mpe' => 'video/mpeg',
+		'txt|asc|c|cc|h' => 'text/plain',
+		'csv' => 'text/csv',
+		'tsv' => 'text/tab-separated-values',
+		'ics' => 'text/calendar',
+		'rtx' => 'text/richtext',
+		'css' => 'text/css',
+		'htm|html' => 'text/html',
+		'mp3|m4a|m4b' => 'audio/mpeg',
+		'mp4|m4v' => 'video/mp4',
+		'ra|ram' => 'audio/x-realaudio',
+		'wav' => 'audio/wav',
+		'ogg|oga' => 'audio/ogg',
+		'ogv' => 'video/ogg',
+		'mid|midi' => 'audio/midi',
+		'wma' => 'audio/wma',
+		'mka' => 'audio/x-matroska',
+		'mkv' => 'video/x-matroska',
+		'rtf' => 'application/rtf',
+		'js' => 'application/javascript',
+		'pdf' => 'application/pdf',
+		'doc|docx' => 'application/msword',
+		'pot|pps|ppt|pptx|ppam|pptm|sldm|ppsm|potm' => 'application/vnd.ms-powerpoint',
+		'wri' => 'application/vnd.ms-write',
+		'xla|xls|xlsx|xlt|xlw|xlam|xlsb|xlsm|xltm' => 'application/vnd.ms-excel',
+		'mdb' => 'application/vnd.ms-access',
+		'mpp' => 'application/vnd.ms-project',
+		'docm|dotm' => 'application/vnd.ms-word',
+		'pptx|sldx|ppsx|potx' => 'application/vnd.openxmlformats-officedocument.presentationml',
+		'xlsx|xltx' => 'application/vnd.openxmlformats-officedocument.spreadsheetml',
+		'docx|dotx' => 'application/vnd.openxmlformats-officedocument.wordprocessingml',
+		'onetoc|onetoc2|onetmp|onepkg' => 'application/onenote',
+		'swf' => 'application/x-shockwave-flash',
+		'class' => 'application/java',
+		'tar' => 'application/x-tar',
+		'zip' => 'application/zip',
+		'gz|gzip' => 'application/x-gzip',
+		'rar' => 'application/rar',
+		'7z' => 'application/x-7z-compressed',
+		'exe' => 'application/x-msdownload',
+		// openoffice formats
+		'odt' => 'application/vnd.oasis.opendocument.text',
+		'odp' => 'application/vnd.oasis.opendocument.presentation',
+		'ods' => 'application/vnd.oasis.opendocument.spreadsheet',
+		'odg' => 'application/vnd.oasis.opendocument.graphics',
+		'odc' => 'application/vnd.oasis.opendocument.chart',
+		'odb' => 'application/vnd.oasis.opendocument.database',
+		'odf' => 'application/vnd.oasis.opendocument.formula',
+		// wordperfect formats
+		'wp|wpd' => 'application/wordperfect',
+		) );
+	}
+
+	return $mimes;
+}
+
+/**
+ * Retrieve nonce action "Are you sure" message.
+ *
+ * Deprecated in 3.4.1 and 3.5.0. Backported to 3.3.3.
+ *
+ * @since 2.0.4
+ * @deprecated 3.4.1
+ * @deprecated Use wp_nonce_ays()
+ * @see wp_nonce_ays()
+ *
+ * @param string $action Nonce action.
+ * @return string Are you sure message.
+ */
+function wp_explain_nonce( $action ) {
+	_deprecated_function( __FUNCTION__, '3.4.1', 'wp_nonce_ays()' );
+	return __( 'Are you sure you want to do this?' );
 }
 
 /**
@@ -2140,54 +2136,6 @@ function _scalar_wp_die_handler( $message = '' ) {
 	if ( is_scalar( $message ) )
 		die( (string) $message );
 	die();
-}
-
-/**
- * Send a JSON response back to an Ajax request.
- *
- * @since 3.5.0
- *
- * @param mixed $response Variable (usually an array or object) to encode as JSON, then print and die.
- */
-function wp_send_json( $response ) {
-	@header( 'Content-Type: application/json; charset=' . get_option( 'blog_charset' ) );
-	echo json_encode( $response );
-	if ( defined( 'DOING_AJAX' ) && DOING_AJAX )
-		wp_die();
-	else
-		die;
-}
-
-/**
- * Send a JSON response back to an Ajax request, indicating success.
- *
- * @since 3.5.0
- *
- * @param mixed $data Data to encode as JSON, then print and die.
- */
-function wp_send_json_success( $data = null ) {
-	$response = array( 'success' => true );
-
-	if ( isset( $data ) )
-		$response['data'] = $data;
-
-	wp_send_json( $response );
-}
-
-/**
- * Send a JSON response back to an Ajax request, indicating failure.
- *
- * @since 3.5.0
- *
- * @param mixed $data Data to encode as JSON, then print and die.
- */
-function wp_send_json_error( $data = null ) {
-	$response = array( 'success' => false );
-
-	if ( isset( $data ) )
-		$response['data'] = $data;
-
-	wp_send_json( $response );
 }
 
 /**
@@ -2481,7 +2429,7 @@ function wp_list_filter( $list, $args = array(), $operator = 'AND' ) {
 
 		$matched = 0;
 		foreach ( $args as $m_key => $m_value ) {
-			if ( array_key_exists( $m_key, $to_match ) && $m_value == $to_match[ $m_key ] )
+			if ( $m_value == $to_match[ $m_key ] )
 				$matched++;
 		}
 
@@ -2633,8 +2581,8 @@ function absint( $maybeint ) {
  */
 function url_is_accessable_via_ssl($url)
 {
-	if ( in_array( 'curl', get_loaded_extensions() ) ) {
-		$ssl = set_url_scheme( $url, 'https' );
+	if (in_array('curl', get_loaded_extensions())) {
+		$ssl = preg_replace( '/^http:\/\//', 'https://',  $url );
 
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $ssl);
@@ -2981,11 +2929,12 @@ function force_ssl_admin( $force = null ) {
  * @return string
  */
 function wp_guess_url() {
-	if ( defined('WP_SITEURL') && '' != WP_SITEURL )
+	if ( defined('WP_SITEURL') && '' != WP_SITEURL ) {
 		$url = WP_SITEURL;
-	else
-		$url = set_url_scheme( preg_replace( '#/(wp-admin/.*|wp-login.php)#i', '', 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] ) );
-
+	} else {
+		$schema = is_ssl() ? 'https://' : 'http://';
+		$url = preg_replace('#/(wp-admin/.*|wp-login.php)#i', '', $schema . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
+	}
 	return rtrim($url, '/');
 }
 
@@ -3587,7 +3536,7 @@ function wp_allowed_protocols() {
 	static $protocols;
 
 	if ( empty( $protocols ) ) {
-		$protocols = array( 'http', 'https', 'ftp', 'ftps', 'mailto', 'news', 'irc', 'gopher', 'nntp', 'feed', 'telnet', 'mms', 'rtsp', 'svn', 'tel', 'fax' );
+		$protocols = array( 'http', 'https', 'ftp', 'ftps', 'mailto', 'news', 'irc', 'gopher', 'nntp', 'feed', 'telnet', 'mms', 'rtsp', 'svn' );
 		$protocols = apply_filters( 'kses_allowed_protocols', $protocols );
 	}
 
@@ -3679,8 +3628,8 @@ function _device_can_upload() {
 		|| strpos($ua, 'iPad') !== false
 		|| strpos($ua, 'iPod') !== false ) {
 			return preg_match( '#OS ([\d_]+) like Mac OS X#', $ua, $version ) && version_compare( $version[1], '6', '>=' );
+	} else {
+		return true;
 	}
-
-	return true;
 }
 

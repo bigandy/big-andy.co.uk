@@ -300,7 +300,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 		);
 	}
 
-	function display_rows( $posts = array(), $level = 0 ) {
+	function display_rows( $posts = array() ) {
 		global $wp_query, $post_type_object, $per_page;
 
 		if ( empty( $posts ) )
@@ -311,11 +311,11 @@ class WP_Posts_List_Table extends WP_List_Table {
 		if ( $this->hierarchical_display ) {
 			$this->_display_rows_hierarchical( $posts, $this->get_pagenum(), $per_page );
 		} else {
-			$this->_display_rows( $posts, $level );
+			$this->_display_rows( $posts );
 		}
 	}
 
-	function _display_rows( $posts, $level = 0 ) {
+	function _display_rows( $posts ) {
 		global $post, $mode;
 
 		// Create array of post IDs.
@@ -327,7 +327,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 		$this->comment_pending_count = get_pending_comments_num( $post_ids );
 
 		foreach ( $posts as $post )
-			$this->single_row( $post, $level );
+			$this->single_row( $post );
 	}
 
 	function _display_rows_hierarchical( $pages, $pagenum = 1, $per_page = 20 ) {
@@ -492,12 +492,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 
 			case 'cb':
 			?>
-			<th scope="row" class="check-column">
-				<?php if ( $can_edit_post ) { ?>
-				<label class="screen-reader-text" for="cb-select-<?php the_ID(); ?>"><?php printf( __( 'Select %s' ), $title ); ?></label>
-				<input id="cb-select-<?php the_ID(); ?>" type="checkbox" name="post[]" value="<?php the_ID(); ?>" />
-				<?php } ?>
-			</th>
+			<th scope="row" class="check-column"><?php if ( $can_edit_post ) { ?><input type="checkbox" name="post[]" value="<?php the_ID(); ?>" /><?php } ?></th>
 			<?php
 			break;
 
@@ -509,7 +504,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 						//sent level 0 by accident, by default, or because we don't know the actual level
 						$find_main_page = (int) $post->post_parent;
 						while ( $find_main_page > 0 ) {
-							$parent = get_post( $find_main_page );
+							$parent = get_page( $find_main_page );
 
 							if ( is_null( $parent ) )
 								break;
@@ -529,10 +524,8 @@ class WP_Posts_List_Table extends WP_List_Table {
 				}
 				else {
 					$attributes = 'class="post-title page-title column-title"' . $style;
-					
-					$pad = str_repeat( '&#8212; ', $level );
 ?>
-			<td <?php echo $attributes ?>><strong><?php if ( $can_edit_post && $post->post_status != 'trash' ) { ?><a class="row-title" href="<?php echo $edit_link; ?>" title="<?php echo esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;' ), $title ) ); ?>"><?php echo $pad; echo $title ?></a><?php } else { echo $pad; echo $title; }; _post_states( $post ); ?></strong>
+			<td <?php echo $attributes ?>><strong><?php if ( $can_edit_post && $post->post_status != 'trash' ) { ?><a class="row-title" href="<?php echo $edit_link; ?>" title="<?php echo esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;' ), $title ) ); ?>"><?php echo $title ?></a><?php } else { echo $title; }; _post_states( $post ); ?></strong>
 <?php
 					if ( 'excerpt' == $mode && current_user_can( 'read_post', $post->ID ) )
 						the_excerpt();
@@ -545,7 +538,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 				}
 				if ( current_user_can( $post_type_object->cap->delete_post, $post->ID ) ) {
 					if ( 'trash' == $post->post_status )
-						$actions['untrash'] = "<a title='" . esc_attr( __( 'Restore this item from the Trash' ) ) . "' href='" . wp_nonce_url( admin_url( sprintf( $post_type_object->_edit_link . '&amp;action=untrash', $post->ID ) ), 'untrash-post_' . $post->ID ) . "'>" . __( 'Restore' ) . "</a>";
+						$actions['untrash'] = "<a title='" . esc_attr( __( 'Restore this item from the Trash' ) ) . "' href='" . wp_nonce_url( admin_url( sprintf( $post_type_object->_edit_link . '&amp;action=untrash', $post->ID ) ), 'untrash-' . $post->post_type . '_' . $post->ID ) . "'>" . __( 'Restore' ) . "</a>";
 					elseif ( EMPTY_TRASH_DAYS )
 						$actions['trash'] = "<a class='submitdelete' title='" . esc_attr( __( 'Move this item to the Trash' ) ) . "' href='" . get_delete_post_link( $post->ID ) . "'>" . __( 'Trash' ) . "</a>";
 					if ( 'trash' == $post->post_status || !EMPTY_TRASH_DAYS )
@@ -568,7 +561,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 			break;
 
 			case 'date':
-				if ( '0000-00-00 00:00:00' == $post->post_date ) {
+				if ( '0000-00-00 00:00:00' == $post->post_date && 'date' == $column_name ) {
 					$t_time = $h_time = __( 'Unpublished' );
 					$time_diff = 0;
 				} else {
@@ -759,7 +752,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 	<?php if ( !$bulk ) : ?>
 			<label><span class="title"><?php _e( 'Date' ); ?></span></label>
 			<div class="inline-edit-date">
-				<?php touch_time( 1, 1, 0, 1 ); ?>
+				<?php touch_time( 1, 1, 4, 1 ); ?>
 			</div>
 			<br class="clear" />
 	<?php endif; // $bulk

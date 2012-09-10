@@ -123,6 +123,68 @@ function wp_install_defaults($user_id) {
 	$wpdb->insert( $wpdb->term_taxonomy, array('term_id' => $cat_id, 'taxonomy' => 'category', 'description' => '', 'parent' => 0, 'count' => 1));
 	$cat_tt_id = $wpdb->insert_id;
 
+	// Default link category
+	$cat_name = __('Blogroll');
+	/* translators: Default link category slug */
+	$cat_slug = sanitize_title(_x('Blogroll', 'Default link category slug'));
+
+	if ( global_terms_enabled() ) {
+		$blogroll_id = $wpdb->get_var( $wpdb->prepare( "SELECT cat_ID FROM {$wpdb->sitecategories} WHERE category_nicename = %s", $cat_slug ) );
+		if ( $blogroll_id == null ) {
+			$wpdb->insert( $wpdb->sitecategories, array('cat_ID' => 0, 'cat_name' => $cat_name, 'category_nicename' => $cat_slug, 'last_updated' => current_time('mysql', true)) );
+			$blogroll_id = $wpdb->insert_id;
+		}
+		update_option('default_link_category', $blogroll_id);
+	} else {
+		$blogroll_id = 2;
+	}
+
+	$wpdb->insert( $wpdb->terms, array('term_id' => $blogroll_id, 'name' => $cat_name, 'slug' => $cat_slug, 'term_group' => 0) );
+	$wpdb->insert( $wpdb->term_taxonomy, array('term_id' => $blogroll_id, 'taxonomy' => 'link_category', 'description' => '', 'parent' => 0, 'count' => 7));
+	$blogroll_tt_id = $wpdb->insert_id;
+
+	// Now drop in some default links
+	$default_links = array();
+	$default_links[] = array(	'link_url' => __( 'http://codex.wordpress.org/' ),
+								'link_name' => __( 'Documentation' ),
+								'link_rss' => '',
+								'link_notes' => '');
+
+	$default_links[] = array(	'link_url' => __( 'http://wordpress.org/news/' ),
+								'link_name' => __( 'WordPress Blog' ),
+								'link_rss' => __( 'http://wordpress.org/news/feed/' ),
+								'link_notes' => '');
+
+	$default_links[] = array(	'link_url' => __( 'http://wordpress.org/support/' ),
+								'link_name' => _x( 'Support Forums', 'default link' ),
+								'link_rss' => '',
+								'link_notes' =>'');
+
+	$default_links[] = array(	'link_url' => 'http://wordpress.org/extend/plugins/',
+								'link_name' => _x( 'Plugins', 'Default link to wordpress.org/extend/plugins/' ),
+								'link_rss' => '',
+								'link_notes' =>'');
+
+	$default_links[] = array(	'link_url' => 'http://wordpress.org/extend/themes/',
+								'link_name' => _x( 'Themes', 'Default link to wordpress.org/extend/themes/' ),
+								'link_rss' => '',
+								'link_notes' =>'');
+
+	$default_links[] = array(	'link_url' => __( 'http://wordpress.org/support/forum/requests-and-feedback' ),
+								'link_name' => __( 'Feedback' ),
+								'link_rss' => '',
+								'link_notes' =>'');
+
+	$default_links[] = array(	'link_url' => __( 'http://planet.wordpress.org/' ),
+								'link_name' => __( 'WordPress Planet' ),
+								'link_rss' => '',
+								'link_notes' =>'');
+
+	foreach ( $default_links as $link ) {
+		$wpdb->insert( $wpdb->links, $link);
+		$wpdb->insert( $wpdb->term_relationships, array('term_taxonomy_id' => $blogroll_tt_id, 'object_id' => $wpdb->insert_id) );
+	}
+
 	// First post
 	$now = date('Y-m-d H:i:s');
 	$now_gmt = gmdate('Y-m-d H:i:s');
@@ -162,8 +224,7 @@ function wp_install_defaults($user_id) {
 	// Default comment
 	$first_comment_author = __('Mr WordPress');
 	$first_comment_url = 'http://wordpress.org/';
-	$first_comment = __('Hi, this is a comment.
-To delete a comment, just log in and view the post&#039;s comments. There you will have the option to edit or delete them.');
+	$first_comment = __('Hi, this is a comment.<br />To delete a comment, just log in and view the post&#039;s comments. There you will have the option to edit or delete them.');
 	if ( is_multisite() ) {
 		$first_comment_author = get_site_option( 'first_comment_author', $first_comment_author );
 		$first_comment_url = get_site_option( 'first_comment_url', network_home_url() );
@@ -186,7 +247,7 @@ To delete a comment, just log in and view the post&#039;s comments. There you wi
 
 ...or something like this:
 
-<blockquote>The XYZ Doohickey Company was founded in 1971, and has been providing quality doohickeys to the public ever since. Located in Gotham City, XYZ employs over 2,000 people and does all kinds of awesome things for the Gotham community.</blockquote>
+<blockquote>The XYZ Doohickey Company was founded in 1971, and has been providing quality doohickies to the public ever since. Located in Gotham City, XYZ employs over 2,000 people and does all kinds of awesome things for the Gotham community.</blockquote>
 
 As a new WordPress user, you should go to <a href=\"%s\">your dashboard</a> to delete this page and create new pages for your content. Have fun!" ), admin_url() );
 	if ( is_multisite() )
@@ -258,7 +319,7 @@ if ( !function_exists('wp_new_blog_notification') ) :
  * @param string $password User's Password.
  */
 function wp_new_blog_notification($blog_title, $blog_url, $user_id, $password) {
-	$user = new WP_User( $user_id );
+	$user = new WP_User($user_id);
 	$email = $user->user_email;
 	$name = $user->user_login;
 	$message = sprintf(__("Your new WordPress site has been successfully set up at:
@@ -398,11 +459,6 @@ function upgrade_all() {
 
 	if ( $wp_current_db_version < 20080 )
 		upgrade_340();
-
-	if ( $wp_current_db_version < 21501 )
-		upgrade_350();
-
-	maybe_disable_link_manager();
 
 	maybe_disable_automattic_widgets();
 
@@ -1187,18 +1243,6 @@ function upgrade_340() {
 }
 
 /**
- * Execute changes made in WordPress 3.5.
- *
- * @since 3.5.0
- */
-function upgrade_350() {
-	global $wp_current_db_version, $wpdb;
-
-	if ( $wp_current_db_version < 21501 && $wpdb->get_var( "SELECT link_id FROM $wpdb->links LIMIT 1" ) )
-		update_option( 'link_manager_enabled', 1 ); // Previously set to 0 by populate_options()
-}
-
-/**
  * Execute network level changes
  *
  * @since 3.0.0
@@ -1910,7 +1954,9 @@ function wp_check_mysql_version() {
 }
 
 /**
- * Disables the Automattic widgets plugin, which was merged into core.
+ * {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
  *
  * @since 2.2.0
  */
@@ -1924,18 +1970,6 @@ function maybe_disable_automattic_widgets() {
 			break;
 		}
 	}
-}
-
-/**
- * Disables the Link Manager on upgrade, if at the time of upgrade, no links exist in the DB.
- *
- * @since 3.5.0
- */
-function maybe_disable_link_manager() {
-	global $wp_current_db_version, $wpdb;
-
-	if ( $wp_current_db_version >= 21501 && get_option( 'link_manager_enabled' ) && ! $wpdb->get_var( "SELECT link_id FROM $wpdb->links LIMIT 1" ) )
-		update_option( 'link_manager_enabled', 0 );
 }
 
 /**

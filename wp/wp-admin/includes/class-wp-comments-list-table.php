@@ -317,11 +317,8 @@ class WP_Comments_List_Table extends WP_List_Table {
 	}
 
 	function column_cb( $comment ) {
-		if ( $this->user_can ) { ?>
-		<label class="screen-reader-text" for="cb-select-<?php echo $comment->comment_ID; ?>"><?php _e( 'Select comment' ); ?></label>
-		<input id="cb-select-<?php echo $comment->comment_ID; ?>" type="checkbox" name="delete_comments[]" value="<?php echo $comment->comment_ID; ?>" />
-		<?php
-		}
+		if ( $this->user_can )
+			echo "<input type='checkbox' name='delete_comments[]' value='$comment->comment_ID' />";
 	}
 
 	function column_comment( $comment ) {

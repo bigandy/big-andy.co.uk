@@ -365,7 +365,7 @@ foreach ( $wp_registered_sidebars as $sidebar => $registered_sidebar ) {
 			</div>
 			<div class="widget-holder inactive">
 				<?php wp_list_widget_controls( $registered_sidebar['id'] ); ?>
-				<div class="clear"></div>
+				<br class="clear" />
 			</div>
 		</div>
 <?php
@@ -395,7 +395,7 @@ foreach ( $wp_registered_sidebars as $sidebar => $registered_sidebar ) {
 	<div class="sidebar-name">
 	<div class="sidebar-name-arrow"><br /></div>
 	<h3><?php echo esc_html( $registered_sidebar['name'] ); ?>
-	<span><img src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" class="ajax-feedback" title="" alt="" /></span></h3></div>
+	<span><img src="<?php echo esc_url( admin_url( 'images/wpspin_dark.gif' ) ); ?>" class="ajax-feedback" title="" alt="" /></span></h3></div>
 	<?php wp_list_widget_controls( $sidebar ); // Show the control forms for each of the widgets in this sidebar ?>
 	</div>
 <?php

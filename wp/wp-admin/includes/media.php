@@ -386,6 +386,10 @@ function media_buttons($editor_id = 'content') {
 }
 add_action( 'media_buttons', 'media_buttons' );
 
+function _media_button($title, $icon, $type, $id) {
+	return "<a href='" . esc_url( get_upload_iframe_src($type) ) . "' id='{$id}-add_{$type}' class='thickbox add_$type' title='" . esc_attr( $title ) . "'><img src='" . esc_url( admin_url( $icon ) ) . "' alt='$title' onclick='return false;' /></a>";
+}
+
 function get_upload_iframe_src( $type = null, $post_id = null, $tab = null ) {
 	global $post_ID;
 
@@ -595,7 +599,7 @@ function media_sideload_image($file, $post_id, $desc = null) {
 
 		// Set variables for storage
 		// fix file filename for query strings
-		preg_match( '/[^\?]+\.(jpe?g|jpe|gif|png)\b/i', $file, $matches );
+		preg_match('/[^\?]+\.(jpg|JPG|jpe|JPE|jpeg|JPEG|gif|GIF|png|PNG)/', $file, $matches);
 		$file_array['name'] = basename($matches[0]);
 		$file_array['tmp_name'] = $tmp;
 
@@ -857,17 +861,13 @@ function media_post_single_attachment_fields_to_edit( $form_fields, $post ) {
 }
 
 /**
- * Filters input from media_upload_form_handler() and assigns a default
- * post_title from the file name if none supplied. 
- *
- * Illustrates the use of the attachment_fields_to_save filter 
- * which can be used to add default values to any field before saving to DB.
+ * {@internal Missing Short Description}}
  *
  * @since 2.5.0
  *
- * @param array $post
- * @param array $attachment
- * @return array
+ * @param unknown_type $post
+ * @param unknown_type $attachment
+ * @return unknown
  */
 function image_attachment_fields_to_save($post, $attachment) {
 	if ( substr($post['post_mime_type'], 0, 5) == 'image' ) {
@@ -893,7 +893,7 @@ add_filter('attachment_fields_to_save', 'image_attachment_fields_to_save', 10, 2
  * @return unknown
  */
 function image_media_send_to_editor($html, $attachment_id, $attachment) {
-	$post = get_post($attachment_id);
+	$post =& get_post($attachment_id);
 	if ( substr($post->post_mime_type, 0, 5) == 'image' ) {
 		$url = $attachment['url'];
 		$align = !empty($attachment['align']) ? $attachment['align'] : 'none';
@@ -920,9 +920,9 @@ add_filter('media_send_to_editor', 'image_media_send_to_editor', 10, 3);
  */
 function get_attachment_fields_to_edit($post, $errors = null) {
 	if ( is_int($post) )
-		$post = get_post($post);
+		$post =& get_post($post);
 	if ( is_array($post) )
-		$post = new WP_Post( (object) $post );
+		$post = (object) $post;
 
 	$image_url = wp_get_attachment_url($post->ID);
 
@@ -965,7 +965,7 @@ function get_attachment_fields_to_edit($post, $errors = null) {
 
 	foreach ( get_attachment_taxonomies($post) as $taxonomy ) {
 		$t = (array) get_taxonomy($taxonomy);
-		if ( ! $t['public'] || ! $t['show_ui'] )
+		if ( ! $t['public'] )
 			continue;
 		if ( empty($t['label']) )
 			$t['label'] = $taxonomy;
@@ -1156,16 +1156,16 @@ function get_media_item( $attachment_id, $args = null ) {
 		$send = get_submit_button( __( 'Insert into Post' ), 'button', "send[$attachment_id]", false );
 	if ( $delete && current_user_can( 'delete_post', $attachment_id ) ) {
 		if ( !EMPTY_TRASH_DAYS ) {
-			$delete = "<a href='" . wp_nonce_url( "post.php?action=delete&amp;post=$attachment_id", 'delete-post_' . $attachment_id ) . "' id='del[$attachment_id]' class='delete-permanently'>" . __( 'Delete Permanently' ) . '</a>';
+			$delete = "<a href='" . wp_nonce_url( "post.php?action=delete&amp;post=$attachment_id", 'delete-attachment_' . $attachment_id ) . "' id='del[$attachment_id]' class='delete'>" . __( 'Delete Permanently' ) . '</a>';
 		} elseif ( !MEDIA_TRASH ) {
 			$delete = "<a href='#' class='del-link' onclick=\"document.getElementById('del_attachment_$attachment_id').style.display='block';return false;\">" . __( 'Delete' ) . "</a>
 			 <div id='del_attachment_$attachment_id' class='del-attachment' style='display:none;'><p>" . sprintf( __( 'You are about to delete <strong>%s</strong>.' ), $filename ) . "</p>
-			 <a href='" . wp_nonce_url( "post.php?action=delete&amp;post=$attachment_id", 'delete-post_' . $attachment_id ) . "' id='del[$attachment_id]' class='button'>" . __( 'Continue' ) . "</a>
+			 <a href='" . wp_nonce_url( "post.php?action=delete&amp;post=$attachment_id", 'delete-attachment_' . $attachment_id ) . "' id='del[$attachment_id]' class='button'>" . __( 'Continue' ) . "</a>
 			 <a href='#' class='button' onclick=\"this.parentNode.style.display='none';return false;\">" . __( 'Cancel' ) . "</a>
 			 </div>";
 		} else {
-			$delete = "<a href='" . wp_nonce_url( "post.php?action=trash&amp;post=$attachment_id", 'trash-post_' . $attachment_id ) . "' id='del[$attachment_id]' class='delete'>" . __( 'Move to Trash' ) . "</a>
-			<a href='" . wp_nonce_url( "post.php?action=untrash&amp;post=$attachment_id", 'untrash-post_' . $attachment_id ) . "' id='undo[$attachment_id]' class='undo hidden'>" . __( 'Undo' ) . "</a>";
+			$delete = "<a href='" . wp_nonce_url( "post.php?action=trash&amp;post=$attachment_id", 'trash-attachment_' . $attachment_id ) . "' id='del[$attachment_id]' class='delete'>" . __( 'Move to Trash' ) . "</a>
+			<a href='" . wp_nonce_url( "post.php?action=untrash&amp;post=$attachment_id", 'untrash-attachment_' . $attachment_id ) . "' id='undo[$attachment_id]' class='undo hidden'>" . __( 'Undo' ) . "</a>";
 		}
 	} else {
 		$delete = '';
@@ -1322,8 +1322,9 @@ function media_upload_form( $errors = null ) {
 
 ?></div>
 <?php
+// Check quota for this blog if multisite
 if ( is_multisite() && !is_upload_space_available() ) {
-	do_action( 'upload_ui_over_quota' );
+	echo '<p>' . sprintf( __( 'Sorry, you have filled your storage quota (%s MB).' ), get_space_allowed() ) . '</p>';
 	return;
 }
 
@@ -2022,8 +2023,32 @@ function wp_media_insert_url_form( $default_view = 'image' ) {
 
 }
 
+function _insert_into_post_button($type) {
+	if ( !post_type_supports(get_post_type($_GET['post_id']), 'editor') )
+		return '';
+
+	if ( 'image' == $type )
+	return '
+		<tr>
+			<td></td>
+			<td>
+				<input type="button" class="button" id="go_button" style="color:#bbb;" onclick="addExtImage.insert()" value="' . esc_attr__('Insert into Post') . '" />
+			</td>
+		</tr>
+	';
+
+	return '
+		<tr>
+			<td></td>
+			<td>
+				' . get_submit_button( __( 'Insert into Post' ), 'button', 'insertonlybutton', false ) . '
+			</td>
+		</tr>
+	';
+}
+
 /**
- * Displays the multi-file uploader message.
+ * {@internal Missing Short Description}}
  *
  * @since 2.6.0
  */
@@ -2037,7 +2062,7 @@ function media_upload_flash_bypass() {
 add_action('post-plupload-upload-ui', 'media_upload_flash_bypass');
 
 /**
- * Displays the browser's built-in uploader message.
+ * {@internal Missing Short Description}}
  *
  * @since 2.6.0
  */
@@ -2050,11 +2075,6 @@ function media_upload_html_bypass() {
 }
 add_action('post-html-upload-ui', 'media_upload_html_bypass');
 
-/**
- * Displays the "After a file has been uploaded..." message.
- *
- * @since 3.3.0
- */
 function media_upload_text_after() {
 	?>
 	<span class="after-file-upload"><?php _e('After a file has been uploaded, you can add titles and descriptions.'); ?></span>
@@ -2063,9 +2083,9 @@ function media_upload_text_after() {
 add_action('post-upload-ui', 'media_upload_text_after', 5);
 
 /**
- * Displays the checkbox to scale images.
+ * {@internal Missing Short Description}}
  *
- * @since 3.3.0
+ * @since 2.6.0
  */
 function media_upload_max_image_resize() {
 	$checked = get_user_setting('upload_resize') ? ' checked="true"' : '';
@@ -2084,15 +2104,6 @@ function media_upload_max_image_resize() {
 ?>
 </label></p>
 <?php
-}
-
-/**
- * Displays the out of storage quota message in Multisite.
- *
- * @since 3.5.0
- */
-function multisite_over_quota_message() {
-	echo '<p>' . sprintf( __( 'Sorry, you have used all of your storage quota of %s MB.' ), get_space_allowed() ) . '</p>';
 }
 
 add_filter( 'async_upload_image', 'get_media_item', 10, 2 );

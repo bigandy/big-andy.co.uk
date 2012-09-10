@@ -2128,7 +2128,7 @@ class WP_Query {
 				$q['pagename'] = sanitize_title_for_query( wp_basename( $q['pagename'] ) );
 				$q['name'] = $q['pagename'];
 				$where .= " AND ($wpdb->posts.ID = '$reqpage')";
-				$reqpage_obj = get_post( $reqpage );
+				$reqpage_obj = get_page($reqpage);
 				if ( is_object($reqpage_obj) && 'attachment' == $reqpage_obj->post_type ) {
 					$this->is_attachment = true;
 					$post_type = $q['post_type'] = 'attachment';
@@ -2177,8 +2177,6 @@ class WP_Query {
 		if ( !empty($q['s']) ) {
 			// added slashes screw with quote grouping when done early, so done later
 			$q['s'] = stripslashes($q['s']);
-			if ( empty( $_GET['s'] ) && $this->is_main_query() )
-				$q['s'] = urldecode($q['s']);
 			if ( !empty($q['sentence']) ) {
 				$q['search_terms'] = array($q['s']);
 			} else {
@@ -2643,19 +2641,18 @@ class WP_Query {
 
 			if ( $ids ) {
 				$this->set_found_posts( $q, $limits );
+
 				_prime_post_caches( $ids, $q['update_post_term_cache'], $q['update_post_meta_cache'] );
-				$this->posts = $ids;
+
+				$this->posts = array_map( 'get_post', $ids );
 			} else {
-				$this->posts = array();
 				$this->found_posts = $this->max_num_pages = 0;
+				$this->posts = array();
 			}
 		} else {
 			$this->posts = $wpdb->get_results( $this->request );
 			$this->set_found_posts( $q, $limits );
 		}
-
-		// Convert to WP_Post objects
-		$this->posts = array_map( 'get_post', $this->posts );
 
 		// Raw results filter. Prior to status checks.
 		if ( !$q['suppress_filters'] )
@@ -2733,15 +2730,24 @@ class WP_Query {
 
 			// Fetch sticky posts that weren't in the query results
 			if ( !empty($sticky_posts) ) {
-				$stickies = get_posts( array(
-					'post__in' => $sticky_posts,
-					'post_type' => $post_type,
-					'post_status' => 'publish',
-					'nopaging' => true
-				) );
+				$stickies__in = implode(',', array_map( 'absint', $sticky_posts ));
+				// honor post type(s) if not set to any
+				$stickies_where = '';
+				if ( 'any' != $post_type && '' != $post_type ) {
+					if ( is_array( $post_type ) ) {
+						$post_types = join( "', '", $post_type );
+					} else {
+						$post_types = $post_type;
+					}
+					$stickies_where = "AND $wpdb->posts.post_type IN ('" . $post_types . "')";
+				}
 
+				$stickies = $wpdb->get_results( "SELECT * FROM $wpdb->posts WHERE $wpdb->posts.ID IN ($stickies__in) $stickies_where" );
 				foreach ( $stickies as $sticky_post ) {
-					array_splice( $this->posts, $sticky_offset, 0, array( $sticky_post ) );
+					// Ignore sticky posts the current user cannot read or are not published.
+					if ( 'publish' != $sticky_post->post_status )
+						continue;
+					array_splice($this->posts, $sticky_offset, 0, array($sticky_post));
 					$sticky_offset++;
 				}
 			}
@@ -2785,7 +2791,7 @@ class WP_Query {
 	 * @since 1.5.0
 	 * @access public
 	 *
-	 * @return WP_Post Next post.
+	 * @return object Next post.
 	 */
 	function next_post() {
 
@@ -2975,7 +2981,7 @@ class WP_Query {
 			$this->queried_object = get_post_type_object( $this->get('post_type') );
 		} elseif ( $this->is_posts_page ) {
 			$page_for_posts = get_option('page_for_posts');
-			$this->queried_object = get_post( $page_for_posts );
+			$this->queried_object = get_page( $page_for_posts );
 			$this->queried_object_id = (int) $this->queried_object->ID;
 		} elseif ( $this->is_singular && !is_null($this->post) ) {
 			$this->queried_object = $this->post;

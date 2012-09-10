@@ -794,7 +794,7 @@ final class WP_Theme implements ArrayAccess {
 	 * @return string URL to the stylesheet directory.
 	 */
 	public function get_stylesheet_directory_uri() {
-		return $this->get_theme_root_uri() . '/' . $this->stylesheet;
+		return $this->get_theme_root_uri() . '/' . str_replace( '%2F', '/', rawurlencode( $this->stylesheet ) );
 	}
 
 	/**
@@ -814,7 +814,7 @@ final class WP_Theme implements ArrayAccess {
 		else
 			$theme_root_uri = $this->get_theme_root_uri();
 
-		return $theme_root_uri . '/' . $this->template;
+		return $theme_root_uri . '/' . str_replace( '%2F', '/', rawurlencode( $this->template ) );
 	}
 
 	/**
@@ -1110,24 +1110,18 @@ final class WP_Theme implements ArrayAccess {
 
 		$current = $blog_id == get_current_blog_id();
 
-		if ( $current ) {
+		if ( $current )
 			$allowed_themes[ $blog_id ] = get_option( 'allowedthemes' );
-		} else {
-			switch_to_blog( $blog_id );
-			$allowed_themes[ $blog_id ] = get_option( 'allowedthemes' );
-			restore_current_blog();
-		}
+		else
+			$allowed_themes[ $blog_id ] = get_blog_option( $blog_id, 'allowedthemes' );
 
 		// This is all super old MU back compat joy.
 		// 'allowedthemes' keys things by stylesheet. 'allowed_themes' keyed things by name.
 		if ( false === $allowed_themes[ $blog_id ] ) {
-			if ( $current ) {
+			if ( $current )
 				$allowed_themes[ $blog_id ] = get_option( 'allowed_themes' );
-			} else {
-				switch_to_blog( $blog_id );
-				$allowed_themes[ $blog_id ] = get_option( 'allowed_themes' );
-				restore_current_blog();
-			}
+			else
+				$allowed_themes[ $blog_id ] = get_blog_option( $blog_id, 'allowed_themes' );
 
 			if ( ! is_array( $allowed_themes[ $blog_id ] ) || empty( $allowed_themes[ $blog_id ] ) ) {
 				$allowed_themes[ $blog_id ] = array();
@@ -1146,10 +1140,8 @@ final class WP_Theme implements ArrayAccess {
 					update_option( 'allowedthemes', $allowed_themes[ $blog_id ] );
 					delete_option( 'allowed_themes' );
 				} else {
-					switch_to_blog( $blog_id );
-					update_option( 'allowedthemes', $allowed_themes[ $blog_id ] );
-					delete_option( 'allowed_themes' );
-					restore_current_blog();
+					update_blog_option( $blog_id, 'allowedthemes', $allowed_themes[ $blog_id ] );
+					delete_blog_option( $blog_id, 'allowed_themes' );
 				}
 			}
 		}

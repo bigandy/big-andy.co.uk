@@ -37,10 +37,16 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 	}
 
 	function ajax_user_can() {
-		if ( $this->is_site_themes )
-			return current_user_can( 'manage_sites' );
-		else
-			return current_user_can( 'manage_network_themes' );
+		$menu_perms = get_site_option( 'menu_items', array() );
+
+		if ( empty( $menu_perms['themes'] ) && ! is_super_admin() )
+			return false;
+
+		if ( $this->is_site_themes && !current_user_can('manage_sites') )
+			return false;
+		elseif ( !$this->is_site_themes && !current_user_can('manage_network_themes') )
+			return false;
+		return true;
 	}
 
 	function prepare_items() {
@@ -234,10 +240,10 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 		if ( 'disabled' != $status )
 			$actions['disable-selected'] = $this->is_site_themes ? __( 'Disable' ) : __( 'Network Disable' );
 		if ( ! $this->is_site_themes ) {
-			if ( current_user_can( 'update_themes' ) )
-				$actions['update-selected'] = __( 'Update' );
 			if ( current_user_can( 'delete_themes' ) )
 				$actions['delete-selected'] = __( 'Delete' );
+			if ( current_user_can( 'update_themes' ) )
+				$actions['update-selected'] = __( 'Update' );
 		}
 		return $actions;
 	}
@@ -287,7 +293,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 		}
 
 		if ( current_user_can('edit_themes') )
-			$actions['edit'] = '<a href="' . esc_url('theme-editor.php?theme=' .  $theme_key ) . '" title="' . esc_attr__('Open this theme in the Theme Editor') . '" class="edit">' . __('Edit') . '</a>';
+			$actions['edit'] = '<a href="' . esc_url('theme-editor.php?theme=' . urlencode( $theme_key ) ) . '" title="' . esc_attr__('Open this theme in the Theme Editor') . '" class="edit">' . __('Edit') . '</a>';
 
 		if ( ! $allowed && current_user_can( 'delete_themes' ) && ! $this->is_site_themes && $theme_key != get_option( 'stylesheet' ) && $theme_key != get_option( 'template' ) )
 			$actions['delete'] = '<a href="' . esc_url( wp_nonce_url( 'themes.php?action=delete-selected&amp;checked[]=' . $theme_key . '&amp;theme_status=' . $context . '&amp;paged=' . $page . '&amp;s=' . $s, 'bulk-themes' ) ) . '" title="' . esc_attr__( 'Delete this theme' ) . '" class="delete">' . __( 'Delete' ) . '</a>';

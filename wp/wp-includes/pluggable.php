@@ -748,11 +748,11 @@ function auth_redirect() {
 
 	// If https is required and request is http, redirect
 	if ( $secure && !is_ssl() && false !== strpos($_SERVER['REQUEST_URI'], 'wp-admin') ) {
-		if ( 0 === strpos( $_SERVER['REQUEST_URI'], 'http' ) ) {
-			wp_redirect( set_url_scheme( $_SERVER['REQUEST_URI'], 'https' ) );
+		if ( 0 === strpos($_SERVER['REQUEST_URI'], 'http') ) {
+			wp_redirect(preg_replace('|^http://|', 'https://', $_SERVER['REQUEST_URI']));
 			exit();
 		} else {
-			wp_redirect( 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] );
+			wp_redirect('https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
 			exit();
 		}
 	}
@@ -767,11 +767,11 @@ function auth_redirect() {
 
 		// If the user wants ssl but the session is not ssl, redirect.
 		if ( !$secure && get_user_option('use_ssl', $user_id) && false !== strpos($_SERVER['REQUEST_URI'], 'wp-admin') ) {
-			if ( 0 === strpos( $_SERVER['REQUEST_URI'], 'http' ) ) {
-				wp_redirect( set_url_scheme( $_SERVER['REQUEST_URI'], 'https' ) );
+			if ( 0 === strpos($_SERVER['REQUEST_URI'], 'http') ) {
+				wp_redirect(preg_replace('|^http://|', 'https://', $_SERVER['REQUEST_URI']));
 				exit();
 			} else {
-				wp_redirect( 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] );
+				wp_redirect('https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
 				exit();
 			}
 		}
@@ -782,7 +782,12 @@ function auth_redirect() {
 	// The cookie is no good so force login
 	nocache_headers();
 
-	$redirect = ( strpos( $_SERVER['REQUEST_URI'], '/options.php' ) && wp_get_referer() ) ? wp_get_referer() : set_url_scheme( 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] );
+	if ( is_ssl() )
+		$proto = 'https://';
+	else
+		$proto = 'http://';
+
+	$redirect = ( strpos($_SERVER['REQUEST_URI'], '/options.php') && wp_get_referer() ) ? wp_get_referer() : $proto . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 
 	$login_url = wp_login_url($redirect, true);
 
@@ -1190,7 +1195,7 @@ if ( !function_exists('wp_new_user_notification') ) :
  * @param string $plaintext_pass Optional. The user's plaintext password
  */
 function wp_new_user_notification($user_id, $plaintext_pass = '') {
-	$user = get_userdata( $user_id );
+	$user = new WP_User($user_id);
 
 	$user_login = stripslashes($user->user_login);
 	$user_email = stripslashes($user->user_email);
@@ -1496,13 +1501,13 @@ function wp_generate_password( $length = 12, $special_chars = true, $extra_speci
 endif;
 
 if ( !function_exists('wp_rand') ) :
-/**
+ /**
  * Generates a random number
  *
  * @since 2.6.2
  *
- * @param int $min Lower limit for the generated number
- * @param int $max Upper limit for the generated number
+ * @param int $min Lower limit for the generated number (optional, default is 0)
+ * @param int $max Upper limit for the generated number (optional, default is 4294967295)
  * @return int A random number between min and max
  */
 function wp_rand( $min = 0, $max = 0 ) {
@@ -1531,12 +1536,10 @@ function wp_rand( $min = 0, $max = 0 ) {
 
 	$value = abs(hexdec($value));
 
-	// Some misconfigured 32bit environments (Entropy PHP, for example) truncate integers larger than PHP_INT_MAX to PHP_INT_MAX rather than overflowing them to floats.
-	$max_random_number = 3000000000 === 2147483647 ? (float) "4294967295" : 4294967295; // 4294967295 = 0xffffffff
-
 	// Reduce the value to be within the min - max range
+	// 4294967295 = 0xffffffff = max random number
 	if ( $max != 0 )
-		$value = $min + ( $max - $min + 1 ) * $value / ( $max_random_number + 1 );
+		$value = $min + (($max - $min + 1) * ($value / (4294967295 + 1)));
 
 	return abs(intval($value));
 }

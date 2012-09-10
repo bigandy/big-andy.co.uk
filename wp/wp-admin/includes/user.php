@@ -69,8 +69,7 @@ function edit_user( $user_id = 0 ) {
 			$user->user_url = '';
 		} else {
 			$user->user_url = esc_url_raw( $_POST['url'] );
-			$protocols = implode( '|', array_map( 'preg_quote', wp_allowed_protocols() ) );
-			$user->user_url = preg_match('/^(' . $protocols . '):/is', $user->user_url) ? $user->user_url : 'http://'.$user->user_url;
+			$user->user_url = preg_match('/^(https?|ftps?|mailto|news|irc|gopher|nntp|feed|telnet):/is', $user->user_url) ? $user->user_url : 'http://'.$user->user_url;
 		}
 	}
 	if ( isset( $_POST['first_name'] ) )
@@ -156,9 +155,9 @@ function edit_user( $user_id = 0 ) {
 		return $errors;
 
 	if ( $update ) {
-		$user_id = wp_update_user( $user );
+		$user_id = wp_update_user( get_object_vars( $user ) );
 	} else {
-		$user_id = wp_insert_user( $user );
+		$user_id = wp_insert_user( get_object_vars( $user ) );
 		wp_new_user_notification( $user_id, isset($_POST['send_password']) ? $pass1 : '' );
 	}
 	return $user_id;
@@ -198,7 +197,7 @@ function get_editable_roles() {
  * @return object WP_User object with user data.
  */
 function get_user_to_edit( $user_id ) {
-	$user = get_userdata( $user_id );
+	$user = new WP_User( $user_id );
 
 	$user->filter = 'edit';
 
@@ -353,7 +352,7 @@ function default_password_nag() {
 	echo '<strong>' . __('Notice:') . '</strong> ';
 	_e('You&rsquo;re using the auto-generated password for your account. Would you like to change it to something easier to remember?');
 	echo '</p><p>';
-	printf( '<a href="%s">' . __('Yes, take me to my profile page') . '</a> | ', get_edit_profile_url( get_current_user_id() ) . '#password' );
+	printf( '<a href="%s">' . __('Yes, take me to my profile page') . '</a> | ', admin_url('profile.php') . '#password' );
 	printf( '<a href="%s" id="default-password-nag-no">' . __('No thanks, do not remind me again') . '</a>', '?default_password_nag=0' );
 	echo '</p></div>';
 }

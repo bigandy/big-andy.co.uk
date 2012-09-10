@@ -1,8 +1,6 @@
 <?php
 /**
- * Functions for reading, writing, modifying, and deleting files on the file system.
- * Includes functionality for theme-specific files as well as operations for uploading, 
- * archiving, and rendering output when necessary.
+ * File contains all the administration image manipulation functions.
  *
  * @package WordPress
  * @subpackage Administration
@@ -81,10 +79,10 @@ function get_file_description( $file ) {
 function get_home_path() {
 	$home = get_option( 'home' );
 	$siteurl = get_option( 'siteurl' );
-	if ( ! empty( $home ) && 0 !== strcasecmp( $home, $siteurl ) ) {
-		$wp_path_rel_to_home = str_ireplace( $home, '', $siteurl ); /* $siteurl - $home */
-		$pos = strripos( str_replace( '\\', '/', $_SERVER['SCRIPT_FILENAME'] ), $wp_path_rel_to_home);
-		$home_path = substr( $_SERVER['SCRIPT_FILENAME'], 0, $pos );
+	if ( $home != '' && $home != $siteurl ) {
+		$wp_path_rel_to_home = str_replace($home, '', $siteurl); /* $siteurl - $home */
+		$pos = strrpos($_SERVER["SCRIPT_FILENAME"], $wp_path_rel_to_home);
+		$home_path = substr($_SERVER["SCRIPT_FILENAME"], 0, $pos);
 		$home_path = trailingslashit( $home_path );
 	} else {
 		$home_path = ABSPATH;

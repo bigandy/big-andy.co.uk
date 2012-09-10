@@ -200,7 +200,7 @@ class WP_Http {
 	 * @param array $args Request arguments
 	 * @param string $url URL to Request
 	 *
-	 * @return string|bool Class name for the first transport that claims to support the request. False if no transport claims to support the request.
+	 * @return string|false Class name for the first transport that claims to support the request. False if no transport claims to support the request.
 	 */
 	public function _get_first_available_transport( $args, $url = null ) {
 		$request_order = array( 'curl', 'streams', 'fsockopen' );
@@ -382,18 +382,18 @@ class WP_Http {
 
 			list($key, $value) = explode(':', $tempheader, 2);
 
-			$key = strtolower( $key );
-			$value = trim( $value );
-
-			if ( isset( $newheaders[ $key ] ) ) {
-				if ( ! is_array( $newheaders[ $key ] ) )
-					$newheaders[$key] = array( $newheaders[ $key ] );
-				$newheaders[ $key ][] = $value;
-			} else {
-				$newheaders[ $key ] = $value;
+			if ( !empty( $value ) ) {
+				$key = strtolower( $key );
+				if ( isset( $newheaders[$key] ) ) {
+					if ( !is_array($newheaders[$key]) )
+						$newheaders[$key] = array($newheaders[$key]);
+					$newheaders[$key][] = trim( $value );
+				} else {
+					$newheaders[$key] = trim( $value );
+				}
+				if ( 'set-cookie' == $key )
+					$cookies[] = new WP_Http_Cookie( $value );
 			}
-			if ( 'set-cookie' == $key )
-				$cookies[] = new WP_Http_Cookie( $value );
 		}
 
 		return array('response' => $response, 'headers' => $newheaders, 'cookies' => $cookies);
@@ -428,8 +428,6 @@ class WP_Http {
 	 *
 	 * Based off the HTTP http_encoding_dechunk function. Does not support UTF-8. Does not support
 	 * returning footer headers. Shouldn't be too difficult to support it though.
-	 *
-	 * @link http://tools.ietf.org/html/rfc2616#section-19.4.6 Process for chunked decoding.
 	 *
 	 * @todo Add support for footer chunked headers.
 	 * @access public
@@ -1394,10 +1392,6 @@ class WP_HTTP_Proxy {
 
 		$home = parse_url( get_option('siteurl') );
 
-		$result = apply_filters( 'pre_http_send_through_proxy', null, $uri, $check, $home );
-		if ( ! is_null( $result ) )
-			return $result;
-
 		if ( $check['host'] == 'localhost' || $check['host'] == $home['host'] )
 			return false;
 
@@ -1552,7 +1546,7 @@ class WP_Http_Cookie {
 	 */
 	function test( $url ) {
 		// Expires - if expired then nothing else matters
-		if ( isset( $this->expires ) && time() > $this->expires )
+		if ( time() > $this->expires )
 			return false;
 
 		// Get details on the URL we're thinking about sending to
@@ -1592,7 +1586,7 @@ class WP_Http_Cookie {
 	 * @return string Header encoded cookie name and value.
 	 */
 	function getHeaderValue() {
-		if ( ! isset( $this->name ) || ! isset( $this->value ) )
+		if ( empty( $this->name ) || empty( $this->value ) )
 			return '';
 
 		return $this->name . '=' . apply_filters( 'wp_http_cookie_value', $this->value, $this->name );
@@ -1679,7 +1673,7 @@ class WP_Http_Encoding {
 	/**
 	 * Decompression of deflated string while staying compatible with the majority of servers.
 	 *
-	 * Certain Servers will return deflated data with headers which PHP's gzinflate()
+	 * Certain Servers will return deflated data with headers which PHP's gziniflate()
 	 * function cannot handle out of the box. The following function has been created from
 	 * various snippets on the gzinflate() PHP documentation.
 	 *

@@ -655,7 +655,7 @@ function wp_get_attachment_image($attachment_id, $size = 'thumbnail', $icon = fa
 		$hwstring = image_hwstring($width, $height);
 		if ( is_array($size) )
 			$size = join('x', $size);
-		$attachment = get_post($attachment_id);
+		$attachment =& get_post($attachment_id);
 		$default_attr = array(
 			'src'	=> $src,
 			'class'	=> "attachment-$size",
@@ -1420,29 +1420,6 @@ function wp_oembed_add_provider( $format, $provider, $regex = false ) {
 }
 
 /**
- * Removes an oEmbed provider.
- *
- * @since 3.5
- * @see WP_oEmbed
- *
- * @uses _wp_oembed_get_object()
- *
- * @param string $format The URL format for the oEmbed provider to remove.
- */
-function wp_oembed_remove_provider( $format ) {
-	require_once( ABSPATH . WPINC . '/class-oembed.php' );
-
-	$oembed = _wp_oembed_get_object();
-
-	if ( isset( $oembed->providers[ $format ] ) ) {
-		unset( $oembed->providers[ $format ] );
-		return true;
-	}
-
-	return false;
-}
-
-/**
  * Determines if default embed handlers should be loaded.
  *
  * Checks to make sure that the embeds library hasn't already been loaded. If
@@ -1530,125 +1507,3 @@ function wp_plupload_default_settings() {
 	$wp_scripts->add_data( 'wp-plupload', 'data', $script );
 }
 add_action( 'customize_controls_enqueue_scripts', 'wp_plupload_default_settings' );
-
-
-/**
- * Prepares an attachment post object for JS, where it is expected
- * to be JSON-encoded and fit into an Attachment model.
- *
- * @since 3.5.0
- *
- * @param mixed $attachment Attachment ID or object.
- * @return array Array of attachment details.
- */
-function wp_prepare_attachment_for_js( $attachment ) {
-	if ( ! $attachment = get_post( $attachment ) )
-	   return;
-
-	if ( 'attachment' != $attachment->post_type )
-	   return;
-
-	$meta = wp_get_attachment_metadata( $attachment->ID );
-	list( $type, $subtype ) = explode( '/', $attachment->post_mime_type );
-
-	$attachment_url = wp_get_attachment_url( $attachment->ID );
-
-	$response = array(
-		'id'          => $attachment->ID,
-		'title'       => $attachment->post_title,
-		'filename'    => basename( $attachment->guid ),
-		'url'         => $attachment_url,
-		'alt'         => get_post_meta( $attachment->ID, '_wp_attachment_image_alt', true ),
-		'author'      => $attachment->post_author,
-		'description' => $attachment->post_content,
-		'caption'     => $attachment->post_excerpt,
-		'name'        => $attachment->post_name,
-		'status'      => $attachment->post_status,
-		'uploadedTo'  => $attachment->post_parent,
-		'date'        => strtotime( $attachment->post_date_gmt ) * 1000,
-		'modified'    => strtotime( $attachment->post_modified_gmt ) * 1000,
-		'mime'        => $attachment->post_mime_type,
-		'type'        => $type,
-		'subtype'     => $subtype,
-	);
-
-	if ( 'image' === $type ) {
-		$sizes = array();
-		$base_url = str_replace( wp_basename( $attachment_url ), '', $attachment_url );
-
-		foreach ( $meta['sizes'] as $slug => $size ) {
-			$sizes[ $slug ] = array(
-				'height'      => $size['height'],
-				'width'       => $size['width'],
-				'url'         => $base_url . $size['file'],
-				'orientation' => $size['height'] > $size['width'] ? 'portrait' : 'landscape',
-			);
-		}
-
-		$response = array_merge( $response, array(
-			'height'      => $meta['height'],
-			'width'       => $meta['width'],
-			'sizes'       => $sizes,
-			'orientation' => $meta['height'] > $meta['width'] ? 'portrait' : 'landscape',
-		) );
-	}
-
-	return apply_filters( 'wp_prepare_attachment_for_js', $response, $attachment, $meta );
-}
-
-/**
- * Prints the templates used in the media manager.
- *
- * @since 3.5.0
- */
-function wp_print_media_templates( $attachment ) {
-	?>
-	<script type="text/html" id="tmpl-media-modal">
-		<div class="media-modal">
-			<div class="media-modal-header">
-				<h3><%- title %></h3>
-				<a class="media-modal-close" href="" title="<?php esc_attr_e('Close'); ?>"><?php echo 'Close'; ?></a>
-			</div>
-			<div class="media-modal-content"></div>
-		</div>
-		<div class="media-modal-backdrop"></div>
-	</script>
-
-	<script type="text/html" id="tmpl-media-workspace">
-		<div class="upload-attachments">
-			<% if ( selectOne ) { %>
-				<h3><?php _e( 'Drop a file here' ); ?></h3>
-				<span><?php _ex( 'or', 'Uploader: Drop a file here - or - Select a File' ); ?></span>
-				<a href="#" class="button-secondary"><?php _e( 'Select a File' ); ?></a>
-			<% } else { %>
-				<h3><?php _e( 'Drop files here' ); ?></h3>
-				<span><?php _ex( 'or', 'Uploader: Drop files here - or - Select Files' ); ?></span>
-				<a href="#" class="button-secondary"><?php _e( 'Select Files' ); ?></a>
-			<% } %>
-
-			<div class="media-progress-bar"><div></div></div>
-		</div>
-	</script>
-
-	<script type="text/html" id="tmpl-attachments">
-		<div class="attachments-header">
-			<h3><%- directions %></h3>
-			<input class="search" type="text" placeholder="<?php esc_attr_e('Search'); ?>" />
-		</div>
-	</script>
-
-	<script type="text/html" id="tmpl-attachment">
-		<div class="attachment-thumbnail <%- orientation %>">
-			<% if ( thumbnail ) { %>
-				<img src="<%- thumbnail %>" />
-			<% } %>
-
-			<% if ( uploading ) { %>
-				<div class="media-progress-bar"><div></div></div>
-			<% } %>
-			<div class="actions"></div>
-		</div>
-		<div class="describe"></div>
-	</script>
-	<?php
-}
