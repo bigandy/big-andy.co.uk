@@ -138,13 +138,10 @@ add_filter( 'image_downsize', 'ah_image_downsize', 1, 3 );
 
 /* END [gallery] */
 
-// remove height width attributes from images : 
-// http://css-tricks.com/snippets/wordpress/remove-width-and-height-attributes-from-inserted-images/
-/*
-add_filter( 'post_thumbnail_html', 'remove_width_attribute', 10 );
-add_filter( 'image_send_to_editor', 'remove_width_attribute', 10 );
-
-function remove_width_attribute( $html ) {
-   $html = preg_replace( '/(width|height)="\d*"\s/', "", $html );
-   return $html;
-}*/
+// Remove img title 
+// http://wordpress.org/support/topic/wp_get_attachment_image_attributes-filter-not-working
+function remove_img_title($atts) {
+    unset($atts['title']);
+    return $atts;
+}
+add_filter('wp_get_attachment_image_attributes','remove_img_title',1,1);
