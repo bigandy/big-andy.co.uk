@@ -2,7 +2,7 @@
 
 .gallery {
 	
-	@extend %clearfix;
+	@extend .clearfix;
 	
 	a {
 		display:block;

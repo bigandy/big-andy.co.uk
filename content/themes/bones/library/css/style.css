@@ -16,7 +16,7 @@ of the styles inside media queries.
 /*
  * Corrects `block` display not defined in IE6/7/8/9 & FF3.
  */
-/* line 21, ../scss/_normalize.scss */
+/* line 21, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_normalize.scss */
 article,
 aside,
 details,
@@ -34,7 +34,7 @@ summary {
 /*
  * Corrects `inline-block` display not defined in IE6/7/8/9 & FF3.
  */
-/* line 31, ../scss/_normalize.scss */
+/* line 31, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_normalize.scss */
 audio,
 canvas,
 video {
@@ -47,7 +47,7 @@ video {
  * Prevents modern browsers from displaying `audio` without controls.
  * Remove excess height in iOS5 devices.
  */
-/* line 42, ../scss/_normalize.scss */
+/* line 42, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_normalize.scss */
 audio:not([controls]) {
   display: none;
   height: 0;
@@ -57,7 +57,7 @@ audio:not([controls]) {
  * Addresses styling for `hidden` attribute not present in IE7/8/9, FF3, S4.
  * Known issue: no IE6 support.
  */
-/* line 52, ../scss/_normalize.scss */
+/* line 52, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_normalize.scss */
 [hidden] {
   display: none;
 }
@@ -71,7 +71,7 @@ audio:not([controls]) {
  * 2. Prevents iOS text size adjust after orientation change, without disabling
  *    user zoom.
  */
-/* line 67, ../scss/_normalize.scss */
+/* line 67, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_normalize.scss */
 html {
   font-size: 100%;
   /* 1 */
@@ -85,7 +85,7 @@ html {
  * Addresses `font-family` inconsistency between `textarea` and other form
  * elements.
  */
-/* line 82, ../scss/_normalize.scss */
+/* line 82, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_normalize.scss */
 html,
 button,
 input,
@@ -97,7 +97,7 @@ textarea {
 /*
  * Addresses margins handled incorrectly in IE6/7.
  */
-/* line 90, ../scss/_normalize.scss */
+/* line 90, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_normalize.scss */
 body {
   margin: 0;
 }
@@ -108,7 +108,7 @@ body {
 /*
  * Addresses `outline` inconsistency between Chrome and other browsers.
  */
-/* line 102, ../scss/_normalize.scss */
+/* line 102, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_normalize.scss */
 a:focus {
   outline: thin dotted;
 }
@@ -117,7 +117,7 @@ a:focus {
  * Improves readability when focused and also mouse hovered in all browsers.
  * people.opera.com/patrickl/experiments/keyboard/test
  */
-/* line 112, ../scss/_normalize.scss */
+/* line 112, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_normalize.scss */
 a:active,
 a:hover {
   outline: 0;
@@ -130,37 +130,37 @@ a:hover {
  * Addresses font sizes and margins set differently in IE6/7.
  * Addresses font sizes within `section` and `article` in FF4+, Chrome, S5.
  */
-/* line 125, ../scss/_normalize.scss */
+/* line 125, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_normalize.scss */
 h1 {
   font-size: 2em;
   margin: 0.67em 0;
 }
 
-/* line 130, ../scss/_normalize.scss */
+/* line 130, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_normalize.scss */
 h2 {
   font-size: 1.5em;
   margin: 0.83em 0;
 }
 
-/* line 135, ../scss/_normalize.scss */
+/* line 135, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_normalize.scss */
 h3 {
   font-size: 1.17em;
   margin: 1em 0;
 }
 
-/* line 140, ../scss/_normalize.scss */
+/* line 140, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_normalize.scss */
 h4 {
   font-size: 1em;
   margin: 1.33em 0;
 }
 
-/* line 145, ../scss/_normalize.scss */
+/* line 145, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_normalize.scss */
 h5 {
   font-size: 0.83em;
   margin: 1.67em 0;
 }
 
-/* line 150, ../scss/_normalize.scss */
+/* line 150, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_normalize.scss */
 h6 {
   font-size: 0.75em;
   margin: 2.33em 0;
@@ -169,7 +169,7 @@ h6 {
 /*
  * Addresses styling not present in IE7/8/9, S5, Chrome.
  */
-/* line 159, ../scss/_normalize.scss */
+/* line 159, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_normalize.scss */
 abbr[title] {
   border-bottom: 1px dotted;
 }
@@ -177,13 +177,13 @@ abbr[title] {
 /*
  * Addresses style set to `bolder` in FF3+, S4/5, Chrome.
  */
-/* line 168, ../scss/_normalize.scss */
+/* line 168, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_normalize.scss */
 b,
 strong {
   font-weight: bold;
 }
 
-/* line 172, ../scss/_normalize.scss */
+/* line 172, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_normalize.scss */
 blockquote {
   margin: 1em 40px;
 }
@@ -191,7 +191,7 @@ blockquote {
 /*
  * Addresses styling not present in S5, Chrome.
  */
-/* line 180, ../scss/_normalize.scss */
+/* line 180, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_normalize.scss */
 dfn {
   font-style: italic;
 }
@@ -199,7 +199,7 @@ dfn {
 /*
  * Addresses styling not present in IE6/7/8/9.
  */
-/* line 188, ../scss/_normalize.scss */
+/* line 188, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_normalize.scss */
 mark {
   background: #ff0;
   color: #000;
@@ -208,7 +208,7 @@ mark {
 /*
  * Addresses margins set differently in IE6/7.
  */
-/* line 198, ../scss/_normalize.scss */
+/* line 198, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_normalize.scss */
 p,
 pre {
   margin: 1em 0;
@@ -218,7 +218,7 @@ pre {
  * Corrects font family set oddly in IE6, S4/5, Chrome.
  * en.wikipedia.org/wiki/User:Davidgothberg/Test59
  */
-/* line 210, ../scss/_normalize.scss */
+/* line 210, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_normalize.scss */
 code,
 kbd,
 pre,
@@ -231,7 +231,7 @@ samp {
 /*
  * Improves readability of pre-formatted text in all browsers.
  */
-/* line 220, ../scss/_normalize.scss */
+/* line 220, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_normalize.scss */
 pre {
   white-space: pre;
   white-space: pre-wrap;
@@ -241,7 +241,7 @@ pre {
 /*
  * Addresses CSS quotes not supported in IE6/7.
  */
-/* line 230, ../scss/_normalize.scss */
+/* line 230, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_normalize.scss */
 q {
   quotes: none;
 }
@@ -249,14 +249,14 @@ q {
 /*
  * Addresses `quotes` property not supported in S4.
  */
-/* line 239, ../scss/_normalize.scss */
+/* line 239, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_normalize.scss */
 q:before,
 q:after {
   content: '';
   content: none;
 }
 
-/* line 244, ../scss/_normalize.scss */
+/* line 244, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_normalize.scss */
 small {
   font-size: 75%;
 }
@@ -265,7 +265,7 @@ small {
  * Prevents `sub` and `sup` affecting `line-height` in all browsers.
  * gist.github.com/413930
  */
-/* line 254, ../scss/_normalize.scss */
+/* line 254, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_normalize.scss */
 sub,
 sup {
   font-size: 75%;
@@ -274,12 +274,12 @@ sup {
   vertical-align: baseline;
 }
 
-/* line 261, ../scss/_normalize.scss */
+/* line 261, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_normalize.scss */
 sup {
   top: -0.5em;
 }
 
-/* line 265, ../scss/_normalize.scss */
+/* line 265, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_normalize.scss */
 sub {
   bottom: -0.25em;
 }
@@ -290,7 +290,7 @@ sub {
 /*
  * Addresses margins set differently in IE6/7.
  */
-/* line 280, ../scss/_normalize.scss */
+/* line 280, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_normalize.scss */
 dl,
 menu,
 ol,
@@ -298,7 +298,7 @@ ul {
   margin: 1em 0;
 }
 
-/* line 284, ../scss/_normalize.scss */
+/* line 284, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_normalize.scss */
 dd {
   margin: 0 0 0 40px;
 }
@@ -306,7 +306,7 @@ dd {
 /*
  * Addresses paddings set differently in IE6/7.
  */
-/* line 294, ../scss/_normalize.scss */
+/* line 294, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_normalize.scss */
 menu,
 ol,
 ul {
@@ -316,7 +316,7 @@ ul {
 /*
  * Corrects list images handled incorrectly in IE7.
  */
-/* line 303, ../scss/_normalize.scss */
+/* line 303, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_normalize.scss */
 nav ul,
 nav ol {
   list-style: none;
@@ -331,7 +331,7 @@ nav ol {
  * 2. Improves image quality when scaled in IE7.
  *    code.flickr.com/blog/2008/11/12/on-ui-quality-the-little-things-client-side-image-resizing/
  */
-/* line 318, ../scss/_normalize.scss */
+/* line 318, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_normalize.scss */
 img {
   border: 0;
   /* 1 */
@@ -342,7 +342,7 @@ img {
 /*
  * Corrects overflow displayed oddly in IE9.
  */
-/* line 327, ../scss/_normalize.scss */
+/* line 327, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_normalize.scss */
 svg:not(:root) {
   overflow: hidden;
 }
@@ -353,7 +353,7 @@ svg:not(:root) {
 /*
  * Addresses margin not present in IE6/7/8/9, S5, O11.
  */
-/* line 339, ../scss/_normalize.scss */
+/* line 339, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_normalize.scss */
 figure {
   margin: 0;
 }
@@ -364,7 +364,7 @@ figure {
 /*
  * Corrects margin displayed oddly in IE6/7.
  */
-/* line 351, ../scss/_normalize.scss */
+/* line 351, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_normalize.scss */
 form {
   margin: 0;
 }
@@ -372,7 +372,7 @@ form {
 /*
  * Define consistent border, margin, and padding.
  */
-/* line 359, ../scss/_normalize.scss */
+/* line 359, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_normalize.scss */
 fieldset {
   border: 1px solid #c0c0c0;
   margin: 0 2px;
@@ -384,7 +384,7 @@ fieldset {
  * 2. Corrects text not wrapping in FF3.
  * 3. Corrects alignment displayed oddly in IE6/7.
  */
-/* line 371, ../scss/_normalize.scss */
+/* line 371, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_normalize.scss */
 legend {
   border: 0;
   /* 1 */
@@ -400,7 +400,7 @@ legend {
  * 2. Addresses margins set differently in IE6/7, FF3+, S5, Chrome.
  * 3. Improves appearance and consistency in all browsers.
  */
-/* line 387, ../scss/_normalize.scss */
+/* line 387, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_normalize.scss */
 button,
 input,
 select,
@@ -419,7 +419,7 @@ textarea {
  * Addresses FF3/4 setting `line-height` on `input` using `!important` in the
  * UA stylesheet.
  */
-/* line 400, ../scss/_normalize.scss */
+/* line 400, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_normalize.scss */
 button,
 input {
   line-height: normal;
@@ -434,7 +434,7 @@ input {
  * 4. Removes inner spacing in IE7 without affecting normal text inputs.
  *    Known issue: inner spacing remains in IE6.
  */
-/* line 417, ../scss/_normalize.scss */
+/* line 417, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_normalize.scss */
 button,
 html input[type="button"],
 input[type="reset"],
@@ -450,7 +450,7 @@ input[type="submit"] {
 /*
  * Re-set default cursor for disabled elements.
  */
-/* line 428, ../scss/_normalize.scss */
+/* line 428, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_normalize.scss */
 button[disabled],
 input[disabled] {
   cursor: default;
@@ -462,7 +462,7 @@ input[disabled] {
  * 3. Removes excess padding in IE7.
  *    Known issue: excess padding remains in IE6.
  */
-/* line 440, ../scss/_normalize.scss */
+/* line 440, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_normalize.scss */
 input[type="checkbox"],
 input[type="radio"] {
   box-sizing: border-box;
@@ -480,7 +480,7 @@ input[type="radio"] {
  * 2. Addresses `box-sizing` set to `border-box` in S5, Chrome (include `-moz`
  *    to future-proof).
  */
-/* line 453, ../scss/_normalize.scss */
+/* line 453, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_normalize.scss */
 input[type="search"] {
   -webkit-appearance: textfield;
   /* 1 */
@@ -493,7 +493,7 @@ input[type="search"] {
 /*
  * Removes inner padding and search cancel button in S5, Chrome on OS X.
  */
-/* line 465, ../scss/_normalize.scss */
+/* line 465, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_normalize.scss */
 input[type="search"]::-webkit-search-cancel-button,
 input[type="search"]::-webkit-search-decoration {
   -webkit-appearance: none;
@@ -502,7 +502,7 @@ input[type="search"]::-webkit-search-decoration {
 /*
  * Removes inner padding and border in FF3+.
  */
-/* line 474, ../scss/_normalize.scss */
+/* line 474, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_normalize.scss */
 button::-moz-focus-inner,
 input::-moz-focus-inner {
   border: 0;
@@ -513,7 +513,7 @@ input::-moz-focus-inner {
  * 1. Removes default vertical scrollbar in IE6/7/8/9.
  * 2. Improves readability and alignment in all browsers.
  */
-/* line 484, ../scss/_normalize.scss */
+/* line 484, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_normalize.scss */
 textarea {
   overflow: auto;
   /* 1 */
@@ -527,7 +527,7 @@ textarea {
 /*
  * Remove most spacing between table cells.
  */
-/* line 497, ../scss/_normalize.scss */
+/* line 497, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_normalize.scss */
 table {
   border-collapse: collapse;
   border-spacing: 0;
@@ -539,18 +539,18 @@ I added these extra styles as a more personalized reset. Feel free
 to remove them if you like or add your own. If you want to update
 the normalize styles, make sure to edit from this point up.
 ******************************************************************/
-/* line 510, ../scss/_normalize.scss */
+/* line 510, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_normalize.scss */
 ul,
 ol {
   padding-left: 1rem;
 }
 
-/* line 514, ../scss/_normalize.scss */
+/* line 514, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_normalize.scss */
 dd {
   margin: 0;
 }
 
-/* line 520, ../scss/_normalize.scss */
+/* line 520, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_normalize.scss */
 .sidebar ul,
 .sidebar ol,
 .commentlist {
@@ -558,7 +558,7 @@ dd {
 }
 
 /* proper formatting (http://blog.fontdeck.com/post/9037028497/hyphens) */
-/* line 525, ../scss/_normalize.scss */
+/* line 525, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_normalize.scss */
 p {
   -webkit-hyphens: auto;
   -moz-hyphens: auto;
@@ -566,21 +566,21 @@ p {
   hyphens: auto;
 }
 
-/* line 534, ../scss/_normalize.scss */
+/* line 534, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_normalize.scss */
 b,
 strong,
 .strong {
   font-weight: bold;
 }
 
-/* line 540, ../scss/_normalize.scss */
+/* line 540, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_normalize.scss */
 dfn,
 em,
 .em {
   font-style: italic;
 }
 
-/* line 544, ../scss/_normalize.scss */
+/* line 544, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_normalize.scss */
 small, .small {
   font-size: 75%;
 }
@@ -606,17 +606,17 @@ remember less is more.
 CLEARFIXIN'
 *********************/
 /* Contain floats: nicolasgallagher.com/micro-clearfix-hack/ */
-/* line 24, ../scss/_mixins.scss */
-.gallery {
+/* line 24, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_mixins.scss */
+.clearfix, .gallery {
   zoom: 1;
 }
-/* line 26, ../scss/_mixins.scss */
-.gallery:before, .gallery:after {
+/* line 26, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_mixins.scss */
+.clearfix:before, .gallery:before, .clearfix:after, .gallery:after {
   content: "";
   display: table;
 }
-/* line 30, ../scss/_mixins.scss */
-.gallery:after {
+/* line 30, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_mixins.scss */
+.clearfix:after, .gallery:after {
   clear: both;
 }
 
@@ -624,7 +624,7 @@ CLEARFIXIN'
 TOOLS
 *********************/
 /* http://www.zeldman.com/2012/03/01/replacing-the-9999px-hack-new-image-replacement/ */
-/* line 41, ../scss/_mixins.scss */
+/* line 41, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_mixins.scss */
 .image-replacement {
   text-indent: 100%;
   white-space: nowrap;
@@ -661,54 +661,54 @@ TYPOGRAPHY
 use the best ampersand 
 http://simplebits.com/notebook/2008/08/14/ampersands-2/
 */
-/* line 96, ../scss/_mixins.scss */
+/* line 96, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_mixins.scss */
 span.amp {
   font-family: Baskerville,'Goudy Old Style',Palatino,'Book Antiqua',serif !important;
   font-style: italic;
 }
 
 /* text alignment */
-/* line 102, ../scss/_mixins.scss */
+/* line 102, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_mixins.scss */
 .text-left {
   text-align: left;
 }
 
-/* line 103, ../scss/_mixins.scss */
+/* line 103, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_mixins.scss */
 .text-center {
   text-align: center;
 }
 
-/* line 104, ../scss/_mixins.scss */
+/* line 104, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_mixins.scss */
 .text-right {
   text-align: right;
 }
 
 /* alerts & notices */
-/* line 108, ../scss/_mixins.scss */
+/* line 108, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_mixins.scss */
 .alert {
   padding: 5px 18px;
   border: 3px solid;
 }
 
-/* line 113, ../scss/_mixins.scss */
+/* line 113, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_mixins.scss */
 .help {
   border-color: #e8dc59;
   background: #ebe16f;
 }
 
-/* line 118, ../scss/_mixins.scss */
+/* line 118, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_mixins.scss */
 .info {
   border-color: #bfe4f4;
   background: #d5edf8;
 }
 
-/* line 123, ../scss/_mixins.scss */
+/* line 123, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_mixins.scss */
 .error {
   border-color: #f8cdce;
   background: #fbe3e4;
 }
 
-/* line 128, ../scss/_mixins.scss */
+/* line 128, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_mixins.scss */
 .success {
   border-color: #deeaae;
   background: #e6efc2;
@@ -755,7 +755,7 @@ probably best not to use it. I mean, were you going to anyway? */
 /*********************
 BUTTONS
 *********************/
-/* line 241, ../scss/_mixins.scss */
+/* line 241, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_mixins.scss */
 .button, .button:visited {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   border: 1px solid #be0d37;
@@ -781,7 +781,7 @@ BUTTONS
   background-image: -o-linear-gradient(top, #f01d4f, #e40f42);
   background-image: linear-gradient(to bottom, #f01d4f, #e40f42);
 }
-/* line 260, ../scss/_mixins.scss */
+/* line 260, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_mixins.scss */
 .button:hover, .button:focus, .button:visited:hover, .button:visited:focus {
   color: white;
   border: 1px solid #be0d37;
@@ -794,7 +794,7 @@ BUTTONS
   background-image: -o-linear-gradient(top, #e40f42, #cc0e3b);
   background-image: linear-gradient(to bottom, #e40f42, #cc0e3b);
 }
-/* line 268, ../scss/_mixins.scss */
+/* line 268, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_mixins.scss */
 .button:active, .button:visited:active {
   background-color: #f01d4f;
   background-image: -webkit-gradient(linear, left top, left bottom, from(#e40f42), to(#f01d4f));
@@ -804,7 +804,7 @@ BUTTONS
   background-image: linear-gradient(to bottom, #e40f42, #f01d4f);
 }
 
-/* line 273, ../scss/_mixins.scss */
+/* line 273, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_mixins.scss */
 .blue-button, .blue-button:visited {
   border-color: #1472ad;
   text-shadow: 0 1px 1px #1472ad;
@@ -818,7 +818,7 @@ BUTTONS
   -moz-box-shadow: inset 0 0 3px #59b3ec;
   box-shadow: inset 0 0 3px #59b3ec;
 }
-/* line 280, ../scss/_mixins.scss */
+/* line 280, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_mixins.scss */
 .blue-button:hover, .blue-button:focus, .blue-button:visited:hover, .blue-button:visited:focus {
   border-color: #116396;
   background-color: #1472ad;
@@ -828,7 +828,7 @@ BUTTONS
   background-image: -o-linear-gradient(top, #1784c9, #1472ad);
   background-image: linear-gradient(to bottom, #1784c9, #1472ad);
 }
-/* line 284, ../scss/_mixins.scss */
+/* line 284, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_mixins.scss */
 .blue-button:active, .blue-button:visited:active {
   background-color: #1990db;
   background-image: -webkit-gradient(linear, left top, left bottom, from(#1681c4), to(#1990db));
@@ -859,14 +859,14 @@ and will be used across all viewports.
 /*********************
 GENERAL STYLES
 *********************/
-/* line 17, ../scss/_base.scss */
+/* line 17, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_base.scss */
 * {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
 
-/* line 25, ../scss/_base.scss */
+/* line 25, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_base.scss */
 body {
   font-family: Georgia, serif;
   font-size: 14px;
@@ -916,7 +916,7 @@ style a page via class
 /*********************
 LAYOUT & GRID STYLES
 *********************/
-/* line 77, ../scss/_base.scss */
+/* line 77, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_base.scss */
 .wrap {
   width: 90%;
   margin: 0 auto;
@@ -933,18 +933,18 @@ when we're ready for it.
 /*********************
 LINK STYLES
 *********************/
-/* line 95, ../scss/_base.scss */
+/* line 95, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_base.scss */
 a, a:visited {
   color: #f01d4f;
   /* on hover */
   /* on click */
   /* mobile tap color */
 }
-/* line 99, ../scss/_base.scss */
+/* line 99, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_base.scss */
 a:hover, a:focus, a:visited:hover, a:visited:focus {
   color: #f67896;
 }
-/* line 109, ../scss/_base.scss */
+/* line 109, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_base.scss */
 a:link, a:visited:link {
   /*
   this highlights links on iPhones/iPads.
@@ -957,7 +957,7 @@ a:link, a:visited:link {
 /******************************************************************
 H1, H2, H3, H4, H5 STYLES
 ******************************************************************/
-/* line 123, ../scss/_base.scss */
+/* line 123, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_base.scss */
 h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5 {
   font-family: sans-serif;
   text-rendering: optimizelegibility;
@@ -968,36 +968,36 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5 {
   */
   /* removing text decoration from all headline links */
 }
-/* line 133, ../scss/_base.scss */
+/* line 133, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_base.scss */
 h1 a, .h1 a, h2 a, .h2 a, h3 a, .h3 a, h4 a, .h4 a, h5 a, .h5 a {
   text-decoration: none;
 }
 
-/* line 138, ../scss/_base.scss */
+/* line 138, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_base.scss */
 h1, .h1 {
   font-size: 2.5em;
   line-height: 1.333em;
 }
 
-/* line 143, ../scss/_base.scss */
+/* line 143, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_base.scss */
 h2, .h2 {
   font-size: 1.75em;
   line-height: 1.4em;
   margin-bottom: 0.375em;
 }
 
-/* line 149, ../scss/_base.scss */
+/* line 149, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_base.scss */
 h3, .h3 {
   font-size: 1.125em;
 }
 
-/* line 153, ../scss/_base.scss */
+/* line 153, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_base.scss */
 h4, .h4 {
   font-size: 1.1em;
   font-weight: 700;
 }
 
-/* line 158, ../scss/_base.scss */
+/* line 158, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_base.scss */
 h5, .h5 {
   font-size: 0.846em;
   line-height: 2.09em;
@@ -1018,7 +1018,7 @@ easily just write on group of styles for
 the navs on the site and our css is cleaner
 and moe scalable.
 */
-/* line 185, ../scss/_base.scss */
+/* line 185, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_base.scss */
 .nav {
   border: 1px solid #ccc;
   border-bottom: 0;
@@ -1026,7 +1026,7 @@ and moe scalable.
   /* highlight current page */
   /* end current highlighters */
 }
-/* line 191, ../scss/_base.scss */
+/* line 191, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_base.scss */
 .nav a {
   display: block;
   text-decoration: none;
@@ -1047,14 +1047,14 @@ and moe scalable.
   http://www.alistapart.com/articles/organizing-mobile/
   */
 }
-/* line 226, ../scss/_base.scss */
+/* line 226, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_base.scss */
 .nav a ul.sub-menu li a,
 .nav a ul.children li a {
   padding-left: 30px;
 }
 
 /* end .nav */
-/* line 258, ../scss/_base.scss */
+/* line 258, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_base.scss */
 a.current-menu-item,
 a.current_page_parent {
   color: #1990db;
@@ -1063,7 +1063,7 @@ a.current_page_parent {
 /*********************
 POSTS & CONTENT STYLES
 *********************/
-/* line 266, ../scss/_base.scss */
+/* line 266, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_base.scss */
 #content {
   margin-top: 2.2em;
 }
@@ -1079,13 +1079,13 @@ POSTS & CONTENT STYLES
 /* style by category (i.e. category-videos) */
 /* style by tag (i.e. tag-news) */
 /* post meta */
-/* line 298, ../scss/_base.scss */
+/* line 298, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_base.scss */
 .meta {
   color: #999;
 }
 
 /* post content */
-/* line 305, ../scss/_base.scss */
+/* line 305, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_base.scss */
 .post-content {
   /*
   image alignment on a screen this size may be
@@ -1094,25 +1094,25 @@ POSTS & CONTENT STYLES
   but it's up to you. Feel free to change it up.
   */
 }
-/* line 340, ../scss/_base.scss */
+/* line 340, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_base.scss */
 .post-content dd {
   margin-left: 0;
   font-size: 0.9em;
   color: #787878;
   margin-bottom: 1.5em;
 }
-/* line 347, ../scss/_base.scss */
+/* line 347, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_base.scss */
 .post-content img {
   margin: 0 0 1.5em 0;
   max-width: 100%;
   height: auto;
 }
-/* line 363, ../scss/_base.scss */
+/* line 363, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_base.scss */
 .post-content video, .post-content object {
   max-width: 100%;
   height: auto;
 }
-/* line 368, ../scss/_base.scss */
+/* line 368, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_base.scss */
 .post-content code {
   background: #eee;
   border: 1px solid #cecece;
@@ -1120,18 +1120,18 @@ POSTS & CONTENT STYLES
 }
 
 /* end .post-content */
-/* line 376, ../scss/_base.scss */
+/* line 376, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_base.scss */
 .wp-caption {
   background: #eee;
   padding: 5px;
   /* images inside wp-caption */
 }
-/* line 381, ../scss/_base.scss */
+/* line 381, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_base.scss */
 .wp-caption img {
   margin-bottom: 0;
   width: 100%;
 }
-/* line 386, ../scss/_base.scss */
+/* line 386, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_base.scss */
 .wp-caption p.wp-caption-text {
   font-size: 0.85em;
   margin: 4px 0 7px;
@@ -1145,13 +1145,13 @@ POSTS & CONTENT STYLES
 /******************************************************************
 PAGE NAVI STYLES
 ******************************************************************/
-/* line 423, ../scss/_base.scss */
+/* line 423, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_base.scss */
 .page-navigation,
 .wp-prev-next {
   margin: 1.1em 0 2.2em;
 }
 
-/* line 426, ../scss/_base.scss */
+/* line 426, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_base.scss */
 .bones_page_navi {
   /* current page link */
   /* end .bones_page_navi .bpn-current */
@@ -1162,44 +1162,44 @@ PAGE NAVI STYLES
   /* first page link */
   /* last page link */
 }
-/* line 428, ../scss/_base.scss */
+/* line 428, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_base.scss */
 .bones_page_navi li {
   float: left;
   margin-left: 10px;
 }
-/* line 432, ../scss/_base.scss */
+/* line 432, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_base.scss */
 .bones_page_navi li a {
   padding: 3px 6px;
   display: block;
   text-decoration: none;
   position: relative;
 }
-/* line 439, ../scss/_base.scss */
+/* line 439, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_base.scss */
 .bones_page_navi li a:hover, .bones_page_navi li a:focus {
   color: #f01d4f;
   text-decoration: underline;
 }
-/* line 448, ../scss/_base.scss */
+/* line 448, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_base.scss */
 .bones_page_navi li.bpn-current {
   padding: 3px 6px;
   border-bottom: 2px solid #f01d4f;
   position: relative;
 }
-/* line 453, ../scss/_base.scss */
+/* line 453, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_base.scss */
 .bones_page_navi li.bpn-current a {
   /* hovering on current page link */
 }
-/* line 464, ../scss/_base.scss */
+/* line 464, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_base.scss */
 .bones_page_navi li.bpn-prev-link,
 .bones_page_navi li.bpn-next-link {
   font-weight: 700;
 }
-/* line 467, ../scss/_base.scss */
+/* line 467, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_base.scss */
 .bones_page_navi li.bpn-prev-link a,
 .bones_page_navi li.bpn-next-link a {
   padding: 0;
 }
-/* line 476, ../scss/_base.scss */
+/* line 476, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_base.scss */
 .bones_page_navi li.bpn-prev-link a:hover,
 .bones_page_navi li.bpn-next-link a:hover,
 .bones_page_navi li.bpn-first-page-link a:hover,
@@ -1209,11 +1209,11 @@ PAGE NAVI STYLES
 
 /* end .bones_page_navi */
 /* fallback previous & next links */
-/* line 519, ../scss/_base.scss */
+/* line 519, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_base.scss */
 .wp-prev-next .prev-link {
   float: left;
 }
-/* line 523, ../scss/_base.scss */
+/* line 523, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_base.scss */
 .wp-prev-next .next-link {
   float: right;
 }
@@ -1223,12 +1223,12 @@ PAGE NAVI STYLES
 COMMENT STYLES
 ******************************************************************/
 /* h3 comment title */
-/* line 534, ../scss/_base.scss */
+/* line 534, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_base.scss */
 #comments {
   /* number of comments span */
 }
 
-/* line 551, ../scss/_base.scss */
+/* line 551, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_base.scss */
 .commentlist {
   /* general comment classes */
   /* vcard */
@@ -1239,7 +1239,7 @@ COMMENT STYLES
   /* comment reply link */
   /* end .commentlist .comment-reply-link */
 }
-/* line 553, ../scss/_base.scss */
+/* line 553, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_base.scss */
 .commentlist li {
   position: relative;
   clear: both;
@@ -1249,63 +1249,63 @@ COMMENT STYLES
   padding: 0.7335em 10px;
   /* end .commentlist li ul.children */
 }
-/* line 561, ../scss/_base.scss */
+/* line 561, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_base.scss */
 .commentlist li:last-child {
   margin-bottom: 0;
 }
-/* line 565, ../scss/_base.scss */
+/* line 565, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_base.scss */
 .commentlist li ul.children {
   margin: 0;
   /* variations */
   /* change number for different depth */
 }
-/* line 583, ../scss/_base.scss */
+/* line 583, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_base.scss */
 .commentlist li[class*=depth-] {
   margin-top: 1.1em;
 }
-/* line 587, ../scss/_base.scss */
+/* line 587, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_base.scss */
 .commentlist li.depth-1 {
   margin-left: 0;
   margin-top: 0;
 }
-/* line 592, ../scss/_base.scss */
+/* line 592, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_base.scss */
 .commentlist li:not(.depth-1) {
   margin-right: -10px;
   margin-left: -10px;
   margin-top: 0;
   padding-bottom: 0;
 }
-/* line 606, ../scss/_base.scss */
+/* line 606, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_base.scss */
 .commentlist .odd {
   background: #eee;
 }
-/* line 609, ../scss/_base.scss */
+/* line 609, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_base.scss */
 .commentlist .even {
   background: #fefefe;
 }
-/* line 624, ../scss/_base.scss */
+/* line 624, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_base.scss */
 .commentlist .vcard {
   margin-left: 50px;
 }
-/* line 627, ../scss/_base.scss */
+/* line 627, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_base.scss */
 .commentlist .vcard cite.fn {
   font-weight: 700;
   font-style: normal;
 }
-/* line 635, ../scss/_base.scss */
+/* line 635, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_base.scss */
 .commentlist .vcard time {
   float: right;
 }
-/* line 638, ../scss/_base.scss */
+/* line 638, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_base.scss */
 .commentlist .vcard time a {
   color: #999;
   text-decoration: none;
 }
-/* line 642, ../scss/_base.scss */
+/* line 642, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_base.scss */
 .commentlist .vcard time a:hover {
   text-decoration: underline;
 }
-/* line 652, ../scss/_base.scss */
+/* line 652, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_base.scss */
 .commentlist .vcard img.avatar {
   position: absolute;
   left: 10px;
@@ -1313,17 +1313,17 @@ COMMENT STYLES
   border: 1px solid #cecece;
   background: #fff;
 }
-/* line 677, ../scss/_base.scss */
+/* line 677, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_base.scss */
 .commentlist .comment_content {
   margin-left: 50px;
 }
-/* line 680, ../scss/_base.scss */
+/* line 680, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_base.scss */
 .commentlist .comment_content p {
   margin: 0.7335em 0 1.5em;
   font-size: 1em;
   line-height: 1.5em;
 }
-/* line 689, ../scss/_base.scss */
+/* line 689, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_base.scss */
 .commentlist .comment-reply-link {
   text-decoration: none;
   float: right;
@@ -1335,7 +1335,7 @@ COMMENT STYLES
   font-weight: 700;
   font-size: 0.9em;
 }
-/* line 701, ../scss/_base.scss */
+/* line 701, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_base.scss */
 .commentlist .comment-reply-link:hover, .commentlist .comment-reply-link:focus {
   opacity: 1;
 }
@@ -1344,27 +1344,27 @@ COMMENT STYLES
 /******************************************************************
 COMMENT FORM STYLES
 ******************************************************************/
-/* line 713, ../scss/_base.scss */
+/* line 713, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_base.scss */
 .respond-form {
   margin: 1.5em 10px;
   padding-bottom: 2.2em;
 }
-/* line 717, ../scss/_base.scss */
+/* line 717, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_base.scss */
 .respond-form form {
   margin: 0.75em 0;
 }
-/* line 720, ../scss/_base.scss */
+/* line 720, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_base.scss */
 .respond-form form li {
   list-style-type: none;
   clear: both;
   margin-bottom: 0.7335em;
 }
-/* line 726, ../scss/_base.scss */
+/* line 726, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_base.scss */
 .respond-form form li label,
 .respond-form form li small {
   display: none;
 }
-/* line 734, ../scss/_base.scss */
+/* line 734, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_base.scss */
 .respond-form form input[type=text],
 .respond-form form input[type=email],
 .respond-form form input[type=url],
@@ -1375,14 +1375,14 @@ COMMENT FORM STYLES
   line-height: 1.5em;
   /* form validation */
 }
-/* line 740, ../scss/_base.scss */
+/* line 740, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_base.scss */
 .respond-form form input[type=text]:focus,
 .respond-form form input[type=email]:focus,
 .respond-form form input[type=url]:focus,
 .respond-form form textarea:focus {
   background: #fff;
 }
-/* line 745, ../scss/_base.scss */
+/* line 745, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_base.scss */
 .respond-form form input[type=text]:invalid,
 .respond-form form input[type=email]:invalid,
 .respond-form form input[type=url]:invalid,
@@ -1395,14 +1395,14 @@ COMMENT FORM STYLES
   -ms-box-shadow: none;
   box-shadow: none;
 }
-/* line 758, ../scss/_base.scss */
+/* line 758, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_base.scss */
 .respond-form form input[type=text],
 .respond-form form input[type=email],
 .respond-form form input[type=url] {
   max-width: 400px;
   min-width: 250px;
 }
-/* line 763, ../scss/_base.scss */
+/* line 763, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_base.scss */
 .respond-form form textarea {
   resize: none;
   width: 97.3%;
@@ -1411,7 +1411,7 @@ COMMENT FORM STYLES
 
 /* comment submit button */
 /* comment form title */
-/* line 776, ../scss/_base.scss */
+/* line 776, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_base.scss */
 #comment-form-title {
   margin: 0 0 1.1em;
 }
@@ -1419,13 +1419,13 @@ COMMENT FORM STYLES
 /* cancel comment reply link */
 /* logged in comments */
 /* allowed tags */
-/* line 789, ../scss/_base.scss */
+/* line 789, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_base.scss */
 #allowed_tags {
   margin: 1.5em 10px 0.7335em 0;
 }
 
 /* no comments */
-/* line 794, ../scss/_base.scss */
+/* line 794, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_base.scss */
 .nocomments {
   margin: 0 20px 1.1em;
 }
@@ -1433,11 +1433,11 @@ COMMENT FORM STYLES
 /*********************
 SIDEBARS & ASIDES
 *********************/
-/* line 808, ../scss/_base.scss */
+/* line 808, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_base.scss */
 .widget ul {
   padding-left: 0;
 }
-/* line 812, ../scss/_base.scss */
+/* line 812, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_base.scss */
 .widget ul li {
   /* deep nesting */
 }
@@ -1445,7 +1445,7 @@ SIDEBARS & ASIDES
 /*********************
 FOOTER STYLES
 *********************/
-/* line 833, ../scss/_base.scss */
+/* line 833, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_base.scss */
 .footer {
   clear: both;
 }
@@ -1460,13 +1460,13 @@ override these styles for the desktop
 view.
 */
 /* end .footer-links */
-/* line 7, ../scss/_contact.scss */
+/* line 7, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_contact.scss */
 .wpcf7 label,
 .wpcf7 textarea,
 .wpcf7 input[type="text"] {
   display: block;
 }
-/* line 12, ../scss/_contact.scss */
+/* line 12, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_contact.scss */
 .wpcf7 input[type="text"],
 .wpcf7 textarea {
   width: 270px;
@@ -1474,13 +1474,13 @@ view.
   margin-bottom: 1rem;
 }
 
-/* line 7, ../scss/_gallery.scss */
+/* line 7, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_gallery.scss */
 .gallery a {
   display: block;
   float: left;
   line-height: 0;
 }
-/* line 13, ../scss/_gallery.scss */
+/* line 13, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_gallery.scss */
 .gallery img {
   margin: 0;
 }
@@ -1512,23 +1512,23 @@ tweeners.
   NAVIGATION STYLES
   *********************/
   /* .menu is clearfixed inside mixins.scss */
-  /* line 27, ../scss/_481up.scss */
+  /* line 27, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_481up.scss */
   .menu {
     /* end .menu ul */
   }
-  /* line 28, ../scss/_481up.scss */
+  /* line 28, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_481up.scss */
   .menu ul {
     /* end .menu ul li */
     /* highlight current page */
     /* end current highlighters */
   }
-  /* line 29, ../scss/_481up.scss */
+  /* line 29, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_481up.scss */
   .menu ul li {
     /*
     plan your menus and drop-downs wisely.
     */
   }
-  /* line 30, ../scss/_481up.scss */
+  /* line 30, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_481up.scss */
   .menu ul li a {
     /*
     you can use hover styles here even though this size
@@ -1541,23 +1541,23 @@ tweeners.
   POSTS & CONTENT STYLES
   *********************/
   /* post content */
-  /* line 75, ../scss/_481up.scss */
+  /* line 75, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_481up.scss */
   .post-content {
     /* at this larger size, we can start to align images */
   }
-  /* line 79, ../scss/_481up.scss */
+  /* line 79, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_481up.scss */
   .post-content .alignleft, .post-content img.alignleft {
     margin-right: 1.5em;
     display: inline;
     float: left;
   }
-  /* line 84, ../scss/_481up.scss */
+  /* line 84, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_481up.scss */
   .post-content .alignright, .post-content img.alignright {
     margin-left: 1.5em;
     display: inline;
     float: right;
   }
-  /* line 89, ../scss/_481up.scss */
+  /* line 89, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_481up.scss */
   .post-content .aligncenter, .post-content img.aligncenter {
     margin-right: auto;
     margin-left: auto;
@@ -1637,7 +1637,7 @@ you can add resource intensive styles.
   /*********************
   LAYOUT & GRID STYLES
   *********************/
-  /* line 67, ../scss/_768up.scss */
+  /* line 67, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_768up.scss */
   .wrap {
     max-width: 1140px;
   }
@@ -1649,92 +1649,92 @@ you can add resource intensive styles.
   	If you want to use 1140, the original values are commented
   	out on each line.
   */
-  /* line 77, ../scss/_768up.scss */
+  /* line 77, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_768up.scss */
   .onecol {
     width: 5.801104972%;
   }
 
   /* 4.85%;  } /* grid_1  */
-  /* line 78, ../scss/_768up.scss */
+  /* line 78, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_768up.scss */
   .twocol {
     width: 14.364640883%;
   }
 
   /* 13.45%; } /* grid_2  */
-  /* line 79, ../scss/_768up.scss */
+  /* line 79, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_768up.scss */
   .threecol {
     width: 22.928176794%;
   }
 
   /* 22.05%; } /* grid_3  */
-  /* line 80, ../scss/_768up.scss */
+  /* line 80, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_768up.scss */
   .fourcol {
     width: 31.491712705%;
   }
 
   /* 30.75%; } /* grid_4  */
-  /* line 81, ../scss/_768up.scss */
+  /* line 81, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_768up.scss */
   .fivecol {
     width: 40.055248616%;
   }
 
   /* 39.45%; } /* grid_5  */
-  /* line 82, ../scss/_768up.scss */
+  /* line 82, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_768up.scss */
   .sixcol {
     width: 48.618784527%;
   }
 
   /* 48%;    } /* grid_6  */
-  /* line 83, ../scss/_768up.scss */
+  /* line 83, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_768up.scss */
   .sevencol {
     width: 57.182320438000005%;
   }
 
   /* 56.75%; } /* grid_7  */
-  /* line 84, ../scss/_768up.scss */
+  /* line 84, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_768up.scss */
   .eightcol {
     width: 65.74585634900001%;
   }
 
   /* 65.4%;  } /* grid_8  */
-  /* line 85, ../scss/_768up.scss */
+  /* line 85, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_768up.scss */
   .ninecol {
     width: 74.30939226%;
   }
 
   /* 74.05%; } /* grid_9  */
-  /* line 86, ../scss/_768up.scss */
+  /* line 86, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_768up.scss */
   .tencol {
     width: 82.87292817100001%;
   }
 
   /* 82.7%;  } /* grid_10 */
-  /* line 87, ../scss/_768up.scss */
+  /* line 87, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_768up.scss */
   .elevencol {
     width: 91.436464082%;
   }
 
   /* 91.35%; } /* grid_11 */
-  /* line 88, ../scss/_768up.scss */
+  /* line 88, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_768up.scss */
   .twelvecol {
     width: 99.999999993%;
   }
 
   /* 100%;   } /* grid_12 */
   /* layout & column defaults */
-  /* line 91, ../scss/_768up.scss */
+  /* line 91, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_768up.scss */
   .onecol, .twocol, .threecol, .fourcol, .fivecol, .sixcol, .sevencol, .eightcol, .ninecol, .tencol, .elevencol, .twelvecol {
     position: relative;
     float: left;
     margin-left: 2.762430939%;
   }
 
-  /* line 97, ../scss/_768up.scss */
+  /* line 97, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_768up.scss */
   .first {
     margin-left: 0;
   }
 
-  /* line 101, ../scss/_768up.scss */
+  /* line 101, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_768up.scss */
   .last {
     float: right;
   }
@@ -1745,7 +1745,7 @@ you can add resource intensive styles.
   /*********************
   NAVIGATION STYLES
   *********************/
-  /* line 117, ../scss/_768up.scss */
+  /* line 117, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_768up.scss */
   .nav {
     background: #eee;
     border: 0;
@@ -1753,7 +1753,7 @@ you can add resource intensive styles.
     /* highlight current page */
     /* end current highlighters */
   }
-  /* line 123, ../scss/_768up.scss */
+  /* line 123, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_768up.scss */
   .nav a {
     border-bottom: 0;
     float: left;
@@ -1767,11 +1767,11 @@ you can add resource intensive styles.
     */
     /* showing sub-menus */
   }
-  /* line 132, ../scss/_768up.scss */
+  /* line 132, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_768up.scss */
   .nav a:hover, .nav a:focus {
     background-color: #dedede;
   }
-  /* line 144, ../scss/_768up.scss */
+  /* line 143, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_768up.scss */
   .nav a ul.sub-menu,
   .nav a ul.children {
     width: 200px;
@@ -1782,7 +1782,7 @@ you can add resource intensive styles.
     z-index: 8999;
     /* highlight sub-menu current page */
   }
-  /* line 152, ../scss/_768up.scss */
+  /* line 151, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_768up.scss */
   .nav a ul.sub-menu li,
   .nav a ul.children li {
     /*
@@ -1791,7 +1791,7 @@ you can add resource intensive styles.
     for usability. k, bai.
     */
   }
-  /* line 154, ../scss/_768up.scss */
+  /* line 153, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_768up.scss */
   .nav a ul.sub-menu li a,
   .nav a ul.children li a {
     padding-left: 10px;
@@ -1800,12 +1800,12 @@ you can add resource intensive styles.
     width: 180px;
     border-bottom: 1px solid #ccc;
   }
-  /* line 171, ../scss/_768up.scss */
+  /* line 170, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_768up.scss */
   .nav a ul.sub-menu li:last-child a,
   .nav a ul.children li:last-child a {
     border-bottom: 0;
   }
-  /* line 193, ../scss/_768up.scss */
+  /* line 192, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_768up.scss */
   .nav a:hover ul {
     top: auto;
     display: block;
@@ -1815,28 +1815,28 @@ you can add resource intensive styles.
   /*********************
   SIDEBARS & ASIDES
   *********************/
-  /* line 213, ../scss/_768up.scss */
+  /* line 212, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_768up.scss */
   .sidebar {
     margin-top: 2.2em;
   }
 
-  /* line 217, ../scss/_768up.scss */
+  /* line 216, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_768up.scss */
   .widgettitle {
     border-bottom: 2px solid #444;
     margin-bottom: 0.75em;
   }
 
-  /* line 222, ../scss/_768up.scss */
+  /* line 221, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_768up.scss */
   .widget {
     padding: 0 10px;
     margin: 2.2em 0;
   }
-  /* line 227, ../scss/_768up.scss */
+  /* line 226, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_768up.scss */
   .widget ul li {
     margin-bottom: 0.75em;
     /* deep nesting */
   }
-  /* line 235, ../scss/_768up.scss */
+  /* line 234, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_768up.scss */
   .widget ul li ul {
     margin-top: 0.75em;
     padding-left: 1em;
@@ -1861,7 +1861,7 @@ you can add resource intensive styles.
   of overriding here if you styled them for
   mobile. Make sure to double check these!
   */
-  /* line 343, ../scss/_768up.scss */
+  /* line 342, c:/Users/ahudson/Desktop/Git/big-andy.co.uk/content/themes/bones/library/scss/_768up.scss */
   .footer-links ul li {
     /* 
     be careful with the depth of your menus.

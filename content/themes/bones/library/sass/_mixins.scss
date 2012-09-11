@@ -21,7 +21,7 @@ CLEARFIXIN'
 *********************/
 
 /* Contain floats: nicolasgallagher.com/micro-clearfix-hack/ */ 
-%clearfix { 
+.clearfix { 
 	&:before,
 	&:after {
 		content: "";
