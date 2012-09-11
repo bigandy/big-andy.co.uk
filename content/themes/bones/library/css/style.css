@@ -607,16 +607,16 @@ CLEARFIXIN'
 *********************/
 /* Contain floats: nicolasgallagher.com/micro-clearfix-hack/ */
 /* line 24, ../scss/_mixins.scss */
-.clearfix {
+.gallery {
   zoom: 1;
 }
 /* line 26, ../scss/_mixins.scss */
-.clearfix:before, .clearfix:after {
+.gallery:before, .gallery:after {
   content: "";
   display: table;
 }
 /* line 30, ../scss/_mixins.scss */
-.clearfix:after {
+.gallery:after {
   clear: both;
 }
 
@@ -1474,6 +1474,13 @@ view.
   margin-bottom: 1rem;
 }
 
+/* line 7, ../scss/_gallery.scss */
+.gallery a {
+  display: block;
+  float: left;
+  line-height: 0;
+}
+
 /*
 LARGER MOBILE DEVICES
 This is for devices like the Galaxy Note or something that's 
@@ -1950,7 +1957,7 @@ sense to print at the bottom. Things like nav, ads, and forms should
 be set to display none.
 */
 @media print {
-  /* line 110, ../scss/style.scss */
+  /* line 114, ../scss/style.scss */
   * {
     background: transparent !important;
     color: black !important;
@@ -1959,44 +1966,44 @@ be set to display none.
     -ms-filter: none !important;
   }
 
-  /* line 118, ../scss/style.scss */
+  /* line 122, ../scss/style.scss */
   a, a:visited {
     color: #444 !important;
     text-decoration: underline;
   }
-  /* line 123, ../scss/style.scss */
+  /* line 127, ../scss/style.scss */
   a:after, a:visited:after {
     content: " (" attr(href) ")";
   }
-  /* line 128, ../scss/style.scss */
+  /* line 132, ../scss/style.scss */
   a abbr[title]:after, a:visited abbr[title]:after {
     content: " (" attr(title) ")";
   }
 
-  /* line 135, ../scss/style.scss */
+  /* line 139, ../scss/style.scss */
   .ir a:after,
   a[href^="javascript:"]:after,
   a[href^="#"]:after {
     content: "";
   }
 
-  /* line 139, ../scss/style.scss */
+  /* line 143, ../scss/style.scss */
   pre, blockquote {
     border: 1px solid #999;
     page-break-inside: avoid;
   }
 
-  /* line 144, ../scss/style.scss */
+  /* line 148, ../scss/style.scss */
   thead {
     display: table-header-group;
   }
 
-  /* line 148, ../scss/style.scss */
+  /* line 152, ../scss/style.scss */
   tr, img {
     page-break-inside: avoid;
   }
 
-  /* line 152, ../scss/style.scss */
+  /* line 156, ../scss/style.scss */
   img {
     max-width: 100% !important;
   }
@@ -2005,19 +2012,19 @@ be set to display none.
     margin: 0.5cm;
 }
 
-  /* line 160, ../scss/style.scss */
+  /* line 164, ../scss/style.scss */
   p, h2, h3 {
     orphans: 3;
     widows: 3;
   }
 
-  /* line 166, ../scss/style.scss */
+  /* line 170, ../scss/style.scss */
   h2,
   h3 {
     page-break-after: avoid;
   }
 
-  /* line 175, ../scss/style.scss */
+  /* line 179, ../scss/style.scss */
   .sidebar,
   .page-navigation,
   .wp-prev-next,

@@ -1,0 +1,13 @@
+// gallery styles
+
+.gallery {
+	
+	@extend %clearfix;
+	
+	a {
+		display:block;
+		float:left;
+		line-height:0;
+	}
+	
+}
