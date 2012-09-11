@@ -145,7 +145,7 @@ function remove_img_title($atts) {
     return $atts;
 }
 add_filter('wp_get_attachment_image_attributes','remove_img_title',1,1);
-
+// http://wordpress.org/support/topic/remove-image-title-popup
 add_filter('the_content','nuke_title_attribute');
 function nuke_title_attribute($output) {
 $output = preg_replace('/title=\"(.*?)\"/','',$output);
