@@ -138,7 +138,7 @@ add_filter( 'image_downsize', 'ah_image_downsize', 1, 3 );
 
 /* END [gallery] */
 
-// Remove img title in [gallery]
+// Remove <img> title in [gallery]
 // http://wordpress.org/support/topic/wp_get_attachment_image_attributes-filter-not-working
 function remove_img_title($atts) {
     unset($atts['title']);
