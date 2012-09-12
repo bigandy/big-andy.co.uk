@@ -151,3 +151,57 @@ function nuke_title_attribute($output) {
 $output = preg_replace('/title=\"(.*?)\"/','',$output);
 return $output;
 }
+
+
+/** From /wp-includes/post-template.php :::
+ * Retrieve an attachment page link using an image or icon, if possible.
+ *
+ * @since 2.5.0
+ * @uses apply_filters() Calls 'wp_get_attachment_link' filter on HTML content with same parameters as function.
+ *
+ * @param int $id Optional. Post ID.
+ * @param string $size Optional, default is 'thumbnail'. Size of image, either array or string.
+ * @param bool $permalink Optional, default is false. Whether to add permalink to image.
+ * @param bool $icon Optional, default is false. Whether to include icon.
+ * @param string|bool $text Optional, default is false. If string, then will be link text.
+ * @return string HTML content.
+ */
+function wp_get_attachment_link( $id = 0, $size = 'thumbnail', $permalink = false, $icon = false, $text = false ) {
+	$id = intval( $id );
+	$_post = get_post( $id );
+
+	if ( empty( $_post ) || ( 'attachment' != $_post->post_type ) || ! $url = wp_get_attachment_url( $_post->ID ) )
+		return __( 'Missing Attachment' );
+
+	if ( $permalink )
+		$url = get_attachment_link( $_post->ID );
+
+	$post_title = esc_attr( $_post->post_title );
+
+	if ( $text )
+		$link_text = $text;
+	elseif ( $size && 'none' != $size )
+		$link_text = wp_get_attachment_image( $id, $size, $icon );
+	else
+		$link_text = '';
+
+	if ( trim( $link_text ) == '' )
+		$link_text = $_post->post_title;
+
+	return apply_filters( 'wp_get_attachment_link', "<a href='$url' title='$post_title'>$link_text</a>", $id, $size, $permalink, $icon, $text );
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
