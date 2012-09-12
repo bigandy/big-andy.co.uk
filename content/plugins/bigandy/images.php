@@ -142,6 +142,7 @@ add_filter( 'image_downsize', 'ah_image_downsize', 1, 3 );
 // http://wordpress.org/support/topic/wp_get_attachment_image_attributes-filter-not-working
 function remove_img_title($atts) {
     unset($atts['title']);
+    unset($atts['class']);
     return $atts;
 }
 add_filter('wp_get_attachment_image_attributes','remove_img_title', 10, 4);
@@ -159,7 +160,7 @@ add_filter('wp_get_attachment_link', 'ah_get_attachment_link_filter', 10, 4);
 // http://wordpress.org/support/topic/remove-image-title-popup
 
 function nuke_title_attribute($output) {
-    $output = preg_replace( '/title=\"(.*?)\"/', '', $output );
+    $output = preg_replace( '/(title|class)=\"(.*?)\"/', '', $output );
     return $output;
 }
 add_filter( 'the_content', 'nuke_title_attribute' );
