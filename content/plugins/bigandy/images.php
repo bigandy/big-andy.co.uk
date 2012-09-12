@@ -153,6 +153,7 @@ return $output;
 }
 
 
+
 /** From /wp-includes/post-template.php :::
  * Retrieve an attachment page link using an image or icon, if possible.
  *
@@ -166,6 +167,7 @@ return $output;
  * @param string|bool $text Optional, default is false. If string, then will be link text.
  * @return string HTML content.
  */
+ /*
 function wp_get_attachment_link( $id = 0, $size = 'thumbnail', $permalink = false, $icon = false, $text = false ) {
 	$id = intval( $id );
 	$_post = get_post( $id );
@@ -190,16 +192,11 @@ function wp_get_attachment_link( $id = 0, $size = 'thumbnail', $permalink = fals
 
 	return apply_filters( 'wp_get_attachment_link', "<a href='$url' title='$post_title'>$link_text</a>", $id, $size, $permalink, $icon, $text );
 }
+*/
 
 
-
-
-
-
-
-
-
-
+// http://wordpress.stackexchange.com/questions/20837/change-attachment-url-to-post-url-in-wp-get-attachment-link
+apply_filters( 'wp_get_attachment_link', "<a href='$url'>$link_text</a>", $id, $size, $permalink, $icon, $text );
 
 
 
