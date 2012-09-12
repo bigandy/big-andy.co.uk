@@ -147,6 +147,7 @@ function remove_img_title($atts) {
 add_filter('wp_get_attachment_image_attributes','remove_img_title', 10, 4);
 
 // remove title attribute from <a> in [gallery]
+// modified from this post : http://oikos.org.uk/2011/09/tech-notes-using-resized-images-in-wordpress-galleries-and-lightboxes/
 function ah_get_attachment_link_filter( $content ) {       
     
         $new_content = preg_replace('/title=\'(.*?)\'/', '', $content );
@@ -156,8 +157,8 @@ add_filter('wp_get_attachment_link', 'ah_get_attachment_link_filter', 10, 4);
 
 // remove title attribute from <img> in content
 // http://wordpress.org/support/topic/remove-image-title-popup
-function nuke_title_attribute($output) {
 
+function nuke_title_attribute($output) {
     $output = preg_replace( '/title=\"(.*?)\"/', '', $output );
     return $output;
 }
