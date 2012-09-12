@@ -138,7 +138,7 @@ add_filter( 'image_downsize', 'ah_image_downsize', 1, 3 );
 
 /* END [gallery] */
 
-// Remove <img> title in [gallery]
+// Remove <img> class and title in [gallery]
 // http://wordpress.org/support/topic/wp_get_attachment_image_attributes-filter-not-working
 function remove_img_title($atts) {
     unset($atts['title']);
@@ -156,7 +156,7 @@ function ah_get_attachment_link_filter( $content ) {
 }
 add_filter('wp_get_attachment_link', 'ah_get_attachment_link_filter', 10, 4);
 
-// remove title attribute from <img> in content
+// remove class and title attribute from <img> in content
 // http://wordpress.org/support/topic/remove-image-title-popup
 
 function nuke_title_attribute($output) {
