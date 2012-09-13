@@ -810,8 +810,11 @@ function pings_open( $post_id = null ) {
  * @uses $post Gets the ID of the current post for the token
  */
 function wp_comment_form_unfiltered_html_nonce() {
-	$post = get_post();
-	$post_id = $post ? $post->ID : 0;
+	global $post;
+
+	$post_id = 0;
+	if ( !empty($post) )
+		$post_id = $post->ID;
 
 	if ( current_user_can( 'unfiltered_html' ) ) {
 		wp_nonce_field( 'unfiltered-html-comment_' . $post_id, '_wp_unfiltered_html_comment_disabled', false );
@@ -904,7 +907,7 @@ function comments_template( $file = '/comments.php', $separate_comments = false 
 		$overridden_cpage = true;
 	}
 
-	if ( !defined('COMMENTS_TEMPLATE') )
+	if ( !defined('COMMENTS_TEMPLATE') || !COMMENTS_TEMPLATE)
 		define('COMMENTS_TEMPLATE', true);
 
 	$include = apply_filters('comments_template', STYLESHEETPATH . $file );
@@ -1328,13 +1331,13 @@ class Walker_Comment extends Walker {
 	function start_el( &$output, $comment, $depth, $args, $id = 0 ) {
 		$depth++;
 		$GLOBALS['comment_depth'] = $depth;
-		$GLOBALS['comment'] = $comment;
 
 		if ( !empty($args['callback']) ) {
 			call_user_func($args['callback'], $comment, $args, $depth);
 			return;
 		}
 
+		$GLOBALS['comment'] = $comment;
 		extract($args, EXTR_SKIP);
 
 		if ( 'div' == $args['style'] ) {
@@ -1534,7 +1537,7 @@ function comment_form( $args = array(), $post_id = null ) {
 		'fields'               => apply_filters( 'comment_form_default_fields', $fields ),
 		'comment_field'        => '<p class="comment-form-comment"><label for="comment">' . _x( 'Comment', 'noun' ) . '</label><textarea id="comment" name="comment" cols="45" rows="8" aria-required="true"></textarea></p>',
 		'must_log_in'          => '<p class="must-log-in">' . sprintf( __( 'You must be <a href="%s">logged in</a> to post a comment.' ), wp_login_url( apply_filters( 'the_permalink', get_permalink( $post_id ) ) ) ) . '</p>',
-		'logged_in_as'         => '<p class="logged-in-as">' . sprintf( __( 'Logged in as <a href="%1$s">%2$s</a>. <a href="%3$s" title="Log out of this account">Log out?</a>' ), get_edit_user_link(), $user_identity, wp_logout_url( apply_filters( 'the_permalink', get_permalink( $post_id ) ) ) ) . '</p>',
+		'logged_in_as'         => '<p class="logged-in-as">' . sprintf( __( 'Logged in as <a href="%1$s">%2$s</a>. <a href="%3$s" title="Log out of this account">Log out?</a>' ), admin_url( 'profile.php' ), $user_identity, wp_logout_url( apply_filters( 'the_permalink', get_permalink( $post_id ) ) ) ) . '</p>',
 		'comment_notes_before' => '<p class="comment-notes">' . __( 'Your email address will not be published.' ) . ( $req ? $required_text : '' ) . '</p>',
 		'comment_notes_after'  => '<p class="form-allowed-tags">' . sprintf( __( 'You may use these <abbr title="HyperText Markup Language">HTML</abbr> tags and attributes: %s' ), ' <code>' . allowed_tags() . '</code>' ) . '</p>',
 		'id_form'              => 'commentform',

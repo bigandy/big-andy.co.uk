@@ -249,8 +249,7 @@ function get_editable_user_ids( $user_id, $exclude_zeros = true, $post_type = 'p
 
 	global $wpdb;
 
-	if ( ! $user = get_userdata( $user_id ) )
-		return array();
+	$user = new WP_User( $user_id );
 	$post_type_obj = get_post_type_object($post_type);
 
 	if ( ! $user->has_cap($post_type_obj->cap->edit_others_posts) ) {
@@ -940,54 +939,3 @@ function current_theme_info() {
 
 	return wp_get_theme();
 }
-
-/**
- * This was once used to display an 'Insert into Post' button. Now it is deprecated and stubbed.
- *
- * @deprecated 3.5.0
- */
-function _insert_into_post_button( $type ) {
-	_deprecated_function( __FUNCTION__, '3.5' );
-}
-
-/**
- * This was once used to display a media button. Now it is deprecated and stubbed.
- *
- * @deprecated 3.5.0
- */
-function _media_button($title, $icon, $type, $id) {
-	_deprecated_function( __FUNCTION__, '3.5' );
-}
-
-/**
- * Get an existing post and format it for editing.
- *
- * @since 2.0.0
- * @deprecated 3.5.0
- *
- * @param int $id
- * @return object
- */
-function get_post_to_edit( $id ) {
-	_deprecated_function( __FUNCTION__, '3.5', 'get_post()' );
-
-	return get_post( $id, OBJECT, 'edit' );
-}
-
-/**
- * Get the default page information to use.
- *
- * @since 2.5.0
- * @deprecated 3.5.0
- * @deprecated Use get_default_post_to_edit() 
- *
- * @return WP_Post Post object containing all the default post data as attributes
- */
-function get_default_page_to_edit() {
-	_deprecated_function( __FUNCTION__, '3.5', "get_default_post_to_edit( 'page' )" );
-
-	$page = get_default_post_to_edit();
-	$page->post_type = 'page';
-	return $page;
-}
-

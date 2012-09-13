@@ -193,13 +193,12 @@ class WP_Filesystem_Base {
 		$folder = untrailingslashit($folder);
 
 		$folder_parts = explode('/', $folder);
-		$last_index = array_pop( array_keys( $folder_parts ) );
-		$last_path = $folder_parts[ $last_index ];
+		$last_path = $folder_parts[ count($folder_parts) - 1 ];
 
 		$files = $this->dirlist( $base );
 
-		foreach ( $folder_parts as $index => $key ) {
-			if ( $index == $last_index )
+		foreach ( $folder_parts as $key ) {
+			if ( $key == $last_path )
 				continue; //We want this to be caught by the next code block.
 
 			//Working from /home/ to /user/ to /wordpress/ see if that file exists within the current folder,
@@ -211,9 +210,7 @@ class WP_Filesystem_Base {
 				$newdir = trailingslashit(path_join($base, $key));
 				if ( $this->verbose )
 					printf( __('Changing to %s') . '<br/>', $newdir );
-				// only search for the remaining path tokens in the directory, not the full path again
-				$newfolder = implode( '/', array_slice( $folder_parts, $index + 1 ) );
-				if ( $ret = $this->search_for_folder( $newfolder, $newdir, $loop) )
+				if ( $ret = $this->search_for_folder( $folder, $newdir, $loop) )
 					return $ret;
 			}
 		}

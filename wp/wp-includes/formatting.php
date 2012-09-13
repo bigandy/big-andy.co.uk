@@ -100,7 +100,7 @@ function wptexturize($text) {
 	}
 
 	// Transform into regexp sub-expression used in _wptexturize_pushpop_element
-	// Must do this every time in case plugins use these filters in a context sensitive manner
+	// Must do this everytime in case plugins use these filters in a context sensitive manner
 	$no_texturize_tags = '(' . implode('|', apply_filters('no_texturize_tags', $default_no_texturize_tags) ) . ')';
 	$no_texturize_shortcodes = '(' . implode('|', apply_filters('no_texturize_shortcodes', $default_no_texturize_shortcodes) ) . ')';
 
@@ -141,7 +141,8 @@ function wptexturize($text) {
  * @param array $stack Array used as stack of opened tag elements
  * @param string $disabled_elements Tags to match against formatted as regexp sub-expression
  * @param string $opening Tag opening character, assumed to be 1 character long
- * @param string $closing Tag closing character
+ * @param string $opening Tag closing  character
+ * @return object
  */
 function _wptexturize_pushpop_element($text, &$stack, $disabled_elements, $opening = '<', $closing = '>') {
 	// Check if it is a closing tag -- otherwise assume opening tag
@@ -263,7 +264,7 @@ function wpautop($pee, $br = true) {
  * @since 3.1.0
  * @access private
  * @param array $matches preg_replace_callback matches array
- * @return string
+ * @returns string
  */
 function _autop_newline_preservation_helper( $matches ) {
 	return str_replace("\n", "<WPPreserveNewline />", $matches[0]);
@@ -1008,7 +1009,7 @@ function sanitize_title_with_dashes($title, $raw_title = '', $context = 'display
  * @since 2.5.1
  *
  * @param string $orderby Order by string to be checked.
- * @return string|bool Returns the order by clause if it is a match, false otherwise.
+ * @return string|false Returns the order by clause if it is a match, false otherwise.
  */
 function sanitize_sql_orderby( $orderby ){
 	preg_match('/^\s*([a-z0-9_]+(\s+(ASC|DESC))?(\s*,\s*|\s*$))+|^\s*RAND\(\s*\)\s*$/i', $orderby, $obmatches);
@@ -1156,7 +1157,7 @@ function force_balance_tags( $text ) {
 	$tagqueue = '';
 	$newtext = '';
 	$single_tags = array( 'br', 'hr', 'img', 'input' ); // Known single-entity/self-closing tags
-	$nestable_tags = array( 'blockquote', 'div', 'object', 'q', 'span' ); // Tags that can be immediately nested within themselves
+	$nestable_tags = array( 'blockquote', 'div', 'span', 'q' ); // Tags that can be immediately nested within themselves
 
 	// WP bug fix for comments - in case you REALLY meant to type '< !--'
 	$text = str_replace('< !--', '<    !--', $text);
@@ -1380,8 +1381,8 @@ function addslashes_gpc($gpc) {
  *
  * @since 2.0.0
  *
- * @param mixed $value The value to be stripped.
- * @return mixed Stripped value.
+ * @param array|string $value The array or string to be stripped.
+ * @return array|string Stripped array (or string in the callback).
  */
 function stripslashes_deep($value) {
 	if ( is_array($value) ) {
@@ -1391,7 +1392,7 @@ function stripslashes_deep($value) {
 		foreach ($vars as $key=>$data) {
 			$value->{$key} = stripslashes_deep( $data );
 		}
-	} elseif ( is_string( $value ) ) {
+	} else {
 		$value = stripslashes($value);
 	}
 
@@ -1622,8 +1623,8 @@ function make_clickable( $text ) {
  * @since 3.4.0
  * @access private
  *
- * @param string $string The string to split.
- * @param int $goal The desired chunk length.
+ * @param string $string The string to split
+ * @param    int $goal   The desired chunk length.
  * @return array Numeric array of chunks.
  */
 function _split_str_by_whitespace( $string, $goal ) {
@@ -1821,6 +1822,7 @@ function is_email( $email, $deprecated = false ) {
  * Convert to ASCII from email subjects.
  *
  * @since 1.2.0
+ * @usedby wp_mail() handles charsets in email subjects
  *
  * @param string $string Subject line
  * @return string Converted string to ASCII
@@ -1837,12 +1839,11 @@ function wp_iso_descrambler($string) {
 }
 
 /**
- * Helper function to convert hex encoded chars to ASCII
+ * Helper function to convert hex encoded chars to ascii
  *
  * @since 3.1.0
  * @access private
- * @param array $match The preg_replace_callback matches array
- * @return array Converted chars
+ * @param array $match the preg_replace_callback matches array
  */
 function _wp_iso_convert( $match ) {
 	return chr( hexdec( strtolower( $match[1] ) ) );
@@ -3205,7 +3206,7 @@ function capital_P_dangit( $text ) {
 	// Still here? Use the more judicious replacement
 	static $dblq = false;
 	if ( false === $dblq )
-		$dblq = _x( '&#8220;', 'opening curly double quote' );
+		$dblq = _x('&#8220;', 'opening curly quote');
 	return str_replace(
 		array( ' Wordpress', '&#8216;Wordpress', $dblq . 'Wordpress', '>Wordpress', '(Wordpress' ),
 		array( ' WordPress', '&#8216;WordPress', $dblq . 'WordPress', '>WordPress', '(WordPress' ),

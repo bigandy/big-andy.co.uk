@@ -510,14 +510,8 @@ var farbtastic;
 	<?php if ( $this->admin_image_div_callback ) {
 	  call_user_func( $this->admin_image_div_callback );
 	} else {
-		$custom_header = get_custom_header();
-		$header_image_style = 'background-image:url(' . esc_url( get_header_image() ) . ');';
-		if ( $custom_header->width )
-			$header_image_style .= 'max-width:' . $custom_header->width . 'px;';
-		if ( $custom_header->height )
-			$header_image_style .= 'height:' . $custom_header->height . 'px;';
 	?>
-	<div id="headimg" style="<?php echo $header_image_style; ?>">
+	<div id="headimg" style="background-image:url(<?php esc_url ( header_image() ) ?>);max-width:<?php echo get_custom_header()->width; ?>px;height:<?php echo get_custom_header()->height; ?>px;">
 		<?php
 		if ( display_header_text() )
 			$style = ' style="color:#' . get_header_textcolor() . ';"';
@@ -534,7 +528,7 @@ var farbtastic;
 <tr valign="top">
 <th scope="row"><?php _e( 'Select Image' ); ?></th>
 <td>
-	<p><?php _e( 'You can select an image to be shown at the top of your site by uploading from your computer or choosing from your media library. After selecting an image you will be able to crop it.' ); ?><br />
+	<p><?php _e( 'You can upload a custom header image to be shown at the top of your site instead of the default one. On the next screen you will be able to crop the image.' ); ?><br />
 	<?php
 	if ( ! current_theme_supports( 'custom-header', 'flex-height' ) && ! current_theme_supports( 'custom-header', 'flex-width' ) ) {
 		printf( __( 'Images of exactly <strong>%1$d &times; %2$d pixels</strong> will be used as-is.' ) . '<br />', get_theme_support( 'custom-header', 'width' ), get_theme_support( 'custom-header', 'height' ) );

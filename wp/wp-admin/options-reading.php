@@ -46,7 +46,7 @@ get_current_screen()->add_help_tab( array(
 	'title'   => __('Overview'),
 	'content' => '<p>' . __('This screen contains the settings that affect the display of your content.') . '</p>' .
 		'<p>' . sprintf(__('You can choose what&#8217;s displayed on the front page of your site. It can be posts in reverse chronological order (classic blog), or a fixed/static page. To set a static home page, you first need to create two <a href="%s">Pages</a>. One will become the front page, and the other will be where your posts are displayed.'), 'post-new.php?post_type=page') . '</p>' .
-		'<p>' . __('You can also control the display of your content in RSS feeds, including the maximum numbers of posts to display and whether to show full text or a summary.') . '</p>' .
+		'<p>' . __('You can also control the display of your content in RSS feeds, including the maximum numbers of posts to display, whether to show full text or a summary, and the character set encoding.') . '</p>' .
 		'<p>' . __('You must click the Save Changes button at the bottom of the screen for new settings to take effect.') . '</p>',
 ) );
 
@@ -64,19 +64,7 @@ include( './admin-header.php' );
 <h2><?php echo esc_html( $title ); ?></h2>
 
 <form name="form1" method="post" action="options.php">
-<?php
-settings_fields( 'reading' );
-
-function options_reading_blog_charset() {
-	echo '<input name="blog_charset" type="text" id="blog_charset" value="' . esc_attr( get_option( 'blog_charset' ) ) . '" class="regular-text" />';
-	echo '<p class="description">' . __( 'The <a href="http://codex.wordpress.org/Glossary#Character_set">character encoding</a> of your site (UTF-8 is recommended)' ) . '</p>';
-}
-
-if ( ! in_array( get_option( 'blog_charset' ), array( 'utf8', 'utf-8', 'UTF8', 'UTF-8' ) ) )
-	add_settings_field( 'blog_charset', __( 'Encoding for pages and feeds' ), 'options_reading_blog_charset', 'reading' );
-else
-	echo '<input name="blog_charset" type="hidden" id="blog_charset" value="' . esc_attr( get_option( 'blog_charset' ) ) . '" />';
-?>
+<?php settings_fields( 'reading' ); ?>
 
 <?php if ( ! get_pages() ) : ?>
 <input name="show_on_front" type="hidden" value="posts" />
@@ -132,6 +120,11 @@ else :
 </fieldset></td>
 </tr>
 
+<tr valign="top">
+<th scope="row"><label for="blog_charset"><?php _e( 'Encoding for pages and feeds' ); ?></label></th>
+<td><input name="blog_charset" type="text" id="blog_charset" value="<?php form_option( 'blog_charset' ); ?>" class="regular-text" />
+<p class="description"><?php _e( 'The <a href="http://codex.wordpress.org/Glossary#Character_set">character encoding</a> of your site (UTF-8 is recommended, if you are adventurous there are some <a href="http://en.wikipedia.org/wiki/Character_set">other encodings</a>)' ); ?></p></td>
+</tr>
 <?php do_settings_fields( 'reading', 'default' ); ?>
 </table>
 

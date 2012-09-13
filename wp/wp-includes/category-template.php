@@ -1054,21 +1054,29 @@ function term_description( $term = 0, $taxonomy = 'post_tag' ) {
  *
  * @since 2.5.0
  *
- * @param mixed $post Post ID or object.
+ * @param int $id Post ID.
  * @param string $taxonomy Taxonomy name.
  * @return array|bool False on failure. Array of term objects on success.
  */
-function get_the_terms( $post, $taxonomy ) {
-	if ( ! $post = get_post( $post ) )
-		return false;
+function get_the_terms( $id, $taxonomy ) {
+	global $post;
 
-	$terms = get_object_term_cache( $post->ID, $taxonomy );
-	if ( false === $terms ) {
-		$terms = wp_get_object_terms( $post->ID, $taxonomy );
-		wp_cache_add($post->ID, $terms, $taxonomy . '_relationships');
+ 	$id = (int) $id;
+
+	if ( !$id ) {
+		if ( empty( $post->ID ) )
+			return false;
+		else
+			$id = (int) $post->ID;
 	}
 
-	$terms = apply_filters( 'get_the_terms', $terms, $post->ID, $taxonomy );
+	$terms = get_object_term_cache( $id, $taxonomy );
+	if ( false === $terms ) {
+		$terms = wp_get_object_terms( $id, $taxonomy );
+		wp_cache_add($id, $terms, $taxonomy . '_relationships');
+	}
+
+	$terms = apply_filters( 'get_the_terms', $terms, $id, $taxonomy );
 
 	if ( empty( $terms ) )
 		return false;

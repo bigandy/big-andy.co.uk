@@ -107,10 +107,7 @@ if ( current_theme_supports( 'post-formats' ) ) :
 	</select>
 </td>
 </tr>
-<?php endif; endif;
-
-if ( get_option( 'link_manager_enabled' ) ) :
-?>
+<?php endif; endif; ?>
 <tr valign="top">
 <th scope="row"><label for="default_link_category"><?php _e('Default Link Category') ?></label></th>
 <td>
@@ -119,8 +116,6 @@ wp_dropdown_categories(array('hide_empty' => 0, 'name' => 'default_link_category
 ?>
 </td>
 </tr>
-<?php endif; ?>
-
 <?php do_settings_fields('writing', 'default'); ?>
 </table>
 

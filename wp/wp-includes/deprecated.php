@@ -26,7 +26,7 @@
 function get_postdata($postid) {
 	_deprecated_function( __FUNCTION__, '1.5.1', 'get_post()' );
 
-	$post = get_post($postid);
+	$post = &get_post($postid);
 
 	$postdata = array (
 		'ID' => $post->ID,
@@ -57,14 +57,14 @@ function get_postdata($postid) {
  * @deprecated Use The Loop - {@link http://codex.wordpress.org/The_Loop Use new WordPress Loop}
  */
 function start_wp() {
-	global $wp_query;
+	global $wp_query, $post;
 
 	_deprecated_function( __FUNCTION__, '1.5', __('new WordPress Loop') );
 
 	// Since the old style loop is being used, advance the query iterator here.
 	$wp_query->next_post();
 
-	setup_postdata( get_post() );
+	setup_postdata($post);
 }
 
 /**
@@ -1892,7 +1892,7 @@ function get_alloptions() {
 function get_the_attachment_link($id = 0, $fullsize = false, $max_dims = false, $permalink = false) {
 	_deprecated_function( __FUNCTION__, '2.5', 'wp_get_attachment_link()' );
 	$id = (int) $id;
-	$_post = get_post($id);
+	$_post = & get_post($id);
 
 	if ( ('attachment' != $_post->post_type) || !$url = wp_get_attachment_url($_post->ID) )
 		return __('Missing Attachment');
@@ -1921,7 +1921,7 @@ function get_the_attachment_link($id = 0, $fullsize = false, $max_dims = false, 
 function get_attachment_icon_src( $id = 0, $fullsize = false ) {
 	_deprecated_function( __FUNCTION__, '2.5', 'wp_get_attachment_image_src()' );
 	$id = (int) $id;
-	if ( !$post = get_post($id) )
+	if ( !$post = & get_post($id) )
 		return false;
 
 	$file = get_attached_file( $post->ID );
@@ -1966,7 +1966,7 @@ function get_attachment_icon_src( $id = 0, $fullsize = false ) {
 function get_attachment_icon( $id = 0, $fullsize = false, $max_dims = false ) {
 	_deprecated_function( __FUNCTION__, '2.5', 'wp_get_attachment_image()' );
 	$id = (int) $id;
-	if ( !$post = get_post($id) )
+	if ( !$post = & get_post($id) )
 		return false;
 
 	if ( !$src = get_attachment_icon_src( $post->ID, $fullsize ) )
@@ -2023,7 +2023,7 @@ function get_attachment_icon( $id = 0, $fullsize = false, $max_dims = false ) {
 function get_attachment_innerHTML($id = 0, $fullsize = false, $max_dims = false) {
 	_deprecated_function( __FUNCTION__, '2.5', 'wp_get_attachment_image()' );
 	$id = (int) $id;
-	if ( !$post = get_post($id) )
+	if ( !$post = & get_post($id) )
 		return false;
 
 	if ( $innerHTML = get_attachment_icon($post->ID, $fullsize, $max_dims))
@@ -2801,7 +2801,7 @@ function get_parent_post_rel_link($title = '%title') {
 	_deprecated_function( __FUNCTION__, '3.3' );
 
 	if ( ! empty( $GLOBALS['post'] ) && ! empty( $GLOBALS['post']->post_parent ) )
-		$post = get_post($GLOBALS['post']->post_parent);
+		$post = & get_post($GLOBALS['post']->post_parent);
 
 	if ( empty($post) )
 		return;
@@ -3097,7 +3097,7 @@ function remove_custom_background() {
  * @return array Theme data.
  */
 function get_theme_data( $theme_file ) {
-	_deprecated_function( __FUNCTION__, '3.4', 'wp_get_theme()' );
+	_deprecated_function( __FUNCTION__, 3.4, 'wp_get_theme()' );
 	$theme = new WP_Theme( basename( dirname( $theme_file ) ), dirname( dirname( $theme_file ) ) );
 
 	$theme_data = array(
@@ -3133,7 +3133,7 @@ function get_theme_data( $theme_file ) {
  * @param array $pages list of page objects
  */
 function update_page_cache( &$pages ) {
-	_deprecated_function( __FUNCTION__, '3.4', 'update_post_cache()' );
+	_deprecated_function( __FUNCTION__, 3.4, 'update_post_cache()' );
 
 	update_post_cache( $pages );
 }
@@ -3152,75 +3152,7 @@ function update_page_cache( &$pages ) {
  * @param int $id Page ID to clean
  */
 function clean_page_cache( $id ) {
-	_deprecated_function( __FUNCTION__, '3.4', 'clean_post_cache()' );
+	_deprecated_function( __FUNCTION__, 3.4, 'clean_post_cache()' );
 
 	clean_post_cache( $id );
 }
-
-/**
- * Retrieve nonce action "Are you sure" message.
- *
- * Deprecated in 3.4.1 and 3.5.0. Backported to 3.3.3.
- *
- * @since 2.0.4
- * @deprecated 3.4.1
- * @deprecated Use wp_nonce_ays()
- * @see wp_nonce_ays()
- *
- * @param string $action Nonce action.
- * @return string Are you sure message.
- */
-function wp_explain_nonce( $action ) {
-	_deprecated_function( __FUNCTION__, '3.4.1', 'wp_nonce_ays()' );
-	return __( 'Are you sure you want to do this?' );
-}
-
-/**
- * Display "sticky" CSS class, if a post is sticky.
- *
- * @since 2.7.0
- * @deprecated 3.5.0
- * @deprecated Use post_class()
- * @see post_class()
- *
- * @param int $post_id An optional post ID.
- */
-function sticky_class( $post_id = null ) {
-	_deprecated_function( __FUNCTION__, '3.5', 'post_class()' );
-	if ( is_sticky( $post_id ) )
-		echo ' sticky';
-}
-
-/**
- * Retrieve post ancestors.
- *
- * This is no longer needed as WP_Post lazy-loads the ancestors
- * property with get_post_ancestors().
- *
- * @since 2.3.4
- * @deprecated 3.5.0
- * @see get_post_ancestors()
- */
-function _get_post_ancestors( &$post ) {
-	_deprecated_function( __FUNCTION__, '3.5' );
-}
-
-/**
- * Retrieve a single post, based on post ID.
- *
- * Has categories in 'post_category' property or key. Has tags in 'tags_input'
- * property or key.
- *
- * @since 1.0.0
- * @deprecated 3.5.0
- * @see get_post()
- *
- * @param int $postid Post ID.
- * @param string $mode How to return result, either OBJECT, ARRAY_N, or ARRAY_A.
- * @return object|array Post object or array holding post contents and information
- */
-function wp_get_single_post( $postid = 0, $mode = OBJECT ) {
-	_deprecated_function( __FUNCTION__, '3.5', 'get_post()' );
-	return get_post( $postid, $mode, 'edit' );
-}
-

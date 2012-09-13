@@ -34,14 +34,7 @@ if ( ! is_multisite() || is_super_admin() )
 	$update_data = wp_get_update_data();
 
 if ( ! is_multisite() ) {
-	if ( current_user_can( 'update_core' ) )
-		$cap = 'update_core';
-	elseif ( current_user_can( 'update_plugins' ) )
-		$cap = 'update_plugins';
-	else
-		$cap = 'update_themes';
-	$submenu[ 'index.php' ][10] = array( sprintf( __('Updates %s'), "<span class='update-plugins count-{$update_data['counts']['total']}' title='{$update_data['title']}'><span class='update-count'>" . number_format_i18n($update_data['counts']['total']) . "</span></span>" ), $cap, 'update-core.php');
-	unset( $cap );
+	$submenu[ 'index.php' ][10] = array( sprintf( __('Updates %s'), "<span class='update-plugins count-{$update_data['counts']['total']}' title='{$update_data['title']}'><span class='update-count'>" . number_format_i18n($update_data['counts']['total']) . "</span></span>" ), 'update_core',  'update-core.php');
 }
 
 $menu[4] = array( '', 'read', 'separator1', '', 'wp-menu-separator' );
@@ -149,24 +142,26 @@ function _add_themes_utility_last() {
 	add_submenu_page('themes.php', _x('Editor', 'theme editor'), _x('Editor', 'theme editor'), 'edit_themes', 'theme-editor.php');
 }
 
-$count = '';
-if ( ! is_multisite() && current_user_can( 'update_plugins' ) ) {
+$menu_perms = get_site_option( 'menu_items', array() );
+if ( ! is_multisite() || is_super_admin() || ! empty( $menu_perms['plugins'] ) ) {
 	if ( ! isset( $update_data ) )
 		$update_data = wp_get_update_data();
-	$count = "<span class='update-plugins count-{$update_data['counts']['plugins']}'><span class='plugin-count'>" . number_format_i18n($update_data['counts']['plugins']) . "</span></span>";
+
+	$count = '';
+	if ( ! is_multisite() && current_user_can( 'update_plugins' ) )
+		$count = "<span class='update-plugins count-{$update_data['counts']['plugins']}'><span class='plugin-count'>" . number_format_i18n($update_data['counts']['plugins']) . "</span></span>";
+
+	$menu[65] = array( sprintf( __('Plugins %s'), $count ), 'activate_plugins', 'plugins.php', '', 'menu-top menu-icon-plugins', 'menu-plugins', 'div' );
+
+	$submenu['plugins.php'][5]  = array( __('Installed Plugins'), 'activate_plugins', 'plugins.php' );
+
+		if ( ! is_multisite() ) {
+			/* translators: add new plugin */
+			$submenu['plugins.php'][10] = array( _x('Add New', 'plugin'), 'install_plugins', 'plugin-install.php' );
+			$submenu['plugins.php'][15] = array( _x('Editor', 'plugin editor'), 'edit_plugins', 'plugin-editor.php' );
+		}
 }
-
-$menu[65] = array( sprintf( __('Plugins %s'), $count ), 'activate_plugins', 'plugins.php', '', 'menu-top menu-icon-plugins', 'menu-plugins', 'div' );
-
-$submenu['plugins.php'][5]  = array( __('Installed Plugins'), 'activate_plugins', 'plugins.php' );
-
-	if ( ! is_multisite() ) {
-		/* translators: add new plugin */
-		$submenu['plugins.php'][10] = array( _x('Add New', 'plugin'), 'install_plugins', 'plugin-install.php' );
-		$submenu['plugins.php'][15] = array( _x('Editor', 'plugin editor'), 'edit_plugins', 'plugin-editor.php' );
-	}
-
-unset( $update_data );
+unset($menu_perms, $update_data);
 
 if ( current_user_can('list_users') )
 	$menu[70] = array( __('Users'), 'list_users', 'users.php', '', 'menu-top menu-icon-users', 'menu-users', 'div' );

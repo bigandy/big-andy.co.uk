@@ -34,8 +34,7 @@ final class _WP_Editors {
 			'textarea_name' => $editor_id, // set the textarea name to something different, square brackets [] can be used here
 			'textarea_rows' => get_option('default_post_edit_rows', 10), // rows="..."
 			'tabindex' => '',
-			'tabfocus_elements' => ':prev,:next', // the previous and next element ID to move the focus to when pressing the Tab key in TinyMCE
-			'editor_css' => '', // intended for extra styles for both visual and Text editors buttons, needs to include the <style> tags, can use "scoped".
+			'editor_css' => '', // intended for extra styles for both visual and HTML editors buttons, needs to include the <style> tags, can use "scoped".
 			'editor_class' => '', // add extra class(es) to the editor textarea
 			'teeny' => false, // output the minimal editor config used in Press This
 			'dfw' => false, // replace the default fullscreen with DFW (needs specific DOM elements and css)
@@ -77,7 +76,6 @@ final class _WP_Editors {
 		if ( self::$this_quicktags && self::$this_tinymce ) {
 			$switch_class = 'html-active';
 
-			// 'html' and 'switch-html' are used for the "Text" editor tab.
 			if ( 'html' == wp_default_editor() ) {
 				add_filter('the_editor_content', 'wp_htmledit_pre');
 			} else {
@@ -85,7 +83,7 @@ final class _WP_Editors {
 				$switch_class = 'tmce-active';
 			}
 
-			$buttons .= '<a id="' . $editor_id . '-html" class="hide-if-no-js wp-switch-editor switch-html" onclick="switchEditors.switchto(this);">' . __('Text') . "</a>\n";
+			$buttons .= '<a id="' . $editor_id . '-html" class="hide-if-no-js wp-switch-editor switch-html" onclick="switchEditors.switchto(this);">' . __('HTML') . "</a>\n";
 			$buttons .= '<a id="' . $editor_id . '-tmce" class="hide-if-no-js wp-switch-editor switch-tmce" onclick="switchEditors.switchto(this);">' . __('Visual') . "</a>\n";
 		}
 
@@ -126,7 +124,7 @@ final class _WP_Editors {
 	}
 
 	public static function editor_settings($editor_id, $set) {
-		global $editor_styles;
+		global $editor_styles, $post;
 		$first_run = false;
 
 		if ( empty(self::$first_init) ) {
@@ -211,7 +209,7 @@ final class _WP_Editors {
 
 						foreach ( $mce_external_plugins as $name => $url ) {
 
-							$url = set_url_scheme( $url );
+							if ( is_ssl() ) $url = str_replace('http://', 'https://', $url);
 
 							$plugins[] = '-' . $name;
 
@@ -312,12 +310,12 @@ final class _WP_Editors {
 					'keep_styles' => false,
 					'entities' => '38,amp,60,lt,62,gt',
 					'accessibility_focus' => true,
+					'tabfocus_elements' => 'title,publish',
 					'media_strict' => false,
 					'paste_remove_styles' => true,
 					'paste_remove_spans' => true,
 					'paste_strip_class_attributes' => 'all',
 					'paste_text_use_dialog' => true,
-					'webkit_fake_resize' => false,
 					'spellchecker_rpc_url' => self::$baseurl . '/plugins/spellchecker/rpc.php',
 					'extended_valid_elements' => 'article[*],aside[*],audio[*],canvas[*],command[*],datalist[*],details[*],embed[*],figcaption[*],figure[*],footer[*],header[*],hgroup[*],keygen[*],mark[*],meter[*],nav[*],output[*],progress[*],section[*],source[*],summary,time[*],video[*],wbr',
 					'wpeditimage_disable_captions' => $no_captions,
@@ -337,8 +335,9 @@ final class _WP_Editors {
 						$template_dir = get_template_directory();
 
 						foreach ( $editor_styles as $key => $file ) {
-							if ( $file && file_exists( "$template_dir/$file" ) )
+							if ( $file && file_exists( "$template_dir/$file" ) ) {
 								$mce_css[] = "$template_uri/$file";
+							}
 						}
 					}
 
@@ -370,8 +369,8 @@ final class _WP_Editors {
 
 			$body_class = $editor_id;
 
-			if ( $post = get_post() )
-				$body_class .= ' post-type-' . $post->post_type;
+			if ( isset($post) )
+				$body_class .= " post-type-$post->post_type";
 
 			if ( !empty($set['tinymce']['body_class']) ) {
 				$body_class .= ' ' . $set['tinymce']['body_class'];
@@ -399,7 +398,6 @@ final class _WP_Editors {
 				'theme_advanced_buttons2' => implode($mce_buttons_2, ','),
 				'theme_advanced_buttons3' => implode($mce_buttons_3, ','),
 				'theme_advanced_buttons4' => implode($mce_buttons_4, ','),
-				'tabfocus_elements' => $set['tabfocus_elements'],
 				'body_class' => $body_class
 			);
 
@@ -612,8 +610,7 @@ final class _WP_Editors {
 	}
 
 	public static function wp_fullscreen_html() {
-		global $content_width;
-		$post = get_post();
+		global $content_width, $post;
 
 		$width = isset($content_width) && 800 > $content_width ? $content_width : 800;
 		$width = $width + 22; // compensate for the padding and border
@@ -627,8 +624,8 @@ final class _WP_Editors {
 			<div id="wp-fullscreen-central-toolbar" style="width:<?php echo $width; ?>px;">
 
 			<div id="wp-fullscreen-mode-bar"><div id="wp-fullscreen-modes">
-				<a href="#" onclick="fullscreen.switchmode('tinymce');return false;"><?php _e( 'Visual' ); ?></a>
-				<a href="#" onclick="fullscreen.switchmode('html');return false;"><?php _ex( 'Text', 'Name for the Text editor tab (formerly HTML)' ); ?></a>
+				<a href="#" onclick="fullscreen.switchmode('tinymce');return false;"><?php _e('Visual'); ?></a>
+				<a href="#" onclick="fullscreen.switchmode('html');return false;"><?php _e('HTML'); ?></a>
 			</div></div>
 
 			<div id="wp-fullscreen-button-bar"><div id="wp-fullscreen-buttons" class="wp_themeSkin">
@@ -771,13 +768,13 @@ final class _WP_Editors {
 		<div id="link-options">
 			<p class="howto"><?php _e( 'Enter the destination URL' ); ?></p>
 			<div>
-				<label><span><?php _e( 'URL' ); ?></span><input id="url-field" type="text" name="href" /></label>
+				<label><span><?php _e( 'URL' ); ?></span><input id="url-field" type="text" tabindex="10" name="href" /></label>
 			</div>
 			<div>
-				<label><span><?php _e( 'Title' ); ?></span><input id="link-title-field" type="text" name="linktitle" /></label>
+				<label><span><?php _e( 'Title' ); ?></span><input id="link-title-field" type="text" tabindex="20" name="linktitle" /></label>
 			</div>
 			<div class="link-target">
-				<label><input type="checkbox" id="link-target-checkbox" /> <?php _e( 'Open link in a new window/tab' ); ?></label>
+				<label><input type="checkbox" id="link-target-checkbox" tabindex="30" /> <?php _e( 'Open link in a new window/tab' ); ?></label>
 			</div>
 		</div>
 		<?php $show_internal = '1' == get_user_setting( 'wplink', '0' ); ?>
@@ -786,7 +783,7 @@ final class _WP_Editors {
 			<div class="link-search-wrapper">
 				<label>
 					<span><?php _e( 'Search' ); ?></span>
-					<input type="search" id="search-field" class="link-search-field" autocomplete="off" />
+					<input type="text" id="search-field" class="link-search-field" tabindex="60" autocomplete="off" />
 					<img class="waiting" src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" alt="" />
 				</label>
 			</div>
@@ -810,7 +807,7 @@ final class _WP_Editors {
 			<a class="submitdelete deletion" href="#"><?php _e( 'Cancel' ); ?></a>
 		</div>
 		<div id="wp-link-update">
-			<input type="submit" value="<?php esc_attr_e( 'Add Link' ); ?>" class="button-primary" id="wp-link-submit" name="wp-link-submit">
+			<input type="submit" tabindex="100" value="<?php esc_attr_e( 'Add Link' ); ?>" class="button-primary" id="wp-link-submit" name="wp-link-submit">
 		</div>
 	</div>
 	</form>

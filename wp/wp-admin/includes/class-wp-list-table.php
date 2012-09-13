@@ -209,15 +209,11 @@ class WP_List_Table {
 			echo '<input type="hidden" name="orderby" value="' . esc_attr( $_REQUEST['orderby'] ) . '" />';
 		if ( ! empty( $_REQUEST['order'] ) )
 			echo '<input type="hidden" name="order" value="' . esc_attr( $_REQUEST['order'] ) . '" />';
-		if ( ! empty( $_REQUEST['post_mime_type'] ) )
-			echo '<input type="hidden" name="post_mime_type" value="' . esc_attr( $_REQUEST['post_mime_type'] ) . '" />';
-		if ( ! empty( $_REQUEST['detached'] ) )
-			echo '<input type="hidden" name="detached" value="' . esc_attr( $_REQUEST['detached'] ) . '" />';
 ?>
 <p class="search-box">
 	<label class="screen-reader-text" for="<?php echo $input_id ?>"><?php echo $text; ?>:</label>
 	<input type="search" id="<?php echo $input_id ?>" name="s" value="<?php _admin_search_query(); ?>" />
-	<?php submit_button( $text, 'small', false, false, array('id' => 'search-submit') ); ?>
+	<?php submit_button( $text, 'button', false, false, array('id' => 'search-submit') ); ?>
 </p>
 <?php
 	}
@@ -304,7 +300,7 @@ class WP_List_Table {
 
 		echo "</select>\n";
 
-		submit_button( __( 'Apply' ), 'small action', false, false, array( 'id' => "doaction$two" ) );
+		submit_button( __( 'Apply' ), 'button-secondary action', false, false, array( 'id' => "doaction$two" ) );
 		echo "\n";
 	}
 
@@ -494,7 +490,7 @@ class WP_List_Table {
 
 		$current = $this->get_pagenum();
 
-		$current_url = set_url_scheme( 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] );
+		$current_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 
 		$current_url = remove_query_arg( array( 'hotkeys_highlight_last', 'hotkeys_highlight_first' ), $current_url );
 
@@ -655,7 +651,7 @@ class WP_List_Table {
 
 		list( $columns, $hidden, $sortable ) = $this->get_column_info();
 
-		$current_url = set_url_scheme( 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] );
+		$current_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 		$current_url = remove_query_arg( 'paged', $current_url );
 
 		if ( isset( $_GET['orderby'] ) )
@@ -667,13 +663,6 @@ class WP_List_Table {
 			$current_order = 'desc';
 		else
 			$current_order = 'asc';
-
-		if ( ! empty( $columns['cb'] ) ) {
-			static $cb_counter = 1;
-			$columns['cb'] = '<label class="screen-reader-text" for="cb-select-all-' . $cb_counter . '">' . __( 'Select All' ) . '</label>'
-				. '<input id="cb-select-all-' . $cb_counter . '" type="checkbox" />';
-			$cb_counter++;
-		}
 
 		foreach ( $columns as $column_key => $column_display_name ) {
 			$class = array( 'manage-column', "column-$column_key" );

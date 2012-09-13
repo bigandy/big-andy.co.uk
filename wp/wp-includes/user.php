@@ -84,32 +84,33 @@ function wp_authenticate_username_password($user, $username, $password) {
 		return $error;
 	}
 
-	$user = get_user_by('login', $username);
+	$userdata = get_user_by('login', $username);
 
-	if ( !$user )
+	if ( !$userdata )
 		return new WP_Error('invalid_username', sprintf(__('<strong>ERROR</strong>: Invalid username. <a href="%s" title="Password Lost and Found">Lost your password</a>?'), wp_lostpassword_url()));
 
 	if ( is_multisite() ) {
 		// Is user marked as spam?
-		if ( 1 == $user->spam)
+		if ( 1 == $userdata->spam)
 			return new WP_Error('invalid_username', __('<strong>ERROR</strong>: Your account has been marked as a spammer.'));
 
 		// Is a user's blog marked as spam?
-		if ( !is_super_admin( $user->ID ) && isset($user->primary_blog) ) {
-			$details = get_blog_details( $user->primary_blog );
+		if ( !is_super_admin( $userdata->ID ) && isset($userdata->primary_blog) ) {
+			$details = get_blog_details( $userdata->primary_blog );
 			if ( is_object( $details ) && $details->spam == 1 )
 				return new WP_Error('blog_suspended', __('Site Suspended.'));
 		}
 	}
 
-	$user = apply_filters('wp_authenticate_user', $user, $password);
-	if ( is_wp_error($user) )
-		return $user;
+	$userdata = apply_filters('wp_authenticate_user', $userdata, $password);
+	if ( is_wp_error($userdata) )
+		return $userdata;
 
-	if ( !wp_check_password($password, $user->user_pass, $user->ID) )
+	if ( !wp_check_password($password, $userdata->user_pass, $userdata->ID) )
 		return new WP_Error( 'incorrect_password', sprintf( __( '<strong>ERROR</strong>: The password you entered for the username <strong>%1$s</strong> is incorrect. <a href="%2$s" title="Password Lost and Found">Lost your password</a>?' ),
 		$username, wp_lostpassword_url() ) );
 
+	$user =  new WP_User($userdata->ID);
 	return $user;
 }
 
@@ -165,7 +166,7 @@ function count_user_posts($userid) {
  * @since 3.0.0
  *
  * @param array $users Array of user IDs.
- * @param string $post_type Optional. Post type to check. Defaults to post.
+ * @param string|array $post_type Optional. Post type to check. Defaults to post.
  * @return array Amount of posts each user has written.
  */
 function count_many_users_posts( $users, $post_type = 'post' ) {
@@ -254,9 +255,11 @@ function get_user_option( $option, $user = 0, $deprecated = '' ) {
 		_deprecated_argument( __FUNCTION__, '3.0' );
 
 	if ( empty( $user ) )
-		$user = get_current_user_id();
+		$user = wp_get_current_user();
+	else
+		$user = new WP_User( $user );
 
-	if ( ! $user = get_userdata( $user ) )
+	if ( ! $user->exists() )
 		return false;
 
 	if ( $user->has_prop( $wpdb->prefix . $option ) ) // Blog specific
@@ -673,9 +676,6 @@ function get_blogs_of_user( $user_id, $all = false ) {
 		$blogs[ $blog_id ]->path = '';
 		$blogs[ $blog_id ]->site_id = 1;
 		$blogs[ $blog_id ]->siteurl = get_option('siteurl');
-		$blogs[ $blog_id ]->archived = 0;
-		$blogs[ $blog_id ]->spam = 0;
-		$blogs[ $blog_id ]->deleted = 0;
 		return $blogs;
 	}
 
@@ -691,9 +691,6 @@ function get_blogs_of_user( $user_id, $all = false ) {
 				'path'        => $blog->path,
 				'site_id'     => $blog->site_id,
 				'siteurl'     => $blog->siteurl,
-				'archived'    => 0,
-				'spam'        => 0,
-				'deleted'     => 0
 			);
 		}
 		unset( $keys[ $wpdb->base_prefix . 'capabilities' ] );
@@ -720,9 +717,6 @@ function get_blogs_of_user( $user_id, $all = false ) {
 				'path'        => $blog->path,
 				'site_id'     => $blog->site_id,
 				'siteurl'     => $blog->siteurl,
-				'archived'    => 0,
-				'spam'        => 0,
-				'deleted'     => 0
 			);
 		}
 	}
@@ -926,31 +920,33 @@ function count_users($strategy = 'time') {
  * @global int $user_ID The ID of the user
  * @global string $user_email The email address of the user
  * @global string $user_url The url in the user's profile
+ * @global string $user_pass_md5 MD5 of the user's password
  * @global string $user_identity The display name of the user
  *
  * @param int $for_user_id Optional. User ID to set up global data.
  */
 function setup_userdata($for_user_id = '') {
-	global $user_login, $userdata, $user_level, $user_ID, $user_email, $user_url, $user_identity;
+	global $user_login, $userdata, $user_level, $user_ID, $user_email, $user_url, $user_pass_md5, $user_identity;
 
 	if ( '' == $for_user_id )
-		$for_user_id = get_current_user_id();
-	$user = get_userdata( $for_user_id );
+		$user = wp_get_current_user();
+	else
+		$user = new WP_User($for_user_id);
 
-	if ( ! $user ) {
-		$user_ID = 0;
-		$user_level = 0;
-		$userdata = null;
-		$user_login = $user_email = $user_url = $user_identity = '';
+	$userdata   = null;
+	$user_ID    = (int) $user->ID;
+	$user_level = (int) isset($user->user_level) ? $user->user_level : 0;
+
+	if ( ! $user->exists() ) {
+		$user_login = $user_email = $user_url = $user_pass_md5 = $user_identity = '';
 		return;
 	}
 
-	$user_ID    = (int) $user->ID;
-	$user_level = (int) $user->user_level;
 	$userdata   = $user;
 	$user_login = $user->user_login;
 	$user_email = $user->user_email;
 	$user_url   = $user->user_url;
+	$user_pass_md5 = md5( $user->user_pass );
 	$user_identity = $user->display_name;
 }
 
@@ -1225,7 +1221,7 @@ function validate_username( $username ) {
  * 'ID' - An integer that will be used for updating an existing user.
  * 'user_pass' - A string that contains the plain text password for the user.
  * 'user_login' - A string that contains the user's username for logging in.
- * 'user_nicename' - A string that contains a URL-friendly name for the user.
+ * 'user_nicename' - A string that contains a nicer looking name for the user.
  *		The default is the user's username.
  * 'user_url' - A string containing the user's URL for the user's web site.
  * 'user_email' - A string containing the user's email address.
@@ -1249,18 +1245,13 @@ function validate_username( $username ) {
  * @uses do_action() Calls 'profile_update' hook when updating giving the user's ID
  * @uses do_action() Calls 'user_register' hook when creating a new user giving the user's ID
  *
- * @param mixed $userdata An array of user data or a user object of type stdClass or WP_User.
+ * @param array $userdata An array of user data.
  * @return int|WP_Error The newly created user's ID or a WP_Error object if the user could not be created.
  */
-function wp_insert_user( $userdata ) {
+function wp_insert_user($userdata) {
 	global $wpdb;
 
-	if ( is_a( $userdata, 'stdClass' ) )
-		$userdata = get_object_vars( $userdata );
-	elseif ( is_a( $userdata, 'WP_User' ) )
-		$userdata = $userdata->to_array();
-
-	extract( $userdata, EXTR_SKIP );
+	extract($userdata, EXTR_SKIP);
 
 	// Are we updating or creating?
 	if ( !empty($ID) ) {
@@ -1401,21 +1392,16 @@ function wp_insert_user( $userdata ) {
  * @see wp_insert_user() For what fields can be set in $userdata
  * @uses wp_insert_user() Used to update existing user or add new one if user doesn't exist already
  *
- * @param mixed $userdata An array of user data or a user object of type stdClass or WP_User.
- * @return int|WP_Error The updated user's ID or a WP_Error object if the user could not be updated.
+ * @param array $userdata An array of user data.
+ * @return int The updated user's ID.
  */
 function wp_update_user($userdata) {
-	if ( is_a( $userdata, 'stdClass' ) )
-		$userdata = get_object_vars( $userdata );
-	elseif ( is_a( $userdata, 'WP_User' ) )
-		$userdata = $userdata->to_array();
-
 	$ID = (int) $userdata['ID'];
 
 	// First, get all of the original fields
 	$user_obj = get_userdata( $ID );
 
-	$user = $user_obj->to_array();
+	$user = get_object_vars( $user_obj->data );
 
 	// Add additional custom fields
 	foreach ( _get_additional_user_keys( $user_obj ) as $key ) {
@@ -1475,10 +1461,10 @@ function wp_create_user($username, $password, $email = '') {
 /**
  * Return a list of meta keys that wp_insert_user() is supposed to set.
  *
- * @since 3.3.0
  * @access private
+ * @since 3.3.0
  *
- * @param object $user WP_User instance.
+ * @param object $user WP_User instance
  * @return array
  */
 function _get_additional_user_keys( $user ) {
@@ -1487,12 +1473,12 @@ function _get_additional_user_keys( $user ) {
 }
 
 /**
- * Set up the default contact methods.
+ * Set up the default contact methods
  *
- * @since 2.9.0
  * @access private
+ * @since
  *
- * @param object $user User data object (optional).
+ * @param object $user User data object (optional)
  * @return array $user_contactmethods Array of contact methods and their labels.
  */
 function _wp_get_user_contactmethods( $user = null ) {

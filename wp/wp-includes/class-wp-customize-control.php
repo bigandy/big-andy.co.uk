@@ -6,71 +6,25 @@
  * @subpackage Customize
  * @since 3.4.0
  */
-class WP_Customize_Control {
-	/**
-	 * @access public
-	 * @var WP_Customize_Manager
-	 */
-	public $manager;
 
-	/**
-	 * @access public
-	 * @var string
-	 */
+class WP_Customize_Control {
+	public $manager;
 	public $id;
 
-	/**
-	 * All settings tied to the control.
-	 *
-	 * @access public
-	 * @var array
-	 */
+	// All settings tied to the control.
 	public $settings;
 
-	/**
-	 * The primary setting for the control (if there is one).
-	 *
-	 * @access public
-	 * @var string
-	 */
+	// The primary setting for the control (if there is one).
 	public $setting = 'default';
 
-	/**
-	 * @access public
-	 * @var int
-	 */
 	public $priority          = 10;
-
-	/**
-	 * @access public
-	 * @var string
-	 */
 	public $section           = '';
-
-	/**
-	 * @access public
-	 * @var string
-	 */
 	public $label             = '';
-
-	/**
-	 * @todo: Remove choices
-	 *
-	 * @access public
-	 * @var array
-	 */
+	// @todo: remove choices
 	public $choices           = array();
 
-	/**
-	 * @access public
-	 * @var array
-	 */
 	public $json = array();
 
-	/**
-	 * @access public
-	 * @var string
-	 */
 	public $type = 'text';
 
 
@@ -80,10 +34,6 @@ class WP_Customize_Control {
 	 * If $args['settings'] is not defined, use the $id as the setting ID.
 	 *
 	 * @since 3.4.0
-	 *
-	 * @param WP_Customize_Manager $manager
-	 * @param string $id
-	 * @param array $args
 	 */
 	function __construct( $manager, $id, $args = array() ) {
 		$keys = array_keys( get_object_vars( $this ) );
@@ -125,9 +75,6 @@ class WP_Customize_Control {
 	 * Grabs the main setting by default.
 	 *
 	 * @since 3.4.0
-	 *
-	 * @param string $setting_key
-	 * @return mixed The requested setting's value, if the setting exists.
 	 */
 	public final function value( $setting_key = 'default' ) {
 		if ( isset( $this->settings[ $setting_key ] ) )
@@ -172,7 +119,6 @@ class WP_Customize_Control {
 	 * Check capabilities and render the control.
 	 *
 	 * @since 3.4.0
-	 * @uses WP_Customize_Control::render()
 	 */
 	public final function maybe_render() {
 		if ( ! $this->check_capabilities() )
@@ -198,14 +144,6 @@ class WP_Customize_Control {
 		</li><?php
 	}
 
-	/**
-	 * Get the data link parameter for a setting.
-	 *
-	 * @since 3.4.0
-	 *
-	 * @param string $setting_key
-	 * @return string Data link parameter, if $setting_key is a valid setting, empty string otherwise.
-	 */
 	public function get_link( $setting_key = 'default' ) {
 		if ( ! isset( $this->settings[ $setting_key ] ) )
 			return '';
@@ -213,14 +151,6 @@ class WP_Customize_Control {
 		return 'data-customize-setting-link="' . esc_attr( $this->settings[ $setting_key ]->id ) . '"';
 	}
 
-	/**
-	 * Render the data link parameter for a setting
-	 *
-	 * @since 3.4.0
-	 * @uses WP_Customize_Control::get_link()
-	 *
-	 * @param string $setting_key
-	 */
 	public function link( $setting_key = 'default' ) {
 		echo $this->get_link( $setting_key );
 	}
@@ -308,69 +238,25 @@ class WP_Customize_Control {
 	}
 }
 
-/**
- * Customize Color Control Class
- *
- * @package WordPress
- * @subpackage Customize
- * @since 3.4.0
- */
 class WP_Customize_Color_Control extends WP_Customize_Control {
-	/**
-	 * @access public
-	 * @var string
-	 */
 	public $type = 'color';
-
-	/**
-	 * @access public
-	 * @var array
-	 */
 	public $statuses;
 
-	/**
-	 * Constructor.
-	 *
-	 * If $args['settings'] is not defined, use the $id as the setting ID.
-	 *
-	 * @since 3.4.0
-	 * @uses WP_Customize_Control::__construct()
-	 *
-	 * @param WP_Customize_Manager $manager
-	 * @param string $id
-	 * @param array $args
-	 */
 	public function __construct( $manager, $id, $args = array() ) {
 		$this->statuses = array( '' => __('Default') );
 		parent::__construct( $manager, $id, $args );
 	}
 
-	/**
-	 * Enqueue control related scripts/styles.
-	 *
-	 * @since 3.4.0
-	 */
 	public function enqueue() {
 		wp_enqueue_script( 'farbtastic' );
 		wp_enqueue_style( 'farbtastic' );
 	}
 
-	/**
-	 * Refresh the parameters passed to the JavaScript via JSON.
-	 *
-	 * @since 3.4.0
-	 * @uses WP_Customize_Control::to_json()
-	 */
 	public function to_json() {
 		parent::to_json();
 		$this->json['statuses'] = $this->statuses;
 	}
 
-	/**
-	 * Render the control's content.
-	 *
-	 * @since 3.4.0
-	 */
 	public function render_content() {
 		?>
 		<label>
@@ -390,33 +276,15 @@ class WP_Customize_Color_Control extends WP_Customize_Control {
 	}
 }
 
-/**
- * Customize Upload Control Class
- *
- * @package WordPress
- * @subpackage Customize
- * @since 3.4.0
- */
 class WP_Customize_Upload_Control extends WP_Customize_Control {
 	public $type    = 'upload';
 	public $removed = '';
 	public $context;
 
-	/**
-	 * Enqueue control related scripts/styles.
-	 *
-	 * @since 3.4.0
-	 */
 	public function enqueue() {
 		wp_enqueue_script( 'wp-plupload' );
 	}
 
-	/**
-	 * Refresh the parameters passed to the JavaScript via JSON.
-	 *
-	 * @since 3.4.0
-	 * @uses WP_Customize_Control::to_json()
-	 */
 	public function to_json() {
 		parent::to_json();
 
@@ -426,11 +294,6 @@ class WP_Customize_Upload_Control extends WP_Customize_Control {
 			$this->json['context'] = $this->context;
 	}
 
-	/**
-	 * Render the control's content.
-	 *
-	 * @since 3.4.0
-	 */
 	public function render_content() {
 		?>
 		<label>
@@ -444,13 +307,6 @@ class WP_Customize_Upload_Control extends WP_Customize_Control {
 	}
 }
 
-/**
- * Customize Image Control Class
- *
- * @package WordPress
- * @subpackage Customize
- * @since 3.4.0
- */
 class WP_Customize_Image_Control extends WP_Customize_Upload_Control {
 	public $type = 'image';
 	public $get_url;
@@ -458,18 +314,6 @@ class WP_Customize_Image_Control extends WP_Customize_Upload_Control {
 
 	protected $tabs = array();
 
-	/**
-	 * Constructor.
-	 *
-	 * If $args['settings'] is not defined, use the $id as the setting ID.
-	 *
-	 * @since 3.4.0
-	 * @uses WP_Customize_Upload_Control::__construct()
-	 *
-	 * @param WP_Customize_Manager $manager
-	 * @param string $id
-	 * @param array $args
-	 */
 	public function __construct( $manager, $id, $args ) {
 		$this->statuses = array( '' => __('No Image') );
 
@@ -494,22 +338,11 @@ class WP_Customize_Image_Control extends WP_Customize_Upload_Control {
 			$this->manager->remove_control( $this->id );
 	}
 
-	/**
-	 * Refresh the parameters passed to the JavaScript via JSON.
-	 *
-	 * @since 3.4.0
-	 * @uses WP_Customize_Upload_Control::to_json()
-	 */
 	public function to_json() {
 		parent::to_json();
 		$this->json['statuses'] = $this->statuses;
 	}
 
-	/**
-	 * Render the control's content.
-	 *
-	 * @since 3.4.0
-	 */
 	public function render_content() {
 		$src = $this->value();
 		if ( isset( $this->get_url ) )
@@ -555,15 +388,6 @@ class WP_Customize_Image_Control extends WP_Customize_Upload_Control {
 		<?php
 	}
 
-	/**
-	 * Add a tab to the control.
-	 *
-	 * @since 3.4.0
-	 *
-	 * @param string $id
-	 * @param string $label
-	 * @param mixed $callback
-	 */
 	public function add_tab( $id, $label, $callback ) {
 		$this->tabs[ $id ] = array(
 			'label'    => $label,
@@ -571,20 +395,10 @@ class WP_Customize_Image_Control extends WP_Customize_Upload_Control {
 		);
 	}
 
-	/**
-	 * Remove a tab from the control.
-	 *
-	 * @since 3.4.0
-	 *
-	 * @param string $id
-	 */
 	public function remove_tab( $id ) {
 		unset( $this->tabs[ $id ] );
 	}
 
-	/**
-	 * @since 3.4.0
-	 */
 	public function tab_upload_new() {
 		if ( ! _device_can_upload() ) {
 			?>
@@ -602,21 +416,12 @@ class WP_Customize_Image_Control extends WP_Customize_Upload_Control {
 		}
 	}
 
-	/**
-	 * @since 3.4.0
-	 */
 	public function tab_uploaded() {
 		?>
 		<div class="uploaded-target"></div>
 		<?php
 	}
 
-	/**
-	 * @since 3.4.0
-	 *
-	 * @param string $url
-	 * @param string $thumbnail_url
-	 */
 	public function print_tab_image( $url, $thumbnail_url = null ) {
 		$url = set_url_scheme( $url );
 		$thumbnail_url = ( $thumbnail_url ) ? set_url_scheme( $thumbnail_url ) : $url;
@@ -628,23 +433,7 @@ class WP_Customize_Image_Control extends WP_Customize_Upload_Control {
 	}
 }
 
-/**
- * Customize Background Image Control Class
- *
- * @package WordPress
- * @subpackage Customize
- * @since 3.4.0
- */
 class WP_Customize_Background_Image_Control extends WP_Customize_Image_Control {
-
-	/**
-	 * Constructor.
-	 *
-	 * @since 3.4.0
-	 * @uses WP_Customize_Image_Control::__construct()
-	 *
-	 * @param WP_Customize_Manager $manager
-	 */
 	public function __construct( $manager ) {
 		parent::__construct( $manager, 'background_image', array(
 			'label'    => __( 'Background Image' ),
@@ -657,9 +446,6 @@ class WP_Customize_Background_Image_Control extends WP_Customize_Image_Control {
 			$this->add_tab( 'default',  __('Default'),  array( $this, 'tab_default_background' ) );
 	}
 
-	/**
-	 * @since 3.4.0
-	 */
 	public function tab_uploaded() {
 		$backgrounds = get_posts( array(
 			'post_type'  => 'attachment',
@@ -678,22 +464,11 @@ class WP_Customize_Background_Image_Control extends WP_Customize_Image_Control {
 			$this->print_tab_image( esc_url_raw( $background->guid ) );
 	}
 
-	/**
-	 * @since 3.4.0
-	 * @uses WP_Customize_Image_Control::print_tab_image()
-	 */
 	public function tab_default_background() {
 		$this->print_tab_image( $this->setting->default );
 	}
 }
 
-/**
- * Customize Header Image Control Class
- *
- * @package WordPress
- * @subpackage Customize
- * @since 3.4.0
- */
 class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control {
 	/**
 	 * The processed default headers.
@@ -709,15 +484,6 @@ class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control {
 	 */
 	protected $uploaded_headers;
 
-	/**
-	 * Constructor.
-	 *
-	 * @since 3.4.0
-	 * @uses WP_Customize_Image_Control::__construct()
-	 * @uses WP_Customize_Image_Control::add_tab()
-	 *
-	 * @param WP_Customize_Manager $manager
-	 */
 	public function __construct( $manager ) {
 		parent::__construct( $manager, 'header_image', array(
 			'label'    => __( 'Header Image' ),
@@ -767,12 +533,6 @@ class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control {
 		return parent::prepare_control();
 	}
 
-	/**
-	 * @since 3.4.0
-	 *
-	 * @param mixed $choice Which header image to select. (@see Custom_Image_Header::get_header_image() )
-	 * @param array $header
-	 */
 	public function print_header_image( $choice, $header ) {
 		$header['url']           = set_url_scheme( $header['url'] );
 		$header['thumbnail_url'] = set_url_scheme( $header['thumbnail_url'] );
@@ -793,9 +553,6 @@ class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control {
 		<?php
 	}
 
-	/**
-	 * @since 3.4.0
-	 */
 	public function tab_uploaded() {
 		?><div class="uploaded-target"></div><?php
 
@@ -803,9 +560,6 @@ class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control {
 			$this->print_header_image( $choice, $header );
 	}
 
-	/**
-	 * @since 3.4.0
-	 */
 	public function tab_default_headers() {
 		foreach ( $this->default_headers as $choice => $header )
 			$this->print_header_image( $choice, $header );
