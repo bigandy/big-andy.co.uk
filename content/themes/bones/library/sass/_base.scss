@@ -93,11 +93,11 @@ LINK STYLES
 *********************/
 
 a, a:visited {
-	color: $bones-pink;
+	color: $bones-black;
 
 	/* on hover */
 	&:hover, &:focus {
-		color: lighten($bones-pink, 19%);
+		color: lighten($bones-black, 19%);
 	}
 
 	/* on click */

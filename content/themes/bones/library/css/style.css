@@ -935,14 +935,14 @@ LINK STYLES
 *********************/
 /* line 95, ../sass/_base.scss */
 a, a:visited {
-  color: #f01d4f;
+  color: #444444;
   /* on hover */
   /* on click */
   /* mobile tap color */
 }
 /* line 99, ../sass/_base.scss */
 a:hover, a:focus, a:visited:hover, a:visited:focus {
-  color: #f67896;
+  color: #747474;
 }
 /* line 109, ../sass/_base.scss */
 a:link, a:visited:link {
