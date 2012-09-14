@@ -187,6 +187,6 @@ add_filter('edit_post_link', 'nuke_title_attribute');
 // For edit comment links
 add_filter('edit_comment_link', 'nuke_title_attribute');
 add_filter('the_author_posts_link', 'nuke_title_attribute');
-add_filter('get_the_title', 'nuke_title_attribute');
+add_filter('get_archives_link', 'nuke_title_attribute');
 
 
