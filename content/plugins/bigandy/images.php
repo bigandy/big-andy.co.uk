@@ -164,3 +164,29 @@ function nuke_title_attribute($output) {
     return $output;
 }
 add_filter( 'the_content', 'nuke_title_attribute' );
+
+
+
+function ah_remove_title_attributes($link) {
+    
+        $link = preg_replace('` title="(.+)"`', '', $link);
+    
+    return $link;
+}
+// For Page lists
+add_filter('wp_list_pages', 'nuke_title_attribute');
+// For category lists
+add_filter('wp_list_categories', 'nuke_title_attribute');
+// For archives
+add_filter('get_archives_link', 'nuke_title_attribute');
+// For tag clouds
+add_filter('wp_tag_cloud', 'nuke_title_attribute');
+// For post category links
+add_filter('the_category', 'nuke_title_attribute');
+add_filter('edit_post_link', 'nuke_title_attribute');
+// For edit comment links
+add_filter('edit_comment_link', 'nuke_title_attribute');
+add_filter('the_author_posts_link', 'nuke_title_attribute');
+add_filter('get_the_title', 'nuke_title_attribute');
+
+
