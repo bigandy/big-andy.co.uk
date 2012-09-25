@@ -1,41 +1,40 @@
 /* bigandy plugin styles */
 
-label,
-.fakeLabel {
+.ahform label,
+.ahform .fakeLabel {
 	display:inline-block;
 	width:100px;
 }
 
-
-
-form {
+form.ahform {
 	margin-top:20px;
 }
 
-fieldset {
+.ahform fieldset {
 	padding:5px;
 	margin:5px 0;
 	border:1px solid #ccc;
 	background:rgba(255,0,0,0.5);
 }
 
-.is-active {
+.ahform .is-active {
 	background:rgba(0,255,0,0.5);
 }
 
-.fakeLabel {
+.ahform .fakeLabel {
 	font-weight:bold;
 }
 
-.fakeLabel ~ label {
+.ahform .fakeLabel ~ label {
 	width:auto;
 	padding-right:10px;
 }
 
-select:focus {
+.ahform select:focus {
 	border:1px solid black;
 }
 
-.is-active select:focus {
+.ahform .is-active select:focus {
 	border-color:red;
 }
+

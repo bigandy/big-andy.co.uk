@@ -1,32 +1,48 @@
 <?php 
 /* 
-* Plugin Name: bigandy functionality
-* Version : 1.1
-* Description : Shortcode for address, plus other stuff
+Plugin Name: bigandy functionality
+Version: 1.1
+Description: Shortcode for address, plus other stuff
+Author: Andrew Hudson
+Author URI: http://andyhudson.me
+Plugin URI: http://andyhudson.me
 */
 
 // Now to be able to turn these on and off!
 
 /* What to do when the plugin is activated? */
-register_activation_hook( __FILE__,'my_first_plugin_install' );
+register_activation_hook( __FILE__,'ah_plugin_install' );
 
 /* What to do when the plugin is deactivated? */
-register_deactivation_hook( __FILE__, 'my_first_plugin_remove' );
+register_deactivation_hook( __FILE__, 'ah_plugin_remove' );
 
 function my_first_plugin_install() {
-/* Create a new database field */
-add_option("my_first_data", 'Testing !! My Plugin is Working Fine.', 'This is my first plugin panel data.', 'yes');
+	/* Create a new database field */
+	add_option( 'ah_plugin_options' );
 }
 
 function my_first_plugin_remove() {
-/* Delete the database field */
-delete_option('my_first_data');
+	/* Delete the database field */
+	delete_option('ah_plugin_options');
 }
 
 
+$ah_plugin_options = array(
+	'output' => 'test',
+	'admin' => 'yes',
+	'security' => 'yes',
+	'shortcodes' => 'no',
+	'menu' => 'yes',
+	'widgets' => 'yes',
+	'footer' => 'yes',
+	'darkLight' => 'light',
+);
 
-add_action('admin_menu', 'my_first_admin_menu');
-function my_first_admin_menu() {
+// echo $output ."<br />". $admin ."<br />". $security ."<br />". $menu ."<br />". $widgets ."<br />". $footer ."<br />". $darkLight ."<br />"; 
+
+
+add_action('admin_menu', 'ah_plugin_admin_menu');
+function ah_plugin_admin_menu() {
 add_options_page( 
             'Plugin Admin Options', 
             'Bigandy Options', 
@@ -36,18 +52,41 @@ add_options_page(
         );
 }
 
+
 function ah_plugin_admin_options_page() {
+	update_option( 'ah_plugin_options', $ah_plugin_options );
+	
+	$options = get_option( 'ah_plugin_options' );
+	
+	$ah_output = $options['output'];
+	$ah_admin = $options['admin'];
+	$ah_security = $options['security'];
+	$ah_shortcodes = $options['shortcodes'];
+	$ah_menu = $options['menu'];
+	$ah_widgets = $options['widgets'];
+	$ah_footer = $options['footer'];
+	$ah_darkLight = $options['darkLight'];
+	
+	
 ?>
 <div class="wrap">
 	<?php screen_icon(); ?>
 	<h2>Bigandy Plugin Options</h2>
-
-	<form method="post" action="options.php">
-		<?php wp_nonce_field('update-options'); ?>
+	
+	<form method="post" action="options.php" class="ahform">
+	
+	<?php wp_nonce_field('update-options'); ?>
 		
-        <fieldset class="<?php if( get_option('my_first_data') ) {echo "is-active";}?>">
-        	<label>Enter Text:</label> 
-        	<input name="my_first_data" type="text" id="my_first_data" value="<?php echo get_option('my_first_data'); ?>" />
+        <fieldset class="<?php if( get_option('ah_plugin_options') ) {echo "is-active";}?>">
+        	<label for="ahOutput">Enter Text:</label> 
+        	<?php
+        	
+        	$options = get_option( 'ah_plugin_options' );
+        	$ah_output = $options['output'];
+			
+			echo $ah_output;
+			
+        	echo "<input name='ah_plugin_options[output]' type='text' id='ahOutput' value='{$options['output']}' />";?>
         </fieldset>
 
 
@@ -55,8 +94,12 @@ function ah_plugin_admin_options_page() {
 			<label for="adminArea">Admin Area
 			</label>
 			<select name="adminArea" id="adminArea">
+				
 				<option value="Y" selected="selected">Y</option>
 				<option value="N">N</option>
+				
+				
+				
 			</select>
 		</fieldset>
 
@@ -112,14 +155,26 @@ function ah_plugin_admin_options_page() {
         </fieldset>
 
 		<input type="hidden" name="action" value="update" />
-		<input type="hidden" name="page_options" value="my_first_data" />
-
+		<input type="hidden" name="page_options" value="ah_plugin_options" />
 		<input type="submit" value="Save Changes" />
+		
 	</form>
-    <?php echo "<p><strong>Output: </strong>".get_option('my_first_data') . "</p>"; ?>
+	
+	
+	<h2>Results</h2>
+	
+    <p><strong>Output: </strong><?php echo $ah_output ?></p>
+    <p><strong>Admin: </strong><?php echo $ah_admin ?></p>
+    <p><strong>Shortcodes: </strong><?php echo $ah_shortcodes ?></p>
+    <p><strong>Security: </strong><?php echo $ah_security ?></p>
+    <p><strong>Menu Classes: </strong><?php echo $ah_menu ?></p>
+    <p><strong>Widgets: </strong><?php echo $ah_widgets  ?></p>
+    <p><strong>Footer: </strong><?php echo $ah_footer ?></p>
+    <p><strong>Dark/Light: </strong><?php echo $ah_darkLight ?></p>
 </div>
 <?php
 }
+
 
 
 
