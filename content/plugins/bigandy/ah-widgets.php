@@ -11,21 +11,18 @@ class RandomPostWidget extends WP_Widget
   function RandomPostWidget()
   {
     $widget_ops = array('classname' => 'RandomPostWidget', 'description' => 'Displays a random post with thumbnail' );
-    $this->WP_Widget('RandomPostWidget', 'AH Random Post and Thumbnail', $widget_ops);
+    $this->WP_Widget('RandomPostWidget', 'AH Recent Posts', $widget_ops);
   }
  
   function form($instance)
   {
     $title = esc_attr($instance['title']);
-    $text = esc_attr($instance['text']);
-    $checkbox = esc_attr($instance['checkbox']);
-    $textarea = esc_attr($instance['textarea']);
     $select = esc_attr($instance['select']);
 ?>
-  <label for="<?php echo $this->get_field_id('title'); ?>">Title: </label>
+  <p><label for="<?php echo $this->get_field_id('title'); ?>">Title: </label>
   
-  <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo attribute_escape($title); ?>" />
-  
+  <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo attribute_escape($title); ?>" /></p>
+  <p>
   <label for="<?php echo $this->get_field_id('postNumber'); ?>">Select Number of Posts:</label>
   <select name="<?php echo $this->get_field_name('postNumber'); ?>" id="<?php echo $this->get_field_id('postNumber'); ?>" class="widefat">
             <?php
@@ -34,7 +31,7 @@ class RandomPostWidget extends WP_Widget
     echo '<option value="' . $option . '" id="' . $option . '"', $select == $option ? ' selected="selected"' : '', '>', $option, '</option>';
 }
             ?>
-        </select>
+        </select></p>
 <?php
   }
  
@@ -55,7 +52,7 @@ class RandomPostWidget extends WP_Widget
     extract($args, EXTR_SKIP);
  
     echo $before_widget;
-    $title = empty($instance['title']) ? 'Random Widget Title' : apply_filters('widget_title', $instance['title']);
+    $title = empty($instance['title']) ? 'Recent Posts' : apply_filters('widget_title', $instance['title']);
     
     if (!empty($title))
       echo $before_title . $title . $after_title;
