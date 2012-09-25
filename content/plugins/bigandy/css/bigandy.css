@@ -1,0 +1,16 @@
+/* bigandy plugin styles */
+
+label {
+	display:inline-block;
+	width:100px;
+}
+
+form {
+	margin-top:20px;
+}
+
+fieldset {
+	padding:5px;
+	margin:5px 0;
+	border:1px solid #ccc;
+}
