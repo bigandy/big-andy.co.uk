@@ -1,9 +1,12 @@
 /* bigandy plugin styles */
 
-label {
+label,
+.fakeLabel {
 	display:inline-block;
 	width:100px;
 }
+
+
 
 form {
 	margin-top:20px;
@@ -13,4 +16,26 @@ fieldset {
 	padding:5px;
 	margin:5px 0;
 	border:1px solid #ccc;
+	background:rgba(255,0,0,0.5);
+}
+
+.is-active {
+	background:rgba(0,255,0,0.5);
+}
+
+.fakeLabel {
+	font-weight:bold;
+}
+
+.fakeLabel ~ label {
+	width:auto;
+	padding-right:10px;
+}
+
+select:focus {
+	border:1px solid black;
+}
+
+.is-active select:focus {
+	border-color:red;
 }
