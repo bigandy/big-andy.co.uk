@@ -181,7 +181,7 @@ class description_walker extends Walker_Nav_Menu
            
             $item_output = $args->before;
             $item_output .= '<a'. $attributes . $class_names .'>';
-            $item_output .= $args->link_before .$prepend.apply_filters( 'the_title', $item->title, $item->ID ).$append;
+            $item_output .= $args->link_before .apply_filters( 'the_title', $item->title, $item->ID );
             $item_output .= '</a>';
             $item_output .= $args->after;
 

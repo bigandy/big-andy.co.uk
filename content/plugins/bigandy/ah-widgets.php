@@ -31,8 +31,8 @@ class RandomPostWidget extends WP_Widget
             <?php
             $options = array(1,2,3,4,5,6,7,8,9);
             foreach ($options as $option) {
-                echo '<option value="' . $option . '" id="' . $option . '"', $select == $option ? : '', '>', $option, '</option>';
-            }
+    echo '<option value="' . $option . '" id="' . $option . '"', $select == $option ? ' selected="selected"' : '', '>', $option, '</option>';
+}
             ?>
         </select>
 <?php
@@ -83,4 +83,4 @@ class RandomPostWidget extends WP_Widget
   }
  
 }
-add_action( 'widgets_init', create_function('', 'return register_widget("RandomPostWidget");') );?>
+add_action( 'widgets_init', create_function('', 'return register_widget("RandomPostWidget");') );
