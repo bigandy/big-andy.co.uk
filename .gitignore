@@ -7,4 +7,4 @@
 .DS_Store
 .project
 *.sass-cache/
-*.log
+/content/debug.log
