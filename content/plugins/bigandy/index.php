@@ -54,18 +54,8 @@ add_options_page(
 
 
 function ah_plugin_admin_options_page() {
-	update_option( 'ah_plugin_options', $ah_plugin_options );
 	
-	$options = get_option( 'ah_plugin_options' );
 	
-	$ah_output = $options['output'];
-	$ah_admin = $options['admin'];
-	$ah_security = $options['security'];
-	$ah_shortcodes = $options['shortcodes'];
-	$ah_menu = $options['menu'];
-	$ah_widgets = $options['widgets'];
-	$ah_footer = $options['footer'];
-	$ah_darkLight = $options['darkLight'];
 	
 	
 ?>
@@ -77,38 +67,38 @@ function ah_plugin_admin_options_page() {
 	
 	<?php wp_nonce_field('update-options'); ?>
 		
-        <fieldset class="<?php if( get_option('ah_plugin_options') ) {echo "is-active";}?>">
+        <fieldset <?php if ( $options['output'] ) echo 'class="is-active"';  ?> >
         	<label for="ahOutput">Enter Text:</label> 
+
         	<?php
+                // echo $ah_output;
+                echo "<input name='ah_plugin_options[output]' type='text' id='ahOutput' value='{$options['output']}' />";
+        	?>
         	
-        	$options = get_option( 'ah_plugin_options' );
-        	$ah_output = $options['output'];
-			
-			echo $ah_output;
-			
-        	echo "<input name='ah_plugin_options[output]' type='text' id='ahOutput' value='{$options['output']}' />";?>
+        	<?php if ( !$options['output'] ) echo "isn't set";   ?>
         </fieldset>
 
 
-		<fieldset class="is-active">
-			<label for="adminArea">Admin Area
-			</label>
-			<select name="adminArea" id="adminArea">
+		<fieldset <?php if ($options['adminArea'] == "N") echo 'class="is-active"'; ?>>
+			<label for="adminArea">Admin Area</label>
+			
 				
-				<option value="Y" selected="selected">Y</option>
-				<option value="N">N</option>
+				<select name="ah_plugin_options[adminArea]" id="adminArea">
+                    <option value="Y" <?php selected( $options['adminArea'], "Y" ); ?> >Yes</option>
+                    <option value="N" <?php selected( $options['adminArea'], "N" ); ?> >No</option>
+                </select>
 				
 				
 				
-			</select>
+			
 		</fieldset>
 
 		<fieldset>
 			<label for="ahShortcodes">Shortcodes
 			</label>
-			<select name="ahShortcodes" id="ahShortcodes">
-				<option value="Y">Y</option>
-				<option value="N">N</option>
+			<select name="ah_plugin_options[ahShortcodes]" id="ahShortcodes">
+				<option value="Y" <?php selected( $options['ahShortcodes'], "Y" ); ?> >Yes</option>
+				<option value="N" <?php selected( $options['ahShortcodes'], "N" ); ?> >No</option>
 			</select>
 		</fieldset>
 
@@ -158,6 +148,20 @@ function ah_plugin_admin_options_page() {
 		<input type="hidden" name="page_options" value="ah_plugin_options" />
 		<input type="submit" value="Save Changes" />
 		
+		<?php 
+    		$options = get_option( 'ah_plugin_options' );
+        
+            $ah_output = $options['output'];
+            $ah_admin = $options['admin'];
+            $ah_security = $options['security'];
+            $ah_shortcodes = $options['shortcodes'];
+            $ah_menu = $options['menu'];
+            $ah_widgets = $options['widgets'];
+            $ah_footer = $options['footer'];
+            $ah_darkLight = $options['darkLight'];
+            
+            update_option( 'ah_plugin_options', $ah_plugin_options );
+        ?>
 	</form>
 	
 	
