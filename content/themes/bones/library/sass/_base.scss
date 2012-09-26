@@ -29,6 +29,15 @@ body {
 	color: #565656;
 }
 
+.dark {
+	background:rgba(orange,0.5);
+	
+	.nav,
+	.nav a {
+		background:transparent;
+	}
+}
+
 /********************
 WORDPRESS BODY CLASSES
 style a page via class
