@@ -17,21 +17,23 @@ class RandomPostWidget extends WP_Widget
   function form($instance)
   {
     $title = esc_attr($instance['title']);
-    $select = esc_attr($instance['select']);
+    $select = esc_attr($instance['postNumber']);
 ?>
   <p><label for="<?php echo $this->get_field_id('title'); ?>">Title: </label>
   
   <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo attribute_escape($title); ?>" /></p>
+  
   <p>
-  <label for="<?php echo $this->get_field_id('postNumber'); ?>">Select Number of Posts:</label>
-  <select name="<?php echo $this->get_field_name('postNumber'); ?>" id="<?php echo $this->get_field_id('postNumber'); ?>" class="widefat">
+    <label for="<?php echo $this->get_field_id('postNumber'); ?>">Select Number of Posts:</label>
+    <select name="<?php echo $this->get_field_name('postNumber'); ?>" id="<?php echo $this->get_field_id('postNumber'); ?>" class="widefat">
             <?php
             $options = array(1,2,3,4,5,6,7,8,9);
             foreach ($options as $option) {
-    echo '<option value="' . $option . '" id="' . $option . '"', $select == $option ? ' selected="selected"' : '', '>', $option, '</option>';
-}
+                echo '<option value="' . $option . '" id="' . $option . '"', $select == $option ? ' selected="selected"' : '', '>', $option, '</option>';
+            }
             ?>
-        </select></p>
+    </select>
+    </p>
 <?php
   }
  
