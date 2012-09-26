@@ -242,10 +242,10 @@ function ah_body_class_names($classes) {
        
     $options = get_option( 'ah_plugin_options' );   
         
-    if( $options['darkLight'] == "Light") {
-        $lightDark = "light";
-    } else {
+    if( $options['darkLight'] == "Dark") {
         $lightDark = "dark";
+    } else {
+        $lightDark = "light";
     }
     
     $classes[] = $lightDark;
