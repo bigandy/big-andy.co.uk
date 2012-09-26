@@ -21,6 +21,10 @@ form.ahform {
 	background:rgba(0,255,0,0.5);
 }
 
+.ahform .no-bg {
+	background:transparent; 
+}
+
 .ahform .fakeLabel {
 	font-weight:bold;
 }
