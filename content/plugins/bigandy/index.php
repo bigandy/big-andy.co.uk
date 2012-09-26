@@ -171,36 +171,37 @@ function ah_plugin_admin_options_page() {
                 );
                 update_option( 'ah_plugin_options', $options );
             }
-        
-            $ah_output = $options['output'];
-            $ah_admin = $options['admin'];
-            $ah_security = $options['security'];
-            $ah_shortcodes = $options['shortcodes'];
-            $ah_menu = $options['menu'];
-            $ah_widgets = $options['widgets'];
-            $ah_footer = $options['footer'];
-            $ah_darkLight = $options['darkLight'];
-            
+                   
         ?>
 	</form>
 	
 	
 	<h2>Results</h2>
-	
-    <p><strong>Output: </strong><?php echo $ah_output ?></p>
-    <p><strong>Admin: </strong><?php echo $ah_admin ?></p>
-    <p><strong>Shortcodes: </strong><?php echo $ah_shortcodes ?></p>
-    <p><strong>Security: </strong><?php echo $ah_security ?></p>
-    <p><strong>Menu Classes: </strong><?php echo $ah_menu ?></p>
-    <p><strong>Widgets: </strong><?php echo $ah_widgets  ?></p>
-    <p><strong>Footer: </strong><?php echo $ah_footer ?></p>
-    <p><strong>Dark/Light: </strong><?php echo $ah_darkLight ?></p>
+	<?php
+	$ah_options = array(
+	   'output',
+	   'admin',
+	   'shortcodes',
+	   'security',
+	   'menu',
+	   'widgets',
+	   'footer',
+	   'darkLight'
+	);
+    
+    
+    foreach($ah_options as $ah_option) {
+        echo"<p><strong>".ucfirst($ah_option).":</strong> ". $options[$ah_option]."</p>";
+    }
+    
+	?>
 </div>
 <?php
+
+return $output;
+
+
 }
-
-
-
 
 // include sub pages
 require_once('init-styles.php');
@@ -211,3 +212,6 @@ require_once('remove-menu-classes.php');
 require_once('images.php');
 require_once('ah-widgets.php');
 require_once('ah-footer.php');
+
+
+
