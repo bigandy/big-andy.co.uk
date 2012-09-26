@@ -139,12 +139,12 @@ function ah_plugin_admin_options_page() {
 		</fieldset>
 		
 		<fieldset <?php if ($options['darkLight'] == "1") echo 'class="is-active"'; ?>>
-            <p class="fakeLabel">Dark/Light: </p>
+            <p class="label">Dark/Light: </p>
             
-            <label for="ahRadioTestOn">On</label>
-                <input type="radio" name="ah_plugin_options[darkLight]" id="ahRadioTestOn" value="1" <?php checked( $options['darkLight'], 1 ); ?> />
-            <label for="ahRadioTestOff">Off</label>
-                <input type="radio" name="ah_plugin_options[darkLight]" id="ahRadioTestOff" value="0" <?php checked( $options['darkLight'], 0 ); ?> />
+            <label for="ahRadioTestOn">Light</label>
+                <input type="radio" name="ah_plugin_options[darkLight]" id="ahRadioTestOn" value="Light" <?php checked( $options['darkLight'], "Light" ); ?> />
+            <label for="ahRadioTestOff">Dark</label>
+                <input type="radio" name="ah_plugin_options[darkLight]" id="ahRadioTestOff" value="Dark" <?php checked( $options['darkLight'], "Dark" ); ?> />
             
             
         </fieldset>
@@ -167,7 +167,7 @@ function ah_plugin_admin_options_page() {
                     'menu' => 'N',
                     'widgets' => 'N',
                     'footer' => 'N',
-                    'darkLight' => '0'
+                    'darkLight' => 'Light'
                 );
                 update_option( 'ah_plugin_options', $options );
             }
@@ -203,15 +203,53 @@ return $output;
 
 }
 
+$options = get_option( 'ah_plugin_options' );
+
 // include sub pages
 require_once('init-styles.php');
-require_once('admin-area.php');
-require_once('shortcodes.php');
-require_once('security-stuff.php');
-require_once('remove-menu-classes.php');
-require_once('images.php');
-require_once('ah-widgets.php');
-require_once('ah-footer.php');
 
+if( $options['admin'] == "Y") {
+    require_once('admin-area.php'); 
+}
+
+if( $options['shortcodes'] == "Y") {
+    require_once('shortcodes.php');
+}
+
+if( $options['security'] == "Y") {
+    require_once('security-stuff.php');
+}
+    
+if( $options['menu'] == "Y") {
+    require_once('remove-menu-classes.php');
+}
+if( $options['images'] == "Y") {
+    require_once('images.php');
+}
+if( $options['widgets'] == "Y") {
+    require_once('ah-widgets.php');
+}
+if( $options['footer'] == "Y") {
+    require_once('ah-footer.php');
+}
+
+
+// Add specific CSS class by filter
+add_filter('body_class','ah_body_class_names');
+function ah_body_class_names($classes) {
+    // add 'class-name' to the $classes array
+       
+    $options = get_option( 'ah_plugin_options' );   
+        
+    if( $options['darkLight'] == "Light") {
+        $lightDark = "light";
+    } else {
+        $lightDark = "dark";
+    }
+    
+    $classes[] = $lightDark;
+    // return the $classes array
+    return $classes;
+}
 
 

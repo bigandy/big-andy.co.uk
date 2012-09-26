@@ -1,7 +1,7 @@
 /* bigandy plugin styles */
 
 .ahform label,
-.ahform .fakeLabel {
+.ahform .label {
 	display:inline-block;
 	width:100px;
 }
@@ -25,11 +25,7 @@ form.ahform {
 	background:transparent; 
 }
 
-.ahform .fakeLabel {
-	font-weight:bold;
-}
-
-.ahform .fakeLabel ~ label {
+.ahform .label ~ label {
 	width:auto;
 	padding-right:10px;
 }
