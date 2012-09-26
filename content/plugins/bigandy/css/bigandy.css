@@ -38,3 +38,12 @@ form.ahform {
 	border-color:red;
 }
 
+.bullet {
+	list-style:disc;
+	padding-left:1.5em;
+}
+
+.bullet span {
+	color:#aaa;
+	font-style:italic;
+}

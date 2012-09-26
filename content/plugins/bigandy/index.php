@@ -189,10 +189,11 @@ function ah_plugin_admin_options_page() {
 	   'darkLight'
 	);
     
-    
+    echo "<ul class='bullet'>";
     foreach($ah_options as $ah_option) {
-        echo"<p><strong>".ucfirst($ah_option).":</strong> ". $options[$ah_option]."</p>";
+        echo"<li><strong>".ucfirst($ah_option).":</strong> <span>". $options[$ah_option]."</span></li>";
     }
+    echo "</ul>";
     
 	?>
 </div>
