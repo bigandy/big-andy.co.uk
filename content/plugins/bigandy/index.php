@@ -100,8 +100,8 @@ function ah_plugin_admin_options_page() {
 			<label for="ahShortcodes">Shortcodes
 			</label>
 			<select name="ah_plugin_options[shortcodes]" id="ahShortcodes">
-				<option value="Y" <?php selected( $options['shortcodes'], "Y" ); ?> >Yes</option>
 				<option value="N" <?php selected( $options['shortcodes'], "N" ); ?> >No</option>
+				<option value="Y" <?php selected( $options['shortcodes'], "Y" ); ?> >Yes</option>
 			</select>
 		</fieldset>
 
@@ -109,32 +109,32 @@ function ah_plugin_admin_options_page() {
 			<label for="ahSecurity">Security Stuff: 
 			</label>
 			<select name="ah_plugin_options[security]" id="ahSecurity">
-				<option value="Y" <?php selected( $options['security'], "Y" ); ?> >Yes</option>
 				<option value="N" <?php selected( $options['security'], "N" ); ?> >No</option>
+				<option value="Y" <?php selected( $options['security'], "Y" ); ?> >Yes</option>
 			</select>
 		</fieldset>
 
 		<fieldset <?php if ($options['menu'] == "Y") echo 'class="is-active"'; ?>>
 			<label for="ahMenuClasses">Remove Menu Classes: </label>
 			<select name="ah_plugin_options[menu]" id="ahMenuClasses">
+				<option value="N" <?php selected( $options['menu'], "N" ); ?> >No</option>
 				<option value="Y" <?php selected( $options['menu'], "Y" ); ?> >Yes</option>
-                <option value="N" <?php selected( $options['menu'], "N" ); ?> >No</option>
 			</select>
 		</fieldset>
 
 		<fieldset <?php if ($options['widgets'] == "Y") echo 'class="is-active"'; ?>>
 			<label for="ahWidgets">Widgets</label>
 			<select name="ah_plugin_options[widgets]" id="ahWidgets">
-				<option value="Y" <?php selected( $options['widgets'], "Y" ); ?> >Yes</option>
                 <option value="N" <?php selected( $options['widgets'], "N" ); ?> >No</option>
+                <option value="Y" <?php selected( $options['widgets'], "Y" ); ?> >Yes</option>
 			</select>
 		</fieldset>
 
 		<fieldset <?php if ($options['footer'] == "Y") echo 'class="is-active"'; ?>>
 			<label for="ahFooter">Footer: </label>
 			<select name="ah_plugin_options[footer]" id="ahFooter">
-				<option value="Y" <?php selected( $options['footer'], "Y" ); ?> >Yes</option>
                 <option value="N" <?php selected( $options['footer'], "N" ); ?> >No</option>
+                <option value="Y" <?php selected( $options['footer'], "Y" ); ?> >Yes</option>
 			</select>
 		</fieldset>
 		
