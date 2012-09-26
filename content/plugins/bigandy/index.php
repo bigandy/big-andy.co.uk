@@ -138,7 +138,7 @@ function ah_plugin_admin_options_page() {
 			</select>
 		</fieldset>
 		
-		<fieldset <?php if ($options['darkLight'] == "1") echo 'class="is-active"'; ?>>
+		<fieldset <?php if ($options['darkLight'] == "Dark") echo 'class="is-active"'; ?>>
             <p class="label">Dark/Light: </p>
             
             <label for="ahRadioTestOn">Light</label>
