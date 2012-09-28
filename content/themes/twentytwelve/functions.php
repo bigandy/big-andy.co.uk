@@ -58,7 +58,7 @@ function twentytwelve_setup() {
 	add_theme_support( 'automatic-feed-links' );
 
 	// This theme supports a variety of post formats.
-	add_theme_support( 'post-formats', array( 'aside', 'image', 'link', 'quote' ) );
+	add_theme_support( 'post-formats', array( 'aside', 'image', 'link', 'quote', 'status' ) );
 
 	// This theme uses wp_nav_menu() in one location.
 	register_nav_menu( 'primary', __( 'Primary Menu', 'twentytwelve' ) );
@@ -98,33 +98,49 @@ function twentytwelve_scripts_styles() {
 	/*
 	 * Adds JavaScript for handling the navigation menu hide-and-show behavior.
 	 */
-	wp_enqueue_script( 'twentytwelve-navigation', get_template_directory_uri() . '/js/navigation.js', array(), '20120824', true );
+	wp_enqueue_script( 'twentytwelve-navigation', get_template_directory_uri() . '/js/navigation.js', array(), '1.0', true );
 
 	/*
 	 * Loads our special font CSS file.
 	 *
- 	 * To disable in a child theme, use wp_dequeue_style()
- 	 * function mytheme_dequeue_fonts() {
- 	 *     wp_dequeue_style( 'twentytwelve-fonts' );
- 	 * }
+	 * The use of Open Sans by default is localized. For languages that use
+	 * characters not supported by the font, the font can be disabled.
+	 *
+	 * To disable in a child theme, use wp_dequeue_style()
+	 * function mytheme_dequeue_fonts() {
+	 *     wp_dequeue_style( 'twentytwelve-fonts' );
+	 * }
 	 * add_action( 'wp_enqueue_scripts', 'mytheme_dequeue_fonts', 11 );
- 	 */
-	$protocol = is_ssl() ? 'https' : 'http';
-	wp_enqueue_style( 'twentytwelve-fonts', "$protocol://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700", array(), null );
+	 */
+
+	/* translators: If there are characters in your language that are not supported
+	   by Open Sans, translate this to 'off'. Do not translate into your own language. */
+	if ( 'off' !== _x( 'on', 'Open Sans font: on or off', 'twentytwelve' ) ) {
+		$subsets = 'latin,latin-ext';
+
+		/* translators: To add an additional Open Sans character subset specific to your language, translate
+		   this to 'greek', 'cyrillic' or 'vietnamese'. Do not translate into your own language. */
+		$subset = _x( 'no-subset', 'Open Sans font: add new subset (greek, cyrillic, vietnamese)', 'twentytwelve' );
+
+		if ( 'cyrillic' == $subset )
+			$subsets .= ',cyrillic,cyrillic-ext';
+		elseif ( 'greek' == $subset )
+			$subsets .= ',greek,greek-ext';
+		elseif ( 'vietnamese' == $subset )
+			$subsets .= ',vietnamese';
+
+		$protocol = is_ssl() ? 'https' : 'http';
+		$query_args = array(
+			'family' => 'Open+Sans:400italic,700italic,400,700',
+			'subset' => $subsets,
+		);
+		wp_enqueue_style( 'twentytwelve-fonts', add_query_arg( $query_args, "$protocol://fonts.googleapis.com/css" ), array(), null );
+	}
 
 	/*
 	 * Loads our main stylesheet.
 	 */
 	wp_enqueue_style( 'twentytwelve-style', get_stylesheet_uri() );
-
-	/*
-	 * Loads HTML5 JavaScript file to add support for HTML5 elements in older IE versions.
-	 * Ideally, should load after main CSS file.
-	 * See html5.js link in header.php.
-	 *
-	 * TODO depends on IE dependency being in core for JS enqueuing
-	 * before we can move here properly: see http://core.trac.wordpress.org/ticket/16024
-	 */
 }
 add_action( 'wp_enqueue_scripts', 'twentytwelve_scripts_styles' );
 
@@ -144,10 +160,10 @@ function twentytwelve_wp_title( $title, $sep ) {
 	if ( is_feed() )
 		return $title;
 
-	// Add the blog name.
+	// Add the site name.
 	$title .= get_bloginfo( 'name' );
 
-	// Add the blog description for the home/front page.
+	// Add the site description for the home/front page.
 	$site_description = get_bloginfo( 'description', 'display' );
 	if ( $site_description && ( is_home() || is_front_page() ) )
 		$title = "$title $sep $site_description";
@@ -172,7 +188,7 @@ function twentytwelve_page_menu_args( $args ) {
 add_filter( 'wp_page_menu_args', 'twentytwelve_page_menu_args' );
 
 /**
- * Registers our main widget area and the homepage widget areas.
+ * Registers our main widget area and the front page widget areas.
  *
  * @since Twenty Twelve 1.0
  */
@@ -180,7 +196,7 @@ function twentytwelve_widgets_init() {
 	register_sidebar( array(
 		'name' => __( 'Main Sidebar', 'twentytwelve' ),
 		'id' => 'sidebar-1',
-		'description' => __( 'Appears on posts and pages except the optional Homepage template, which has its own widgets', 'twentytwelve' ),
+		'description' => __( 'Appears on posts and pages except the optional Front Page template, which has its own widgets', 'twentytwelve' ),
 		'before_widget' => '<aside id="%1$s" class="widget %2$s">',
 		'after_widget' => '</aside>',
 		'before_title' => '<h3 class="widget-title">',
@@ -188,9 +204,9 @@ function twentytwelve_widgets_init() {
 	) );
 
 	register_sidebar( array(
-		'name' => __( 'First Homepage Widget Area', 'twentytwelve' ),
+		'name' => __( 'First Front Page Widget Area', 'twentytwelve' ),
 		'id' => 'sidebar-2',
-		'description' => __( 'Appears when using the optional homepage template with a page set as Static Front Page', 'twentytwelve' ),
+		'description' => __( 'Appears when using the optional Front Page template with a page set as Static Front Page', 'twentytwelve' ),
 		'before_widget' => '<aside id="%1$s" class="widget %2$s">',
 		'after_widget' => '</aside>',
 		'before_title' => '<h3 class="widget-title">',
@@ -198,9 +214,9 @@ function twentytwelve_widgets_init() {
 	) );
 
 	register_sidebar( array(
-		'name' => __( 'Second Homepage Widget Area', 'twentytwelve' ),
+		'name' => __( 'Second Front Page Widget Area', 'twentytwelve' ),
 		'id' => 'sidebar-3',
-		'description' => __( 'Appears when using the optional homepage template with a page set as Static Front Page', 'twentytwelve' ),
+		'description' => __( 'Appears when using the optional Front Page template with a page set as Static Front Page', 'twentytwelve' ),
 		'before_widget' => '<aside id="%1$s" class="widget %2$s">',
 		'after_widget' => '</aside>',
 		'before_title' => '<h3 class="widget-title">',
@@ -208,20 +224,6 @@ function twentytwelve_widgets_init() {
 	) );
 }
 add_action( 'widgets_init', 'twentytwelve_widgets_init' );
-
-/**
- * Counts the number of footer sidebars to enable dynamic classes for the footer.
- *
- * @since Twenty Twelve 1.0
- */
-function twentytwelve_homepage_sidebar_class() {
-	$classes = array( 'widget-area' );
-
-	if ( is_active_sidebar( 'sidebar-2' ) && is_active_sidebar( 'sidebar-3' ) )
-		$classes[] = 'two';
-
-	echo 'class="' . implode( ' ', $classes ) . '"';
-}
 
 if ( ! function_exists( 'twentytwelve_content_nav' ) ) :
 /**
@@ -336,11 +338,11 @@ function twentytwelve_entry_meta() {
 
 	// Translators: 1 is category, 2 is tag, 3 is the date and 4 is the author's name.
 	if ( $tag_list ) {
-		$utility_text = __( 'This entry was posted in %1$s and tagged %2$s on %3$s by %4$s.', 'twentytwelve' );
+		$utility_text = __( 'This entry was posted in %1$s and tagged %2$s on %3$s<span class="by-author"> by %4$s</span>.', 'twentytwelve' );
 	} elseif ( $categories_list ) {
-		$utility_text = __( 'This entry was posted in %1$s on %3$s by %4$s.', 'twentytwelve' );
+		$utility_text = __( 'This entry was posted in %1$s on %3$s<span class="by-author"> by %4$s</span>.', 'twentytwelve' );
 	} else {
-		$utility_text = __( 'This entry was posted on %3$s by %4$s.', 'twentytwelve' );
+		$utility_text = __( 'This entry was posted on %3$s<span class="by-author"> by %4$s</span>.', 'twentytwelve' );
 	}
 
 	printf(
@@ -357,8 +359,11 @@ endif;
  * Extends the default WordPress body class to denote:
  * 1. Using a full-width layout, when no active widgets in the sidebar
  *    or full-width template.
- * 2. A thumbnail in the Homepage page template.
+ * 2. Front Page template: thumbnail in use and number of sidebars for
+ *    widget areas.
  * 3. White or empty background color to change the layout and spacing.
+ * 4. Custom fonts enabled.
+ * 5. Single or multiple authors.
  *
  * @since Twenty Twelve 1.0
  *
@@ -371,10 +376,12 @@ function twentytwelve_body_class( $classes ) {
 	if ( ! is_active_sidebar( 'sidebar-1' ) || is_page_template( 'page-templates/full-width.php' ) )
 		$classes[] = 'full-width';
 
-	if ( is_page_template( 'page-templates/home.php' ) ) {
-		$classes[] = 'template-home';
+	if ( is_page_template( 'page-templates/front-page.php' ) ) {
+		$classes[] = 'template-front-page';
 		if ( has_post_thumbnail() )
 			$classes[] = 'has-post-thumbnail';
+		if ( is_active_sidebar( 'sidebar-2' ) && is_active_sidebar( 'sidebar-3' ) )
+			$classes[] = 'two-sidebars';
 	}
 
 	if ( empty( $background_color ) )
@@ -385,6 +392,9 @@ function twentytwelve_body_class( $classes ) {
 	// Enable custom font class only if the font CSS is queued to load.
 	if ( wp_style_is( 'twentytwelve-fonts', 'queue' ) )
 		$classes[] = 'custom-font-enabled';
+
+	if ( ! is_multi_author() )
+		$classes[] = 'single-author';
 
 	return $classes;
 }
