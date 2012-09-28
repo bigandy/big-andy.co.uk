@@ -49,10 +49,9 @@ get_current_screen()->set_help_sidebar(
 /**
  * Display JavaScript on the page.
  *
- * @package WordPress
- * @subpackage Permalink_Settings_Screen
+ * @since 3.5.0
  */
-function add_js() {
+function options_permalink_add_js() {
 	?>
 <script type="text/javascript">
 //<![CDATA[
@@ -70,7 +69,7 @@ jQuery(document).ready(function() {
 </script>
 <?php
 }
-add_filter('admin_head', 'add_js');
+add_filter('admin_head', 'options_permalink_add_js');
 
 include('./admin-header.php');
 
@@ -218,7 +217,7 @@ $structures = array(
 			</label>
 		</th>
 		<td>
-			<?php echo $blog_prefix; ?>
+			<code><?php echo get_option('home') . $blog_prefix; ?></code>
 			<input name="permalink_structure" id="permalink_structure" type="text" value="<?php echo esc_attr($permalink_structure); ?>" class="regular-text code" />
 		</td>
 	</tr>

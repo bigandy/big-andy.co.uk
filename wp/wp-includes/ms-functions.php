@@ -152,17 +152,12 @@ function get_blog_count( $id = 0 ) {
  *
  * @param int $blog_id ID of the blog.
  * @param int $post_id ID of the post you're looking for.
- * @return object The post.
+ * @return WP_Post|null WP_Post on success or null on failure
  */
 function get_blog_post( $blog_id, $post_id ) {
-	global $wpdb;
-
-	$key = $blog_id . '-' . $post_id;
-	$post = wp_cache_get( $key, 'global-posts' );
-	if ( $post == false ) {
-		$post = $wpdb->get_row( $wpdb->prepare( 'SELECT * FROM ' . $wpdb->get_blog_prefix( $blog_id ) . 'posts WHERE ID = %d', $post_id ) );
-		wp_cache_add( $key, $post, 'global-posts' );
-	}
+	switch_to_blog( $blog_id );
+	$post = get_post( $post_id );
+	restore_current_blog();
 
 	return $post;
 }
@@ -183,9 +178,9 @@ function get_blog_post( $blog_id, $post_id ) {
 function add_user_to_blog( $blog_id, $user_id, $role ) {
 	switch_to_blog($blog_id);
 
-	$user = new WP_User($user_id);
+	$user = get_userdata( $user_id );
 
-	if ( ! $user->exists() ) {
+	if ( ! $user ) {
 		restore_current_blog();
 		return new WP_Error('user_does_not_exist', __('That user does not exist.'));
 	}
@@ -246,8 +241,8 @@ function remove_user_from_blog($user_id, $blog_id = '', $reassign = '') {
 	}
 
 	// wp_revoke_user($user_id);
-	$user = new WP_User($user_id);
-	if ( ! $user->exists() ) {
+	$user = get_userdata( $user_id );
+	if ( ! $user ) {
 		restore_current_blog();
 		return new WP_Error('user_does_not_exist', __('That user does not exist.'));
 	}
@@ -313,19 +308,15 @@ function create_empty_blog( $domain, $path, $weblog_title, $site_id = 1 ) {
  *
  * @since MU 1.0
  *
- * @param int $_blog_id ID of the source blog.
+ * @param int $blog_id ID of the source blog.
  * @param int $post_id ID of the desired post.
  * @return string The post's permalink
  */
-function get_blog_permalink( $_blog_id, $post_id ) {
-	$key = "{$_blog_id}-{$post_id}-blog_permalink";
-	$link = wp_cache_get( $key, 'site-options' );
-	if ( $link == false ) {
-		switch_to_blog( $_blog_id );
-		$link = get_permalink( $post_id );
-		restore_current_blog();
-		wp_cache_add( $key, $link, 'site-options', 360 );
-	}
+function get_blog_permalink( $blog_id, $post_id ) {
+	switch_to_blog( $blog_id );
+	$link = get_permalink( $post_id );
+	restore_current_blog();
+
 	return $link;
 }
 
@@ -598,7 +589,7 @@ function wpmu_validate_blog_signup($blogname, $blog_title, $user = '') {
 		$mydomain = "$domain";
 		$path = $base.$blogname.'/';
 	}
-	if ( domain_exists($mydomain, $path) )
+	if ( domain_exists($mydomain, $path, $current_site->id) )
 		$errors->add('blogname', __('Sorry, that site already exists!'));
 
 	if ( username_exists( $blogname ) ) {
@@ -617,7 +608,7 @@ function wpmu_validate_blog_signup($blogname, $blog_title, $user = '') {
 			$errors->add('blogname', __('That site is currently reserved but may be available in a couple days.'));
 	}
 
-	$result = array('domain' => $mydomain, 'path' => $path, 'blogname' => $blogname, 'blog_title' => $blog_title, 'errors' => $errors);
+	$result = array('domain' => $mydomain, 'path' => $path, 'blogname' => $blogname, 'blog_title' => $blog_title, 'user' => $user, 'errors' => $errors);
 	return apply_filters('wpmu_validate_blog_signup', $result);
 }
 
@@ -1056,7 +1047,7 @@ function newuser_notify_siteadmin( $user_id ) {
 	if ( is_email($email) == false )
 		return false;
 
-	$user = new WP_User($user_id);
+	$user = get_userdata( $user_id );
 
 	$options_site_url = esc_url(network_admin_url('settings.php'));
 	$msg = sprintf(__('New User: %1s
@@ -1084,7 +1075,8 @@ Disable these notifications: %3s'), $user->user_login, $_SERVER['REMOTE_ADDR'], 
  */
 function domain_exists($domain, $path, $site_id = 1) {
 	global $wpdb;
-	return $wpdb->get_var( $wpdb->prepare("SELECT blog_id FROM $wpdb->blogs WHERE domain = %s AND path = %s AND site_id = %d", $domain, $path, $site_id) );
+	$result = $wpdb->get_var( $wpdb->prepare("SELECT blog_id FROM $wpdb->blogs WHERE domain = %s AND path = %s AND site_id = %d", $domain, $path, $site_id) );
+	return apply_filters( 'domain_exists', $result, $domain, $path, $site_id );
 }
 
 /**
@@ -1129,20 +1121,19 @@ function insert_blog($domain, $path, $site_id) {
  * @param string $blog_title The title of the new site.
  */
 function install_blog($blog_id, $blog_title = '') {
-	global $wpdb, $table_prefix, $wp_roles;
-	$wpdb->suppress_errors();
+	global $wpdb, $wp_roles, $current_site;
 
 	// Cast for security
 	$blog_id = (int) $blog_id;
 
 	require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
-	if ( $wpdb->get_results("SELECT ID FROM $wpdb->posts") )
-		die(__('<h1>Already Installed</h1><p>You appear to have already installed WordPress. To reinstall please clear your old database tables first.</p>') . '</body></html>');
+	$wpdb->suppress_errors();
+	if ( $wpdb->get_results( "DESCRIBE {$wpdb->posts}" ) )
+		die( __( '<h1>Already Installed</h1><p>You appear to have already installed WordPress. To reinstall please clear your old database tables first.</p>' ) . '</body></html>' );
+	$wpdb->suppress_errors( false );
 
-	$wpdb->suppress_errors(false);
-
-	$url = get_blogaddress_by_id($blog_id);
+	$url = get_blogaddress_by_id( $blog_id );
 
 	// Set everything up
 	make_db_current_silent( 'blog' );
@@ -1150,21 +1141,23 @@ function install_blog($blog_id, $blog_title = '') {
 	populate_roles();
 	$wp_roles->_init();
 
-	// fix url.
-	update_option('siteurl', $url);
-	update_option('home', $url);
-	update_option('fileupload_url', $url . "files" );
-	update_option('upload_path', UPLOADBLOGSDIR . "/$blog_id/files");
-	update_option('blogname', stripslashes( $blog_title ) );
-	update_option('admin_email', '');
-	$wpdb->update( $wpdb->options, array('option_value' => ''), array('option_name' => 'admin_email') );
+	$url = untrailingslashit( $url );
+
+	update_option( 'siteurl', $url );
+	update_option( 'home', $url );
+
+	if ( get_site_option( 'ms_files_rewriting' ) )
+		update_option( 'upload_path', UPLOADBLOGSDIR . "/$blog_id/files" );
+	else
+		update_option( 'upload_path', get_blog_option( $current_site->blog_id, 'upload_path' ) );
+
+	update_option( 'blogname', stripslashes( $blog_title ) );
+	update_option( 'admin_email', '' );
 
 	// remove all perms
-	$wpdb->delete( $wpdb->usermeta, array( 'meta_key' => $table_prefix.'user_level' ) );
-
-	$wpdb->delete( $wpdb->usermeta, array( 'meta_key' => $table_prefix.'capabilities' ) );
-
-	$wpdb->suppress_errors( false );
+	$table_prefix = $wpdb->get_blog_prefix();
+	delete_metadata( 'user', 0, $table_prefix . 'user_level',   null, true ); // delete all
+	delete_metadata( 'user', 0, $table_prefix . 'capabilities', null, true ); // delete all
 }
 
 /**
@@ -1232,7 +1225,7 @@ We hope you enjoy your new site. Thanks!
 --The Team @ SITE_NAME' ) );
 
 	$url = get_blogaddress_by_id($blog_id);
-	$user = new WP_User($user_id);
+	$user = get_userdata( $user_id );
 
 	$welcome_email = str_replace( 'SITE_NAME', $current_site->site_name, $welcome_email );
 	$welcome_email = str_replace( 'BLOG_TITLE', $title, $welcome_email );
@@ -1281,7 +1274,7 @@ function wpmu_welcome_user_notification($user_id, $password, $meta = '') {
 
 	$welcome_email = get_site_option( 'welcome_user_email' );
 
-	$user = new WP_User($user_id);
+	$user = get_userdata( $user_id );
 
 	$welcome_email = apply_filters( 'update_welcome_user_email', $welcome_email, $user_id, $password, $meta);
 	$welcome_email = str_replace( 'SITE_NAME', $current_site->site_name, $welcome_email );
@@ -1416,7 +1409,7 @@ function get_dirsize( $directory ) {
 
 	$dirsize[ $directory ][ 'size' ] = recurse_dirsize( $directory );
 
-	set_transient( 'dirsize_cache', $dirsize, 3600 );
+	set_transient( 'dirsize_cache', $dirsize, HOUR_IN_SECONDS );
 	return $dirsize[ $directory ][ 'size' ];
 }
 
@@ -1455,34 +1448,6 @@ function recurse_dirsize( $directory ) {
 		closedir($handle);
 	}
 	return $size;
-}
-
-/**
- * Check whether a blog has used its allotted upload space.
- *
- * @since MU
- * @uses get_dirsize()
- *
- * @param bool $echo Optional. If $echo is set and the quota is exceeded, a warning message is echoed. Default is true.
- * @return int
- */
-function upload_is_user_over_quota( $echo = true ) {
-	if ( get_site_option( 'upload_space_check_disabled' ) )
-		return false;
-
-	$spaceAllowed = get_space_allowed();
-	if ( empty( $spaceAllowed ) || !is_numeric( $spaceAllowed ) )
-		$spaceAllowed = 10;	// Default space allowed is 10 MB
-
-	$size = get_dirsize( BLOGUPLOADDIR ) / 1024 / 1024;
-
-	if ( ($spaceAllowed-$size) < 0 ) {
-		if ( $echo )
-			_e( 'Sorry, you have used your space allocation. Please delete some files to upload more files.' ); // No space left
-		return true;
-	} else {
-		return false;
-	}
 }
 
 /**
@@ -1535,31 +1500,8 @@ function update_posts_count( $deprecated = '' ) {
  */
 function wpmu_log_new_registrations( $blog_id, $user_id ) {
 	global $wpdb;
-	$user = new WP_User( (int) $user_id );
+	$user = get_userdata( (int) $user_id );
 	$wpdb->insert( $wpdb->registration_log, array('email' => $user->user_email, 'IP' => preg_replace( '/[^0-9., ]/', '',$_SERVER['REMOTE_ADDR'] ), 'blog_id' => $blog_id, 'date_registered' => current_time('mysql')) );
-}
-
-/**
- * Get the remaining upload space for this blog.
- *
- * @since MU
- * @uses upload_is_user_over_quota()
- * @uses get_space_allowed()
- * @uses get_dirsize()
- *
- * @param int $size
- * @return int
- */
-function fix_import_form_size( $size ) {
-	if ( upload_is_user_over_quota( false ) == true )
-		return 0;
-
-	$spaceAllowed = 1024 * 1024 * get_space_allowed();
-	$dirsize = get_dirsize( BLOGUPLOADDIR );
-	if ( $size > $spaceAllowed - $dirsize )
-		return $spaceAllowed - $dirsize; // remaining space
-	else
-		return $size; // default
 }
 
 /**
@@ -1652,7 +1594,7 @@ function redirect_this_site( $deprecated = '' ) {
  * @return mixed If the upload is under the size limit, $upload is returned. Otherwise returns an error message.
  */
 function upload_is_file_too_big( $upload ) {
-	if ( is_array( $upload ) == false || defined( 'WP_IMPORTING' ) )
+	if ( is_array( $upload ) == false || defined( 'WP_IMPORTING' ) || get_site_option( 'upload_space_check_disabled' ) )
 		return $upload;
 
 	if ( strlen( $upload['bits'] )  > ( 1024 * get_site_option( 'fileupload_maxk', 1500 ) ) )
@@ -1801,7 +1743,7 @@ function is_user_spammy( $username = 0 ) {
 	} else {
 		$user_id = get_user_id_from_string( $username );
 	}
-	$u = new WP_User( $user_id );
+	$u = get_userdata( $user_id );
 
 	return ( isset( $u->spam ) && $u->spam == 1 );
 }
@@ -1934,21 +1876,21 @@ function force_ssl_content( $force = '' ) {
 }
 
 /**
- * Formats an String URL to use HTTPS if HTTP is found.
+ * Formats a URL to use https.
+ *
  * Useful as a filter.
  *
  * @since 2.8.5
- **/
+ *
+ * @param string URL
+ * @return string URL with https as the scheme
+ */
 function filter_SSL( $url ) {
-	if ( !is_string( $url ) )
-		return get_bloginfo( 'url' ); //return home blog url with proper scheme
+	if ( ! is_string( $url ) )
+		return get_bloginfo( 'url' ); // Return home blog url with proper scheme
 
-	$arrURL = parse_url( $url );
-
-	if ( force_ssl_content() && is_ssl() ) {
-		if ( 'http' === $arrURL['scheme'] )
-			$url = str_replace( $arrURL['scheme'], 'https', $url );
-	}
+	if ( force_ssl_content() && is_ssl() )
+		$url = set_url_scheme( $url, 'https' );
 
 	return $url;
 }

@@ -7,27 +7,6 @@
  */
 
 /**
- * Create a thumbnail from an Image given a maximum side size.
- *
- * This function can handle most image file formats which PHP supports. If PHP
- * does not have the functionality to save in a file of the same format, the
- * thumbnail will be created as a jpeg.
- *
- * @since 1.2.0
- *
- * @param mixed $file Filename of the original image, Or attachment id.
- * @param int $max_side Maximum length of a single side for the thumbnail.
- * @param mixed $deprecated Never used.
- * @return string Thumbnail path on success, Error string on failure.
- */
-function wp_create_thumbnail( $file, $max_side, $deprecated = '' ) {
-	if ( !empty( $deprecated ) )
-		_deprecated_argument( __FUNCTION__, '1.2' );
-	$thumbpath = image_resize( $file, $max_side, $max_side );
-	return apply_filters( 'wp_create_thumbnail', $thumbpath );
-}
-
-/**
  * Crop an Image to a given size.
  *
  * @since 2.1.0
@@ -117,8 +96,6 @@ function wp_generate_attachment_metadata( $attachment_id, $file ) {
 		$imagesize = getimagesize( $file );
 		$metadata['width'] = $imagesize[0];
 		$metadata['height'] = $imagesize[1];
-		list($uwidth, $uheight) = wp_constrain_dimensions($metadata['width'], $metadata['height'], 128, 96);
-		$metadata['hwstring_small'] = "height='$uheight' width='$uwidth'";
 
 		// Make the file path relative to the upload dir
 		$metadata['file'] = _wp_relative_upload_path($file);
@@ -158,20 +135,6 @@ function wp_generate_attachment_metadata( $attachment_id, $file ) {
 	}
 
 	return apply_filters( 'wp_generate_attachment_metadata', $metadata, $attachment_id );
-}
-
-/**
- * Calculated the new dimensions for a downsampled image.
- *
- * @since 2.0.0
- * @see wp_constrain_dimensions()
- *
- * @param int $width Current width of the image
- * @param int $height Current height of the image
- * @return mixed Array(height,width) of shrunk dimensions.
- */
-function get_udims( $width, $height) {
-	return wp_constrain_dimensions( $width, $height, 128, 96 );
 }
 
 /**
@@ -253,13 +216,13 @@ function wp_read_image_metadata( $file ) {
 
 			// headline, "A brief synopsis of the caption."
 			if ( ! empty( $iptc['2#105'][0] ) )
-				$meta['title'] = utf8_encode( trim( $iptc['2#105'][0] ) );
+				$meta['title'] = trim( $iptc['2#105'][0] );
 			// title, "Many use the Title field to store the filename of the image, though the field may be used in many ways."
 			elseif ( ! empty( $iptc['2#005'][0] ) )
-				$meta['title'] = utf8_encode( trim( $iptc['2#005'][0] ) );
+				$meta['title'] = trim( $iptc['2#005'][0] );
 
 			if ( ! empty( $iptc['2#120'][0] ) ) { // description / legacy caption
-				$caption = utf8_encode( trim( $iptc['2#120'][0] ) );
+				$caption = trim( $iptc['2#120'][0] );
 				if ( empty( $meta['title'] ) ) {
 					// Assume the title is stored in 2:120 if it's short.
 					if ( strlen( $caption ) < 80 )
@@ -272,15 +235,15 @@ function wp_read_image_metadata( $file ) {
 			}
 
 			if ( ! empty( $iptc['2#110'][0] ) ) // credit
-				$meta['credit'] = utf8_encode(trim($iptc['2#110'][0]));
+				$meta['credit'] = trim( $iptc['2#110'][0] );
 			elseif ( ! empty( $iptc['2#080'][0] ) ) // creator / legacy byline
-				$meta['credit'] = utf8_encode(trim($iptc['2#080'][0]));
+				$meta['credit'] = trim( $iptc['2#080'][0] );
 
 			if ( ! empty( $iptc['2#055'][0] ) and ! empty( $iptc['2#060'][0] ) ) // created date and time
 				$meta['created_timestamp'] = strtotime( $iptc['2#055'][0] . ' ' . $iptc['2#060'][0] );
 
 			if ( ! empty( $iptc['2#116'][0] ) ) // copyright
-				$meta['copyright'] = utf8_encode( trim( $iptc['2#116'][0] ) );
+				$meta['copyright'] = trim( $iptc['2#116'][0] );
 		 }
 	}
 
@@ -289,42 +252,47 @@ function wp_read_image_metadata( $file ) {
 		$exif = @exif_read_data( $file );
 
 		if ( !empty( $exif['Title'] ) )
-			$meta['title'] = utf8_encode( trim( $exif['Title'] ) );
+			$meta['title'] = trim( $exif['Title'] );
 
 		if ( ! empty( $exif['ImageDescription'] ) ) {
 			if ( empty( $meta['title'] ) && strlen( $exif['ImageDescription'] ) < 80 ) {
 				// Assume the title is stored in ImageDescription
-				$meta['title'] = utf8_encode( trim( $exif['ImageDescription'] ) );
+				$meta['title'] = trim( $exif['ImageDescription'] );
 				if ( ! empty( $exif['COMPUTED']['UserComment'] ) && trim( $exif['COMPUTED']['UserComment'] ) != $meta['title'] )
-					$meta['caption'] = utf8_encode( trim( $exif['COMPUTED']['UserComment'] ) );
+					$meta['caption'] = trim( $exif['COMPUTED']['UserComment'] );
 			} elseif ( trim( $exif['ImageDescription'] ) != $meta['title'] ) {
-				$meta['caption'] = utf8_encode( trim( $exif['ImageDescription'] ) );
+				$meta['caption'] = trim( $exif['ImageDescription'] );
 			}
 		} elseif ( ! empty( $exif['Comments'] ) && trim( $exif['Comments'] ) != $meta['title'] ) {
-			$meta['caption'] = utf8_encode( trim( $exif['Comments'] ) );
+			$meta['caption'] = trim( $exif['Comments'] );
 		}
 
 		if ( ! empty( $exif['Artist'] ) )
-			$meta['credit'] = utf8_encode( trim( $exif['Artist'] ) );
+			$meta['credit'] = trim( $exif['Artist'] );
 		elseif ( ! empty($exif['Author'] ) )
-			$meta['credit'] = utf8_encode( trim( $exif['Author'] ) );
+			$meta['credit'] = trim( $exif['Author'] );
 
 		if ( ! empty( $exif['Copyright'] ) )
-			$meta['copyright'] = utf8_encode( trim( $exif['Copyright'] ) );
+			$meta['copyright'] = trim( $exif['Copyright'] );
 		if ( ! empty($exif['FNumber'] ) )
 			$meta['aperture'] = round( wp_exif_frac2dec( $exif['FNumber'] ), 2 );
 		if ( ! empty($exif['Model'] ) )
-			$meta['camera'] = utf8_encode( trim( $exif['Model'] ) );
+			$meta['camera'] = trim( $exif['Model'] );
 		if ( ! empty($exif['DateTimeDigitized'] ) )
 			$meta['created_timestamp'] = wp_exif_date2ts($exif['DateTimeDigitized'] );
 		if ( ! empty($exif['FocalLength'] ) )
 			$meta['focal_length'] = wp_exif_frac2dec( $exif['FocalLength'] );
 		if ( ! empty($exif['ISOSpeedRatings'] ) ) {
 			$meta['iso'] = is_array( $exif['ISOSpeedRatings'] ) ? reset( $exif['ISOSpeedRatings'] ) : $exif['ISOSpeedRatings'];
-			$meta['iso'] = utf8_encode( trim( $meta['iso'] ) );
+			$meta['iso'] = trim( $meta['iso'] );
 		}
 		if ( ! empty($exif['ExposureTime'] ) )
 			$meta['shutter_speed'] = wp_exif_frac2dec( $exif['ExposureTime'] );
+	}
+
+	foreach ( array( 'title', 'caption', 'credit', 'copyright', 'camera', 'iso' ) as $key ) {
+		if ( $meta[ $key ] && ! seems_utf8( $meta[ $key ] ) )
+			$meta[ $key ] = utf8_encode( $meta[ $key ] );
 	}
 
 	return apply_filters( 'wp_read_image_metadata', $meta, $file, $sourceImageType );
