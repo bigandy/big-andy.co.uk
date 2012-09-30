@@ -8,3 +8,7 @@
 .project
 *.sass-cache/
 /content/debug.log
+
+## sublime text files
+*.sublime-project
+*.sublime-workspace
