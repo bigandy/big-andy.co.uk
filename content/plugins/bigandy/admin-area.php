@@ -20,7 +20,9 @@ function ah_change_admin_cap() {
 			     //$role->remove_cap('manage_galleries');
 			$role->add_cap('manage_galleries');
 			$role->remove_cap('export');
-			$role->remove_cap('import');
+				// $role->add_cap('export');
+			// $role->remove_cap('import');
+				$role->add_cap('import');
 			$role->remove_cap('manage_links'); // remove links. Woop!
 			$role->remove_cap('moderate_comments');
 			$role->remove_cap('edit_comments');

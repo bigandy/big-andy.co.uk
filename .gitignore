@@ -8,3 +8,4 @@
 .project
 *.sass-cache/
 /content/debug.log
+*.sublime-*
