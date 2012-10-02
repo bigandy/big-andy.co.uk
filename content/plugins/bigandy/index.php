@@ -121,6 +121,14 @@ function ah_plugin_admin_options_page() {
 				<option value="Y" <?php selected( $options['menu'], "Y" ); ?> >Yes</option>
 			</select>
 		</fieldset>
+		
+		<fieldset <?php if ($options['images'] == "Y") echo 'class="is-active"'; ?>>
+			<label for="ahImages">Images: </label>
+			<select name="ah_plugin_options[images]" id="ahImages">
+				<option value="N" <?php selected( $options['images'], "N" ); ?> >No</option>
+				<option value="Y" <?php selected( $options['images'], "Y" ); ?> >Yes</option>
+			</select>
+		</fieldset>
 
 		<fieldset <?php if ($options['widgets'] == "Y") echo 'class="is-active"'; ?>>
 			<label for="ahWidgets">Widgets</label>
@@ -165,6 +173,7 @@ function ah_plugin_admin_options_page() {
                     'security' => 'N',
                     'shortcodes' => 'N',
                     'menu' => 'N',
+                    'images' => 'Y',
                     'widgets' => 'N',
                     'footer' => 'N',
                     'darkLight' => 'Light'
@@ -184,6 +193,7 @@ function ah_plugin_admin_options_page() {
 	   'shortcodes',
 	   'security',
 	   'menu',
+	   'images',
 	   'widgets',
 	   'footer',
 	   'darkLight'
