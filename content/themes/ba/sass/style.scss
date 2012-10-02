@@ -1,54 +1,32 @@
-/*
-Theme Name: ba underscore
-Theme URI: http://underscores.me/
-Author: Underscores.me
-Author URI: http://underscores.me/
-Description: Description
-Version: 1.0
-License: GNU General Public License
-License URI: license.txt
-Tags:
+@charset "UTF-8";
+/*------------------------------------*\
+    YOUR-PROJECT.CSS
+\*------------------------------------*/
+/**
+ *
+ * sass --watch your-project.scss:your-project.min.css --style compressed
+ *
+ * Here we set up some variables, include the inuit.css framework, then add our
+ * project-specific components afterwards.
+ */
+// Setup
+@import "vars";
+@import "inuit/inuit";
 
-This theme, like WordPress, is licensed under the GPL.
-Use it to make something cool, have fun, and share what you've learned with others.
+// She’s all yours, cap’n... Begin importing your stuff here.
 
-Resetting and rebuilding styles have been helped along thanks to the fine work of
-Eric Meyer http://meyerweb.com/eric/tools/css/reset/index.html
-along with Nicolas Gallagher and Jonathan Neal http://necolas.github.com/normalize.css/
-and Blueprint http://www.blueprintcss.org/
-*/
+* { -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; }
 
-@import "reset";
-@import "mixins";
-@import "extend";
-@import "font-face";
-@import "font";
-@import "content";
-@import "cv-template";
-
-a {
-    text-decoration:none;
-}
-abbr {
-    cursor:pointer;
+h1 {
+	color:blue;
 }
 
-.container {
-    width:100%;
-    padding:1em;
+h1,h2,h3,h4,h5,h6 {
+	//font-family:$secondary-font;
 }
 
-.menu-top-level-nav-container li {
-    display:inline-block; 
+.wrapper {
+	width:960px;
+	margin:60px auto;
 }
-
-.current_page_item a {
-    color:red;
-    text-decoration:underline;
-}
- 
-ol {
-    margin-left:1em; 
-}
-
 
