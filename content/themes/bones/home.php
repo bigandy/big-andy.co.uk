@@ -9,6 +9,10 @@
 				    	<!-- Hidden Post Class -->
 				    	
 				    	<?php 
+
+				    	$idObj = get_category_by_slug('hide');
+					    $hide_id = $idObj->term_id;
+
 				    	$paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
 
 						
@@ -18,7 +22,7 @@
 				    		if ( $paged < 2 ) 
 
 						{
-				    	$first_article_loop = new WP_Query('category_name=hide&posts_per_page=1'); 
+				    	$first_article_loop = new WP_Query('cat='.$hide_id.'&posts_per_page=1'); 
 						if($first_article_loop->have_posts()) : while ( $first_article_loop->have_posts() ) : $first_article_loop->the_post(); ?>
 						<article id="post-<?php the_ID(); ?>" <?php post_class('clearfix'); ?> role="article">
 							<?php the_title( '<h2><a href="' . get_permalink() . '" title="' . the_title_attribute( 'echo=0' ) . '" rel="bookmark">', '</a></h2>' ); ?>
@@ -37,7 +41,11 @@
 						?>
 						
 					    <?php 
-					    $non_hide_loop = new WP_Query('cat=-64&paged='.get_query_var('paged'));
+
+					    
+
+
+					    $non_hide_loop = new WP_Query('cat=-'.$hide_id.'&paged='.get_query_var('paged'));
 					    if ($non_hide_loop->have_posts()) : while ($non_hide_loop->have_posts()) : $non_hide_loop->the_post(); ?>
 					
 					    <article id="post-<?php the_ID(); ?>" <?php post_class('clearfix'); ?> role="article">
