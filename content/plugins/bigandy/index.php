@@ -219,9 +219,8 @@ $options = get_option( 'ah_plugin_options' );
 // include sub pages
 require_once('init-styles.php');
 
-if( $options['admin'] == "Y") {
-    require_once('admin-area.php'); 
-}
+require_once('admin-area.php'); 
+
 
 if( $options['shortcodes'] == "Y") {
     require_once('shortcodes.php');
