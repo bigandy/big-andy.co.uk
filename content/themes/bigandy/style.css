@@ -1,0 +1,615 @@
+/*
+Theme Name: bigandy
+Theme URI: http://big-andy.co.uk
+Description: The next iteration of my site.
+Author: bigandy
+Version: 1.0
+*/
+* {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+article, aside, details, figcaption, figure, footer, header, hgroup, nav, section {
+  display: block;
+}
+
+audio, canvas, video {
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+}
+
+audio:not([controls]) {
+  display: none;
+}
+
+[hidden] {
+  display: none;
+}
+
+html {
+  font-size: 100%;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+}
+
+html, button, input, select, textarea {
+  font-family: sans-serif;
+  color: #222;
+}
+
+body {
+  margin: 0;
+  font-size: 1em;
+  line-height: 1.5;
+}
+
+::-moz-selection {
+  background: #00BFF3;
+  color: #fff;
+  text-shadow: none;
+}
+
+::selection {
+  background: #00BFF3;
+  color: #fff;
+  text-shadow: none;
+}
+
+a {
+  color: #00e;
+}
+
+a:visited {
+  color: #551a8b;
+}
+
+a:hover {
+  color: #06e;
+}
+
+a:focus {
+  outline: thin dotted;
+}
+
+a:hover, a:active {
+  outline: 0;
+}
+
+abbr[title] {
+  border-bottom: 1px dotted;
+}
+
+b, strong {
+  font-weight: bold;
+}
+
+blockquote {
+  margin: 1em 40px;
+}
+
+dfn {
+  font-style: italic;
+}
+
+hr {
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid #ccc;
+  margin: 1em 0;
+  padding: 0;
+}
+
+ins {
+  background: #ff9;
+  color: #000;
+  text-decoration: none;
+}
+
+mark {
+  background: #ff0;
+  color: #000;
+  font-style: italic;
+  font-weight: bold;
+}
+
+pre, code, kbd, samp {
+  font-family: monospace, serif;
+  _font-family: 'courier new', monospace;
+  font-size: 1em;
+}
+
+pre {
+  white-space: pre;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+q {
+  quotes: none;
+}
+
+q:before, q:after {
+  content: "";
+  content: none;
+}
+
+small {
+  font-size: 85%;
+}
+
+sub, sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sup {
+  top: -0.5em;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+ul, ol {
+  margin: 0;
+  padding: 0;
+}
+
+dd {
+  margin: 0 0 0 40px;
+}
+
+nav ul, nav ol {
+  list-style: none;
+  list-style-image: none;
+  margin: 0;
+  padding: 0;
+}
+
+img {
+  border: 0;
+  -ms-interpolation-mode: bicubic;
+  vertical-align: middle;
+}
+
+svg:not(:root) {
+  overflow: hidden;
+}
+
+figure {
+  margin: 0;
+}
+
+form {
+  margin: 0;
+}
+
+fieldset {
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+
+label {
+  cursor: pointer;
+}
+
+legend {
+  border: 0;
+  *margin-left: -7px;
+  padding: 0;
+  white-space: normal;
+}
+
+button, input, select, textarea {
+  font-size: 100%;
+  margin: 0;
+  vertical-align: baseline;
+  *vertical-align: middle;
+}
+
+button, input {
+  line-height: normal;
+}
+
+button, input[type="button"], input[type="reset"], input[type="submit"] {
+  cursor: pointer;
+  -webkit-appearance: button;
+  *overflow: visible;
+}
+
+button[disabled], input[disabled] {
+  cursor: default;
+}
+
+input[type="checkbox"], input[type="radio"] {
+  box-sizing: border-box;
+  padding: 0;
+  *width: 13px;
+  *height: 13px;
+}
+
+input[type="search"] {
+  -webkit-appearance: textfield;
+  -moz-box-sizing: content-box;
+  -webkit-box-sizing: content-box;
+  box-sizing: content-box;
+}
+
+input[type="search"]::-webkit-search-decoration, input[type="search"]::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+}
+
+button::-moz-focus-inner, input::-moz-focus-inner {
+  border: 0;
+  padding: 0;
+}
+
+textarea {
+  overflow: auto;
+  vertical-align: top;
+  resize: vertical;
+}
+
+input:invalid, textarea:invalid {
+  background-color: #f0dddd;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+td {
+  vertical-align: top;
+}
+
+.chromeframe {
+  margin: 0.2em 0;
+  background: #ccc;
+  color: black;
+  padding: 0.2em 0;
+}
+
+.ir {
+  display: block;
+  border: 0;
+  text-indent: -999em;
+  overflow: hidden;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  text-align: left;
+  direction: ltr;
+  *line-height: 0;
+}
+
+.ir br {
+  display: none;
+}
+
+.hidden {
+  display: none !important;
+  visibility: hidden;
+}
+
+.visuallyhidden {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
+.visuallyhidden.focusable:active, .visuallyhidden.focusable:focus {
+  clip: auto;
+  height: auto;
+  margin: 0;
+  overflow: visible;
+  position: static;
+  width: auto;
+}
+
+.invisible {
+  visibility: hidden;
+}
+
+.clearfix:before, .clearfix:after {
+  content: "";
+  display: table;
+}
+
+.clearfix:after {
+  clear: both;
+}
+
+.clearfix {
+  *zoom: 1;
+}
+
+@media print {
+  * {
+    background: transparent !important;
+    color: black !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+    filter: none !important;
+    -ms-filter: none !important;
+  }
+
+  a, a:visited {
+    text-decoration: underline;
+  }
+
+  a[href]:after {
+    content: " (" attr(href) ")";
+  }
+
+  abbr[title]:after {
+    content: " (" attr(title) ")";
+  }
+
+  .ir a:after, a[href^="javascript:"]:after, a[href^="#"]:after {
+    content: "";
+  }
+
+  pre, blockquote {
+    border: 1px solid #999;
+    page-break-inside: avoid;
+  }
+
+  thead {
+    display: table-header-group;
+  }
+
+  tr, img {
+    page-break-inside: avoid;
+  }
+
+  img {
+    max-width: 100% !important;
+  }
+
+  @page {
+    margin: 0.5cm;
+}
+
+  p, h2, h3 {
+    orphans: 3;
+    widows: 3;
+  }
+
+  h2, h3 {
+    page-break-after: avoid;
+  }
+}
+.clearfix:before,
+.clear:before, .icons:before, .clearfix:after,
+.clear:after, .icons:after {
+  content: "";
+  display: table;
+}
+.clearfix:after,
+.clear:after, .icons:after {
+  clear: both;
+}
+
+@font-face {
+  font-family: 'icomoon';
+  src: url("fonts/icomoon.eot");
+  src: url("fonts/icomoon.eot?#iefix") format("embedded-opentype"), url("fonts/icomoon.svg#icomoon") format("svg"), url("fonts/icomoon.woff") format("woff"), url("fonts/icomoon.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* Use the following CSS code if you want to use data attributes for inserting your icons */
+[data-icon]:before {
+  font-family: 'icomoon';
+  content: attr(data-icon);
+  speak: none;
+}
+
+/* Use the following CSS code if you want to have a class per icon */
+[class^="icon-"]:before, [class*=" icon-"]:before {
+  font-family: 'icomoon';
+  font-style: normal;
+  speak: none;
+}
+
+.icon-home:before {
+  content: "\48";
+}
+
+.icon-mail:before {
+  content: "\40";
+}
+
+.icon-pencil:before {
+  content: "\42";
+}
+
+.icon-camera:before {
+  content: "\50";
+}
+
+.icon-github:before {
+  content: "\47";
+}
+
+.icon-wordpress:before {
+  content: "\57";
+}
+
+.icon-html5:before {
+  content: "\35";
+}
+
+.icon-twitter:before {
+  content: "\54";
+}
+
+.icon-feed:before {
+  content: "\52";
+}
+
+a i {
+  color: inherit;
+  font-size: 1.1em;
+  color: black;
+}
+a i:hover {
+  color: red;
+}
+
+.glyph {
+  float: left;
+  text-align: center;
+  background: #eee;
+  padding: .15em;
+  margin: .75em 1.5em .75em 0;
+  width: 5em;
+  border-radius: .375em;
+}
+.glyph p {
+  font-size: .8em;
+}
+
+.fs1 {
+  font-size: 2em;
+}
+
+.box1 {
+  display: inline-block;
+  width: 10em;
+  padding: .25em .5em;
+  background: #eee;
+  margin: .5em 1em .5em 0;
+}
+
+.icons {
+  list-style: none;
+}
+.icons li {
+  float: left;
+}
+
+body {
+  font-size: 100%;
+}
+
+p,
+ul,
+ol,
+nav ol,
+nav ul {
+  margin: 0 0 1.5em;
+}
+
+ul {
+  list-style-type: square;
+  margin-left: 2em;
+}
+
+h1 {
+  font-size: 2em;
+  line-height: 36px;
+  margin: 0 0 18px;
+}
+
+h2 {
+  font-size: 1.5em;
+  line-height: 1;
+  margin: 0 0 1em;
+}
+
+h3 {
+  font-size: 1em;
+  line-height: 1.5;
+}
+
+.content ul {
+  margin: 0;
+}
+
+.cv-template {
+  font-size: 12px;
+  line-height: 1.5;
+  background: rgba(255, 0, 0, 0.75);
+}
+.cv-template .container {
+  width: 1000px;
+  margin: auto;
+}
+.cv-template .container > header,
+.cv-template .container footer {
+  padding: 12px 0 0 36px;
+}
+.cv-template .cv-content {
+  background-color: #fff;
+  padding: 18px 36px;
+}
+.cv-template .personal-info {
+  margin-bottom: 1.5em;
+}
+.cv-template article h3 {
+  font-weight: bold;
+  margin-top: 0;
+}
+.cv-template h3 span {
+  font-weight: normal;
+  font-style: italic;
+}
+
+.vcard ul {
+  margin: 0;
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+abbr {
+  cursor: pointer;
+}
+
+.container {
+  width: 100%;
+  padding: 1em;
+}
+
+.menu-top-level-nav-container li {
+  display: inline-block;
+}
+
+.current_page_item a {
+  color: red;
+}
+
+ol {
+  margin-left: 1em;
+}
+
+.main-header h1 {
+  border-radius: 0 20px 20px 0;
+  background: red;
+  padding: 20px;
+  color: white;
+  -webkit-transition-duration: 2s;
+  -moz-transition-duration: 2s;
+  transition-duration: 2s;
+  -webkit-transition-timing-function: ease-in-out;
+  -moz-transition-timing-function: ease-in-out;
+  transition-timing-function: ease-in-out;
+}
+.main-header h1:hover {
+  background: rgba(255, 0, 0, 0.5);
+}
