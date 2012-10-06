@@ -29,7 +29,10 @@
 			
 		<!-- drop Google Analytics Here -->
 		<!-- end analytics -->
-		
+		<?php if( is_page_template('page-templates/thoughts.php' ) ) {  ?>
+			<script type="text/javascript" src="//use.typekit.net/bhs0nmm.js"></script>
+			<script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+		<?php } ?>
 	</head>
 	
 	<body <?php body_class(); ?>>
@@ -45,7 +48,7 @@
 					<!-- if you'd like to use the site description you can un-comment it below -->
 					<?php // bloginfo('description'); ?>
 					
-					<?php if( !is_page_template('page-templates/thoughts.php' ) ) {   ?>
+					<?php if( !is_page_template('page-templates/thoughts.php' ) ) {  ?>
 					
 					<p id="logo" class="h1"><a href="<?php echo home_url(); ?>" rel="nofollow"><?php bloginfo('name'); ?></a></p>
 					

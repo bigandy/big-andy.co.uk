@@ -160,12 +160,10 @@ add_filter('wp_get_attachment_link', 'ah_get_attachment_link_filter', 10, 4);
 // http://wordpress.org/support/topic/remove-image-title-popup
 
 function nuke_title_attribute($output) {
-    $output = preg_replace( '/(title|class)=\"(.*?)\"/', '', $output );
+    $output = preg_replace( '/(title)=\"(.*?)\"/', '', $output );
     return $output;
 }
 add_filter( 'the_content', 'nuke_title_attribute' );
-
-
 
 function ah_remove_title_attributes($link) {
     
