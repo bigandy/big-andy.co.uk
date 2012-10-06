@@ -1158,6 +1158,10 @@ view.
   margin: 0 auto;
   /* Use the following CSS code if you want to use data attributes for inserting your icons */
   /* Use the following CSS code if you want to have a class per icon */ }
+  .thoughts-template li a {
+    text-decoration: none; }
+    .thoughts-template li a:hover {
+      text-decoration: underline; }
   .thoughts-template p,
   .thoughts-template li {
     font-size: 25px;

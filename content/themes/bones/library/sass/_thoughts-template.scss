@@ -10,9 +10,19 @@
 
 .thoughts-template {
 
+
+
 	width: 90%;
 	margin: 0 auto;
 	
+	li a {
+		text-decoration:none;
+
+		&:hover {
+			text-decoration:underline;
+		}
+	}
+
 	p,
 	li {
 		font-size:25px;
