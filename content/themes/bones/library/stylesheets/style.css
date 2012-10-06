@@ -1471,82 +1471,89 @@ view.
   /* Use the following CSS code if you want to use data attributes for inserting your icons */
   /* Use the following CSS code if you want to have a class per icon */
 }
-/* line 16, C:/Users/TeamBoudin/Desktop/Git/big-andy.co.uk/content/themes/bones/library/sass/_thoughts-template.scss */
-.thoughts-template p {
+/* line 17, C:/Users/TeamBoudin/Desktop/Git/big-andy.co.uk/content/themes/bones/library/sass/_thoughts-template.scss */
+.thoughts-template p,
+.thoughts-template li {
   font-size: 25px;
   margin: 0 0 0.5em;
   font-family: "freight-sans-pro-1","freight-sans-pro-2",sans-serif;
 }
-/* line 22, C:/Users/TeamBoudin/Desktop/Git/big-andy.co.uk/content/themes/bones/library/sass/_thoughts-template.scss */
+/* line 23, C:/Users/TeamBoudin/Desktop/Git/big-andy.co.uk/content/themes/bones/library/sass/_thoughts-template.scss */
 .thoughts-template h1, .thoughts-template h2 {
   font-family: "chaparral-pro-1","chaparral-pro-2",sans-serif;
   margin: 0;
   font-size: 150px;
 }
-/* line 28, C:/Users/TeamBoudin/Desktop/Git/big-andy.co.uk/content/themes/bones/library/sass/_thoughts-template.scss */
+/* line 29, C:/Users/TeamBoudin/Desktop/Git/big-andy.co.uk/content/themes/bones/library/sass/_thoughts-template.scss */
 .thoughts-template h2 {
   font-size: 75px;
   margin: 0;
 }
 /* line 35, C:/Users/TeamBoudin/Desktop/Git/big-andy.co.uk/content/themes/bones/library/sass/_thoughts-template.scss */
+.thoughts-template li {
+  list-style-type: none;
+  padding: 0;
+}
+/* line 41, C:/Users/TeamBoudin/Desktop/Git/big-andy.co.uk/content/themes/bones/library/sass/_thoughts-template.scss */
 .thoughts-template [data-icon]:before {
   font-family: 'icomoon';
   content: attr(data-icon);
   speak: none;
 }
-/* line 42, C:/Users/TeamBoudin/Desktop/Git/big-andy.co.uk/content/themes/bones/library/sass/_thoughts-template.scss */
+/* line 48, C:/Users/TeamBoudin/Desktop/Git/big-andy.co.uk/content/themes/bones/library/sass/_thoughts-template.scss */
 .thoughts-template [class^="icon-"]:before, .thoughts-template [class*=" icon-"]:before {
   font-family: 'icomoon';
   font-style: normal;
   speak: none;
+  margin-right: 10px;
 }
-/* line 48, C:/Users/TeamBoudin/Desktop/Git/big-andy.co.uk/content/themes/bones/library/sass/_thoughts-template.scss */
+/* line 55, C:/Users/TeamBoudin/Desktop/Git/big-andy.co.uk/content/themes/bones/library/sass/_thoughts-template.scss */
 .thoughts-template .icon-home:before {
   content: "\48";
 }
-/* line 52, C:/Users/TeamBoudin/Desktop/Git/big-andy.co.uk/content/themes/bones/library/sass/_thoughts-template.scss */
+/* line 59, C:/Users/TeamBoudin/Desktop/Git/big-andy.co.uk/content/themes/bones/library/sass/_thoughts-template.scss */
 .thoughts-template .icon-mail:before {
   content: "\40";
 }
-/* line 56, C:/Users/TeamBoudin/Desktop/Git/big-andy.co.uk/content/themes/bones/library/sass/_thoughts-template.scss */
+/* line 63, C:/Users/TeamBoudin/Desktop/Git/big-andy.co.uk/content/themes/bones/library/sass/_thoughts-template.scss */
 .thoughts-template .icon-pencil:before {
   content: "\42";
 }
-/* line 60, C:/Users/TeamBoudin/Desktop/Git/big-andy.co.uk/content/themes/bones/library/sass/_thoughts-template.scss */
+/* line 67, C:/Users/TeamBoudin/Desktop/Git/big-andy.co.uk/content/themes/bones/library/sass/_thoughts-template.scss */
 .thoughts-template .icon-camera:before {
   content: "\50";
 }
-/* line 64, C:/Users/TeamBoudin/Desktop/Git/big-andy.co.uk/content/themes/bones/library/sass/_thoughts-template.scss */
-.thoughts-template .icon-github:before {
+/* line 71, C:/Users/TeamBoudin/Desktop/Git/big-andy.co.uk/content/themes/bones/library/sass/_thoughts-template.scss */
+.thoughts-template .icon-git:before {
   content: "\47";
 }
-/* line 68, C:/Users/TeamBoudin/Desktop/Git/big-andy.co.uk/content/themes/bones/library/sass/_thoughts-template.scss */
-.thoughts-template .icon-wordpress:before {
+/* line 75, C:/Users/TeamBoudin/Desktop/Git/big-andy.co.uk/content/themes/bones/library/sass/_thoughts-template.scss */
+.thoughts-template .icon-wp:before {
   content: "\57";
 }
-/* line 72, C:/Users/TeamBoudin/Desktop/Git/big-andy.co.uk/content/themes/bones/library/sass/_thoughts-template.scss */
+/* line 79, C:/Users/TeamBoudin/Desktop/Git/big-andy.co.uk/content/themes/bones/library/sass/_thoughts-template.scss */
 .thoughts-template .icon-html5:before {
   content: "\35";
 }
-/* line 76, C:/Users/TeamBoudin/Desktop/Git/big-andy.co.uk/content/themes/bones/library/sass/_thoughts-template.scss */
-.thoughts-template .icon-twitter:before {
+/* line 83, C:/Users/TeamBoudin/Desktop/Git/big-andy.co.uk/content/themes/bones/library/sass/_thoughts-template.scss */
+.thoughts-template .icon-twit:before {
   content: "\54";
 }
-/* line 80, C:/Users/TeamBoudin/Desktop/Git/big-andy.co.uk/content/themes/bones/library/sass/_thoughts-template.scss */
+/* line 87, C:/Users/TeamBoudin/Desktop/Git/big-andy.co.uk/content/themes/bones/library/sass/_thoughts-template.scss */
 .thoughts-template .icon-feed:before {
   content: "\52";
 }
-/* line 84, C:/Users/TeamBoudin/Desktop/Git/big-andy.co.uk/content/themes/bones/library/sass/_thoughts-template.scss */
+/* line 91, C:/Users/TeamBoudin/Desktop/Git/big-andy.co.uk/content/themes/bones/library/sass/_thoughts-template.scss */
 .thoughts-template a i {
   color: inherit;
   font-size: 1.1em;
   color: black;
 }
-/* line 89, C:/Users/TeamBoudin/Desktop/Git/big-andy.co.uk/content/themes/bones/library/sass/_thoughts-template.scss */
+/* line 96, C:/Users/TeamBoudin/Desktop/Git/big-andy.co.uk/content/themes/bones/library/sass/_thoughts-template.scss */
 .thoughts-template a i:hover {
   color: red;
 }
-/* line 93, C:/Users/TeamBoudin/Desktop/Git/big-andy.co.uk/content/themes/bones/library/sass/_thoughts-template.scss */
+/* line 100, C:/Users/TeamBoudin/Desktop/Git/big-andy.co.uk/content/themes/bones/library/sass/_thoughts-template.scss */
 .thoughts-template .glyph {
   float: left;
   text-align: center;
@@ -1556,11 +1563,11 @@ view.
   width: 5em;
   border-radius: .375em;
 }
-/* line 102, C:/Users/TeamBoudin/Desktop/Git/big-andy.co.uk/content/themes/bones/library/sass/_thoughts-template.scss */
+/* line 109, C:/Users/TeamBoudin/Desktop/Git/big-andy.co.uk/content/themes/bones/library/sass/_thoughts-template.scss */
 .thoughts-template .glyph p {
   font-size: .8em;
 }
-/* line 106, C:/Users/TeamBoudin/Desktop/Git/big-andy.co.uk/content/themes/bones/library/sass/_thoughts-template.scss */
+/* line 113, C:/Users/TeamBoudin/Desktop/Git/big-andy.co.uk/content/themes/bones/library/sass/_thoughts-template.scss */
 .thoughts-template .fs1 {
   font-size: 2em;
 }

@@ -1158,7 +1158,8 @@ view.
   margin: 0 auto;
   /* Use the following CSS code if you want to use data attributes for inserting your icons */
   /* Use the following CSS code if you want to have a class per icon */ }
-  .thoughts-template p {
+  .thoughts-template p,
+  .thoughts-template li {
     font-size: 25px;
     margin: 0 0 0.5em;
     font-family: "freight-sans-pro-1","freight-sans-pro-2",sans-serif; }
@@ -1169,6 +1170,9 @@ view.
   .thoughts-template h2 {
     font-size: 75px;
     margin: 0; }
+  .thoughts-template li {
+    list-style-type: none;
+    padding: 0; }
   .thoughts-template [data-icon]:before {
     font-family: 'icomoon';
     content: attr(data-icon);
@@ -1176,7 +1180,8 @@ view.
   .thoughts-template [class^="icon-"]:before, .thoughts-template [class*=" icon-"]:before {
     font-family: 'icomoon';
     font-style: normal;
-    speak: none; }
+    speak: none;
+    margin-right: 10px; }
   .thoughts-template .icon-home:before {
     content: "\48"; }
   .thoughts-template .icon-mail:before {
@@ -1185,13 +1190,13 @@ view.
     content: "\42"; }
   .thoughts-template .icon-camera:before {
     content: "\50"; }
-  .thoughts-template .icon-github:before {
+  .thoughts-template .icon-git:before {
     content: "\47"; }
-  .thoughts-template .icon-wordpress:before {
+  .thoughts-template .icon-wp:before {
     content: "\57"; }
   .thoughts-template .icon-html5:before {
     content: "\35"; }
-  .thoughts-template .icon-twitter:before {
+  .thoughts-template .icon-twit:before {
     content: "\54"; }
   .thoughts-template .icon-feed:before {
     content: "\52"; }
