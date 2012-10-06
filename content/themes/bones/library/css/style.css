@@ -1162,6 +1162,8 @@ view.
     text-decoration: none; }
     .thoughts-template li a:hover {
       text-decoration: underline; }
+  .thoughts-template [class^="icon-"]:before:hover {
+    text-decoration: none; }
   .thoughts-template p,
   .thoughts-template li {
     font-size: 25px;

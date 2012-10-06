@@ -23,6 +23,10 @@
 		}
 	}
 
+	[class^="icon-"]:before:hover {
+		text-decoration:none;
+	}
+
 	p,
 	li {
 		font-size:25px;

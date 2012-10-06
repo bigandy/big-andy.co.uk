@@ -11,3 +11,6 @@
 
 ## sublime text files
 *.sublime-*
+
+/content/themes/bones/library/stylesheets
+/content/themes/bones/library/stylesheets/*
