@@ -435,6 +435,16 @@ table {
   border-collapse: collapse;
   border-spacing: 0; }
 
+.hidden {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px; }
+
 /******************************************************************
 CUSTOMIZED RESET VALUES
 I added these extra styles as a more personalized reset. Feel free
@@ -1156,14 +1166,11 @@ view.
 .thoughts-template {
   width: 90%;
   margin: 0 auto;
-  /* Use the following CSS code if you want to use data attributes for inserting your icons */
-  /* Use the following CSS code if you want to have a class per icon */ }
+  /* Use the following CSS code if you want to use data attributes for inserting your icons */ }
   .thoughts-template li a {
     text-decoration: none; }
     .thoughts-template li a:hover {
       text-decoration: underline; }
-  .thoughts-template [class^="icon-"]:before:hover {
-    text-decoration: none; }
   .thoughts-template p,
   .thoughts-template li {
     font-size: 25px;
@@ -1182,48 +1189,8 @@ view.
   .thoughts-template [data-icon]:before {
     font-family: 'icomoon';
     content: attr(data-icon);
-    speak: none; }
-  .thoughts-template [class^="icon-"]:before, .thoughts-template [class*=" icon-"]:before {
-    font-family: 'icomoon';
-    font-style: normal;
     speak: none;
     margin-right: 10px; }
-  .thoughts-template .icon-home:before {
-    content: "\48"; }
-  .thoughts-template .icon-mail:before {
-    content: "\40"; }
-  .thoughts-template .icon-pencil:before {
-    content: "\42"; }
-  .thoughts-template .icon-camera:before {
-    content: "\50"; }
-  .thoughts-template .icon-git:before {
-    content: "\47"; }
-  .thoughts-template .icon-wp:before {
-    content: "\57"; }
-  .thoughts-template .icon-html5:before {
-    content: "\35"; }
-  .thoughts-template .icon-twit:before {
-    content: "\54"; }
-  .thoughts-template .icon-feed:before {
-    content: "\52"; }
-  .thoughts-template a i {
-    color: inherit;
-    font-size: 1.1em;
-    color: black; }
-  .thoughts-template a i:hover {
-    color: red; }
-  .thoughts-template .glyph {
-    float: left;
-    text-align: center;
-    background: #eee;
-    padding: .15em;
-    margin: .75em 1.5em .75em 0;
-    width: 5em;
-    border-radius: .375em; }
-  .thoughts-template .glyph p {
-    font-size: .8em; }
-  .thoughts-template .fs1 {
-    font-size: 2em; }
 
 /*
 LARGER MOBILE DEVICES

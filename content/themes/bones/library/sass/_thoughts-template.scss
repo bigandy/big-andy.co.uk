@@ -23,10 +23,6 @@
 		}
 	}
 
-	[class^="icon-"]:before:hover {
-		text-decoration:none;
-	}
-
 	p,
 	li {
 		font-size:25px;
@@ -56,76 +52,7 @@
 	  font-family: 'icomoon';
 	  content: attr(data-icon);
 	  speak: none;
-	}
-
-	/* Use the following CSS code if you want to have a class per icon */
-	[class^="icon-"]:before, [class*=" icon-"]:before {
-	  font-family: 'icomoon';
-	  font-style: normal;
-	  speak: none;
 	  margin-right:10px;
-	 }
-
-	.icon-home:before {
-	  content: "\48";
-	}
-
-	.icon-mail:before {
-	  content: "\40";
-	}
-
-	.icon-pencil:before {
-	  content: "\42";
-	}
-
-	.icon-camera:before {
-	  content: "\50";
-	}
-
-	.icon-git:before {
-	  content: "\47";
-	}
-
-	.icon-wp:before {
-	  content: "\57";
-	}
-
-	.icon-html5:before {
-	  content: "\35";
-	}
-
-	.icon-twit:before {
-	  content: "\54";
-	}
-
-	.icon-feed:before {
-	  content: "\52";
-	}
-
-	a i {
-	  color: inherit;
-	  font-size: 1.1em;
-	  color: black;
-	}
-	a i:hover {
-	  color: red;
-	}
-
-	.glyph {
-	  float: left;
-	  text-align: center;
-	  background: #eee;
-	  padding: .15em;
-	  margin: .75em 1.5em .75em 0;
-	  width: 5em;
-	  border-radius: .375em;
-	}
-	.glyph p {
-	  font-size: .8em;
-	}
-
-	.fs1 {
-	  font-size: 2em;
 	}
 
 
