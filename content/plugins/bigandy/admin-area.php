@@ -28,8 +28,8 @@ if( $options['admin'] == "Y") {
 
     $role = get_role('administrator');
 			     
-			$role->remove_cap('upload_files');
-			$role->remove_cap('manage_galleries');
+			$role->add_cap('upload_files');
+			$role->add_cap('manage_galleries');
 			$role->remove_cap('export');
 			$role->remove_cap('import');
 			$role->remove_cap('manage_links');
