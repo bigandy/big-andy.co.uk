@@ -1,6 +1,5 @@
 // Ensure the global `wp` object exists.
-if ( typeof wp === 'undefined' )
-	var wp = {};
+window.wp = window.wp || {};
 
 // HTML utility functions
 // ----------------------
@@ -82,53 +81,58 @@ if ( typeof wp === 'undefined' )
 	// custom UI, and back again.
 	wp.mce.view = {
 		// ### defaults
-		// The default properties used for the objects in `wp.mce.view.add()`.
 		defaults: {
-			view: Backbone.View,
-			text: function( instance ) {
-				return instance.options.original;
+			// The default properties used for objects with the `pattern` key in
+			// `wp.mce.view.add()`.
+			pattern: {
+				view: Backbone.View,
+				text: function( instance ) {
+					return instance.options.original;
+				},
+
+				toView: function( content ) {
+					if ( ! this.pattern )
+						return;
+
+					this.pattern.lastIndex = 0;
+					var match = this.pattern.exec( content );
+
+					if ( ! match )
+						return;
+
+					return {
+						index:   match.index,
+						content: match[0],
+						options: {
+							original: match[0],
+							results:  match
+						}
+					};
+				}
 			},
 
-			toView: function( content ) {
-				if ( ! this.pattern )
-					return;
+			// The default properties used for objects with the `shortcode` key in
+			// `wp.mce.view.add()`.
+			shortcode: {
+				view: Backbone.View,
+				text: function( instance ) {
+					return instance.options.shortcode.string();
+				},
 
-				this.pattern.lastIndex = 0;
-				var match = this.pattern.exec( content );
+				toView: function( content ) {
+					var match = wp.shortcode.next( this.shortcode, content );
 
-				if ( ! match )
-					return;
+					if ( ! match )
+						return;
 
-				return {
-					index:   match.index,
-					content: match[0],
-					options: {
-						original: match[0],
-						results:  match
-					}
-				};
-			}
-		},
-
-		shortcode: {
-			view: Backbone.View,
-			text: function( instance ) {
-				return instance.options.shortcode.text();
-			},
-
-			toView: function( content ) {
-				var match = wp.shortcode.next( this.tag, content );
-
-				if ( ! match )
-					return;
-
-				return {
-					index:   match.index,
-					content: match.content,
-					options: {
-						shortcode: match.shortcode
-					}
-				};
+					return {
+						index:   match.index,
+						content: match.content,
+						options: {
+							shortcode: match.shortcode
+						}
+					};
+				}
 			}
 		},
 
@@ -160,7 +164,12 @@ if ( typeof wp === 'undefined' )
 			var parent, remove, base, properties;
 
 			// Fetch the parent view or the default options.
-			parent = options.extend ? wp.mce.view.get( options.extend ) : wp.mce.view.defaults;
+			if ( options.extend )
+				parent = wp.mce.view.get( options.extend );
+			else if ( options.shortcode )
+				parent = wp.mce.view.defaults.shortcode;
+			else
+				parent = wp.mce.view.defaults.pattern;
 
 			// Extend the `options` object with the parent's properties.
 			_.defaults( options, parent );
@@ -488,6 +497,106 @@ if ( typeof wp === 'undefined' )
 				// Use the specified size if it exists.
 				if ( this.size && attachment.sizes && attachment.sizes[ this.size ] )
 					_.extend( options, _.pick( attachment.sizes[ this.size ], 'url', 'width', 'height' ) );
+
+				this.$el.html( this.template( options ) );
+			}
+		}
+	});
+
+	mceview.add( 'gallery', {
+		shortcode: 'gallery',
+
+		gallery: (function() {
+			var galleries = {};
+
+			return {
+				attachments: function( shortcode, parent ) {
+					var shortcodeString = shortcode.string(),
+						result = galleries[ shortcodeString ],
+						attrs, args;
+
+					delete galleries[ shortcodeString ];
+
+					if ( result )
+						return result;
+
+					attrs = shortcode.attrs.named;
+					args  = _.pick( attrs, 'orderby', 'order' );
+
+					args.type    = 'image';
+					args.perPage = -1;
+
+					// Map the `ids` param to the correct query args.
+					if ( attrs.ids ) {
+						args.post__in = attrs.ids.split(',');
+						args.orderby  = 'post__in';
+					} else if ( attrs.include ) {
+						args.post__in = attrs.include.split(',');
+					}
+
+					if ( attrs.exclude )
+						args.post__not_in = attrs.exclude.split(',');
+
+					if ( ! args.post__in )
+						args.parent = attrs.id || parent;
+
+					return media.query( args );
+				},
+
+				shortcode: function( attachments ) {
+					var attrs = _.pick( attachments.props.toJSON(), 'include', 'exclude', 'orderby', 'order' ),
+						shortcode;
+
+					attrs.ids = attachments.pluck('id');
+
+					shortcode = new wp.shortcode({
+						tag:    'gallery',
+						attrs:  attrs,
+						type:   'single'
+					});
+
+					galleries[ shortcode.string() ] = attachments;
+					return shortcode;
+				}
+			};
+		}()),
+
+		view: {
+			className: 'editor-gallery',
+			template:  media.template('editor-gallery'),
+
+			// The fallback post ID to use as a parent for galleries that don't
+			// specify the `ids` or `include` parameters.
+			//
+			// Uses the hidden input on the edit posts page by default.
+			parent: $('#post_ID').val(),
+
+			events: {
+				'click .close': 'remove'
+			},
+
+			initialize: function() {
+				var	view      = mceview.get('gallery'),
+					shortcode = this.options.shortcode;
+
+				this.attachments = view.gallery.attachments( shortcode, this.parent );
+				this.attachments.more().done( _.bind( this.render, this ) );
+			},
+
+			render: function() {
+				var options, thumbnail, size;
+
+				if ( ! this.attachments.length )
+					return;
+
+				thumbnail = this.attachments.first().toJSON();
+				size = thumbnail.sizes && thumbnail.sizes.thumbnail ? thumbnail.sizes.thumbnail : thumbnail;
+
+				options = {
+					url:         size.url,
+					orientation: size.orientation,
+					count:       this.attachments.length
+				};
 
 				this.$el.html( this.template( options ) );
 			}

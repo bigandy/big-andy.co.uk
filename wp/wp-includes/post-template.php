@@ -500,8 +500,10 @@ function get_body_class( $class = '' ) {
 	if ( is_user_logged_in() )
 		$classes[] = 'logged-in';
 
-	if ( is_admin_bar_showing() )
+	if ( is_admin_bar_showing() ) {
 		$classes[] = 'admin-bar';
+		$classes[] = 'no-customize-support';
+	}
 
 	if ( get_theme_mod( 'background_color' ) || get_background_image() )
 		$classes[] = 'custom-background';
@@ -935,7 +937,7 @@ function walk_page_tree($pages, $depth, $current_page, $r) {
 		$walker = $r['walker'];
 
 	$args = array($pages, $depth, $r, $current_page);
-	return call_user_func_array(array(&$walker, 'walk'), $args);
+	return call_user_func_array(array($walker, 'walk'), $args);
 }
 
 /**
@@ -952,7 +954,7 @@ function walk_page_dropdown_tree() {
 	else
 		$walker = $args[2]['walker'];
 
-	return call_user_func_array(array(&$walker, 'walk'), $args);
+	return call_user_func_array(array($walker, 'walk'), $args);
 }
 
 /**

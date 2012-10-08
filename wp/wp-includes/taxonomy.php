@@ -660,23 +660,26 @@ class WP_Tax_Query {
 		$join = '';
 		$where = array();
 		$i = 0;
+		$count = count( $this->queries );
 
-		foreach ( $this->queries as $query ) {
+		foreach ( $this->queries as $index => $query ) {
 			$this->clean_query( $query );
 
-			if ( is_wp_error( $query ) ) {
+			if ( is_wp_error( $query ) )
 				return self::$no_results;
-			}
 
 			extract( $query );
 
 			if ( 'IN' == $operator ) {
 
 				if ( empty( $terms ) ) {
-					if ( 'OR' == $this->relation )
+					if ( 'OR' == $this->relation ) {
+						if ( ( $index + 1 === $count ) && empty( $where ) )
+							return self::$no_results;
 						continue;
-					else
+					} else {
 						return self::$no_results;
+					}
 				}
 
 				$terms = implode( ',', $terms );
@@ -720,7 +723,7 @@ class WP_Tax_Query {
 			$i++;
 		}
 
-		if ( !empty( $where ) )
+		if ( ! empty( $where ) )
 			$where = ' AND ( ' . implode( " $this->relation ", $where ) . ' )';
 		else
 			$where = '';
@@ -1407,7 +1410,7 @@ function get_terms($taxonomies, $args = '') {
 	if ( $child_of ) {
 		$children = _get_term_hierarchy($taxonomies[0]);
 		if ( ! empty($children) )
-			$terms = & _get_term_children($child_of, $terms, $taxonomies[0]);
+			$terms = _get_term_children($child_of, $terms, $taxonomies[0]);
 	}
 
 	// Update term counts to include children.
@@ -2985,9 +2988,9 @@ function get_term_link( $term, $taxonomy = '') {
 
 	if ( !is_object($term) ) {
 		if ( is_int($term) ) {
-			$term = &get_term($term, $taxonomy);
+			$term = get_term($term, $taxonomy);
 		} else {
-			$term = &get_term_by('slug', $term, $taxonomy);
+			$term = get_term_by('slug', $term, $taxonomy);
 		}
 	}
 
