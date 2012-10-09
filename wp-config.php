@@ -29,14 +29,14 @@ define( 'DB_COLLATE', '' );
 // Salts, for security
 // Grab these from: https://api.wordpress.org/secret-key/1.1/salt
 // ==============================================================
-define( 'AUTH_KEY',         'put your unique phrase here' );
-define( 'SECURE_AUTH_KEY',  'put your unique phrase here' );
-define( 'LOGGED_IN_KEY',    'put your unique phrase here' );
-define( 'NONCE_KEY',        'put your unique phrase here' );
-define( 'AUTH_SALT',        'put your unique phrase here' );
-define( 'SECURE_AUTH_SALT', 'put your unique phrase here' );
-define( 'LOGGED_IN_SALT',   'put your unique phrase here' );
-define( 'NONCE_SALT',       'put your unique phrase here' );
+define('AUTH_KEY',         '((nqiSce-c|jS9&h& riMa1S,epuNPvH_07ZR/>Gz?&,4)4.5vc-0mUQEO*|}!b[');
+define('SECURE_AUTH_KEY',  'zGrEBK5b9`ajbcGH-FIV=N>J/K4?{})<hlN^;nu@BLO#5mo]D-vR(7_6l)BoV=U$');
+define('LOGGED_IN_KEY',    ';J$xYET&$Z+ a#B/9G8A4N9lh1]InebQg/J< d6m8d^,0|Lv9Jst TD!CU~d*?A_');
+define('NONCE_KEY',        'prk+Ua%_voEC2M_[EW.w|Fy?,wv]/.e;qceY*HTT^9Q@Gar+0:;UJArnUl{V`bFA');
+define('AUTH_SALT',        '}r}.<Ubd0,&MelE6bCj3.qsh012Q/nMN#:N${tvH21U9E+0@kXJ#k-Oe)3(M|i#^');
+define('SECURE_AUTH_SALT', '3r.5~n~xZ=nWI{Q|nc_$i+X}hQvf{m<D%Lk8Y@0^/,r_KJ8$Pts9b}2*]boY*jTN');
+define('LOGGED_IN_SALT',   '0zEuGlEL+q&o-eeARQ6xT;]|F)P+:4p+Yn3yZq+eUe_*XZ]nX9ffhAx/Ak`=_cze');
+define('NONCE_SALT',       'a-WdR#IQYD4LZ.lOw!([tTnWm}Stb&6N;9.S+qTtVmqGZ[`)4dR-!0C6Z{D+|{md');
 
 // ==============================================================
 // Table prefix
