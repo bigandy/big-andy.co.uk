@@ -22,10 +22,6 @@
 	
 	li a {
 		text-decoration:none;
-
-		&:hover {
-			text-decoration:underline;
-		}
 	}
 
 	p,
@@ -60,6 +56,9 @@
 	  margin-right:10px;
 	}
 
+	li:hover span {
+		color:red;
+	}
 
 }
 
