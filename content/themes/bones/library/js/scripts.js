@@ -61,13 +61,14 @@ jQuery(document).ready(function($) {
     }
     
     /* off the bat large screen actions */
-    if (responsive_viewport > 1030) {
-        
+    if (responsive_viewport < 1030) {
+        $(".post-content").fitVids();
     }
     
 	
 	// add all your scripts here
 	
+
  
 }); /* end of as page load scripts */
 
