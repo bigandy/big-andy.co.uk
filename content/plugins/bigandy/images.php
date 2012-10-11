@@ -48,7 +48,8 @@ function gallery_shortcode_ah_new($attr) {
 		'size'       => 'thumbnail',
 		'ids'        => '',
 		'include'    => '',
-		'exclude'    => ''
+		'exclude'    => '',
+		'link'		 => 'file',
 	), $attr));
 
 	$id = intval($id);
@@ -62,16 +63,38 @@ function gallery_shortcode_ah_new($attr) {
 	}
 
 	if ( !empty($include) ) {
-		$_attachments = get_posts( array('include' => $include, 'post_status' => 'inherit', 'post_type' => 'attachment', 'post_mime_type' => 'image', 'order' => $order, 'orderby' => $orderby) );
+		$_attachments = get_posts( array(
+			'include' => $include, 
+			'post_status' => 'inherit', 
+			'post_type' => 'attachment', 
+			'post_mime_type' => 'image', 
+			'order' => $order, 
+			'orderby' => $orderby
+			) );
 
 		$attachments = array();
 		foreach ( $_attachments as $key => $val ) {
 			$attachments[$val->ID] = $_attachments[$key];
 		}
 	} elseif ( !empty($exclude) ) {
-		$attachments = get_children( array('post_parent' => $id, 'exclude' => $exclude, 'post_status' => 'inherit', 'post_type' => 'attachment', 'post_mime_type' => 'image', 'order' => $order, 'orderby' => $orderby) );
+		$attachments = get_children( array(
+				'post_parent' => $id, 
+				'exclude' => $exclude, 
+				'post_status' => 'inherit', 
+				'post_type' => 'attachment', 
+				'post_mime_type' => 'image', 
+				'order' => $order, 
+				'orderby' => $orderby
+				) );
 	} else {
-		$attachments = get_children( array('post_parent' => $id, 'post_status' => 'inherit', 'post_type' => 'attachment', 'post_mime_type' => 'image', 'order' => $order, 'orderby' => $orderby) );
+		$attachments = get_children( array(
+			'post_parent' => $id, 
+			'post_status' => 'inherit', 
+			'post_type' => 'attachment', 
+			'post_mime_type' => 'image', 
+			'order' => $order, 
+			'orderby' => $orderby
+			) );
 	}
 
 	if ( empty($attachments) )
@@ -94,27 +117,20 @@ function gallery_shortcode_ah_new($attr) {
 
 	$gallery_style = $gallery_div = '';
 	$size_class = sanitize_html_class( $size );
-	$gallery_div = "<div class='gallery-columns-{$columns}'>";
+	$gallery_div = "<div class='gallery columns-{$columns}'>";
 	$output = apply_filters( 'gallery_style', $gallery_style . "\n\t\t" . $gallery_div );
 
 	$i = 0;
 	foreach ( $attachments as $id => $attachment ) {
 		$link = isset($attr['link']) && 'file' == $attr['link'] ? wp_get_attachment_link($id, $size, false, false) : wp_get_attachment_link($id, $size, true, false);
 
-		
-		$output .= "
-			
-				$link
-			";
+		$output .= $link;
 		if ( $captiontag && trim($attachment->post_excerpt) ) {
 			$output .= "
 				<{$captiontag} class='wp-caption-text gallery-caption'>
 				" . wptexturize($attachment->post_excerpt) . "
 				</{$captiontag}>";
 		}
-		// $output .= "</{$itemtag}>";
-		/* if ( $columns > 0 && ++$i % $columns == 0 )
-			$output .= '<br style="clear: both" />'; */
 	}
 
 	$output .= "</div>\n";
