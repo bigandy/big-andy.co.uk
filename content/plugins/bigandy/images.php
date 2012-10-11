@@ -122,7 +122,8 @@ function gallery_shortcode_ah_new($attr) {
 
 	$i = 0;
 	foreach ( $attachments as $id => $attachment ) {
-		$link = isset($attr['link']) && 'file' == $attr['link'] ? wp_get_attachment_link($id, $size, false, false) : wp_get_attachment_link($id, $size, true, false);
+		// $link = isset($attr['link']) && 'file' == $attr['link'] ? wp_get_attachment_link($id, $size, false, false) : wp_get_attachment_link($id, $size, true, false);
+		$link = wp_get_attachment_link($id, $size, false, false);
 
 		$output .= $link;
 		if ( $captiontag && trim($attachment->post_excerpt) ) {
