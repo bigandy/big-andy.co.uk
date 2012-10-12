@@ -5,5 +5,5 @@
  * @return void
  */
 jQuery(document).ready(function($) {
-    $('h1').css( 'fontSize', '140px' );
+    //
 });

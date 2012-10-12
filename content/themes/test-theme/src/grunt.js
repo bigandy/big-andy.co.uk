@@ -7,15 +7,15 @@ module.exports = function(grunt) {
       version: '0.1.0',
       banner: '/*! PROJECT_NAME - v<%= meta.version %> - ' +
         '<%= grunt.template.today("yyyy-mm-dd") %>\n' +
-        '* http://www.yoursite.com/\n' +
+        '* http://big-andy.co.uk/themes/bigandy-grunt/\n' +
         '* Copyright (c) <%= grunt.template.today("yyyy") %> ' +
         'Your Company; Licensed MIT */',
       wpblock: '/*! \n' + 
-        'Theme Name: Test Theme \n' +
-        'Theme URI: http://www.yoursite.com \n' +
-        'Description: Test theme \n' +
-        'Author: Your Name \n' +
-        'Author URI: http://www.yoursite.com \n' +
+        'Theme Name: Andy\'s Grunt Theme \n' +
+        'Theme URI: http://big-andy.co.uk/themes/bigandy-grunt/ \n' +
+        'Description: Andy\'s Test Theme \n' +
+        'Author: Andrew Hudson \n' +
+        'Author URI: http://big-andy.co.uk \n' +
         'Version: 1.0 \n' + 
         '*/'
     },
@@ -41,7 +41,7 @@ module.exports = function(grunt) {
       }
     },
     watch: {
-      files: ['<config:lint.files>', '../sass/*.scss'],
+      files: ['<config:lint.files>', '../sass/*.scss', '../sass/partials/*.scss'],
       tasks: 'default'
     },
     jshint: {
@@ -72,6 +72,7 @@ module.exports = function(grunt) {
 
   // Default task.
   grunt.registerTask('default', 'lint concat min compass cssmin');
+  // grunt.registerTask('default', 'lint concat min compass cssmin');
   
   // Compass tasks
   grunt.loadNpmTasks('grunt-compass');

@@ -54,3 +54,7 @@ Non-semantic helper classes
 .clearfix {
     @include pie-clearfix;
 }
+
+.container {
+    height:1000px; 
+}
