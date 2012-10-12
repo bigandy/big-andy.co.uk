@@ -90,7 +90,7 @@ var tb_position;
 // WordPress, TinyMCE, and Media
 // -----------------------------
 (function($){
-	// Stores the editors' `wp.media.controller.Workflow` instaces.
+	// Stores the editors' `wp.media.controller.Workflow` instances.
 	var workflows = {};
 
 	wp.mce.media = {
@@ -108,9 +108,12 @@ var tb_position;
 			} ) );
 
 			workflow.on( 'update:insert', function( selection ) {
-				this.insert( '\n' + selection.map( function( attachment ) {
-					return wp.media.string.image( attachment );
-				}).join('\n\n') + '\n' );
+				this.insert( selection.map( function( attachment ) {
+					if ( 'image' === attachment.get('type') )
+						return '\n' + wp.media.string.image( attachment ) + '\n';
+					else
+						return wp.media.string.link( attachment ) + ' ';
+				}).join('') );
 			}, this );
 
 			workflow.on( 'update:gallery', function( selection ) {
@@ -122,6 +125,9 @@ var tb_position;
 
 				shortcode = view.gallery.shortcode( selection );
 				this.insert( shortcode.string() );
+
+				// Reset the workflow view to the library.
+				workflow.render('library');
 			}, this );
 
 			return workflow;

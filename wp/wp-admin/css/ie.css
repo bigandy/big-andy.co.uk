@@ -1,5 +1,14 @@
 /* Fixes for IE 7 bugs */
 
+#dashboard-widgets form .input-text-wrap input,
+#dashboard-widgets form .textarea-wrap textarea {
+	width: 99%;
+}
+
+#dashboard-widgets form #title {
+	width: 98%;
+}
+
 .wp-editor-wrap .wp-editor-container textarea.wp-editor-area {
 	width: 97%;
 }
@@ -391,11 +400,6 @@ table.ie-fixed {
 #wpcontent .button-primary-disabled {
 	color: #9FD0D5;
 	background: #298CBA;
-}
-
-#wpcontent #ajax-loading,
-#wpcontent .ajax-loading {
-	vertical-align: baseline;
 }
 
 #the-comment-list .unapproved tr,

@@ -1,9 +1,9 @@
-<?php 
+<?php
 function ah_footer() {
 	$ah_options = get_option( 'ah_plugin_options' );
 	$ga_code = $ah_options['output'];
 
-	if( $ga_code != '') {
+	if ( $ga_code != '' ) {
 
 		echo "<!-- google analytics code -->
 		<script type='text/javascript'>
@@ -19,4 +19,4 @@ function ah_footer() {
 		</script>";
 	}
 }
-add_action('wp_footer', 'ah_footer');
+add_action( 'wp_footer', 'ah_footer' );

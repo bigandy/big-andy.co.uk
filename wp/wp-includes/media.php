@@ -1246,6 +1246,7 @@ function wp_prepare_attachment_for_js( $attachment ) {
 		'title'       => $attachment->post_title,
 		'filename'    => basename( $attachment->guid ),
 		'url'         => $attachment_url,
+		'link'        => get_attachment_link( $attachment->ID ),
 		'alt'         => get_post_meta( $attachment->ID, '_wp_attachment_image_alt', true ),
 		'author'      => $attachment->post_author,
 		'description' => $attachment->post_content,
@@ -1296,10 +1297,8 @@ function wp_print_media_templates( $attachment ) {
 	?>
 	<script type="text/html" id="tmpl-media-modal">
 		<div class="media-modal">
-			<div class="media-modal-header">
-				<h3><%- title %></h3>
-				<a class="media-modal-close" href="" title="<?php esc_attr_e('Close'); ?>"><?php echo 'Close'; ?></a>
-			</div>
+			<h3 class="media-modal-title"><%- title %></h3>
+			<a class="media-modal-close" href="" title="<?php esc_attr_e('Close'); ?>">&times;</a>
 			<div class="media-modal-content"></div>
 		</div>
 		<div class="media-modal-backdrop"></div>
@@ -1330,20 +1329,20 @@ function wp_print_media_templates( $attachment ) {
 
 	<script type="text/html" id="tmpl-attachment">
 		<div class="attachment-preview type-<%- type %> subtype-<%- subtype %> <%- orientation %>">
-			<% if ( thumbnail ) { %>
-				<img src="<%- thumbnail %>" draggable="false" />
-			<% } %>
-
-			<% if ( uploading ) { %>
+			<% if ( 'image' === type ) { %>
+				<div class="thumbnail">
+					<img src="<%- url %>" width="<%- width %>" height="<%- height %>" draggable="false"
+					style="top:<%- top %>px; left:<%- left %>px;" />
+				</div>
+			<% } else if ( uploading ) { %>
 				<div class="media-progress-bar"><div></div></div>
+			<% } else { %>
+				<img src="<%- icon %>" class="icon" draggable="false" />
+				<div class="filename"><%- filename %></div>
 			<% } %>
 
 			<% if ( buttons.close ) { %>
 				<a class="close" href="#">&times;</a>
-			<% } %>
-
-			<% if ( buttons.insert ) { %>
-				<a class="insert button button-primary button-small" href="#"><?php _e( 'Insert' ); ?></a>
 			<% } %>
 		</div>
 		<div class="describe"></div>
@@ -1357,18 +1356,24 @@ function wp_print_media_templates( $attachment ) {
 
 			<span class="count"><%- count %></span>
 		</div>
-		<a class="clear-selection" href="#"><?php _e('Clear selection'); ?></a>
+		<% if ( clearable ) { %>
+			<a class="clear-selection" href="#"><?php _e('Clear selection'); ?></a>
+		<% } %>
 	</script>
 
 	<script type="text/html" id="tmpl-editor-attachment">
-		<% if ( url ) { %>
-			<img src="<%- url %>" width="<%- width %>" height="<%- height %>" draggable="false" />
-		<% } %>
+		<div class="editor-attachment-preview">
+			<% if ( url ) { %>
+				<img src="<%- url %>" width="<%- width %>" height="<%- height %>" draggable="false" />
+			<% } %>
 
-		<% if ( uploading ) { %>
-			<div class="media-progress-bar"><div></div></div>
-		<% } %>
-		<div class="close">&times;</div>
+			<% if ( uploading ) { %>
+				<div class="media-progress-bar"><div></div></div>
+			<% } %>
+			<div class="overlay">
+				<div class="button close">&times;</div>
+			</div>
+		</div>
 		<div class="describe"></div>
 	</script>
 
@@ -1376,7 +1381,11 @@ function wp_print_media_templates( $attachment ) {
 		<% if ( url ) { %>
 			<img src="<%- url %>" draggable="false" />
 		<% } %>
-		<div class="close">&times;</div>
+
+		<div class="overlay">
+			<div class="button close">&times;</div>
+			<div class="button edit"><?php _e('Edit'); ?></div>
+		</div>
 	</script>
 	<?php
 }

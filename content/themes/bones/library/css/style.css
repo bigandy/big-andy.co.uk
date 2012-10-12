@@ -1368,6 +1368,14 @@ view.
   color: red;
 }
 
+.blog .format-aside p {
+  border-left: 10px solid #1990db;
+  font-style: italic;
+  margin-left: 0px;
+  padding-left: 10px;
+  width: 80%;
+}
+
 /*
 LARGER MOBILE DEVICES
 This is for devices like the Galaxy Note or something that's 

@@ -14,3 +14,4 @@
 
 /content/themes/bones/library/stylesheets
 /content/themes/bones/library/stylesheets/*
+/content/themes/test-theme/src/node_modules

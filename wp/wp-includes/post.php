@@ -1379,7 +1379,11 @@ function get_post_type_labels( $post_type_object ) {
 		'all_items' => array( __( 'All Posts' ), __( 'All Pages' ) )
 	);
 	$nohier_vs_hier_defaults['menu_name'] = $nohier_vs_hier_defaults['name'];
-	return _get_custom_object_labels( $post_type_object, $nohier_vs_hier_defaults );
+
+	$labels = _get_custom_object_labels( $post_type_object, $nohier_vs_hier_defaults );
+
+	$post_type = $post_type_object->name;
+	return apply_filters( "post_type_labels_{$post_type}", $labels );
 }
 
 /**
@@ -3494,7 +3498,7 @@ function get_pages($args = '') {
 	$cache = array();
 	$key = md5( serialize( compact(array_keys($defaults)) ) );
 	if ( $cache = wp_cache_get( 'get_pages', 'posts' ) ) {
-		if ( is_array($cache) && isset( $cache[ $key ] ) ) {
+		if ( is_array($cache) && isset( $cache[ $key ] ) && is_array( $cache[ $key ] ) ) {
 			// Convert to WP_Post instances
 			$pages = array_map( 'get_post', $cache[ $key ] );
 			$pages = apply_filters( 'get_pages', $pages, $r );

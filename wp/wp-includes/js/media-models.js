@@ -146,11 +146,11 @@ window.wp = window.wp || {};
 			if ( 'width' === constraint && width > maxWidth ) {
 				return {
 					width : maxWidth,
-					height: maxWidth * height / width
+					height: Math.round( maxWidth * height / width )
 				};
 			} else if ( 'height' === constraint && height > maxHeight ) {
 				return {
-					width : maxHeight * width / height,
+					width : Math.round( maxHeight * width / height ),
 					height: maxHeight
 				};
 			} else {
@@ -458,7 +458,7 @@ window.wp = window.wp || {};
 			// are no filters for other properties, so observing will result in
 			// false positives in those queries.
 			allowed = [ 's', 'order', 'orderby', 'posts_per_page', 'post_mime_type' ];
-			if ( _( this.args ).chain().keys().difference().isEmpty().value() )
+			if ( _( this.args ).chain().keys().difference( allowed ).isEmpty().value() )
 				this.observe( Attachments.all );
 		},
 

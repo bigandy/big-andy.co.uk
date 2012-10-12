@@ -42,11 +42,16 @@
 			// then unset the property.
 			this.add( 'library', media.view.Workspace.Library, {
 				collection: media.query( this.get('library') )
-			} );
+			});
 			this.unset('library');
 
 			// Add the gallery view.
-			this.add( 'gallery', media.view.Workspace.Gallery, { collection: this.selection } );
+			this.add( 'gallery', media.view.Workspace.Gallery, {
+				collection: this.selection
+			});
+			this.add( 'gallery-library', media.view.Workspace.Library.Gallery, {
+				collection: media.query({ type: 'image' })
+			});
 		},
 
 
@@ -119,8 +124,8 @@
 
 		update: function( event ) {
 			this.close();
-			this.trigger( 'update', this.selection );
-			this.trigger( 'update:' + event, this.selection );
+			this.trigger( 'update', this.selection, this );
+			this.trigger( 'update:' + event, this.selection, this );
 			this.selection.clear();
 		},
 
@@ -217,18 +222,22 @@
 
 		attach: function() {
 			this.$el.appendTo( this.options.container );
+			this.controller.trigger( 'attach', this.controller );
 		},
 
 		detach: function() {
 			this.$el.detach();
+			this.controller.trigger( 'detach', this.controller );
 		},
 
 		open: function() {
 			this.$el.show();
+			this.controller.trigger( 'open', this.controller );
 		},
 
 		close: function() {
 			this.$el.hide();
+			this.controller.trigger( 'close', this.controller );
 		},
 
 		closeHandler: function( event ) {
@@ -277,8 +286,8 @@
 			// Make sure to detach the elements we want to reuse.
 			// Otherwise, `jQuery.html()` will unbind their events.
 			$( _.pluck( this._views, 'el' ) ).detach();
-			this.$primary.html( _.pluck( views.primary, 'el' ) );
-			this.$secondary.html( _.pluck( views.secondary, 'el' ) );
+			this.$primary.html( _.pluck( views.primary || [], 'el' ) );
+			this.$secondary.html( _.pluck( views.secondary || [], 'el' ) );
 
 			return this;
 		},
@@ -376,7 +385,9 @@
 		template:  media.template('attachment'),
 
 		events: {
-			'click': 'toggleSelection'
+			'click': 'toggleSelection',
+			'mouseenter': 'shrink',
+			'mouseleave': 'expand'
 		},
 
 		buttons: {},
@@ -395,26 +406,23 @@
 
 		render: function() {
 			var attachment = this.model.toJSON(),
-				options = {
-					thumbnail:   'image' === attachment.type ? attachment.url : attachment.icon,
-					uploading:   attachment.uploading,
-					orientation: attachment.orientation || 'landscape',
-					type:        attachment.type,
-					subtype:     attachment.subtype,
-					buttons:     this.buttons
-				};
+				options = _.defaults( this.model.toJSON(), {
+					orientation: 'landscape',
+					uploading:   false,
+					type:        '',
+					subtype:     '',
+					icon:        '',
+					filename:    ''
+				});
 
-			// Use the medium image size if possible. If the medium size
-			// doesn't exist, then the attachment is too small.
-			// In that case, use the attachment itself.
-			if ( attachment.sizes && attachment.sizes.medium ) {
-				options.orientation = attachment.sizes.medium.orientation;
-				options.thumbnail   = attachment.sizes.medium.url;
-			}
+			options.buttons = this.buttons;
+
+			if ( 'image' === options.type )
+				_.extend( options, this.crop() );
 
 			this.$el.html( this.template( options ) );
 
-			if ( attachment.uploading )
+			if ( options.uploading )
 				this.$bar = this.$('.media-progress-bar div');
 			else
 				delete this.$bar;
@@ -456,6 +464,75 @@
 
 		preventDefault: function( event ) {
 			event.preventDefault();
+		},
+
+		imageSize: function( size ) {
+			var sizes = this.model.get('sizes');
+
+			size = size || 'medium';
+
+			// Use the provided image size if possible.
+			if ( sizes && sizes[ size ] ) {
+				return sizes[ size ];
+			} else {
+				return {
+					url:         this.model.get('url'),
+					width:       this.model.get('width'),
+					height:      this.model.get('height'),
+					orientation: this.model.get('orientation')
+				};
+			}
+		},
+
+		crop: function( sizeId ) {
+			var edge = 199,
+				size = this.imageSize( sizeId ),
+				wide, tall;
+
+			wide = wp.media.fit( _.extend( { maxWidth:  edge }, size ) );
+			tall = wp.media.fit( _.extend( { maxHeight: edge }, size ) );
+
+			_.extend( size, wide.width > tall.width ? wide : tall );
+
+			size.top  = ( edge - size.height ) / 2;
+			size.left = ( edge - size.width ) / 2;
+			return size;
+		},
+
+		fit: function( sizeId ) {
+			var margin = 10,
+				full = 199,
+				edge = full - ( margin * 2 ),
+				size = _.extend( wp.media.fit( _.extend({
+					maxWidth:  edge,
+					maxHeight: edge
+				}, this.imageSize( sizeId ) ) ) );
+
+			size.top  = Math.round( margin + ( edge - size.height ) / 2 );
+			size.left = Math.round( margin + ( edge - size.width ) / 2 );
+			return size;
+		},
+
+		shrink: function() {
+			var size = _.pick( this.fit(), 'top', 'left', 'width', 'height' );
+			this.$el.addClass('fit');
+			this.$('.thumbnail').css( size );
+			this.$('.thumbnail img').css( _.extend( size, {
+				top:  0,
+				left: 0
+			} ) );
+		},
+
+		expand: function() {
+			var size = _.pick( this.crop(), 'top', 'left', 'width', 'height' );
+			this.$el.removeClass('fit');
+			this.$('.thumbnail img').css( size );
+			this.$('.thumbnail').css({
+				top:    0,
+				left:   0,
+				width:  199,
+				height: 199
+			});
 		}
 	});
 
@@ -463,20 +540,7 @@
 	 * wp.media.view.Attachment.Library
 	 */
 	media.view.Attachment.Library = media.view.Attachment.extend({
-		className: 'attachment library',
-
-		buttons: {
-			insert: true
-		},
-
-		events: _.defaults({
-			'click .insert': 'insert'
-		}, media.view.Attachment.prototype.events ),
-
-		insert: function() {
-			this.controller.selection.reset([ this.model ]);
-			this.controller.update();
-		}
+		className: 'attachment library'
 	});
 
 	/**
@@ -661,6 +725,38 @@
 		}
 	});
 
+	media.view.Workspace.Library.Gallery = media.view.Workspace.Library.extend({
+		initToolbarView: function() {
+			var controller = this.controller,
+				editing = controller.get('editing'),
+				items = {
+					'selection-preview': new media.view.SelectionPreview({
+						controller: this.controller,
+						collection: this.controller.selection,
+						priority:   -40,
+						clearable:  false
+					}),
+
+					'continue-editing-gallery': {
+						style:    'primary',
+						text:     l10n.continueEditingGallery,
+						priority: 40,
+
+						click: function() {
+							controller.render( 'gallery' );
+						}
+					}
+				};
+
+			this.toolbarView = new media.view.Toolbar({
+				items: items
+			});
+
+			this.$el.addClass('with-toolbar');
+			this.$content.append( this.toolbarView.$el );
+		}
+	});
+
 	/**
 	 * wp.media.view.Workspace.Gallery
 	 */
@@ -682,31 +778,28 @@
 		// appropriate workflow when the time comes, but is currently here
 		// to test multiple selections.
 		initToolbarView: function() {
-			var controller = this.controller;
-
-			this.toolbarView = new media.view.Toolbar({
-				items: {
-					'return-to-library': {
-						text:     l10n.returnToLibrary,
-						priority: -40,
-
-						click:  function() {
-							controller.render('library');
-						}
-					},
-
-					'insert-gallery-into-post': {
+			var controller = this.controller,
+				editing = controller.get('editing'),
+				items = {
+					'update-gallery': {
 						style:    'primary',
-						text:     l10n.insertGalleryIntoPost,
+						text:     editing ? l10n.updateGallery : l10n.insertGalleryIntoPost,
 						priority: 40,
 						click:    _.bind( controller.update, controller, 'gallery' )
 					},
 
-					'add-images-from-library': {
-						text:     l10n.addImagesFromLibrary,
-						priority: 30
+					'return-to-library': {
+						text:     editing ? l10n.addImagesFromLibrary : l10n.returnToLibrary,
+						priority: -40,
+
+						click: function() {
+							controller.render( editing ? 'gallery-library' : 'library' );
+						}
 					}
-				}
+				};
+
+			this.toolbarView = new media.view.Toolbar({
+				items: items
 			});
 
 			this.$el.addClass('with-toolbar');
@@ -886,13 +979,17 @@
 		},
 
 		initialize: function() {
+			_.defaults( this.options, {
+				clearable: true
+			});
+
 			this.controller = this.options.controller;
 			this.collection.on( 'add change:url remove', this.render, this );
 			this.render();
 		},
 
 		render: function() {
-			var options = {},
+			var options = _.clone( this.options ),
 				first, sizes, amount;
 
 			// If nothing is selected, display nothing.

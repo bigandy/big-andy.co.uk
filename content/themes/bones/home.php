@@ -40,6 +40,22 @@
 
 						?>
 						
+						<?php
+							function myContentFunct($content) {
+								
+								if(has_post_format('aside')){
+									$content = strip_tags($content);
+									$content .= '<a href="'. get_permalink() .'">&infin;</a>';
+
+									return $content;
+								}
+
+
+								return $content;
+							}
+							
+							add_filter( 'the_content', 'myContentFunct');
+						?>
 					    <?php 
 
 					    
@@ -51,15 +67,21 @@
 					    <article id="post-<?php the_ID(); ?>" <?php post_class('clearfix'); ?> role="article">
 						
 						    <header class="article-header">
-							
+							<?php if(!has_post_format('aside')){ ?>
 							    <h1 class="h2"><a href="<?php the_permalink() ?>" rel="bookmark"><?php the_title(); ?></a></h1>
-													
 						    </header> <!-- end article header -->
 					
 						    <section class="post-content clearfix">
 							    <?php the_content(); ?>
 						    </section> <!-- end article section -->
-						
+							
+							<?php } else { ?>
+
+							<section class="post-content clearfix aside">
+							    <p><?php the_content(''); ?></p>
+						    </section>
+
+							<?php } ?>
 						    
 						    
 						    <?php // comments_template(); // uncomment if you want to use them ?>

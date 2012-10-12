@@ -495,7 +495,7 @@ class wp_xmlrpc_server extends IXR_Server {
 				'url'			=> home_url( '/' ),
 				'blogid'		=> (string) $blog_id,
 				'blogName'		=> get_option( 'blogname' ),
-				'xmlrpc'		=> site_url( 'xmlrpc.php' )
+				'xmlrpc'		=> site_url( 'xmlrpc.php', 'rpc' ),
 			);
 
 			restore_current_blog();
@@ -912,8 +912,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		if ( in_array( 'all', $fields ) ) {
 			$_user = array_merge( $_user, $user_fields );
-		}
-		else {
+		} else {
 			if ( in_array( 'basic', $fields ) ) {
 				$basic_fields = array( 'username', 'email', 'registered', 'display_name', 'nicename' );
 				$fields = array_merge( $fields, $basic_fields );
@@ -2092,7 +2091,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( ! current_user_can( 'list_users' ) )
 			return new IXR_Error( 401, __( 'Sorry, you cannot list users.' ) );
 
-		$query = array();
+		$query = array( 'fields' => 'all_with_meta' );
 
 		$query['number'] = ( isset( $filter['number'] ) ) ? absint( $filter['number'] ) : 50;
 		$query['offset'] = ( isset( $filter['offset'] ) ) ? absint( $filter['offset'] ) : 0;
@@ -3648,7 +3647,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			'url'      => get_option('home') . '/',
 			'blogid'   => '1',
 			'blogName' => get_option('blogname'),
-			'xmlrpc'   => site_url( 'xmlrpc.php' )
+			'xmlrpc'   => site_url( 'xmlrpc.php', 'rpc' ),
 		);
 
 		return array($struct);
@@ -5444,7 +5443,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		// Work around bug in strip_tags():
 		$linea = str_replace('<!DOC', '<DOC', $linea);
 		$linea = preg_replace( '/[\s\r\n\t]+/', ' ', $linea ); // normalize spaces
-		$linea = preg_replace( "/ <(h1|h2|h3|h4|h5|h6|p|th|td|li|dt|dd|pre|caption|input|textarea|button|body)[^>]*>/", "\n\n", $linea );
+		$linea = preg_replace( "/<\/*(h1|h2|h3|h4|h5|h6|p|th|td|li|dt|dd|pre|caption|input|textarea|button|body)[^>]*>/", "\n\n", $linea );
 
 		preg_match('|<title>([^<]*?)</title>|is', $linea, $matchtitle);
 		$title = $matchtitle[1];
