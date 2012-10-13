@@ -27,8 +27,9 @@
 									<?php the_tags('<p class="tags"><span class="tags-title">Tags:</span> ', ', ', '</p>'); ?>
 							
 								</footer> <!-- end article footer -->
-					
-								<?php comments_template(); // comments should go inside the article element ?>
+								<?php if( !has_post_format('aside' ) ) {  // hiding comments for aside posts
+									comments_template(); 
+								} // comments should go inside the article element ?>
 					
 							</article> <!-- end article -->
 					
