@@ -5,14 +5,6 @@
 	box-sizing: border-box; 
 }
 
-body {
-	font-family: Georgia, serif;
-	font-size: 14px;
-	line-height: 1.5;
-	color: #565656;
-
-}
-
 .dark {
 	background:rgba(orange,0.1);
 	
@@ -43,9 +35,15 @@ a, a:visited {
 	}
 }
 
+body {
+	font-family: "freight-sans-pro-1","freight-sans-pro-2", sans-serif;
+	line-height: 1.5;
+	color: #565656;
+	font-size:18px;
+}
 
 h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5 {
-	font-family: sans-serif;
+	font-family: "chaparral-pro-1", "chaparral-pro-2", serif;
 	text-rendering: optimizelegibility;
 	font-weight: 500;
 
@@ -235,15 +233,13 @@ a.current_page_parent {
 	// fallback previous & next links
 	.wp-prev-next {
 
-		ul {}
-
 		.prev-link {
 			float: left;
 		}
 
 		.next-link {
 			float: right;
-		}
+		} 
 
 	} // end .wp-prev-next
 
@@ -283,7 +279,6 @@ a.current_page_parent {
 	}
 
 	// general comment classes
-	.alt {}
 	.odd {
 		background: #eee;
 	}
