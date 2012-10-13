@@ -1,7 +1,10 @@
 @font-face {
   font-family: 'icomoon';
-  src: url("../fonts/icomoon.eot");
-  src: url("../fonts/icomoon.eot?#iefix") format("embedded-opentype"), url("../fonts/icomoon.svg#icomoon") format("svg"), url("../fonts/icomoon.woff") format("woff"), url("../fonts/icomoon.ttf") format("truetype");
+  src: 	url("../fonts/icomoon.eot");
+  src: 	url("../fonts/icomoon.eot?#iefix") format("embedded-opentype"), 
+  		url("../fonts/icomoon.svg#icomoon") format("svg"), 
+  		url("../fonts/icomoon.woff") format("woff"), 
+  		url("../fonts/icomoon.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
 }
@@ -14,8 +17,6 @@
 }
 
 .thoughts-template {
-
-
 
 	width: 90%;
 	margin: 0 auto;
@@ -56,7 +57,8 @@
 		} 
 	}
 
-	/* Use the following CSS code if you want to use data attributes for inserting your icons ; from css-tricks.com*/
+	// Use the following CSS code if you want to use data attributes for inserting your icons; 
+	// from css-tricks.com
 	[data-icon]:before {
 	  font-family: 'icomoon';
 	  content: attr(data-icon);
@@ -67,11 +69,4 @@
 	li:hover span {
 		color:red;
 	}
-
-
 }
-
-
-
-
-
