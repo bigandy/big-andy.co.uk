@@ -36,8 +36,7 @@
 				<?php if( !is_page_template('page-templates/thoughts.php' ) ) {  ?>
 				
 				<p id="logo" class="h1"><a href="<?php echo home_url(); ?>" rel="nofollow"><?php bloginfo('name'); ?></a></p>
-				<?php  bloginfo('description'); ?>
-				
+								
 				<nav role="navigation" class="nav top-nav clearfix">
 						<?php  bones_main_nav(); ?>						
 				</nav>
