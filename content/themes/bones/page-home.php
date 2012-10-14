@@ -12,7 +12,7 @@
 					    </div>
 				    	<?php 
 				    	$args = array(
-				    		'posts_per_page' => 4,
+				    		'posts_per_page' => 8,
 				    		'tax_query' => array(
 						        array(
 						            'taxonomy' => 'post_format',
