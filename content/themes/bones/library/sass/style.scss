@@ -37,6 +37,7 @@ email: andy@big-andy.co.uk
  
 @import "thoughts-template";
 @import "post-format";
+@import "page-home";
 
 // LARGER MOBILE DEVICES
 // This is for devices like the Galaxy Note or something that's 
@@ -136,4 +137,16 @@ email: andy@big-andy.co.uk
     nav {
     	display: none;
     }
+}
+
+// http://perishablepress.com/wp/wp-content/online/demos/css-wrap-demo.html
+[class*="col"] p {
+	white-space: pre;           /* CSS 2.0 */
+	white-space: pre-wrap;      /* CSS 2.1 */
+	white-space: pre-line;      /* CSS 3.0 */
+	white-space: -pre-wrap;     /* Opera 4-6 */
+	white-space: -o-pre-wrap;   /* Opera 7 */
+	white-space: -moz-pre-wrap; /* Mozilla */
+	white-space: -hp-pre-wrap;  /* HP Printers */
+	word-wrap: break-word;      /* IE 5+ */
 }

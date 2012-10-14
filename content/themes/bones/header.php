@@ -7,7 +7,7 @@
 	
 <head>
 	<meta charset="utf-8">		
-	<title>Bigandy.co.uk - Andrew Hudson's Online Home</title>
+	<title><?php wp_title(''); ?></title>
 
 	<script type="text/javascript">
 	  (function() {

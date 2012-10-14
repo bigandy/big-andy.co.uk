@@ -17,6 +17,7 @@
 // LAYOUT & GRID STYLES
 
 .wrap {
+	@extend .clearfix;
 	width: 90%;
 	margin: 0 auto;
 }
