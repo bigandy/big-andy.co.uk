@@ -6,11 +6,11 @@
 			
 				    <div id="main" class="first clearfix" role="main">
 				    
-					    <section class="sixcol first">
+					    <section class="sevencol first">
 					    	<?php if (have_posts()) : while (have_posts()) : the_post(); ?>
 					    	<?php the_content(); endwhile; endif; wp_reset_postdata(); ?>
 					    </section>
-					    <aside class="sixcol">
+					    <aside class="fivecol">
 					    	<?php 
 					    	$args = array(
 					    		'posts_per_page' => 4,
