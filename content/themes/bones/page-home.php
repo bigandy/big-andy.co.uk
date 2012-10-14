@@ -6,14 +6,14 @@
 			
 				    <div id="main" class="first clearfix" role="main">
 				    
-					    <div class="sixcol first">
+					    <section class="sixcol first">
 					    	<?php if (have_posts()) : while (have_posts()) : the_post(); ?>
 					    	<?php the_content(); endwhile; endif; wp_reset_postdata(); ?>
-					    </div>
-					    <div class="sixcol">
+					    </section>
+					    <aside class="sixcol">
 					    	<?php 
 					    	$args = array(
-					    		'posts_per_page' => 8,
+					    		'posts_per_page' => 4,
 					    		'tax_query' => array(
 							        array(
 							            'taxonomy' => 'post_format',
@@ -40,16 +40,16 @@
 						    	}
 						    	$c++;
 						    ?>
-							<div class="<?php echo $style; ?>sixcol">
+							<article class="<?php echo $style; ?>sixcol">
 							        <h2 class="h1"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
 							    
 							    <?php the_excerpt(); ?>
-							</div>
+							</article>
 						    <?php endwhile; ?>		
 						
 						    
 						    <?php endif; wp_reset_postdata(); ?>
-					    </div>
+					    </aside>
 					    
 			
     				</div> <!-- end #main -->
