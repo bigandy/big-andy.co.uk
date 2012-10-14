@@ -6,8 +6,10 @@
 			
 				    <div id="main" class="first clearfix" role="main">
 				    
-				    <?php if (have_posts()) : while (have_posts()) : the_post(); ?>
-				    <?php the_content(); endwhile; endif; wp_reset_postdata(); ?>
+					    <div class="sixcol first">
+					    	<?php if (have_posts()) : while (have_posts()) : the_post(); ?>
+					    	<?php the_content(); endwhile; endif; wp_reset_postdata(); ?>
+					    </div>
 				    	<?php 
 				    	$args = array(
 				    		'posts_per_page' => 4,
@@ -29,7 +31,7 @@
 				    	<?php $my_query = new WP_Query( $args );  $c = 0; ?>
 					    <?php if ($my_query->have_posts()) : while ($my_query->have_posts()) : $my_query->the_post(); 
 					    	 
-					    	if ($c == 0 || $c % 4 == 0) {
+					    	if ($c == 0 || $c % 2 == 0) {
 					    		$style = 'first ';
 					    		$c = 0;
 					    	} else {
@@ -38,7 +40,7 @@
 					    	$c++;
 					    ?>
 						<div class="<?php echo $style; ?>threecol">
-						        <h1><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h1>
+						        <h2 class="h1"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
 						    
 						    <?php the_excerpt(); ?>
 						</div>
