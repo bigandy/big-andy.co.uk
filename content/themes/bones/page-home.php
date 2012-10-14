@@ -5,34 +5,39 @@
 				<div id="inner-content" class="wrap clearfix page-home">
 			
 				    <div id="main" class="first clearfix" role="main">
+				    
+				    <?php if (have_posts()) : while (have_posts()) : the_post(); ?>
+				    <?php the_content(); endwhile; endif; wp_reset_postdata(); ?>
 				    	<?php 
 				    	$args = array(
 				    		'posts_per_page' => 4,
-							'tax_query' => array(
-								array(
-							    	'taxonomy' => 'post_format',
-							      	'field' => 'slug',
-							      	'terms' => array(
-							      		'post-format-aside',
-							      		'post-format-gallery',
-							      		'post-format-audio',
-							      		'post-format-image'
-							      	),
-							      	'operator' => 'NOT IN'
-							    )
-							)
+				    		'tax_query' => array(
+						        array(
+						            'taxonomy' => 'post_format',
+						            'field' => 'slug',
+						            'terms' => array(
+						            	'post-format-aside',
+						            	'post-format-gallery',
+						            	'post-format-audio',
+						            	'post-format-image'
+						            ),
+						            'operator' => 'NOT IN'
+						        )
+						    )
+							
 						); ?>
 				    	<?php $my_query = new WP_Query( $args );  $c = 0; ?>
 					    <?php if ($my_query->have_posts()) : while ($my_query->have_posts()) : $my_query->the_post(); 
-					    	$c++; 
-					    	if ($c == 1) {
+					    	 
+					    	if ($c == 0 || $c % 4 == 0) {
 					    		$style = 'first ';
 					    		$c = 0;
 					    	} else {
 					    		$style = '';
 					    	}
+					    	$c++;
 					    ?>
-						<div class="<?php echo $style; ?> threecol">
+						<div class="<?php echo $style; ?>threecol">
 						        <h1><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h1>
 						    
 						    <?php the_excerpt(); ?>
@@ -46,7 +51,7 @@
 			
     				</div> <!-- end #main -->
     				
-    				<?php the_content(); ?>
+    				
     
 				    <?php // get_sidebar(); // sidebar 1 ?>
 				    
