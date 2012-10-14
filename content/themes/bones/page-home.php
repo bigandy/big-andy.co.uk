@@ -12,8 +12,7 @@
 								array(
 							    	'taxonomy' => 'post_format',
 							      	'field' => 'slug',
-							      	'terms' => array( 'post-format-aside', 'post-format-gallery', 'post-format-image' ),
-							      	'operator' => 'NOT IN'
+							      	'terms' => array( 'post-format-standard' )
 							    )
 							)
 						); ?>
