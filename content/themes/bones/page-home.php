@@ -7,12 +7,12 @@
 				    <div id="main" class="first clearfix" role="main">
 				    	<?php 
 				    	$args = array(
-				    		'posts_per_page' => 5,
+				    		'posts_per_page' => 4,
 							'tax_query' => array(
 								array(
 							    	'taxonomy' => 'post_format',
 							      	'field' => 'slug',
-							      	'terms' => array('post-format-aside','post-format-gallery'),
+							      	'terms' => array( 'post-format-aside', 'post-format-gallery', 'post-format-image' ),
 							      	'operator' => 'NOT IN'
 							    )
 							)
