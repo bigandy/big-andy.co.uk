@@ -7,7 +7,7 @@
 				    <div id="main" class="first clearfix" role="main">
 				    	<?php 
 				    	$args = array(
-				    		'posts_per_page' => 5,
+				    		'posts_per_page' => 4,
 							'tax_query' => array(
 								array(
 							    	'taxonomy' => 'post_format',
@@ -15,7 +15,8 @@
 							      	'terms' => array(
 							      		'post-format-aside',
 							      		'post-format-gallery',
-							      		'post-format-audio'
+							      		'post-format-audio',
+							      		'post-format-image'
 							      	),
 							      	'operator' => 'NOT IN'
 							    )
