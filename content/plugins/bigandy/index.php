@@ -227,6 +227,7 @@ if ( $options['footer'] == "Y" ) {
 	require_once 'ah-footer.php';
 }
 
+	require_once('dereg-style-script.php');
 
 // Add specific CSS class by filter
 add_filter( 'body_class', 'ah_body_class_names' );
