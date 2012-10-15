@@ -114,9 +114,9 @@ function bones_scripts_and_styles() {
   if (!is_admin()) {
   
     // modernizr (without media query polyfill)
-    wp_register_script( 'bones-modernizr', get_stylesheet_directory_uri() . '/library/js/libs/modernizr.custom.min.js', array(), '2.5.3', false );
+    // wp_register_script( 'bones-modernizr', get_stylesheet_directory_uri() . '/library/js/libs/modernizr.custom.min.js', array(), '2.5.3', false );
 
-    wp_register_script( 'bones-fitvids', get_stylesheet_directory_uri() . '/library/js/libs/jquery.fitvids.js', array(), '1.0', false );
+    // wp_register_script( 'bones-fitvids', get_stylesheet_directory_uri() . '/library/js/libs/jquery.fitvids.js', array(), '1.0', false );
  
     // register main stylesheet
     wp_register_style( 'bones-stylesheet', get_stylesheet_directory_uri() . '/library/css/style.css', array(), '', 'all' );
@@ -130,7 +130,7 @@ function bones_scripts_and_styles() {
     }
     
     // adding scripts file in the footer
-    wp_register_script( 'bones-js', get_stylesheet_directory_uri() . '/library/js/scripts.js', array( 'jquery' ), '', true );
+    wp_register_script( 'bones-js', get_stylesheet_directory_uri() . '/library/js/scripts.min.js', array( 'jquery' ), '', true );
     
     // enqueue styles and scripts
     wp_enqueue_script( 'bones-modernizr' ); 
