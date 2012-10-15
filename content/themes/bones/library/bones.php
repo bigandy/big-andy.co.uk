@@ -30,7 +30,7 @@ function bones_ahoy() {
     // clean up comment styles in the head
     add_action('wp_head', 'bones_remove_recent_comments_style', 1);
     // clean up gallery output in wp
-    add_filter('gallery_style', 'bones_gallery_style');
+    // add_filter('gallery_style', 'bones_gallery_style');
 
     // enqueue base scripts and styles
     add_action('wp_enqueue_scripts', 'bones_scripts_and_styles', 999);
@@ -136,7 +136,7 @@ function bones_scripts_and_styles() {
     and your site will load faster.
     */
     wp_enqueue_script( 'jquery' ); 
-    wp_enqueue_script( 'bones-fitvids' ); 
+    // wp_enqueue_script( 'bones-fitvids' ); 
     wp_enqueue_script( 'bones-js' ); 
     
   }
