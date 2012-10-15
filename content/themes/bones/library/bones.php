@@ -133,9 +133,9 @@ function bones_scripts_and_styles() {
     wp_register_script( 'bones-js', get_stylesheet_directory_uri() . '/library/js/scripts.min.js', array( 'jquery' ), '', true );
     
     // enqueue styles and scripts
-    wp_enqueue_script( 'bones-modernizr' ); 
+    // wp_enqueue_script( 'bones-modernizr' ); 
     wp_enqueue_style( 'bones-stylesheet' ); 
-    wp_enqueue_style('bones-ie-only');
+    // wp_enqueue_style('bones-ie-only');
     /*
     I recommend using a plugin to call jQuery
     using the google cdn. That way it stays cached
