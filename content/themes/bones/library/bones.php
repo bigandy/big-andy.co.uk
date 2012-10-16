@@ -30,7 +30,7 @@ function bones_ahoy() {
     // clean up comment styles in the head
     add_action('wp_head', 'bones_remove_recent_comments_style', 1);
     // clean up gallery output in wp
-    add_filter('gallery_style', 'bones_gallery_style');
+    // add_filter('gallery_style', 'bones_gallery_style');
 
     // enqueue base scripts and styles
     add_action('wp_enqueue_scripts', 'bones_scripts_and_styles', 999);
@@ -99,12 +99,6 @@ function bones_remove_recent_comments_style() {
   }
 }
 
-// remove injected CSS from gallery
-function bones_gallery_style($css) {
-  return preg_replace("!<style type='text/css'>(.*?)</style>!s", '', $css);
-}
-
-
 /*********************
 SCRIPTS & ENQUEUEING
 *********************/
@@ -133,16 +127,16 @@ function bones_scripts_and_styles() {
     wp_register_script( 'bones-js', get_stylesheet_directory_uri() . '/library/js/scripts.min.js', array( 'jquery' ), '', true );
     
     // enqueue styles and scripts
-    wp_enqueue_script( 'bones-modernizr' ); 
+    // wp_enqueue_script( 'bones-modernizr' ); 
     wp_enqueue_style( 'bones-stylesheet' ); 
-    wp_enqueue_style('bones-ie-only');
+    // wp_enqueue_style('bones-ie-only');
     /*
     I recommend using a plugin to call jQuery
     using the google cdn. That way it stays cached
     and your site will load faster.
     */
     wp_enqueue_script( 'jquery' ); 
-    wp_enqueue_script( 'bones-fitvids' ); 
+    // wp_enqueue_script( 'bones-fitvids' ); 
     wp_enqueue_script( 'bones-js' ); 
     
   }
