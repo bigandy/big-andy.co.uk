@@ -168,3 +168,24 @@ class description_walker extends Walker_Nav_Menu
             $output .= apply_filters( 'walker_nav_menu_start_el', $item_output, $item, $depth, $args );
             }
 }
+
+// deregister style and scripts so can combine in one .css and one .js file
+
+add_action( 'wp_print_styles', 'ah_deregister_styles', 100 );
+add_action( 'wp_print_scripts', 'ah_deregister_scripts', 100 );
+
+function ah_deregister_styles() {
+  wp_deregister_style( 'jquery.lightbox.min.css' );
+}
+
+function ah_deregister_scripts() {
+  wp_deregister_script( 'wp-jquery-lightbox' );
+}
+
+define('WPCF7_LOAD_CSS', false);
+define('WPCF7_LOAD_JS', false);
+
+add_action( 'init', 'sd_add_speakerdeck_oembed' );
+function sd_add_speakerdeck_oembed() {
+  wp_oembed_add_provider( 'http://speakerdeck.com/u/*/p/*', 'http://speakerdeck.com/oembed.json' );
+}
