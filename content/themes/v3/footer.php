@@ -4,7 +4,7 @@
 	                		
 					<?php if( !is_page_template('page-templates/thoughts.php' ) ) {  ?>
 					
-					<p class="attribution">&copy; <?php echo date('Y'); ?> <?php bloginfo('name'); ?></p>
+					<p class="attribution">&copy; <?php echo date('Y'); ?> Andrew JD Hudson</p>
 					
 					<?php } ?>
 									
@@ -18,4 +18,4 @@
 
 	</body>
 
-</html> <!-- end page. what a ride! -->
+</html>

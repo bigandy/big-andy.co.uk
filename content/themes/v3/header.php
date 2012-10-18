@@ -52,7 +52,7 @@
 		
 			<div id="inner-header" class="wrap clearfix">					
 				
-				<?php if( !is_page_template('page-templates/thoughts.php' ) ) {  ?>
+				<?php if( !is_page_template('page-templates/no-header.php' ) && !is_page_template('page-templates/thoughts.php' ) ) {  ?>
 				
 				<p id="logo" class="h1"><a href="<?php echo home_url(); ?>" rel="nofollow"><?php bloginfo('name'); ?></a></p>
 								
