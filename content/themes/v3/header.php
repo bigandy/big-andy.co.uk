@@ -1,13 +1,28 @@
 <!doctype html>
-<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8"><![endif]-->
-<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9"><![endif]-->
-<!--[if gt IE 8]>
-<!--><html class="no-js" lang="en"><!--<![endif]-->
-	
+<html lang="en">	
 <head>
 	<meta charset="utf-8">		
-	<title><?php wp_title(''); ?></title>
+	<title><?php
+	/*
+	 * Print the <title> tag based on what is being viewed.
+	 */
+	global $page, $paged;
+
+	wp_title( '-', true, 'right' );
+
+	// Add the blog name.
+	bloginfo( 'name' );
+
+	// Add the blog description for the home/front page.
+	$site_description = get_bloginfo( 'description', 'display' );
+	if ( $site_description && ( is_home() || is_front_page() ) )
+		echo " - $site_description";
+
+	// Add a page number if necessary:
+	if ( $paged >= 2 || $page >= 2 )
+		echo ' - ' . sprintf( __( 'Page %s', '_s' ), max( $paged, $page ) );
+
+	?></title>
 
 	<script type="text/javascript">
 	  (function() {
