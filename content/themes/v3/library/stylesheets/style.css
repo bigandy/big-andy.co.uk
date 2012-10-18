@@ -951,6 +951,22 @@ ul ol {
   margin: 0;
 }
 
+@font-face {
+  font-family: 'icomoon';
+  src: url("../fonts/icomoon.eot");
+  src: url("../fonts/icomoon.eot?#iefix") format("embedded-opentype"), url("../fonts/icomoon.svg#icomoon") format("svg"), url("../fonts/icomoon.woff") format("woff"), url("../fonts/icomoon.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* line 460, C:/Users/TeamBoudin/Desktop/Git/big-andy.co.uk/content/themes/v3/library/sass/_base.scss */
+[data-icon]:before {
+  font-family: 'icomoon';
+  content: attr(data-icon);
+  speak: none;
+  margin-right: 10px;
+}
+
 /* line 7, C:/Users/TeamBoudin/Desktop/Git/big-andy.co.uk/content/themes/v3/library/sass/_contact.scss */
 .wpcf7 label,
 .wpcf7 textarea,
@@ -980,66 +996,51 @@ ul ol {
   margin: 0 5px 5px 0;
 }
 
-@font-face {
-  font-family: 'icomoon';
-  src: url("../fonts/icomoon.eot");
-  src: url("../fonts/icomoon.eot?#iefix") format("embedded-opentype"), url("../fonts/icomoon.svg#icomoon") format("svg"), url("../fonts/icomoon.woff") format("woff"), url("../fonts/icomoon.ttf") format("truetype");
-  font-weight: 400;
-  font-style: normal;
-}
-
-/* line 12, C:/Users/TeamBoudin/Desktop/Git/big-andy.co.uk/content/themes/v3/library/sass/_thoughts-template.scss */
+/* line 3, C:/Users/TeamBoudin/Desktop/Git/big-andy.co.uk/content/themes/v3/library/sass/_thoughts-template.scss */
 .thoughts-template {
   width: 90%;
   margin: 0 auto;
 }
-/* line 17, C:/Users/TeamBoudin/Desktop/Git/big-andy.co.uk/content/themes/v3/library/sass/_thoughts-template.scss */
+/* line 8, C:/Users/TeamBoudin/Desktop/Git/big-andy.co.uk/content/themes/v3/library/sass/_thoughts-template.scss */
 .thoughts-template li a {
   text-decoration: none;
 }
-/* line 22, C:/Users/TeamBoudin/Desktop/Git/big-andy.co.uk/content/themes/v3/library/sass/_thoughts-template.scss */
+/* line 13, C:/Users/TeamBoudin/Desktop/Git/big-andy.co.uk/content/themes/v3/library/sass/_thoughts-template.scss */
 .thoughts-template p,
 .thoughts-template li {
   font-size: 25px;
   margin: 0 0 0.5em;
 }
-/* line 28, C:/Users/TeamBoudin/Desktop/Git/big-andy.co.uk/content/themes/v3/library/sass/_thoughts-template.scss */
+/* line 19, C:/Users/TeamBoudin/Desktop/Git/big-andy.co.uk/content/themes/v3/library/sass/_thoughts-template.scss */
 .thoughts-template h1, .thoughts-template h2, .thoughts-template h3 {
   margin: 0;
   font-size: 140px;
   font-weight: 100;
 }
-/* line 35, C:/Users/TeamBoudin/Desktop/Git/big-andy.co.uk/content/themes/v3/library/sass/_thoughts-template.scss */
+/* line 26, C:/Users/TeamBoudin/Desktop/Git/big-andy.co.uk/content/themes/v3/library/sass/_thoughts-template.scss */
 .thoughts-template h2 {
   font-size: 75px;
   margin: 0;
 }
-/* line 41, C:/Users/TeamBoudin/Desktop/Git/big-andy.co.uk/content/themes/v3/library/sass/_thoughts-template.scss */
+/* line 32, C:/Users/TeamBoudin/Desktop/Git/big-andy.co.uk/content/themes/v3/library/sass/_thoughts-template.scss */
 .thoughts-template h3 {
   font-size: 37.5px;
   margin: 0;
 }
-/* line 47, C:/Users/TeamBoudin/Desktop/Git/big-andy.co.uk/content/themes/v3/library/sass/_thoughts-template.scss */
+/* line 38, C:/Users/TeamBoudin/Desktop/Git/big-andy.co.uk/content/themes/v3/library/sass/_thoughts-template.scss */
 .thoughts-template li {
   list-style-type: none;
   padding: 0;
 }
-/* line 51, C:/Users/TeamBoudin/Desktop/Git/big-andy.co.uk/content/themes/v3/library/sass/_thoughts-template.scss */
+/* line 42, C:/Users/TeamBoudin/Desktop/Git/big-andy.co.uk/content/themes/v3/library/sass/_thoughts-template.scss */
 .thoughts-template li:hover {
   cursor: pointer;
 }
-/* line 53, C:/Users/TeamBoudin/Desktop/Git/big-andy.co.uk/content/themes/v3/library/sass/_thoughts-template.scss */
+/* line 44, C:/Users/TeamBoudin/Desktop/Git/big-andy.co.uk/content/themes/v3/library/sass/_thoughts-template.scss */
 .thoughts-template li:hover span {
   color: red;
 }
-/* line 61, C:/Users/TeamBoudin/Desktop/Git/big-andy.co.uk/content/themes/v3/library/sass/_thoughts-template.scss */
-.thoughts-template [data-icon]:before {
-  font-family: 'icomoon';
-  content: attr(data-icon);
-  speak: none;
-  margin-right: 10px;
-}
-/* line 68, C:/Users/TeamBoudin/Desktop/Git/big-andy.co.uk/content/themes/v3/library/sass/_thoughts-template.scss */
+/* line 54, C:/Users/TeamBoudin/Desktop/Git/big-andy.co.uk/content/themes/v3/library/sass/_thoughts-template.scss */
 .thoughts-template li:hover span {
   color: red;
 }
