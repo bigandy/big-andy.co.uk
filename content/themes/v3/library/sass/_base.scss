@@ -467,3 +467,13 @@ ul ol {
 	list-style: none;
 	padding-left: 0;
 }
+
+.list-inline{
+	@extend .clearfix;
+	@extend .list-plain;
+
+	li {
+		float: left;
+		padding-right: 5px;
+	}
+}

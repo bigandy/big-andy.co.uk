@@ -391,16 +391,16 @@ small, .small {
 }
 
 /* line 3, C:/Users/TeamBoudin/Desktop/Git/big-andy.co.uk/content/themes/v3/library/sass/_mixins.scss */
-.clearfix, .wrap, .gallery {
+.clearfix, .wrap, .list-inline, .gallery {
   zoom: 1;
 }
 /* line 5, C:/Users/TeamBoudin/Desktop/Git/big-andy.co.uk/content/themes/v3/library/sass/_mixins.scss */
-.clearfix:before, .wrap:before, .gallery:before, .clearfix:after, .wrap:after, .gallery:after {
+.clearfix:before, .wrap:before, .list-inline:before, .gallery:before, .clearfix:after, .wrap:after, .list-inline:after, .gallery:after {
   content: "";
   display: table;
 }
 /* line 9, C:/Users/TeamBoudin/Desktop/Git/big-andy.co.uk/content/themes/v3/library/sass/_mixins.scss */
-.clearfix:after, .wrap:after, .gallery:after {
+.clearfix:after, .wrap:after, .list-inline:after, .gallery:after {
   clear: both;
 }
 
@@ -967,9 +967,15 @@ ul ol {
 }
 
 /* line 466, C:/Users/TeamBoudin/Desktop/Git/big-andy.co.uk/content/themes/v3/library/sass/_base.scss */
-.list-plain {
+.list-plain, .list-inline {
   list-style: none;
   padding-left: 0;
+}
+
+/* line 475, C:/Users/TeamBoudin/Desktop/Git/big-andy.co.uk/content/themes/v3/library/sass/_base.scss */
+.list-inline li {
+  float: left;
+  padding-right: 5px;
 }
 
 /* line 7, C:/Users/TeamBoudin/Desktop/Git/big-andy.co.uk/content/themes/v3/library/sass/_contact.scss */
@@ -1279,7 +1285,7 @@ ul ol {
 }
 
 /* line 1, C:/Users/TeamBoudin/Desktop/Git/big-andy.co.uk/content/themes/v3/library/sass/plugins/_lightbox.scss */
-.clearfix:after, .wrap:after, .gallery:after {
+.clearfix:after, .wrap:after, .list-inline:after, .gallery:after {
   content: ".";
   display: block;
   height: 0;
@@ -1288,13 +1294,13 @@ ul ol {
 }
 
 /* line 1, C:/Users/TeamBoudin/Desktop/Git/big-andy.co.uk/content/themes/v3/library/sass/plugins/_lightbox.scss */
-* html > body .clearfix, * html > body .wrap, * html > body .gallery {
+* html > body .clearfix, * html > body .wrap, * html > body .list-inline, * html > body .gallery {
   display: inline-block;
   width: 100%;
 }
 
 /* line 1, C:/Users/TeamBoudin/Desktop/Git/big-andy.co.uk/content/themes/v3/library/sass/plugins/_lightbox.scss */
-* html .clearfix, * html .wrap, * html .gallery {
+* html .clearfix, * html .wrap, * html .list-inline, * html .gallery {
   /*\*/
   height: 1%;
   /**/
