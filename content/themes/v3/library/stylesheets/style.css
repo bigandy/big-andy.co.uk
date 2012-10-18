@@ -943,6 +943,14 @@ a.current_page_parent {
   clear: both;
 }
 
+/* line 445, C:/Users/TeamBoudin/Desktop/Git/big-andy.co.uk/content/themes/v3/library/sass/_base.scss */
+ol ol,
+ol ul,
+ul ul,
+ul ol {
+  margin: 0;
+}
+
 /* line 7, C:/Users/TeamBoudin/Desktop/Git/big-andy.co.uk/content/themes/v3/library/sass/_contact.scss */
 .wpcf7 label,
 .wpcf7 textarea,

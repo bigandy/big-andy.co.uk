@@ -438,3 +438,10 @@ a.current_page_parent {
 .footer {
 	clear: both;
 }
+
+ol ol,
+ol ul,
+ul ul, 
+ul ol {
+	margin: 0;
+}
