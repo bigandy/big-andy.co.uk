@@ -970,6 +970,7 @@ ul ol {
 /* line 467, C:/Users/TeamBoudin/Desktop/Git/big-andy.co.uk/content/themes/v3/library/sass/_base.scss */
 .list-plain {
   list-style: none;
+  padding-left: 0;
 }
 
 /* line 7, C:/Users/TeamBoudin/Desktop/Git/big-andy.co.uk/content/themes/v3/library/sass/_contact.scss */
