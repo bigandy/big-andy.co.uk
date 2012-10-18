@@ -964,10 +964,9 @@ ul ol {
   font-family: 'icomoon';
   content: attr(data-icon);
   speak: none;
-  margin-right: 10px;
 }
 
-/* line 467, C:/Users/TeamBoudin/Desktop/Git/big-andy.co.uk/content/themes/v3/library/sass/_base.scss */
+/* line 466, C:/Users/TeamBoudin/Desktop/Git/big-andy.co.uk/content/themes/v3/library/sass/_base.scss */
 .list-plain {
   list-style: none;
   padding-left: 0;
