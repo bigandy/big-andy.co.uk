@@ -967,6 +967,11 @@ ul ol {
   margin-right: 10px;
 }
 
+/* line 467, C:/Users/TeamBoudin/Desktop/Git/big-andy.co.uk/content/themes/v3/library/sass/_base.scss */
+.list-plain {
+  list-style: none;
+}
+
 /* line 7, C:/Users/TeamBoudin/Desktop/Git/big-andy.co.uk/content/themes/v3/library/sass/_contact.scss */
 .wpcf7 label,
 .wpcf7 textarea,
