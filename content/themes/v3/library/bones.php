@@ -123,12 +123,18 @@ function bones_scripts_and_styles() {
     
     // enqueue styles and scripts
     wp_enqueue_style( 'bones-stylesheet' ); 
+    
     /*
-    I recommend using a plugin to call jQuery
-    using the google cdn. That way it stays cached
-    and your site will load faster.
+    * I recommend using a plugin to call jQuery
+    * using the google cdn. That way it stays cached
+    * and your site will load faster.
+    * http://www.wpbeginner.com/wp-themes/replace-default-wordpress-jquery-script-with-google-library/
     */
-    wp_enqueue_script( 'jquery' ); 
+    if (!is_admin()) {
+		wp_deregister_script('jquery');
+		wp_register_script('jquery', 'http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js', false, '');
+		wp_enqueue_script('jquery');
+	}
     // wp_enqueue_script( 'bones-fitvids' ); 
     wp_enqueue_script( 'bones-js' ); 
     
