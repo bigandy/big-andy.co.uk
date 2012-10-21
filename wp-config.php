@@ -93,7 +93,7 @@ define( 'DISALLOW_FILE_EDIT', true );
 // a few mods to the wp-config following advice from : http://digwp.com/2010/08/pimp-your-wp-config-php/
 
 // Disable the post-revisioning feature 
-define('WP_POST_REVISIONS', false); // kill the bloat -> stops wp from keeping any revisions. set it to an integer and only keep that number max.
+define('WP_POST_REVISIONS', 1); // kill the bloat -> stops wp from keeping any revisions. set it to an integer and only keep that number max.
 
 // Define how often trash is emptied
 define('EMPTY_TRASH_DAYS', 7); // empty weekly
