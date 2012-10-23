@@ -19,3 +19,55 @@
 	}
 			
 } // end .post-content
+
+
+.nav {
+	background: #eee; 
+	border: 0;
+				
+		a {
+			border-bottom: 0;
+			float: left;
+			position: relative;
+
+			&:hover, &:focus {
+				background-color: #dedede;
+			}
+
+		ul.sub-menu,
+		ul.children {
+			width: 200px;
+			border: 1px solid #ccc;
+			border-top: 0;
+			position: absolute;
+			display: none;
+			z-index: 8999;
+						
+			li {
+		
+				a {
+					padding-left: 10px;
+					border-right: 0;
+					display: block;
+					width: 180px;
+					border-bottom: 1px solid #ccc;
+				}
+	
+				&:last-child {
+		
+					a {
+						border-bottom: 0;
+					}
+				}
+			}
+		}
+				
+		// showing sub-menus */
+		&:hover ul {
+			top: auto;
+			display: block;
+		}
+				
+	} // end .menu ul li */
+			
+} // end .nav */

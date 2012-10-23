@@ -965,6 +965,41 @@ ul ol {
 .wpcf7 .watermark {
   color: #888; }
 
+.menu-trigger {
+  display: none;
+  padding-bottom: 10px;
+  text-align: left;
+  background: transparent;
+  margin-left: 10px; }
+  .menu-trigger i {
+    background: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDE1LjAuMiwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPgo8IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPgo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IgoJIHdpZHRoPSIyNHB4IiBoZWlnaHQ9IjEzcHgiIHZpZXdCb3g9IjAgMCAyNCAxMyIgZW5hYmxlLWJhY2tncm91bmQ9Im5ldyAwIDAgMjQgMTMiIHhtbDpzcGFjZT0icHJlc2VydmUiPgo8cmVjdCBmaWxsPSIjNzk3OTc5IiB3aWR0aD0iMjQiIGhlaWdodD0iMy4wMDMiLz4KPHJlY3QgeT0iNC45OTgiIGZpbGw9IiM3OTc5NzkiIHdpZHRoPSIyNCIgaGVpZ2h0PSIzLjAwNCIvPgo8cmVjdCB5PSI5Ljk5NiIgZmlsbD0iIzc5Nzk3OSIgd2lkdGg9IjI0IiBoZWlnaHQ9IjMuMDA0Ii8+Cjwvc3ZnPgo=");
+    width: 24px;
+    height: 13px;
+    display: inline-block;
+    text-indent: -999em; }
+
+@media (max-width: 481px) {
+  .logo {
+    line-height: 0.5; }
+
+  .js nav {
+    display: none; }
+
+  .js .menu-trigger,
+  .js .is-open {
+    display: block; }
+
+  nav a {
+    display: block;
+    padding: 10px 0;
+    border-bottom: 1px solid white;
+    background: blue;
+    color: white;
+    text-align: left;
+    text-decoration: none; }
+
+  .content {
+    margin: 0; } }
 @media only screen and (min-width: 481px) {
   .post-content .alignleft, .post-content img.alignleft {
     margin-right: 1.5em;
@@ -978,7 +1013,38 @@ ul ol {
     margin-right: auto;
     margin-left: auto;
     display: block;
-    clear: both; } }
+    clear: both; }
+
+  .nav {
+    background: #eee;
+    border: 0; }
+    .nav a {
+      border-bottom: 0;
+      float: left;
+      position: relative; }
+      .nav a:hover, .nav a:focus {
+        background-color: #dedede; }
+      .nav a ul.sub-menu,
+      .nav a ul.children {
+        width: 200px;
+        border: 1px solid #ccc;
+        border-top: 0;
+        position: absolute;
+        display: none;
+        z-index: 8999; }
+        .nav a ul.sub-menu li a,
+        .nav a ul.children li a {
+          padding-left: 10px;
+          border-right: 0;
+          display: block;
+          width: 180px;
+          border-bottom: 1px solid #ccc; }
+        .nav a ul.sub-menu li:last-child a,
+        .nav a ul.children li:last-child a {
+          border-bottom: 0; }
+      .nav a:hover ul {
+        top: auto;
+        display: block; } }
 @media only screen and (min-width: 768px) {
   .wrap {
     max-width: 1140px; }
