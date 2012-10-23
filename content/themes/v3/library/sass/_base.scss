@@ -120,7 +120,7 @@ a.current_page_parent {
 
 // POSTS & CONTENT STYLES
 
-#content {
+.content {
 	margin-top: 2.2em;
 }
 
@@ -412,12 +412,12 @@ a.current_page_parent {
 	}
 }
 	// comment form title
-	#comment-form-title {
+	.comment-form-title {
 		margin: 0 0 1.1em;
 	}
 
 	// allowed tags
-	#allowed_tags {
+	.allowed_tags {
 		margin: 1.5em 10px 0.7335em 0;
 	}
 
@@ -437,4 +437,43 @@ a.current_page_parent {
 
 .footer {
 	clear: both;
+}
+
+ol ol,
+ol ul,
+ul ul, 
+ul ol {
+	margin: 0;
+}
+
+@font-face {
+  font-family: 'icomoon';
+  src: 	url("../fonts/icomoon.eot");
+  src: 	url("../fonts/icomoon.eot?#iefix") format("embedded-opentype"), 
+  		url("../fonts/icomoon.svg#icomoon") format("svg"), 
+  		url("../fonts/icomoon.woff") format("woff"), 
+  		url("../fonts/icomoon.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+[data-icon]:before {
+  font-family: 'icomoon';
+  content: attr(data-icon);
+  speak: none;
+}
+
+.list-plain {
+	list-style: none;
+	padding-left: 0;
+}
+
+.list-inline{
+	@extend .clearfix;
+	@extend .list-plain;
+
+	li {
+		float: left;
+		padding-right: 5px;
+	}
 }

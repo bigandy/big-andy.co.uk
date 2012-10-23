@@ -1,10 +1,10 @@
 <?php get_header(); ?>
 			
-			<div id="content">
+			<div class="content">
 			
-				<div id="inner-content" class="wrap clearfix page-home">
+				<div class="wrap clearfix page-home inner-content">
 			
-				    <div id="main" class="first clearfix" role="main">
+				    <div class="first clearfix main" role="main">
 				    
 					    <section class="sevencol first">
 					    	<?php if (have_posts()) : while (have_posts()) : the_post(); ?>
@@ -52,15 +52,11 @@
 					    </aside>
 					    
 			
-    				</div> <!-- end #main -->
-    				
-    				
+    				</div> <!-- end .main -->
+    								    
+				</div> <!-- end .inner-content -->
     
-				    <?php // get_sidebar(); // sidebar 1 ?>
-				    
-				</div> <!-- end #inner-content -->
-    
-			</div> <!-- end #content -->
+			</div> <!-- end .content -->
 
 <?php get_footer(); ?>
 

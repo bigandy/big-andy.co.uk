@@ -1,10 +1,10 @@
 <?php get_header(); ?>
 			
-			<div id="content">
+			<div class="content">
 			
-				<div id="inner-content" class="wrap clearfix">
+				<div class="wrap clearfix inner-content">
 			
-				    <div id="main" class="eightcol first clearfix" role="main">
+				    <div class="eightcol first clearfix main" role="main">
 				    
 				    	<!-- Hidden Post Class -->
 				    	
@@ -24,7 +24,7 @@
 						{
 				    	$first_article_loop = new WP_Query('cat='.$hide_id.'&posts_per_page=1'); 
 						if($first_article_loop->have_posts()) : while ( $first_article_loop->have_posts() ) : $first_article_loop->the_post(); ?>
-						<article id="post-<?php the_ID(); ?>" <?php post_class('clearfix'); ?> role="article">
+						<article <?php post_class('clearfix'); ?> role="article">
 							<?php the_title( '<h2><a href="' . get_permalink() . '" title="' . the_title_attribute( 'echo=0' ) . '" rel="bookmark">', '</a></h2>' ); ?>
 							<section class="post-content clearfix">
 							    <?php // the_content(); ?>
@@ -64,7 +64,7 @@
 					    $non_hide_loop = new WP_Query('cat=-'.$hide_id.'&paged='.get_query_var('paged'));
 					    if ($non_hide_loop->have_posts()) : while ($non_hide_loop->have_posts()) : $non_hide_loop->the_post(); ?>
 					
-					    <article id="post-<?php the_ID(); ?>" <?php post_class('clearfix'); ?> role="article">
+					    <article <?php post_class('clearfix'); ?> role="article">
 						
 						    <header class="article-header">
 							<?php if(!has_post_format('aside')){ ?>
@@ -109,12 +109,12 @@
 					
 					    <?php endif; ?>
 			
-				    </div> <!-- end #main -->
+				    </div> <!-- end .main -->
     
 				    <?php // get_sidebar(); // sidebar 1 ?>
 				    
-				</div> <!-- end #inner-content -->
+				</div> <!-- end .inner-content -->
     
-			</div> <!-- end #content -->
+			</div> <!-- end .content -->
 
 <?php get_footer(); ?>

@@ -1,71 +1,34 @@
-@font-face {
-  font-family: 'icomoon';
-  src: 	url("../fonts/icomoon.eot");
-  src: 	url("../fonts/icomoon.eot?#iefix") format("embedded-opentype"), 
-  		url("../fonts/icomoon.svg#icomoon") format("svg"), 
-  		url("../fonts/icomoon.woff") format("woff"), 
-  		url("../fonts/icomoon.ttf") format("truetype");
-  font-weight: 400;
-  font-style: normal;
-}
-
 .thoughts-template {
 
 	width: 90%;
 	margin: 0 auto;
-	
-	li a {
-		text-decoration:none;
-	}
 
 	p,
 	li {
 		font-size:25px;
 		margin:0 0 0.5em;
-		// font-family: "freight-sans-pro-1","freight-sans-pro-2",sans-serif;
 	}
 
-	h1 { 
-	  // font-family: "chaparral-pro-1","chaparral-pro-2",sans-serif;
+	h1,
+	.h1 { 
 	  margin: 0;
 	  font-size:140px;
 	  font-weight:100;
 	}
 
-	h2 {
+	h2,
+	.h2 {
 		@extend h1;
 		font-size:75px;
 		margin:0;
 	}
 
-	h3 {
+	h3,
+	.h3 {
 		@extend h1;
 		font-size:75/2 * 1px;
 		margin:0;
 	}
-
-	li {
-		list-style-type:none;
-		padding:0;
-
-		&:hover{
-			cursor:pointer;
-			span {
-				color:red;
-			}	
-		} 
-	}
-
-	// Use the following CSS code if you want to use data attributes for inserting your icons; 
-	// from css-tricks.com
-	[data-icon]:before {
-	  font-family: 'icomoon';
-	  content: attr(data-icon);
-	  speak: none;
-	  margin-right:10px;
-	}
-
-	li:hover span {
-		color:red;
-	}
 }
+
+
