@@ -1,14 +1,14 @@
 <?php get_header(); ?>
 			
-			<div id="content">
+			<div class="content">
 			
-				<div id="inner-content" class="wrap clearfix">
+				<div class="wrap clearfix inner-content">
 			
-				    <div id="main" class="eightcol first clearfix" role="main">
+				    <div class="eightcol first clearfix main" role="main">
 
 					    <?php if (have_posts()) : while (have_posts()) : the_post(); ?>
 					
-					    <article id="post-<?php the_ID(); ?>" <?php post_class('clearfix'); ?> role="article">
+					    <article <?php post_class('clearfix'); ?> role="article">
 						
 						    <header class="article-header">
 							
@@ -63,12 +63,12 @@
 					
 					    <?php endif; ?>
 			
-				    </div> <!-- end #main -->
+				    </div> <!-- end .main -->
     
 				    <?php get_sidebar(); // sidebar 1 ?>
 				    
-				</div> <!-- end #inner-content -->
+				</div> <!-- end .inner-content -->
     
-			</div> <!-- end #content -->
+			</div> <!-- end .content -->
 
 <?php get_footer(); ?>

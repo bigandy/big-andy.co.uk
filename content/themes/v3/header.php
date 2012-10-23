@@ -47,20 +47,20 @@
 	
 <body>
 	
-	<div id="container">
+	<div class="container">
 		<header class="header" role="banner">
 		
-			<div id="inner-header" class="wrap clearfix">					
+			<div class="wrap clearfix inner-header">					
 				
 				<?php if( !is_page_template('page-templates/no-header.php' ) && !is_page_template('page-templates/thoughts.php' ) ) {  ?>
 				
-				<p id="logo" class="h1"><a href="<?php echo home_url(); ?>" rel="nofollow"><?php bloginfo('name'); ?></a></p>
+				<p class="logo h1"><a href="<?php echo home_url(); ?>" rel="nofollow"><?php bloginfo('name'); ?></a></p>
 								
 				<nav role="navigation" class="nav top-nav clearfix">
 						<?php  bones_main_nav(); ?>						
 				</nav>
 				<?php } ?>
 				
-			</div> <!-- end #inner-header -->
+			</div> <!-- end .inner-header -->
 		
 		</header> <!-- end header -->

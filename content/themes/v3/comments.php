@@ -20,9 +20,9 @@ The comments page for Bones
 
 <?php if ( have_comments() ) : ?>
 	
-	<h3 id="comments" class="h2"><?php comments_number('<span>No</span> Responses', '<span>One</span> Response', '<span>%</span> Responses' );?> to &#8220;<?php the_title(); ?>&#8221;</h3>
+	<h3 class="h2 comments"><?php comments_number('<span>No</span> Responses', '<span>One</span> Response', '<span>%</span> Responses' );?> to &#8220;<?php the_title(); ?>&#8221;</h3>
 
-	<nav id="comment-nav">
+	<nav class="comment-nav">
 		<ul class="clearfix">
 	  		<li><?php previous_comments_link() ?></li>
 	  		<li><?php next_comments_link() ?></li>
@@ -33,7 +33,7 @@ The comments page for Bones
 		<?php wp_list_comments('type=comment&callback=bones_comments'); ?>
 	</ol>
 	
-	<nav id="comment-nav">
+	<nav class="comment-nav">
 		<ul class="clearfix">
 	  		<li><?php previous_comments_link() ?></li>
 	  		<li><?php next_comments_link() ?></li>
@@ -57,11 +57,11 @@ The comments page for Bones
 
 <?php if ( comments_open() ) : ?>
 
-<section id="respond" class="respond-form">
+<section class="respond-form respond">
 
-	<h3 id="comment-form-title" class="h2"><?php comment_form_title( __('Leave a Reply', 'bonestheme'), __('Leave a Reply to %s', 'bonestheme' )); ?></h3>
+	<h3 class="h2 comment-form-title"><?php comment_form_title( __('Leave a Reply', 'bonestheme'), __('Leave a Reply to %s', 'bonestheme' )); ?></h3>
 
-	<div id="cancel-comment-reply">
+	<div class="cancel-comment-reply">
 		<p class="small"><?php cancel_comment_reply_link(); ?></p>
 	</div>
 
@@ -79,7 +79,7 @@ The comments page for Bones
 
 	<?php else : ?>
 	
-	<ul id="comment-form-elements" class="clearfix">
+	<ul class="clearfix comment-form-elements">
 		
 		<li>
 		  <label for="author"><?php _e("Name", "bonestheme"); ?> <?php if ($req) echo "(required)"; ?></label>
@@ -109,7 +109,7 @@ The comments page for Bones
 	</p>
 	
 	<div class="alert info">
-		<p id="allowed_tags" class="small"><strong>XHTML:</strong> <?php _e('You can use these tags', 'bonestheme'); ?>: <code><?php echo allowed_tags(); ?></code></p>
+		<p class="allowed_tags small"><strong>XHTML:</strong> <?php _e('You can use these tags', 'bonestheme'); ?>: <code><?php echo allowed_tags(); ?></code></p>
 	</div>
 	
 	<?php do_action('comment_form', $post->ID); ?>

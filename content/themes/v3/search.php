@@ -1,16 +1,16 @@
 <?php get_header(); ?>
 			
-			<div id="content">
+			<div class="content">
 
-				<div id="inner-content" class="wrap clearfix">
+				<div class="wrap clearfix inner-content">
 			
-					<div id="main" class="eightcol first clearfix" role="main">
+					<div class="eightcol first clearfix main" role="main">
 				
 						<h1 class="archive-title"><span>Search Results for:</span> <?php echo esc_attr(get_search_query()); ?></h1>
 
 						<?php if (have_posts()) : while (have_posts()) : the_post(); ?>
 					
-							<article id="post-<?php the_ID(); ?>" <?php post_class('clearfix'); ?> role="article">
+							<article <?php post_class('clearfix'); ?> role="article">
 						
 								<header class="article-header">
 							
@@ -22,13 +22,8 @@
 					
 								<section class="post-content">
 								    <?php the_excerpt('<span class="read-more">Read more &raquo;</span>'); ?>
-					
 								</section> <!-- end article section -->
-						
-								<footer class="article-footer">
-							
-								</footer> <!-- end article footer -->
-					
+											
 							</article> <!-- end article -->
 					
 						<?php endwhile; ?>	
@@ -48,7 +43,7 @@
 					
 					    <?php else : ?>
 					
-    					    <article id="post-not-found" class="hentry clearfix">
+    					    <article class="hentry clearfix post-not-found">
     					    	<header class="article-header">
     					    		<h1><?php _e("Sorry, No Results.", "bonestheme"); ?></h1>
     					    	</header>
@@ -62,12 +57,12 @@
 					
 					    <?php endif; ?>
 			
-				    </div> <!-- end #main -->
+				    </div> <!-- end .main -->
     			
     			    <?php get_sidebar(); // sidebar 1 ?>
     			
-    			</div> <!-- end #inner-content -->
+    			</div> <!-- end .inner-content -->
     
-			</div> <!-- end #content -->
+			</div> <!-- end .content -->
 
 <?php get_footer(); ?>
