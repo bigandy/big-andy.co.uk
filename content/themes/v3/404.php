@@ -1,12 +1,12 @@
 <?php get_header(); ?>
 			
-			<div id="content">
+			<div class="content">
 
-				<div id="inner-content" class="wrap clearfix">
+				<div class="wrap clearfix inner-content">
 			
-					<div id="main" class="eightcol first clearfix" role="main">
+					<div class="eightcol first clearfix main" role="main">
 
-						<article id="post-not-found" class="hentry clearfix">
+						<article class="hentry clearfix post-not-found">
 						
 							<header class="article-header">
 							
@@ -34,10 +34,10 @@
 					
 						</article> <!-- end article -->
 			
-					</div> <!-- end #main -->
+					</div> <!-- end .main -->
 
-				</div> <!-- end #inner-content -->
+				</div> <!-- end .inner-content -->
     
-			</div> <!-- end #content -->
+			</div> <!-- end .content -->
 
 <?php get_footer(); ?>

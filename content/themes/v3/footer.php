@@ -1,6 +1,6 @@
 			<footer class="footer" role="contentinfo">
 			
-				<div id="inner-footer" class="wrap">
+				<div class="wrap inner-footer">
 	                		
 					<?php if( !is_page_template('page-templates/thoughts.php' ) ) {  ?>
 					
@@ -8,11 +8,11 @@
 					
 					<?php } ?>
 									
-				</div> <!-- end #inner-footer -->
+				</div> <!-- end .inner-footer -->
 
 			</footer> <!-- end footer -->
 		
-		</div> <!-- end #container -->
+		</div> <!-- end .container -->
 		
 		<?php wp_footer(); // js scripts are inserted using this function ?>
 

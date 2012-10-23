@@ -646,10 +646,10 @@ a.current_page_parent {
       width: 97.3%;
       height: 150px; }
 
-#comment-form-title {
+.comment-form-title {
   margin: 0 0 1.1em; }
 
-#allowed_tags {
+.allowed_tags {
   margin: 1.5em 10px 0.7335em 0; }
 
 .nocomments {
