@@ -43,11 +43,6 @@
 	
 	<link rel="shortcut icon" href="<?php echo get_template_directory_uri(); ?>/favicon.ico">				
 	<?php wp_head(); ?>
-	<script>
-	jQuery(document).ready(function($) {
-		$('body').addClass('js');
-	}); 
-	</script>
 </head>
 	
 <body>
