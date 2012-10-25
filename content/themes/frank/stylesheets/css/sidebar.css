@@ -1,0 +1,10 @@
+#sidebar {
+  margin-top: 10px; }
+  #sidebar .widget {
+    margin-right: 0; }
+  #sidebar h3 {
+    font-weight: 700;
+    font-size: 13px;
+    margin-bottom: 5px; }
+  #sidebar h3:first-child {
+    margin-top: 0 !important; }
