@@ -6,15 +6,18 @@
 
 #########
 # 1. Set this to the root of your project when deployed:
-http_path = "/"
-
-# 2. probably don't need to touch these
-css_dir = "../css"
-sass_dir = "./"
-images_dir = "../images"
-javascripts_dir = "../js"
-environment = :development
+# Theme directories:
+http_path = ""
+css_dir = "../style.css"
+sass_dir = "sass"
+images_dir = "../img"
+javascripts_dir = "js"
+# You can select your preferred output style here (can be overridden via the command line):
+output_style = :compact
+# To enable relative paths to assets via compass helper functions.
 relative_assets = true
+# To disable debugging comments that display the original location of your selectors.
+# line_comments = false
 
 
 # 3. You can select your preferred output style here (can be overridden via the command line):

@@ -1,31 +1,34 @@
 /*global module:false*/
 module.exports = function(grunt) {
-
   // Project configuration.
   grunt.initConfig({
     meta: {
-      version: '0.1.0',
-      banner: '/*! PROJECT_NAME - v<%= meta.version %> - ' +
+      version: '3.1.0',
+      banner: '/*! big-andy.co.uk - v<%= meta.version %> - ' +
         '<%= grunt.template.today("yyyy-mm-dd") %>\n' +
-        '* http://big-andy.co.uk/themes/bigandy-grunt/\n' +
+        '* http://big-andy.co.uk\n' +
         '* Copyright (c) <%= grunt.template.today("yyyy") %> ' +
         'Your Company; Licensed MIT */',
-      wpblock: '/*! \n' + 
-        'Theme Name: Andy\'s Grunt Theme \n' +
-        'Theme URI: http://big-andy.co.uk/themes/bigandy-grunt/ \n' +
-        'Description: Andy\'s Test Theme \n' +
-        'Author: Andrew Hudson \n' +
-        'Author URI: http://big-andy.co.uk \n' +
-        'Version: 1.0 \n' + 
+      wpblock: '/*! \n' +
+        'Theme Name: Bigandy Bones \n' +
+        'Theme URI: http://www.themble.com/bones \n' +
+        'Description: This site was built using the Bones Development Theme. \n' +
+        'Author: Andrew JD Hudson \n' +
+        'Author URI: http://www.big-andy.co.uk \n' +
+        'Version: 1.2 \n' +
+        'Tags: flexble-width, translation-ready, microformats, rtl-language-support \n' +
+        'License: WTFPL \n' +
+        'License URI: http://sam.zoy.org/wtfpl/ \n' +
+        'Are You Serious? Yes. \n' +
         '*/'
     },
     lint: {
-       files: ['grunt.js', 'js/script.js']
+       files: ['grunt.js', 'js/scripts.js']
     },
     concat: {
       dist: {
-        src: ['<banner:meta.banner>', 'js/libs/*.js', 'js/script.js'],
-        dest: '../js/script.min.js'
+        src: ['<banner:meta.banner>', 'js/scripts.js'],
+        dest: '../js/scripts.min.js'
       }
     },
     min: {
@@ -41,7 +44,7 @@ module.exports = function(grunt) {
       }
     },
     watch: {
-      files: ['<config:lint.files>', 'sass/*.scss', 'sass/partials/*.scss'],
+      files: ['<config:lint.files>', 'sass/*.scss', 'sass/plugins/*.scss'],
       tasks: 'default'
     },
     jshint: {
@@ -71,7 +74,7 @@ module.exports = function(grunt) {
   });
 
   // Default task.
-  grunt.registerTask('default', 'lint concat min compass cssmin');
+  grunt.registerTask('default', 'concat min compass cssmin');
   // grunt.registerTask('default', 'lint concat min compass cssmin');
   
   // Compass tasks
