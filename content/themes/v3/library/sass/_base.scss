@@ -12,17 +12,17 @@
 	.nav a {
 		background:transparent;
 	}
-}
+} 
 
 // LAYOUT & GRID STYLES
 .container {
 	position: relative;
-}
+} 
 
 .wrap {
 	@extend .clearfix;
 	width: 90%;
-	margin: 0 auto;
+	margin: 0 auto; 
 }
 
 a, a:visited {

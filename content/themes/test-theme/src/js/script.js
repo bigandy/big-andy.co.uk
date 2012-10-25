@@ -5,5 +5,5 @@
  * @return void
  */
 jQuery(document).ready(function($) {
-    //
+    console.log('fart');
 });
