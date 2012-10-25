@@ -24,8 +24,6 @@ if ( $options['admin'] == "Y" ) {
 
 	function ah_change_admin_cap() {
 
-		// $addRemoveRole = "$role->remove_cap";
-
 		$role = get_role( 'administrator' );
 
 		$role->add_cap( 'upload_files' );
@@ -46,8 +44,6 @@ if ( $options['admin'] == "Y" ) {
 
 } else {
 	function ah_change_admin_cap() {
-
-		// $addRemoveRole = "$role->remove_cap";
 
 		$role = get_role( 'administrator' );
 
