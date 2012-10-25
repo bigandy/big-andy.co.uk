@@ -402,6 +402,9 @@ small, .small {
   .dark .nav a {
     background: transparent; }
 
+.container {
+  position: relative; }
+
 .wrap {
   width: 90%;
   margin: 0 auto; }

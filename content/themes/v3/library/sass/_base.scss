@@ -15,6 +15,9 @@
 }
 
 // LAYOUT & GRID STYLES
+.container {
+	position: relative;
+}
 
 .wrap {
 	@extend .clearfix;
