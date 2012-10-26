@@ -5,12 +5,17 @@
 	z-index: 10100;
 	text-align: center;
 	line-height: 0;
+
+	a img {
+		border: 0;
+	}
 }
 
 #jqlb_loading {
 	height:32px;
 	background-image: url("library/img/jquery-lightbox/loading.gif");
-	background-repeat: no-repeat;background-position:center center;
+	background-repeat: no-repeat;
+	background-position: center center;
 }
 
 
@@ -19,10 +24,6 @@
 	background-image: url("library/img/jquery-lightbox/closelabel.gif");
 	background-repeat: no-repeat;
 	background-position: center center;
-}
-
-#lightbox a img {
-	border: 0;
 }
 
 #outerImageContainer { 
@@ -35,6 +36,10 @@
 
 #imageContainer {
 	padding:10px;
+
+	> #hoverNav {
+		left:0;
+	}
 }
 
 #loading {
@@ -46,7 +51,7 @@
 	text-align:center;
 	line-height:0;
 }
-
+ 
 #hoverNav {
 	position: absolute;
 	top:0;
@@ -54,10 +59,6 @@
 	height:100%;
 	width:100%;
 	z-index:10;
-}
-
-#imageContainer > #hoverNav {
-	left:0;
 }
 
 #hoverNav a {
