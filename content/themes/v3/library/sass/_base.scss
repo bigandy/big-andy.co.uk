@@ -12,17 +12,21 @@
 	.nav a {
 		background:transparent;
 	}
-}
+} 
 
 // LAYOUT & GRID STYLES
 .container {
 	position: relative;
+<<<<<<< HEAD
 }
+=======
+} 
+>>>>>>> a5b3411e32352db4dad16c7429d1c46c1781a1ba
 
 .wrap {
 	@extend .clearfix;
 	width: 90%;
-	margin: 0 auto;
+	margin: 0 auto; 
 }
 
 a, a:visited {
@@ -451,11 +455,11 @@ ul ol {
 
 @font-face {
   font-family: 'icomoon';
-  src: 	url("../fonts/icomoon.eot");
-  src: 	url("../fonts/icomoon.eot?#iefix") format("embedded-opentype"), 
-  		url("../fonts/icomoon.svg#icomoon") format("svg"), 
-  		url("../fonts/icomoon.woff") format("woff"), 
-  		url("../fonts/icomoon.ttf") format("truetype");
+  src: 	url("library/fonts/icomoon.eot");
+  src: 	url("library/fonts/icomoon.eot?#iefix") format("embedded-opentype"), 
+  		url("library/fonts/icomoon.svg#icomoon") format("svg"), 
+  		url("library/fonts/icomoon.woff") format("woff"), 
+  		url("library/fonts/icomoon.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
 }

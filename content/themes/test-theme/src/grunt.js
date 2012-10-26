@@ -20,11 +20,11 @@ module.exports = function(grunt) {
         '*/'
     },
     lint: {
-       files: ['grunt.js', '../js/script.js']
+       files: ['grunt.js', 'js/script.js']
     },
     concat: {
       dist: {
-        src: ['<banner:meta.banner>', '../js/libs/*.js', '../js/script.js'],
+        src: ['<banner:meta.banner>', 'js/libs/*.js', 'js/script.js'],
         dest: '../js/script.min.js'
       }
     },
@@ -41,7 +41,7 @@ module.exports = function(grunt) {
       }
     },
     watch: {
-      files: ['<config:lint.files>', '../sass/*.scss', '../sass/partials/*.scss'],
+      files: ['<config:lint.files>', 'sass/*.scss', 'sass/partials/*.scss'],
       tasks: 'default'
     },
     jshint: {
