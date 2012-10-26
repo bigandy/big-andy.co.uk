@@ -3,23 +3,24 @@ module.exports = function(grunt) {
   // Project configuration.
   grunt.initConfig({
     meta: {
-      version: '3.1.0',
-      banner: '/*! big-andy.co.uk - v<%= meta.version %> - ' +
+      version: '3.2.0',
+      banner: '/* big-andy.co.uk - v<%= meta.version %> - ' +
         '<%= grunt.template.today("yyyy-mm-dd") %>\n' +
         '* http://big-andy.co.uk\n' +
         '* Copyright (c) <%= grunt.template.today("yyyy") %> ' +
         'Your Company; Licensed MIT */',
-      wpblock: '/*! \n' +
+      wpblock: '/* \n' +
         'Theme Name: Bigandy Bones \n' +
         'Theme URI: http://www.themble.com/bones \n' +
         'Description: This site was built using the Bones Development Theme. \n' +
         'Author: Andrew JD Hudson \n' +
         'Author URI: http://www.big-andy.co.uk \n' +
-        'Version: 1.2 \n' +
         'Tags: flexble-width, translation-ready, microformats, rtl-language-support \n' +
         'License: WTFPL \n' +
-        'License URI: http://sam.zoy.org/wtfpl/ \n' +
+        'License URI: http://sam.zoy.org/wtfpl/ - ' +
         'Are You Serious? Yes. \n' +
+        'big-andy.co.uk - v<%= meta.version %> - ' +
+        'Stylesheet generated on <%= grunt.template.today("yyyy-mm-dd") %>\n' +
         '*/'
     },
     lint: {

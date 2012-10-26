@@ -14,4 +14,5 @@
 
 /content/themes/v3/library/stylesheets
 /content/themes/v3/library/stylesheets/*
+/content/themes/v3/library/css/*
 /content/themes/test-theme/src/node_modules
