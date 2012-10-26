@@ -31,8 +31,7 @@
 @import "thoughts-template";
 @import "post-format";
 @import "page-home";
-@import "plugins/lightbox";
-@import "plugins/cf7";
+
 @import "menu";
 
 
@@ -145,3 +144,7 @@
 	white-space: -hp-pre-wrap;  // HP Printers 
 	word-wrap: break-word;      // IE 5+ 
 }
+
+// importing plugin code last!
+@import "plugins/cf7";
+@import "plugins/lightbox";
