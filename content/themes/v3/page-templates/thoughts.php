@@ -9,16 +9,12 @@ Template Name: Thoughts
 			
 					    <?php if (have_posts()) : while (have_posts()) : the_post(); ?>
 					
-					    <article id="post-<?php the_ID(); ?>" <?php post_class('thoughts-template'); ?> role="article">						<?php
+					    <article <?php post_class('thoughts-template'); ?> role="article">				<?php
 								echo get_option('current_page_template');
 							?>		
-						
+						   	<h1><?php the_title(); ?></h1>
 						    
-						    	<h1><?php the_title(); ?></h1>
-						    
-							    <?php the_content(); ?>
-						    						    
-						    <?php // comments_template(); ?>
+							<?php the_content(); ?>
 					
 					    </article> <!-- end article -->
 					
@@ -26,7 +22,7 @@ Template Name: Thoughts
 					
 					    <?php else : ?>
 					
-        					<article id="post-not-found" class="hentry clearfix">
+        					<article class="hentry clearfix post-not-found">
         					    <header class="article-header">
         						    <h1><?php _e("Oops, Post Not Found!", "bonestheme"); ?></h1>
         						</header>

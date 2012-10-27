@@ -190,7 +190,7 @@ RELATED POSTS FUNCTION
 	
 // Related Posts Function (call using bones_related_posts(); )
 function bones_related_posts() {
-	echo '<ul id="bones-related-posts">';
+	echo '<ul class="bones-related-posts">';
 	global $post;
 	$tags = wp_get_post_tags($post->ID);
 	if($tags) {
