@@ -107,6 +107,8 @@ function gallery_shortcode_ah_new($attr) {
 		return $output;
 	}
 
+	
+
 	$itemtag = tag_escape($itemtag);
 	$captiontag = tag_escape($captiontag);
 	$columns = intval($columns);
@@ -122,7 +124,6 @@ function gallery_shortcode_ah_new($attr) {
 
 	$i = 0;
 	foreach ( $attachments as $id => $attachment ) {
-		// $link = isset($attr['link']) && 'file' == $attr['link'] ? wp_get_attachment_link($id, $size, false, false) : wp_get_attachment_link($id, $size, true, false);
 		$link = wp_get_attachment_link($id, $size, false, false);
 
 		$output .= $link;
@@ -224,3 +225,10 @@ add_filter( 'edit_post_link', 'nuke_title_attribute' );
 add_filter( 'edit_comment_link', 'nuke_title_attribute' );
 add_filter( 'the_author_posts_link', 'nuke_title_attribute' );
 add_filter( 'get_archives_link', 'nuke_title_attribute' );
+
+function ah_add_class_attachment_link($html){
+	    $postid = get_the_ID();
+	    $html = str_replace('<a','<a rel="lightbox'. $postid .'"',$html);
+	    return $html;
+	}
+	add_filter('wp_get_attachment_link','ah_add_class_attachment_link',100,1);
