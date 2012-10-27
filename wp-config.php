@@ -100,5 +100,3 @@ define('EMPTY_TRASH_DAYS', 7); // empty weekly
 
 // define size of PHP memory
 define('WP_MEMORY_LIMIT', '64M');
-
-define('WP_CACHE', true);
