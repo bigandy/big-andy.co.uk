@@ -40,8 +40,10 @@
 	<meta name="HandheldFriendly" content="True">
 	<meta name="MobileOptimized" content="320">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-	
-	<link rel="shortcut icon" href="<?php echo get_template_directory_uri(); ?>/favicon.ico">				
+	<link rel='stylesheet'href='/content/themes/v3/style.css' />
+	<link rel="shortcut icon" href="/content/themes/v3/favicon.ico" />				
+	<link rel="alternate" type="application/rss+xml" title="bigandy &raquo; Feed" href="/feed/" />
+	<link rel="alternate" type="application/rss+xml" title="bigandy &raquo; Comments Feed" href="/comments/feed/" />
 	<?php wp_head(); ?>
 </head>
 	

@@ -5,6 +5,11 @@
 	z-index: 10100;
 	text-align: center;
 	line-height: 0;
+
+	a img {
+		border: 0;
+	}
+
 }
 
 #jqlb_loading {
@@ -35,6 +40,10 @@
 
 #imageContainer {
 	padding:10px;
+
+	> #hoverNav {
+		left:0;
+	}
 }
 
 #loading {
@@ -54,14 +63,14 @@
 	height:100%;
 	width:100%;
 	z-index:10;
+
+	a {
+		outline:0;
+	}
 }
 
 #imageContainer > #hoverNav {
 	left:0;
-}
-
-#hoverNav a {
-	outline:0;
 }
 
 #prevLink,
