@@ -40,7 +40,7 @@
 	<meta name="HandheldFriendly" content="True">
 	<meta name="MobileOptimized" content="320">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-	<link rel='stylesheet'href='/content/themes/v3/style.css' />
+	<link rel='stylesheet' href='/content/themes/v3/style.css' />
 	<link rel="shortcut icon" href="/content/themes/v3/favicon.ico" />				
 	<link rel="alternate" type="application/rss+xml" title="bigandy &raquo; Feed" href="/feed/" />
 	<link rel="alternate" type="application/rss+xml" title="bigandy &raquo; Comments Feed" href="/comments/feed/" />
@@ -59,7 +59,7 @@
 				<p class="logo h1"><a href="<?php echo home_url(); ?>" rel="nofollow"><?php bloginfo('name'); ?></a></p>
 								
 				<nav role="navigation" class="nav top-nav clearfix">
-						<?php  bones_main_nav(); ?>						
+					<?php bones_main_nav(); ?>						
 				</nav>
 				<?php } ?>
 				

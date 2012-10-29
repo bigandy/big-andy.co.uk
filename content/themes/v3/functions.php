@@ -159,14 +159,19 @@ class description_walker extends Walker_Nav_Menu
            $attributes .= ! empty( $item->url )        ? ' href="'   . esc_attr( $item->url        ) .'"' : '';
 
            
-            $item_output = $args->before;
             $item_output .= '<a'. $attributes . $class_names .'>';
-            $item_output .= $args->link_before .apply_filters( 'the_title', $item->title, $item->ID );
+            $item_output .= apply_filters( 'the_title', $item->title, $item->ID );
             $item_output .= '</a>';
-            $item_output .= $args->after;
 
             $output .= apply_filters( 'walker_nav_menu_start_el', $item_output, $item, $depth, $args );
-            }
+            
+      }
+
+      function end_el( &$output, $category, $depth = 0, $args = array() ) {
+          $output .= "\n";
+      }
+
+
 }
 
 // deregister style and scripts so can combine in one .css and one .js file

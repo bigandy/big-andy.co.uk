@@ -178,7 +178,8 @@ function bones_main_nav() {
     	   'container'=> false, 
     	   'depth' => 0,
     	   'items_wrap' => '%3$s',  // hides containing ul
-    	   'walker' => new description_walker())  
+    	   'walker' => new description_walker()
+    	   )  
         );
 
 } /* end bones main nav */
