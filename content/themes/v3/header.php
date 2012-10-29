@@ -59,7 +59,7 @@
 				<p class="logo h1"><a href="<?php echo home_url(); ?>" rel="nofollow"><?php bloginfo('name'); ?></a></p>
 								
 				<nav role="navigation" class="nav top-nav clearfix">
-						<?php  bones_main_nav(); ?>						
+					<?php bones_main_nav(); ?>						
 				</nav>
 				<?php } ?>
 				
