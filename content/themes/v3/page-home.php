@@ -13,7 +13,7 @@
 					    <aside class="fivecol">
 					    	<?php 
 					    	$args = array(
-					    		'posts_per_page' => 4,
+					    		'posts_per_page' => 2,
 					    		'tax_query' => array(
 							        array(
 							            'taxonomy' => 'post_format',
@@ -29,25 +29,15 @@
 							    )
 								
 							); ?>
-					    	<?php $my_query = new WP_Query( $args );  $c = 0; ?>
-						    <?php if ($my_query->have_posts()) : while ($my_query->have_posts()) : $my_query->the_post(); 
-						    	 
-						    	if ($c == 0 || $c % 2 == 0) {
-						    		$style = 'first ';
-						    		$c = 0;
-						    	} else {
-						    		$style = '';
-						    	}
-						    	$c++;
+					    	<?php $my_query = new WP_Query( $args ); ?>
+						    <?php 
+						    	if ($my_query->have_posts()) : while ($my_query->have_posts()) : $my_query->the_post(); 
 						    ?>
-							<article class="<?php echo $style; ?>sixcol">
-							        <h2 class="h1"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
-							    
-							    <?php the_excerpt(); ?>
+							<article>
+						        <h2 class="h1"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
+						    	<?php the_excerpt(); ?>
 							</article>
 						    <?php endwhile; ?>		
-						
-						    
 						    <?php endif; wp_reset_postdata(); ?>
 					    </aside>
 					    
