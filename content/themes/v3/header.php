@@ -33,15 +33,12 @@
 	    var h=document.getElementsByTagName("html")[0];h.className+="js wf-loading";var t=setTimeout(function(){h.className=h.className.replace(/(\s|^)wf-loading(\s|$)/g," ");h.className+=" wf-inactive"},config.scriptTimeout);var tk=document.createElement("script"),d=false;tk.src='//use.typekit.net/'+config.kitId+'.js';tk.type="text/javascript";tk.async="true";tk.onload=tk.onreadystatechange=function(){var a=this.readyState;if(d||a&&a!="complete"&&a!="loaded")return;d=true;clearTimeout(t);try{Typekit.load(config)}catch(b){}};var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(tk,s)
 	  })();
 	</script>
-	<meta name="author" content="Andrew JD Hudson" />
-	<meta name="keywords" content="Big Andy, bigandy, big-andy, Andrew JD Hudson, andrew, hudson, running, photography, css, php, blog, photos, web-design, ciw, running, css, php, wordpress" />
-	<meta name="description" content="The personal website of Andrew JD Hudson." />
 	<meta name="robots" content="all" />
 	<meta name="HandheldFriendly" content="True">
 	<meta name="MobileOptimized" content="320">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-	<link rel='stylesheet' href='/content/themes/v3/style.css' />
-	<link rel="shortcut icon" href="/content/themes/v3/favicon.ico" />				
+	<link rel='stylesheet' href='<?php bloginfo('stylesheet_url'); ?>' />
+	<link rel="shortcut icon" href="<?php bloginfo('stylesheet_directory'); ?>favicon.ico" />				
 	<link rel="alternate" type="application/rss+xml" title="bigandy &raquo; Feed" href="/feed/" />
 	<link rel="alternate" type="application/rss+xml" title="bigandy &raquo; Comments Feed" href="/comments/feed/" />
 	<?php wp_head(); ?>
