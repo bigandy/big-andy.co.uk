@@ -7,11 +7,13 @@ if ( file_exists( dirname( __FILE__ ) . '/local-config.php' ) ) {
 	include( dirname( __FILE__ ) . '/local-config.php' );
 } else {
 	define( 'WP_LOCAL_DEV', false );
-	define( 'DB_NAME', '%%DB_NAME%%' );
-	define( 'DB_USER', '%%DB_USER%%' );
-	define( 'DB_PASSWORD', '%%DB_PASSWORD%%' );
-	define( 'DB_HOST', '%%DB_HOST%%' ); // Probably 'localhost'
+	define( 'DB_NAME', 'bigandy_live' );
+	define( 'DB_USER', 'bigandy_deployer' );
+	define( 'DB_PASSWORD', 'Te$lHCEq5F5F+h4mq1JY' );
+	define( 'DB_HOST', 'mysql.deploy.big-andy.co.uk' ); // Probably 'localhost'
 }
+
+define( 'WP_STACK_CDN_DOMAIN', 'cdn.bigandy.netdna-cdn.com' );
 
 // ========================
 // Custom Content Directory
@@ -72,8 +74,8 @@ if ( file_exists( dirname( __FILE__ ) . '/memcached.php' ) )
 // ===========================================================================================
 // This can be used to programatically set the stage when deploying (e.g. production, staging)
 // ===========================================================================================
-define( 'WP_STAGE', '%%WP_STAGE%%' );
-define( 'STAGING_DOMAIN', '%%WP_STAGING_DOMAIN%%' ); // Does magic in WP Stack to handle staging domain rewriting
+define( 'WP_STAGE', 'production' );
+define( 'STAGING_DOMAIN', 'wp.big-andy.co.uk' ); // Does magic in WP Stack to handle staging domain rewriting
 
 // ===================
 // Bootstrap WordPress
