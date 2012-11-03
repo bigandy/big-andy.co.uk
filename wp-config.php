@@ -7,10 +7,10 @@ if ( file_exists( dirname( __FILE__ ) . '/local-config.php' ) ) {
 	include( dirname( __FILE__ ) . '/local-config.php' );
 } else {
 	define( 'WP_LOCAL_DEV', false );
-	define( 'DB_NAME', 'bigandy_live' );
-	define( 'DB_USER', 'bigandy_deployer' );
-	define( 'DB_PASSWORD', 'Te$lHCEq5F5F+h4mq1JY' );
-	define( 'DB_HOST', 'mysql.deploy.big-andy.co.uk' ); // Probably 'localhost'
+	define( 'DB_NAME', '%%DB_NAME%%' );
+	define( 'DB_USER', '%%DB_USER%%' );
+	define( 'DB_PASSWORD', '%%DB_PASSWORD%%' );
+	define( 'DB_HOST', '%%DB_HOST%%' ); // Probably 'localhost'
 }
 
 define( 'WP_STACK_CDN_DOMAIN', 'cdn.bigandy.netdna-cdn.com' );
@@ -26,6 +26,30 @@ define( 'WP_CONTENT_URL', 'http://' . $_SERVER['HTTP_HOST'] . '/content' );
 // ================================================
 define( 'DB_CHARSET', 'utf8' );
 define( 'DB_COLLATE', '' );
+
+// ===================================
+// Prevent file editing via admin area
+// ===================================
+// disable file editing from the admin area : 
+// http://www.wpbeginner.com/wp-tutorials/how-to-disable-theme-and-plugin-editors-from-wordpress-admin-panel/
+define( 'DISALLOW_FILE_EDIT', true );
+
+// a few mods to the wp-config following advice from : http://digwp.com/2010/08/pimp-your-wp-config-php/
+
+// Disable the post-revisioning feature 
+define('WP_POST_REVISIONS', 1); // kill the bloat -> stops wp from keeping any revisions. set it to an integer and only keep that number max.
+
+// Define how often trash is emptied
+define('EMPTY_TRASH_DAYS', 7); // empty weekly
+
+// define size of PHP memory
+define('WP_MEMORY_LIMIT', '64M');
+
+// ===========
+// Hide errors
+// ===========
+ini_set( 'display_errors', 0 );
+define( 'WP_DEBUG_DISPLAY', false );
 
 // ==============================================================
 // Salts, for security
@@ -52,24 +76,6 @@ $table_prefix  = 'bav3_';
 // ================================
 define( 'WPLANG', '' );
 
-// ===================================
-// Prevent file editing via admin area
-// ===================================
-// disable file editing from the admin area : 
-// http://www.wpbeginner.com/wp-tutorials/how-to-disable-theme-and-plugin-editors-from-wordpress-admin-panel/
-define( 'DISALLOW_FILE_EDIT', true );
-
-// a few mods to the wp-config following advice from : http://digwp.com/2010/08/pimp-your-wp-config-php/
-
-// Disable the post-revisioning feature 
-define('WP_POST_REVISIONS', 1); // kill the bloat -> stops wp from keeping any revisions. set it to an integer and only keep that number max.
-
-// Define how often trash is emptied
-define('EMPTY_TRASH_DAYS', 7); // empty weekly
-
-// define size of PHP memory
-define('WP_MEMORY_LIMIT', '64M');
-
 // ===========
 // Hide errors
 // ===========
@@ -83,17 +89,11 @@ define( 'WP_DEBUG_DISPLAY', false );
 // define( 'SAVEQUERIES', true );
 // define( 'WP_DEBUG', true );
 
-// ======================================
-// Load a Memcached config if we have one
-// ======================================
-if ( file_exists( dirname( __FILE__ ) . '/memcached.php' ) )
-	$memcached_servers = include( dirname( __FILE__ ) . '/memcached.php' );
-
 // ===========================================================================================
 // This can be used to programatically set the stage when deploying (e.g. production, staging)
 // ===========================================================================================
-define( 'WP_STAGE', 'production' );
-define( 'STAGING_DOMAIN', 'wp.big-andy.co.uk' ); // Does magic in WP Stack to handle staging domain rewriting
+define( 'WP_STAGE', '%%WP_STAGE%%' );
+define( 'STAGING_DOMAIN', '%%WP_STAGING_DOMAIN%%' ); // Does magic in WP Stack to handle staging domain rewriting
 
 // ===================
 // Bootstrap WordPress
@@ -101,3 +101,5 @@ define( 'STAGING_DOMAIN', 'wp.big-andy.co.uk' ); // Does magic in WP Stack to ha
 if ( !defined( 'ABSPATH' ) )
 	define( 'ABSPATH', dirname( __FILE__ ) . '/wp/' );
 require_once( ABSPATH . 'wp-settings.php' );
+
+
