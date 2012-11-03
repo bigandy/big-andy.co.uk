@@ -51,6 +51,8 @@ define('WP_MEMORY_LIMIT', '64M');
 ini_set( 'display_errors', 0 );
 define( 'WP_DEBUG_DISPLAY', false );
 
+define('WP_CACHE', true);
+
 // ==============================================================
 // Salts, for security
 // Grab these from: https://api.wordpress.org/secret-key/1.1/salt
