@@ -41,9 +41,16 @@ add_shortcode( 'email', 'ah_email_shortcode' );
 function ah_name_shortcode( $atts, $content = null ) {
 	extract( shortcode_atts( array(
 				'name' => 'Andrew JD Hudson',
-				'wrapper' => 'span'
+				'wrapper' => 'span',
+				'link' => ""
 			), $atts ) );
-	return '<'. $wrapper .' class="fn">'. $name .'</'. $wrapper .'>';
+
+	if ($link !="") {
+		$output = '<'. $wrapper .' class="fn"><a href="'. $link .'">'. $name .'</a></'. $wrapper .'>';
+	} else {
+		$output = '<'. $wrapper .' class="fn">'. $name .'</'. $wrapper .'>';
+	}
+	return $output;
 }
 add_shortcode( 'name', 'ah_name_shortcode' );
 
