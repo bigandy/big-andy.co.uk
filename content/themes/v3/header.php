@@ -23,6 +23,7 @@
 		echo ' - ' . sprintf( __( 'Page %s', '_s' ), max( $paged, $page ) );
 
 	?></title>
+	
 	<meta name="robots" content="all" />
 	<meta name="HandheldFriendly" content="True">
 	<meta name="MobileOptimized" content="320">
