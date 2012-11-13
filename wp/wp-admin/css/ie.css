@@ -55,6 +55,11 @@
 	position: relative;
 }
 
+#adminmenu,
+#adminmenu a {
+	cursor: pointer;
+}
+
 #adminmenu li.wp-menu-separator,
 #adminmenu li.wp-menu-separator-last {
 	font-size: 1px;
@@ -75,6 +80,14 @@
 	margin: 0;
 }
 
+.folded #adminmenu .wp-submenu {
+	border-top-color: transparent;
+}
+
+#adminmenu .wp-submenu .wp-submenu-head {
+	border-top-color: #ddd;
+}
+
 .folded #adminmenu .wp-submenu ul {
 	margin-left: 5px;
 }
@@ -85,15 +98,6 @@
 
 #adminmenu .wp-menu-arrow {
 	display: none !important;
-}
-
-#adminmenu .wp-submenu li.wp-submenu-head {
-	padding: 6px 4px 7px 10px;
-	zoom: 100%;
-}
-
-.js.folded #adminmenu .menu-top {
-	height: 30px;
 }
 
 .js.folded #adminmenu li.menu-top {
@@ -233,10 +237,44 @@ table.fixed td {
 	width: 98%;
 }
 
+.button,
+input[type="reset"],
+input[type="button"],
+input[type="submit"] {
+	padding: 0 8px;
+	line-height: 20px;
+	height: auto;
+}
+
+.button.button-large,
+input[type="reset"].button-large,
+input[type="button"].button-large,
+input[type="submit"].button-large {
+	padding: 0 10px;
+	line-height: 24px;
+	height: auto;
+}
+
+.button.button-small,
+input[type="reset"].button-small,
+input[type="button"].button-small,
+input[type="submit"].button-small {
+	padding: 0 6px;
+	line-height: 16px;
+	height: auto;
+}
+
 a.button {
-	line-height: 1.4em;
 	margin: 1px;
-	padding: 2px 6px;
+	padding: 1px 9px 2px;
+}
+
+a.button.button-large {
+	padding: 1px 11px 2px;
+}
+
+a.button.button-small {
+	padding: 1px 7px 2px;
 }
 
 #screen-options-wrap {
@@ -305,6 +343,19 @@ form#template div {
 	font-size: 1.6em;
 }
 
+#poststuff .inside #parent_id,
+#poststuff .inside #page_template,
+.inline-edit-row #post_parent,
+.inline-edit-row select[name="page_template"] {
+	width: 250px;
+}
+
+#submitdiv input,
+#submitdiv select,
+#submitdiv a.button {
+	position: relative;
+}
+
 #bh {
 	margin: 7px 10px 0 0;
 	float: right;
@@ -339,6 +390,10 @@ div#dashboard-widgets {
 
 .tablenav .actions select {
 	width: 155px;
+}
+
+.subsubsub li {
+	display: inline;
 }
 
 table.ie-fixed {

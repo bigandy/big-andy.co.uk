@@ -13,7 +13,7 @@ require_once('./admin.php');
 
 header('Content-Type: ' . get_option('html_type') . '; charset=' . get_option('blog_charset'));
 
-if ( ! current_user_can('edit_posts') )
+if ( ! current_user_can( 'edit_posts' ) || ! current_user_can( 'create_posts' ) )
 	wp_die( __( 'Cheatin&#8217; uh?' ) );
 
 /**
@@ -414,7 +414,7 @@ var photostorage = false;
 	}
 	jQuery(document).ready(function($) {
 		//resize screen
-		window.resizeTo(720,580);
+		window.resizeTo(740,580);
 		// set button actions
 		jQuery('#photo_button').click(function() { show('photo'); return false; });
 		jQuery('#video_button').click(function() { show('video'); return false; });
@@ -506,7 +506,7 @@ $admin_body_class .= ' locale-' . sanitize_html_class( strtolower( str_replace( 
 					</div>
 
 					<div id="category-all" class="tabs-panel">
-						<ul id="categorychecklist" class="list:category categorychecklist form-no-clear">
+						<ul id="categorychecklist" data-wp-lists="list:category" class="categorychecklist form-no-clear">
 							<?php wp_terms_checklist($post_ID, array( 'taxonomy' => 'category', 'popular_cats' => $popular_ids ) ) ?>
 						</ul>
 					</div>
@@ -528,7 +528,7 @@ $admin_body_class .= ' locale-' . sanitize_html_class( strtolower( str_replace( 
 									<?php echo $tax->labels->parent_item_colon; ?>
 								</label>
 								<?php wp_dropdown_categories( array( 'taxonomy' => 'category', 'hide_empty' => 0, 'name' => 'newcategory_parent', 'orderby' => 'name', 'hierarchical' => 1, 'show_option_none' => '&mdash; ' . $tax->labels->parent_item . ' &mdash;' ) ); ?>
-								<input type="button" id="category-add-submit" class="add:categorychecklist:category-add button category-add-submit" value="<?php echo esc_attr( $tax->labels->add_new_item ); ?>" />
+								<input type="button" id="category-add-submit" data-wp-lists="add:categorychecklist:category-add" class="button category-add-submit" value="<?php echo esc_attr( $tax->labels->add_new_item ); ?>" />
 								<?php wp_nonce_field( 'add-category', '_ajax_nonce-add-category', false ); ?>
 								<span id="category-ajax-response"></span>
 							</p>

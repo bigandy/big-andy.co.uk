@@ -295,7 +295,7 @@ function shortcode_unautop( $pee ) {
 		. '('                                // 1: The shortcode
 		.     '\\['                          // Opening bracket
 		.     "($tagregexp)"                 // 2: Shortcode name
-		.     '\\b'                          // Word boundary
+		.     '(?![\\w-])'                   // Not followed by word character or hyphen
 		                                     // Unroll the loop: Inside the opening shortcode tag
 		.     '[^\\]\\/]*'                   // Not a closing bracket or forward slash
 		.     '(?:'
@@ -1892,10 +1892,16 @@ function _wp_iso_convert( $match ) {
  */
 function get_gmt_from_date($string, $format = 'Y-m-d H:i:s') {
 	preg_match('#([0-9]{1,4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})#', $string, $matches);
+	if ( ! $matches )
+		return date( $format, 0 );
+
 	$tz = get_option('timezone_string');
 	if ( $tz ) {
 		date_default_timezone_set( $tz );
-		$datetime = new DateTime( $string );
+		$datetime = date_create( $string );
+		if ( ! $datetime )
+			return date( $format, 0 );
+
 		$datetime->setTimezone( new DateTimeZone('UTC') );
 		$offset = $datetime->getOffset();
 		$datetime->modify( '+' . $offset / HOUR_IN_SECONDS . ' hours');
@@ -2824,10 +2830,16 @@ function sanitize_option($option, $value) {
 		case 'mailserver_url':
 		case 'mailserver_login':
 		case 'mailserver_pass':
-		case 'ping_sites':
 		case 'upload_path':
-			$value = strip_tags($value);
-			$value = wp_kses_data($value);
+			$value = strip_tags( $value );
+			$value = wp_kses_data( $value );
+			break;
+
+		case 'ping_sites':
+			$value = explode( "\n", $value );
+			$value = array_filter( array_map( 'trim', $value ) );
+			$value = array_filter( array_map( 'esc_url_raw', $value ) );
+			$value = implode( "\n", $value );
 			break;
 
 		case 'gmt_offset':
@@ -3243,7 +3255,7 @@ function sanitize_text_field($str) {
  * @return string
  */
 function wp_basename( $path, $suffix = '' ) {
-	return urldecode( basename( str_replace( '%2F', '/', urlencode( $path ) ), $suffix ) );
+	return urldecode( basename( str_replace( array( '%2F', '%5C' ), '/', urlencode( $path ) ), $suffix ) );
 }
 
 /**

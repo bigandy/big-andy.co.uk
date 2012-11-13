@@ -682,6 +682,9 @@ function switch_theme( $stylesheet ) {
 	if ( count( $wp_theme_directories ) > 1 ) {
 		update_option( 'template_root', get_raw_theme_root( $template, true ) );
 		update_option( 'stylesheet_root', get_raw_theme_root( $stylesheet, true ) );
+	} else {
+		delete_option( 'template_root' );
+		delete_option( 'stylesheet_root' );
 	}
 
 	$new_name  = $new_theme->get('Name');
@@ -1025,7 +1028,27 @@ function get_uploaded_header_images() {
  * @return object
  */
 function get_custom_header() {
-	$data = is_random_header_image()? _get_random_header_data() : get_theme_mod( 'header_image_data' );
+	global $_wp_default_headers;
+
+	if ( is_random_header_image() ) {
+		$data = _get_random_header_data();
+	} else {
+		$data = get_theme_mod( 'header_image_data' );
+		if ( ! $data && isset( $_wp_default_headers ) && current_theme_supports( 'custom-header', 'default-image' ) ) {
+			$directory_args = array( get_template_directory_uri(), get_stylesheet_directory_uri() );
+			$default_image = vsprintf( get_theme_support( 'custom-header', 'default-image' ), $directory_args );
+			foreach ( (array) $_wp_default_headers as $header => $details ) {
+				$url = vsprintf( $details['url'], $directory_args );
+				if ( $default_image == $url ) {
+					$data = $details;
+					$data['url'] = $url;
+					$data['thumbnail_url'] = vsprintf( $data['thumbnail_url'], $directory_args );
+					break;
+				}
+			}
+		}
+	}
+
 	$default = array(
 		'url'           => '',
 		'thumbnail_url' => '',
@@ -1463,6 +1486,8 @@ function _remove_theme_support( $feature ) {
 
 	switch ( $feature ) {
 		case 'custom-header' :
+			if ( false === did_action( 'wp_loaded', '_custom_header_background_just_in_time' ) )
+				break;
 			$support = get_theme_support( 'custom-header' );
 			if ( $support[0]['wp-head-callback'] )
 				remove_action( 'wp_head', $support[0]['wp-head-callback'] );
@@ -1471,6 +1496,8 @@ function _remove_theme_support( $feature ) {
 			break;
 
 		case 'custom-background' :
+			if ( false === did_action( 'wp_loaded', '_custom_header_background_just_in_time' ) )
+				break;
 			$support = get_theme_support( 'custom-background' );
 			remove_action( 'wp_head', $support[0]['wp-head-callback'] );
 			remove_action( 'admin_menu', array( $GLOBALS['custom_background'], 'init' ) );

@@ -402,6 +402,7 @@ class WP_Customize_Upload_Control extends WP_Customize_Control {
 	public $type    = 'upload';
 	public $removed = '';
 	public $context;
+	public $extensions = array();
 
 	/**
 	 * Enqueue control related scripts/styles.
@@ -425,6 +426,9 @@ class WP_Customize_Upload_Control extends WP_Customize_Control {
 
 		if ( $this->context )
 			$this->json['context'] = $this->context;
+
+		if ( $this->extensions )
+			$this->json['extensions'] = implode( ',', $this->extensions );
 	}
 
 	/**
@@ -456,6 +460,7 @@ class WP_Customize_Image_Control extends WP_Customize_Upload_Control {
 	public $type = 'image';
 	public $get_url;
 	public $statuses;
+	public $extensions = array( 'jpg', 'jpeg', 'gif', 'png' );
 
 	protected $tabs = array();
 
@@ -521,7 +526,7 @@ class WP_Customize_Image_Control extends WP_Customize_Upload_Control {
 			<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
 
 			<div class="customize-control-content">
-				<div class="dropdown preview-thumbnail">
+				<div class="dropdown preview-thumbnail" tabindex="0">
 					<div class="dropdown-content">
 						<?php if ( empty( $src ) ): ?>
 							<img style="display:none;" />
@@ -537,7 +542,7 @@ class WP_Customize_Image_Control extends WP_Customize_Upload_Control {
 			<div class="library">
 				<ul>
 					<?php foreach ( $this->tabs as $id => $tab ): ?>
-						<li data-customize-tab='<?php echo esc_attr( $id ); ?>'>
+						<li data-customize-tab='<?php echo esc_attr( $id ); ?>' tabindex='0'>
 							<?php echo esc_html( $tab['label'] ); ?>
 						</li>
 					<?php endforeach; ?>

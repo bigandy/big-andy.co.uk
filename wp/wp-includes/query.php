@@ -87,7 +87,6 @@ function set_query_var($var, $value) {
  * @return array List of posts
  */
 function query_posts($query) {
-	unset($GLOBALS['wp_query']);
 	$GLOBALS['wp_query'] = new WP_Query();
 	return $GLOBALS['wp_query']->query($query);
 }
@@ -103,7 +102,6 @@ function query_posts($query) {
  * @uses $wp_query
  */
 function wp_reset_query() {
-	unset($GLOBALS['wp_query']);
 	$GLOBALS['wp_query'] = $GLOBALS['wp_the_query'];
 	wp_reset_postdata();
 }
@@ -2406,7 +2404,7 @@ class WP_Query {
 		if ( 'any' == $post_type ) {
 			$in_search_post_types = get_post_types( array('exclude_from_search' => false) );
 			if ( ! empty( $in_search_post_types ) )
-				$where .= $wpdb->prepare(" AND $wpdb->posts.post_type IN ('" . join("', '", $in_search_post_types ) . "')");
+				$where .= " AND $wpdb->posts.post_type IN ('" . join("', '", $in_search_post_types ) . "')";
 		} elseif ( !empty( $post_type ) && is_array( $post_type ) ) {
 			$where .= " AND $wpdb->posts.post_type IN ('" . join("', '", $post_type) . "')";
 		} elseif ( ! empty( $post_type ) ) {
@@ -2725,7 +2723,7 @@ class WP_Query {
 			}
 
 			if ( $this->is_preview && $this->posts && current_user_can( $edit_cap, $this->posts[0]->ID ) )
-				$this->posts[0] = apply_filters_ref_array('the_preview', array( $this->posts[0], &$this ));
+				$this->posts[0] = get_post( apply_filters_ref_array( 'the_preview', array( $this->posts[0], &$this ) ) );
 		}
 
 		// Put sticky posts at the top of the posts array
@@ -2772,18 +2770,20 @@ class WP_Query {
 		if ( !$q['suppress_filters'] )
 			$this->posts = apply_filters_ref_array('the_posts', array( $this->posts, &$this ) );
 
-		$this->post_count = count( $this->posts );
+		// Ensure that any posts added/modified via one of the filters above are
+		// of the type WP_Post and are filtered.
+		if ( $this->posts ) {
+			$this->post_count = count( $this->posts );
+			
+			$this->posts = array_map( 'get_post', $this->posts );
 
-		// Always sanitize
-		foreach ( $this->posts as $i => $post ) {
-			$this->posts[$i] = sanitize_post( $post, 'raw' );
-		}
+			if ( $q['cache_results'] )
+				update_post_caches($this->posts, $post_type, $q['update_post_term_cache'], $q['update_post_meta_cache']);
 
-		if ( $q['cache_results'] )
-			update_post_caches($this->posts, $post_type, $q['update_post_term_cache'], $q['update_post_meta_cache']);
-
-		if ( $this->post_count > 0 ) {
-			$this->post = $this->posts[0];
+			$this->post = reset( $this->posts );			
+		} else {
+			$this->post_count = 0;
+			$this->posts = array();
 		}
 
 		return $this->posts;
@@ -2799,7 +2799,9 @@ class WP_Query {
 	function set_found_posts( $q, $limits ) {
 		global $wpdb;
 
-		if ( $q['no_found_rows'] || ! $this->posts )
+		// Bail if posts is an empty array. Continue if posts is an empty string
+		// null, or false to accommodate caching plugins that fill posts later.
+		if ( $q['no_found_rows'] || ( is_array( $this->posts ) && ! $this->posts ) )
 			return;
 
 		if ( ! empty( $limits ) )
@@ -2995,10 +2997,10 @@ class WP_Query {
 
 			if ( 'term_id' == $query['field'] )
 				$term = get_term( reset( $query['terms'] ), $query['taxonomy'] );
-			else
+			elseif ( $query['terms'] )
 				$term = get_term_by( $query['field'], reset( $query['terms'] ), $query['taxonomy'] );
 
-			if ( $term && ! is_wp_error($term) )  {
+			if ( ! empty( $term ) && ! is_wp_error( $term ) )  {
 				$this->queried_object = $term;
 				$this->queried_object_id = (int) $term->term_id;
 

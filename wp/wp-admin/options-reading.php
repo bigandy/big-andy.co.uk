@@ -69,8 +69,8 @@ get_current_screen()->add_help_tab( array(
 get_current_screen()->add_help_tab( array(
 	'id'      => 'site-visibility',
 	'title'   => has_action( 'blog_privacy_selector' ) ? __( 'Site Visibility' ) : __( 'Search Engine Visibility' ),
-	'content' => '<p>' . __( 'You can choose whether or not your site will be crawled by robots, ping services, and spiders. If you want those services to ignore your site, click the radio button next to &#8220;Ask search engines not to index this site&#8221; and click the Save Changes button at the bottom of the screen. Note that your privacy is not complete; your site is still visible on the web.' ) . '</p>' .
-		'<p>' . __( 'When this setting is in effect a reminder is shown in the Right Now box of the Dashboard that says, &#8220;Search Engines Discouraged,&#8221; to remind you that your site is not being crawled.' ) . '</p>',
+	'content' => '<p>' . __( 'You can choose whether or not your site will be crawled by robots, ping services, and spiders. If you want those services to ignore your site, click the checkbox next to &#8220;Discourage search engines from indexing this site&#8221; and click the Save Changes button at the bottom of the screen. Note that your privacy is not complete; your site is still visible on the web.' ) . '</p>' .
+		'<p>' . __( 'When this setting is in effect, a reminder is shown in the Right Now box of the Dashboard that says, &#8220;Search Engines Discouraged,&#8221; to remind you that your site is not being crawled.' ) . '</p>',
 ) );
 
 get_current_screen()->set_help_sidebar(
@@ -202,7 +202,7 @@ if ( ! $new_front_page_only || current_user_can( 'create_posts', 'page' ) ) : ?>
 </fieldset></td>
 </tr>
 
-<tr valign="top">
+<tr valign="top" class="option-site-visibility">
 <th scope="row"><?php has_action( 'blog_privacy_selector' ) ? _e( 'Site Visibility' ) : _e( 'Search Engine Visibility' ); ?> </th>
 <td><fieldset><legend class="screen-reader-text"><span><?php has_action( 'blog_privacy_selector' ) ? _e( 'Site Visibility' ) : _e( 'Search Engine Visibility' ); ?> </span></legend>
 <?php if ( has_action( 'blog_privacy_selector' ) ) : ?>

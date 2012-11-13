@@ -130,7 +130,7 @@ class Custom_Image_Header {
 			'title'   => __('Header Text'),
 			'content' =>
 				'<p>' . sprintf( __( 'For most themes, the header text is your Site Title and Tagline, as defined in the <a href="%1$s">General Settings</a> section.' ), admin_url( 'options-general.php' ) ) . '<p>' .
-				'<p>' . __( 'In the Header Text section of this page, you can choose whether to display this text or hide it. You can also choose a color for the text by typing in a legitimate HTML hex value (eg: &#8220;#ff0000&#8221; for red) or by clicking &#8220;Select a Color&#8221; and dialing in a color using the color picker.') . '</p>' .
+				'<p>' . __( 'In the Header Text section of this page, you can choose whether to display this text or hide it. You can also choose a color for the text by clicking the Select Color button and either typing in a legitimate HTML hex value, e.g. &#8220;#ff0000&#8221; for red, or by choosing a color using the color picker.' ) . '</p>' .
 				'<p>' . __( 'Don&#8217;t forget to Save Changes when you&#8217;re done!') . '</p>'
 		) );
 
@@ -172,7 +172,7 @@ class Custom_Image_Header {
 
 		if ( ( 1 == $step || 3 == $step ) ) {
 			add_thickbox();
-			wp_enqueue_script( 'media-upload' );
+			wp_enqueue_media();
 			wp_enqueue_script( 'custom-header' );
 			if ( current_theme_supports( 'custom-header', 'header-text' ) )
 				wp_enqueue_script( 'wp-color-picker' );
@@ -525,22 +525,27 @@ class Custom_Image_Header {
 			printf( __( 'Suggested height is <strong>%1$d pixels</strong>.' ) . ' ', get_theme_support( 'custom-header', 'height' ) );
 	}
 	?></p>
-	<form enctype="multipart/form-data" id="upload-form" method="post" action="<?php echo esc_attr( add_query_arg( 'step', 2 ) ) ?>">
+	<form enctype="multipart/form-data" id="upload-form" class="wp-upload-form" method="post" action="<?php echo esc_url( add_query_arg( 'step', 2 ) ) ?>">
 	<p>
 		<label for="upload"><?php _e( 'Choose an image from your computer:' ); ?></label><br />
 		<input type="file" id="upload" name="import" />
 		<input type="hidden" name="action" value="save" />
 		<?php wp_nonce_field( 'custom-header-upload', '_wpnonce-custom-header-upload' ); ?>
-		<?php submit_button( __( 'Upload' ), 'small', 'submit', false ); ?>
+		<?php submit_button( __( 'Upload' ), 'button', 'submit', false ); ?>
 	</p>
 	<?php
-		$image_library_url = get_upload_iframe_src( 'image', null, 'library' );
-		$image_library_url = remove_query_arg( 'TB_iframe', $image_library_url );
-		$image_library_url = add_query_arg( array( 'context' => 'custom-header', 'TB_iframe' => 1 ), $image_library_url );
+		$modal_update_href = esc_url( add_query_arg( array(
+			'page' => 'custom-header',
+			'step' => 2,
+			'_wpnonce-custom-header-upload' => wp_create_nonce('custom-header-upload'),
+		), admin_url('themes.php') ) );
 	?>
 	<p>
 		<label for="choose-from-library-link"><?php _e( 'Or choose an image from your media library:' ); ?></label><br />
-		<a id="choose-from-library-link" class="button thickbox" href="<?php echo esc_url( $image_library_url ); ?>"><?php _e( 'Choose Image' ); ?></a>
+		<a id="choose-from-library-link" class="button"
+			data-update-link="<?php echo esc_attr( $modal_update_href ); ?>"
+			data-choose="<?php esc_attr_e( 'Choose a Custom Header' ); ?>"
+			data-update="<?php esc_attr_e( 'Set as header' ); ?>"><?php _e( 'Choose Image' ); ?></a>
 	</p>
 	</form>
 </td>
@@ -549,7 +554,7 @@ class Custom_Image_Header {
 </tbody>
 </table>
 
-<form method="post" action="<?php echo esc_attr( add_query_arg( 'step', 1 ) ) ?>">
+<form method="post" action="<?php echo esc_url( add_query_arg( 'step', 1 ) ) ?>">
 <table class="form-table">
 <tbody>
 	<?php if ( get_uploaded_header_images() ) : ?>
@@ -724,7 +729,7 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 <?php screen_icon(); ?>
 <h2><?php _e( 'Crop Header Image' ); ?></h2>
 
-<form method="post" action="<?php echo esc_attr(add_query_arg('step', 3)); ?>">
+<form method="post" action="<?php echo esc_url(add_query_arg('step', 3)); ?>">
 	<p class="hide-if-no-js"><?php _e('Choose the part of the image you want to use as your header.'); ?></p>
 	<p class="hide-if-js"><strong><?php _e( 'You need Javascript to choose a part of the image.'); ?></strong></p>
 
@@ -746,7 +751,7 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 	<p class="submit">
 	<?php submit_button( __( 'Crop and Publish' ), 'primary', 'submit', false ); ?>
 	<?php
-	if ( isset( $oitar ) && 1 == $oitar )
+	if ( isset( $oitar ) && 1 == $oitar && ( current_theme_supports( 'custom-header', 'flex-height' ) || current_theme_supports( 'custom-header', 'flex-width' ) ) )
 		submit_button( __( 'Skip Cropping, Publish Image as Is' ), 'secondary', 'skip-cropping', false );
 	?>
 	</p>
@@ -763,7 +768,13 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 	 */
 	function step_2_manage_upload() {
 		$overrides = array('test_form' => false);
-		$file = wp_handle_upload($_FILES['import'], $overrides);
+
+		$uploaded_file = $_FILES['import'];
+		$wp_filetype = wp_check_filetype_and_ext( $uploaded_file['tmp_name'], $uploaded_file['name'], false );
+		if ( ! wp_match_mime_types( 'image', $wp_filetype['type'] ) )
+			wp_die( __( 'The uploaded file is not a valid image. Please try again.' ) );
+
+		$file = wp_handle_upload($uploaded_file, $overrides);
 
 		if ( isset($file['error']) )
 			wp_die( $file['error'],  __( 'Image Upload Error' ) );
@@ -796,6 +807,9 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 		check_admin_referer( 'custom-header-crop-image' );
 
 		if ( ! current_theme_supports( 'custom-header', 'uploads' ) )
+			wp_die( __( 'Cheatin&#8217; uh?' ) );
+
+		if ( ! empty( $_POST['skip-cropping'] ) && ! ( current_theme_supports( 'custom-header', 'flex-height' ) || current_theme_supports( 'custom-header', 'flex-width' ) ) )
 			wp_die( __( 'Cheatin&#8217; uh?' ) );
 
 		if ( $_POST['oitar'] > 1 ) {

@@ -130,7 +130,7 @@
 /*
  * My Sites
  */
-#wpadminbar .quicklinks li img.blavatar {
+#wpadminbar .quicklinks li .blavatar {
 	margin-right: 0px;
 	margin-left: 4px;
 }

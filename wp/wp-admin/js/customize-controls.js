@@ -95,10 +95,23 @@
 						statuses.hide();
 				};
 
+			var toggleFreeze = false;
+
 			// Support the .dropdown class to open/close complex elements
-			this.container.on( 'click', '.dropdown', function( event ) {
+			this.container.on( 'click focus', '.dropdown', function( event ) {
 				event.preventDefault();
-				control.container.toggleClass('open');
+
+				if (!toggleFreeze)
+					control.container.toggleClass('open');
+
+				if ( control.container.hasClass('open') )
+					control.container.parent().parent().find('li.library-selected').focus();
+
+				// Don't want to fire focus and click at same time
+				toggleFreeze = true;
+				setTimeout(function () {
+					toggleFreeze = false;
+				}, 400);
 			});
 
 			this.setting.bind( update );
@@ -134,15 +147,23 @@
 				container: this.container,
 				browser:   this.container.find('.upload'),
 				dropzone:  this.container.find('.upload-dropzone'),
-				success:   this.success
+				success:   this.success,
+				plupload:  {},
+				params:    {}
 			}, this.uploader || {} );
 
-			if ( this.uploader.supported ) {
-				if ( control.params.context )
-					control.uploader.param( 'post_data[context]', this.params.context );
-
-				control.uploader.param( 'post_data[theme]', api.settings.theme.stylesheet );
+			if ( control.params.extensions ) {
+				control.uploader.plupload.filters = [{
+					title:      api.l10n.allowedFiles,
+					extensions: control.params.extensions
+				}];
 			}
+
+			if ( control.params.context )
+				control.uploader.params['post_data[context]'] = this.params.context;
+
+			if ( api.settings.theme.stylesheet )
+				control.uploader.params['post_data[theme]'] = api.settings.theme.stylesheet;
 
 			this.uploader = new wp.Uploader( this.uploader );
 
@@ -210,7 +231,11 @@
 			});
 
 			// Bind tab switch events
-			this.library.children('ul').on( 'click', 'li', function( event ) {
+			this.library.children('ul').on( 'click keydown', 'li', function( event ) {
+
+				if ( event.type === 'keydown' &&  13 !== event.which )
+					return;
+
 				var id  = $(this).data('customizeTab'),
 					tab = control.tabs[ id ];
 
@@ -225,7 +250,10 @@
 			});
 
 			// Bind events to switch image urls.
-			this.library.on( 'click', 'a', function( event ) {
+			this.library.on( 'click keydown', 'a', function( event ) {
+    			if ( event.type === 'keydown' &&  13 !== event.which ) // enter
+					return;
+
 				var value = $(this).data('customizeImageValue');
 
 				if ( value ) {
@@ -814,11 +842,26 @@
 		}());
 
 		// Temporary accordion code.
-		$('.customize-section-title').click( function( event ) {
+		var accordionFrozen = false;
+		$('.customize-section-title').bind('click keydown', function( event ) {
+
+			if ( event.type === 'keydown' &&  13 !== event.which ) // enter
+					return;
+
 			var clicked = $( this ).parents( '.customize-section' );
 
-			if ( clicked.hasClass('cannot-expand') )
+			if ( clicked.hasClass('cannot-expand') || accordionFrozen )
 				return;
+
+			// Don't want to fire focus and click at same time
+			accordionFrozen = true;
+			setTimeout(function () {
+				accordionFrozen = false;
+			}, 400);
+
+			// Scroll up if on #customize-section-title_tagline
+			if ('customize-section-title_tagline' === clicked.attr('id'))
+				$('.wp-full-overlay-sidebar-content').scrollTop(0);
 
 			$( '.customize-section' ).not( clicked ).removeClass( 'open' );
 			clicked.toggleClass( 'open' );
@@ -828,6 +871,21 @@
 		// Button bindings.
 		$('#save').click( function( event ) {
 			previewer.save();
+			event.preventDefault();
+		}).keydown( function( event ) {
+			if ( 9 === event.which ) // tab
+				return;
+			if ( 13 === event.which ) // enter
+				previewer.save();
+			event.preventDefault();
+		});
+
+		$('.back').keydown( function( event ) {
+			if ( 9 === event.which ) // tab
+				return;
+			var thisHref = $(this).attr('href');
+			if ( 13 === event.which ) // enter
+				window.location = thisHref;
 			event.preventDefault();
 		});
 
@@ -948,6 +1006,14 @@
 		});
 
 		api.trigger( 'ready' );
+
+		// Make sure left column gets focus
+		var topFocus = $('.back');
+		topFocus.focus();
+		setTimeout(function () {
+			topFocus.focus();
+		}, 200);
+
 	});
 
 })( wp, jQuery );

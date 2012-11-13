@@ -41,6 +41,10 @@ body {
 	user-select: none;
 }
 
+.customize-section-title:focus {
+	outline: none;
+}
+
 .cannot-expand .customize-section-title {
 	cursor: auto;
 }
@@ -67,7 +71,8 @@ body {
 
 .control-section:hover .customize-section-title,
 .control-section .customize-section-title:hover,
-.control-section.open .customize-section-title {
+.control-section.open .customize-section-title,
+.control-section .customize-section-title:focus {
 	color: #fff;
 	text-shadow: 0 -1px 0 #333;
 	background: #808080;
@@ -104,11 +109,13 @@ body {
 	display: none;
 }
 
-.customize-section-title:hover:after {
+.customize-section-title:hover:after,
+.customize-section-title:focus:after {
 	border-color: #aaa transparent;
 }
 
-.control-section .customize-section-title:hover:after {
+.control-section .customize-section-title:hover:after,
+.control-section .customize-section-title:focus:after {
 	border-color: #eee transparent;
 }
 
@@ -338,6 +345,7 @@ body {
 	width: 65px;
 	font-family: monospace;
 	text-align: center;
+	line-height: 16px;
 }
 
 /* The centered cursor overlaps the placeholder in webkit. Hide it when selected. */
