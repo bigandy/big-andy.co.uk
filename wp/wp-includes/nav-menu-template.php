@@ -155,7 +155,7 @@ function wp_nav_menu( $args = array() ) {
 	if ( ! $menu && !$args->theme_location ) {
 		$menus = wp_get_nav_menus();
 		foreach ( $menus as $menu_maybe ) {
-			if ( $menu_items = wp_get_nav_menu_items($menu_maybe->term_id) ) {
+			if ( $menu_items = wp_get_nav_menu_items( $menu_maybe->term_id, array( 'update_post_term_cache' => false ) ) ) {
 				$menu = $menu_maybe;
 				break;
 			}
@@ -164,7 +164,7 @@ function wp_nav_menu( $args = array() ) {
 
 	// If the menu exists, get its items.
 	if ( $menu && ! is_wp_error($menu) && !isset($menu_items) )
-		$menu_items = wp_get_nav_menu_items( $menu->term_id );
+		$menu_items = wp_get_nav_menu_items( $menu->term_id, array( 'update_post_term_cache' => false ) );
 
 	/*
 	 * If no menu was found:
@@ -337,7 +337,7 @@ function _wp_menu_item_classes_by_context( &$menu_items ) {
 			(
 				( ! empty( $home_page_id ) && 'post_type' == $menu_item->type && $wp_query->is_home && $home_page_id == $menu_item->object_id ) ||
 				( 'post_type' == $menu_item->type && $wp_query->is_singular ) ||
-				( 'taxonomy' == $menu_item->type && ( $wp_query->is_category || $wp_query->is_tag || $wp_query->is_tax ) )
+				( 'taxonomy' == $menu_item->type && ( $wp_query->is_category || $wp_query->is_tag || $wp_query->is_tax ) && $queried_object->taxonomy == $menu_item->object )
 			)
 		) {
 			$classes[] = 'current-menu-item';

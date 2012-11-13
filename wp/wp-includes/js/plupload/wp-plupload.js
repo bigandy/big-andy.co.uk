@@ -114,7 +114,7 @@ window.wp = window.wp || {};
 				if ( active )
 					return;
 
-				dropzone.addClass('drag-over');
+				dropzone.trigger('dropzone:enter').addClass('drag-over');
 				active = true;
 			});
 
@@ -126,7 +126,7 @@ window.wp = window.wp || {};
 				// See http://core.trac.wordpress.org/ticket/21705
 				timer = setTimeout( function() {
 					active = false;
-					dropzone.removeClass('drag-over');
+					dropzone.trigger('dropzone:leave').removeClass('drag-over');
 				}, 0 );
 			});
 		}( this.dropzone, this.supports.dragdrop ));
@@ -147,7 +147,8 @@ window.wp = window.wp || {};
 				attributes = _.extend({
 					file:      file,
 					uploading: true,
-					date:      new Date()
+					date:      new Date(),
+					filename:  file.name
 				}, _.pick( file, 'loaded', 'size', 'percent' ) );
 
 				// Handle early mime type scanning for images.

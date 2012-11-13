@@ -749,12 +749,6 @@ function wp_ajax_replyto_comment( $action ) {
 	$comment_auto_approved = false;
 	$commentdata = compact('comment_post_ID', 'comment_author', 'comment_author_email', 'comment_author_url', 'comment_content', 'comment_type', 'comment_parent', 'user_ID');
 
-	$comment_id = wp_new_comment( $commentdata );
-	$comment = get_comment($comment_id);
-	if ( ! $comment ) wp_die( 1 );
-
-	$position = ( isset($_POST['position']) && (int) $_POST['position'] ) ? (int) $_POST['position'] : '-1';
-
 	// automatically approve parent comment
 	if ( !empty($_POST['approve_parent']) ) {
 		$parent = get_comment( $comment_parent );
@@ -764,6 +758,12 @@ function wp_ajax_replyto_comment( $action ) {
 				$comment_auto_approved = true;
 		}
 	}
+
+	$comment_id = wp_new_comment( $commentdata );
+	$comment = get_comment($comment_id);
+	if ( ! $comment ) wp_die( 1 );
+
+	$position = ( isset($_POST['position']) && (int) $_POST['position'] ) ? (int) $_POST['position'] : '-1';
 
 	ob_start();
 		if ( 'dashboard' == $_REQUEST['mode'] ) {
@@ -1609,6 +1609,17 @@ function wp_ajax_upload_attachment() {
 
 	$post_data = isset( $_REQUEST['post_data'] ) ? $_REQUEST['post_data'] : array();
 
+	// If the context is custom header or background, make sure the uploaded file is an image.
+	if ( isset( $post_data['context'] ) && in_array( $post_data['context'], array( 'custom-header', 'custom-background' ) ) ) {
+		$wp_filetype = wp_check_filetype_and_ext( $_FILES['async-upload']['tmp_name'], $_FILES['async-upload']['name'], false );
+		if ( ! wp_match_mime_types( 'image', $wp_filetype['type'] ) ) {
+			wp_send_json_error( array(
+				'message' => __( 'The uploaded file is not a valid image. Please try again.' ),
+				'filename' => $_FILES['async-upload']['name'],
+			) );
+		}
+	}
+
 	$attachment_id = media_handle_upload( 'async-upload', $post_id, $post_data );
 
 	if ( is_wp_error( $attachment_id ) ) {
@@ -1839,16 +1850,72 @@ function wp_ajax_save_attachment() {
 		wp_send_json_error();
 
 	$changes = $_REQUEST['changes'];
-	$args    = array();
+	$post    = get_post( $id, ARRAY_A );
 
-	if ( ! empty( $changes['title'] ) )
-		$args['post_title'] = $changes['title'];
+	if ( 'attachment' != $post['post_type'] )
+		wp_send_json_error();
 
-	if ( ! empty( $changes['caption'] ) )
-		$args['post_excerpt'] = $changes['caption'];
+	if ( isset( $changes['title'] ) )
+		$post['post_title'] = $changes['title'];
 
-	if ( $args )
-		wp_update_post( array_merge( $args, array( 'ID' => $id ) ) );
+	if ( isset( $changes['caption'] ) )
+		$post['post_excerpt'] = $changes['caption'];
 
+	if ( isset( $changes['alt'] ) ) {
+		$alt = get_post_meta( $attachment_id, '_wp_attachment_image_alt', true );
+		$new_alt = stripslashes( $changes['alt'] );
+		if ( $alt != $new_alt ) {
+			$new_alt = wp_strip_all_tags( $new_alt, true );
+			update_post_meta( $id, '_wp_attachment_image_alt', addslashes( $new_alt ) );
+		}
+	}
+
+	wp_update_post( $post );
 	wp_send_json_success();
+}
+
+/**
+ * Save backwards compatible attachment attributes.
+ *
+ * @since 3.5.0
+ */
+function wp_ajax_save_attachment_compat() {
+	if ( ! isset( $_REQUEST['id'] ) )
+		wp_send_json_error();
+
+	if ( ! $id = absint( $_REQUEST['id'] ) )
+		wp_send_json_error();
+
+	if ( empty( $_REQUEST['attachments'] ) || empty( $_REQUEST['attachments'][ $id ] ) )
+		wp_send_json_error();
+	$attachment_data = $_REQUEST['attachments'][ $id ];
+
+	check_ajax_referer( 'save-attachment', 'nonce' );
+
+	if ( ! current_user_can( 'edit_post', $id ) )
+		wp_send_json_error();
+
+	$post = get_post( $id, ARRAY_A );
+
+	if ( 'attachment' != $post['post_type'] )
+		wp_send_json_error();
+
+	$post = apply_filters( 'attachment_fields_to_save', $post, $attachment_data );
+
+	if ( isset( $post['errors'] ) ) {
+		$errors = $post['errors']; // @todo return me and display me!
+		unset( $post['errors'] );
+	}
+
+	wp_update_post( $post );
+
+	foreach ( get_attachment_taxonomies( $post ) as $taxonomy ) {
+		if ( isset( $attachment_data[ $taxonomy ] ) )
+			wp_set_object_terms( $id, array_map( 'trim', preg_split( '/,+/', $attachment_data[ $taxonomy ] ) ), $taxonomy, false );
+	}
+
+	if ( ! $attachment = wp_prepare_attachment_for_js( $id ) )
+		wp_send_json_error();
+
+	wp_send_json_success( $attachment );
 }

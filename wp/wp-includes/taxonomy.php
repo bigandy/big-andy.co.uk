@@ -309,6 +309,7 @@ function is_taxonomy_hierarchical($taxonomy) {
  * @param string $taxonomy Name of taxonomy object
  * @param array|string $object_type Name of the object type for the taxonomy object.
  * @param array|string $args See above description for the two keys values.
+ * @return null|WP_Error WP_Error if errors, otherwise null.
  */
 function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
 	global $wp_taxonomies, $wp;
@@ -329,6 +330,9 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
 						'show_in_nav_menus' => null,
 					);
 	$args = wp_parse_args($args, $defaults);
+
+	if ( strlen( $taxonomy ) > 32 ) 
+		return new WP_Error( 'taxonomy_too_long', __( 'Taxonomies cannot exceed 32 characters in length' ) );
 
 	if ( false !== $args['query_var'] && !empty($wp) ) {
 		if ( true === $args['query_var'] )
@@ -1184,11 +1188,9 @@ function get_terms($taxonomies, $args = '') {
 	global $wpdb;
 	$empty_array = array();
 
-	$single_taxonomy = false;
-	if ( !is_array($taxonomies) ) {
-		$single_taxonomy = true;
-		$taxonomies = array($taxonomies);
-	}
+	$single_taxonomy = ! is_array( $taxonomies ) || 1 === count( $taxonomies );
+	if ( ! is_array( $taxonomies ) )
+		$taxonomies = array( $taxonomies );
 
 	foreach ( $taxonomies as $taxonomy ) {
 		if ( ! taxonomy_exists($taxonomy) ) {
@@ -3109,7 +3111,7 @@ function get_the_taxonomies($post = 0, $args = array() ) {
 			$t['template'] = $template;
 
 		$terms = get_object_term_cache($post->ID, $taxonomy);
-		if ( empty($terms) )
+		if ( false === $terms )
 			$terms = wp_get_object_terms($post->ID, $taxonomy, $t['args']);
 
 		$links = array();
@@ -3159,7 +3161,7 @@ function is_object_in_term( $object_id, $taxonomy, $terms = null ) {
 		return new WP_Error( 'invalid_object', __( 'Invalid object ID' ) );
 
 	$object_terms = get_object_term_cache( $object_id, $taxonomy );
-	if ( empty( $object_terms ) )
+	if ( false === $object_terms )
 		 $object_terms = wp_get_object_terms( $object_id, $taxonomy );
 
 	if ( is_wp_error( $object_terms ) )

@@ -28,7 +28,7 @@ module.exports = function(grunt) {
     },
     concat: {
       dist: {
-        src: ['<banner:meta.banner>', 'js/scripts.js'],
+        src: ['<banner:meta.banner>', 'js/scripts.js', 'js/libs/ga.js'],
         dest: '../js/scripts.min.js'
       }
     },

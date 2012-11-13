@@ -124,9 +124,9 @@ tagBox = {
 	init : function() {
 		var t = this, ajaxtag = $('div.ajaxtag');
 
-	    $('.tagsdiv').each( function() {
-	        tagBox.quickClicks(this);
-	    });
+		$('.tagsdiv').each( function() {
+			tagBox.quickClicks(this);
+		});
 
 		$('input.tagadd', ajaxtag).click(function(){
 			t.flushTags( $(this).closest('.tagsdiv') );
@@ -138,8 +138,8 @@ tagBox = {
 
 		$('input.newtag', ajaxtag).blur(function() {
 			if ( this.value == '' )
-	            $(this).parent().siblings('.taghint').css('visibility', '');
-	    }).focus(function(){
+				$(this).parent().siblings('.taghint').css('visibility', '');
+		}).focus(function(){
 			$(this).parent().siblings('.taghint').css('visibility', 'hidden');
 		}).keyup(function(e){
 			if ( 13 == e.which ) {
@@ -156,20 +156,18 @@ tagBox = {
 			$(this).suggest( ajaxurl + '?action=ajax-tag-search&tax=' + tax, { delay: 500, minchars: 2, multiple: true, multipleSep: postL10n.comma + ' ' } );
 		});
 
-	    // save tags on post save/publish
-	    $('#post').submit(function(){
+		// save tags on post save/publish
+		$('#post').submit(function(){
 			$('div.tagsdiv').each( function() {
-	        	tagBox.flushTags(this, false, 1);
+				tagBox.flushTags(this, false, 1);
 			});
 		});
 
 		// tag cloud
 		$('a.tagcloud-link').click(function(){
-			tagBox.get( $(this).attr('id') );
-			$(this).unbind().click(function(){
-				$(this).siblings('.the-tagcloud').toggle();
-				return false;
-			});
+			if ( ! $('.the-tagcloud').length )
+				tagBox.get( $(this).attr('id') );
+			$(this).siblings('.the-tagcloud').toggle();
 			return false;
 		});
 	}
@@ -277,9 +275,9 @@ jQuery(document).ready( function($) {
 		taxonomyParts = this_id.split('-');
 		taxonomyParts.shift();
 		taxonomy = taxonomyParts.join('-');
- 		settingName = taxonomy + '_tab';
- 		if ( taxonomy == 'category' )
- 			settingName = 'cats';
+		settingName = taxonomy + '_tab';
+		if ( taxonomy == 'category' )
+			settingName = 'cats';
 
 		// TODO: move to jQuery 1.3+, support for multiple hierarchical taxonomies, see wp-lists.js
 		$('a', '#' + taxonomy + '-tabs').click( function(){
@@ -389,6 +387,10 @@ jQuery(document).ready( function($) {
 		}
 
 		function updateText() {
+
+			if ( ! $('#timestampdiv').length )
+				return true;
+
 			var attemptedDate, originalDate, currentDate, publishOn, postStatus = $('#post_status'),
 				optPublish = $('option[value="publish"]', postStatus), aa = $('#aa').val(),
 				mm = $('#mm').val(), jj = $('#jj').val(), hh = $('#hh').val(), mn = $('#mn').val();
@@ -510,6 +512,7 @@ jQuery(document).ready( function($) {
 		$('#timestampdiv').siblings('a.edit-timestamp').click(function() {
 			if ($('#timestampdiv').is(":hidden")) {
 				$('#timestampdiv').slideDown('fast');
+				$('#mm').focus();
 				$(this).hide();
 			}
 			return false;
@@ -533,6 +536,16 @@ jQuery(document).ready( function($) {
 				$('#timestampdiv').siblings('a.edit-timestamp').show();
 			}
 			return false;
+		});
+
+		$('#post').on( 'submit', function(e){
+			if ( ! updateText() ) {
+				e.preventDefault();
+				$('#timestampdiv').show();
+				$('#publishing-action .spinner').hide();
+				$('#publish').prop('disabled', false).removeClass('button-primary-disabled');
+				return false;
+			}
 		});
 
 		$('#post-status-select').siblings('a.edit-post-status').click(function() {

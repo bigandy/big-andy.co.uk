@@ -17,11 +17,7 @@ if ( wp_is_mobile() )
 
 if ( post_type_supports($post_type, 'editor') || post_type_supports($post_type, 'thumbnail') ) {
 	add_thickbox();
-
-	wp_enqueue_script( 'media-upload' );
-	wp_enqueue_style( 'media-views' );
-	wp_plupload_default_settings();
-	add_action( 'admin_footer', 'wp_print_media_templates' );
+	wp_enqueue_media();
 }
 
 /**
@@ -111,7 +107,7 @@ if ( 'attachment' == $post_type ) {
 	wp_enqueue_script( 'image-edit' );
 	wp_enqueue_style( 'imgareaselect' );
 	add_meta_box( 'submitdiv', __('Save'), 'attachment_submit_meta_box', null, 'side', 'core' );
-	add_meta_box( 'attachmentdata', __('Attachment Page Content'), 'attachment_data_meta_box', null, 'normal', 'core' );
+	add_meta_box( 'attachmentdata', __('Attachment Page Content'), 'attachment_content_meta_box', null, 'normal', 'core' );
 	add_action( 'edit_form_after_title', 'edit_form_image_editor' );
 } else {
 	add_meta_box( 'submitdiv', __( 'Publish' ), 'post_submit_meta_box', null, 'side', 'core' );
@@ -274,7 +270,11 @@ require_once('./admin-header.php');
 
 <div class="wrap">
 <?php screen_icon(); ?>
-<h2><?php echo esc_html( $title ); ?><?php if ( isset( $post_new_file ) ) : ?> <a href="<?php echo esc_url( $post_new_file ) ?>" class="add-new-h2"><?php echo esc_html($post_type_object->labels->add_new); ?></a><?php endif; ?></h2>
+<h2><?php
+echo esc_html( $title );
+if ( isset( $post_new_file ) && current_user_can( $post_type_object->cap->create_posts ) )
+	echo ' <a href="' . esc_url( $post_new_file ) . '" class="add-new-h2">' . esc_html( $post_type_object->labels->add_new ) . '</a>';
+?></h2>
 <?php if ( $notice ) : ?>
 <div id="notice" class="error"><p><?php echo $notice ?></p></div>
 <?php endif; ?>
@@ -367,6 +367,8 @@ if ( post_type_supports($post_type, 'editor') ) {
 
 </div>
 <?php } ?>
+
+<?php do_action( 'edit_form_after_editor' ); ?>
 </div><!-- /post-body-content -->
 
 <div id="postbox-container-1" class="postbox-container">

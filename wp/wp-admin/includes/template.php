@@ -421,7 +421,7 @@ function list_meta( $meta ) {
 		<th>' . __( 'Value' ) . '</th>
 	</tr>
 	</thead>
-	<tbody id="the-list" class="list:meta">
+	<tbody id="the-list" data-wp-lists="list:meta">
 	<tr><td></td></tr>
 	</tbody>
 </table>'; //TBODY needed for list-manipulation JS
@@ -436,7 +436,7 @@ function list_meta( $meta ) {
 		<th><?php _e( 'Value' ) ?></th>
 	</tr>
 	</thead>
-	<tbody id='the-list' class='list:meta'>
+	<tbody id='the-list' data-wp-lists='list:meta'>
 <?php
 	foreach ( $meta as $entry )
 		echo _list_meta_row( $entry, $count );
@@ -492,9 +492,9 @@ function _list_meta_row( $entry, &$count ) {
 	$r .= "\n\t\t<td class='left'><label class='screen-reader-text' for='meta[{$entry['meta_id']}][key]'>" . __( 'Key' ) . "</label><input name='meta[{$entry['meta_id']}][key]' id='meta[{$entry['meta_id']}][key]' type='text' size='20' value='{$entry['meta_key']}' />";
 
 	$r .= "\n\t\t<div class='submit'>";
-	$r .= get_submit_button( __( 'Delete' ), "delete:the-list:meta-{$entry['meta_id']}::_ajax_nonce=$delete_nonce deletemeta small", "deletemeta[{$entry['meta_id']}]", false );
+	$r .= get_submit_button( __( 'Delete' ), 'deletemeta small', "deletemeta[{$entry['meta_id']}]", false, array( 'data-wp-lists' => "delete:the-list:meta-{$entry['meta_id']}::_ajax_nonce=$delete_nonce" ) );
 	$r .= "\n\t\t";
-	$r .= get_submit_button( __( 'Update' ), "add:the-list:meta-{$entry['meta_id']}::_ajax_nonce-add-meta=$update_nonce updatemeta small" , "meta-{$entry['meta_id']}-submit", false );
+	$r .= get_submit_button( __( 'Update' ), 'updatemeta small', "meta-{$entry['meta_id']}-submit", false, array( 'data-wp-lists' => "add:the-list:meta-{$entry['meta_id']}::_ajax_nonce-add-meta=$update_nonce" ) );
 	$r .= "</div>";
 	$r .= wp_nonce_field( 'change-meta', '_ajax_nonce', false, false );
 	$r .= "</td>";
@@ -556,7 +556,7 @@ function meta_form() {
 
 <tr><td colspan="2">
 <div class="submit">
-<?php submit_button( __( 'Add Custom Field' ), 'add:the-list:newmeta secondary', 'addmeta', false, array( 'id' => 'newmeta-submit' ) ); ?>
+<?php submit_button( __( 'Add Custom Field' ), 'secondary', 'addmeta', false, array( 'id' => 'newmeta-submit', 'data-wp-lists' => 'add:the-list:newmeta' ) ); ?>
 </div>
 <?php wp_nonce_field( 'add-meta', '_ajax_nonce-add-meta', false ); ?>
 </td></tr>
@@ -787,7 +787,7 @@ function wp_import_upload_form( $action ) {
 		<p><strong><?php echo $upload_dir['error']; ?></strong></p></div><?php
 	else :
 ?>
-<form enctype="multipart/form-data" id="import-upload-form" method="post" action="<?php echo esc_attr(wp_nonce_url($action, 'import-upload')); ?>">
+<form enctype="multipart/form-data" id="import-upload-form" method="post" class="wp-upload-form" action="<?php echo esc_attr(wp_nonce_url($action, 'import-upload')); ?>">
 <p>
 <label for="upload"><?php _e( 'Choose a file from your computer:' ); ?></label> (<?php printf( __('Maximum size: %s' ), $size ); ?>)
 <input type="file" id="upload" name="import" size="25" />
@@ -1113,7 +1113,7 @@ function do_settings_fields($page, $section) {
 	foreach ( (array) $wp_settings_fields[$page][$section] as $field ) {
 		echo '<tr valign="top">';
 		if ( !empty($field['args']['label_for']) )
-			echo '<th scope="row"><label for="' . $field['args']['label_for'] . '">' . $field['title'] . '</label></th>';
+			echo '<th scope="row"><label for="' . esc_attr( $field['args']['label_for'] ) . '">' . $field['title'] . '</label></th>';
 		else
 			echo '<th scope="row">' . $field['title'] . '</th>';
 		echo '<td>';

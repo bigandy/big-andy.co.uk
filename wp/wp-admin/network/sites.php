@@ -73,7 +73,7 @@ if ( isset( $_GET['action'] ) ) {
 				?>
 			</head>
 			<body>
-				<h1 id="logo"><img alt="WordPress" src="<?php echo esc_attr( admin_url( 'images/wordpress-logo.png?ver=20120216' ) ); ?>" /></h1>
+				<h1 id="logo"><a href="<?php esc_attr_e( 'http://wordpress.org/' ); ?>"><?php _e( 'WordPress' ); ?></a></h1>
 				<form action="sites.php?action=<?php echo esc_attr( $_GET['action2'] ) ?>" method="post">
 					<input type="hidden" name="action" value="<?php echo esc_attr( $_GET['action2'] ) ?>" />
 					<input type="hidden" name="id" value="<?php echo esc_attr( $id ); ?>" />
@@ -131,7 +131,6 @@ if ( isset( $_GET['action'] ) ) {
 							case 'notspam':
 								$updated_action = ( 'spam' === $doaction ) ? 'all_spam' : 'all_notspam';
 								update_blog_status( $val, 'spam', ( 'spam' === $doaction ) ? '1' : '0' );
-								set_time_limit( 60 );
 							break;
 						}
 					} else {

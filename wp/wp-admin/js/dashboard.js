@@ -107,6 +107,10 @@ jQuery(document).ready( function($) {
 				prompt.addClass('screen-reader-text');
 			});
 		});
+
+		$('#quick-press').on( 'click focusin', function() {
+			wpActiveEditor = 'content';
+		});
 	};
 	quickPressLoad();
 

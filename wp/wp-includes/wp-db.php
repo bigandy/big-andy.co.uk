@@ -987,7 +987,7 @@ class wpdb {
 	 * @return null|false|string Sanitized query string, null if there is no query, false if there is an error and string
 	 * 	if there was something to prepare
 	 */
-	function prepare( $query = null ) { // ( $query, *$args )
+	function prepare( $query, $args ) {
 		if ( is_null( $query ) )
 			return;
 
@@ -998,7 +998,7 @@ class wpdb {
 			$args = $args[0];
 		$query = str_replace( "'%s'", '%s', $query ); // in case someone mistakenly already singlequoted it
 		$query = str_replace( '"%s"', '%s', $query ); // doublequote unquoting
-		$query = str_replace( '%f' , '%F', $query ); // Force floats to be locale unaware
+		$query = preg_replace( '|(?<!%)%f|' , '%F', $query ); // Force floats to be locale unaware
 		$query = preg_replace( '|(?<!%)%s|', "'%s'", $query ); // quote the strings, avoiding escaped strings like %%s
 		array_walk( $args, array( $this, 'escape_by_ref' ) );
 		return @vsprintf( $query, $args );
@@ -1617,7 +1617,7 @@ class wpdb {
 	/**
 	 * Wraps errors in a nice header and footer and dies.
 	 *
-	 * Will not die if wpdb::$show_errors is true
+	 * Will not die if wpdb::$show_errors is false.
 	 *
 	 * @since 1.5.0
 	 *

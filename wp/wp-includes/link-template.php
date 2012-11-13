@@ -484,9 +484,9 @@ function get_post_comments_feed_link($post_id = 0, $feed = '') {
 	} else {
 		$type = get_post_field('post_type', $post_id);
 		if ( 'page' == $type )
-			$url = home_url("?feed=$feed&amp;page_id=$post_id");
+			$url = add_query_arg( array( 'feed' => $feed, 'page_id' => $post_id ), home_url( '/' ) );
 		else
-			$url = home_url("?feed=$feed&amp;p=$post_id");
+			$url = add_query_arg( array( 'feed' => $feed, 'p' => $post_id ), home_url( '/' ) );
 	}
 
 	return apply_filters('post_comments_feed_link', $url);
@@ -509,7 +509,7 @@ function get_post_comments_feed_link($post_id = 0, $feed = '') {
  * @return string Link to the comment feed for the current post.
 */
 function post_comments_feed_link( $link_text = '', $post_id = '', $feed = '' ) {
-	$url = get_post_comments_feed_link($post_id, $feed);
+	$url = esc_url( get_post_comments_feed_link( $post_id, $feed ) );
 	if ( empty($link_text) )
 		$link_text = __('Comments Feed');
 
@@ -1133,7 +1133,11 @@ function get_adjacent_post( $in_same_cat = false, $excluded_categories = '', $pr
 		$join = " INNER JOIN $wpdb->term_relationships AS tr ON p.ID = tr.object_id INNER JOIN $wpdb->term_taxonomy tt ON tr.term_taxonomy_id = tt.term_taxonomy_id";
 
 		if ( $in_same_cat ) {
+			if ( ! is_object_in_taxonomy( $post->post_type, 'category' ) )
+				return '';
 			$cat_array = wp_get_object_terms($post->ID, 'category', array('fields' => 'ids'));
+			if ( ! $cat_array || is_wp_error( $cat_array ) )
+				return '';
 			$join .= " AND tt.taxonomy = 'category' AND tt.term_id IN (" . implode(',', $cat_array) . ")";
 		}
 
@@ -1422,7 +1426,7 @@ function get_pagenum_link($pagenum = 1, $escape = true ) {
 	$home_root = ( isset($home_root['path']) ) ? $home_root['path'] : '';
 	$home_root = preg_quote( $home_root, '|' );
 
-	$request = preg_replace('|^'. $home_root . '|', '', $request);
+	$request = preg_replace('|^'. $home_root . '|i', '', $request);
 	$request = preg_replace('|^/+|', '', $request);
 
 	if ( !$wp_rewrite->using_permalinks() || is_admin() ) {
@@ -1445,7 +1449,7 @@ function get_pagenum_link($pagenum = 1, $escape = true ) {
 		}
 
 		$request = preg_replace( "|$wp_rewrite->pagination_base/\d+/?$|", '', $request);
-		$request = preg_replace( '|^index\.php|', '', $request);
+		$request = preg_replace( '|^index\.php|i', '', $request);
 		$request = ltrim($request, '/');
 
 		$base = trailingslashit( get_bloginfo( 'url' ) );

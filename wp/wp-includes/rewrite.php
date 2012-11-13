@@ -1528,7 +1528,7 @@ class WP_Rewrite {
 		// Old feed and service files
 		$deprecated_files = array(
 			'.*wp-(atom|rdf|rss|rss2|feed|commentsrss2)\.php$' => $this->index . '?feed=old',
-			'.*wp-app\.php$' => $this->index . '?error=403',
+			'.*wp-app\.php(/.*)?$' => $this->index . '?error=403',
 		);
 
 		// Registration rules
@@ -1940,9 +1940,10 @@ class WP_Rewrite {
 	 */
 	function set_permalink_structure($permalink_structure) {
 		if ( $permalink_structure != $this->permalink_structure ) {
+			$old_permalink_structure = $this->permalink_structure;
 			update_option('permalink_structure', $permalink_structure);
 			$this->init();
-			do_action('permalink_structure_changed', $this->permalink_structure, $permalink_structure);
+			do_action('permalink_structure_changed', $old_permalink_structure, $permalink_structure);
 		}
 	}
 

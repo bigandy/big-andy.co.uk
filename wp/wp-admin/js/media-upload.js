@@ -103,21 +103,37 @@ var tb_position;
 				return workflow;
 
 			workflow = workflows[ id ] = wp.media( _.defaults( options || {}, {
+				frame:    'post',
 				title:    wp.media.view.l10n.insertMedia,
-				multiple: true,
-				describe: true
+				multiple: true
 			} ) );
 
-			workflow.on( 'update:insert', function( selection ) {
+			workflow.on( 'insert', function( selection ) {
+				var state = workflow.state(),
+					details = state.get('details');
+
+				selection = selection || state.get('selection');
+
+				if ( ! selection || ! details )
+					return;
+
 				this.insert( selection.map( function( attachment ) {
+					var detail = details[ attachment.cid ];
+
+					if ( detail )
+						detail = detail.toJSON();
+
+					// Reset the attachment details.
+					delete details[ attachment.cid ];
+
 					if ( 'image' === attachment.get('type') )
-						return wp.media.string.image( attachment ) + ' ';
+						return wp.media.string.image( attachment, detail ) + ' ';
 					else
-						return wp.media.string.link( attachment ) + ' ';
+						return wp.media.string.link( attachment, detail ) + ' ';
 				}).join('') );
 			}, this );
 
-			workflow.on( 'update:gallery', function( selection ) {
+			workflow.get('gallery-edit').on( 'update', function( selection ) {
 				var view = wp.mce.view.get('gallery'),
 					shortcode;
 
@@ -126,9 +142,52 @@ var tb_position;
 
 				shortcode = view.gallery.shortcode( selection );
 				this.insert( shortcode.string() );
+			}, this );
 
-				// Reset the workflow view to the library.
-				workflow.render('library');
+			workflow.get('embed').on( 'select', function() {
+				var embed = workflow.state().toJSON(),
+					options;
+
+				if ( 'link' === embed.type ) {
+					this.insert( wp.html.string({
+						tag:     'a',
+						content: embed.title || embed.url,
+						attrs:   {
+							href: embed.url
+						}
+					}) );
+
+				} else if ( 'image' === embed.type ) {
+					_.defaults( embed, {
+						align:   'none',
+						url:     '',
+						alt:     '',
+						linkUrl: '',
+						link:    'none'
+					});
+
+					options = {
+						single: true,
+						tag:    'img',
+						attrs:  {
+							'class': 'align' + embed.align,
+							src:     embed.url,
+							alt:     embed.alt
+						}
+					};
+
+					if ( 'custom' === embed.link || 'file' === embed.link ) {
+						options = {
+							tag:     'a',
+							content: options,
+							attrs:   {
+								href: 'custom' === embed.link ? embed.linkUrl : embed.url
+							}
+						};
+					}
+
+					this.insert( wp.html.string( options ) );
+				}
 			}, this );
 
 			return workflow;
@@ -143,7 +202,7 @@ var tb_position;
 		},
 
 		init: function() {
-			$('.insert-media').on( 'click', function( event ) {
+			$('#wpbody').on('click', '.insert-media', function( event ) {
 				var editor = $(this).data('editor'),
 					workflow;
 

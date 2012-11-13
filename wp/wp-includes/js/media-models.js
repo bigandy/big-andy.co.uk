@@ -7,15 +7,33 @@ window.wp = window.wp || {};
 	 * wp.media( attributes )
 	 *
 	 * Handles the default media experience. Automatically creates
-	 * and opens a media workflow, and returns the result.
+	 * and opens a media frame, and returns the result.
 	 * Does nothing if the controllers do not exist.
 	 *
 	 * @param  {object} attributes The properties passed to the main media controller.
 	 * @return {object}            A media workflow.
 	 */
 	media = wp.media = function( attributes ) {
-		if ( media.controller.Workflow )
-			return new media.controller.Workflow( attributes ).attach().render();
+		var MediaFrame = media.view.MediaFrame,
+			frame;
+
+		if ( ! MediaFrame )
+			return;
+
+		attributes = _.defaults( attributes || {}, {
+			frame: 'select'
+		});
+
+		if ( 'select' === attributes.frame && MediaFrame.Select )
+			frame = new MediaFrame.Select( attributes );
+		else if ( 'post' === attributes.frame && MediaFrame.Post )
+			frame = new MediaFrame.Post( attributes );
+
+		delete attributes.frame;
+		// Set the default state.
+		frame.state( frame.options.state );
+		// Render, attach, and open the frame.
+		return frame.render().attach().open();
 	};
 
 	_.extend( media, { model: {}, view: {}, controller: {} });
@@ -58,9 +76,15 @@ window.wp = window.wp || {};
 		 * @return {function}    A function that lazily-compiles the template requested.
 		 */
 		template: _.memoize( function( id ) {
-			var compiled;
+			var compiled,
+				options = {
+					evaluate:    /<#([\s\S]+?)#>/g,
+					interpolate: /\{\{\{([\s\S]+?)\}\}\}/g,
+					escape:      /\{\{([^\}]+?)\}\}(?!\})/g
+				};
+
 			return function( data ) {
-				compiled = compiled || _.template( $( '#tmpl-' + id ).html() );
+				compiled = compiled || _.template( $( '#tmpl-' + id ).html(), null, options );
 				return compiled( data );
 			};
 		}),
@@ -221,6 +245,17 @@ window.wp = window.wp || {};
 			resp.date = new Date( resp.date );
 			resp.modified = new Date( resp.modified );
 			return resp;
+		},
+
+		saveCompat: function( data, options ) {
+			var model = this;
+
+			return media.post( 'save-attachment-compat', _.defaults({
+				id:     this.id,
+				nonce:  l10n.saveAttachmentNonce
+			}, data ) ).done( function( resp, status, xhr ) {
+				model.set( model.parse( resp, xhr ), options );
+			});
 		}
 	}, {
 		create: function( attrs ) {
@@ -491,13 +526,16 @@ window.wp = window.wp || {};
 		more: function( options ) {
 			var query = this;
 
+			if ( this._more && 'pending' === this._more.state() )
+				return this._more;
+
 			if ( ! this.hasMore )
 				return $.Deferred().resolve().promise();
 
 			options = options || {};
 			options.add = true;
 
-			return this.fetch( options ).done( function( resp ) {
+			return this._more = this.fetch( options ).done( function( resp ) {
 				if ( _.isEmpty( resp ) || -1 === this.args.posts_per_page || resp.length < this.args.posts_per_page )
 					query.hasMore = false;
 			});
@@ -611,6 +649,167 @@ window.wp = window.wp || {};
 				return query;
 			};
 		}())
+	});
+
+	/**
+	 * wp.media.model.Selection
+	 *
+	 * Used to manage a selection of attachments in the views.
+	 */
+	media.model.Selection = Attachments.extend({
+		initialize: function( models, options ) {
+			Attachments.prototype.initialize.apply( this, arguments );
+			this.multiple = options && options.multiple;
+
+			// Refresh the `single` model whenever the selection changes.
+			// Binds `single` instead of using the context argument to ensure
+			// it receives no parameters.
+			this.on( 'add remove reset', _.bind( this.single, this ) );
+		},
+
+		// Override the selection's add method.
+		// If the workflow does not support multiple
+		// selected attachments, reset the selection.
+		add: function( models, options ) {
+			if ( ! this.multiple ) {
+				models = _.isArray( models ) && models.length ? _.first( models ) : models;
+				this.clear( options );
+			}
+
+			return Attachments.prototype.add.call( this, models, options );
+		},
+
+		// Removes all models from the selection.
+		clear: function( options ) {
+			this.remove( this.models, options ).single();
+			return this;
+		},
+
+		// Override the selection's reset method.
+		// Always direct items through add and remove,
+		// as we need them to fire.
+		reset: function( models, options ) {
+			this.clear( options ).add( models, options ).single();
+			return this;
+		},
+
+		// Create selection.has, which determines if a model
+		// exists in the collection based on cid and id,
+		// instead of direct comparison.
+		has: function( attachment ) {
+			return !! ( this.getByCid( attachment.cid ) || this.get( attachment.id ) );
+		},
+
+		single: function( model ) {
+			var previous = this._single;
+
+			// If a `model` is provided, use it as the single model.
+			if ( model )
+				this._single = model;
+
+			// If the single model isn't in the selection, remove it.
+			if ( this._single && ! this.has( this._single ) )
+				delete this._single;
+
+			this._single = this._single || this.last();
+
+			// If single has changed, fire an event.
+			if ( this._single !== previous ) {
+				if ( this._single )
+					this._single.trigger( 'selection:single', this._single, this );
+				if ( previous )
+					previous.trigger( 'selection:unsingle', previous, this );
+			}
+
+			// Return the single model, or the last model as a fallback.
+			return this._single;
+		}
+	});
+
+	/**
+	 * wp.media.model.Composite
+	 *
+	 * Creates a model that can simultaneously pull from two or more collections.
+	 */
+	media.model.Composite = Attachments.extend({
+		initialize: function( models, options ) {
+			this.observe( this, { silent: true });
+			Attachments.prototype.initialize.apply( this, arguments );
+		},
+
+		evaluate: function( attachment, options ) {
+			var valid = this.validator( attachment ),
+				hasAttachment = !! this.getByCid( attachment.cid );
+
+			if ( ! valid && hasAttachment ) {
+				this.remove( attachment, options );
+			} else if ( valid && ! hasAttachment ) {
+				this.add( attachment, options );
+
+				// If we haven't been silenced, resort the collection.
+				if ( this.comparator && ( ! options || ! options.silent ) )
+					this.sort({ silent: true });
+			}
+
+			return this;
+		},
+
+		validator: function() {
+			return true;
+		},
+
+		evaluateAll: function( attachments, options ) {
+			_.each( attachments.models, function( attachment ) {
+				this.evaluate( attachment, { silent: true });
+			}, this );
+
+			if ( this.comparator )
+				this.sort( options );
+			return this;
+		},
+
+		observe: function( attachments, options ) {
+			var silent = options && options.silent;
+			this.observers = this.observers || [];
+			this.observers.push( attachments );
+
+			attachments.on( 'add remove',  silent ? this._evaluateSilentHandler : this._evaluateHandler, this );
+			attachments.on( 'reset',  silent ? this._evaluateAllSilentHandler : this._evaluateAllHandler, this );
+
+			this.evaluateAll( attachments, options );
+			return this;
+		},
+
+		unobserve: function( attachments ) {
+			if ( attachments ) {
+				attachments.off( null, null, this );
+				this.observers = _.without( this.observers, attachments );
+
+			} else {
+				_.each( this.observers, function( attachments ) {
+					attachments.off( null, null, this );
+				}, this );
+				delete this.observers;
+			}
+
+			return this;
+		},
+
+		_evaluateHandler: function( attachment, attachments, options ) {
+			return this.evaluate( attachment, options );
+		},
+
+		_evaluateAllHandler: function( attachments, options ) {
+			return this.evaluateAll( attachments, options );
+		},
+
+		_evaluateSilentHandler: function( attachment, attachments, options ) {
+			return this.evaluate( attachment, _.defaults({ silent: true }, options ) );
+		},
+
+		_evaluateAllSilentHandler: function( attachments, options ) {
+			return this.evaluateAll( attachments, _.defaults({ silent: true }, options ) );
+		}
 	});
 
 }(jQuery));

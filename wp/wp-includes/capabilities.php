@@ -206,6 +206,9 @@ class WP_Roles {
 	 * @param bool $grant Optional, default is true. Whether role is capable of performing capability.
 	 */
 	function add_cap( $role, $cap, $grant = true ) {
+		if ( ! isset( $this->roles[$role] ) )
+			return;
+
 		$this->roles[$role]['capabilities'][$cap] = $grant;
 		if ( $this->use_db )
 			update_option( $this->role_key, $this->roles );
@@ -221,6 +224,9 @@ class WP_Roles {
 	 * @param string $cap Capability name.
 	 */
 	function remove_cap( $role, $cap ) {
+		if ( ! isset( $this->roles[$role] ) )
+			return;
+
 		unset( $this->roles[$role]['capabilities'][$cap] );
 		if ( $this->use_db )
 			update_option( $this->role_key, $this->roles );
@@ -459,7 +465,7 @@ class WP_User {
 	 * @since 2.0.0
 	 * @access public
 	 *
-	 * @param int|string $id User's ID
+	 * @param int|string|stdClass|WP_User $id User's ID, a WP_User object, or a user object from the DB.
 	 * @param string $name Optional. User's username
 	 * @param int $blog_id Optional Blog ID, defaults to current blog.
 	 * @return WP_User
@@ -475,6 +481,14 @@ class WP_User {
 				$prefix . 'usersettings' => $prefix . 'user-settings',
 				$prefix . 'usersettingstime' => $prefix . 'user-settings-time',
 			);
+		}
+
+		if ( is_a( $id, 'WP_User' ) ) {
+			$this->init( $id->data, $blog_id );
+			return;
+		} elseif ( is_object( $id ) ) {
+			$this->init( $id, $blog_id );
+			return;
 		}
 
 		if ( ! empty( $id ) && ! is_numeric( $id ) ) {
@@ -783,11 +797,11 @@ class WP_User {
 	 * @param string $role Role name.
 	 */
 	function set_role( $role ) {
-		foreach ( (array) $this->roles as $oldrole )
-			unset( $this->caps[$oldrole] );
-
 		if ( 1 == count( $this->roles ) && $role == current( $this->roles ) )
 			return;
+
+		foreach ( (array) $this->roles as $oldrole )
+			unset( $this->caps[$oldrole] );
 
 		if ( !empty( $role ) ) {
 			$this->caps[$role] = true;

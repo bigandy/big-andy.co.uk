@@ -792,7 +792,11 @@ function populate_roles_300() {
 		$role->add_cap( 'update_core' );
 		$role->add_cap( 'list_users' );
 		$role->add_cap( 'remove_users' );
+
+		// Never used, will be removed. create_users or
+		// promote_users is the capability you're looking for.
 		$role->add_cap( 'add_users' );
+
 		$role->add_cap( 'promote_users' );
 		$role->add_cap( 'edit_theme_options' );
 		$role->add_cap( 'delete_themes' );
@@ -910,6 +914,7 @@ We hope you enjoy your new site. Thanks!
 		'ms_files_rewriting' => is_multisite() ? get_site_option( 'ms_files_rewriting' ) : '0',
 		'initial_db_version' => get_option( 'initial_db_version' ),
 		'active_sitewide_plugins' => array(),
+		'WPLANG' => get_locale(),
 	);
 	if ( ! $subdomain_install )
 		$sitemeta['illegal_names'][] = 'blog';
@@ -926,24 +931,26 @@ We hope you enjoy your new site. Thanks!
 	}
 	$wpdb->query( "INSERT INTO $wpdb->sitemeta ( site_id, meta_key, meta_value ) VALUES " . $insert );
 
-	$current_site = new stdClass;
-	$current_site->domain = $domain;
-	$current_site->path = $path;
-	$current_site->site_name = ucfirst( $domain );
-
-	if ( !is_multisite() ) {
+	// When upgrading from single to multisite, assume the current site will become the main site of the network.
+	// When using populate_network() to create another network in an existing multisite environment,
+	// skip these steps since the main site of the new network has not yet been created.
+	if ( ! is_multisite() ) {
+		$current_site = new stdClass;
+		$current_site->domain = $domain;
+		$current_site->path = $path;
+		$current_site->site_name = ucfirst( $domain );
 		$wpdb->insert( $wpdb->blogs, array( 'site_id' => $network_id, 'domain' => $domain, 'path' => $path, 'registered' => current_time( 'mysql' ) ) );
-		$blog_id = $wpdb->insert_id;
+		$current_site->blog_id = $blog_id = $wpdb->insert_id;
 		update_user_meta( $site_user->ID, 'source_domain', $domain );
 		update_user_meta( $site_user->ID, 'primary_blog', $blog_id );
+
+		if ( $subdomain_install )
+			$wp_rewrite->set_permalink_structure( '/%year%/%monthnum%/%day%/%postname%/' );
+		else
+			$wp_rewrite->set_permalink_structure( '/blog/%year%/%monthnum%/%day%/%postname%/' );
+
+		flush_rewrite_rules();
 	}
-
-	if ( $subdomain_install )
-		$wp_rewrite->set_permalink_structure( '/%year%/%monthnum%/%day%/%postname%/' );
-	else
-		$wp_rewrite->set_permalink_structure( '/blog/%year%/%monthnum%/%day%/%postname%/' );
-
-	flush_rewrite_rules();
 
 	if ( $subdomain_install ) {
 		$vhost_ok = false;

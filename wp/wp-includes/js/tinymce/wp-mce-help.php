@@ -14,7 +14,7 @@ header('Content-Type: text/html; charset=' . get_bloginfo('charset'));
 <head>
 <meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php echo get_option('blog_charset'); ?>" />
 <title><?php _e('Rich Editor Help'); ?></title>
-<script type="text/javascript" src="tiny_mce_popup.js?ver=356-20120818"></script>
+<script type="text/javascript" src="tiny_mce_popup.js?ver=357-20121111"></script>
 <?php
 wp_admin_css( 'wp-admin', true );
 ?>
@@ -213,9 +213,8 @@ if ( tinymce.isMac )
 		<tr><th>u</th><td><strong>&bull;</strong> <?php _e('List'); ?></td><th>a</th><td><?php _e('Insert link'); ?></td></tr>
 		<tr><th>o</th><td>1. <?php _e('List'); ?></td><th>s</th><td><?php _e('Remove link'); ?></td></tr>
 		<tr><th>q</th><td><?php _e('Quote'); ?></td><th>m</th><td><?php _e('Insert Image'); ?></td></tr>
-		<tr><th>g</th><td><?php _e('Full Screen'); ?></td><th>t</th><td><?php _e('Insert More Tag'); ?></td></tr>
+		<tr><th>w</th><td><?php _e('Distraction Free Writing mode'); ?></td><th>t</th><td><?php _e('Insert More Tag'); ?></td></tr>
 		<tr><th>p</th><td><?php _e('Insert Page Break tag'); ?></td><th>h</th><td><?php _e('Help'); ?></td></tr>
-		<tr><th>w</th><td colspan="3"><?php _e('Distraction Free Writing mode'); ?></td></tr>
 	</table>
 
 	<p style="padding: 15px 10px 10px;"><?php _e('Editor width in Distraction Free Writing mode:'); ?></p>

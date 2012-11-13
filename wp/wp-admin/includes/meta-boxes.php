@@ -302,8 +302,7 @@ function attachment_submit_meta_box( $post ) {
  *
  * @param object $post
  */
-function attachment_data_meta_box( $post ) {
-	$alt_text = get_post_meta( $post->ID, '_wp_attachment_image_alt', true );
+function attachment_content_meta_box( $post ) {
 	$quicktags_settings = array( 'buttons' => 'strong,em,link,block,del,ins,img,ul,ol,li,code,spell,close' );
 	$editor_args = array(
 		'textarea_name' => 'content',
@@ -316,15 +315,6 @@ function attachment_data_meta_box( $post ) {
 <p>
 	<label class="screen-reader-text" for="content"><strong><?php _e( 'Attachment Page Content' ); ?></strong></label>
 	<?php wp_editor( $post->post_content, 'attachment_content', $editor_args ); ?>
-</p>
-
-<p>
-	<label for="attachment_caption"><strong><?php _e( 'Caption' ); ?></strong></label><br />
-	<textarea class="widefat" name="excerpt" id="attachment_caption"><?php echo $post->post_excerpt; ?></textarea>
-</p>
-<p>
-	<label for="attachment_alt"><strong><?php _e( 'Alternative Text' ); ?></strong></label><br />
-	<input type="text" class="widefat" name="_wp_attachment_image_alt" id="attachment_alt" value="<?php echo esc_attr( $alt_text ); ?>" />
 </p>
 <?php
 }
@@ -433,7 +423,7 @@ function post_categories_meta_box( $post, $box ) {
             $name = ( $taxonomy == 'category' ) ? 'post_category' : 'tax_input[' . $taxonomy . ']';
             echo "<input type='hidden' name='{$name}[]' value='0' />"; // Allows for an empty term set to be sent. 0 is an invalid Term ID and will be ignored by empty() checks.
             ?>
-			<ul id="<?php echo $taxonomy; ?>checklist" class="list:<?php echo $taxonomy?> categorychecklist form-no-clear">
+			<ul id="<?php echo $taxonomy; ?>checklist" data-wp-lists="list:<?php echo $taxonomy?>" class="categorychecklist form-no-clear">
 				<?php wp_terms_checklist($post->ID, array( 'taxonomy' => $taxonomy, 'popular_cats' => $popular_ids ) ) ?>
 			</ul>
 		</div>
@@ -454,7 +444,7 @@ function post_categories_meta_box( $post, $box ) {
 						<?php echo $tax->labels->parent_item_colon; ?>
 					</label>
 					<?php wp_dropdown_categories( array( 'taxonomy' => $taxonomy, 'hide_empty' => 0, 'name' => 'new'.$taxonomy.'_parent', 'orderby' => 'name', 'hierarchical' => 1, 'show_option_none' => '&mdash; ' . $tax->labels->parent_item . ' &mdash;' ) ); ?>
-					<input type="button" id="<?php echo $taxonomy; ?>-add-submit" class="add:<?php echo $taxonomy ?>checklist:<?php echo $taxonomy ?>-add button category-add-submit" value="<?php echo esc_attr( $tax->labels->add_new_item ); ?>" />
+					<input type="button" id="<?php echo $taxonomy; ?>-add-submit" data-wp-lists="add:<?php echo $taxonomy ?>checklist:<?php echo $taxonomy ?>-add" class="button category-add-submit" value="<?php echo esc_attr( $tax->labels->add_new_item ); ?>" />
 					<?php wp_nonce_field( 'add-'.$taxonomy, '_ajax_nonce-add-'.$taxonomy, false ); ?>
 					<span id="<?php echo $taxonomy; ?>-ajax-response"></span>
 				</p>
@@ -765,7 +755,7 @@ function link_categories_meta_box($link) {
 	</ul>
 
 	<div id="categories-all" class="tabs-panel">
-		<ul id="categorychecklist" class="list:category categorychecklist form-no-clear">
+		<ul id="categorychecklist" data-wp-lists="list:category" class="categorychecklist form-no-clear">
 			<?php
 			if ( isset($link->link_id) )
 				wp_link_category_checklist($link->link_id);
@@ -786,7 +776,7 @@ function link_categories_meta_box($link) {
 		<p id="link-category-add" class="wp-hidden-child">
 			<label class="screen-reader-text" for="newcat"><?php _e( '+ Add New Category' ); ?></label>
 			<input type="text" name="newcat" id="newcat" class="form-required form-input-tip" value="<?php esc_attr_e( 'New category name' ); ?>" aria-required="true" />
-			<input type="button" id="link-category-add-submit" class="add:categorychecklist:linkcategorydiv button" value="<?php esc_attr_e( 'Add' ); ?>" />
+			<input type="button" id="link-category-add-submit" data-wp-lists="add:categorychecklist:link-category-add" class="button" value="<?php esc_attr_e( 'Add' ); ?>" />
 			<?php wp_nonce_field( 'add-link-category', '_ajax_nonce', false ); ?>
 			<span id="category-ajax-response"></span>
 		</p>
@@ -1018,50 +1008,82 @@ function post_thumbnail_meta_box( $post ) {
 		var $element     = $('#select-featured-image'),
 			$thumbnailId = $element.find('input[name="thumbnail_id"]'),
 			title        = '<?php _e( "Choose a Featured Image" ); ?>',
-			workflow, setFeaturedImage;
+			update       = '<?php _e( "Update Featured Image" ); ?>',
+			Attachment   = wp.media.model.Attachment,
+			frame, setFeaturedImage;
 
 		setFeaturedImage = function( thumbnailId ) {
+			var selection;
+
 			$element.find('img').remove();
 			$element.toggleClass( 'has-featured-image', -1 != thumbnailId );
 			$thumbnailId.val( thumbnailId );
+
+			if ( frame ) {
+				selection = frame.get('library').get('selection');
+
+				if ( -1 === thumbnailId )
+					selection.clear();
+				else
+					selection.add( Attachment.get( thumbnailId ) );
+			}
 		};
 
 		$element.on( 'click', '.choose, img', function( event ) {
+			var options, thumbnailId;
+
 			event.preventDefault();
 
-			if ( ! workflow ) {
-				workflow = wp.media({
-					title:   title,
-					library: {
-						type: 'image'
-					}
-				});
-
-				workflow.selection.on( 'add', function( model ) {
-					var sizes = model.get('sizes'),
-						size;
-
-					setFeaturedImage( model.id );
-
-					// @todo: might need a size hierarchy equivalent.
-					if ( sizes )
-						size = sizes['post-thumbnail'] || sizes.medium;
-
-					// @todo: Need a better way of accessing full size
-					// data besides just calling toJSON().
-					size = size || model.toJSON();
-
-					workflow.modal.close();
-					workflow.selection.clear();
-
-					$( '<img />', {
-						src:    size.url,
-						width:  size.width
-					}).prependTo( $element );
-				});
+			if ( frame ) {
+				frame.open();
+				return;
 			}
 
-			workflow.modal.open();
+			options = {
+				title:   title,
+				library: {
+					type: 'image'
+				}
+			};
+
+			thumbnailId = $thumbnailId.val();
+			if ( '' !== thumbnailId && -1 !== thumbnailId )
+				options.selection = [ Attachment.get( thumbnailId ) ];
+
+			frame = wp.media( options );
+
+			frame.toolbar.on( 'activate:select', function() {
+				frame.toolbar.view().set({
+					select: {
+						style: 'primary',
+						text:  update,
+
+						click: function() {
+							var selection = frame.state().get('selection'),
+								model = selection.first(),
+								sizes = model.get('sizes'),
+								size;
+
+							setFeaturedImage( model.id );
+
+							// @todo: might need a size hierarchy equivalent.
+							if ( sizes )
+								size = sizes['post-thumbnail'] || sizes.medium;
+
+							// @todo: Need a better way of accessing full size
+							// data besides just calling toJSON().
+							size = size || model.toJSON();
+
+							frame.close();
+
+							$( '<img />', {
+								src:    size.url,
+								width:  size.width
+							}).prependTo( $element );
+						}
+					}
+				});
+			});
 		});
 
 		$element.on( 'click', '.remove', function( event ) {

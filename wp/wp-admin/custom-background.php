@@ -95,7 +95,7 @@ class Custom_Background {
 			'content' =>
 				'<p>' . __( 'You can customize the look of your site without touching any of your theme&#8217;s code by using a custom background. Your background can be an image or a color.' ) . '</p>' .
 				'<p>' . __( 'To use a background image, simply upload it, then choose your display options below. You can display a single instance of your image, or tile it to fill the screen. You can have your background fixed in place, so your site content moves on top of it, or you can have it scroll with your site.' ) . '</p>' .
-				'<p>' . __( 'You can also choose a background color. If you know the hexadecimal code for the color you want, enter it in the Background Color field. If not, click on the Select a Color link, and a color picker will allow you to choose the exact shade you want.' ) . '</p>' .
+				'<p>' . __( 'You can also choose a background color by clicking the Select Color button and either typing in a legitimate HTML hex value, e.g. &#8220;#ff0000&#8221; for red, or by choosing a color using the color picker.' ) . '</p>' .
 				'<p>' . __( 'Don&#8217;t forget to click on the Save Changes button when you are finished.' ) . '</p>'
 		) );
 
@@ -106,7 +106,7 @@ class Custom_Background {
 		);
 
 		add_thickbox();
-		wp_enqueue_script('media-upload');
+		wp_enqueue_media();
 		wp_enqueue_script('custom-background');
 		wp_enqueue_style('wp-color-picker');
 	}
@@ -254,22 +254,19 @@ if ( get_background_image() ) {
 <?php endif; ?>
 <tr valign="top">
 <th scope="row"><?php _e('Select Image'); ?></th>
-<td><form enctype="multipart/form-data" id="upload-form" method="post" action="">
+<td><form enctype="multipart/form-data" id="upload-form" class="wp-upload-form" method="post" action="">
 	<p>
 		<label for="upload"><?php _e( 'Choose an image from your computer:' ); ?></label><br />
 		<input type="file" id="upload" name="import" />
 		<input type="hidden" name="action" value="save" />
 		<?php wp_nonce_field( 'custom-background-upload', '_wpnonce-custom-background-upload' ); ?>
-		<?php submit_button( __( 'Upload' ), 'small', 'submit', false ); ?>
+		<?php submit_button( __( 'Upload' ), 'button', 'submit', false ); ?>
 	</p>
-	<?php
-		$image_library_url = get_upload_iframe_src( 'image', null, 'library' );
-		$image_library_url = remove_query_arg( 'TB_iframe', $image_library_url );
-		$image_library_url = add_query_arg( array( 'context' => 'custom-background', 'TB_iframe' => 1 ), $image_library_url );
-	?>
 	<p>
 		<label for="choose-from-library-link"><?php _e( 'Or choose an image from your media library:' ); ?></label><br />
-		<a id="choose-from-library-link" class="button thickbox" href="<?php echo esc_url( $image_library_url ); ?>"><?php _e( 'Choose Image' ); ?></a>
+		<a id="choose-from-library-link" class="button"
+			data-choose="<?php esc_attr_e( 'Choose a Background Image' ); ?>"
+			data-update="<?php esc_attr_e( 'Set as background' ); ?>"><?php _e( 'Choose Image' ); ?></a>
 	</p>
 	</form>
 </td>
@@ -358,7 +355,13 @@ if ( current_theme_supports( 'custom-background', 'default-color' ) )
 
 		check_admin_referer('custom-background-upload', '_wpnonce-custom-background-upload');
 		$overrides = array('test_form' => false);
-		$file = wp_handle_upload($_FILES['import'], $overrides);
+
+		$uploaded_file = $_FILES['import'];
+		$wp_filetype = wp_check_filetype_and_ext( $uploaded_file['tmp_name'], $uploaded_file['name'], false );
+		if ( ! wp_match_mime_types( 'image', $wp_filetype['type'] ) )
+			wp_die( __( 'The uploaded file is not a valid image. Please try again.' ) );
+
+		$file = wp_handle_upload($uploaded_file, $overrides);
 
 		if ( isset($file['error']) )
 			wp_die( $file['error'] );

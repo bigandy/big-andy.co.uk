@@ -375,25 +375,32 @@ function get_blog_id_from_url( $domain, $path = '/' ) {
  */
 function is_email_address_unsafe( $user_email ) {
 	$banned_names = get_site_option( 'banned_email_domains' );
-	if ($banned_names && !is_array( $banned_names ))
-		$banned_names = explode( "\n", $banned_names);
+	if ( $banned_names && ! is_array( $banned_names ) )
+		$banned_names = explode( "\n", $banned_names );
 
-	if ( is_array( $banned_names ) && empty( $banned_names ) == false ) {
-		$email_domain = strtolower( substr( $user_email, 1 + strpos( $user_email, '@' ) ) );
-		foreach ( (array) $banned_names as $banned_domain ) {
-			if ( $banned_domain == '' )
+	$is_email_address_unsafe = false;
+
+	if ( $banned_names && is_array( $banned_names ) ) {
+		list( $email_local_part, $email_domain ) = explode( '@', $user_email );
+
+		foreach ( $banned_names as $banned_domain ) {
+			if ( ! $banned_domain )
 				continue;
-			if (
-				strstr( $email_domain, $banned_domain ) ||
-				(
-					strstr( $banned_domain, '/' ) &&
-					preg_match( $banned_domain, $email_domain )
-				)
-			)
-			return true;
+
+			if ( $email_domain == $banned_domain ) {
+				$is_email_address_unsafe = true;
+				break;
+			}
+
+			$dotted_domain = ".$banned_domain";
+			if ( $dotted_domain === substr( $user_email, -strlen( $dotted_domain ) ) ) {
+				$is_email_address_unsafe = true;
+				break;
+			}
 		}
 	}
-	return false;
+
+	return apply_filters( 'is_email_address_unsafe', $is_email_address_unsafe, $user_email );
 }
 
 /**
@@ -781,7 +788,7 @@ function wpmu_signup_user_notification($user, $user_email, $key, $meta = '') {
 	$message_headers = "From: \"{$from_name}\" <{$admin_email}>\n" . "Content-Type: text/plain; charset=\"" . get_option('blog_charset') . "\"\n";
 	$message = sprintf(
 		apply_filters( 'wpmu_signup_user_notification_email',
-			__( "To activate your user, please click the following link:\n\n%s\n\nAfter you activate, you will receive *another email* with your login.\n\n" ),
+			__( "To activate your user, please click the following link:\n\n%s\n\nAfter you activate, you will receive *another email* with your login." ),
 			$user, $user_email, $key, $meta
 		),
 		site_url( "wp-activate.php?key=$key" )
@@ -1015,11 +1022,11 @@ function newblog_notify_siteadmin( $blog_id, $deprecated = '' ) {
 	$siteurl = site_url();
 	restore_current_blog();
 
-	$msg = sprintf( __( 'New Site: %1s
-URL: %2s
-Remote IP: %3s
+	$msg = sprintf( __( 'New Site: %1$s
+URL: %2$s
+Remote IP: %3$s
 
-Disable these notifications: %4s' ), $blogname, $siteurl, $_SERVER['REMOTE_ADDR'], $options_site_url);
+Disable these notifications: %4$s' ), $blogname, $siteurl, $_SERVER['REMOTE_ADDR'], $options_site_url);
 	$msg = apply_filters( 'newblog_notify_siteadmin', $msg );
 
 	wp_mail( $email, sprintf( __( 'New Site Registration: %s' ), $siteurl ), $msg );
@@ -1050,10 +1057,10 @@ function newuser_notify_siteadmin( $user_id ) {
 	$user = get_userdata( $user_id );
 
 	$options_site_url = esc_url(network_admin_url('settings.php'));
-	$msg = sprintf(__('New User: %1s
-Remote IP: %2s
+	$msg = sprintf(__('New User: %1$s
+Remote IP: %2$s
 
-Disable these notifications: %3s'), $user->user_login, $_SERVER['REMOTE_ADDR'], $options_site_url);
+Disable these notifications: %3$s'), $user->user_login, $_SERVER['REMOTE_ADDR'], $options_site_url);
 
 	$msg = apply_filters( 'newuser_notify_siteadmin', $msg, $user );
 	wp_mail( $email, sprintf(__('New User Registration: %s'), $user->user_login), $msg );
@@ -1130,7 +1137,7 @@ function install_blog($blog_id, $blog_title = '') {
 
 	$wpdb->suppress_errors();
 	if ( $wpdb->get_results( "DESCRIBE {$wpdb->posts}" ) )
-		die( __( '<h1>Already Installed</h1><p>You appear to have already installed WordPress. To reinstall please clear your old database tables first.</p>' ) . '</body></html>' );
+		die( '<h1>' . __( 'Already Installed' ) . '</h1><p>' . __( 'You appear to have already installed WordPress. To reinstall please clear your old database tables first.' ) . '</p></body></html>' );
 	$wpdb->suppress_errors( false );
 
 	$url = get_blogaddress_by_id( $blog_id );
@@ -1676,7 +1683,7 @@ function maybe_add_existing_user_to_blog() {
 	if ( empty( $details ) || is_wp_error( add_existing_user_to_blog( $details ) ) )
 		wp_die( sprintf(__('An error occurred adding you to this site. Back to the <a href="%s">homepage</a>.'), home_url() ) );
 
-	wp_die( sprintf(__('You have been added to this site. Please visit the <a href="%s">homepage</a> or <a href="%s">log in</a> using your username and password.'), home_url(), admin_url() ), __('Success') );
+	wp_die( sprintf( __( 'You have been added to this site. Please visit the <a href="%s">homepage</a> or <a href="%s">log in</a> using your username and password.' ), home_url(), admin_url() ), __( 'WordPress &rsaquo; Success' ) );
 }
 
 /**
@@ -1919,6 +1926,76 @@ function wp_update_network_counts() {
 	$count = $wpdb->get_var( $wpdb->prepare("SELECT COUNT(blog_id) as c FROM $wpdb->blogs WHERE site_id = %d AND spam = '0' AND deleted = '0' and archived = '0'", $wpdb->siteid) );
 	update_site_option( 'blog_count', $count );
 
-	$count = $wpdb->get_var( $wpdb->prepare("SELECT COUNT(ID) as c FROM $wpdb->users WHERE spam = '0' AND deleted = '0'") );
+	$count = $wpdb->get_var( "SELECT COUNT(ID) as c FROM $wpdb->users WHERE spam = '0' AND deleted = '0'" );
 	update_site_option( 'user_count', $count );
+}
+
+/**
+ * Returns the space used by the current blog.
+ *
+ * @since 3.5.0
+ *
+ * @return int Used space in megabytes
+ */
+function get_space_used() {
+	// Allow for an alternative way of tracking storage space used
+	$space_used = apply_filters( 'pre_get_space_used', false );
+	if ( false === $space_used ) {
+		$upload_dir = wp_upload_dir();
+		$space_used = get_dirsize( $upload_dir['basedir'] ) / 1024 / 1024;
+	}
+
+	return $space_used;
+}
+
+/**
+ * Returns the upload quota for the current blog.
+ *
+ * @since MU
+ *
+ * @return int Quota in megabytes
+ */
+function get_space_allowed() {
+	$space_allowed = get_option( 'blog_upload_space' );
+
+	if ( ! is_numeric( $space_allowed ) )
+		$space_allowed = get_site_option( 'blog_upload_space' );
+
+	if ( empty( $space_allowed ) || ! is_numeric( $space_allowed ) )
+		$space_allowed = 50;
+
+	return $space_allowed;
+}
+
+/**
+ * Determines if there is any upload space left in the current blog's quota.
+ *
+ * @since 3.0.0
+ *
+ * @return int of upload space available in bytes
+ */
+function get_upload_space_available() {
+	$space_allowed = get_space_allowed() * 1024 * 1024;
+	if ( get_site_option( 'upload_space_check_disabled' ) )
+		return $space_allowed;
+
+	$space_used = get_space_used() * 1024 * 1024;
+
+	if ( ( $space_allowed - $space_used ) <= 0 )
+		return 0;
+
+	return $space_allowed - $space_used;
+}
+
+/**
+ * @since 3.0.0
+ *
+ * @return int of upload size limit in bytes
+ */
+function upload_size_limit_filter( $size ) {
+	$fileupload_maxk = 1024 * get_site_option( 'fileupload_maxk', 1500 );
+	if ( get_site_option( 'upload_space_check_disabled' ) )
+		return min( $size, $fileupload_maxk );
+
+	return min( $size, $fileupload_maxk, get_upload_space_available() );
 }

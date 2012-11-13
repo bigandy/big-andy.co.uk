@@ -228,7 +228,7 @@ function get_image_tag($id, $alt, $title, $align, $size='medium') {
 	$class = 'align' . esc_attr($align) .' size-' . esc_attr($size) . ' wp-image-' . $id;
 	$class = apply_filters('get_image_tag_class', $class, $id, $align, $size);
 
-	$html = '<img src="' . esc_attr($img_src) . '" alt="' . esc_attr($alt) . '" title="' . esc_attr($title).'" '.$hwstring.'class="'.$class.'" />';
+	$html = '<img src="' . esc_attr($img_src) . '" alt="' . esc_attr($alt) . '" '.$hwstring.'class="'.$class.'" />';
 
 	$html = apply_filters( 'get_image_tag', $html, $id, $alt, $title, $align, $size );
 
@@ -383,7 +383,7 @@ function image_make_intermediate_size( $file, $width, $height, $crop = false ) {
 	if ( $width || $height ) {
 		$editor = WP_Image_Editor::get_instance( $file );
 
-		if ( is_wp_error( $editor ) || is_wp_error( $editor->resize( $width, $height, $crop ) ) );
+		if ( is_wp_error( $editor ) || is_wp_error( $editor->resize( $width, $height, $crop ) ) )
 			return false;
 
 		$resized_file = $editor->save();
@@ -548,7 +548,6 @@ function wp_get_attachment_image($attachment_id, $size = 'thumbnail', $icon = fa
 			'src'	=> $src,
 			'class'	=> "attachment-$size",
 			'alt'	=> trim(strip_tags( get_post_meta($attachment_id, '_wp_attachment_image_alt', true) )), // Use Alt field first
-			'title'	=> trim(strip_tags( $attachment->post_title )),
 		);
 		if ( empty($default_attr['alt']) )
 			$default_attr['alt'] = trim(strip_tags( $attachment->post_excerpt )); // If not, Use the Caption
@@ -1177,6 +1176,10 @@ function wp_max_upload_size() {
 function wp_plupload_default_settings() {
 	global $wp_scripts;
 
+	$data = $wp_scripts->get_data( 'wp-plupload', 'data' );
+	if ( $data && false !== strpos( $data, '_wpPluploadSettings' ) )
+		return;
+
 	$max_upload_size = wp_max_upload_size();
 
 	$defaults = array(
@@ -1212,7 +1215,6 @@ function wp_plupload_default_settings() {
 
 	$script = 'var _wpPluploadSettings = ' . json_encode( $settings ) . ';';
 
-	$data = $wp_scripts->get_data( 'wp-plupload', 'data' );
 	if ( $data )
 		$script = "$data\n$script";
 
@@ -1260,6 +1262,7 @@ function wp_prepare_attachment_for_js( $attachment ) {
 		'type'        => $type,
 		'subtype'     => $subtype,
 		'icon'        => wp_mime_type_icon( $attachment->ID ),
+		'dateFormatted' => mysql2date( get_option('date_format'), $attachment->post_date ),
 	);
 
 	if ( $meta && 'image' === $type ) {
@@ -1285,7 +1288,89 @@ function wp_prepare_attachment_for_js( $attachment ) {
 		) );
 	}
 
+	if ( function_exists('get_compat_media_markup') )
+		$response['compat'] = get_compat_media_markup( $attachment->ID );
+
 	return apply_filters( 'wp_prepare_attachment_for_js', $response, $attachment, $meta );
+}
+
+/**
+ * Enqueues all scripts, styles, settings, and templates necessary to use
+ * all media JS APIs.
+ *
+ * @since 3.5.0
+ */
+function wp_enqueue_media() {
+	// We're going to pass the old thickbox media tabs to `media_upload_tabs`
+	// to ensure plugins will work. We will then unset those tabs.
+	$tabs = array(
+		// handler action suffix => tab label
+		'type'     => '',
+		'type_url' => '',
+		'gallery'  => '',
+		'library'  => '',
+	);
+
+	$tabs = apply_filters( 'media_upload_tabs', $tabs );
+	unset( $tabs['type'], $tabs['type_url'], $tabs['gallery'], $tabs['library'] );
+
+	$settings = array(
+		'tabs'   => $tabs,
+		'tabUrl' => add_query_arg( array(
+			'chromeless' => true
+		), admin_url('media-upload.php') ),
+	);
+
+	wp_localize_script( 'media-views', '_wpMediaViewsL10n', array(
+		// Settings
+		'settings' => $settings,
+
+		// Generic
+		'url'         => __( 'URL' ),
+		'insertMedia' => __( 'Insert Media' ),
+		'search'      => __( 'Search' ),
+		'select'      => __( 'Select' ),
+		'cancel'      => __( 'Cancel' ),
+		'addImages'   => __( 'Add images' ),
+		'selected'    => __( 'selected' ),
+		'dragInfo'    => __( 'Drag and drop to reorder images.' ),
+
+		// Upload
+		'uploadFilesTitle'  => __( 'Upload Files' ),
+		'selectFiles'       => __( 'Select files' ),
+		'uploadImagesTitle' => __( 'Upload Images' ),
+		'uploadMoreFiles'   => __( 'Upload more files' ),
+
+		// Library
+		'mediaLibraryTitle' => __( 'Media Library' ),
+		'createNewGallery'  => __( 'Create a new gallery' ),
+		'insertIntoPost'    => __( 'Insert into post' ),
+
+		// Embed
+		'embedFromUrlTitle' => __( 'Embed From URL' ),
+		'insertEmbed'       => __( 'Insert embed' ),
+
+		// Batch
+		'batchInsert'      => __( 'Batch insert' ),
+		'cancelBatchTitle' => __( '&#8592; Cancel Batch' ),
+		'editBatchTitle'   => __( 'Edit Batch' ),
+		'addToBatch'       => __( 'Add to batch' ),
+
+		// Gallery
+		'createGalleryTitle' => __( 'Create Gallery' ),
+		'editGalleryTitle'   => __( 'Edit Gallery' ),
+		'cancelGalleryTitle' => __( '&#8592; Cancel Gallery' ),
+		'insertGallery'      => __( 'Insert gallery' ),
+		'updateGallery'      => __( 'Update gallery' ),
+		'continueEditing'    => __( 'Continue editing' ),
+		'addToGallery'       => __( 'Add to gallery' ),
+	) );
+
+	wp_enqueue_script( 'media-upload' );
+	wp_enqueue_style( 'media-views' );
+	wp_plupload_default_settings();
+	add_action( 'admin_footer', 'wp_print_media_templates' );
+	add_action( 'wp_footer', 'wp_print_media_templates' );
 }
 
 /**
@@ -1297,95 +1382,345 @@ function wp_print_media_templates( $attachment ) {
 	?>
 	<script type="text/html" id="tmpl-media-modal">
 		<div class="media-modal">
-			<h3 class="media-modal-title"><%- title %></h3>
+			<h3 class="media-modal-title">{{ title }}</h3>
 			<a class="media-modal-close" href="" title="<?php esc_attr_e('Close'); ?>">&times;</a>
-			<div class="media-modal-content"></div>
 		</div>
-		<div class="media-modal-backdrop"></div>
-	</script>
-
-	<script type="text/html" id="tmpl-media-workspace">
-		<div class="upload-attachments">
-			<% if ( selectOne ) { %>
-				<h3><?php _e( 'Drop a file here' ); ?></h3>
-				<span><?php _ex( 'or', 'Uploader: Drop a file here - or - Select a File' ); ?></span>
-				<a href="#" class="button-secondary"><?php _e( 'Select a File' ); ?></a>
-			<% } else { %>
-				<h3><?php _e( 'Drop files here' ); ?></h3>
-				<span><?php _ex( 'or', 'Uploader: Drop files here - or - Select Files' ); ?></span>
-				<a href="#" class="button-secondary"><?php _e( 'Select Files' ); ?></a>
-			<% } %>
-
-			<div class="media-progress-bar"><div></div></div>
+		<div class="media-modal-backdrop">
+			<div></div>
 		</div>
 	</script>
 
-	<script type="text/html" id="tmpl-attachments">
-		<div class="attachments-header">
-			<h3><%- directions %></h3>
-			<input class="search" type="text" placeholder="<?php esc_attr_e('Search'); ?>" />
+	<script type="text/html" id="tmpl-uploader-window">
+		<div class="uploader-window-content">
+			<h3><?php _e( 'Drop files to upload' ); ?></h3>
+		</div>
+	</script>
+
+	<script type="text/html" id="tmpl-uploader-inline">
+		<div class="uploader-inline-content">
+			<div class="pre-upload-ui">
+				<?php do_action( 'pre-upload-ui' ); ?>
+				<?php do_action( 'pre-plupload-upload-ui' ); ?>
+			</div>
+
+			<div class="upload-ui">
+				<h3><?php _e( 'Drop files anywhere to upload' ); ?></h3>
+				<a href="#" class="browser button button-hero"><?php _e( 'Select Files' ); ?></a>
+			</div>
+
+			<div class="post-upload-ui">
+				<?php do_action( 'post-plupload-upload-ui' ); ?>
+				<?php do_action( 'post-upload-ui' ); ?>
+			</div>
 		</div>
 	</script>
 
 	<script type="text/html" id="tmpl-attachment">
-		<div class="attachment-preview type-<%- type %> subtype-<%- subtype %> <%- orientation %>">
-			<% if ( uploading ) { %>
+		<div class="attachment-preview type-{{ type }} subtype-{{ subtype }} {{ orientation }}">
+			<# if ( uploading ) { #>
 				<div class="media-progress-bar"><div></div></div>
-			<% } else if ( 'image' === type ) { %>
+			<# } else if ( 'image' === type ) { #>
 				<div class="thumbnail">
-					<img src="<%- url %>" width="<%- width %>" height="<%- height %>" draggable="false"
-					style="top:<%- top %>px; left:<%- left %>px;" />
+					<div class="centered">
+						<img src="{{ url }}" draggable="false" />
+					</div>
 				</div>
-			<% } else { %>
-				<img src="<%- icon %>" class="icon" draggable="false" />
-				<div class="filename"><%- filename %></div>
-			<% } %>
+			<# } else { #>
+				<img src="{{ icon }}" class="icon" draggable="false" />
+				<div class="filename">{{ filename }}</div>
+			<# } #>
 
-			<% if ( buttons.close ) { %>
+			<# if ( buttons.close ) { #>
 				<a class="close button" href="#">&times;</a>
-			<% } %>
+			<# } #>
 		</div>
-		<% if ( describe ) { %>
-			<% if ( 'image' === type ) { %>
+		<# if ( describe ) { #>
+			<# if ( 'image' === type ) { #>
 				<textarea class="describe"
 					placeholder="<?php esc_attr_e('Describe this image&hellip;'); ?>"
-					><%- caption %></textarea>
-			<% } else { %>
+					>{{ caption }}</textarea>
+			<# } else { #>
 				<textarea class="describe"
-					<% if ( 'video' === type ) { %>
+					<# if ( 'video' === type ) { #>
 						placeholder="<?php esc_attr_e('Describe this video&hellip;'); ?>"
-					<% } else if ( 'audio' === type ) { %>
+					<# } else if ( 'audio' === type ) { #>
 						placeholder="<?php esc_attr_e('Describe this audio file&hellip;'); ?>"
-					<% } else { %>
+					<# } else { #>
 						placeholder="<?php esc_attr_e('Describe this media file&hellip;'); ?>"
-					<% } %>
-					><%- title %></textarea>
-			<% } %>
-		<% } %>
+					<# } #>
+					>{{ title }}</textarea>
+			<# } #>
+		<# } #>
+	</script>
+
+	<script type="text/html" id="tmpl-attachment-details">
+		<h3><?php _e('Attachment Details'); ?></h3>
+		<div class="attachment-info">
+			<div class="thumbnail">
+				<# if ( uploading ) { #>
+					<div class="media-progress-bar"><div></div></div>
+				<# } else if ( 'image' === type ) { #>
+					<img src="{{ url }}" draggable="false" />
+				<# } else { #>
+					<img src="{{ icon }}" class="icon" draggable="false" />
+				<# } #>
+			</div>
+			<div class="details">
+				<div class="filename">{{ filename }}</div>
+				<div class="uploaded">{{ dateFormatted }}</div>
+				<# if ( 'image' === type && ! uploading ) { #>
+					<div class="dimensions">{{ width }} &times; {{ height }}</div>
+				<# } #>
+			</div>
+			<div class="compat-meta">
+				<# if ( compat && compat.meta ) { #>
+					{{{ compat.meta }}}
+				<# } #>
+			</div>
+		</div>
+
+		<# if ( 'image' === type ) { #>
+			<label class="setting" data-setting="title">
+				<span><?php _e('Title'); ?></span>
+				<input type="text" value="{{ title }}" />
+			</label>
+			<label class="setting" data-setting="caption">
+				<span><?php _e('Caption'); ?></span>
+				<textarea
+					placeholder="<?php esc_attr_e('Describe this image&hellip;'); ?>"
+					>{{ caption }}</textarea>
+			</label>
+			<label class="setting" data-setting="alt">
+				<span><?php _e('Alt Text'); ?></span>
+				<input type="text" value="{{ alt }}" />
+			</label>
+		<# } else { #>
+			<label class="setting" data-setting="title">
+				<span><?php _e('Title'); ?></span>
+				<input type="text" value="{{ title }}"
+				<# if ( 'video' === type ) { #>
+					placeholder="<?php esc_attr_e('Describe this video&hellip;'); ?>"
+				<# } else if ( 'audio' === type ) { #>
+					placeholder="<?php esc_attr_e('Describe this audio file&hellip;'); ?>"
+				<# } else { #>
+					placeholder="<?php esc_attr_e('Describe this media file&hellip;'); ?>"
+				<# } #>/>
+			</label>
+		<# } #>
+	</script>
+
+	<script type="text/html" id="tmpl-media-selection">
+		<div class="selection-info">
+			<span class="count"></span>
+			<# if ( clearable ) { #>
+				<a class="clear-selection" href="#"><?php _e('Clear'); ?></a>
+			<# } #>
+		</div>
+		<div class="selection-view"></div>
 	</script>
 
 	<script type="text/html" id="tmpl-media-selection-preview">
-		<div class="selected-img selected-count-<%- count %>">
-			<% if ( thumbnail ) { %>
-				<img src="<%- thumbnail %>" draggable="false" />
-			<% } %>
+		<div class="selected-img selected-count-{{ count }}">
+			<# if ( thumbnail ) { #>
+				<img src="{{ thumbnail }}" draggable="false" />
+			<# } #>
 
-			<span class="count"><%- count %></span>
+			<span class="count">{{ count }}</span>
 		</div>
-		<% if ( clearable ) { %>
+		<# if ( clearable ) { #>
 			<a class="clear-selection" href="#"><?php _e('Clear selection'); ?></a>
-		<% } %>
+		<# } #>
+	</script>
+
+	<script type="text/html" id="tmpl-attachment-display-settings">
+		<h3><?php _e('Attachment Display Settings'); ?></h3>
+
+		<label class="setting">
+			<span><?php _e('Alignment'); ?></span>
+			<select class="alignment"
+				data-setting="align"
+				<# if ( userSettings ) { #>
+					data-user-setting="align"
+				<# } #>>
+
+				<option value="left">
+					<?php esc_attr_e('Left'); ?>
+				</option>
+				<option value="center">
+					<?php esc_attr_e('Center'); ?>
+				</option>
+				<option value="right">
+					<?php esc_attr_e('Right'); ?>
+				</option>
+				<option value="none" selected>
+					<?php esc_attr_e('None'); ?>
+				</option>
+			</select>
+		</label>
+
+		<div class="setting">
+			<label>
+				<span><?php _e('Link To'); ?></span>
+				<select class="link-to"
+					data-setting="link"
+					<# if ( userSettings ) { #>
+						data-user-setting="urlbutton"
+					<# } #>>
+
+					<option value="custom">
+						<?php esc_attr_e('Custom URL'); ?>
+					</option>
+					<option value="post" selected>
+						<?php esc_attr_e('Attachment Page'); ?>
+					</option>
+					<option value="file">
+						<?php esc_attr_e('Media File'); ?>
+					</option>
+					<option value="none">
+						<?php esc_attr_e('None'); ?>
+					</option>
+				</select>
+			</label>
+			<input type="text" class="link-to-custom" data-setting="linkUrl" />
+		</div>
+
+		<# if ( 'undefined' !== typeof sizes ) { #>
+			<label class="setting">
+				<span><?php _e('Size'); ?></span>
+				<select class="size" name="size"
+					data-setting="size"
+					<# if ( userSettings ) { #>
+						data-user-setting="imgsize"
+					<# } #>>
+					<?php
+
+					$sizes = apply_filters( 'image_size_names_choose', array(
+						'thumbnail' => __('Thumbnail'),
+						'medium'    => __('Medium'),
+						'large'     => __('Large'),
+						'full'      => __('Full Size'),
+					) );
+
+					foreach ( $sizes as $value => $name ) :
+						if ( 'full' === $name )
+							continue;
+						?>
+						<# if ( sizes['<?php echo esc_js( $value ); ?>'] ) { #>
+							<option value="<?php echo esc_attr( $value ); ?>" <?php selected( $value, 'medium' ); ?>>
+								<?php echo esc_html( $name ); ?>
+							</option>
+						<# } #>>
+					<?php endforeach;
+
+					if ( ! empty( $sizes['full'] ) ) : ?>
+						<option value="full">
+							<?php echo esc_html( $sizes['full'] ); ?>
+						</option>
+					<?php endif; ?>
+				</select>
+			</label>
+		<# } #>
+	</script>
+
+	<script type="text/html" id="tmpl-gallery-settings">
+		<h3><?php _e('Gallery Settings'); ?></h3>
+
+		<label class="setting">
+			<span><?php _e('Link To'); ?></span>
+			<select class="link-to"
+				data-setting="link"
+				<# if ( userSettings ) { #>
+					data-user-setting="urlbutton"
+				<# } #>>
+
+				<option value="post" selected>
+					<?php esc_attr_e('Attachment Page'); ?>
+				</option>
+				<option value="file">
+					<?php esc_attr_e('Media File'); ?>
+				</option>
+			</select>
+		</label>
+
+		<label class="setting">
+			<span><?php _e('Columns'); ?></span>
+			<select class="columns" name="columns"
+				data-setting="columns">
+				<?php for ( $i = 1; $i <= 9; $i++ ) : ?>
+					<option value="<?php echo esc_attr( $i ); ?>" <?php selected( $i, 3 ); ?>>
+						<?php echo esc_html( $i ); ?>
+					</option>
+				<?php endfor; ?>
+			</select>
+		</label>
+	</script>
+
+	<script type="text/html" id="tmpl-embed-link-settings">
+		<label class="setting">
+			<span><?php _e('Title'); ?></span>
+			<input type="text" class="alignment" data-setting="title" />
+		</label>
+	</script>
+
+	<script type="text/html" id="tmpl-embed-image-settings">
+		<div class="thumbnail">
+			<img src="{{ model.url }}" draggable="false" />
+		</div>
+
+		<label class="setting caption">
+			<span><?php _e('Caption'); ?></span>
+			<textarea data-setting="caption" />
+		</label>
+
+		<label class="setting alt-text">
+			<span><?php _e('Alt Text'); ?></span>
+			<input type="text" data-setting="alt" />
+		</label>
+
+		<label class="setting align">
+			<span><?php _e('Align'); ?></span>
+			<div class="button-group button-large" data-setting="align">
+				<button class="button" value="left">
+					<?php esc_attr_e('Left'); ?>
+				</button>
+				<button class="button" value="center">
+					<?php esc_attr_e('Center'); ?>
+				</button>
+				<button class="button" value="right">
+					<?php esc_attr_e('Right'); ?>
+				</button>
+				<button class="button active" value="none">
+					<?php esc_attr_e('None'); ?>
+				</button>
+			</div>
+		</label>
+
+		<div class="setting link-to">
+			<span><?php _e('Link To'); ?></span>
+			<div class="button-group button-large" data-setting="link">
+				<button class="button" value="file">
+					<?php esc_attr_e('Image URL'); ?>
+				</button>
+				<button class="button" value="custom">
+					<?php esc_attr_e('Custom URL'); ?>
+				</button>
+				<button class="button active" value="none">
+					<?php esc_attr_e('None'); ?>
+				</button>
+			</div>
+			<input type="text" class="link-to-custom" data-setting="linkUrl" />
+		</div>
 	</script>
 
 	<script type="text/html" id="tmpl-editor-attachment">
 		<div class="editor-attachment-preview">
-			<% if ( url ) { %>
-				<img src="<%- url %>" width="<%- width %>" height="<%- height %>" draggable="false" />
-			<% } %>
+			<# if ( url ) { #>
+				<img src="{{ url }}" width="{{ width }}" height="{{ height }}" draggable="false" />
+			<# } #>
 
-			<% if ( uploading ) { %>
+			<# if ( uploading ) { #>
 				<div class="media-progress-bar"><div></div></div>
-			<% } %>
+			<# } #>
 			<div class="overlay">
 				<div class="button close">&times;</div>
 			</div>
@@ -1394,14 +1729,43 @@ function wp_print_media_templates( $attachment ) {
 	</script>
 
 	<script type="text/html" id="tmpl-editor-gallery">
-		<% if ( url ) { %>
-			<img src="<%- url %>" draggable="false" />
-		<% } %>
+		<# if ( url ) { #>
+			<img src="{{ url }}" draggable="false" />
+		<# } #>
 
 		<div class="overlay">
 			<div class="button close">&times;</div>
 			<div class="button edit"><?php _e('Edit'); ?></div>
 		</div>
+	</script>
+
+	<script type="text/html" id="tmpl-attachments-css">
+		<style type="text/css" id="{{ id }}-css">
+			#{{ id }} {
+				padding: 0 {{ gutter }}px;
+			}
+
+			#{{ id }} .attachment {
+				margin: {{ gutter }}px;
+				width: {{ edge }}px;
+			}
+
+			#{{ id }} .attachment-preview,
+			#{{ id }} .attachment-preview .thumbnail {
+				width: {{ edge }}px;
+				height: {{ edge }}px;
+			}
+
+			#{{ id }} .portrait .thumbnail img {
+				width: {{ edge }}px;
+				height: auto;
+			}
+
+			#{{ id }} .landscape .thumbnail img {
+				width: auto;
+				height: {{ edge }}px;
+			}
+		</style>
 	</script>
 	<?php
 }

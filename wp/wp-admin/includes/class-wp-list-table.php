@@ -732,7 +732,7 @@ class WP_List_Table {
 	</tr>
 	</tfoot>
 
-	<tbody id="the-list"<?php if ( $singular ) echo " class='list:$singular'"; ?>>
+	<tbody id="the-list"<?php if ( $singular ) echo " data-wp-lists='list:$singular'"; ?>>
 		<?php $this->display_rows_or_placeholder(); ?>
 	</tbody>
 </table>
@@ -765,7 +765,7 @@ class WP_List_Table {
 	<div class="tablenav <?php echo esc_attr( $which ); ?>">
 
 		<div class="alignleft actions">
-			<?php $this->bulk_actions( $which ); ?>
+			<?php $this->bulk_actions(); ?>
 		</div>
 <?php
 		$this->extra_tablenav( $which );

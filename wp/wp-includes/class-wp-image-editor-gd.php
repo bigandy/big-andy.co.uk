@@ -28,11 +28,11 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 	 * Checks to see if current environment supports GD
 	 *
 	 * @since 3.5.0
-	 * @access protected
+	 * @access public
 	 *
 	 * @return boolean
 	 */
-	public function test() {
+	public static function test( $args = null ) {
 		if ( ! extension_loaded('gd') || ! function_exists('gd_info') )
 			return false;
 
@@ -51,7 +51,7 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 		if ( $this->image )
 			return true;
 
-		if ( ! file_exists( $this->file ) )
+		if ( ! is_file( $this->file ) && ! preg_match( '|^https?://|', $this->file ) )
 			return new WP_Error( 'error_loading_image', __('File doesn&#8217;t exist?'), $this->file );
 
 		// Set artificially high because GD uses uncompressed images in memory
@@ -99,7 +99,7 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 	 * @param string $mime_type
 	 * @return boolean
 	 */
-	public function supports_mime_type( $mime_type ) {
+	public static function supports_mime_type( $mime_type ) {
 		$allowed_mime_types = array( 'image/gif', 'image/png', 'image/jpeg' );
 
 		return in_array( $mime_type, $allowed_mime_types );
@@ -146,7 +146,7 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 			return $resized;
 		}
 
-		return WP_Error( 'image_resize_error', __('Image resize failed.'), $this->file );
+		return new WP_Error( 'image_resize_error', __('Image resize failed.'), $this->file );
 	}
 
 	/**
@@ -222,7 +222,7 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 			return true;
 		}
 
-		return WP_Error( 'image_crop_error', __('Image crop failed.'), $this->file );
+		return new WP_Error( 'image_crop_error', __('Image crop failed.'), $this->file );
 	}
 
 	/**
@@ -246,7 +246,7 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 				return true;
 			}
 		}
-		return WP_Error( 'image_rotate_error', __('Image rotate failed.'), $this->file );
+		return new WP_Error( 'image_rotate_error', __('Image rotate failed.'), $this->file );
 	}
 
 	/**
@@ -273,7 +273,7 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 				return true;
 			}
 		}
-		return WP_Error( 'image_flip_error', __('Image flip failed.'), $this->file );
+		return new WP_Error( 'image_flip_error', __('Image flip failed.'), $this->file );
 	}
 
 	/**
