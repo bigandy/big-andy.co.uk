@@ -108,7 +108,7 @@ return array(
 	'pgcache.prime.interval' => 900,
 	'pgcache.prime.limit' => 10,
 	'pgcache.prime.sitemap' => 'http://big-andy.co.uk/sitemap.xml',
-	'minify.enabled' => false,
+	'minify.enabled' => true,
 	'minify.auto' => false,
 	'minify.debug' => false,
 	'minify.engine' => 'file',
@@ -143,17 +143,8 @@ return array(
 	'minify.css.strip.crlf' => false,
 	'minify.css.imports' => 'process',
 	'minify.css.groups' => array(
-		'f5709' => array(
-			'default' => array(
-				'include' => array(
-					'files' => array(
-						0 => 'content/themes/v3/library/css/style.css',
-					),
-				),
-			),
-		),
 	),
-	'minify.js.enable' => true,
+	'minify.js.enable' => false,
 	'minify.js.engine' => 'js',
 	'minify.js.combine.header' => true,
 	'minify.js.combine.body' => true,
@@ -161,16 +152,6 @@ return array(
 	'minify.js.strip.comments' => false,
 	'minify.js.strip.crlf' => false,
 	'minify.js.groups' => array(
-		'f5709' => array(
-			'default' => array(
-				'include' => array(
-					'blocking' => true,
-					'files' => array(
-						0 => 'content/themes/v3/library/js/scripts.min.js',
-					),
-				),
-			),
-		),
 	),
 	'minify.yuijs.path.java' => 'java',
 	'minify.yuijs.path.jar' => 'yuicompressor.jar',
@@ -531,7 +512,7 @@ return array(
 	'notes.plugins_updated' => false,
 	'notes.cdn_upload' => false,
 	'notes.cdn_reupload' => false,
-	'notes.need_empty_pgcache' => false,
+	'notes.need_empty_pgcache' => true,
 	'notes.need_empty_minify' => true,
 	'notes.need_empty_objectcache' => false,
 	'notes.pgcache_rules_core' => true,
