@@ -13,7 +13,7 @@ if ( file_exists( dirname( __FILE__ ) . '/local-config.php' ) ) {
 	define( 'DB_HOST', '%%DB_HOST%%' ); // Probably 'localhost'
 }
 
-define( 'WP_STACK_CDN_DOMAIN', 'cdn.bigandy.netdna-cdn.com' );
+define( 'WP_STACK_CDN_DOMAIN', 'cdn.bigandy.co.uk' );
 
 // ========================
 // Custom Content Directory
