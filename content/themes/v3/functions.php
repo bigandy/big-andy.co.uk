@@ -180,3 +180,94 @@ add_action( 'init', 'sd_add_speakerdeck_oembed' );
 function sd_add_speakerdeck_oembed() {
   wp_oembed_add_provider( 'http://speakerdeck.com/u/*/p/*', 'http://speakerdeck.com/oembed.json' );
 }
+
+
+
+
+
+/* Imported from exp.big-andy.co.uk theme */
+
+/* 
+* Add function to remove message on login fail saying username is invalid
+* http://wordpress.stackexchange.com/questions/25099/change-login-error-messages
+*/
+
+add_filter('login_errors','login_error_message');
+
+function login_error_message($error){
+    //check if that's the error you are looking for
+    $pos = strpos($error, 'incorrect');
+    if ($pos === false) {
+        //its the right error so you can overwrite it
+        $error = "<p><strong>Wrong username or password. TRY AGAIN!</strong></p>";
+    }
+    return $error;
+}
+// http://php.net/manual/en/datetime.diff.php
+date_default_timezone_set('Europe/London');
+function dateDiff($start, $end, $upOrDown = 'down') {
+        
+        
+        $start_ts = strtotime($start);
+        $end_ts = strtotime($end);
+        $diff = $end_ts - $start_ts;
+        
+        if($upOrDown === 'down') {
+                return ceil($diff / 86400);// ceil() rounds up. round() rounds up from .5 and down from .4 floor() rounds down.
+        } else {
+                return floor($diff / 86400);// ceil() rounds up. round() rounds up from .5 and down from .4 floor() rounds down.
+        }
+
+}
+
+/* 
+* Convert time in the format hr:min:sec into fractions of minute. 
+* e.g. 42:57 is 42 + (57/60) = 42.95mins 
+*/
+function ah_minutes_from_time($str){
+        
+        $chars = preg_split('#(?<!\\\)\:#', $str);
+
+        if ( strlen($str) <= 3) {
+                $seconds = $chars[0];
+                $minutes_from_seconds = $seconds / 60;
+                
+                $total_minutes = $minutes_from_seconds;
+        }
+        elseif (strlen($str) <= 5) {
+                $minutes = $chars[0];
+                $seconds = $chars[1];
+                $minutes_from_seconds = $seconds / 60;
+                
+                $total_minutes = $minutes_from_seconds + $minutes;
+        }
+        else {
+                $hours = $chars[0];
+                $minutes = $chars[1];
+                $seconds = $chars[2];
+                $minutes_from_hour = $hours * 60;
+                $minutes_from_seconds = $seconds / 60;
+                
+                $total_minutes = $minutes_from_hour + $minutes_from_seconds + $minutes;
+        }
+        
+        return $total_minutes;
+}
+
+/*
+* Pace = minutes / miles 
+* number of minutes / number of miles = pace
+* 
+*/
+function ah_pace_calculator($minutes,$distance) {
+
+                $real_minutes = ah_minutes_from_time($minutes);
+                
+                $pace = round(($real_minutes / $distance),2);
+                                                        
+                list($minutes,$seconds)=explode('.', $pace); 
+                $new_seconds = round($seconds*60/100); 
+                
+                $new_pace = $minutes.':'.$new_seconds;
+                return $new_pace;
+}
