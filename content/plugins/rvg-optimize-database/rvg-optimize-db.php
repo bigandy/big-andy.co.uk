@@ -1,16 +1,16 @@
 <?php
-$version = '1.3.1';
-$release_date = '10/07/2012';
+$odb_version      = '1.3.2';
+$odb_release_date = '11/14/2012';
 /**
  * @package Optimize Database after Deleting Revisions
- * @version 1.3.1
+ * @version 1.3.2
  */
 /*
 Plugin Name: Optimize Database after Deleting Revisions
 Plugin URI: http://cagewebdev.com/index.php/optimize-database-after-deleting-revisions-wordpress-plugin/
 Description: Optimizes the Wordpress Database after Deleting Revisions - <a href="options-general.php?page=rvg_odb_admin"><strong>plug in options</strong></a>
 Author: Rolf van Gelder, Eindhoven, The Netherlands
-Version: 1.3.1
+Version: 1.3.2
 Author URI: http://cagewebdev.com
 */
 ?>
@@ -47,7 +47,7 @@ add_action( 'admin_menu', 'rvg_odb_admin_menu' );
 
 *********************************************************************************************/
 function rvg_odb_options_page() {
-	global $version, $release_date;
+	global $odb_version, $odb_release_date;
 	
 	// SAVE THE OPTIONS
  	if ( isset( $_POST['info_update'] ) ) {
@@ -99,7 +99,7 @@ function rvg_odb_options_page() {
         In the WordPress Dashboard go to &lsquo;<strong>Tools</strong>&lsquo;.<br />
         Click on &lsquo;<strong>Optimize Database</strong>&lsquo;, then click on the '<strong>Start Optimization</strong>'-button. Et voila! </p>
       <p>Plugin version:<br />
-        <strong>v<?php echo $version ?> (<?php echo $release_date?>)</strong> </p>
+        <strong>v<?php echo $odb_version ?> (<?php echo $odb_release_date?>)</strong> </p>
       <p>Author:<br />
         <strong><a href="http://cage.nl/" target="_blank">Rolf van Gelder</a>, <a href="http://cagewebdev.com/" target="_blank">CAGE Web Design</a></strong>, Eindhoven, The Netherlands<br />
         <br />
@@ -159,7 +159,7 @@ if($rvg_wp_only == 'Y')     $rvg_wp_only_checked     = ' checked="checked"'; els
 *********************************************************************************************/
 function rvg_optimize_db()
 {
-	global $wpdb, $version, $table_prefix;
+	global $wpdb, $odb_version, $table_prefix;
 
 	/****************************************************************************************
 	
@@ -197,7 +197,7 @@ function rvg_optimize_db()
 ?>
 <div style="padding-left:8px;">
   <h2>Optimize your WordPress Database</h2>
-  <p><span style="font-style:italic;"><a href="http://cagewebdev.com/index.php/optimize-database-after-deleting-revisions-wordpress-plugin/" target="_blank" style="font-weight:bold;">Optimize Database after Deleting Revisions v<?php echo $version?></a> - A WordPress Plugin by <a href="http://cagewebdev.com/" target="_blank" style="font-weight:bold;">Rolf van Gelder</a>, Eindhoven, The Netherlands</span></p>
+  <p><span style="font-style:italic;"><a href="http://cagewebdev.com/index.php/optimize-database-after-deleting-revisions-wordpress-plugin/" target="_blank" style="font-weight:bold;">Optimize Database after Deleting Revisions v<?php echo $odb_version?></a> - A WordPress Plugin by <a href="http://cagewebdev.com/" target="_blank" style="font-weight:bold;">Rolf van Gelder</a>, Eindhoven, The Netherlands</span></p>
   <p>Current options:<br />
     <strong>Maximum number of - most recent - revisions to keep per post / page:</strong> <span style="font-weight:bold;color:#00F;"><?php echo $max_revisions?></span><br />
     <strong>Delete trashed items:</strong> <span style="font-weight:bold;color:#00F;"><?php echo $clear_trash_yn?></span><br />
@@ -210,7 +210,7 @@ if($_REQUEST['action'] != 'run')
   <p class="submit">
     <input type='button' name='change_options' value='Change Options' onclick="self.location='options-general.php?page=rvg_odb_admin'" style="font-weight:normal;" />
     &nbsp;
-    <input type='button' name='start_optimization' value='Start Optimization' onclick="self.location='tools.php?page=rvg-optimize-db.php&action=run'" style="font-weight:bold;" />
+    <input class="button-primary" type='button' name='start_optimization' value='Start Optimization' onclick="self.location='tools.php?page=rvg-optimize-db.php&action=run'" style="font-weight:bold;" />
   </p>
   <?php
 }
@@ -481,12 +481,15 @@ if($_REQUEST['action'] != 'run')
 <span style="font-weight:bold;color:#000;padding-left:8px;">~~~~~</span>
 <table border="0" cellspacing="8" cellpadding="2">
   <tr>
-    <td colspan="3" style="font-weight:bold;color:#00F;">OPTIMIZING DATABASE TABLES:</td>
+    <td colspan="4" style="font-weight:bold;color:#00F;">OPTIMIZING DATABASE TABLES:</td>
   </tr>
   <tr>
     <th style="border-bottom:solid 1px #999;" align="right">#</th>
     <th style="border-bottom:solid 1px #999;" align="left">table name</th>
     <th style="border-bottom:solid 1px #999;" align="left">optimization result</th>
+    <th style="border-bottom:solid 1px #999;" align="left">engine</th>
+    <th style="border-bottom:solid 1px #999;" align="right">table rows</th>
+    <th style="border-bottom:solid 1px #999;" align="right">table size</th>
   </tr>
   <?php
 	# GET TABLE NAMES
@@ -499,11 +502,23 @@ if($_REQUEST['action'] != 'run')
 			$cnt++;
 			$query  = "OPTIMIZE TABLE ".$row[0];
 			$result = $wpdb -> get_results($query);
+			
+			$sql = "
+			SELECT	engine, SUM(data_length + index_length) AS size, table_rows
+			FROM	information_schema.TABLES
+			WHERE	table_schema = '".strtolower(DB_NAME)."'
+			AND		table_name   = '".$row[0]."'
+			";
+
+			$table_info = $wpdb -> get_results($sql);
 ?>
   <tr>
     <td align="right"><?php echo $cnt?>.</td>
     <td style="font-weight:bold;"><?php echo $row[0] ?></td>
     <td><?php echo $result[0]->Msg_text ?></td>
+    <td><?php echo $table_info[0]->engine ?></td>
+    <td align="right"><?php echo $table_info[0]->table_rows ?></td>
+    <td align="right"><?php echo rvg_format_size($table_info[0]->size) ?></td>
   </tr>
   <?php
 		} // if($wp_only == 'N' || ($wp_only == 'Y' && substr($row[0],0,strlen($table_prefix)) == $table_prefix))
@@ -519,20 +534,20 @@ $end_size = rvg_get_db_size();
     <td colspan="2" style="font-weight:bold;color:#00F;">SAVINGS:</td>
   </tr>
   <tr>
+    <th xstyle="border-bottom:solid 1px #999;"></th>
     <th style="border-bottom:solid 1px #999;">size of the database</th>
-    <th style="border-bottom:solid 1px #999;" align="left">bytes</th>
   </tr>
   <tr>
-    <td>BEFORE optimization</td>
-    <td style="font-weight:bold;"><?php echo $start_size; ?></td>
+    <td align="right">BEFORE optimization</td>
+    <td align="right" style="font-weight:bold;"><?php echo rvg_format_size($start_size,3); ?></td>
   </tr>
   <tr>
-    <td>AFTER optimization</td>
-    <td style="font-weight:bold;"><?php echo $end_size; ?></td>
+    <td align="right">AFTER optimization</td>
+    <td align="right" style="font-weight:bold;"><?php echo rvg_format_size($end_size,3); ?></td>
   </tr>
   <tr>
-    <td>TOTAL BYTES SAVED</td>
-    <td style="font-weight:bold;"><?php echo ($start_size - $end_size); ?></td>
+    <td align="right" style="font-weight:bold;">TOTAL SAVINGS</td>
+    <td align="right" style="font-weight:bold;border-top:solid 1px #999;"><?php echo rvg_format_size(($start_size - $end_size),3); ?></td>
   </tr>
 </table>
 <br />
@@ -561,4 +576,20 @@ function rvg_get_db_size()
 	return $res[0]->size;
 	
 } // rvg_get_db_size()
+?>
+<?php
+/********************************************************************************************
+
+	FORMAT SIZES FROM BYTES TO KB OR MB
+
+*********************************************************************************************/
+function rvg_format_size($size, $precision=1)
+{
+	if($size>1024*1024)
+		$table_size = (round($size / (1024*1024),$precision)).' MB';
+	else
+		$table_size = (round($size / 1024,$precision)).' KB';
+		
+	return $table_size;
+} // rvg_format_size()
 ?>
