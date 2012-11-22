@@ -109,8 +109,8 @@ final class _WP_Editors {
 				$switch_class = 'tmce-active';
 			}
 
-			$buttons .= '<a id="' . $editor_id . '-html" class="hide-if-no-js wp-switch-editor switch-html" onclick="switchEditors.switchto(this);">' . __('Text') . "</a>\n";
-			$buttons .= '<a id="' . $editor_id . '-tmce" class="hide-if-no-js wp-switch-editor switch-tmce" onclick="switchEditors.switchto(this);">' . __('Visual') . "</a>\n";
+			$buttons .= '<a id="' . $editor_id . '-html" class="wp-switch-editor switch-html" onclick="switchEditors.switchto(this);">' . __('Text') . "</a>\n";
+			$buttons .= '<a id="' . $editor_id . '-tmce" class="wp-switch-editor switch-tmce" onclick="switchEditors.switchto(this);">' . __('Visual') . "</a>\n";
 		}
 
 		echo '<div id="wp-' . $editor_id . '-wrap" class="wp-editor-wrap ' . $switch_class . '">';
@@ -124,7 +124,7 @@ final class _WP_Editors {
 			echo $set['editor_css'] . "\n";
 
 		if ( !empty($buttons) || $set['media_buttons'] ) {
-			echo '<div id="wp-' . $editor_id . '-editor-tools" class="wp-editor-tools">';
+			echo '<div id="wp-' . $editor_id . '-editor-tools" class="wp-editor-tools hide-if-no-js">';
 			echo $buttons;
 
 			if ( $set['media_buttons'] ) {
@@ -133,7 +133,7 @@ final class _WP_Editors {
 				if ( !function_exists('media_buttons') )
 					include(ABSPATH . 'wp-admin/includes/media.php');
 
-				echo '<div id="wp-' . $editor_id . '-media-buttons" class="hide-if-no-js wp-media-buttons">';
+				echo '<div id="wp-' . $editor_id . '-media-buttons" class="wp-media-buttons">';
 				do_action('media_buttons', $editor_id);
 				echo "</div>\n";
 			}
@@ -191,12 +191,12 @@ final class _WP_Editors {
 				self::$baseurl = includes_url('js/tinymce');
 				self::$mce_locale = $mce_locale = ( '' == get_locale() ) ? 'en' : strtolower( substr(get_locale(), 0, 2) ); // only ISO 639-1
 				$no_captions = (bool) apply_filters( 'disable_captions', '' );
-				$plugins = array( 'inlinepopups', 'spellchecker', 'tabfocus', 'paste', 'media', 'fullscreen', 'wordpress', 'wplink', 'wpdialogs', 'wpview' );
+				$plugins = array( 'inlinepopups', 'spellchecker', 'tabfocus', 'paste', 'media', 'fullscreen', 'wordpress', 'wpeditimage', 'wpgallery', 'wplink', 'wpdialogs' );
 				$first_run = true;
 				$ext_plugins = '';
 
 				if ( $set['teeny'] ) {
-					self::$plugins = $plugins = apply_filters( 'teeny_mce_plugins', array('inlinepopups', 'fullscreen', 'wordpress', 'wplink', 'wpdialogs', 'wpview'), $editor_id );
+					self::$plugins = $plugins = apply_filters( 'teeny_mce_plugins', array('inlinepopups', 'fullscreen', 'wordpress', 'wplink', 'wpdialogs' ), $editor_id );
 				} else {
 					/*
 					The following filter takes an associative array of external plugins for TinyMCE in the form 'plugin_name' => 'url'.

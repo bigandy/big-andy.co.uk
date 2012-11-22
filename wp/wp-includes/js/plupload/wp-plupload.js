@@ -86,6 +86,13 @@ window.wp = window.wp || {};
 		error = function( message, data, file ) {
 			if ( file.attachment )
 				file.attachment.destroy();
+
+			Uploader.errors.unshift({
+				message: message || pluploadL10n.default_error,
+				data:    data,
+				file:    file
+			});
+
 			self.error( message, data, file );
 		};
 
@@ -192,13 +199,13 @@ window.wp = window.wp || {};
 			if ( ! _.isObject( response ) || _.isUndefined( response.success ) )
 				return error( pluploadL10n.default_error, null, file );
 			else if ( ! response.success )
-				return error( response.data.message, response.data, file );
+				return error( response.data && response.data.message, response.data, file );
 
-			_.each(['file','loaded','size','uploading','percent'], function( key ) {
+			_.each(['file','loaded','size','percent'], function( key ) {
 				file.attachment.unset( key );
 			});
 
-			file.attachment.set( response.data );
+			file.attachment.set( _.extend( response.data, { uploading: false }) );
 			wp.media.model.Attachment.get( response.data.id, file.attachment );
 
 			complete = Uploader.queue.all( function( attachment ) {
@@ -211,19 +218,21 @@ window.wp = window.wp || {};
 			self.success( file.attachment );
 		});
 
-		this.uploader.bind( 'Error', function( up, error ) {
+		this.uploader.bind( 'Error', function( up, pluploadError ) {
 			var message = pluploadL10n.default_error,
 				key;
 
 			// Check for plupload errors.
 			for ( key in Uploader.errorMap ) {
-				if ( error.code === plupload[ key ] ) {
+				if ( pluploadError.code === plupload[ key ] ) {
 					message = Uploader.errorMap[ key ];
+					if ( _.isFunction( message ) )
+						message = message( pluploadError.file, pluploadError );
 					break;
 				}
 			}
 
-			error( message, error, error.file );
+			error( message, pluploadError, pluploadError.file );
 			up.refresh();
 		});
 
@@ -238,14 +247,17 @@ window.wp = window.wp || {};
 	Uploader.errorMap = {
 		'FAILED':                 pluploadL10n.upload_failed,
 		'FILE_EXTENSION_ERROR':   pluploadL10n.invalid_filetype,
-		// 'FILE_SIZE_ERROR': '',
 		'IMAGE_FORMAT_ERROR':     pluploadL10n.not_an_image,
 		'IMAGE_MEMORY_ERROR':     pluploadL10n.image_memory_exceeded,
 		'IMAGE_DIMENSIONS_ERROR': pluploadL10n.image_dimensions_exceeded,
 		'GENERIC_ERROR':          pluploadL10n.upload_failed,
 		'IO_ERROR':               pluploadL10n.io_error,
 		'HTTP_ERROR':             pluploadL10n.http_error,
-		'SECURITY_ERROR':         pluploadL10n.security_error
+		'SECURITY_ERROR':         pluploadL10n.security_error,
+
+		'FILE_SIZE_ERROR': function( file ) {
+			return pluploadL10n.file_exceeds_size_limit.replace('%s', file.name);
+		}
 	};
 
 	$.extend( Uploader.prototype, {
@@ -284,6 +296,7 @@ window.wp = window.wp || {};
 	});
 
 	Uploader.queue = new wp.media.model.Attachments( [], { query: false });
+	Uploader.errors = new Backbone.Collection();
 
 	exports.Uploader = Uploader;
 })( wp, jQuery );

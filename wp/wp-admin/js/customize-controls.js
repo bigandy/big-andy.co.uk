@@ -98,7 +98,10 @@
 			var toggleFreeze = false;
 
 			// Support the .dropdown class to open/close complex elements
-			this.container.on( 'click focus', '.dropdown', function( event ) {
+			this.container.on( 'click keydown', '.dropdown', function( event ) {
+				if ( event.type === 'keydown' &&  13 !== event.which ) // enter
+					return;
+
 				event.preventDefault();
 
 				if (!toggleFreeze)
@@ -168,7 +171,10 @@
 			this.uploader = new wp.Uploader( this.uploader );
 
 			this.remover = this.container.find('.remove');
-			this.remover.click( function( event ) {
+			this.remover.on( 'click keydown', function( event ) {
+				if ( event.type === 'keydown' &&  13 !== event.which ) // enter
+					return;
+
 				control.setting.set( control.params.removed );
 				event.preventDefault();
 			});
@@ -232,8 +238,7 @@
 
 			// Bind tab switch events
 			this.library.children('ul').on( 'click keydown', 'li', function( event ) {
-
-				if ( event.type === 'keydown' &&  13 !== event.which )
+				if ( event.type === 'keydown' &&  13 !== event.which ) // enter
 					return;
 
 				var id  = $(this).data('customizeTab'),
@@ -251,7 +256,7 @@
 
 			// Bind events to switch image urls.
 			this.library.on( 'click keydown', 'a', function( event ) {
-    			if ( event.type === 'keydown' &&  13 !== event.which ) // enter
+				if ( event.type === 'keydown' && 13 !== event.which ) // enter
 					return;
 
 				var value = $(this).data('customizeImageValue');
@@ -842,7 +847,6 @@
 		}());
 
 		// Temporary accordion code.
-		var accordionFrozen = false;
 		$('.customize-section-title').bind('click keydown', function( event ) {
 
 			if ( event.type === 'keydown' &&  13 !== event.which ) // enter
@@ -850,14 +854,8 @@
 
 			var clicked = $( this ).parents( '.customize-section' );
 
-			if ( clicked.hasClass('cannot-expand') || accordionFrozen )
+			if ( clicked.hasClass('cannot-expand') )
 				return;
-
-			// Don't want to fire focus and click at same time
-			accordionFrozen = true;
-			setTimeout(function () {
-				accordionFrozen = false;
-			}, 400);
 
 			// Scroll up if on #customize-section-title_tagline
 			if ('customize-section-title_tagline' === clicked.attr('id'))
@@ -883,13 +881,15 @@
 		$('.back').keydown( function( event ) {
 			if ( 9 === event.which ) // tab
 				return;
-			var thisHref = $(this).attr('href');
 			if ( 13 === event.which ) // enter
-				window.location = thisHref;
+				parent.send( 'close' );
 			event.preventDefault();
 		});
 
-		$('.collapse-sidebar').click( function( event ) {
+		$('.collapse-sidebar').on( 'click keydown', function( event ) {
+			if ( event.type === 'keydown' &&  13 !== event.which ) // enter
+				return;
+
 			overlay.toggleClass( 'collapsed' ).toggleClass( 'expanded' );
 			event.preventDefault();
 		});

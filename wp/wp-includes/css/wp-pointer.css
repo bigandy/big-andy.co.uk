@@ -189,7 +189,10 @@
 /**
  * HiDPI Displays
  */
-@media only screen and (-webkit-min-device-pixel-ratio: 1.5) {
+@media print,
+  (-o-min-device-pixel-ratio: 5/4),
+  (-webkit-min-device-pixel-ratio: 1.25),
+  (min-resolution: 120dpi) {
 
 	.wp-pointer-buttons a.close:before {
 		background-image: url('../images/xit-2x.gif');
@@ -204,5 +207,22 @@
 	.wp-pointer-arrow {
 		background: url('../images/arrow-pointer-blue-2x.png') 0 0 no-repeat;
 		background-size: 30px 60px;
+	}
+
+	.wp-pointer-top .wp-pointer-arrow,
+	.wp-pointer-undefined .wp-pointer-arrow {
+		background-position: 0 1px;
+	}
+
+	.wp-pointer-bottom .wp-pointer-arrow {
+		background-position: 0 -47px;
+	}
+
+	.wp-pointer-left .wp-pointer-arrow {
+		background-position: 1px -15px;
+	}
+
+	.wp-pointer-right .wp-pointer-arrow {
+		background-position:-17px -15px;
 	}
 }

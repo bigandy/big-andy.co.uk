@@ -9,11 +9,6 @@
 	right: 0;
 }
 
-#wpadminbar .quicklinks {
-	border-left: 0;
-	border-right: 1px solid transparent;
-}
-
 #wpadminbar .quicklinks ul {
 	text-align: right;
 }
@@ -102,6 +97,11 @@
 #wpadminbar ul li:last-child,
 #wpadminbar ul li:last-child .ab-item {
 	border-left: 0;
+}
+
+#wpadminbar .screen-reader-shortcut:focus {
+	left: auto;
+	right: 6px;
 }
 
 /**

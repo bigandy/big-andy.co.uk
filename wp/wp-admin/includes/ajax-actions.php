@@ -1298,8 +1298,7 @@ function wp_ajax_sample_permalink() {
 	$post_id = isset($_POST['post_id'])? intval($_POST['post_id']) : 0;
 	$title = isset($_POST['new_title'])? $_POST['new_title'] : '';
 	$slug = isset($_POST['new_slug'])? $_POST['new_slug'] : null;
-	$screen = isset( $_POST['screen'] ) ? $_POST['screen'] : 'post';
-	wp_die( get_sample_permalink_html( $post_id, $title, $slug, $screen ) );
+	wp_die( get_sample_permalink_html( $post_id, $title, $slug ) );
 }
 
 function wp_ajax_inline_save() {
@@ -1422,37 +1421,27 @@ function wp_ajax_find_posts() {
 
 	check_ajax_referer( 'find-posts' );
 
-	if ( empty($_POST['ps']) )
-		wp_die();
+	$post_types = get_post_types( array( 'public' => true ), 'objects' );
+	unset( $post_types['attachment'] );
 
-	if ( !empty($_POST['post_type']) && in_array( $_POST['post_type'], get_post_types() ) )
-		$what = $_POST['post_type'];
-	else
-		$what = 'post';
-
-	$s = stripslashes($_POST['ps']);
-	preg_match_all('/".*?("|$)|((?<=[\\s",+])|^)[^\\s",+]+/', $s, $matches);
-	$search_terms = array_map('_search_terms_tidy', $matches[0]);
-
+	$s = stripslashes( $_POST['ps'] );
 	$searchand = $search = '';
-	foreach ( (array) $search_terms as $term ) {
-		$term = esc_sql( like_escape( $term ) );
-		$search .= "{$searchand}(($wpdb->posts.post_title LIKE '%{$term}%') OR ($wpdb->posts.post_content LIKE '%{$term}%'))";
-		$searchand = ' AND ';
-	}
-	$term = esc_sql( like_escape( $s ) );
-	if ( count($search_terms) > 1 && $search_terms[0] != $s )
-		$search .= " OR ($wpdb->posts.post_title LIKE '%{$term}%') OR ($wpdb->posts.post_content LIKE '%{$term}%')";
+	$args = array(
+		'post_type' => array_keys( $post_types ),
+		'post_status' => 'any',
+		'posts_per_page' => 50,
+	);
+	if ( '' !== $s )
+		$args['s'] = $s;
 
-	$posts = $wpdb->get_results( "SELECT ID, post_title, post_status, post_date FROM $wpdb->posts WHERE post_type = '$what' AND post_status IN ('draft', 'publish') AND ($search) ORDER BY post_date_gmt DESC LIMIT 50" );
+	$posts = get_posts( $args );
 
-	if ( ! $posts ) {
-		$posttype = get_post_type_object($what);
-		wp_die( $posttype->labels->not_found );
-	}
+	if ( ! $posts )
+		wp_die( __('No items found.') );
 
-	$html = '<table class="widefat" cellspacing="0"><thead><tr><th class="found-radio"><br /></th><th>'.__('Title').'</th><th>'.__('Date').'</th><th>'.__('Status').'</th></tr></thead><tbody>';
+	$html = '<table class="widefat" cellspacing="0"><thead><tr><th class="found-radio"><br /></th><th>'.__('Title').'</th><th class="no-break">'.__('Type').'</th><th class="no-break">'.__('Date').'</th><th class="no-break">'.__('Status').'</th></tr></thead><tbody>';
 	foreach ( $posts as $post ) {
+		$title = trim( $post->post_title ) ? $post->post_title : __( '(no title)' );
 
 		switch ( $post->post_status ) {
 			case 'publish' :
@@ -1478,17 +1467,16 @@ function wp_ajax_find_posts() {
 		}
 
 		$html .= '<tr class="found-posts"><td class="found-radio"><input type="radio" id="found-'.$post->ID.'" name="found_post_id" value="' . esc_attr($post->ID) . '"></td>';
-		$html .= '<td><label for="found-'.$post->ID.'">'.esc_html( $post->post_title ).'</label></td><td>'.esc_html( $time ).'</td><td>'.esc_html( $stat ).'</td></tr>'."\n\n";
+		$html .= '<td><label for="found-'.$post->ID.'">' . esc_html( $title ) . '</label></td><td class="no-break">' . esc_html( $post_types[$post->post_type]->labels->singular_name ) . '</td><td class="no-break">'.esc_html( $time ) . '</td><td class="no-break">' . esc_html( $stat ). ' </td></tr>' . "\n\n";
 	}
+
 	$html .= '</tbody></table>';
 
 	$x = new WP_Ajax_Response();
 	$x->add( array(
-		'what' => $what,
 		'data' => $html
 	));
 	$x->send();
-
 }
 
 function wp_ajax_widgets_order() {
@@ -1918,4 +1906,92 @@ function wp_ajax_save_attachment_compat() {
 		wp_send_json_error();
 
 	wp_send_json_success( $attachment );
+}
+
+/**
+ * Generates the HTML to send an attachment to the editor.
+ * Backwards compatible with the media_send_to_editor filter and the chain
+ * of filters that follow.
+ *
+ * @since 3.5.0
+ */
+function wp_ajax_send_attachment_to_editor() {
+	check_ajax_referer( 'media-send-to-editor', 'nonce' );
+
+	$attachment = stripslashes_deep( $_POST['attachment'] );
+
+	$id = intval( $attachment['id'] );
+
+	if ( ! $post = get_post( $id ) )
+		wp_send_json_error();
+
+	if ( ! current_user_can( 'edit_post', $id ) )
+		wp_send_json_error();
+
+	if ( 'attachment' != $post->post_type )
+		wp_send_json_error();
+
+	$html = isset( $attachment['title'] ) ? $attachment['title'] : '';
+	if ( ! empty( $attachment['url'] ) ) {
+		$rel = '';
+		if ( strpos($attachment['url'], 'attachment_id') || get_attachment_link( $id ) == $attachment['url'] )
+			$rel = ' rel="attachment wp-att-' . $id . '"';
+		$html = '<a href="' . esc_url( $attachment['url'] ) . '"' . $rel . '>' . $html . '</a>';
+	}
+
+	remove_filter( 'media_send_to_editor', 'image_media_send_to_editor', 10, 3 );
+
+	if ( 'image' === substr( $post->post_mime_type, 0, 5 ) ) {
+		$url = $attachment['url'];
+		$align = isset( $attachment['image-align'] ) ? $attachment['image-align'] : 'none';
+		$size = isset( $attachment['image-size'] ) ? $attachment['image-size'] : 'medium';
+		$alt = isset( $attachment['image-alt'] ) ? $attachment['image-alt'] : '';
+		$caption = isset( $attachment['caption'] ) ? $attachment['caption'] : '';
+		$title = ''; // We no longer insert title tags into <img> tags, as they are redundant.
+		$html = get_image_send_to_editor( $id, $caption, $title, $align, $url, (bool) $rel, $size, $alt );
+	}
+
+	$html = apply_filters( 'media_send_to_editor', $html, $id, $attachment );
+
+	wp_send_json_success( $html );
+}
+
+/**
+ * Generates the HTML to send a non-image embed link to the editor.
+ *
+ * Backwards compatible with the following filters:
+ * - file_send_to_editor_url
+ * - audio_send_to_editor_url
+ * - video_send_to_editor_url
+ *
+ * @since 3.5.0
+ */
+function wp_ajax_send_link_to_editor() {
+	check_ajax_referer( 'media-send-to-editor', 'nonce' );
+
+	if ( ! $src = stripslashes( $_POST['src'] ) )
+		wp_send_json_error();
+
+	if ( ! strpos( $src, '://' ) )
+		$src = 'http://' . $src;
+
+	if ( ! $src = esc_url_raw( $src ) )
+		wp_send_json_error();
+
+	if ( ! $title = trim( stripslashes( $_POST['title'] ) ) )
+		$title = wp_basename( $src );
+
+	$html = '';
+	if ( $title )
+		$html = '<a href="' . esc_url( $src ) . '">' . $title . '</a>';
+
+	// Figure out what filter to run:
+	$type = 'file';
+	if ( ( $ext = preg_replace( '/^.+?\.([^.]+)$/', '$1', $src ) ) && ( $ext_type = wp_ext2type( $ext ) )
+		&& ( 'audio' == $ext_type || 'video' == $ext_type ) )
+			$type = $ext_type;
+
+	$html = apply_filters( $type . '_send_to_editor_url', $html, $src, $title );
+
+	wp_send_json_success( $html );
 }

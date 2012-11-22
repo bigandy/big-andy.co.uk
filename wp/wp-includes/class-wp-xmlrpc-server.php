@@ -1213,7 +1213,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$post_data = apply_filters( 'xmlrpc_wp_insert_post_data', $post_data, $content_struct );
 
-		$post_ID = wp_insert_post( $post_data, true );
+		$post_ID = $update ? wp_update_post( $post_data, true ) : wp_insert_post( $post_data, true );
 		if ( is_wp_error( $post_ID ) )
 			return new IXR_Error( 500, $post_ID->get_error_message() );
 
@@ -5218,6 +5218,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( !current_user_can('edit_post', $post_ID) )
 			return new IXR_Error(401, __('Sorry, you cannot edit this post.'));
 
+		$catids = array();
 		foreach ( $categories as $cat ) {
 			$catids[] = $cat['categoryId'];
 		}
@@ -5385,7 +5386,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			$blah = explode('/', $match[0]);
 			$post_ID = (int) $blah[1];
 			$way = 'from the path';
-		} elseif ( preg_match('#p=[0-9]{1,}#', $urltest['query'], $match) ) {
+		} elseif ( isset( $urltest['query'] ) && preg_match('#p=[0-9]{1,}#', $urltest['query'], $match) ) {
 			// the querystring defines the post_ID (?p=XXXX)
 			$blah = explode('=', $match[0]);
 			$post_ID = (int) $blah[1];

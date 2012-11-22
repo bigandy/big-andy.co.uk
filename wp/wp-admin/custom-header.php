@@ -93,12 +93,6 @@ class Custom_Image_Header {
 		add_action("admin_head-$page", array(&$this, 'js'), 50);
 		if ( $this->admin_header_callback )
 			add_action("admin_head-$page", $this->admin_header_callback, 51);
-
-		if ( isset( $_REQUEST['context'] ) && $_REQUEST['context'] == 'custom-header' ) {
-			add_filter( 'attachment_fields_to_edit', array( $this, 'attachment_fields_to_edit' ), 10, 2 );
-			add_filter( 'media_upload_tabs', array( $this, 'filter_upload_tabs' ) );
-			add_filter( 'media_upload_mime_type_links', '__return_empty_array' );
-		}
 	}
 
 	/**
@@ -131,7 +125,7 @@ class Custom_Image_Header {
 			'content' =>
 				'<p>' . sprintf( __( 'For most themes, the header text is your Site Title and Tagline, as defined in the <a href="%1$s">General Settings</a> section.' ), admin_url( 'options-general.php' ) ) . '<p>' .
 				'<p>' . __( 'In the Header Text section of this page, you can choose whether to display this text or hide it. You can also choose a color for the text by clicking the Select Color button and either typing in a legitimate HTML hex value, e.g. &#8220;#ff0000&#8221; for red, or by choosing a color using the color picker.' ) . '</p>' .
-				'<p>' . __( 'Don&#8217;t forget to Save Changes when you&#8217;re done!') . '</p>'
+				'<p>' . __( 'Don&#8217;t forget to click &#8220;Save Changes&#8221; when you&#8217;re done!') . '</p>'
 		) );
 
 		get_current_screen()->set_help_sidebar(
@@ -171,7 +165,6 @@ class Custom_Image_Header {
 		$step = $this->step();
 
 		if ( ( 1 == $step || 3 == $step ) ) {
-			add_thickbox();
 			wp_enqueue_media();
 			wp_enqueue_script( 'custom-header' );
 			if ( current_theme_supports( 'custom-header', 'header-text' ) )
@@ -212,12 +205,6 @@ class Custom_Image_Header {
 		if ( isset( $_POST['resetheader'] ) ) {
 			check_admin_referer( 'custom-header-options', '_wpnonce-custom-header-options' );
 			$this->reset_header_image();
-			return;
-		}
-
-		if ( isset( $_POST['resettext'] ) ) {
-			check_admin_referer( 'custom-header-options', '_wpnonce-custom-header-options' );
-			remove_theme_mod('header_textcolor');
 			return;
 		}
 
@@ -628,24 +615,17 @@ class Custom_Image_Header {
 <?php
 $header_textcolor = display_header_text() ? get_header_textcolor() : get_theme_support( 'custom-header', 'default-text-color' );
 $default_color = '';
-if ( current_theme_supports( 'custom-header', 'default-text-color' ) )
-	$default_color = ' data-default-color="#' . esc_attr( get_theme_support( 'custom-header', 'default-text-color' ) ) . '"';
+if ( current_theme_supports( 'custom-header', 'default-text-color' ) ) {
+	$default_color = '#' . get_theme_support( 'custom-header', 'default-text-color' );
+	$default_color_attr = ' data-default-color="' . esc_attr( $default_color ) . '"';
+	echo '<input type="text" name="text-color" id="text-color" value="#' . esc_attr( $header_textcolor ) . '"' . $default_color_attr . ' />';
+	if ( $default_color )
+		echo ' <span class="description hide-if-js">' . sprintf( _x( 'Default: %s', 'color' ), $default_color ) . '</span>';
+}
 ?>
-		<input type="text" name="text-color" id="text-color" value="#<?php echo esc_attr( $header_textcolor ); ?>"<?php echo $default_color; ?> />
 	</p>
 </td>
 </tr>
-
-	<?php if ( current_theme_supports( 'custom-header', 'default-text-color' ) && get_theme_mod( 'header_textcolor' ) ) { ?>
-<tr valign="top">
-<th scope="row"><?php _e('Reset Text Color'); ?></th>
-<td>
-	<p><?php _e( 'This will restore the original header text. You will not be able to restore any customizations.' ) ?></p>
-	<?php submit_button( __( 'Restore Original Header Text' ), 'button', 'resettext', false ); ?>
-</td>
-</tr>
-	<?php } ?>
-
 </tbody>
 </table>
 <?php endif;
@@ -923,32 +903,21 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 	}
 
 	/**
-	 * Replace default attachment actions with "Set as header" link.
+	 * Unused since 3.5.0.
 	 *
 	 * @since 3.4.0
 	 */
-	function attachment_fields_to_edit( $form_fields, $post ) {
-		$form_fields = array();
-		$href = esc_url(add_query_arg(array(
-			'page' => 'custom-header',
-			'step' => 2,
-			'_wpnonce-custom-header-upload' => wp_create_nonce('custom-header-upload'),
-			'file' => $post->ID
-		), admin_url('themes.php')));
-
-		$form_fields['buttons'] = array( 'tr' => '<tr class="submit"><td></td><td><a data-location="' . $href . '" class="wp-set-header">' . __( 'Set as header' ) . '</a></td></tr>' );
-		$form_fields['context'] = array( 'input' => 'hidden', 'value' => 'custom-header' );
-
+	function attachment_fields_to_edit( $form_fields ) {
 		return $form_fields;
 	}
 
 	/**
-	 * Leave only "Media Library" tab in the uploader window.
+	 * Unused since 3.5.0.
 	 *
 	 * @since 3.4.0
 	 */
-	function filter_upload_tabs() {
-		return array( 'library' => __('Media Library') );
+	function filter_upload_tabs( $tabs ) {
+		return $tabs;
 	}
 
 	/**

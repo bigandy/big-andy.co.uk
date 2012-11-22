@@ -15,6 +15,7 @@
  * @uses WP_Image_Editor Extends class
  */
 class WP_Image_Editor_Imagick extends WP_Image_Editor {
+
 	protected $image = null; // Imagick Object
 
 	function __destruct() {
@@ -26,29 +27,55 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 	}
 
 	/**
-	 * Checks to see if current environment supports Imagick
+	 * Checks to see if current environment supports Imagick.
+	 *
+	 * We require Imagick 2.1.1 or greater, based on whether the queryFormats()
+	 * method can be called statically.
 	 *
 	 * @since 3.5.0
 	 * @access public
 	 *
 	 * @return boolean
 	 */
-	public static function test( $args = null ) {
-		if ( ! extension_loaded( 'imagick' ) )
+	public static function test( $args = array() ) {
+		if ( ! extension_loaded( 'imagick' ) || ! is_callable( 'Imagick', 'queryFormats' ) )
 			return false;
 
 		return true;
 	}
 
 	/**
-	 * Loads image from $this->file into new Imagick Object
+	 * Checks to see if editor supports the mime-type specified.
+	 *
+	 * @since 3.5.0
+	 * @access public
+	 *
+	 * @param string $mime_type
+	 * @return boolean
+	 */
+	public static function supports_mime_type( $mime_type ) {
+		$imagick_extension = strtoupper( self::get_extension( $mime_type ) );
+
+		if ( ! $imagick_extension )
+			return false;
+
+		try {
+			return ( (bool) Imagick::queryFormats( $imagick_extension ) );
+		}
+		catch ( Exception $e ) {
+			return false;
+		}
+	}
+
+	/**
+	 * Loads image from $this->file into new Imagick Object.
 	 *
 	 * @since 3.5.0
 	 * @access protected
 	 *
 	 * @return boolean|WP_Error True if loaded; WP_Error on failure.
 	 */
-	protected function load() {
+	public function load() {
 		if ( $this->image )
 			return true;
 
@@ -106,7 +133,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 	}
 
 	/**
-	 * Sets or updates current image size
+	 * Sets or updates current image size.
 	 *
 	 * @since 3.5.0
 	 * @access protected
@@ -135,30 +162,10 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 	}
 
 	/**
-	 * Checks to see if editor supports mime-type specified
+	 * Resizes current image.
 	 *
 	 * @since 3.5.0
 	 * @access public
-	 *
-	 * @param string $mime_type
-	 * @return boolean
-	 */
-	public static function supports_mime_type( $mime_type ) {
-		if ( ! $mime_type )
-			return false;
-
-		$imagick_extension = strtoupper( self::get_extension( $mime_type ) );
-
-		try {
-			return ( (bool) Imagick::queryFormats( $imagick_extension ) );
-		}
-		catch ( Exception $e ) {
-			return false;
-		}
-	}
-
-	/**
-	 * Resizes current image.
 	 *
 	 * @param int $max_w
 	 * @param int $max_h
@@ -195,6 +202,9 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 	/**
 	 * Processes current image and saves to disk
 	 * multiple sizes from single source.
+	 *
+	 * @since 3.5.0
+	 * @access public
 	 *
 	 * @param array $sizes
 	 * @return array
@@ -243,11 +253,10 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 	 * @param int $src_h The height to crop.
 	 * @param int $dst_w Optional. The destination width.
 	 * @param int $dst_h Optional. The destination height.
-	 * @param int $src_abs Optional. If the source crop points are absolute.
+	 * @param boolean $src_abs Optional. If the source crop points are absolute.
 	 * @return boolean|WP_Error
 	 */
 	public function crop( $src_x, $src_y, $src_w, $src_h, $dst_w = null, $dst_h = null, $src_abs = false ) {
-		// Not sure this is compatible.
 		if ( $src_abs ) {
 			$src_w -= $src_x;
 			$src_h -= $src_y;
@@ -299,14 +308,14 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 	}
 
 	/**
-	 * Flips current image
+	 * Flips current image.
 	 *
 	 * @since 3.5.0
 	 * @access public
 	 *
 	 * @param boolean $horz Horizontal Flip
 	 * @param boolean $vert Vertical Flip
-	 * @returns boolean
+	 * @returns boolean|WP_Error
 	 */
 	public function flip( $horz, $vert ) {
 		try {
@@ -323,7 +332,10 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 	}
 
 	/**
-	 * Saves current image to file
+	 * Saves current image to file.
+	 *
+	 * @since 3.5.0
+	 * @access public
 	 *
 	 * @param string $destfilename
 	 * @param string $mime_type
@@ -382,7 +394,10 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 	}
 
 	/**
-	 * Streams current image to browser
+	 * Streams current image to browser.
+	 *
+	 * @since 3.5.0
+	 * @access public
 	 *
 	 * @param string $mime_type
 	 * @return boolean|WP_Error

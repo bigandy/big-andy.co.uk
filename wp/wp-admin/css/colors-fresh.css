@@ -20,13 +20,18 @@ TABLE OF CONTENTS:
   1.0 - Left to Right Styles
 ------------------------------------------------------------------------------*/
 
-.find-box-search {
-	border-color: #dfdfdf;
-	background-color: #f1f1f1;
+.find-box-search,
+.find-box-buttons {
+	background-color: #f7f7f7;
+	border-top: 1px solid #ddd;
 }
 
 .find-box {
-	background-color: #f1f1f1;
+	background-color: #444;
+}
+
+.find-box-head {
+	color: #eee;
 }
 
 .find-box-inside {
@@ -120,11 +125,42 @@ ul.add-menu-item-tabs li.tabs,
 	background-color: #fff;
 }
 
+kbd,
+code {
+	background: #eaeaea;
+}
+
+textarea,
+input[type="text"],
+input[type="password"],
+input[type="file"],
+input[type="email"],
+input[type="number"],
+input[type="search"],
+input[type="tel"],
+input[type="url"],
+select {
+	border-color: #dfdfdf;
+}
+
+textarea:focus,
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="file"]:focus,
+input[type="email"]:focus,
+input[type="number"]:focus,
+input[type="search"]:focus,
+input[type="tel"]:focus,
+input[type="url"]:focus,
+select:focus {
+	border-color: #aaa;
+}
+
 input.disabled,
 textarea.disabled {
 	background-color: #ccc;
 }
-/* #upload-menu li a.upload-tab-link, */
+
 #plugin-information .action-button a,
 #plugin-information .action-button a:hover,
 #plugin-information .action-button a:visited {
@@ -139,7 +175,6 @@ textarea.disabled {
 h3.dashboard-widget-title,
 h3.dashboard-widget-title span,
 h3.dashboard-widget-title small,
-.find-box-head,
 .sidebar-name,
 #nav-menu-header,
 #nav-menu-footer,
@@ -221,6 +256,10 @@ strong .post-com-count span {
 	border-color: #ddd;
 }
 
+#current-theme {
+	border-bottom-color: #dfdfdf;
+}
+
 .bar {
 	background-color: #e8e8e8;
 	border-right-color: #99d;
@@ -278,6 +317,7 @@ td.help {
 }
 
 .ui-autocomplete {
+	border-color: #aaa;
 	background-color: #efefef;
 }
 
@@ -350,6 +390,11 @@ div.dashboard-widget-submit input:hover,
 #rightnow .rbutton {
 	background-color: #ebebeb;
 	color: #264761;
+}
+
+#dashboard_right_now .table_content,
+#dashboard_right_now .table_discussion {
+	border-top-color: #ececec;
 }
 
 .submitbox .submit {
@@ -436,8 +481,7 @@ a.page-numbers {
 .widefat tfoot tr th,
 h3.dashboard-widget-title,
 h3.dashboard-widget-title span,
-h3.dashboard-widget-title small,
-.find-box-head {
+h3.dashboard-widget-title small {
 	color: #333;
 }
 
@@ -1185,13 +1229,13 @@ div.wp-menu-image {
 
 .icon16.icon-generic,
 #adminmenu .menu-icon-generic div.wp-menu-image {
-	background-position: -330px -34px;
+	background-position: -330px -33px;
 }
 
 #adminmenu .menu-icon-generic:hover div.wp-menu-image,
 #adminmenu .menu-icon-generic.wp-has-current-submenu div.wp-menu-image,
 #adminmenu .menu-icon-generic.current div.wp-menu-image {
-	background-position: -330px -2px;
+	background-position: -330px -1px;
 }
 
 /* end menu and screen icons */
@@ -1707,6 +1751,19 @@ div.widgets-sortables,
 }
 /* end added from nav-menu.css */
 
+.nav-tab {
+	border-color: #dfdfdf #dfdfdf #fff;
+}
+
+.nav-tab:hover,
+.nav-tab-active {
+	border-color: #ccc #ccc #fff;
+}
+
+h2.nav-tab-wrapper, h3.nav-tab-wrapper {
+	border-bottom-color: #ccc;
+}
+
 #menu-management .nav-tab-active,
 .menu-item-handle,
 .menu-item-settings {
@@ -1893,7 +1950,10 @@ div.widgets-sortables,
 /**
  * HiDPI Displays
  */
-@media only screen and (-webkit-min-device-pixel-ratio: 1.5) {
+@media print,
+  (-o-min-device-pixel-ratio: 5/4),
+  (-webkit-min-device-pixel-ratio: 1.25),
+  (min-resolution: 120dpi) {
 
 	.curtime #timestamp {
 		background-image: url("../images/date-button-2x.gif?ver=20120916");
@@ -1914,11 +1974,11 @@ div.widgets-sortables,
 	#adminmenu .wp-menu-open .wp-menu-toggle,
 	#collapse-button div,
 	.nav-menus-php .item-edit,
-	.meta-box-sortables .postbox:hover .handlediv,
+	.js .meta-box-sortables .postbox:hover .handlediv,
 	.sidebar-name-arrow,
 	.rtl #adminmenu .wp-has-submenu:hover .wp-menu-toggle,
 	.rtl #adminmenu .wp-menu-open .wp-menu-toggle,
-	.rtl .meta-box-sortables .postbox:hover .handlediv,
+	.js.rtl .meta-box-sortables .postbox:hover .handlediv,
 	.rtl .sidebar-name-arrow {
 		background-image: url("../images/arrows-2x.png?ver=20120916");
 		background-size: 15px 123px;

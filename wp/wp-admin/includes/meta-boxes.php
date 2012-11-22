@@ -1030,7 +1030,7 @@ function post_thumbnail_meta_box( $post ) {
 		};
 
 		$element.on( 'click', '.choose, img', function( event ) {
-			var options, thumbnailId;
+			var options, thumbnailId, attachment;
 
 			event.preventDefault();
 
@@ -1047,10 +1047,15 @@ function post_thumbnail_meta_box( $post ) {
 			};
 
 			thumbnailId = $thumbnailId.val();
-			if ( '' !== thumbnailId && -1 !== thumbnailId )
-				options.selection = [ Attachment.get( thumbnailId ) ];
+			if ( '' !== thumbnailId && -1 !== thumbnailId ) {
+				attachment = Attachment.get( thumbnailId );
+				attachment.fetch();
+				options.selection = [ attachment ];
+			}
 
 			frame = wp.media( options );
+
+			frame.get('library').set( 'filterable', 'uploaded' );
 
 			frame.toolbar.on( 'activate:select', function() {
 				frame.toolbar.view().set({
@@ -1084,6 +1089,8 @@ function post_thumbnail_meta_box( $post ) {
 					}
 				});
 			});
+
+			frame.toolbar.mode('select');
 		});
 
 		$element.on( 'click', '.remove', function( event ) {

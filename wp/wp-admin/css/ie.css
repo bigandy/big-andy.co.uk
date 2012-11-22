@@ -21,10 +21,14 @@
 	position: absolute;
 }
 
-.welcome-panel .welcome-panel-column {
-	margin: 0 -25px 0 4%;
+.welcome-panel .welcome-panel-column:first-child {
+	width: 35%;
 }
 
+.welcome-panel .welcome-button {
+	padding: 0 16px;
+}
+ 
 #wp-fullscreen-title {
 	width: 97%;
 }
@@ -504,6 +508,11 @@ table.ie-fixed {
 
 .available-theme ul {
 	margin: 0;
+}
+
+.available-theme .action-links li {
+	padding-right: 7px;
+	margin-right: 7px;
 }
 
 .about-wrap .three-col-images img {

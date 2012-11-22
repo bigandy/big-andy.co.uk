@@ -457,7 +457,7 @@ function stream_preview_image( $post_id ) {
 	$post = get_post( $post_id );
 	@ini_set( 'memory_limit', apply_filters( 'admin_memory_limit', WP_MAX_MEMORY_LIMIT ) );
 
-	$img = WP_Image_Editor::get_instance( _load_image_to_edit_path( $post_id ) );
+	$img = wp_get_image_editor( _load_image_to_edit_path( $post_id ) );
 
     if ( is_wp_error( $img ) )
         return false;
@@ -566,7 +566,7 @@ function wp_save_image( $post_id ) {
 	$success = $delete = $scaled = $nocrop = false;
 	$post = get_post( $post_id );
 
-	$img = WP_Image_Editor::get_instance( _load_image_to_edit_path( $post_id, 'full' ) );
+	$img = wp_get_image_editor( _load_image_to_edit_path( $post_id, 'full' ) );
 	if ( is_wp_error( $img ) ) {
 		$return->error = esc_js( __('Unable to create new image.') );
 		return $return;
@@ -710,11 +710,17 @@ function wp_save_image( $post_id ) {
 		update_post_meta( $post_id, '_wp_attachment_backup_sizes', $backup_sizes);
 
 		if ( $target == 'thumbnail' || $target == 'all' || $target == 'full' ) {
-			$file_url = wp_get_attachment_url($post_id);
-			if ( $thumb = $meta['sizes']['thumbnail'] )
-				$return->thumbnail = path_join( dirname($file_url), $thumb['file'] );
-			else
-				$return->thumbnail = "$file_url?w=128&h=128";
+			// Check if it's an image edit from attachment edit screen
+			if ( ! empty( $_REQUEST['context'] ) && 'edit-attachment' == $_REQUEST['context'] ) {
+				$thumb_url = wp_get_attachment_image_src( $post_id, array( 900, 600 ), true );
+				$return->thumbnail = $thumb_url[0];
+			} else {
+				$file_url = wp_get_attachment_url($post_id);
+				if ( $thumb = $meta['sizes']['thumbnail'] )
+					$return->thumbnail = path_join( dirname($file_url), $thumb['file'] );
+				else
+					$return->thumbnail = "$file_url?w=128&h=128";
+			}
 		}
 	} else {
 		$delete = true;

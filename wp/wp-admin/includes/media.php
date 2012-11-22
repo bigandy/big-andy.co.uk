@@ -106,7 +106,7 @@ function the_media_upload_tabs() {
  */
 function get_image_send_to_editor($id, $caption, $title, $align, $url='', $rel = false, $size='medium', $alt = '') {
 
-	$html = get_image_tag($id, $alt, $title, $align, $size);
+	$html = get_image_tag($id, $alt, '', $align, $size);
 
 	$rel = $rel ? ' rel="attachment wp-att-' . esc_attr($id).'"' : '';
 
@@ -383,15 +383,17 @@ document.body.className = document.body.className.replace('no-js', 'js');
  * @param string $editor_id
  */
 function media_buttons($editor_id = 'content') {
-	wp_enqueue_media();
+	wp_enqueue_media( array(
+		'post' => get_post()
+	) );
 
-	$context = apply_filters('media_buttons_context', __('Upload/Insert %s'));
+	// $context = apply_filters('media_buttons_context', __('Upload/Insert %s'));
 
 	$img = '<span class="wp-media-buttons-icon"></span> ';
 
 	echo '<a href="#" class="button insert-media add_media" data-editor="' . esc_attr( $editor_id ) . '" title="' . esc_attr__( 'Add Media' ) . '">' . $img . __( 'Add Media' ) . '</a>';
 
-	echo '<a href="' . esc_url( get_upload_iframe_src() ) . '" class="thickbox add_media" id="' . esc_attr( $editor_id ) . '-add_media" title="' . esc_attr__( 'Add Media' ) . '" onclick="return false;">' . sprintf( $context, $img ) . '</a>';
+	// echo '<a href="' . esc_url( get_upload_iframe_src() ) . '" class="thickbox add_media" id="' . esc_attr( $editor_id ) . '-add_media" title="' . esc_attr__( 'Add Media' ) . '" onclick="return false;">' . sprintf( $context, $img ) . '</a>';
 }
 add_action( 'media_buttons', 'media_buttons' );
 
@@ -808,34 +810,8 @@ function wp_caption_input_textarea($edit_post) {
  * @return array
  */
 function image_attachment_fields_to_edit($form_fields, $post) {
-	if ( substr($post->post_mime_type, 0, 5) == 'image' ) {
-		$alt = get_post_meta($post->ID, '_wp_attachment_image_alt', true);
-		if ( empty($alt) )
-			$alt = '';
-
-		$form_fields['post_title']['required'] = true;
-
-		$form_fields['image_alt'] = array(
-			'value' => $alt,
-			'label' => __('Alternative Text'),
-			'helps' => __('Alt text for the image, e.g. &#8220;The Mona Lisa&#8221;')
-		);
-
-		$form_fields['align'] = array(
-			'label' => __('Alignment'),
-			'input' => 'html',
-			'html'  => image_align_input_fields($post, get_option('image_default_align')),
-		);
-
-		$form_fields['image-size'] = image_size_input_fields( $post, get_option('image_default_size', 'medium') );
-
-	} else {
-		unset( $form_fields['image_alt'] );
-	}
 	return $form_fields;
 }
-
-add_filter('attachment_fields_to_edit', 'image_attachment_fields_to_edit', 10, 2);
 
 /**
  * {@internal Missing Short Description}}
@@ -998,6 +974,32 @@ function get_attachment_fields_to_edit($post, $errors = null) {
 	// The recursive merge is easily traversed with array casting: foreach( (array) $things as $thing )
 	$form_fields = array_merge_recursive($form_fields, (array) $errors);
 
+	// This was formerly in image_attachment_fields_to_edit().
+	if ( substr($post->post_mime_type, 0, 5) == 'image' ) {
+		$alt = get_post_meta($post->ID, '_wp_attachment_image_alt', true);
+		if ( empty($alt) )
+			$alt = '';
+
+		$form_fields['post_title']['required'] = true;
+
+		$form_fields['image_alt'] = array(
+			'value' => $alt,
+			'label' => __('Alternative Text'),
+			'helps' => __('Alt text for the image, e.g. &#8220;The Mona Lisa&#8221;')
+		);
+
+		$form_fields['align'] = array(
+			'label' => __('Alignment'),
+			'input' => 'html',
+			'html'  => image_align_input_fields($post, get_option('image_default_align')),
+		);
+
+		$form_fields['image-size'] = image_size_input_fields( $post, get_option('image_default_size', 'medium') );
+
+	} else {
+		unset( $form_fields['image_alt'] );
+	}
+
 	$form_fields = apply_filters('attachment_fields_to_edit', $form_fields, $post);
 
 	return $form_fields;
@@ -1120,7 +1122,7 @@ function get_media_item( $attachment_id, $args = null ) {
 	$media_dims = apply_filters( 'media_meta', $media_dims, $post );
 
 	$image_edit_button = '';
-	if ( gd_edit_image_support( $post->post_mime_type ) ) {
+	if ( wp_image_editor_supports( array( 'mime_type' => $post->post_mime_type ) ) ) {
 		$nonce = wp_create_nonce( "image_editor-$post->ID" );
 		$image_edit_button = "<input type='button' id='imgedit-open-btn-$post->ID' onclick='imageEdit.open( $post->ID, \"$nonce\" )' class='button' value='" . esc_attr__( 'Edit Image' ) . "' /> <span class='spinner'></span>";
 	}
@@ -1274,14 +1276,47 @@ function get_compat_media_markup( $attachment_id, $args = null ) {
 
 	$default_args = array(
 		'errors' => null,
+		'taxonomies' => false,
 	);
 
 	$args = wp_parse_args( $args, $default_args );
 	$args = apply_filters( 'get_media_item_args', $args );
 
-	$errors = $args['errors'];
+	$form_fields = array();
 
-	$form_fields = get_attachment_fields_to_edit( $post, $errors );
+	if ( $args['taxonomies'] ) {
+		foreach ( get_attachment_taxonomies($post) as $taxonomy ) {
+			$t = (array) get_taxonomy($taxonomy);
+			if ( ! $t['public'] || ! $t['show_ui'] )
+				continue;
+			if ( empty($t['label']) )
+				$t['label'] = $taxonomy;
+			if ( empty($t['args']) )
+				$t['args'] = array();
+
+			$terms = get_object_term_cache($post->ID, $taxonomy);
+			if ( false === $terms )
+				$terms = wp_get_object_terms($post->ID, $taxonomy, $t['args']);
+
+			$values = array();
+
+			foreach ( $terms as $term )
+				$values[] = $term->slug;
+			$t['value'] = join(', ', $values);
+
+			$form_fields[$taxonomy] = $t;
+		}
+	}
+
+	// Merge default fields with their errors, so any key passed with the error (e.g. 'error', 'helps', 'value') will replace the default
+	// The recursive merge is easily traversed with array casting: foreach( (array) $things as $thing )
+	$form_fields = array_merge_recursive($form_fields, (array) $args['errors'] );
+
+	$form_fields = apply_filters( 'attachment_fields_to_edit', $form_fields, $post );
+
+	unset( $form_fields['image-size'], $form_fields['align'], $form_fields['image_alt'],
+		$form_fields['post_title'], $form_fields['post_excerpt'], $form_fields['post_content'],
+		$form_fields['url'], $form_fields['menu_order'], $form_fields['image_url'] );
 
 	$media_meta = apply_filters( 'media_meta', '', $post );
 
@@ -1294,16 +1329,13 @@ function get_compat_media_markup( $attachment_id, $args = null ) {
 
 	$hidden_fields = array();
 
-	unset( $form_fields['image-size'], $form_fields['align'], $form_fields['image_alt'],
-		$form_fields['post_title'], $form_fields['post_excerpt'], $form_fields['post_content'],
-		$form_fields['url'], $form_fields['menu_order'], $form_fields['image_url'] );
-
 	$item = '';
 	foreach ( $form_fields as $id => $field ) {
 		if ( $id[0] == '_' )
 			continue;
 
 		$name = "attachments[$attachment_id][$id]";
+		$id_attr = "attachments-$attachment_id-$id";
 
 		if ( !empty( $field['tr'] ) ) {
 			$item .= $field['tr'];
@@ -1313,17 +1345,17 @@ function get_compat_media_markup( $attachment_id, $args = null ) {
 		$field = array_merge( $defaults, $field );
 
 		if ( $field['input'] == 'hidden' ) {
-			$hidden_fields[$id] = $field['value'];
+			$hidden_fields[$name] = $field['value'];
 			continue;
 		}
 
 		$required      = $field['required'] ? '<span class="alignright"><abbr title="required" class="required">*</abbr></span>' : '';
 		$aria_required = $field['required'] ? " aria-required='true' " : '';
-		$class  = 'compat-item-' . $name;
+		$class  = 'compat-field-' . $id;
 		$class .= $field['required'] ? ' form-required' : '';
 
 		$item .= "\t\t<tr class='$class'>";
-		$item .= "\t\t\t<th valign='top' scope='row' class='label'><label for='$name'><span class='alignleft'>{$field['label']}</span>$required<br class='clear' /></label>";
+		$item .= "\t\t\t<th valign='top' scope='row' class='label'><label for='$id_attr'><span class='alignleft'>{$field['label']}</span>$required<br class='clear' /></label>";
 		$item .= "</th>\n\t\t\t<td class='field'>";
 
 		if ( !empty( $field[ $field['input'] ] ) )
@@ -1333,9 +1365,9 @@ function get_compat_media_markup( $attachment_id, $args = null ) {
 				// sanitize_post() skips the post_content when user_can_richedit
 				$field['value'] = htmlspecialchars( $field['value'], ENT_QUOTES );
 			}
-			$item .= "<textarea id='$name' name='$name' $aria_required>" . $field['value'] . '</textarea>';
+			$item .= "<textarea id='$id_attr' name='$name' $aria_required>" . $field['value'] . '</textarea>';
 		} else {
-			$item .= "<input type='text' class='text' id='$name' name='$name' value='" . esc_attr( $field['value'] ) . "' $aria_required />";
+			$item .= "<input type='text' class='text' id='$id_attr' name='$name' value='" . esc_attr( $field['value'] ) . "' $aria_required />";
 		}
 		if ( !empty( $field['helps'] ) )
 			$item .= "<p class='help'>" . join( "</p>\n<p class='help'>", array_unique( (array) $field['helps'] ) ) . '</p>';
@@ -1360,7 +1392,7 @@ function get_compat_media_markup( $attachment_id, $args = null ) {
 	if ( !empty( $form_fields['_final'] ) )
 		$item .= "\t\t<tr class='final'><td colspan='2'>{$form_fields['_final']}</td></tr>\n";
 	if ( $item )
-		$item = '<table>' . $item . '</table>';
+		$item = '<table class="compat-attachment-fields">' . $item . '</table>';
 
 	return array(
 		'item'   => $item,
@@ -1375,7 +1407,8 @@ function get_compat_media_markup( $attachment_id, $args = null ) {
  * @since 2.5.0
  */
 function media_upload_header() {
-	echo '<script type="text/javascript">post_id = ' . intval( $_REQUEST['post_id'] ) . ";</script>\n";
+	$post_id = isset( $_REQUEST['post_id'] ) ? intval( $_REQUEST['post_id'] ) : 0;
+	echo '<script type="text/javascript">post_id = ' . $post_id . ";</script>\n";
 	if ( empty( $_GET['chromeless'] ) ) {
 		echo '<div id="media-upload-header">';
 		the_media_upload_tabs();
@@ -1594,7 +1627,7 @@ function media_upload_type_url_form($type = null, $errors = null, $id = null) {
 
 	media_upload_header();
 
-	$post_id = intval($_REQUEST['post_id']);
+	$post_id = isset( $_REQUEST['post_id'] ) ? intval( $_REQUEST['post_id'] ) : 0;
 
 	$form_action_url = admin_url("media-upload.php?type=$type&tab=type&post_id=$post_id");
 	$form_action_url = apply_filters('media_upload_form_url', $form_action_url, $type);
@@ -1869,7 +1902,7 @@ function media_upload_library_form($errors) {
 
 	media_upload_header();
 
-	$post_id = intval($_REQUEST['post_id']);
+	$post_id = isset( $_REQUEST['post_id'] ) ? intval( $_REQUEST['post_id'] ) : 0;
 
 	$form_action_url = admin_url("media-upload.php?type=$type&tab=library&post_id=$post_id");
 	$form_action_url = apply_filters('media_upload_form_url', $form_action_url, $type);
@@ -2135,7 +2168,7 @@ function wp_media_insert_url_form( $default_view = 'image' ) {
 function media_upload_flash_bypass() {
 	?>
 	<p class="upload-flash-bypass">
-	<?php _e('You are using the multi-file uploader. Problems? Try the <a href="#">browser uploader</a> instead.'); ?>
+	<?php printf( __( 'You are using the multi-file uploader. Problems? Try the <a href="%1$s" target="%2$s">browser uploader</a> instead.' ), admin_url( 'media-new.php?browser-uploader' ), '_blank' ); ?>
 	</p>
 	<?php
 }
@@ -2156,16 +2189,11 @@ function media_upload_html_bypass() {
 add_action('post-html-upload-ui', 'media_upload_html_bypass');
 
 /**
- * Displays the "After a file has been uploaded..." message.
+ * Used to display a "After a file has been uploaded..." help message.
  *
  * @since 3.3.0
  */
-function media_upload_text_after() {
-	?>
-	<span class="after-file-upload"><?php _e('After a file has been uploaded, you can add titles and descriptions.'); ?></span>
-	<?php
-}
-add_action('post-upload-ui', 'media_upload_text_after', 5);
+function media_upload_text_after() {}
 
 /**
  * Displays the checkbox to scale images.
@@ -2216,11 +2244,6 @@ function edit_form_image_editor() {
 	$title = esc_attr( $post->post_title );
 	$alt_text = get_post_meta( $post->ID, '_wp_attachment_image_alt', true );
 
-	$post_mime_types = get_post_mime_types();
-	$keys = array_keys( wp_match_mime_types( array_keys( $post_mime_types ), $post->post_mime_type ) );
-	$type = array_shift( $keys );
-	$type_html = "<input type='hidden' id='type-of-$attachment_id' value='" . esc_attr( $type ) . "' />";
-
 	$media_dims = '';
 	$meta = wp_get_attachment_metadata( $post->ID );
 	if ( is_array( $meta ) && array_key_exists( 'width', $meta ) && array_key_exists( 'height', $meta ) )
@@ -2230,7 +2253,7 @@ function edit_form_image_editor() {
 	$att_url = wp_get_attachment_url( $post->ID );
 
 	$image_edit_button = '';
-	if ( gd_edit_image_support( $post->post_mime_type ) ) {
+	if ( wp_image_editor_supports( array( 'mime_type' => $post->post_mime_type ) ) ) {
 		$nonce = wp_create_nonce( "image_editor-$post->ID" );
 		$image_edit_button = "<input type='button' id='imgedit-open-btn-$post->ID' onclick='imageEdit.open( $post->ID, \"$nonce\" )' class='button' value='" . esc_attr__( 'Edit Image' ) . "' /> <span class='spinner'></span>";
 	}
@@ -2240,7 +2263,7 @@ function edit_form_image_editor() {
 		<div class="imgedit-response" id="imgedit-response-<?php echo $attachment_id; ?>"></div>
 
 		<div class="wp_attachment_image" id="media-head-<?php echo $attachment_id; ?>">
-			<p><img class="thumbnail" src="<?php echo set_url_scheme( $thumb_url[0] ); ?>" style="max-width:100%" width="<?php echo $thumb_url[1]; ?>" alt="" /></p>
+			<p id="thumbnail-head-<?php echo $attachment_id; ?>"><img class="thumbnail" src="<?php echo set_url_scheme( $thumb_url[0] ); ?>" style="max-width:100%" alt="" /></p>
 			<p><?php echo $image_edit_button; ?></p>
 		</div>
 		<div style="display:none" class="image-editor" id="image-editor-<?php echo $attachment_id; ?>"></div>
@@ -2251,13 +2274,22 @@ function edit_form_image_editor() {
 			<label for="attachment_caption"><strong><?php _e( 'Caption' ); ?></strong></label><br />
 			<textarea class="widefat" name="excerpt" id="attachment_caption"><?php echo $post->post_excerpt; ?></textarea>
 		</p>
+
+	<?php if ( 'image' === substr( $post->post_mime_type, 0, 5 ) ) : ?>
 		<p>
 			<label for="attachment_alt"><strong><?php _e( 'Alternative Text' ); ?></strong></label><br />
 			<input type="text" class="widefat" name="_wp_attachment_image_alt" id="attachment_alt" value="<?php echo esc_attr( $alt_text ); ?>" />
 		</p>
+	<?php endif; ?>
+
 	</div>
 	<?php
-	// need a filter on this content
+	$extras = get_compat_media_markup( $post->ID );
+	echo $extras['item'];
+	foreach ( $extras['hidden'] as $hidden_field => $value ) {
+		echo '<input type="hidden" name="' . esc_attr( $hidden_field ) . '" value="' . esc_attr( $value ) . '" />' . "\n";
+	}
+	echo '<input type="hidden" id="image-edit-context" value="edit-attachment" />' . "\n";
 }
 
 /**

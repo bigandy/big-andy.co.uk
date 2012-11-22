@@ -6,7 +6,7 @@
 	var DOM = tinymce.DOM;
 
 	tinymce.create('tinymce.plugins.WordPress', {
-		mceTout : 0,
+		showButtons : 0,
 
 		init : function(ed, url) {
 			var t = this, tbId = ed.getParam('wordpress_adv_toolbar', 'toolbar2'), last = 0, moreHTML, nextpageHTML, closeOnClick, mod_key;
@@ -144,12 +144,18 @@
 				}
 			});
 
-			// Add HTML5 obsolete attributes that are still in use.
+			// Add obsolete HTML attributes that are still in use.
 			ed.onPreInit.add(function(ed) {
-				// This list is taken from TinyMCE 3.5.7 getHTML5()
-				var commonAttr = 'id|accesskey|class|dir|draggable|item|hidden|itemprop|role|spellcheck|style|subject|title|onclick|ondblclick|onmousedown|onmouseup|onmouseover|onmousemove|onmouseout|onkeypress|onkeydown|onkeyup';
-				// Additional table attributes from TinyMCE 3.5.7 getHTML4()
+				// The commonAttr are from TinyMCE 3.5.7 getHTML5()
+				// Obsolete attributes are from TinyMCE 3.5.7 getHTML4()
+				var commonAttr = 'id|accesskey|class|dir|draggable|item|hidden|itemprop|role|spellcheck|style|subject|title|onclick|ondblclick|onmousedown|onmouseup|onmouseover|onmousemove|onmouseout|onkeypress|onkeydown|onkeyup',
+					tdAttr = commonAttr + '|abbr|axis|headers|scope|rowspan|colspan|char|charoff|align|valign|halign|nowrap|bgcolor|width|height';
+				// Obsolete table attributes
 				ed.schema.addValidElements('table['+commonAttr+'|summary|width|border|frame|rules|cellspacing|cellpadding|align|bgcolor]');
+				// Obsolete tr attributes
+				ed.schema.addValidElements('tr['+commonAttr+'|align|char|charoff|valign|halign|bgcolor]');
+				// Obsolete td and th attributes
+				ed.schema.addValidElements('td['+tdAttr+'],th['+tdAttr+']');
 				// Adds "name" for <a>
 				ed.schema.addValidElements('a['+commonAttr+'|href|target|ping|rel|media|type|name]');
 			});
@@ -369,14 +375,11 @@
 				'display' : 'block'
 			});
 
-			if ( this.mceTout )
-				clearTimeout(this.mceTout);
-
-			this.mceTout = setTimeout( function(){ed.plugins.wordpress._hideButtons();}, 5000 );
+			this.showButtons = true;
 		},
 
 		_hideButtons : function() {
-			if ( !this.mceTout )
+			if ( ! this.showButtons )
 				return;
 
 			if ( document.getElementById('wp_editbtns') )
@@ -385,8 +388,7 @@
 			if ( document.getElementById('wp_gallerybtns') )
 				tinymce.DOM.hide('wp_gallerybtns');
 
-			clearTimeout(this.mceTout);
-			this.mceTout = 0;
+			this.showButtons = false;
 		},
 
 		// Resizes the iframe by a relative height value

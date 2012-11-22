@@ -15,6 +15,7 @@
  * @uses WP_Image_Editor Extends class
  */
 class WP_Image_Editor_GD extends WP_Image_Editor {
+
 	protected $image = false; // GD Resource
 
 	function __destruct() {
@@ -25,14 +26,14 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 	}
 
 	/**
-	 * Checks to see if current environment supports GD
+	 * Checks to see if current environment supports GD.
 	 *
 	 * @since 3.5.0
 	 * @access public
 	 *
 	 * @return boolean
 	 */
-	public static function test( $args = null ) {
+	public static function test( $args = array() ) {
 		if ( ! extension_loaded('gd') || ! function_exists('gd_info') )
 			return false;
 
@@ -40,14 +41,37 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 	}
 
 	/**
-	 * Loads image from $this->file into new GD Resource
+	 * Checks to see if editor supports the mime-type specified.
 	 *
-	 * @since 3.5
+	 * @since 3.5.0
+	 * @access public
+	 *
+	 * @param string $mime_type
+	 * @return boolean
+	 */
+	public static function supports_mime_type( $mime_type ) {
+		$image_types = imagetypes();
+		switch( $mime_type ) {
+			case 'image/jpeg':
+				return ($image_types & IMG_JPG) != 0;
+			case 'image/png':
+				return ($image_types & IMG_PNG) != 0;
+			case 'image/gif':
+				return ($image_types & IMG_GIF) != 0;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Loads image from $this->file into new GD Resource.
+	 *
+	 * @since 3.5.0
 	 * @access protected
 	 *
 	 * @return boolean|\WP_Error
 	 */
-	protected function load() {
+	public function load() {
 		if ( $this->image )
 			return true;
 
@@ -72,7 +96,7 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 	}
 
 	/**
-	 * Sets or updates current image size
+	 * Sets or updates current image size.
 	 *
 	 * @since 3.5.0
 	 * @access protected
@@ -91,23 +115,11 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 	}
 
 	/**
-	 * Checks to see if editor supports mime-type specified
+	 * Resizes current image.
+	 * Wraps _resize, since _resize returns a GD Resource.
 	 *
 	 * @since 3.5.0
 	 * @access public
-	 *
-	 * @param string $mime_type
-	 * @return boolean
-	 */
-	public static function supports_mime_type( $mime_type ) {
-		$allowed_mime_types = array( 'image/gif', 'image/png', 'image/jpeg' );
-
-		return in_array( $mime_type, $allowed_mime_types );
-	}
-
-	/**
-	 * Resizes current image.
-	 * Wrapper around _resize, since _resize returns a GD Resource
 	 *
 	 * @param int $max_w
 	 * @param int $max_h
@@ -153,6 +165,9 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 	 * Processes current image and saves to disk
 	 * multiple sizes from single source.
 	 *
+	 * @since 3.5.0
+	 * @access public
+	 *
 	 * @param array $sizes { {width, height}, ... }
 	 * @return array
 	 */
@@ -192,7 +207,7 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 	 * @param int $src_h The height to crop.
 	 * @param int $dst_w Optional. The destination width.
 	 * @param int $dst_h Optional. The destination height.
-	 * @param int $src_abs Optional. If the source crop points are absolute.
+	 * @param boolean $src_abs Optional. If the source crop points are absolute.
 	 * @return boolean|WP_Error
 	 */
 	public function crop( $src_x, $src_y, $src_w, $src_h, $dst_w = null, $dst_h = null, $src_abs = false ) {
@@ -250,9 +265,12 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 	}
 
 	/**
-	 * Flips current image
+	 * Flips current image.
 	 *
-	 * @param boolean $horz Horizonal Flip
+	 * @since 3.5.0
+	 * @access public
+	 *
+	 * @param boolean $horz Horizontal Flip
 	 * @param boolean $vert Vertical Flip
 	 * @returns boolean|WP_Error
 	 */
@@ -277,7 +295,10 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 	}
 
 	/**
-	 * Saves current in-memory image to file
+	 * Saves current in-memory image to file.
+	 *
+	 * @since 3.5.0
+	 * @access public
 	 *
 	 * @param string $destfilename
 	 * @param string $mime_type
@@ -335,7 +356,10 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 	}
 
 	/**
-	 * Returns stream of current image
+	 * Returns stream of current image.
+	 *
+	 * @since 3.5.0
+	 * @access public
 	 *
 	 * @param string $mime_type
 	 */

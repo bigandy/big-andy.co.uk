@@ -22,6 +22,7 @@ TABLE OF CONTENTS:
 11.0 - Write/Edit Post Screen
 	11.1 - Custom Fields
 	11.2 - Post Revisions
+	11.3 - Featured Images
 12.0 - Categories
 13.0 - Tags
 14.0 - Media Screen
@@ -139,10 +140,15 @@ ul#add-to-blog-users {
 
 #publishing-action {
 	float: left;
+	text-align: left;
+}
+
+#publishing-action .spinner {
+	float: right;
 }
 
 #post-body .misc-pub-section {
-	border-right:0;
+	border-right: 0;
 	border-left-width: 1px;
 	border-left-style: solid;
 }
@@ -475,7 +481,7 @@ form.upgrade .hint {
 		margin-left: 15px;
 		margin-right: 52px;
 	}
-	
+
 	.auto-fold #adminmenu div.wp-menu-image {
 		float: right;
 		width: 30px;
@@ -547,12 +553,29 @@ form.upgrade .hint {
 	font-family: Tahoma, Arial, sans-serif;
 }
 
-.widefat td p {
-	margin: 2px 0 0.8em;
-}
-
 .postbox-container {
 	float: right;
+}
+
+#post-body-content {
+	float: right;
+}
+
+#poststuff #post-body.columns-2 {
+	margin-left: 300px;
+	margin-right: 0;
+}
+
+#post-body.columns-2 #postbox-container-1 {
+	float: left;
+	margin-left: -300px;
+	margin-right: 0;
+}
+
+@media only screen and (max-width: 850px) {
+	#wpbody-content #post-body.columns-2 #postbox-container-1 {
+		margin-left: 0;
+	}
 }
 
 .postbox .handlediv {
@@ -575,6 +598,7 @@ form.upgrade .hint {
 	padding-left: 125px;
 }
 
+/* Welcome Panel */
 .welcome-panel .welcome-panel-close {
 	right: auto;
 	left: 10px;
@@ -585,39 +609,68 @@ form.upgrade .hint {
 	right: -12px;
 }
 
-.welcome-panel .wp-badge {
-	float: right;
+.welcome-panel-content {
+	margin-left: 0;
+	margin-right: 13px;
 }
 
 .welcome-panel .welcome-panel-column {
-	margin: 0 -25px 0 5%;
-	padding-left: 0;
-	padding-right: 25px;
 	float: right;
 }
 
-.welcome-panel .welcome-panel-column.welcome-panel-last {
-	margin-right: auto;
-	padding-right: 0;
-	margin-left: 0;
-}
-
-.welcome-panel h4 .icon16 {
-	margin-left: 0;
-	margin-right: -32px;
-}
-
-.welcome-panel .welcome-panel-column-container {
-	padding: 0 25px 0 0;
-}
-
 .welcome-panel .welcome-panel-column ul {
-	margin: 1.6em 1.3em 1em 1em;
+	margin-right: 0;
+	margin-left: 1em;
 }
 
 .welcome-panel .welcome-panel-column li {
 	padding-left: 0;
 	padding-right: 2px;
+}
+
+.welcome-panel .welcome-add-page {
+	background-position: right 2px;
+}
+
+.welcome-panel .welcome-edit-page {
+	background-position: right -90px;
+}
+
+.welcome-panel .welcome-learn-more {
+	background-position: right -136px;
+}
+
+.welcome-panel .welcome-comments {
+	background-position: right -182px;
+}
+
+.welcome-panel .welcome-view-site {
+	background-position: right -274px;
+}
+
+.welcome-panel .welcome-widgets-menus {
+	background-position: right -229px;
+	line-height: 14px;
+}
+
+.welcome-panel .welcome-write-blog {
+ 	background-position: right -44px;
+}
+
+.welcome-panel .welcome-icon {
+	padding: 2px 32px 8px 0;
+}
+
+@media screen and (max-width: 870px) {
+	.welcome-panel .welcome-panel-column li {
+		margin-right: 0;
+		margin-left: 13px;
+	}
+
+	.welcome-panel .welcome-icon {
+		padding-right: 25px;
+		padding-left: 0;
+	}
 }
 
 /*------------------------------------------------------------------------------
@@ -770,43 +823,39 @@ th.sorted a span {
 /*------------------------------------------------------------------------------
   11.0 - Write/Edit Post Screen
 ------------------------------------------------------------------------------*/
-/* structural/layout */
-#post-body-content {
+
+#save-action .spinner,
+#show-comments a,
+#show-comments .spinner {
 	float: right;
-}
-
-#poststuff #post-body.columns-2 {
-	margin-left: 300px;
-	margin-right: 0;
-}
-
-#post-body.columns-2 #postbox-container-1 {
-	float: left;
-	margin-left: -300px;
-	margin-right: 0;
-}
-
-@media only screen and (max-width: 850px) {
-	#wpbody-content #post-body.columns-2 #postbox-container-1 {
-		margin-left: 0;
-	}
 }
 
 #titlediv #title-prompt-text,
 #wp-fullscreen-title-prompt-text {
-	right:0;
+	right: 0;
 }
 
 #sample-permalink {
-	direction:ltr;
+	direction: ltr;
 }
 
 #sample-permalink #editable-post-name {
-	unicode-bidi:embed;
+	unicode-bidi: embed;
 }
+
 #wp-fullscreen-title-prompt-text {
 	left: auto;
 	right: 0;
+}
+
+#wp-fullscreen-save .spinner,
+#wp-fullscreen-save .fs-saved {
+	float: left;
+}
+
+#edit-slug-box .cancel {
+	margin-right: 0;
+	margin-left: 10px;
 }
 
 .postarea h3 label {
@@ -873,6 +922,11 @@ th.sorted a span {
 	padding-right: 18px;
 }
 
+.compat-attachment-fields th {
+	padding-right: 0;
+	padding-left: 10px;
+}
+
 /*------------------------------------------------------------------------------
   11.1 - Custom Fields
 ------------------------------------------------------------------------------*/
@@ -885,6 +939,14 @@ th.sorted a span {
 
 table.diff td, table.diff th {
 	font-family: Consolas, Monaco, monospace;
+}
+
+/*------------------------------------------------------------------------------
+  11.3 - Featured Images
+------------------------------------------------------------------------------*/
+
+#select-featured-image a {
+	float: right;
 }
 
 /*------------------------------------------------------------------------------
@@ -914,7 +976,8 @@ table.diff td, table.diff th {
 	border-bottom-right-radius: 3px;
 }
 
-#front-static-pages .sub-option,
+#front-page-warning,
+#front-static-pages ul,
 ul.export-filters,
 .inline-editor ul.cat-checklist ul,
 .categorydiv ul.categorychecklist ul,
@@ -991,6 +1054,7 @@ span.description,
 	padding: 0 5px 0 0;
 }
 
+.media-item .edit-attachment,
 .media-item .error-div a.dismiss,
 .describe-toggle-on,
 .describe-toggle-off {
@@ -1025,6 +1089,21 @@ span.description,
   14.1 - Media Uploader
 ------------------------------------------------------------------------------*/
 
+#find-posts-input {
+	float: right;
+}
+
+#find-posts-search {
+	float: right;
+	margin-right: 3px;
+	margin-left: 4px;
+}
+
+.find-box-search .spinner {
+	left: auto;
+	right: 115px;
+}
+
 #find-posts-response .found-radio {
 	padding: 5px 8px 0 0;
 }
@@ -1048,8 +1127,38 @@ form.upgrade .hint {
   14.2 - Image Editor
 ------------------------------------------------------------------------------*/
 
+.wp_attachment_image .button,
+.A1B1 .button {
+	float: right;
+}
+
+.wp_attachment_image .spinner,
+.A1B1 .spinner {
+	float: right;
+}
+
 .imgedit-menu div {
 	float: right;
+}
+
+.imgedit-crop {
+	margin: 0;
+}
+
+.imgedit-rleft,
+.imgedit-flipv,
+.imgedit-undo {
+	margin: 0 8px 0 3px;
+}
+
+.imgedit-rright,
+.imgedit-fliph,
+.imgedit-redo {
+	margin: 0 3px;
+}
+
+.imgedit-applyto img {
+	margin: 0 0 0 8px;
 }
 
 .imgedit-help {
@@ -1142,6 +1251,11 @@ h3.available-themes {
 .available-theme .action-links li {
 	padding-left: 8px;
 	margin-left: 8px;
+}
+
+.ie8 .available-theme .action-links li {
+	padding-left: 7px;
+	margin-left: 7px;
 }
 
 #current-theme .theme-info li:last-child,
@@ -1486,6 +1600,18 @@ table .column-rating {
 	left: 15px;
 }
 
+.screen-reader-text,
+.screen-reader-text span,
+.ui-helper-hidden-accessible {
+	left: auto;
+	right: -1000em;
+}
+
+.screen-reader-shortcut:focus {
+	left: auto;
+	right: 6px;
+}
+
 /*------------------------------------------------------------------------------
   24.0  - Dead
 ------------------------------------------------------------------------------*/
@@ -1810,6 +1936,11 @@ a.rsswidget,
 
 #dashboard-widgets h3 .postbox-title-action {
 	right: auto;
+	left: 10px;
+}
+
+.js #dashboard-widgets h3 .postbox-title-action {
+	right: auto;
 	left: 30px;
 }
 
@@ -1999,6 +2130,10 @@ body.login {
 #cancel-save {
 	margin-left: 0;
 	margin-right: 20px;
+}
+
+.button.right, .button-secondary.right, .button-primary.right {
+	float: left;
 }
 
 /* Button Secondary Actions */
@@ -2306,13 +2441,7 @@ h3.tb {
 	float: right;
 }
 
-.feature-filter .feature-name {
-	float: right;
-	text-align: left;
-}
-
 .feature-filter .feature-group li {
-	float: right;
 	padding-right: 0;
 	padding-left: 25px;
 }
@@ -2382,7 +2511,10 @@ div.sidebar-name h3 {
 /**
  * HiDPI Displays
  */
-@media only screen and (-webkit-min-device-pixel-ratio: 1.5) {
+@media print,
+  (-o-min-device-pixel-ratio: 5/4),
+  (-webkit-min-device-pixel-ratio: 1.25),
+  (min-resolution: 120dpi) {
 	.post-com-count {
 		background-image: url('../images/bubble_bg-rtl-2x.gif');
 		background-size: 18px 100px;

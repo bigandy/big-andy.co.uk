@@ -7,92 +7,23 @@
  */
 
 /**
- * Base WordPress Image Editor class for which Editor implementations extend
+ * Base image editor class from which implementations extend
  *
  * @since 3.5.0
  */
 abstract class WP_Image_Editor {
 	protected $file = null;
 	protected $size = null;
-	protected $mime_type  = null;
+	protected $mime_type = null;
 	protected $default_mime_type = 'image/jpeg';
 	protected $quality = 90;
 
-	protected function __construct( $filename ) {
-		$this->file = $filename;
-	}
-
 	/**
-	 * Returns a WP_Image_Editor instance and loads file into it.
-	 *
-	 * @since 3.5.0
-	 * @access public
-	 *
-	 * @param string $path Path to File to Load
-	 * @param array $required_methods Methods to require in implementation
-	 * @return WP_Image_Editor|WP_Error
+	 * Each instance handles a single file.
 	 */
-	public final static function get_instance( $path = null, $required_methods = null ) {
-		$implementation = apply_filters( 'wp_image_editor_class', self::choose_implementation( $required_methods ), $path );
-
-		if ( $implementation ) {
-			$editor = new $implementation( $path );
-			$loaded = $editor->load();
-
-			if ( is_wp_error( $loaded ) )
-				return $loaded;
-
-			return $editor;
-		}
-
-		return new WP_Error( 'no_editor', __('No editor could be selected') );
+	public function __construct( $file ) {
+		$this->file = $file;
 	}
-
-	/**
-	 * Tests which editors are capable of supporting the request.
-	 *
-	 * @since 3.5.0
-	 * @access private
-	 *
-	 * @param array $required_methods String array of all methods required for implementation returned.
-	 * @return string|bool Class name for the first editor that claims to support the request. False if no editor claims to support the request.
-	 */
-	private final static function choose_implementation( $required_methods = null ) {
-		$request_order = apply_filters( 'wp_image_editors',
-			array( 'WP_Image_Editor_Imagick', 'WP_Image_Editor_GD' ) );
-
-		if ( ! $required_methods )
-			$required_methods = apply_filters( 'wp_image_editor_default_methods',
-				array( 'resize', 'multi_resize', 'crop', 'rotate', 'flip', 'stream' ) );
-
-		// Loop over each editor on each request looking for one which will serve this request's needs
-		foreach ( $request_order as $editor ) {
-			// Check to see if this editor is a possibility, calls the editor statically
-			if ( ! call_user_func( array( $editor, 'test' ) ) )
-				continue;
-
-			// Make sure that all methods are supported by editor.
-			if ( array_diff( $required_methods, get_class_methods( $editor ) ) )
-				continue;
-
-			return $editor;
-		}
-		return false;
-	}
-
-	abstract protected function load(); // returns bool|WP_Error
-	abstract public function save( $destfilename = null, $mime_type = null );
-
-	/**
-	 * Implement all of the below to support natively used functions:
-	 *
-	 * public function resize( $max_w, $max_h, $crop = false )
-	 * public function multi_resize( $sizes )
-	 * public function crop( $src_x, $src_y, $src_w, $src_h, $dst_w = null, $dst_h = null, $src_abs = false )
-	 * public function rotate( $angle )
-	 * public function flip( $horz, $vert )
-	 * public function stream( $mime_type = null )
-	 */
 
 	/**
 	 * Checks to see if current environment supports the editor chosen.
@@ -105,12 +36,12 @@ abstract class WP_Image_Editor {
 	 * @param array $args
 	 * @return boolean
 	 */
-	public static function test( $args = null ) {
+	public static function test( $args = array() ) {
 		return false;
 	}
 
 	/**
-	 * Checks to see if editor supports mime-type specified
+	 * Checks to see if editor supports the mime-type specified.
 	 * Must be overridden in a sub-class.
 	 *
 	 * @since 3.5.0
@@ -125,7 +56,114 @@ abstract class WP_Image_Editor {
 	}
 
 	/**
-	 * Gets dimensions of image
+	 * Loads image from $this->file into editor.
+	 *
+	 * @since 3.5.0
+	 * @access protected
+	 * @abstract
+	 *
+	 * @return boolean|WP_Error True if loaded; WP_Error on failure.
+	 */
+	abstract public function load();
+
+	/**
+	 * Saves current image to file.
+	 *
+	 * @since 3.5.0
+	 * @access public
+	 * @abstract
+	 *
+	 * @param string $destfilename
+	 * @param string $mime_type
+	 * @return array|WP_Error {'path'=>string, 'file'=>string, 'width'=>int, 'height'=>int, 'mime-type'=>string}
+	 */
+	abstract public function save( $destfilename = null, $mime_type = null );
+
+	/**
+	 * Resizes current image.
+	 *
+	 * @since 3.5.0
+	 * @access public
+	 * @abstract
+	 *
+	 * @param int $max_w
+	 * @param int $max_h
+	 * @param boolean $crop
+	 * @return boolean|WP_Error
+	 */
+	abstract public function resize( $max_w, $max_h, $crop = false );
+
+	/**
+	 * Processes current image and saves to disk
+	 * multiple sizes from single source.
+	 *
+	 * @since 3.5.0
+	 * @access public
+	 * @abstract
+	 *
+	 * @param array $sizes
+	 * @return array
+	 */
+	abstract public function multi_resize( $sizes );
+
+	/**
+	 * Crops Image.
+	 *
+	 * @since 3.5.0
+	 * @access public
+	 * @abstract
+	 *
+	 * @param string|int $src The source file or Attachment ID.
+	 * @param int $src_x The start x position to crop from.
+	 * @param int $src_y The start y position to crop from.
+	 * @param int $src_w The width to crop.
+	 * @param int $src_h The height to crop.
+	 * @param int $dst_w Optional. The destination width.
+	 * @param int $dst_h Optional. The destination height.
+	 * @param boolean $src_abs Optional. If the source crop points are absolute.
+	 * @return boolean|WP_Error
+	 */
+	abstract public function crop( $src_x, $src_y, $src_w, $src_h, $dst_w = null, $dst_h = null, $src_abs = false );
+
+	/**
+	 * Rotates current image counter-clockwise by $angle.
+	 *
+	 * @since 3.5.0
+	 * @access public
+	 * @abstract
+	 *
+	 * @param float $angle
+	 * @return boolean|WP_Error
+	 */
+	abstract public function rotate( $angle );
+
+	/**
+	 * Flips current image.
+	 *
+	 * @since 3.5.0
+	 * @access public
+	 * @abstract
+	 *
+	 * @param boolean $horz Horizontal Flip
+	 * @param boolean $vert Vertical Flip
+	 * @return boolean|WP_Error
+	 */
+	abstract public function flip( $horz, $vert );
+
+	/**
+	 * Streams current image to browser.
+	 *
+	 * @since 3.5.0
+	 * @access public
+	 * @abstract
+	 *
+	 * @param string $mime_type
+	 * @return boolean|WP_Error
+	 */
+	abstract public function stream( $mime_type = null );
+
+	/**
+	 * Gets dimensions of image.
 	 *
 	 * @since 3.5.0
 	 * @access public
@@ -137,7 +175,7 @@ abstract class WP_Image_Editor {
 	}
 
 	/**
-	 * Sets current image size
+	 * Sets current image size.
 	 *
 	 * @since 3.5.0
 	 * @access protected
@@ -359,3 +397,4 @@ abstract class WP_Image_Editor {
 		return $extensions[0];
 	}
 }
+

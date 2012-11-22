@@ -119,7 +119,7 @@ function wp_default_scripts( &$scripts ) {
 	// not used in core, replaced by Jcrop.js
 	$scripts->add( 'cropper', '/wp-includes/js/crop/cropper.js', array('scriptaculous-dragdrop') );
 
-	$scripts->add( 'jquery', '/wp-includes/js/jquery/jquery.js', array(), '1.8.2' );
+	$scripts->add( 'jquery', '/wp-includes/js/jquery/jquery.js', array(), '1.8.3' );
 
 	// full jQuery UI
 	$scripts->add( 'jquery-ui-core', '/wp-includes/js/jquery/ui/jquery.ui.core.min.js', array('jquery'), '1.9.1', 1 );
@@ -257,7 +257,7 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'json2', "/wp-includes/js/json2$suffix.js", array(), '2011-02-23');
 
 	$scripts->add( 'underscore', '/wp-includes/js/underscore.min.js', array(), '1.4.0', 1 );
-	$scripts->add( 'backbone', '/wp-includes/js/backbone.min.js', array('underscore'), '0.9.2', 1 );
+	$scripts->add( 'backbone', '/wp-includes/js/backbone.min.js', array('underscore','jquery'), '0.9.2', 1 );
 
 	$scripts->add( 'imgareaselect', "/wp-includes/js/imgareaselect/jquery.imgareaselect$suffix.js", array('jquery'), '0.9.8', 1 );
 
@@ -298,7 +298,7 @@ function wp_default_scripts( &$scripts ) {
 		'type' => 'characters' == _x( 'words', 'word count: words or characters?' ) ? 'c' : 'w',
 	) );
 
-	$scripts->add( 'media-upload', "/wp-admin/js/media-upload$suffix.js", array( 'thickbox', 'mce-view', 'media-views' ), false, 1 );
+	$scripts->add( 'media-upload', "/wp-admin/js/media-upload$suffix.js", array( 'thickbox', 'shortcode' ), false, 1 );
 
 	$scripts->add( 'hoverIntent', "/wp-includes/js/hoverIntent$suffix.js", array('jquery'), 'r6', 1 );
 
@@ -318,18 +318,20 @@ function wp_default_scripts( &$scripts ) {
 		'allowedFiles' => __( 'Allowed Files' ),
 	) );
 
+	$scripts->add( 'shortcode', "/wp-includes/js/shortcode$suffix.js", array( 'underscore' ), false, 1 );
 	$scripts->add( 'media-models', "/wp-includes/js/media-models$suffix.js", array( 'backbone', 'jquery' ), false, 1 );
 	did_action( 'init' ) && $scripts->localize( 'media-models', '_wpMediaModelsL10n', array(
-		'saveAttachmentNonce' => wp_create_nonce( 'save-attachment' ),
+		'settings' => array(
+			'saveAttachmentNonce' => wp_create_nonce( 'save-attachment' ),
+			'ajaxurl' => admin_url( 'admin-ajax.php', 'relative' ),
+		),
 	) );
 
-	$scripts->add( 'media-views',  "/wp-includes/js/media-views$suffix.js",  array( 'media-models', 'wp-plupload' ), false, 1 );
-	$scripts->add( 'shortcode', "/wp-includes/js/shortcode$suffix.js", array( 'underscore' ), false, 1 );
+	// To enqueue media-views or media-editor, call wp_enqueue_media().
+	// Both rely on numerous settings, styles, and templates to operate correctly.
+	$scripts->add( 'media-views',  "/wp-includes/js/media-views$suffix.js",  array( 'media-models', 'wp-plupload', 'jquery-ui-sortable' ), false, 1 );
+	$scripts->add( 'media-editor', "/wp-includes/js/media-editor$suffix.js", array( 'shortcode', 'media-views' ), false, 1 );
 	$scripts->add( 'mce-view', "/wp-includes/js/mce-view$suffix.js", array( 'shortcode', 'media-models' ), false, 1 );
-	did_action( 'init' ) && $scripts->localize( 'mce-view', '_wpMceViewL10n', array(
-		'contentWidth' => isset( $GLOBALS['content_width'] ) ? $GLOBALS['content_width'] : 800,
-		'editGallery'  => __( 'Edit Gallery' ),
-	) );
 
 	if ( is_admin() ) {
 		$scripts->add( 'ajaxcat', "/wp-admin/js/cat$suffix.js", array( 'wp-lists' ) );
@@ -361,14 +363,10 @@ function wp_default_scripts( &$scripts ) {
 
 		$scripts->add( 'postbox', "/wp-admin/js/postbox$suffix.js", array('jquery-ui-sortable'), false, 1 );
 
-		$scripts->add( 'sample-permalink', "/wp-admin/js/sample-permalink$suffix.js", array(), false, 1 );
-		did_action( 'init' ) && $scripts->localize( 'sample-permalink', 'samplePermalinkL10n', array(
+		$scripts->add( 'post', "/wp-admin/js/post$suffix.js", array('suggest', 'wp-lists', 'postbox'), false, 1 );
+		did_action( 'init' ) && $scripts->localize( 'post', 'postL10n', array(
 			'ok' => __('OK'),
 			'cancel' => __('Cancel'),
-		) );
-
-		$scripts->add( 'post', "/wp-admin/js/post$suffix.js", array('suggest', 'wp-lists', 'postbox', 'sample-permalink' ), false, 1 );
-		did_action( 'init' ) && $scripts->localize( 'post', 'postL10n', array(
 			'publishOn' => __('Publish on:'),
 			'publishOnFuture' =>  __('Schedule for:'),
 			'publishOnPast' => __('Published on:'),
@@ -496,7 +494,7 @@ function wp_default_styles( &$styles ) {
 
 	$suffix = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';
 
-	$rtl_styles = array( 'wp-admin', 'ie', 'media', 'admin-bar', 'customize-controls' );
+	$rtl_styles = array( 'wp-admin', 'ie', 'media', 'admin-bar', 'customize-controls', 'media-views' );
 	// Any rtl stylesheets that don't have a .min version
 	$no_suffix = array( 'farbtastic' );
 
@@ -524,7 +522,7 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'editor-buttons', "/wp-includes/css/editor$suffix.css" );
 	$styles->add( 'wp-pointer', "/wp-includes/css/wp-pointer$suffix.css" );
 	$styles->add( 'customize-controls', "/wp-admin/css/customize-controls$suffix.css", array( 'wp-admin', 'colors', 'ie' ) );
-	$styles->add( 'media-views', "/wp-includes/css/media-views$suffix.css" );
+	$styles->add( 'media-views', "/wp-includes/css/media-views$suffix.css", array( 'buttons' ) );
 	$styles->add( 'buttons', "/wp-includes/css/buttons$suffix.css" );
 
 	foreach ( $rtl_styles as $rtl_style ) {
