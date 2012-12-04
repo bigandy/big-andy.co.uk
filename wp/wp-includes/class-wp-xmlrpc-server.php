@@ -90,8 +90,6 @@ class wp_xmlrpc_server extends IXR_Server {
 			'blogger.getUserInfo' => 'this:blogger_getUserInfo',
 			'blogger.getPost' => 'this:blogger_getPost',
 			'blogger.getRecentPosts' => 'this:blogger_getRecentPosts',
-			'blogger.getTemplate' => 'this:blogger_getTemplate',
-			'blogger.setTemplate' => 'this:blogger_setTemplate',
 			'blogger.newPost' => 'this:blogger_newPost',
 			'blogger.editPost' => 'this:blogger_editPost',
 			'blogger.deletePost' => 'this:blogger_deletePost',
@@ -107,8 +105,6 @@ class wp_xmlrpc_server extends IXR_Server {
 			// MetaWeblog API aliases for Blogger API
 			// see http://www.xmlrpc.com/stories/storyReader$2460
 			'metaWeblog.deletePost' => 'this:blogger_deletePost',
-			'metaWeblog.getTemplate' => 'this:blogger_getTemplate',
-			'metaWeblog.setTemplate' => 'this:blogger_setTemplate',
 			'metaWeblog.getUsersBlogs' => 'this:blogger_getUsersBlogs',
 
 			// MovableType API
@@ -1016,7 +1012,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			if ( $post_data['post_type'] != get_post_type( $post_data['ID'] ) )
 				return new IXR_Error( 401, __( 'The post type may not be changed.' ) );
 		} else {
-			if ( ! current_user_can( $post_type->cap->edit_posts ) )
+			if ( ! current_user_can( $post_type->cap->create_posts ) || ! current_user_can( $post_type->cap->edit_posts ) )
 				return new IXR_Error( 401, __( 'Sorry, you are not allowed to post on this site.' ) );
 		}
 
@@ -3826,82 +3822,23 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Retrieve blog_filename content.
+	 * Deprecated.
 	 *
 	 * @since 1.5.0
-	 *
-	 * @param array $args Method parameters.
-	 * @return string
+	 * @deprecated 3.5.0
 	 */
 	function blogger_getTemplate($args) {
-
-		$this->escape($args);
-
-		$blog_ID    = (int) $args[1];
-		$username = $args[2];
-		$password  = $args[3];
-		$template   = $args[4]; /* could be 'main' or 'archiveIndex', but we don't use it */
-
-		if ( !$user = $this->login($username, $password) )
-			return $this->error;
-
-		do_action('xmlrpc_call', 'blogger.getTemplate');
-
-		if ( !current_user_can('edit_themes') )
-			return new IXR_Error(401, __('Sorry, this user cannot edit the template.'));
-
-		/* warning: here we make the assumption that the blog's URL is on the same server */
-		$filename = get_option('home') . '/';
-		$filename = preg_replace('#https?://.+?/#', $_SERVER['DOCUMENT_ROOT'].'/', $filename);
-
-		$f = fopen($filename, 'r');
-		$content = fread($f, filesize($filename));
-		fclose($f);
-
-		/* so it is actually editable with a windows/mac client */
-		// FIXME: (or delete me) do we really want to cater to bad clients at the expense of good ones by BEEPing up their line breaks? commented. $content = str_replace("\n", "\r\n", $content);
-
-		return $content;
+		return new IXR_Error( 403, __('Sorry, that file cannot be edited.' ) );
 	}
 
 	/**
-	 * Updates the content of blog_filename.
+	 * Deprecated.
 	 *
 	 * @since 1.5.0
-	 *
-	 * @param array $args Method parameters.
-	 * @return bool True when done.
+	 * @deprecated 3.5.0
 	 */
 	function blogger_setTemplate($args) {
-
-		$this->escape($args);
-
-		$blog_ID    = (int) $args[1];
-		$username = $args[2];
-		$password  = $args[3];
-		$content    = $args[4];
-		$template   = $args[5]; /* could be 'main' or 'archiveIndex', but we don't use it */
-
-		if ( !$user = $this->login($username, $password) )
-			return $this->error;
-
-		do_action('xmlrpc_call', 'blogger.setTemplate');
-
-		if ( !current_user_can('edit_themes') )
-			return new IXR_Error(401, __('Sorry, this user cannot edit the template.'));
-
-		/* warning: here we make the assumption that the blog's URL is on the same server */
-		$filename = get_option('home') . '/';
-		$filename = preg_replace('#https?://.+?/#', $_SERVER['DOCUMENT_ROOT'].'/', $filename);
-
-		if ($f = fopen($filename, 'w+')) {
-			fwrite($f, $content);
-			fclose($f);
-		} else {
-			return new IXR_Error(500, __('Either the file is not writable, or something wrong happened. The file has not been updated.'));
-		}
-
-		return true;
+		return new IXR_Error( 403, __('Sorry, that file cannot be edited.' ) );
 	}
 
 	/**
@@ -3928,7 +3865,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		do_action('xmlrpc_call', 'blogger.newPost');
 
 		$cap = ($publish) ? 'publish_posts' : 'edit_posts';
-		if ( !current_user_can($cap) )
+		if ( ! current_user_can( get_post_type_object( 'post' )->cap->create_posts ) || !current_user_can($cap) )
 			return new IXR_Error(401, __('Sorry, you are not allowed to post on this site.'));
 
 		$post_status = ($publish) ? 'publish' : 'draft';
@@ -4143,6 +4080,8 @@ class wp_xmlrpc_server extends IXR_Server {
 			$post_type = 'post';
 		}
 
+		if ( ! current_user_can( get_post_type_object( $post_type )->cap->create_posts ) )
+			return new IXR_Error( 401, __( 'Sorry, you are not allowed to publish posts on this site.' ) );
 		if ( !current_user_can( $cap ) )
 			return new IXR_Error( 401, $error_message );
 

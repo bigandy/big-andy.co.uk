@@ -13,7 +13,7 @@ require_once('./admin.php');
 
 header('Content-Type: ' . get_option('html_type') . '; charset=' . get_option('blog_charset'));
 
-if ( ! current_user_can( 'edit_posts' ) || ! current_user_can( 'create_posts' ) )
+if ( ! current_user_can( 'edit_posts' ) || ! current_user_can( get_post_type_object( 'post' )->cap->create_posts ) )
 	wp_die( __( 'Cheatin&#8217; uh?' ) );
 
 /**
@@ -439,7 +439,7 @@ var photostorage = false;
 $admin_body_class = ( is_rtl() ) ? 'rtl' : '';
 $admin_body_class .= ' locale-' . sanitize_html_class( strtolower( str_replace( '_', '-', get_locale() ) ) );
 ?>
-<body class="press-this wp-admin <?php echo $admin_body_class; ?>">
+<body class="press-this wp-admin wp-core-ui <?php echo $admin_body_class; ?>">
 <form action="press-this.php?action=post" method="post">
 <div id="poststuff" class="metabox-holder">
 	<div id="side-sortables" class="press-this-sidebar">

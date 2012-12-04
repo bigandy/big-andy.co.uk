@@ -8,7 +8,8 @@
 
 		$headers.imagesLoaded( function() {
 			$headers.masonry({
-				itemSelector: '.default-header'
+				itemSelector: '.default-header',
+				isRTL: !! ( 'undefined' != typeof isRtl && isRtl )
 			});
 		});
 
@@ -24,8 +25,8 @@
 				}
 			});
 
-			frame.toolbar.on( 'activate:select', function() {
-				frame.toolbar.view().set({
+			frame.on( 'toolbar:render:select', function( view ) {
+				view.set({
 					select: {
 						style: 'primary',
 						text:  $el.data('update'),
@@ -40,7 +41,7 @@
 				});
 			});
 
-			frame.state('library');
+			frame.setState('library').open();
 		});
 	});
 }(jQuery));

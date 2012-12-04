@@ -29,7 +29,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 	/**
 	 * Checks to see if current environment supports Imagick.
 	 *
-	 * We require Imagick 2.1.1 or greater, based on whether the queryFormats()
+	 * We require Imagick 2.2.0 or greater, based on whether the queryFormats()
 	 * method can be called statically.
 	 *
 	 * @since 3.5.0
@@ -38,7 +38,39 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 	 * @return boolean
 	 */
 	public static function test( $args = array() ) {
-		if ( ! extension_loaded( 'imagick' ) || ! is_callable( 'Imagick', 'queryFormats' ) )
+
+		// First, test Imagick's extension and classes.
+		if ( ! extension_loaded( 'imagick' ) || ! class_exists( 'Imagick' ) || ! class_exists( 'ImagickPixel' ) )
+			return false;
+
+		if ( version_compare( phpversion( 'imagick' ), '2.2.0', '<' ) )
+			return false;
+
+		$required_methods = array(
+			'clear',
+			'destroy',
+			'valid',
+			'getimage',
+			'writeimage',
+			'getimageblob',
+			'getimagegeometry',
+			'getimageformat',
+			'setimageformat',
+			'setimagecompression',
+			'setimagecompressionquality',
+			'setimagepage',
+			'scaleimage',
+			'cropimage',
+			'rotateimage',
+			'flipimage',
+			'flopimage',
+		);
+
+		// Now, test for deep requirements within Imagick.
+		if ( ! defined( 'imagick::COMPRESSION_JPEG' ) )
+			return false;
+
+		if ( array_diff( $required_methods, get_class_methods( 'Imagick' ) ) )
 			return false;
 
 		return true;
@@ -58,6 +90,11 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 
 		if ( ! $imagick_extension )
 			return false;
+
+		// setIteratorIndex is optional unless mime is an animated format.
+		// Here, we just say no if you are missing it and aren't loading a jpeg.
+		if ( ! method_exists( 'Imagick', 'setIteratorIndex' ) && $mime_type != 'image/jpeg' )
+				return false;
 
 		try {
 			return ( (bool) Imagick::queryFormats( $imagick_extension ) );
@@ -82,14 +119,19 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 		if ( ! is_file( $this->file ) && ! preg_match( '|^https?://|', $this->file ) )
 			return new WP_Error( 'error_loading_image', __('File doesn&#8217;t exist?'), $this->file );
 
+		// Even though Imagick uses less PHP memory than GD, set higher limit for users that have low PHP.ini limits
+		@ini_set( 'memory_limit', apply_filters( 'image_memory_limit', WP_MAX_MEMORY_LIMIT ) );
+
 		try {
 			$this->image = new Imagick( $this->file );
 
 			if( ! $this->image->valid() )
 				return new WP_Error( 'invalid_image', __('File is not an image.'), $this->file);
 
-			// Select the first frame to handle animated GIFs properly
-			$this->image->setIteratorIndex(0);
+			// Select the first frame to handle animated images properly
+			if ( is_callable( array( $this->image, 'setIteratorIndex' ) ) )
+				$this->image->setIteratorIndex(0);
+
 			$this->mime_type = $this->get_mime_type( $this->image->getImageFormat() );
 		}
 		catch ( Exception $e ) {

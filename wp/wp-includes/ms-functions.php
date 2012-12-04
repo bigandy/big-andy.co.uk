@@ -1988,6 +1988,19 @@ function get_upload_space_available() {
 }
 
 /**
+ * Determines if there is any upload space left in the current blog's quota.
+ *
+ * @since 3.0.0
+ * @return bool True if space is available, false otherwise.
+ */
+function is_upload_space_available() {
+	if ( get_site_option( 'upload_space_check_disabled' ) )
+		return true;
+
+	return (bool) get_upload_space_available();
+}
+
+/**
  * @since 3.0.0
  *
  * @return int of upload size limit in bytes

@@ -1585,12 +1585,12 @@ function wp_ajax_upload_attachment() {
 	check_ajax_referer( 'media-form' );
 
 	if ( ! current_user_can( 'upload_files' ) )
-		wp_send_json_error();
+		wp_die();
 
 	if ( isset( $_REQUEST['post_id'] ) ) {
 		$post_id = $_REQUEST['post_id'];
 		if ( ! current_user_can( 'edit_post', $post_id ) )
-			wp_send_json_error();
+			wp_die();
 	} else {
 		$post_id = null;
 	}
@@ -1601,20 +1601,30 @@ function wp_ajax_upload_attachment() {
 	if ( isset( $post_data['context'] ) && in_array( $post_data['context'], array( 'custom-header', 'custom-background' ) ) ) {
 		$wp_filetype = wp_check_filetype_and_ext( $_FILES['async-upload']['tmp_name'], $_FILES['async-upload']['name'], false );
 		if ( ! wp_match_mime_types( 'image', $wp_filetype['type'] ) ) {
-			wp_send_json_error( array(
-				'message' => __( 'The uploaded file is not a valid image. Please try again.' ),
-				'filename' => $_FILES['async-upload']['name'],
+			echo json_encode( array(
+				'success' => false,
+				'data'    => array(
+					'message'  => __( 'The uploaded file is not a valid image. Please try again.' ),
+					'filename' => $_FILES['async-upload']['name'],
+				)
 			) );
+
+			wp_die();
 		}
 	}
 
 	$attachment_id = media_handle_upload( 'async-upload', $post_id, $post_data );
 
 	if ( is_wp_error( $attachment_id ) ) {
-		wp_send_json_error( array(
-			'message'  => $attachment_id->get_error_message(),
-			'filename' => $_FILES['async-upload']['name'],
+		echo json_encode( array(
+			'success' => false,
+			'data'    => array(
+				'message'  => $attachment_id->get_error_message(),
+				'filename' => $_FILES['async-upload']['name'],
+			)
 		) );
+
+		wp_die();
 	}
 
 	if ( isset( $post_data['context'] ) && isset( $post_data['theme'] ) ) {
@@ -1626,9 +1636,14 @@ function wp_ajax_upload_attachment() {
 	}
 
 	if ( ! $attachment = wp_prepare_attachment_for_js( $attachment_id ) )
-		wp_send_json_error();
+		wp_die();
 
-	wp_send_json_success( $attachment );
+	echo json_encode( array(
+		'success' => true,
+		'data'    => $attachment,
+	) );
+
+	wp_die();
 }
 
 function wp_ajax_image_editor() {
@@ -1659,23 +1674,34 @@ function wp_ajax_image_editor() {
 }
 
 function wp_ajax_set_post_thumbnail() {
+	$json = ! empty( $_REQUEST['json'] ); // New-style request
+
 	$post_ID = intval( $_POST['post_id'] );
-	if ( !current_user_can( 'edit_post', $post_ID ) )
-		wp_die( -1 );
+	if ( !current_user_can( 'edit_post', $post_ID ) ) {
+		$json ? wp_send_json_error() : wp_die( -1 );
+	}
 	$thumbnail_id = intval( $_POST['thumbnail_id'] );
 
-	check_ajax_referer( "set_post_thumbnail-$post_ID" );
+	if ( $json )
+		check_ajax_referer( "update-post_$post_ID" );
+	else
+		check_ajax_referer( "set_post_thumbnail-$post_ID" );
 
 	if ( $thumbnail_id == '-1' ) {
-		if ( delete_post_thumbnail( $post_ID ) )
-			wp_die( _wp_post_thumbnail_html( null, $post_ID ) );
-		else
-			wp_die( 0 );
+		if ( delete_post_thumbnail( $post_ID ) ) {
+			$return = _wp_post_thumbnail_html( null, $post_ID );
+			$json ? wp_send_json_success( $return ) : wp_die( $return );
+		} else {
+			$json ? wp_send_json_error() : wp_die( 0 );
+		}
 	}
 
-	if ( set_post_thumbnail( $post_ID, $thumbnail_id ) )
-		wp_die( _wp_post_thumbnail_html( $thumbnail_id, $post_ID ) );
-	wp_die( 0 );
+	if ( set_post_thumbnail( $post_ID, $thumbnail_id ) ) {
+		$return = _wp_post_thumbnail_html( $thumbnail_id, $post_ID );
+		$json ? wp_send_json_success( $return ) : wp_die( $return );
+	}
+
+	$json ? wp_send_json_error() : wp_die( 0 );
 }
 
 function wp_ajax_date_format() {
@@ -1832,7 +1858,7 @@ function wp_ajax_save_attachment() {
 	if ( ! $id = absint( $_REQUEST['id'] ) )
 		wp_send_json_error();
 
-	check_ajax_referer( 'save-attachment', 'nonce' );
+	check_ajax_referer( 'update-post_' . $id, 'nonce' );
 
 	if ( ! current_user_can( 'edit_post', $id ) )
 		wp_send_json_error();
@@ -1850,7 +1876,7 @@ function wp_ajax_save_attachment() {
 		$post['post_excerpt'] = $changes['caption'];
 
 	if ( isset( $changes['alt'] ) ) {
-		$alt = get_post_meta( $attachment_id, '_wp_attachment_image_alt', true );
+		$alt = get_post_meta( $id, '_wp_attachment_image_alt', true );
 		$new_alt = stripslashes( $changes['alt'] );
 		if ( $alt != $new_alt ) {
 			$new_alt = wp_strip_all_tags( $new_alt, true );
@@ -1878,7 +1904,7 @@ function wp_ajax_save_attachment_compat() {
 		wp_send_json_error();
 	$attachment_data = $_REQUEST['attachments'][ $id ];
 
-	check_ajax_referer( 'save-attachment', 'nonce' );
+	check_ajax_referer( 'update-post_' . $id, 'nonce' );
 
 	if ( ! current_user_can( 'edit_post', $id ) )
 		wp_send_json_error();
@@ -1887,6 +1913,10 @@ function wp_ajax_save_attachment_compat() {
 
 	if ( 'attachment' != $post['post_type'] )
 		wp_send_json_error();
+
+	// Handle the description field automatically, if a plugin adds it back.
+	if ( isset( $attachment_data['post_content'] ) )
+		$post['post_content'] = $attachment_data['post_content'];
 
 	$post = apply_filters( 'attachment_fields_to_save', $post, $attachment_data );
 
@@ -1906,6 +1936,39 @@ function wp_ajax_save_attachment_compat() {
 		wp_send_json_error();
 
 	wp_send_json_success( $attachment );
+}
+
+function wp_ajax_save_attachment_order() {
+	if ( ! isset( $_REQUEST['post_id'] ) )
+		wp_send_json_error();
+
+	if ( ! $post_id = absint( $_REQUEST['post_id'] ) )
+		wp_send_json_error();
+
+	if ( empty( $_REQUEST['attachments'] ) )
+		wp_send_json_error();
+
+	check_ajax_referer( 'update-post_' . $post_id, 'nonce' );
+
+	$attachments = $_REQUEST['attachments'];
+
+	if ( ! current_user_can( 'edit_post', $post_id ) )
+		wp_send_json_error();
+
+	$post = get_post( $post_id, ARRAY_A );
+
+	foreach ( $attachments as $attachment_id => $menu_order ) {
+		if ( ! current_user_can( 'edit_post', $attachment_id ) )
+			continue;
+		if ( ! $attachment = get_post( $attachment_id ) )
+			continue;
+		if ( 'attachment' != $attachment->post_type )
+			continue;
+
+		wp_update_post( array( 'ID' => $attachment_id, 'menu_order' => $menu_order ) );
+	}
+
+	wp_send_json_success();
 }
 
 /**
@@ -1931,22 +1994,27 @@ function wp_ajax_send_attachment_to_editor() {
 	if ( 'attachment' != $post->post_type )
 		wp_send_json_error();
 
-	$html = isset( $attachment['title'] ) ? $attachment['title'] : '';
+	// If this attachment is unattached, attach it. Primarily a back compat thing.
+	if ( 0 == $post->post_parent && $insert_into_post_id = intval( $_POST['post_id'] ) ) {
+		wp_update_post( array( 'ID' => $id, 'post_parent' => $insert_into_post_id ) );
+	}
+
+	$rel = $url = '';
+	$html = $title = isset( $attachment['post_title'] ) ? $attachment['post_title'] : '';
 	if ( ! empty( $attachment['url'] ) ) {
-		$rel = '';
-		if ( strpos($attachment['url'], 'attachment_id') || get_attachment_link( $id ) == $attachment['url'] )
+		$url = $attachment['url'];
+		if ( strpos( $url, 'attachment_id') || get_attachment_link( $id ) == $url )
 			$rel = ' rel="attachment wp-att-' . $id . '"';
-		$html = '<a href="' . esc_url( $attachment['url'] ) . '"' . $rel . '>' . $html . '</a>';
+		$html = '<a href="' . esc_url( $url ) . '"' . $rel . '>' . $html . '</a>';
 	}
 
 	remove_filter( 'media_send_to_editor', 'image_media_send_to_editor', 10, 3 );
 
 	if ( 'image' === substr( $post->post_mime_type, 0, 5 ) ) {
-		$url = $attachment['url'];
-		$align = isset( $attachment['image-align'] ) ? $attachment['image-align'] : 'none';
+		$align = isset( $attachment['align'] ) ? $attachment['align'] : 'none';
 		$size = isset( $attachment['image-size'] ) ? $attachment['image-size'] : 'medium';
-		$alt = isset( $attachment['image-alt'] ) ? $attachment['image-alt'] : '';
-		$caption = isset( $attachment['caption'] ) ? $attachment['caption'] : '';
+		$alt = isset( $attachment['image_alt'] ) ? $attachment['image_alt'] : '';
+		$caption = isset( $attachment['post_excerpt'] ) ? $attachment['post_excerpt'] : '';
 		$title = ''; // We no longer insert title tags into <img> tags, as they are redundant.
 		$html = get_image_send_to_editor( $id, $caption, $title, $align, $url, (bool) $rel, $size, $alt );
 	}

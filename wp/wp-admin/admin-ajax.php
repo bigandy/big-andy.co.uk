@@ -36,6 +36,7 @@ require_once( ABSPATH . 'wp-admin/includes/ajax-actions.php' );
 @header( 'X-Robots-Tag: noindex' );
 
 send_nosniff_header();
+nocache_headers();
 
 do_action( 'admin_init' );
 
@@ -55,7 +56,7 @@ $core_actions_post = array(
 	'save-widget', 'set-post-thumbnail', 'date_format', 'time_format', 'wp-fullscreen-save-post',
 	'wp-remove-post-lock', 'dismiss-wp-pointer', 'upload-attachment', 'get-attachment',
 	'query-attachments', 'save-attachment', 'save-attachment-compat', 'send-link-to-editor',
-	'send-attachment-to-editor',
+	'send-attachment-to-editor', 'save-attachment-order',
 );
 
 // Register core Ajax calls.

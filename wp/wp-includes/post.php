@@ -63,6 +63,9 @@ function create_initial_post_types() {
 		'_builtin' => true, /* internal use only. don't use this when registering your own post type. */
 		'_edit_link' => 'post.php?post=%d', /* internal use only. don't use this when registering your own post type. */
 		'capability_type' => 'post',
+		'capabilities' => array(
+			'create_posts' => 'upload_files',
+		),
 		'map_meta_cap' => true,
 		'hierarchical' => false,
 		'rewrite' => false,
@@ -3196,13 +3199,7 @@ function wp_set_post_terms( $post_id = 0, $tags = '', $taxonomy = 'post_tag', $a
 		$tags = array_unique( array_map( 'intval', $tags ) );
 	}
 
-	$r = wp_set_object_terms( $post_id, $tags, $taxonomy, $append );
-	if ( is_wp_error( $r ) )
-		return $r;
-
-	wp_cache_delete( $post_id, $taxonomy . '_relationships' );
-
-	return $r;
+	return wp_set_object_terms( $post_id, $tags, $taxonomy, $append );
 }
 
 /**
@@ -4922,6 +4919,9 @@ function wp_save_post_revision( $post_id ) {
 		return;
 
 	if ( !$post = get_post( $post_id, ARRAY_A ) )
+		return;
+
+	if ( 'auto-draft' == $post['post_status'] )
 		return;
 
 	if ( !post_type_supports($post['post_type'], 'revisions') )

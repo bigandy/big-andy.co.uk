@@ -59,7 +59,7 @@ $messages['page'] = array(
 	 9 => sprintf( __('Page scheduled for: <strong>%1$s</strong>. <a target="_blank" href="%2$s">Preview page</a>'), date_i18n( __( 'M j, Y @ G:i' ), strtotime( $post->post_date ) ), esc_url( get_permalink($post_ID) ) ),
 	10 => sprintf( __('Page draft updated. <a target="_blank" href="%s">Preview page</a>'), esc_url( add_query_arg( 'preview', 'true', get_permalink($post_ID) ) ) ),
 );
-$messages['attachment'] = array_fill( 1, 10, __( 'Media attachment updated' ) ); // Hack, for now.
+$messages['attachment'] = array_fill( 1, 10, __( 'Media attachment updated.' ) ); // Hack, for now.
 
 $messages = apply_filters( 'post_updated_messages', $messages );
 
@@ -74,7 +74,7 @@ if ( isset($_GET['message']) ) {
 
 $notice = false;
 $form_extra = '';
-if ( 'auto-draft' == get_post_status( $post ) ) {
+if ( 'auto-draft' == $post->post_status ) {
 	if ( 'edit' == $action )
 		$post->post_title = '';
 	$autosave = false;
@@ -231,8 +231,8 @@ if ( 'post' == $post_type ) {
 }
 
 if ( 'post' == $post_type || 'page' == $post_type ) {
-	$inserting_media = '<p>' . ('<strong>Add Media</strong> - You can upload and insert media (images, audio, document files, etc.) by clicking the Add Media button. You can select from the images and files already uploaded to the Media Library, or upload new media to add to your page or post. To create an image gallery, simply select multiple images to add.') . '</p>';
-	$inserting_media .= '<p>' . ('<strong>Embed Media</strong> - With oEmbed, you can easily embed media from popular websites such as Twitter, YouTube, Instagram, SoundCloud, and others. All you need to do is copy the URL of that media, and paste it directly into the text of your page/post on its own line. Remember to make sure that the URL is on its own line and not hyperlinked. Please refer to the Codex to <a href="http://codex.wordpress.org/Embeds">learn more about oEmbed</a>.');
+	$inserting_media = '<p>' . __( 'You can upload and insert media (images, audio, documents, etc.) by clicking the Add Media button. You can select from the images and files already uploaded to the Media Library, or upload new media to add to your page or post. To create an image gallery, select the images to add and click the &#8220;Create a new gallery&#8221; button.' ) . '</p>';
+	$inserting_media .= '<p>' . __( 'You can also embed media from many popular websites including Twitter, YouTube, Flickr and others by pasting the media URL on its own line into the content of your post/page. Please refer to the Codex to <a href="http://codex.wordpress.org/Embeds">learn more about embeds</a>.' ) . '</p>';
 
 	get_current_screen()->add_help_tab( array(
 		'id'		=> 'inserting-media',
@@ -340,7 +340,7 @@ if ( !empty($shortlink) )
 if ( $post_type_object->public && ! ( 'pending' == get_post_status( $post ) && !current_user_can( $post_type_object->cap->publish_posts ) ) ) { ?>
 	<div id="edit-slug-box" class="hide-if-no-js">
 	<?php
-		if ( $sample_permalink_html && 'auto-draft' != get_post_status( $post ) )
+		if ( $sample_permalink_html && 'auto-draft' != $post->post_status )
 			echo $sample_permalink_html;
 	?>
 	</div>
@@ -368,7 +368,7 @@ if ( post_type_supports($post_type, 'editor') ) {
 	<td class="autosave-info">
 	<span class="autosave-message">&nbsp;</span>
 <?php
-	if ( 'auto-draft' != get_post_status( $post ) ) {
+	if ( 'auto-draft' != $post->post_status ) {
 		echo '<span id="last-edit">';
 		if ( $last_id = get_post_meta($post_ID, '_edit_last', true) ) {
 			$last_user = get_userdata($last_id);
@@ -434,29 +434,3 @@ if ( post_type_supports( $post_type, 'comments' ) )
 try{document.post.title.focus();}catch(e){}
 </script>
 <?php endif; ?>
-
-<?php if ( 'attachment' == $post_type ) { ?>
-<script type="text/javascript">
-(function($){
-	function getFieldsContent() {
-		return [ $('#title').val() || '',
-			$('#attachment_caption').val() || '',
-			$('#attachment_alt').val() || '',
-			$('#attachment_content').val() || '',
-			$('#post_name').val() || '' ];
-	}
-
-	var initial = getFieldsContent();
-
-	window.onbeforeunload = function() {
-		var i, changed, current = getFieldsContent();
-		for ( var i = 0; i < initial.length; i++ ) {
- 			if ( changed = ( initial[i] !== current[i]) )
- 				break;
- 		}
- 		if ( changed )
-			return '<?php _e('The changes you made will be lost if you navigate away from this page.'); ?>';
-	};
-})(jQuery);
-</script>
-<?php } ?>

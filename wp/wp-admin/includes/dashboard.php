@@ -131,6 +131,7 @@ function wp_dashboard_setup() {
 	}
 
 	if ( 'POST' == $_SERVER['REQUEST_METHOD'] && isset($_POST['widget_id']) ) {
+		check_admin_referer( 'edit-dashboard-widget_' . $_POST['widget_id'], 'dashboard-widget-nonce' );
 		ob_start(); // hack - but the same hack wp-admin/widgets.php uses
 		wp_dashboard_trigger_widget_control( $_POST['widget_id'] );
 		ob_end_clean();
@@ -182,6 +183,7 @@ function wp_add_dashboard_widget( $widget_id, $widget_name, $callback, $control_
 function _wp_dashboard_control_callback( $dashboard, $meta_box ) {
 	echo '<form action="" method="post" class="dashboard-widget-control-form">';
 	wp_dashboard_trigger_widget_control( $meta_box['id'] );
+	wp_nonce_field( 'edit-dashboard-widget_' . $meta_box['id'], 'dashboard-widget-nonce' );
 	echo '<input type="hidden" name="widget_id" value="' . esc_attr($meta_box['id']) . '" />';
 	submit_button( __('Submit') );
 	echo '</form>';
@@ -503,6 +505,16 @@ function wp_dashboard_quick_press() {
 	}
 
 	$post_ID = (int) $post->ID;
+
+	$media_settings = array(
+		'id' => $post->ID,
+		'nonce' => wp_create_nonce( 'update-post_' . $post->ID ),
+	);
+
+	if ( current_theme_supports( 'post-thumbnails', $post->post_type ) && post_type_supports( $post->post_type, 'thumbnail' ) ) {
+		$featured_image_id = get_post_meta( $post->ID, '_thumbnail_id', true );
+		$media_settings['featuredImageId'] = $featured_image_id ? $featured_image_id : -1;
+	}
 ?>
 
 	<form name="post" action="<?php echo esc_url( admin_url( 'post.php' ) ); ?>" method="post" id="quick-press">
@@ -522,7 +534,15 @@ function wp_dashboard_quick_press() {
 			<textarea name="content" id="content" class="mceEditor" rows="3" cols="15"><?php echo esc_textarea( $post->post_content ); ?></textarea>
 		</div>
 
-		<script type="text/javascript">edCanvas = document.getElementById('content');edInsertContent = null;</script>
+		<script type="text/javascript">
+		edCanvas = document.getElementById('content');
+		edInsertContent = null;
+		<?php if ( $_POST ) : ?>
+		wp.media.editor.remove('content');
+		wp.media.view.settings.post = <?php echo json_encode( $media_settings ); // big juicy hack. ?>;
+		wp.media.editor.add('content');
+		<?php endif; ?>
+		</script>
 
 		<div class="input-text-wrap" id="tags-input-wrap">
 			<label class="screen-reader-text prompt" for="tags-input" id="tags-input-prompt-text"><?php _e( 'Tags (separate with commas)' ); ?></label>
@@ -1242,8 +1262,8 @@ function wp_welcome_panel() {
 	<div class="welcome-panel-column-container">
 	<div class="welcome-panel-column">
 		<h4><?php _e( 'Get Started' ); ?></h4>
-		<a class="button-primary welcome-button load-customize hide-if-no-customize" href="<?php echo wp_customize_url(); ?>"><?php _e( 'Customize Your Site' ); ?></a>
-		<a class="button-primary welcome-button hide-if-customize" href="<?php echo admin_url( 'themes.php' ); ?>"><?php _e( 'Customize Your Site' ); ?></a>
+		<a class="button button-primary button-hero load-customize hide-if-no-customize" href="<?php echo wp_customize_url(); ?>"><?php _e( 'Customize Your Site' ); ?></a>
+		<a class="button button-primary button-hero hide-if-customize" href="<?php echo admin_url( 'themes.php' ); ?>"><?php _e( 'Customize Your Site' ); ?></a>
 		<?php if ( current_user_can( 'install_themes' ) || ( current_user_can( 'switch_themes' ) && count( wp_get_themes( array( 'allowed' => true ) ) ) > 1 ) ) : ?>
 			<p class="hide-if-no-customize"><?php printf( __( 'or, <a href="%s">change your theme completely</a>' ), admin_url( 'themes.php' ) ); ?></p>
 		<?php endif; ?>
@@ -1268,7 +1288,7 @@ function wp_welcome_panel() {
 	<div class="welcome-panel-column welcome-panel-last">
 		<h4><?php _e( 'More Actions' ); ?></h4>
 		<ul>
-			<li><?php printf( '<div class="welcome-icon welcome-widgets-menus">Manage <a href="%s">' . __( 'widgets' ) . '</a> or <a href="%s">' . __( 'menus' ) . '</a></div>', admin_url( 'widgets.php' ), admin_url( 'nav-menus.php' ) ); ?></li>
+			<li><?php printf( '<div class="welcome-icon welcome-widgets-menus">' . __( 'Manage <a href="%1$s">widgets</a> or <a href="%2$s">menus</a>' ) . '</div>', admin_url( 'widgets.php' ), admin_url( 'nav-menus.php' ) ); ?></li>
 			<li><?php printf( '<a href="%s" class="welcome-icon welcome-comments">' . __( 'Turn comments on or off' ) . '</a>', admin_url( 'options-discussion.php' ) ); ?></li>
 			<li><?php printf( '<a href="%s" class="welcome-icon welcome-learn-more">' . __( 'Learn more about getting started' ) . '</a>', 'http://codex.wordpress.org/First_Steps_With_WordPress' ); ?></li>
 		</ul>
