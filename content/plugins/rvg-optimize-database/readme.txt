@@ -9,8 +9,8 @@ Author URI: http://cagewebdev.com
 Author: Rolf van Gelder, Eindhoven, The Netherlands
 Requires at least: 2.0
 Tested up to: 3.4.2
-Stable tag: 1.3.2
-Version: 1.3.2
+Stable tag: 1.3.3
+Version: 1.3.3
 
 == Description ==
 
@@ -56,6 +56,7 @@ No Screenshots available.
 <p><b>1.3</b>   10/06/2012 Extra button for starting optimization, shows savings (in bytes) now</p>
 <p><b>1.3.1</b> 10/07/2012 Minor changes</p>
 <p><b>1.3.2</b> 11/14/2012 Shows more information about the optimized tables + other minor changes</p>
+<p><b>1.3.3</b> 12/01/2012 Some layout changes</p>
 
 == Frequently Asked Questions ==
 

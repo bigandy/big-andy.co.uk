@@ -1,16 +1,16 @@
 <?php
-$odb_version      = '1.3.2';
-$odb_release_date = '11/14/2012';
+$odb_version      = '1.3.3';
+$odb_release_date = '12/01/2012';
 /**
  * @package Optimize Database after Deleting Revisions
- * @version 1.3.2
+ * @version 1.3.3
  */
 /*
 Plugin Name: Optimize Database after Deleting Revisions
 Plugin URI: http://cagewebdev.com/index.php/optimize-database-after-deleting-revisions-wordpress-plugin/
 Description: Optimizes the Wordpress Database after Deleting Revisions - <a href="options-general.php?page=rvg_odb_admin"><strong>plug in options</strong></a>
 Author: Rolf van Gelder, Eindhoven, The Netherlands
-Version: 1.3.2
+Version: 1.3.3
 Author URI: http://cagewebdev.com
 */
 ?>
@@ -342,7 +342,7 @@ if($_REQUEST['action'] != 'run')
     <th align="right" style="border-bottom:solid 1px #999;">#</th>
     <th align="left" style="border-bottom:solid 1px #999;">type</th>
     <th align="left" style="border-bottom:solid 1px #999;">IP address / title</th>
-    <th align="left" style="border-bottom:solid 1px #999;">date</th>
+    <th align="left" nowrap="nowrap" style="border-bottom:solid 1px #999;">date</th>
   </tr>
   <?php	
 			$nr = 1;
@@ -351,10 +351,10 @@ if($_REQUEST['action'] != 'run')
 			{
 ?>
   <tr>
-    <td align="right"><?php echo $nr; ?></td>
-    <td><?php echo $results[$i]->post_type; ?></td>
-    <td><?php echo $results[$i]->title; ?></td>
-    <td><?php echo $results[$i]->modified; ?></td>
+    <td align="right" valign="top"><?php echo $nr; ?></td>
+    <td valign="top"><?php echo $results[$i]->post_type; ?></td>
+    <td valign="top"><?php echo $results[$i]->title; ?></td>
+    <td valign="top" nowrap="nowrap"><?php echo $results[$i]->modified; ?></td>
   </tr>
   <?php	
   				if($results[$i]->post_type == 'comment')
@@ -427,7 +427,7 @@ if($_REQUEST['action'] != 'run')
     <th align="right" style="border-bottom:solid 1px #999;">#</th>
     <th align="left" style="border-bottom:solid 1px #999;">comment author</th>
     <th align="left" style="border-bottom:solid 1px #999;">comment author email</th>
-    <th align="left" style="border-bottom:solid 1px #999;">comment date</th>
+    <th align="left" nowrap="nowrap" style="border-bottom:solid 1px #999;">comment date</th>
   </tr>
   <?php	
 			$nr = 1;
@@ -436,10 +436,10 @@ if($_REQUEST['action'] != 'run')
 			{
 ?>
   <tr>
-    <td align="right"><?php echo $nr; ?></td>
-    <td><?php echo $results[$i]->comment_author; ?></td>
-    <td><?php echo $results[$i]->comment_author_email; ?></td>
-    <td><?php echo $results[$i]->comment_date; ?></td>
+    <td align="right" valign="top"><?php echo $nr; ?></td>
+    <td valign="top"><?php echo $results[$i]->comment_author; ?></td>
+    <td valign="top"><?php echo $results[$i]->comment_author_email; ?></td>
+    <td valign="top" nowrap="nowrap"><?php echo $results[$i]->comment_date; ?></td>
   </tr>
   <?php
 				$sql_delete = "
@@ -513,12 +513,12 @@ if($_REQUEST['action'] != 'run')
 			$table_info = $wpdb -> get_results($sql);
 ?>
   <tr>
-    <td align="right"><?php echo $cnt?>.</td>
-    <td style="font-weight:bold;"><?php echo $row[0] ?></td>
-    <td><?php echo $result[0]->Msg_text ?></td>
-    <td><?php echo $table_info[0]->engine ?></td>
-    <td align="right"><?php echo $table_info[0]->table_rows ?></td>
-    <td align="right"><?php echo rvg_format_size($table_info[0]->size) ?></td>
+    <td align="right" valign="top"><?php echo $cnt?>.</td>
+    <td valign="top" style="font-weight:bold;"><?php echo $row[0] ?></td>
+    <td valign="top"><?php echo $result[0]->Msg_text ?></td>
+    <td valign="top"><?php echo $table_info[0]->engine ?></td>
+    <td align="right" valign="top"><?php echo $table_info[0]->table_rows ?></td>
+    <td align="right" valign="top"><?php echo rvg_format_size($table_info[0]->size) ?></td>
   </tr>
   <?php
 		} // if($wp_only == 'N' || ($wp_only == 'Y' && substr($row[0],0,strlen($table_prefix)) == $table_prefix))
@@ -534,7 +534,7 @@ $end_size = rvg_get_db_size();
     <td colspan="2" style="font-weight:bold;color:#00F;">SAVINGS:</td>
   </tr>
   <tr>
-    <th xstyle="border-bottom:solid 1px #999;"></th>
+    <th>&nbsp;</th>
     <th style="border-bottom:solid 1px #999;">size of the database</th>
   </tr>
   <tr>
