@@ -1,6 +1,6 @@
 <?php
 
-add_action( 'init', 'register_cpt_run' );
+// add_action( 'init', 'register_cpt_run' );
 
 function register_cpt_run() {
 
