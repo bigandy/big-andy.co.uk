@@ -152,6 +152,7 @@
     </IfModule>
 </FilesMatch>
 # END W3TC Browser Cache
+
 # BEGIN W3TC Page Cache core
 <IfModule mod_rewrite.c>
     RewriteEngine On
@@ -165,7 +166,7 @@
     RewriteRule .* - [E=W3TC_ENC:_gzip]
     RewriteCond %{REQUEST_METHOD} !=POST
     RewriteCond %{QUERY_STRING} =""
-    RewriteCond %{HTTP_HOST} =big-andy.co.uk
+    RewriteCond %{HTTP_HOST} =big-andy.local
     RewriteCond %{REQUEST_URI} \/$ [OR]
     RewriteCond %{REQUEST_URI} (sitemap(_index)?\.xml(\.gz)?|[a-z0-9_\-]+-sitemap([0-9]+)?\.xml(\.gz)?) [NC]
     RewriteCond %{REQUEST_URI} !(\/wp-admin\/|\/xmlrpc.php|\/wp-(app|cron|login|register|mail)\.php|\/feed\/|wp-.*\.php|index\.php) [NC,OR]
@@ -176,6 +177,7 @@
     RewriteRule .* "/content/w3tc/pgcache/%{REQUEST_URI}/_index%{ENV:W3TC_UA}%{ENV:W3TC_REF}%{ENV:W3TC_SSL}.html%{ENV:W3TC_ENC}" [L]
 </IfModule>
 # END W3TC Page Cache core
+
 
 # Apache configuration file
 # httpd.apache.org/docs/2.2/mod/quickreference.html
