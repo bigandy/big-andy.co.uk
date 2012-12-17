@@ -50,6 +50,7 @@ function gallery_shortcode_ah_new($attr) {
 		'include'    => '',
 		'exclude'    => '',
 		'link'		 => 'file',
+		'className'  => '',
 	), $attr));
 
 	$id = intval($id);
@@ -119,7 +120,7 @@ function gallery_shortcode_ah_new($attr) {
 
 	$gallery_style = $gallery_div = '';
 	$size_class = sanitize_html_class( $size );
-	$gallery_div = "<div class='gallery columns-{$columns}'>";
+	$gallery_div = "<div class='gallery columns-{$columns} {$className}'>";
 	$output = apply_filters( 'gallery_style', $gallery_style . "\n\t\t" . $gallery_div );
 
 	$i = 0;
