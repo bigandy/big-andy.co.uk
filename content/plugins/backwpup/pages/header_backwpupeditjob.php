@@ -31,7 +31,7 @@ if (isset($_GET['dropboxauth']) and $_GET['dropboxauth']=='AccessToken')  {
 }
 
 //Save Job settings
-if ((isset($_POST['save']) or isset($_POST['dropboxauth']) or isset($_POST['dropboxauthdel']) or isset($_POST['authbutton'])) and !empty($_POST['jobid'])) {
+if ((isset($_POST['savebackwpup']) or isset($_POST['dropboxauth']) or isset($_POST['dropboxauthdel']) or isset($_POST['authbutton'])) and !empty($_POST['jobid'])) {
   check_admin_referer('edit-job');
   $jobvalues['jobid']=(int) $_POST['jobid'];
   $jobvalues['type']= implode('+',(array)$_POST['type']);
@@ -177,7 +177,7 @@ if ((isset($_POST['save']) or isset($_POST['dropboxauth']) or isset($_POST['drop
     try {
 	  CFCredentials::set(array('backwpup' => array('key'=>$_POST['GStorageAccessKey'],'secret'=>$_POST['GStorageSecret'],'default_cache_config'=>'','certificate_authority'=>true),'@default' => 'backwpup'));
       $gstorage = new AmazonS3();
-      $gstorage->set_hostname('commondatastorage.googleapis.com');
+      $gstorage->set_hostname('storage.googleapis.com');
       $gstorage->allow_hostname_override(false);
       $gstorage->create_bucket($_POST['newGStorageBucket'],'');
       $jobvalues['GStorageBucket']=$_POST['newGStorageBucket'];

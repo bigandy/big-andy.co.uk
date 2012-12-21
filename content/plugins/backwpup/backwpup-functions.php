@@ -710,11 +710,11 @@ function backwpup_env_checks() {
 	if (strtolower(substr(WP_PLUGIN_URL,0,7))!='http://' and strtolower(substr(WP_PLUGIN_URL,0,8))!='https://') { // check logs folder
 		$message.=sprintf(__("- WP_PLUGIN_URL '%s' must set as a full URL!",'backwpup'),WP_PLUGIN_URL).'<br />';
 	}
-	if (false !== $nextrun=wp_next_scheduled('backwpup_cron')) {
-		if (empty($nextrun) or $nextrun<(time()-(3600*24))) {  //check cron jobs work
-			$message.=__("- WP-Cron isn't working, please check it!","backwpup") .'<br />';
-		}
-	}
+	//if (false !== $nextrun=wp_next_scheduled('backwpup_cron')) {
+	//	if (empty($nextrun) or $nextrun<(time()-(3600*24))) {  //check cron jobs work
+	//		$message.=__("- WP-Cron isn't working, please check it!","backwpup") .'<br />';
+	//	}
+	//}
 	//put massage if one
 	if (!empty($message))
 		$backwpup_admin_message = '<div id="message" class="error fade"><strong>BackWPup:</strong><br />'.$message.'</div>';
@@ -916,7 +916,7 @@ function backwpup_get_job_vars($jobid='',$jobnewsettings='') {
 	if (substr($jobsettings['backupdir'],0,1)!='/' and substr($jobsettings['backupdir'],1,1)!=':' and !empty($jobsettings['backupdir'])) //add abspath if not absolute
 		$jobsettings['backupdir']=rtrim(str_replace('\\','/',ABSPATH),'/').'/'.$jobsettings['backupdir'];
 	$jobsettings['backupdir']=trailingslashit(str_replace('//','/',str_replace('\\','/',trim($jobsettings['backupdir']))));
-	if ($jobsettings['backupdir']=='/')
+	if ( $jobsettings[ 'backupdir' ] == '/' || $jobsettings[ 'backupdir' ] == trailingslashit( str_replace( '\\', '/', WP_CONTENT_DIR ) ) || $jobsettings[ 'backupdir' ] == trailingslashit( str_replace( '\\', '/', ABSPATH ) ) )
 		$jobsettings['backupdir']='';
 
 	if (!isset($jobsettings['maxbackups']) or !is_int($jobsettings['maxbackups']))

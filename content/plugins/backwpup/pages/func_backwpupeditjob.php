@@ -25,7 +25,7 @@ function backwpup_jobedit_metabox_save($jobvalue) {
     <a class="submitdelete deletion" href="<?PHP echo wp_nonce_url(backwpup_admin_url('admin.php').'?page=backwpup&action=delete&jobs[]='.$jobvalue['jobid'], 'bulk-jobs'); ?>" onclick="if ( confirm('<?PHP echo esc_js(__("You are about to delete this Job. \n  'Cancel' to stop, 'OK' to delete.","backwpup")); ?>') ) { return true;}return false;"><?php _e('Delete', 'backwpup'); ?></a>
   </div>
   <div id="publishing-action">
-    <?php submit_button( __('Save Changes', 'backwpup'), 'primary', 'save', false, array( 'tabindex' => '2', 'accesskey' => 'p' ) ); ?>
+    <?php submit_button( __('Save Changes', 'backwpup'), 'primary', 'savebackwpup', false, array( 'tabindex' => '2', 'accesskey' => 'p' ) ); ?>
   </div>
   <div class="clear"></div>
   </div>
@@ -220,7 +220,7 @@ function backwpup_jobedit_metabox_destfolder($jobvalue) {
   ?>
   <b><?PHP _e('Full Path to folder for Backup Files:','backwpup'); ?></b><br />
   <input name="backupdir" id="backupdir" type="text" value="<?PHP echo $jobvalue['backupdir'];?>" class="large-text" /><br />
-  <span class="description"><?PHP _e('Your WordPress dir is:','backwpup'); echo ' '.trailingslashit(str_replace('\\','/',ABSPATH));?></span><br />&nbsp;<br />
+  <span class="description"><?PHP _e('A sampel Folder is:','backwpup'); echo ' '.trailingslashit( str_replace( '\\', '/', WP_CONTENT_DIR ) ) . trailingslashit( sanitize_file_name( get_bloginfo( 'name' ) ) );?></span><br />&nbsp;<br />
   <?PHP _e('Max. backup files in folder:','backwpup'); ?> <input name="maxbackups" id="maxbackups" type="text" size="3" value="<?PHP echo $jobvalue['maxbackups'];?>" class="small-text" /><span class="description"><?PHP _e('(Oldest files will deleted first.)','backwpup');?></span>
   <?PHP
 }
@@ -232,9 +232,9 @@ function backwpup_jobedit_metabox_destftp($jobvalue) {
   <b><?PHP _e('Port:','backwpup'); ?></b><br />
   <input name="ftphostport" type="text" value="<?PHP echo $jobvalue['ftphostport'];?>" class="small-text" /><br />
   <b><?PHP _e('Username:','backwpup'); ?></b><br />
-  <input name="ftpuser" type="text" value="<?PHP echo $jobvalue['ftpuser'];?>" class="user large-text" /><br />
+  <input name="ftpuser" type="text" value="<?PHP echo $jobvalue['ftpuser'];?>" class="user large-text" autocomplete="off" /><br />
   <b><?PHP _e('Password:','backwpup'); ?></b><br />
-  <input name="ftppass" type="password" value="<?PHP echo backwpup_base64($jobvalue['ftppass']);?>" class="password large-text" /><br />
+  <input name="ftppass" type="password" value="<?PHP echo backwpup_base64($jobvalue['ftppass']);?>" class="password large-text" autocomplete="off" /><br />
   <b><?PHP _e('Folder on Server:','backwpup'); ?></b><br />
   <input name="ftpdir" type="text" value="<?PHP echo $jobvalue['ftpdir'];?>" class="large-text" /><br />
   <?PHP if (!is_numeric($jobvalue['ftpmaxbackups'])) $jobvalue['ftpmaxbackups']=0; ?>
@@ -323,9 +323,9 @@ function backwpup_jobedit_metabox_destrsc($jobvalue) {
   ?>
   <div class="dests">
     <b><?PHP _e('Username:','backwpup'); ?></b><br />
-    <input id="rscUsername" name="rscUsername" type="text" value="<?PHP echo $jobvalue['rscUsername'];?>" class="large-text" /><br />
+    <input id="rscUsername" name="rscUsername" type="text" value="<?PHP echo $jobvalue['rscUsername'];?>" class="large-text" autocomplete="off"/><br />
     <b><?PHP _e('API Key:','backwpup'); ?></b><br />
-    <input id="rscAPIKey" name="rscAPIKey" type="text" value="<?PHP echo $jobvalue['rscAPIKey'];?>" class="large-text" /><br />
+    <input id="rscAPIKey" name="rscAPIKey" type="text" value="<?PHP echo $jobvalue['rscAPIKey'];?>" class="large-text" autocomplete="off" /><br />
     <b><?PHP _e('Container:','backwpup'); ?></b><br />
     <input id="rscContainerselected" name="rscContainerselected" type="hidden" value="<?PHP echo $jobvalue['rscContainer'];?>" />
     <?PHP if (!empty($jobvalue['rscUsername']) and !empty($jobvalue['rscAPIKey'])) backwpup_get_rsc_container(array('rscUsername'=>$jobvalue['rscUsername'],'rscAPIKey'=>$jobvalue['rscAPIKey'],'rscselected'=>$jobvalue['rscContainer'])); ?>
@@ -611,7 +611,7 @@ function backwpup_get_gstorage_buckets($args='') {
   }
   try {
     $gstorage = new AmazonS3(array('key'=>$GStorageAccessKey,'secret'=>$GStorageSecret,'certificate_authority'=>true));
-    $gstorage->set_hostname('commondatastorage.googleapis.com');
+    $gstorage->set_hostname('storage.googleapis.com');
     $gstorage->allow_hostname_override(false);
     $buckets=$gstorage->list_buckets();
   } catch (Exception $e) {
