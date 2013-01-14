@@ -262,7 +262,7 @@ return array(
 	'cdn.netdna.apiid' => '27283',
 	'cdn.netdna.apikey' => '7xk0v6ackvkyjc1knwm679ampa4a30ap',
 	'cdn.netdna.domain' => array(
-		0 => 'cdn.big-andy.co.uk/',
+		0 => 'cdn.bigandy.netdna-cdn.com',
 	),
 	'cdn.netdna.ssl' => 'auto',
 	'cdn.cotendo.username' => '',
