@@ -75,7 +75,7 @@ module.exports = function(grunt) {
   });
 
   // Default task.
-  grunt.registerTask('default', 'concat min compass cssmin');
+  grunt.registerTask('default', 'concat min compass');
   // grunt.registerTask('default', 'lint concat min compass cssmin');
   
   // Compass tasks

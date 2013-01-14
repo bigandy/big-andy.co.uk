@@ -360,20 +360,23 @@ a.current_page_parent {
 // COMMENT FORM STYLES
 
 .respond-form {
-	margin: 1.5em 10px;
+	margin: 1.5em 0;
 	padding-bottom: 2.2em;
 
 	form {
 		margin: 0.75em 0;
+
+		ul {
+			padding: 0;
+		}
 
 		li {
 			list-style-type: none;
 			clear: both;
 			margin-bottom: 0.7335em;
 
-			label,
-			small {
-				display: none;
+			label {
+				display:block;
 			}
 		}
 
@@ -398,18 +401,14 @@ a.current_page_parent {
 						box-shadow: none;
 			}
 		}
+			input,
+			textarea {
+				width:100%;
+			}
 
-		input[type="text"],
-		input[type="email"],
-		input[type="url"] {
-			max-width: 400px;
-			min-width: 250px;
-		}
-
-		textarea {
+			textarea {
 			resize: none;
-			width: 97.3%;
-			height: 150px;
+			min-height: 150px;
 		}
 
 	}
