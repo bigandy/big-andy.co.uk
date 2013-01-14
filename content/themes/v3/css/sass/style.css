@@ -601,16 +601,18 @@ a.current_page_parent {
     opacity: 1; }
 
 .respond-form {
+  margin: 1.5em 0;
   padding-bottom: 2.2em; }
   .respond-form form {
     margin: 0.75em 0; }
+    .respond-form form ul {
+      padding: 0; }
     .respond-form form li {
       list-style-type: none;
       clear: both;
       margin-bottom: 0.7335em; }
-      .respond-form form li label,
-      .respond-form form li small {
-        display: none; }
+      .respond-form form li label {
+        display: block; }
     .respond-form form input[type="text"],
     .respond-form form input[type="email"],
     .respond-form form input[type="url"],
@@ -632,15 +634,12 @@ a.current_page_parent {
         border-color: #fbc2c4;
         background-color: #f6e7eb;
         box-shadow: none; }
-    .respond-form form input[type="text"],
-    .respond-form form input[type="email"],
-    .respond-form form input[type="url"] {
-      max-width: 400px;
-      min-width: 250px; }
+    .respond-form form input,
+    .respond-form form textarea {
+      width: 100%; }
     .respond-form form textarea {
       resize: none;
-      width: 97.3%;
-      height: 150px; }
+      min-height: 150px; }
 
 .comment-form-title {
   margin: 0 0 1.1em; }
