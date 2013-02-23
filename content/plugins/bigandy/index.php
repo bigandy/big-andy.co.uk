@@ -19,11 +19,13 @@ register_deactivation_hook( __FILE__, 'ah_plugin_remove' );
 function my_first_plugin_install() {
 	/* Create a new database field */
 	add_option( 'ah_plugin_options' );
+	flush_rewrite_rules();
 }
 
 function my_first_plugin_remove() {
 	/* Delete the database field */
 	delete_option( 'ah_plugin_options' );
+	flush_rewrite_rules();
 }
 
 $ah_plugin_options = array(
