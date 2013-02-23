@@ -5,6 +5,7 @@
 /content/upgrade/
 /content/uploads/*
 .DS_Store
+.DS_Store
 .project
 *.sass-cache/
 /content/debug.log
