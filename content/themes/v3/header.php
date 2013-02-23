@@ -22,7 +22,7 @@
 	<?php wp_head(); ?>
 </head>
 	
-<body <?php body_class($class); ?>>
+<body>
 	
 	<div class="container">
 		<header class="header" role="banner">
