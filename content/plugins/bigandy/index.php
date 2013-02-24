@@ -206,6 +206,7 @@ $options = get_option( 'ah_plugin_options' );
 require_once 'init-styles.php';
 require_once 'admin-area.php';
 require_once 'cpt-running.php';
+require_once 'content.php';
 
 
 if ( $options['shortcodes'] == "Y" ) {
