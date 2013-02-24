@@ -8,45 +8,55 @@
 
 class RandomPostWidget extends WP_Widget
 {
-  function RandomPostWidget() {
-    $widget_ops = array( 'classname' => 'RandomPostWidget', 'description' => 'Displays a random post with thumbnail' );
-    $this->WP_Widget( 'RandomPostWidget', 'AH Recent Posts', $widget_ops );
-  }
+    function RandomPostWidget() {
+    $widget_ops = array(
+        'classname' => 'RandomPostWidget',
+        'description' => 'Displays a random post with thumbnail'
+    );
 
-  function form( $instance ) {
+    $this->WP_Widget( 'RandomPostWidget', 'AH Recent Posts', $widget_ops );
+}
+
+function form( $instance ) {
     $title = esc_attr( $instance['title'] );
     $select = esc_attr( $instance['postNumber'] );
-?>
-  <p><label for="<?php echo $this->get_field_id( 'title' ); ?>">Title: </label>
+    ?>
+    <p>
+        <label for="<?php echo $this->get_field_id( 'title' ); ?>">
+            Title:
+        </label>
 
-  <input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo attribute_escape( $title ); ?>" /></p>
-
-  <p>
-    <label for="<?php echo $this->get_field_id( 'postNumber' ); ?>">Select Number of Posts:</label>
-    <select name="<?php echo $this->get_field_name( 'postNumber' ); ?>" id="<?php echo $this->get_field_id( 'postNumber' ); ?>" class="widefat">
-            <?php
-    $options = array( 1, 2, 3, 4, 5, 6, 7, 8, 9 );
-    foreach ( $options as $option ) {
-      echo '<option value="' . $option . '" id="' . $option . '"', $select == $option ? ' selected="selected"' : '', '>', $option, '</option>';
-    }
-?>
-    </select>
+        <input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo attribute_escape( $title ); ?>" />
     </p>
-<?php
-  }
+
+    <p>
+        <label for="<?php echo $this->get_field_id( 'postNumber' ); ?>">
+            Select Number of Posts:
+        </label>
+        <select name="<?php echo $this->get_field_name( 'postNumber' ); ?>" id="<?php echo $this->get_field_id( 'postNumber' ); ?>" class="widefat">
+            <?php
+                $options = array( 1, 2, 3, 4, 5, 6, 7, 8, 9 );
+                foreach ( $options as $option ) {
+                    echo '<option value="' . $option . '" id="' . $option . '"', $select == $option ? ' selected="selected"' : '', '>', $option, '</option>';
+                }
+        ?>
+        </select>
+    </p>
+    <?php
+}
 
 
 
 
-  function update( $new_instance, $old_instance ) {
+function update( $new_instance, $old_instance ) {
     $instance = $old_instance;
     $instance['title'] = strip_tags( $new_instance['title'] );
     $instance['postNumber'] = strip_tags( $new_instance['postNumber'] );
 
     return $instance;
-  }
+}
 
-  function widget( $args, $instance ) {
+function widget( $args, $instance ) {
     extract( $args, EXTR_SKIP );
 
     echo $before_widget;
@@ -62,20 +72,19 @@ class RandomPostWidget extends WP_Widget
     $outputPostNumber = $instance['postNumber'];
     $ah_Post_Number = $outputPostNumber;
 
-    $my_query = new WP_Query( "posts_per_page=".$ah_Post_Number );
+    $my_query = new WP_Query( "posts_per_page=".$ah_Post_Number."&cat=-31" );
 
     if ( have_posts() ) :
-      echo "<ul>";
-    while ( $my_query->have_posts() ) : $my_query->the_post();
-    echo "<li><a href='".get_permalink()."'>".get_the_title()."</a></li>";
-
-    endwhile;
-    echo "</ul>";
+        echo "<ul>";
+        while ( $my_query->have_posts() ) : $my_query->the_post();
+            echo "<li><a href='".get_permalink()."'>".get_the_title()."</a></li>";
+        endwhile;
+        echo "</ul>";
     endif;
     wp_reset_query();
 
     echo $after_widget;
-  }
+}
 
 }
 add_action( 'widgets_init', create_function( '', 'return register_widget("RandomPostWidget");' ) );
