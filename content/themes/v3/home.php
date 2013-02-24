@@ -12,7 +12,7 @@
 		    // get paged
 	    	$paged = ( get_query_var( 'paged' ) ) ? get_query_var( 'paged' ) : 1;
 
-    		if ( $paged < 2 )
+    		if ( $paged < 1 )
 
 			{
 				$sticky = get_option( 'sticky_posts' );
