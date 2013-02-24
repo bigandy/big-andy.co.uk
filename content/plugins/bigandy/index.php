@@ -205,7 +205,7 @@ $options = get_option( 'ah_plugin_options' );
 // include sub pages
 require_once 'init-styles.php';
 require_once 'admin-area.php';
-require_once 'cpt-running.php';
+require_once 'cpts.php';
 require_once 'content.php';
 
 

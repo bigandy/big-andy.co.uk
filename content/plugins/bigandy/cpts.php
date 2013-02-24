@@ -1,10 +1,10 @@
 <?php
 
-add_action( 'init', 'register_cpt_run' );
+// add_action( 'init', 'register_cpt_run' );
 
 function register_cpt_run() {
 
-    $labels = array( 
+    $labels = array(
         'name' => _x( 'Running Sessions', 'run' ),
         'singular_name' => _x( 'Run', 'run' ),
         'add_new' => _x( 'Add New Run', 'run' ),
@@ -19,24 +19,24 @@ function register_cpt_run() {
         'menu_name' => _x( 'Running', 'run' ),
     );
 
-    $args = array( 
+    $args = array(
         'labels' => $labels,
         'hierarchical' => false,
-        
+
         'supports' => array( 'title', 'editor', 'custom-fields' ),
         'public' => true,
         'show_ui' => true,
         'show_in_menu' => true,
         'menu_position' => 20,
-        
+
         'show_in_nav_menus' => true,
         'publicly_queryable' => true,
         'exclude_from_search' => false,
         'has_archive' => true,
         'query_var' => true,
         'can_export' => true,
-        'rewrite' => array( 
-        	'slug' => 'running', 
+        'rewrite' => array(
+        	'slug' => 'running',
         	'with_front' => false
         ),
         'capability_type' => 'post'
@@ -49,7 +49,7 @@ add_action( 'init', 'register_cpt_photo_gallery' );
 
 function register_cpt_photo_gallery() {
 
-    $labels = array( 
+    $labels = array(
         'name' => _x( 'photos', 'photo_gallery' ),
         'singular_name' => _x( 'Photo Gallery', 'photo_gallery' ),
         'add_new' => _x( 'Add New', 'photo_gallery' ),
@@ -64,17 +64,17 @@ function register_cpt_photo_gallery() {
         'menu_name' => _x( 'photos', 'photo_gallery' ),
     );
 
-    $args = array( 
+    $args = array(
         'labels' => $labels,
         'hierarchical' => true,
-        
+
         'supports' => array( 'title', 'editor', 'thumbnail' ),
         'taxonomies' => array( 'page-category', 'location', 'camera' ),
         'public' => true,
         'show_ui' => true,
         'show_in_menu' => true,
         'menu_position' => 20,
-        
+
         'show_in_nav_menus' => true,
         'publicly_queryable' => true,
         'exclude_from_search' => false,
