@@ -1,18 +1,23 @@
 // GENERAL STYLES
 .wf-loading {
-	p, h1, h2, h3, h4, h5, h6, li {
+	p, h1, h2, h3, h4, h5, h6, li, .h1, .h2, .h3 {
 		visibility: hidden;
+	}
+}
+.wf-active {
+	p, h1, h2, h3, h4, h5, h6, li, .h1, .h2, .h3 {
+		visibility: visible;
 	}
 }
 
 .dark {
 	background:rgba(orange,0.1);
-	
+
 	.nav,
 	.nav a {
 		background:transparent;
 	}
-} 
+}
 
 // LAYOUT & GRID STYLES
 .container {
@@ -22,7 +27,7 @@
 .wrap {
 	@extend .clearfix;
 	width: 90%;
-	margin: 0 auto; 
+	margin: 0 auto;
 }
 
 a, a:visited {
@@ -87,7 +92,7 @@ h5, .h5 {
 	border: 1px solid #ccc;
 	border-bottom: 0;
 
-	
+
 
 		a {
 			display: block;
@@ -112,7 +117,7 @@ h5, .h5 {
 
 	} // end .menu li
 
-	
+
 
 } // end .nav
 
@@ -243,7 +248,7 @@ a.current_page_parent {
 
 		.next-link {
 			float: right;
-		} 
+		}
 
 	} // end .wp-prev-next
 
@@ -443,7 +448,7 @@ a.current_page_parent {
 
 ol ol,
 ol ul,
-ul ul, 
+ul ul,
 ul ol {
 	margin: 0;
 }
@@ -451,9 +456,9 @@ ul ol {
 @font-face {
   font-family: 'icomoon';
   src: 	url("/content/themes/v3/library/fonts/icomoon.eot");
-  src: 	url("/content/themes/v3/library/fonts/icomoon.eot?#iefix") format("embedded-opentype"), 
-  		url("/content/themes/v3/library/fonts/icomoon.svg#icomoon") format("svg"), 
-  		url("/content/themes/v3/library/fonts/icomoon.woff") format("woff"), 
+  src: 	url("/content/themes/v3/library/fonts/icomoon.eot?#iefix") format("embedded-opentype"),
+  		url("/content/themes/v3/library/fonts/icomoon.svg#icomoon") format("svg"),
+  		url("/content/themes/v3/library/fonts/icomoon.woff") format("woff"),
   		url("/content/themes/v3/library/fonts/icomoon.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;

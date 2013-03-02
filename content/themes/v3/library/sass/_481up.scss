@@ -1,30 +1,30 @@
 .post-content {
-	
+
 	// at this larger size, we can start to align images
-	.alignleft, img.alignleft { 
-		margin-right: 1.5em; 
-		display: inline; 
-		float: left; 
+	.alignleft, img.alignleft {
+		margin-right: 1.5em;
+		display: inline;
+		float: left;
 	}
-	.alignright, img.alignright { 
-		margin-left: 1.5em; 
-		display: inline; 
-		float: right; 
+	.alignright, img.alignright {
+		margin-left: 1.5em;
+		display: inline;
+		float: right;
 	}
-	.aligncenter, img.aligncenter { 
-		margin-right: auto; 
-		margin-left: auto; 
-		display: block; 
-		clear: both; 
+	.aligncenter, img.aligncenter {
+		margin-right: auto;
+		margin-left: auto;
+		display: block;
+		clear: both;
 	}
-			
+
 } // end .post-content
 
 
 .nav {
-	background: #eee; 
+	background: #eee;
 	border: 0;
-				
+
 		a {
 			border-bottom: 0;
 			float: left;
@@ -42,9 +42,9 @@
 			position: absolute;
 			display: none;
 			z-index: 8999;
-						
+
 			li {
-		
+
 				a {
 					padding-left: 10px;
 					border-right: 0;
@@ -52,22 +52,26 @@
 					width: 180px;
 					border-bottom: 1px solid #ccc;
 				}
-	
+
 				&:last-child {
-		
+
 					a {
 						border-bottom: 0;
 					}
 				}
 			}
 		}
-				
+
 		// showing sub-menus */
 		&:hover ul {
 			top: auto;
 			display: block;
 		}
-				
+
 	} // end .menu ul li */
-			
+
 } // end .nav */
+
+iframe {
+	max-width: 100%;
+}

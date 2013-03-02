@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<script>
+	<script async defer>
 	  (function() {
 	    var config = {
 	      kitId: 'bhs0nmm',
