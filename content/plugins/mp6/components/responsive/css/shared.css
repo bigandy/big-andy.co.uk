@@ -1,0 +1,1085 @@
+@media screen and ( max-width: 768px ) {
+
+/**
+ * Content containers
+ * ----------------------------------------------------------------------------
+ */
+body {
+	min-width: 240px;
+	overflow-x: hidden;
+}
+#wpwrap {
+	background: #f0f0f0;
+	overflow-x: hidden;
+}
+#wpcontent, .auto-fold #wpcontent {
+	position: relative;
+	margin-left: 0;
+	padding-left: 10px;
+}
+.wrap {
+	margin-right: 10px;
+}
+.col-wrap {
+	padding: 0;
+}
+.sticky-menu #adminmenuwrap {
+	position: relative;
+	z-index: auto;
+	top: 0;
+}
+
+/**
+ * Hidden Elements
+ * ----------------------------------------------------------------------------
+ */
+#screen-meta, #screen-meta-links, #collapse-menu,
+.post-format-select {
+	display: none;
+}
+
+/* hide Jetpack toolbar notes in this view, responsiveness may come in the future */
+#wp-admin-bar-notes {
+	display: none;
+}
+
+/**
+ * Toolbar Touchification
+ * ----------------------------------------------------------------------------
+ */
+html.wp-toolbar {
+	padding-top: 46px;
+}
+#wpadminbar {
+	z-index: 500 !important;
+ 	height: 46px;
+ 	min-width: 240px;
+}
+#wpadminbar .quicklinks li > a {
+	padding: 0 10px;
+	height: 46px;
+	line-height: 46px;
+}
+#wpcontent #wpadminbar .ab-icon {
+	font: 32px/1 dashicons !important;
+	margin: 7px 0;
+	padding: 0;
+	width: 32px;
+	height: 32px;
+}
+#wpadminbar .ab-label {
+	display: none;
+}
+#wpadminbar #wp-admin-bar-updates,
+#wpadminbar #wp-admin-bar-comments,
+#wpadminbar #wp-admin-bar-new-content {
+	position: absolute;
+	right: 55px;
+}
+#wpadminbar #wp-admin-bar-comments {
+	right: 100px;
+}
+#wpadminbar #wp-admin-bar-updates {
+	right: 150px;
+}
+#wpadminbar #wp-admin-bar-updates > .ab-item {
+}
+#wpadminbar #wp-admin-bar-comments > .ab-item .ab-icon {
+}
+#wpadminbar #wp-admin-bar-new-content > .ab-item .ab-icon {
+	margin-top: 9px;
+}
+#wpadminbar #wp-admin-bar-site-name > a {
+	font-size: 16px;
+	max-width: 100px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+	height: 46px;
+	line-height: 46px;
+}
+#wpadminbar #wp-admin-bar-my-account > a {
+	position: relative;
+	overflow: hidden;
+	text-indent: -999em;
+	width: 28px;
+}
+#wpadminbar .quicklinks li#wp-admin-bar-my-account.with-avatar > a img {
+	position: absolute;
+	top: 11px;
+	left: 0;
+	width: 28px;
+	height: 28px;
+}
+
+/**
+ * Input Elements
+ * ----------------------------------------------------------------------------
+ */
+textarea {
+	-webkit-appearance: none;
+}
+input[type=text], input[type=search],
+input[type=password], input[type=number] {
+	-webkit-appearance: none;
+	padding: 10px;
+}
+input[type=checkbox], .widefat th input[type=checkbox] {
+	-webkit-appearance: none;
+	padding: 10px;
+}
+.widefat th input[type=checkbox] {
+	margin-bottom: 8px;
+}
+input[type=checkbox]:checked:before, .widefat th input[type=checkbox]:before {
+	font: normal 23px/1 'Dashicons';
+	margin: -11px -12px;
+}
+input[type=radio] {
+	height: 20px;
+	width: 20px;
+}
+input[type=radio]:checked:before {
+	vertical-align: middle;
+	width: 8px;
+	height: 8px;
+	margin: 5px;
+	line-height: 16px;
+}
+.wp-upload-form input[type=submit] {
+	margin-top: 10px;
+}
+
+#wpbody select {
+	height: 36px;
+	font-size: 14px;
+}
+.wp-core-ui .button,
+input#publish,
+input#save-post,
+a.preview {
+	padding: 10px 14px;
+	line-height: 1;
+	font-size: 14px;
+	vertical-align: middle;
+	height: auto;
+	margin-bottom: 4px;
+}
+.wrap .add-new-h2, .wrap .add-new-h2:active  {
+	padding: 10px 15px;
+	font-size: 14px;
+}
+#createuser .form-field input {
+	width: 100%;
+}
+
+/**
+ * Feedback Messages
+ * ----------------------------------------------------------------------------
+ */
+.wrap div.updated, .wrap div.error, .media-upload-form div.error {
+	margin: 20px 0 10px 0;
+	padding: 5px 10px;
+	font-size: 14px;
+	line-height: 175%;
+}
+
+/**
+ * Sidebar Adjustments
+ * ----------------------------------------------------------------------------
+ */
+.auto-fold #adminmenu,
+.auto-fold #adminmenuback,
+.auto-fold #adminmenuwrap {
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 100;
+}
+.auto-fold #adminmenuback,
+.auto-fold #adminmenuwrap {
+	left: -200px;
+}
+.auto-fold #adminmenuwrap,
+.auto-fold #adminmenu,
+.auto-fold #adminmenuback {
+	width: 190px;
+}
+.auto-fold #adminmenu li.menu-top {
+	width: 100%;
+}
+
+/* Experimental animations for sidebar */
+
+.auto-fold #adminmenu,
+.auto-fold #adminmenuback,
+.auto-fold #adminmenuwrap {
+	-moz-transition: left .2s ease-in-out;
+	-webkit-transition: left .2s ease-in-out;
+	transition: left .2s ease-in-out;
+}
+
+#wpbody {
+	-moz-transition: right .2s ease-in-out;
+	-webkit-transition: right .2s ease-in-out;
+	transition: right .2s ease-in-out;
+}
+
+.auto-fold #adminmenu {
+	-webkit-opacity:.10;
+	-moz-opacity:.10;
+	opacity:.10;
+	-moz-transition: left .2s ease-in-out, -moz-opacity .3s ease-in;
+	-webkit-transition: left .2s ease-in-out, -webkit-opacity .3s ease-in;
+	transition: left .2s ease-in-out, opacity .3s ease-in;
+}
+
+.auto-fold .moby6-open #adminmenu {
+	-moz-opacity:1;
+	-webkit-opacity:1;
+	opacity:1;
+}
+
+/* Resize the admin menu items to a comfortable touch size */
+.auto-fold #adminmenu li a {
+	font-size: 16px;
+	padding: 5px;
+}
+.auto-fold #adminmenu li.menu-top .wp-submenu > li > a {
+	padding: 10px 10px 10px 20px;
+}
+
+/* Restore the menu names */
+.auto-fold #adminmenu .wp-menu-name {
+	display: block;
+	margin-left: 35px;
+}
+
+/* Switch the arrow side */
+.auto-fold ul#adminmenu a.wp-has-current-submenu:after,
+.auto-fold ul#adminmenu > li.current > a.current:after {
+	border-width: 8px;
+	margin-top: -8px;
+}
+
+/* Make the submenus appear correctly when tapped. */
+#adminmenu .wp-submenu {
+	position: relative;
+	display: none;
+}
+.auto-fold #adminmenu .selected .wp-submenu,
+.auto-fold #adminmenu .wp-menu-open .wp-submenu {
+	position: relative;
+	display: block;
+	top: 0;
+	left: -1px;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
+
+.auto-fold #adminmenu .selected .wp-submenu:after,
+.auto-fold #adminmenu .wp-menu-open .wp-submenu:after {
+	display: none;
+}
+
+.auto-fold #adminmenu .opensub .wp-submenu {
+	display: none;
+}
+.auto-fold #adminmenu .selected .wp-submenu {
+	display: block;
+}
+
+/* Remove submenu headers and adjust sub meu*/
+#adminmenu .wp-submenu .wp-submenu-head {
+	display: none;
+}
+
+/* Remove the hover styles so touch scrolling doesn't activate them */
+#adminmenu li.menu-top:hover,
+#adminmenu li.menu-top:hover a {
+	background-color: transparent;
+}
+#adminmenu li.menu-top:hover a {
+	color: #ddd;
+}
+#adminmenu li:hover div.wp-menu-image:before {
+	color: #999;
+}
+
+#adminmenu li.menu-top:hover,
+#adminmenu li.menu-top:hover a {
+	background-color: transparent;
+}
+
+#adminmenu li.menu-top.wp-has-current-submenu:hover > a {
+	background-color: #0074a2;
+	color: #fff;
+}
+
+/* Re-add styles on selected menus */
+#adminmenu li.menu-top.selected,
+#adminmenu li.menu-top.selected > a {
+	background-color: #111;
+	color: #2ea2cc;
+}
+
+
+/**
+ * Hamburger Button / Sidebar Toggle
+ * ----------------------------------------------------------------------------
+ */
+#moby6-toggle {
+	position: absolute;
+	top: 13px;
+	left: 0;
+	border-right: 1px solid #ddd;
+	padding-right: 10px;
+}
+.wrap .icon32 + h2 {
+	margin-left: 51px;
+	margin-top: -2px;
+}
+#moby6-toggle a {
+	display: block;
+	padding: 20px 15px;
+	overflow: hidden;
+	text-indent: -999em;
+
+	/* TODO: This should be a font icon */;
+	background: url( ../img/burger.png ) center center no-repeat;
+	background-size: 16px 12px;
+	outline: none;
+}
+
+.moby6-open #wpbody {
+	right: -190px;
+}
+.auto-fold .moby6-open #adminmenuback,
+.auto-fold .moby6-open #adminmenuwrap {
+	left: 0;
+}
+
+/**
+ * General New Post Form
+ * ----------------------------------------------------------------------------
+ */
+#titlediv #title {
+	padding: 8px;
+}
+#titlediv #title-prompt-text, #wp-fullscreen-title-prompt-text {
+	padding: 10px 10px;
+}
+
+.post-format-options {
+	padding-right: 0;
+}
+.post-format-options a {
+	margin-right: 5px;
+	margin-bottom: 5px;
+}
+
+/* General Metabox */
+.postbox {
+	font-size: 14px;
+}
+#poststuff h3, .metabox-holder h3 {
+	padding: 12px;
+}
+.postbox .handlediv {
+	margin-top: 3px;
+}
+
+/* Publish Metabox Options */
+#post-visibility-select {
+	line-height: 280%;
+}
+.wp-core-ui .save-post-status.button {
+	top: 16px;
+	position: relative;
+	margin: 0 10px;
+}
+.wp-core-ui .save-post-visibility,
+.wp-core-ui .save-timestamp {
+	vertical-align: middle;
+	margin-right: 15px;
+}
+.timestamp-wrap select#mm {
+	display: block;
+	width: 100%;
+	margin-bottom: 10px;
+}
+.timestamp-wrap #jj, .timestamp-wrap #aa,
+.timestamp-wrap #hh, .timestamp-wrap #mn {
+	padding: 12px 3px;
+	font-size: 14px;
+	margin-bottom: 5px;
+	width: auto;
+	text-align: center;
+}
+
+/* Categories Metabox */
+ul.category-tabs {
+	margin: 30px 0 15px;
+}
+ul.category-tabs li.tabs {
+	padding: 15px;
+}
+ul#categorychecklist li {
+	margin-bottom: 15px;
+}
+.category-add input[type=text], .category-add select {
+	max-width: none;
+	margin-bottom: 15px;
+}
+
+/* Tags Metabox */
+.tagsdiv .newtag,
+.press-this .tagsdiv .newtag {
+	width: 100%;
+	padding: 25px 10px;
+	margin-bottom: 15px;
+}
+.tagchecklist {
+	margin: 25px 10px;
+}
+.tagchecklist span {
+	font-size: 16px;
+	line-height: 120%;
+}
+
+/**
+ * TinyMCE Adjustments
+ * ----------------------------------------------------------------------------
+ */
+.mceToolbar * {
+    white-space: normal !important;
+}
+.mceToolbar tr,
+.mceToolbar td {
+    float:left !important;
+}
+.wp_themeSkin a.mceButton {
+	width: 30px;
+	height: 30px;
+}
+.wp_themeSkin .mceButton .mceIcon {
+	margin-top: 5px;
+	margin-left: 5px;
+}
+.wp_themeSkin .mceSplitButton {
+	margin-top: 1px;
+}
+.wp_themeSkin .mceSplitButton td a.mceAction {
+	padding-top: 6px;
+	padding-bottom: 6px;
+	padding-left: 6px;
+	padding-right: 3px;
+}
+.wp_themeSkin .mceSplitButton td a.mceOpen,
+.wp_themeSkin .mceSplitButtonEnabled:hover td a.mceOpen {
+	padding-top: 6px;
+	padding-bottom: 6px;
+	background-position: 1px 6px;
+}
+.wp_themeSkin table.mceListBox {
+	margin: 5px;
+}
+
+div.quicktags-toolbar input {
+	padding: 10px 20px;
+}
+
+#wp-content-editor-tools {
+	padding-top: 20px;
+}
+
+a.wp-switch-editor {
+	font-size: 16px;
+	margin: -12px 0 0 5px;
+	padding: 12px 15px !important;
+}
+
+#wp-content-media-buttons {
+	position: absolute;
+	top: 5px;
+}
+#wp-content-media-buttons a {
+	padding: 10px 15px 12px;
+}
+
+#content_wp_fullscreen {
+	display: none;
+}
+
+.misc-pub-section {
+	padding: 20px 10px 20px;
+}
+.misc-pub-section > a {
+	float: right;
+	font-size: 16px;
+}
+
+#delete-action,
+#publishing-action {
+	line-height: 47px;
+}
+
+/**
+ * Subsubsub Nav
+ * ----------------------------------------------------------------------------
+ */
+.subsubsub {
+	font-size: 16px;
+	text-align: center;
+	margin-bottom: 15px;
+}
+
+/**
+ * WP List Table Options & Filters
+ * ----------------------------------------------------------------------------
+ */
+.tablenav {
+	height: auto;
+}
+.tablenav.top {
+	margin: 0;
+}
+.tablenav.bottom {
+	position: relative;
+	margin-top: 15px;
+}
+.tablenav br {
+	display: none;
+}
+p.search-box {
+	display: none;
+	float: none;
+	clear: both;
+	margin-top: 35px;
+}
+p.search-box input[name="s"] {
+	height: auto;
+	float: none;
+	width: 100%;
+	margin-bottom: 10px;
+	-webkit-appearance: none;
+}
+.tablenav.top .actions, .view-switch {
+	display: none;
+}
+
+/* Pagination */
+.tablenav.top .displaying-num {
+	display: none;
+}
+.tablenav.bottom .displaying-num {
+	position: absolute;
+	right: 0;
+	top: 10px;
+	font-size: 14px;
+}
+.tablenav-pages {
+	width: 100%;
+	text-align: center;
+	margin: 0 0 25px;
+}
+.tablenav.bottom .tablenav-pages {
+	margin-top: 25px;
+}
+.tablenav.top .tablenav-pages.one-page {
+	display: none;
+}
+.tablenav.bottom .tablenav-pages.one-page {
+	margin: 15px 0 0 0;
+	height: 0;
+}
+.tablenav-pages .pagination-links .paging-input {
+	font-size: 18px;
+}
+.tablenav-pages .pagination-links a {
+	padding: 8px 20px 11px;
+	font-size: 18px;
+	background: rgba( 0, 0, 0, 0.05 );
+}
+.tablenav-pages .pagination-links .current-page {
+	padding: 10px;
+	font-size: 14px;
+}
+
+/**
+ * WP List Table Adjustments
+ * ----------------------------------------------------------------------------
+ */
+
+/* General */
+.form-wrap > p {
+	display: none;
+}
+.comment-count {
+	font-size: 14px;
+}
+
+/* Posts */
+.column-title {
+	width: 85%;
+}
+.fixed .column-comments, .widefat .check-column {
+	width: 35px
+}
+.fixed .column-date, .fixed .column-author,
+.column-categories, .column-tags {
+	display: none;
+}
+.widefat thead .check-column, .widefat tfoot .check-column {
+	padding: 10px 0 10px;
+}
+
+/* Categories */
+.fixed .column-description {
+	display: none;
+}
+.fixed .column-posts {
+	width: 50px;
+}
+.fixed .column-slug {
+	width: 30%;
+}
+
+/* Comments */
+.fixed .column-response {
+	width: 35%;
+}
+
+/* Media */
+.fixed .column-parent {
+	display: none;
+}
+
+/* Comments */
+.fixed .column-email, .fixed .column-name {
+	display: none;
+}
+.fixed .column-role {
+ 	width: 35%;
+}
+
+/* Plugins */
+.plugins .column-description {
+	width: 70%;
+}
+#wpbody-content .plugins .plugin-title {
+	white-space: normal;
+	width: 30%;
+}
+
+/* Updates */
+#wpbody-content #update-themes-table .plugin-title {
+	width: auto;
+}
+
+/**
+ * Form Tables
+ * ----------------------------------------------------------------------------
+ */
+.form-table th,
+.form-table td {
+	display: block;
+	width: auto;
+}
+.form-table td input[type="text"],
+.form-table td input[type="password"],
+.form-table td select,
+.form-table td textarea,
+.form-table span.description,
+#profile-page .form-table textarea {
+	width: 100%;
+	font-size: 16px;
+	padding: 10px;
+	display: block;
+	max-width: none;
+	box-sizing: border-box;
+	-mox-box-sizing: border-box;
+}
+.form-table input[type=text].small-text {
+	width: 60px;
+	display: inline;
+	padding: 2px 6px;
+	margin: 0 4px 0 6px;
+}
+#pass-strength-result {
+	width: 100%;
+	box-sizing: border-box;
+	-mox-box-sizing: border-box;
+	padding: 8px;
+}
+.form-table span.description {
+	padding: 4px 0 0;
+	line-height: 1.4em;
+}
+.form-table th {
+	padding-top: 10px;
+	padding-bottom: 0;
+	border-bottom: 0;
+}
+.form-table td {
+	padding-top: 8px;
+	padding-left: 0;
+}
+.form-table input.regular-text {
+	width: 100%;
+}
+.form-table label {
+	font-size: 14px;
+}
+
+.form-table fieldset label {
+	display: block;
+}
+
+#utc-time {
+	margin-top: 10px;
+}
+
+#utc-time,
+#local-time {
+	display: block;
+	float: none;
+	padding: 0;
+	line-height: 2;
+}
+
+
+/**
+ * Add/Edit Media
+ * ----------------------------------------------------------------------------
+ */
+
+.wp_attachment_details label[for="content"] {
+	font-size: 14px;
+	line-height: 1.5em;
+}
+
+
+/**
+ * Links
+ * ----------------------------------------------------------------------------
+ */
+
+.link-manager-php #posts-filter {
+	margin-top: 25px;
+}
+
+.link-manager-php .tablenav.bottom {
+	overflow: hidden;
+}
+
+.links-table #link_rel {
+	max-width: none;
+}
+
+.links-table th,
+.links-table td {
+	padding: 10px 0;
+}
+
+/**
+ * Nav Menus
+ * ----------------------------------------------------------------------------
+ */
+ 
+body.nav-menus-php {
+	min-width: 0 !important;
+}
+#nav-menus-frame {
+	margin-left: 0;
+	float: none;
+	width: 100%;
+}
+#wpbody-content #menu-settings-column {
+	display: block;
+	width: 100%;
+	float: none;
+	margin-left: 0;
+}
+.nav-menus-php .howto span {
+	margin-top: 14px;
+}
+#menu-management-liquid {
+	margin-top: 25px;
+}
+ul.add-menu-item-tabs {
+	margin: 30px 0 15px;
+}
+ul.add-menu-item-tabs li {
+	padding: 15px;
+}
+#side-sortables .add-menu-item-tabs {
+	margin-bottom: 15px;
+}
+.nav-menus-php .item-controls .item-type {
+	margin-top: 2px;
+}
+.nav-menus-php .major-publishing-actions .publishing-action {
+	margin-top: 6px;
+}
+.nav-menus-php .delete-action {
+	font-size: 14px;
+	line-height: 50px;
+	margin-top: 12px;
+}
+
+
+/**
+ * Theme Management Page
+ * ----------------------------------------------------------------------------
+ */
+#current-theme.has-screenshot {
+	padding: 0;
+	clear: both;
+}
+#current-theme img {
+	float: none;
+	margin-left: 0;
+	margin-bottom: 15px;
+}
+#current-theme.has-screenshot img.hide-if-no-customize {
+	display: block;
+}
+.available-theme .action-links .delete-theme {
+	float: none;
+	margin: 0;
+	padding: 0;
+	clear: both;
+}
+.available-theme .action-links .delete-theme a {
+	padding: 0;
+}
+
+/**
+ * Widget Management Page (Needs UX work on mobile)
+ * ----------------------------------------------------------------------------
+ */
+div.widget-liquid-left, div.widget-liquid-right,
+div#widgets-left, div#widgets-right {
+	float: none;
+	clear: none;
+	margin: 0;
+	width: auto;
+}
+
+/**
+ * Editor Pages
+ * ----------------------------------------------------------------------------
+ */
+#templateside {
+	float: none;
+	width: auto;
+}
+#templateside li {
+	margin: 0;
+}
+
+#templateside li a {
+	display: block;
+	padding: 5px;
+}
+#templateside .highlight {
+	padding: 5px;
+	margin-left: -5px;
+	margin-top: -5px;
+}
+#template div {
+	float: none;
+	margin: 0;
+	width: auto;
+}
+#template textarea {
+	width: 100%;
+}
+.fileedit-sub .alignright {
+	margin-top: 15px;
+}
+
+
+/**
+ * Plugin Management Page
+ * ----------------------------------------------------------------------------
+ */
+
+.wp-list-table.plugins {
+	position: relative;
+	margin-top: 35px;
+	margin-bottom: 50px;
+}
+
+.wp-list-table.plugins thead .column-description,
+#wpbody-content .wp-list-table.plugins tfoot .column-description,
+.wp-list-table.plugins th#description {
+	display: none;
+}
+
+#wpbody-content .wp-list-table.plugins,
+#wpbody-content .wp-list-table.plugins thead,
+#wpbody-content .wp-list-table.plugins tbody,
+#wpbody-content .wp-list-table.plugins tr,
+#wpbody-content .wp-list-table.plugins .column-description,
+#wpbody-content .wp-list-table.plugins .plugin-title,
+#wpbody-content .wp-list-table.plugins .plugin-update,
+#wpbody-content .wp-list-table.plugins .manage-column.column-name {
+	display: block;
+	width: auto;
+}
+
+.wp-list-table.plugins thead,
+.wp-list-table.plugins tfoot {
+	position: absolute;
+	top: -35px;
+	left: 0;
+	right: 0;
+	width: auto;
+	height: 35px;
+}
+
+.wp-list-table.plugins tfoot {
+	bottom: -35px;
+	top: auto;
+}
+
+.wp-list-table.plugins .plugin-title {
+	padding-bottom: 4px;
+}
+
+.plugins tr.active + tr.inactive th.check-column,
+.plugins tr.active + tr.inactive td,
+.wp-list-table.plugins .plugin-title,
+.wp-list-table.plugins tbody th {
+	box-shadow: none;
+	-webkit-box-shadow: none;
+}
+
+/* Set drop shadow again per original mp6 settings at line 1265 of colors-mp6.css in r687296, remove when original styles have been corrected */
+.plugins tr.active + tr.inactive td.column-description {
+	-webkit-box-shadow: inset 0 -1px 0 rgba(0,0,0,0.1);
+	-moz-box-shadow: inset 0 -1px 0 rgba(0,0,0,0.1);
+	-ms-box-shadow: inset 0 -1px 0 rgba(0,0,0,0.1);
+	-o-box-shadow: inset 0 -1px 0 rgba(0,0,0,0.1);
+	box-shadow: inset 0 -1px 0 rgba(0,0,0,0.1);
+}
+
+.plugins tr.active + tr.inactive th.check-column,
+.plugins tr.active + tr.inactive td {
+	border-top: none;
+}
+
+.wp-list-table.plugins .column-description {
+	padding-top: 0;
+}
+
+
+.wp-list-table.plugins .manage-column.column-name,
+.wp-list-table.plugins .column-description,
+.wp-list-table.plugins .plugin-title {
+	padding-right: 12px;
+	padding-left: 38px;
+}
+
+/*
+.wp-list-table.plugins .column-description .plugin-version-author-uri,
+.wp-list-table.plugins .column-description .plugin-description {
+	padding-left: 35px;
+}
+*/
+
+.wp-list-table.plugins tr {
+	position: relative;
+}
+
+.wp-list-table.plugins th.check-column {
+	position: absolute;
+	height: auto;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	padding-left: 2px;
+	padding-top: 18px;
+}
+
+.wp-list-table.plugins thead th.check-column,
+.wp-list-table.plugins tfoot th.check-column {
+	padding-top: 11px;
+	background: none;
+}
+
+.wp-list-table.plugins .check-column input {
+	margin-top: -3px;
+	margin-left: 6px;
+}
+
+.wp-list-table.plugins thead .check-column input {
+	margin-top: -5px;
+}
+
+.wp-list-table.plugins .active th.check-column {
+	background: none;
+}
+
+.wp-list-table.plugins .plugin-title strong {
+	font-size: 1.4em;
+	line-height: 1.6em;
+}
+
+
+/**
+ * Dashboard
+ * ----------------------------------------------------------------------------
+ */
+
+#dashboard_recent_comments #the-comment-list .comment-item .avatar {
+	height: 30px;
+	width: 30px;
+	margin: 4px 10px 5px 0;
+}
+
+/**
+ * Press This
+ * ----------------------------------------------------------------------------
+ */
+
+.press-this #wp-content-media-buttons {
+	top: 10px;
+}
+
+/**
+ * Moderate Comment
+ * ----------------------------------------------------------------------------
+ */
+
+.comment-ays {
+	border-bottom: none;
+}
+
+/**
+ * Footer
+ * ----------------------------------------------------------------------------
+ */
+
+#wpfooter {
+	display: none;
+}
+
+
+/**
+ * Jetpack
+ * ----------------------------------------------------------------------------
+ */
+.toplevel_page_jetpack .wrap,
+.module-container,
+#jp-header {
+	min-width: 0;
+}
+#jp-header {
+	margin-top: 60px;
+}
+
+
+} /* @media block */

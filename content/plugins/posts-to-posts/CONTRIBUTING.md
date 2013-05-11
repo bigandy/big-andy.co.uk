@@ -8,7 +8,7 @@ Make a fork and clone it:
 git clone --recurse-submodules git@github.com:{YOUR GITHUB USERNAME}/wp-posts-to-posts.git posts-to-posts
 ```
 
-You can now work on the PHP and CSS files.
+You can now work on the PHP and CSS files. Please follow the [WordPress Coding Standards](http://make.wordpress.org/core/handbook/coding-standards/).
 
 ### JavaScript
 
@@ -32,7 +32,6 @@ coffee -c admin
 
 The plugin comes with a few unit tests.
 
-1. Install [PHPUnit](https://github.com/sebastianbergmann/phpunit/).
-2. Create `tests/wp-tests-config.php` file. ([sample](https://unit-tests.svn.wordpress.org/trunk/wp-tests-config-sample.php))
-3. [Install the scbFramework](https://github.com/scribu/wp-scb-framework/wiki) in the mu-plugins dir.
-4. Run `./bin/test`
+1. Install [Composer](https://getcomposer.org).
+2. Run `composer install --dev`.
+3. Run `vendor/bin/phpunit`.
