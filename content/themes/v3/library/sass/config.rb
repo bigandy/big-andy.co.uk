@@ -1,5 +1,5 @@
-# Compass is a great cross-platform tool for compiling SASS. 
-# This compass config file will allow you to 
+# Compass is a great cross-platform tool for compiling SASS.
+# This compass config file will allow you to
 # quickly dive right in.
 # For more info about compass + SASS: http://net.tutsplus.com/tutorials/html-css-techniques/using-compass-and-sass-for-css-in-your-next-project/
 
@@ -31,3 +31,5 @@ output_style = :expanded
 
 # don't touch this
 preferred_syntax = :scss
+
+# sass_options = {:debug_info => true}

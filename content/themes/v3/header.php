@@ -27,7 +27,6 @@
 	<link rel='stylesheet' href='/content/themes/v3/style.css' />
 	<link rel="shortcut icon" href="/content/themes/v3/favicon.ico" />
 	<link rel="alternate" type="application/rss+xml" title="bigandy &raquo; Feed" href="/feed/" />
-	<link rel="alternate" type="application/rss+xml" title="bigandy &raquo; Comments Feed" href="/comments/feed/" />
 	<?php wp_head(); ?>
 
 </head>
