@@ -67,7 +67,7 @@ module.exports = function(grunt) {
                     // ],
                     'js/build/script.min.js': [
                         'js/libs/google-analytics.js',
-                        'js/libs/typekit.js',
+                        // 'js/libs/typekit.js',
                         // 'js/libs/lightbox.js',
                         'js/scripts.js',
                     ]
