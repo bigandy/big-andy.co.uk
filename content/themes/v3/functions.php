@@ -4,7 +4,7 @@ Author: Eddie Machado
 URL: htp://themble.com/bones/
 
 This is where you can drop your custom functions or
-just edit things like thumbnail sizes, header images, 
+just edit things like thumbnail sizes, header images,
 sidebars, comments, ect.
 */
 
@@ -31,8 +31,8 @@ require_once('library/bones.php'); // if you remove this, bones will break
 add_image_size( 'bones-thumb-600', 600, 150, true );
 add_image_size( 'max-width' );
 add_image_size( 'bones-thumb-300', 300, 100, true );
-/* 
-to add more sizes, simply copy a line from above 
+/*
+to add more sizes, simply copy a line from above
 and change the dimensions & name. As long as you
 upload a "featured image" as large as the biggest
 set width or height, all the other sizes will be
@@ -41,7 +41,7 @@ auto-cropped.
 To call a different size, simply change the text
 inside the thumbnail function.
 
-For example, to call the 300 x 300 sized image, 
+For example, to call the 300 x 300 sized image,
 we would use the function:
 <?php the_post_thumbnail( 'bones-thumb-300' ); ?>
 for the 600 x 100 image:
@@ -64,15 +64,15 @@ function bones_register_sidebars() {
     	'before_title' => '<h4 class="widgettitle">',
     	'after_title' => '</h4>',
     ));
-    
-    /* 
+
+    /*
     to add more sidebars or widgetized areas, just copy
-    and edit the above sidebar code. In order to call 
+    and edit the above sidebar code. In order to call
     your new sidebar just use the following code:
-    
+
     Just change the name to whatever your new
     sidebar's id is, for example:
-    
+
     register_sidebar(array(
     	'id' => 'sidebar2',
     	'name' => 'Sidebar 2',
@@ -82,17 +82,17 @@ function bones_register_sidebars() {
     	'before_title' => '<h4 class="widgettitle">',
     	'after_title' => '</h4>',
     ));
-    
+
     To call the sidebar in your template, you can just copy
     the sidebar.php file and rename it to your sidebar's name.
     So using the above example, it would be:
     sidebar-sidebar2.php
-    
+
     */
 } // don't remove this bracket!
 
 /************* COMMENT LAYOUT *********************/
-		
+
 // Comment Layout
 function bones_comments($comment, $args, $depth) {
    $GLOBALS['comment'] = $comment; ?>
@@ -104,7 +104,7 @@ function bones_comments($comment, $args, $depth) {
 			        echo get_avatar($comment,$size='32',$default='<path_to_url>' );
 			    */ ?>
 			    <!-- custom gravatar call -->
-          <?php $bgauthemail = get_comment_author_email(); ?>   
+          <?php $bgauthemail = get_comment_author_email(); ?>
 			    <img data-gravatar="http://www.gravatar.com/avatar/<?php echo md5($bgauthemail); ?>&s=32" class="load-gravatar avatar avatar-48 photo" height="32" width="32" src="<?php echo get_template_directory_uri(); ?>/library/images/nothing.gif" />			    <!-- end custom gravatar call -->
 				<?php printf(__('<cite class="fn">%s</cite>'), get_comment_author_link()) ?>
 				<time datetime="<?php echo comment_time('Y-m-j'); ?>"><a href="<?php echo htmlspecialchars( get_comment_link( $comment->comment_ID ) ) ?>"><?php comment_time('F jS, Y'); ?> </a></time>
@@ -141,7 +141,7 @@ function bones_wpsearch($form) {
 // http://www.kriesi.at/archives/improve-your-wordpress-navigation-menu-output
 class description_walker extends Walker_Nav_Menu
 {
-          
+
       function start_el(&$output, $item, $depth, $args)
       {
            global $wp_query;
@@ -159,13 +159,13 @@ class description_walker extends Walker_Nav_Menu
            $attributes .= ! empty( $item->xfn )        ? ' rel="'    . esc_attr( $item->xfn        ) .'"' : '';
            $attributes .= ! empty( $item->url )        ? ' href="'   . esc_attr( $item->url        ) .'"' : '';
 
-           
+
             $item_output .= '<a'. $attributes . $class_names .'>';
             $item_output .= apply_filters( 'the_title', $item->title, $item->ID );
             $item_output .= '</a>';
 
             $output .= apply_filters( 'walker_nav_menu_start_el', $item_output, $item, $depth, $args );
-            
+
       }
 
       function end_el( &$output, $category, $depth = 0, $args = array() ) {
@@ -186,7 +186,7 @@ class description_walker extends Walker_Nav_Menu
 
 /* Imported from exp.big-andy.co.uk theme */
 
-/* 
+/*
 * Add function to remove message on login fail saying username is invalid
 * http://wordpress.stackexchange.com/questions/25099/change-login-error-messages
 */
@@ -205,12 +205,12 @@ function login_error_message($error){
 // http://php.net/manual/en/datetime.diff.php
 date_default_timezone_set('Europe/London');
 function dateDiff($start, $end, $upOrDown = 'down') {
-        
-        
+
+
         $start_ts = strtotime($start);
         $end_ts = strtotime($end);
         $diff = $end_ts - $start_ts;
-        
+
         if($upOrDown === 'down') {
                 return ceil($diff / 86400);// ceil() rounds up. round() rounds up from .5 and down from .4 floor() rounds down.
         } else {
@@ -219,25 +219,25 @@ function dateDiff($start, $end, $upOrDown = 'down') {
 
 }
 
-/* 
-* Convert time in the format hr:min:sec into fractions of minute. 
-* e.g. 42:57 is 42 + (57/60) = 42.95mins 
+/*
+* Convert time in the format hr:min:sec into fractions of minute.
+* e.g. 42:57 is 42 + (57/60) = 42.95mins
 */
 function ah_minutes_from_time($str){
-        
+
         $chars = preg_split('#(?<!\\\)\:#', $str);
 
         if ( strlen($str) <= 3) {
                 $seconds = $chars[0];
                 $minutes_from_seconds = $seconds / 60;
-                
+
                 $total_minutes = $minutes_from_seconds;
         }
         elseif (strlen($str) <= 5) {
                 $minutes = $chars[0];
                 $seconds = $chars[1];
                 $minutes_from_seconds = $seconds / 60;
-                
+
                 $total_minutes = $minutes_from_seconds + $minutes;
         }
         else {
@@ -246,27 +246,27 @@ function ah_minutes_from_time($str){
                 $seconds = $chars[2];
                 $minutes_from_hour = $hours * 60;
                 $minutes_from_seconds = $seconds / 60;
-                
+
                 $total_minutes = $minutes_from_hour + $minutes_from_seconds + $minutes;
         }
-        
+
         return $total_minutes;
 }
 
 /*
-* Pace = minutes / miles 
+* Pace = minutes / miles
 * number of minutes / number of miles = pace
-* 
+*
 */
 function ah_pace_calculator($minutes,$distance) {
 
-                $real_minutes = ah_minutes_from_time($minutes);
-                
-                $pace = round(($real_minutes / $distance),2);
-                                                        
-                list($minutes,$seconds)=explode('.', $pace); 
-                $new_seconds = round($seconds*60/100); 
-                
-                $new_pace = $minutes.':'.$new_seconds;
-                return $new_pace;
+    $real_minutes = ah_minutes_from_time($minutes);
+
+    $pace = round(($real_minutes / $distance),2);
+
+    list($minutes,$seconds)=explode('.', $pace);
+    $new_seconds = round($seconds*60/100);
+
+    $new_pace = $minutes.':'.$new_seconds;
+    return $new_pace;
 }
