@@ -1,5 +1,17 @@
 @media screen and (max-width: 480px) {
 
+#wpadminbar .ab-submenu {
+	padding: 0;
+}
 
+#wpadminbar .ab-top-menu > .menupop > .ab-sub-wrapper {
+	position: fixed;
+	width: 100%;
+	left: 0;
+}
+
+#wpadminbar #wp-admin-bar-wp-logo.menupop .ab-sub-wrapper {
+	margin-left: 0;
+}
 
 }

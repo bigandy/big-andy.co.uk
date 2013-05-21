@@ -1,5 +1,5 @@
 function update_simple_ordering_callback(response) {
-	if ( response == 'children' ) {
+	if ( 'children' === response ) {
 		window.location.reload();
 		return;
 	}
@@ -7,23 +7,25 @@ function update_simple_ordering_callback(response) {
 	var changes = jQuery.parseJSON( response );
 
 	var new_pos = changes.new_pos;
-	for ( key in new_pos ) {
-		if ( key == 'next' )
+	for ( var key in new_pos ) {
+		if ( 'next' === key )
 			continue;
 
-		if ( jQuery('#inline_'+key).length > 0 ) {
-			if ( new_pos[key]['menu_order'] != null ) {
-				jQuery('#inline_'+key+' .menu_order').html( new_pos[key]['menu_order'] );
-				jQuery('#inline_'+key+' .post_parent').html( new_pos[key]['post_parent'] );
-				var post_title = jQuery('#inline_'+key+' .post_title').html();
+		var inline_key = document.getElementById('inline_' + key);
+		if ( null !== inline_key && new_pos.hasOwnProperty(key) ) {
+			if ( undefined !== new_pos[key]['menu_order'] ) {
+				inline_key.querySelector('.menu_order').innerHTML = new_pos[key]['menu_order'];
+				inline_key.querySelector('.post_parent').innerHTML = new_pos[key]['post_parent'];
+				var post_title = inline_key.querySelector('.post_title').innerHTML;
+
 				var dashes = 0;
-				while ( dashes < new_pos[key]['depth'] ) {
+				while (dashes < new_pos[key]['depth']) {
 					post_title = '&mdash; ' + post_title;
 					dashes++;
 				}
-				jQuery('tr#post-'+key+' a.row-title').html( post_title );
+				inline_key.parentNode.querySelector('.row-title').innerHTML = post_title;
 			} else {
-				jQuery('#inline_'+key+' .menu_order').html(new_pos[key]);
+				inline_key.querySelector('.menu_order').innerHTML = new_pos[key];
 			}
 		}
 	}
@@ -38,59 +40,52 @@ function update_simple_ordering_callback(response) {
 			excluded: changes.next['excluded']
 		}, update_simple_ordering_callback );
 	} else {
-		jQuery('.check-column .waiting').siblings('input').show().siblings('img').remove();
-		jQuery('tr.iedit').css('cursor','move');
-		jQuery(".wp-list-table tbody").sortable('enable');
+		jQuery(document.querySelector('.spo-updating-row')).removeClass('spo-updating-row');
+		sortable_post_table.removeClass('spo-updating').sortable('enable');
 	}
 }
 
-jQuery('tr.iedit').css('cursor','move');
-
-jQuery(".wp-list-table tbody").sortable({
-	items: 'tr:not(.inline-edit-row)',
+var sortable_post_table = jQuery( document.querySelector(".wp-list-table tbody") );
+sortable_post_table.sortable({
+	items: '> tr',
 	cursor: 'move',
 	axis: 'y',
 	containment: 'table.widefat',
 	scrollSensitivity: 40,
-	helper: function(e, ui) {
-		ui.children().each(function() { jQuery(this).width(jQuery(this).width()); });
-		return ui;
-	},
-	start: function(event, ui) {
-		if ( ! ui.item.hasClass('alternate') ) ui.item.css( 'background-color', '#ffffff' );
-		ui.item.children('td,th').css('border-bottom-width','0');
-		ui.item.css( 'outline', '1px solid #dfdfdf' );
-	},
-	stop: function(event, ui) {
-		ui.item.removeAttr('style');
-		ui.item.children('td,th').css('border-bottom-width','1px');
-	},
+	cancel:	'.inline-edit-row',
+	distance: 5,
+	opacity: .85,
+	forceHelperSize: true,
 	update: function(event, ui) {
-		jQuery('tr.iedit').css('cursor','default');
-		jQuery(".wp-list-table tbody").sortable('disable');
+		sortable_post_table.sortable('disable').addClass('spo-updating');
+		ui.item.addClass('spo-updating-row');
 
-		var postid = ui.item.attr('id').substr(5); // post id
+		var postid = ui.item[0].id.substr(5); // post id
 
 		var prevpostid = false;
 		var prevpost = ui.item.prev();
-		if ( prevpost.length > 0 )
+		if ( prevpost.length > 0 ) {
 			prevpostid = prevpost.attr('id').substr(5);
+		}
 
 		var nextpostid = false;
 		var nextpost = ui.item.next();
-		if ( nextpost.length > 0 )
+		if ( nextpost.length > 0 ) {
 			nextpostid = nextpost.attr('id').substr(5);
-
-		// show spinner
-		ui.item.find('.check-column input').hide().after('<img alt="processing" src="images/wpspin_light.gif" class="waiting" style="margin-left: 6px;" />');
+		}
 
 		// go do the sorting stuff via ajax
 		jQuery.post( ajaxurl, { action: 'simple_page_ordering', id: postid, previd: prevpostid, nextid: nextpostid }, update_simple_ordering_callback );
 
 		// fix cell colors
-		jQuery( 'tr.iedit' ).each(function(i){
-			if ( i%2 == 0 ) jQuery(this).addClass('alternate');
-			else jQuery(this).removeClass('alternate');
-		});
+		var table_rows = document.querySelectorAll('tr.iedit'),
+			table_row_count = table_rows.length;
+		while( table_row_count-- ) {
+			if ( table_row_count%2 == 0 ) {
+				jQuery( table_rows[table_row_count]).addClass('alternate');
+			} else {
+				jQuery( table_rows[table_row_count]).removeClass('alternate');
+			}
+		}
 	}
 });

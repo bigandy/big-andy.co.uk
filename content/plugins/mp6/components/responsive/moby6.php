@@ -13,11 +13,12 @@ function moby6_add_headers() {
 }
 
 function moby6_add_css() {
-	wp_enqueue_style( 'moby6-shared', plugins_url( 'css/shared.css', __FILE__ ) );
+	$modtime = filemtime( plugin_dir_path( __FILE__ ) . 'css/shared.css' );
+	wp_enqueue_style( 'moby6-shared', plugins_url( 'css/shared.css', __FILE__ ), false, $modtime );
 
-	// TODO: Specific tweaks for mobile and tablet sizes.
-	// wp_enqueue_style( 'moby6-smartphone', plugins_url( 'css/smartphone.css', __FILE__ ) );
-	// wp_enqueue_style( 'moby6-tablet', plugins_url( 'css/tablet.css', __FILE__ ) );
+	// Specific tweaks for mobile and tablet sizes.
+	wp_enqueue_style( 'moby6-smartphone', plugins_url( 'css/smartphone.css', __FILE__ ) );
+	wp_enqueue_style( 'moby6-tablet', plugins_url( 'css/tablet.css', __FILE__ ) );
 }
 
 function moby6_add_js() {

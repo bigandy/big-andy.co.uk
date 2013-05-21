@@ -2,9 +2,9 @@
 Contributors: jakemgold, 10up, thinkoomph
 Donate link: http://10up.com/plugins/simple-page-ordering-wordpress/
 Tags: order, re-order, ordering, pages, page, manage, menu_order, hierarchical, ajax, drag-and-drop, admin
-Requires at least: 3.2
-Tested up to: 3.5
-Stable tag: 2.0
+Requires at least: 3.4
+Tested up to: 3.6
+Stable tag: 2.1
 
 Order your pages and other hierarchical post types with simple drag and drop right from the standard page list.
 
@@ -18,7 +18,7 @@ The plug-in is "capabilities aware" - only users with the ability to edit others
 
 Integrated help is included: just click the "help" tab at the top right of the screen.
 
-Please note that the plug-in is currently only minimally compatible with Internet Explorer 7 and earlier, due to limitations within those browsers.
+Please note that the plug-in is not compatible with Internet Explorer 7 and earlier, due to limitations within those browsers.
 
 
 == Installation ==
@@ -76,6 +76,12 @@ This feature is already built into WordPress natively, but a bit tucked away. If
 
 
 == Changelog ==
+
+= 2.1 =
+* UI refinements: Better "spinner" positioning (and HiDPI), translucent row when moving, improved appearance of "drop" placeholder, wait till row dragged by at least 5px to start sorting
+* Major JavaScript refactoring and simplification (combined with new stylesheet) for better performance
+* Awareness of custom user capabilities for post types, in addition to a filter (`simple_page_ordering_edit_rights`) for overriding reordering rights (previously used `edit_others_pages` globally)
+* Awareness of custom post statuses (so they are not skipped during backend ordering operation)
 
 = 2.0 =
 * Drag pages into any part of the page hierarchy! No longer limited to same branch of tree!

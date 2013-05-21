@@ -134,11 +134,11 @@
 	/* Hamburger button view */
 	var Moby6HamburgerButton = Backbone.View.extend({
 		events: {
-			'touchend': 'toggleSidebar',
 			'click': 'toggleSidebar'
 		},
 
 		initialize: function() {
+			this.$wpwrap = $( '#wpwrap' );
 			this.render();
 		},
 
@@ -150,7 +150,7 @@
 
 		toggleSidebar: function(e) {
 			e.preventDefault();
-			$( '#wpwrap' ).toggleClass( 'moby6-open' );
+			this.$wpwrap.toggleClass( 'moby6-open' );
 		},
 
 		destroy: function() {

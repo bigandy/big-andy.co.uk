@@ -67,6 +67,13 @@ html.wp-toolbar {
 	width: 32px;
 	height: 32px;
 }
+#wpcontent #wpadminbar #wp-admin-bar-wp-logo .ab-icon {
+	font: 28px/1 dashicons !important;
+	margin: 9px 0 0;
+	padding: 0;
+	width: 32px;
+	height: 32px;
+}
 #wpadminbar .ab-label {
 	display: none;
 }
@@ -74,10 +81,10 @@ html.wp-toolbar {
 #wpadminbar #wp-admin-bar-comments,
 #wpadminbar #wp-admin-bar-new-content {
 	position: absolute;
-	right: 55px;
+	right: 50px;
 }
 #wpadminbar #wp-admin-bar-comments {
-	right: 100px;
+	right: 95px;
 }
 #wpadminbar #wp-admin-bar-updates {
 	right: 150px;
@@ -87,8 +94,12 @@ html.wp-toolbar {
 #wpadminbar #wp-admin-bar-comments > .ab-item .ab-icon {
 }
 #wpadminbar #wp-admin-bar-new-content > .ab-item .ab-icon {
-	margin-top: 9px;
+	margin-top: 8px;
 }
+#wp-admin-bar-site-name {
+	display: none
+}
+/*
 #wpadminbar #wp-admin-bar-site-name > a {
 	font-size: 16px;
 	max-width: 100px;
@@ -98,19 +109,58 @@ html.wp-toolbar {
 	height: 46px;
 	line-height: 46px;
 }
+*/
 #wpadminbar #wp-admin-bar-my-account > a {
 	position: relative;
 	overflow: hidden;
 	text-indent: -999em;
 	width: 28px;
+	padding: 0 10px;
 }
 #wpadminbar .quicklinks li#wp-admin-bar-my-account.with-avatar > a img {
 	position: absolute;
-	top: 11px;
-	left: 0;
-	width: 28px;
-	height: 28px;
+	top: 13px;
+	right: 10px;
+	width: 26px;
+	height: 26px;
 }
+
+#wpadminbar .ab-top-menu > .menupop > .ab-sub-wrapper a {
+	font-size: 16px;
+	border-bottom: 1px solid #444;
+	padding: 12px;
+}
+
+#wpadminbar .ab-top-menu > .menupop > .ab-sub-wrapper li:last-child a {
+	border-bottom: none;
+	padding-bottom: 13px;
+}
+
+#wpadminbar #wp-admin-bar-user-actions.ab-submenu {
+	padding: 0;
+}
+
+#wpadminbar #wp-admin-bar-user-actions.ab-submenu img.avatar-64 {
+	display: none;
+}
+
+#wpadminbar #wp-admin-bar-my-account.with-avatar #wp-admin-bar-user-actions > li {
+	margin: 0;
+}
+
+#wpadminbar #wp-admin-bar-user-info span {
+	height: auto;
+	line-height: 1.3em;
+}
+
+#wpadminbar #wp-admin-bar-user-info .display-name {
+	color: #eee;
+}
+
+#wpadminbar #wp-admin-bar-user-info .username {
+	margin-bottom: 2px;
+}
+
 
 /**
  * Input Elements
@@ -122,7 +172,7 @@ textarea {
 input[type=text], input[type=search],
 input[type=password], input[type=number] {
 	-webkit-appearance: none;
-	padding: 10px;
+	padding: 6px 10px;
 }
 input[type=checkbox], .widefat th input[type=checkbox] {
 	-webkit-appearance: none;
@@ -132,18 +182,23 @@ input[type=checkbox], .widefat th input[type=checkbox] {
 	margin-bottom: 8px;
 }
 input[type=checkbox]:checked:before, .widefat th input[type=checkbox]:before {
-	font: normal 23px/1 'Dashicons';
-	margin: -11px -12px;
+	font: normal 30px/1 'Dashicons';
+	margin: -3px -5px;
 }
-input[type=radio] {
-	height: 20px;
-	width: 20px;
+input[type=radio],
+input[type=checkbox] {
+	height: 25px;
+	width: 25px;
+}
+.wp-admin p input[type=checkbox],
+.wp-admin p input[type=radio] {
+	margin-top: -3px;
 }
 input[type=radio]:checked:before {
 	vertical-align: middle;
-	width: 8px;
-	height: 8px;
-	margin: 5px;
+	width: 9px;
+	height: 9px;
+	margin: 7px;
 	line-height: 16px;
 }
 .wp-upload-form input[type=submit] {
@@ -152,7 +207,7 @@ input[type=radio]:checked:before {
 
 #wpbody select {
 	height: 36px;
-	font-size: 14px;
+	font-size: 16px;
 }
 .wp-core-ui .button,
 input#publish,
@@ -329,26 +384,59 @@ a.preview {
  * ----------------------------------------------------------------------------
  */
 #moby6-toggle {
-	position: absolute;
-	top: 13px;
-	left: 0;
-	border-right: 1px solid #ddd;
+	position: fixed;
+	top: 7px;
+	left: 5px;
 	padding-right: 10px;
+	z-index: 99999;
+	border: none;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	
+}
+#wpadminbar #wp-admin-bar-root-default {
+	padding-left: 50px;
 }
 .wrap .icon32 + h2 {
-	margin-left: 51px;
 	margin-top: -2px;
 }
 #moby6-toggle a {
 	display: block;
-	padding: 20px 15px;
+	padding: 0;
 	overflow: hidden;
-	text-indent: -999em;
-
-	/* TODO: This should be a font icon */;
-	background: url( ../img/burger.png ) center center no-repeat;
-	background-size: 16px 12px;
 	outline: none;
+	text-decoration: none;
+	
+	border: 1px solid transparent;
+	background: none;
+}
+
+#moby6-toggle a:before {
+	color: #888;
+	content: '\f228';
+	display: inline-block;
+	float: left;
+	font: normal 25px/1 'Dashicons';
+	vertical-align: middle;
+	outline: none;
+	margin: 0;
+	-webkit-font-smoothing: antialiased;
+	height: 32px;
+	width: 39px;
+	padding: 3px;
+	border: none;
+	text-decoration: none;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+}
+
+.moby6-open #moby6-toggle a {
+	border: 1px solid #fff;
+	background: #000;
+	border-left-color: #333;
+	border-right-color: #333;
+	border-bottom-color: #444;
+	border-top-color: #000;
 }
 
 .moby6-open #wpbody {
@@ -681,10 +769,19 @@ p.search-box input[name="s"] {
  * Form Tables
  * ----------------------------------------------------------------------------
  */
+.form-table {
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
 .form-table th,
 .form-table td {
 	display: block;
 	width: auto;
+	vertical-align: middle;
+}
+textarea,
+input {
+	font-size: 16px;
 }
 .form-table td input[type="text"],
 .form-table td input[type="password"],
@@ -694,17 +791,24 @@ p.search-box input[name="s"] {
 #profile-page .form-table textarea {
 	width: 100%;
 	font-size: 16px;
-	padding: 10px;
+	line-height: 1.5;
+	padding: 7px 10px;
 	display: block;
 	max-width: none;
 	box-sizing: border-box;
 	-mox-box-sizing: border-box;
 }
+input[type=text].small-text,
+input[type=search].small-text,
+input[type=password].small-text,
+input[type=number].small-text,
+input[type="number"].small-text,
 .form-table input[type=text].small-text {
-	width: 60px;
+	width: auto;
+	max-width: 55px;
 	display: inline;
-	padding: 2px 6px;
-	margin: 0 4px 0 6px;
+	padding: 3px 6px;
+	margin: 0 3px;
 }
 #pass-strength-result {
 	width: 100%;
@@ -757,6 +861,92 @@ p.search-box input[name="s"] {
 .wp_attachment_details label[for="content"] {
 	font-size: 14px;
 	line-height: 1.5em;
+}
+
+#media-items {
+	width: 100%;
+}
+
+.media-modal {
+	width: auto;
+}
+
+.media-frame {
+	overflow: auto;
+}
+
+.media-frame-menu {
+	position: relative;
+	width: auto;
+}
+
+.media-menu {
+	border-right: none;
+	position: relative;
+	border-bottom: 1px solid #dddddd;
+	overflow: hidden;
+}
+
+.media-menu .separator {
+	display: none;
+}
+
+.media-menu a {
+	float: left;
+	width: 40%;
+}
+
+.media-frame-router, .media-frame-content, .media-frame-toolbar {
+	left: auto;
+	right: auto;
+	top: auto;
+	bottom: auto;
+	position: relative;
+}
+
+.media-frame-title {
+	top: auto;
+	left: auto;
+	right: 0;
+	height: auto;
+}
+
+.media-frame-router {
+	margin-top: 10px;
+}
+
+.media-frame-title h1 {
+	line-height: 3;
+	font-size: 18px;
+}
+
+.media-router {
+	bottom: -2px;
+}
+
+.media-frame-content {
+	min-height: 300px;
+}
+
+.media-toolbar-primary, .media-toolbar-secondary {
+	height: auto;
+}
+
+.uploader-inline h3 {
+	margin: 0 0 .8em 0;
+}
+
+.uploader-inline-content {
+	top: auto;
+}
+
+.uploader-inline-content .upload-ui {
+	margin: 0;
+}
+
+.attachments-browser .attachments, .attachments-browser .uploader-inline {
+	position: relative;
+	margin-right: 180px;
 }
 
 
@@ -1077,9 +1267,18 @@ div#widgets-left, div#widgets-right {
 #jp-header {
 	min-width: 0;
 }
-#jp-header {
-	margin-top: 60px;
-}
 
+/**
+ * Akismet
+ * ----------------------------------------------------------------------------
+ */
+.jetpack_page_akismet-key-config .wrap .narrow,
+.plugins_page_akismet-key-config  .wrap .narrow,
+#akismet-conf {
+	width: auto !important;
+}
+#comments-form .checkforspam {
+	display: none;
+}
 
 } /* @media block */

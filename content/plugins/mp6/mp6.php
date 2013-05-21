@@ -3,7 +3,7 @@
 Plugin Name: MP6
 Plugin URI: http://wordpress.org/extend/plugins/mp6/
 Description: This is a plugin to break the wp-admin UI, and is not recommended for non-savvy users.
-Version: 1.1
+Version: 1.2
 Author:
 Author URI: http://wordpress.org
 License: GPLv2 or later
@@ -16,6 +16,12 @@ require_once( plugin_dir_path(__FILE__) . 'components/responsive/moby6.php' );
 // load the sticky admin menu component
 require_once( plugin_dir_path(__FILE__) . 'components/sticky-menu/sticky-menu.php' );
 
+// register Open Sans stylesheet
+add_action( 'init', 'mp6_register_open_sans' );
+function mp6_register_open_sans() {
+	wp_register_style( 'open-sans', '//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,300,400,600&subset=latin-ext,latin', false, 0.1 );
+}
+
 add_action( 'admin_init', 'mp6_register_admin_color_schemes', 1 );
 function mp6_register_admin_color_schemes() {
 
@@ -23,7 +29,7 @@ function mp6_register_admin_color_schemes() {
 	global $_wp_admin_css_colors;
 	unset( $_wp_admin_css_colors[ 'classic' ] );
 	unset( $_wp_admin_css_colors[ 'fresh' ] );
-	
+		
 	wp_admin_css_color(
 		'mp6',
 		_x( 'MP6', 'admin color scheme' ),
@@ -34,10 +40,12 @@ function mp6_register_admin_color_schemes() {
 	// hack to adjust the version, because the enqueue system has no nice way to modify script data once it's already added elsewhere
 	$modtime = filemtime( plugin_dir_path( __FILE__ ) . 'css/colors-mp6.css' );
 	global $wp_styles;
+		
 	if ( ! is_a( $wp_styles, 'WP_Styles' ) )
 		$wp_styles = new WP_Styles();
-		
-	$wp_styles->registered[ 'colors' ]->ver = $modtime;
+	
+	$wp_styles->registered[ 'colors-fresh' ]->ver = $modtime;
+	$wp_styles->registered[ 'colors' ]->deps[] = 'open-sans';
 }
 
 add_action( 'login_init', 'mp6_fix_login_color_scheme', 1 );
@@ -59,16 +67,12 @@ function mp6_force_admin_color( $color_scheme ) {
 add_action( 'init', 'mp6_replace_admin_bar_style' );
 function mp6_replace_admin_bar_style() {
 	wp_deregister_style( 'admin-bar' );
-	
-	$modtime = filemtime( plugin_dir_path( __FILE__ ) .'css/admin-bar.css' );
-	wp_register_style( 'admin-bar', plugins_url( 'css/admin-bar.css', __FILE__ ), array(), $modtime );
-}
-
-// load Open Sans
-add_action( 'init', 'mp6_load_open_sans' );
-function mp6_load_open_sans() {
-    wp_register_style( 'open-sans', '//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,300,400,600&subset=latin-ext,latin', false, 0.1 );
-    wp_enqueue_style( 'open-sans' );
+	wp_register_style(
+		'admin-bar',
+		plugins_url( 'css/admin-bar.css', __FILE__ ),
+		array( 'open-sans' ),
+		filemtime( plugin_dir_path( __FILE__ ) . 'css/admin-bar.css' )
+	);
 }
 
 // override WP's default toolbar top margin
@@ -80,4 +84,11 @@ function mp6_override_toolbar_margin() {
 	* html body { margin-top: 32px !important; }
 </style>
 <?php endif;
+}
+
+// Add an MP6 body class to the front end.
+add_filter( 'body_class', 'mp6_add_mp6_body_class' );
+function mp6_add_mp6_body_class( $classes ) {
+	$classes[] = 'mp6';
+	return $classes;
 }

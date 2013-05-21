@@ -3,7 +3,7 @@ Contributors: inpsyde, danielhuesken, Bueltge, nullbyte
 Tags: backup, dump, database, file, ftp, xml, time, upload, multisite, cloud, dropbox, storage, S3
 Requires at least: 3.2
 Tested up to: 3.5.1
-Stable tag: 3.0.10
+Stable tag: 3.0.11
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -179,14 +179,22 @@ Please check all settings after the update:
 
 
 == Changelog ==
+= Version 3.0.12 =
+* Fixed: Redirect when accessing the WordPress backend
+* Added: Russian translation
+* Added: Simplified chinese translation
+* Fixed: German log string typo
+
 = Version 3.0.11 =
 * Improved: About page will only be shown after install
 * Updated: AWS SDK to Version 2.3.1 (PHP 5.3.3+)
 * Fixed: some notices and warnings
 * Fixed: Change of BackWPup role for other users
 * Added: Message for Pro version to support plugin
+
 = Version 3.0.10 =
 * Fixed only Version on WordPress.org because of SVN upload problems with Symfony folder from AWS
+
 = Version 3.0.9 =
 * Fixed: Fixed bug in Dropbox temp file fallback
 * Fixed: Not working if WP-Cron Control active
