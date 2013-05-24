@@ -116,6 +116,13 @@ function bones_scripts_and_styles() {
     * and your site will load faster.
     * http://www.wpbeginner.com/wp-themes/replace-default-wordpress-jquery-script-with-google-library/
     */
+    wp_deregister_style( 'mediaelement' );
+    wp_deregister_style( 'wp-mediaelement' );
+    wp_deregister_script( 'mediaelement' );
+
+    // mediaelement-css
+
+
     wp_deregister_script('jquery');
    	wp_register_script('jquery', "//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js", true, null, true);
    	wp_enqueue_script('jquery');
