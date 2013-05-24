@@ -79,9 +79,27 @@
 								    </h1>
 							    </header> <!-- end article header -->
 
-							    <section class="post-content clearfix">
-								    <?php the_content(); ?>
-							    </section> <!-- end article section -->
+							    <?php if ( has_post_format('audio') ) { ?>
+
+									<section class="entry-content clearfix">
+										<?php the_post_format_audio(); ?>
+									</section> <!-- end article section -->
+
+								<?php } else if ( has_post_format('video') ) { ?>
+
+									<section class="entry-content clearfix">
+										<?php the_post_format_video(); ?>
+									</section> <!-- end article section -->
+
+								<?php } else { ?>
+
+									<section class="post-content clearfix">
+									    <?php the_content(); ?>
+								    </section> <!-- end article section -->
+
+							    <?php } ?>
+
+
 
 							<?php } else { ?>
 
