@@ -13,19 +13,31 @@ function update_simple_ordering_callback(response) {
 
 		var inline_key = document.getElementById('inline_' + key);
 		if ( null !== inline_key && new_pos.hasOwnProperty(key) ) {
+			var dom_menu_order = inline_key.querySelector('.menu_order');
+
 			if ( undefined !== new_pos[key]['menu_order'] ) {
-				inline_key.querySelector('.menu_order').innerHTML = new_pos[key]['menu_order'];
-				inline_key.querySelector('.post_parent').innerHTML = new_pos[key]['post_parent'];
-				var post_title = inline_key.querySelector('.post_title').innerHTML;
+				if ( null !== dom_menu_order )
+					dom_menu_order.innerHTML = new_pos[key]['menu_order'];
+
+				var dom_post_parent = inline_key.querySelector('.post_parent');
+				if ( null !== dom_post_parent )
+					dom_post_parent.innerHTML = new_pos[key]['post_parent'];
+
+				var post_title = null;
+				var dom_post_title = inline_key.querySelector('.post_title');
+				if ( null !== dom_post_title )
+					post_title = dom_post_title.innerHTML;
 
 				var dashes = 0;
 				while (dashes < new_pos[key]['depth']) {
 					post_title = '&mdash; ' + post_title;
 					dashes++;
 				}
-				inline_key.parentNode.querySelector('.row-title').innerHTML = post_title;
-			} else {
-				inline_key.querySelector('.menu_order').innerHTML = new_pos[key];
+				var dom_row_title = inline_key.parentNode.querySelector('.row-title');
+				if ( null !== dom_row_title && null !== post_title )
+					dom_row_title.innerHTML = post_title;
+			} else if ( null !== dom_menu_order ) {
+				dom_menu_order.innerHTML = new_pos[key];
 			}
 		}
 	}

@@ -2,16 +2,28 @@
 
 	'use strict';
 
-	var moby6 = {
+	window.moby6 = {
 		init: function() {
 			var _self = this;
 
 			// cached selectors
+			this.$html = $( document.documentElement );
+			this.$body = $( document.body );
+			this.$wpwrap = $( '#wpwrap' );
 			this.$wpbody = $( '#wpbody' );
 			this.$adminmenu = $( '#adminmenu' );
+			this.$overlay = $( '#moby6-overlay' );
+			this.$toolbar = $( '#wp-toolbar' );
+			this.$toolbarPopups = this.$toolbar.find( 'a[aria-haspopup="true"]' );
+
+			// jQuery Mobile swipe event
+			$.event.special.swipe.scrollSupressionThreshold = 100; // Default: 30px; More than this horizontal displacement, and we will suppress scrolling.
+			$.event.special.swipe.durationThreshold = 1000; // Default: 1000ms;  More time than this, and it isn't a swipe.
+			$.event.special.swipe.horizontalDistanceThreshold = 100; // Default: 30px; Swipe horizontal displacement must be more than this.
+			$.event.special.swipe.verticalDistanceThreshold = 75; // Default: 75px; Swipe vertical displacement must be less than this.
 
 			// Modify functionality based on custom activate/deactivate event
-			$(document.documentElement)
+			this.$html
 				.on( 'activate.moby6', function() { _self.activate(); } )
 				.on( 'deactivate.moby6', function() { _self.deactivate(); } );
 
@@ -20,14 +32,7 @@
 
 			// Trigger custom events based on active media query.
 			this.matchMedia();
-			$(window).on( 'resize', $.proxy( this.matchMedia, this ) );
-
-			// workaround to resize the PressThis window back to a width of 770
-			// the 'shortcut_link' filter isn't enought, because press-this.php
-			// calls window.resizeTo() on $(document).ready()
-			if ( $(document.body).hasClass( 'press-this' ) ) {
-				setTimeout( function() { window.resizeTo(770, 580); }, 100 );
-			}
+			$( window ).on( 'resize', $.proxy( this.matchMedia, this ) );
 		},
 
 		activate: function() {
@@ -46,41 +51,74 @@
 		matchMedia: function() {
 			clearTimeout( this.resizeTimeout );
 			this.resizeTimeout = setTimeout( function() {
-				var $html = $(document.documentElement);
 
-				if ( window.matchMedia( '(max-width: 768px)' ).matches ) {
-					if ( $html.hasClass( 'touch' ) )
+				if ( ! window.matchMedia )
+					return;
+
+				if ( window.matchMedia( '(max-width: 782px)' ).matches ) {
+					if ( moby6.$html.hasClass( 'touch' ) )
 						return;
 
-					$html.addClass( 'touch' ).trigger( 'activate.moby6' );
+					moby6.$html.addClass( 'touch' ).trigger( 'activate.moby6' );
 					window.stickymenu && stickymenu.disable();
+
+					if ( ! moby6.$body.hasClass( 'auto-fold' ) )
+						moby6.$body.addClass( 'auto-fold' );
+
+					$( document ).on( 'swiperight.moby6', function() {
+						moby6.$wpwrap.addClass( 'moby6-open' );
+					}).on( 'swipeleft.moby6', function() {
+						moby6.$wpwrap.removeClass( 'moby6-open' );
+					});
+
 				} else {
-					if ( ! $html.hasClass( 'touch' ) )
+					if ( ! moby6.$html.hasClass( 'touch' ) )
 						return;
 
-					$html.removeClass( 'touch' ).trigger( 'deactivate.moby6' );
+					moby6.$html.removeClass( 'touch' ).trigger( 'deactivate.moby6' );
 					window.stickymenu && stickymenu.enable();
+
+					$( document ).off( 'swiperight.moby6 swipeleft.moby6' );
 				}
+
+				if ( window.matchMedia( '(max-width: 480px)' ).matches ) {
+					if ( moby6.$overlay.length == 0 ) {
+						moby6.$overlay = $( '<div id="moby6-overlay"></div>' )
+							.insertAfter( '#wpcontent' )
+							.hide()
+							.on( 'click.moby6', function() {
+								moby6.$toolbar.find( '.menupop.hover' ).removeClass( 'hover' );
+								$( this ).hide();
+							});
+					}
+					moby6.$toolbarPopups.on( 'click.moby6', function() {
+						moby6.$overlay.show();
+					});
+				} else {
+					moby6.$toolbarPopups.off( 'click.moby6' );
+					moby6.$overlay.hide();
+				}
+
 			}, 150 );
 		},
 
 		modifySidebarEvents: function() {
-			$(document.body).off( '.wp-mobile-hover' );
+			this.$body.off( '.wp-mobile-hover' );
 			this.$adminmenu.find( 'a.wp-has-submenu' ).off( '.wp-mobile-hover' );
 
 			var scrollStart = 0;
 			this.$adminmenu.on( 'touchstart.moby6', 'li.wp-has-submenu > a', function() {
-				scrollStart = $(window).scrollTop();
+				scrollStart = $( window ).scrollTop();
 			});
 
-			this.$adminmenu.on( 'touchend.moby6', 'li.wp-has-submenu > a', function(e) {
+			this.$adminmenu.on( 'touchend.moby6', 'li.wp-has-submenu > a', function( e ) {
 				e.preventDefault();
 
-				if ( $(window).scrollTop() !== scrollStart )
+				if ( $( window ).scrollTop() !== scrollStart )
 					return false;
 
-				$(this).find( 'li.wp-has-submenu' ).removeClass( 'selected' );
-				$(this).parent( 'li' ).addClass( 'selected' );
+				$( this ).find( 'li.wp-has-submenu' ).removeClass( 'selected' );
+				$( this ).parent( 'li' ).addClass( 'selected' );
 			});
 		},
 
@@ -107,7 +145,8 @@
 		},
 
 		removeHamburgerButton: function() {
-			this.hamburgerButtonView.destroy();
+			if ( this.hamburgerButtonView !== undefined )
+				this.hamburgerButtonView.destroy();
 		},
 
 		movePostSearch: function() {
@@ -124,12 +163,13 @@
 		restorePostSearch: function() {
 			if ( this.searchBox !== undefined ) {
 				this.searchBox.show();
-				this.searchBoxClone.hide();
+				if ( this.searchBoxClone !== undefined )
+					this.searchBoxClone.hide();
 			}
 		}
 	}
 
-	$(document).ready( $.proxy( moby6.init, moby6 ) );
+	$( document ).ready( $.proxy( moby6.init, moby6 ) );
 
 	/* Hamburger button view */
 	var Moby6HamburgerButton = Backbone.View.extend({
@@ -138,7 +178,6 @@
 		},
 
 		initialize: function() {
-			this.$wpwrap = $( '#wpwrap' );
 			this.render();
 		},
 
@@ -150,14 +189,14 @@
 
 		toggleSidebar: function(e) {
 			e.preventDefault();
-			this.$wpwrap.toggleClass( 'moby6-open' );
+			moby6.$wpwrap.toggleClass( 'moby6-open' );
 		},
 
 		destroy: function() {
 			this.undelegateEvents();
 			this.$el.removeData().unbind();
 			this.remove();
-			Backbone.View.prototype.remove.call(this);
+			Backbone.View.prototype.remove.call( this );
 		}
 	});
 

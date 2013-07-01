@@ -1,4 +1,4 @@
-@media screen and ( max-width: 768px ) {
+@media screen and ( max-width: 782px ) {
 
 /**
  * Content containers
@@ -7,6 +7,9 @@
 body {
 	min-width: 240px;
 	overflow-x: hidden;
+}
+body * {
+	-webkit-tap-highlight-color: rgba(0,0,0,0) !important;
 }
 #wpwrap {
 	background: #f0f0f0;
@@ -33,132 +36,11 @@ body {
  * Hidden Elements
  * ----------------------------------------------------------------------------
  */
-#screen-meta, #screen-meta-links, #collapse-menu,
+#screen-meta,
+#screen-meta-links,
+#collapse-menu,
 .post-format-select {
-	display: none;
-}
-
-/* hide Jetpack toolbar notes in this view, responsiveness may come in the future */
-#wp-admin-bar-notes {
-	display: none;
-}
-
-/**
- * Toolbar Touchification
- * ----------------------------------------------------------------------------
- */
-html.wp-toolbar {
-	padding-top: 46px;
-}
-#wpadminbar {
-	z-index: 500 !important;
- 	height: 46px;
- 	min-width: 240px;
-}
-#wpadminbar .quicklinks li > a {
-	padding: 0 10px;
-	height: 46px;
-	line-height: 46px;
-}
-#wpcontent #wpadminbar .ab-icon {
-	font: 32px/1 dashicons !important;
-	margin: 7px 0;
-	padding: 0;
-	width: 32px;
-	height: 32px;
-}
-#wpcontent #wpadminbar #wp-admin-bar-wp-logo .ab-icon {
-	font: 28px/1 dashicons !important;
-	margin: 9px 0 0;
-	padding: 0;
-	width: 32px;
-	height: 32px;
-}
-#wpadminbar .ab-label {
-	display: none;
-}
-#wpadminbar #wp-admin-bar-updates,
-#wpadminbar #wp-admin-bar-comments,
-#wpadminbar #wp-admin-bar-new-content {
-	position: absolute;
-	right: 50px;
-}
-#wpadminbar #wp-admin-bar-comments {
-	right: 95px;
-}
-#wpadminbar #wp-admin-bar-updates {
-	right: 150px;
-}
-#wpadminbar #wp-admin-bar-updates > .ab-item {
-}
-#wpadminbar #wp-admin-bar-comments > .ab-item .ab-icon {
-}
-#wpadminbar #wp-admin-bar-new-content > .ab-item .ab-icon {
-	margin-top: 8px;
-}
-#wp-admin-bar-site-name {
-	display: none
-}
-/*
-#wpadminbar #wp-admin-bar-site-name > a {
-	font-size: 16px;
-	max-width: 100px;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-	overflow: hidden;
-	height: 46px;
-	line-height: 46px;
-}
-*/
-#wpadminbar #wp-admin-bar-my-account > a {
-	position: relative;
-	overflow: hidden;
-	text-indent: -999em;
-	width: 28px;
-	padding: 0 10px;
-}
-#wpadminbar .quicklinks li#wp-admin-bar-my-account.with-avatar > a img {
-	position: absolute;
-	top: 13px;
-	right: 10px;
-	width: 26px;
-	height: 26px;
-}
-
-#wpadminbar .ab-top-menu > .menupop > .ab-sub-wrapper a {
-	font-size: 16px;
-	border-bottom: 1px solid #444;
-	padding: 12px;
-}
-
-#wpadminbar .ab-top-menu > .menupop > .ab-sub-wrapper li:last-child a {
-	border-bottom: none;
-	padding-bottom: 13px;
-}
-
-#wpadminbar #wp-admin-bar-user-actions.ab-submenu {
-	padding: 0;
-}
-
-#wpadminbar #wp-admin-bar-user-actions.ab-submenu img.avatar-64 {
-	display: none;
-}
-
-#wpadminbar #wp-admin-bar-my-account.with-avatar #wp-admin-bar-user-actions > li {
-	margin: 0;
-}
-
-#wpadminbar #wp-admin-bar-user-info span {
-	height: auto;
-	line-height: 1.3em;
-}
-
-#wpadminbar #wp-admin-bar-user-info .display-name {
-	color: #eee;
-}
-
-#wpadminbar #wp-admin-bar-user-info .username {
-	margin-bottom: 2px;
+	display: none !important;
 }
 
 
@@ -173,6 +55,10 @@ input[type=text], input[type=search],
 input[type=password], input[type=number] {
 	-webkit-appearance: none;
 	padding: 6px 10px;
+}
+input.code {
+	padding-bottom: 5px;
+	padding-top: 10px;
 }
 input[type=checkbox], .widefat th input[type=checkbox] {
 	-webkit-appearance: none;
@@ -220,10 +106,26 @@ a.preview {
 	height: auto;
 	margin-bottom: 4px;
 }
+#media-upload.wp-core-ui .button {
+	padding: 0 10px 1px;
+	height: 24px;
+	line-height: 22px;
+	font-size: 13px;
+}
 .wrap .add-new-h2, .wrap .add-new-h2:active  {
 	padding: 10px 15px;
 	font-size: 14px;
 }
+.wp-color-result {
+	height: auto;
+	padding-left: 45px;
+}
+.wp-color-result:after {
+	font-size: 14px;
+	height: auto;
+	padding: 6px 14px;
+}
+
 #createuser .form-field input {
 	width: 100%;
 }
@@ -262,6 +164,28 @@ a.preview {
 }
 .auto-fold #adminmenu li.menu-top {
 	width: 100%;
+}
+
+/* Let the menubar scroll independently of the main column */
+
+.auto-fold #adminmenuwrap {
+	height: 100%;
+	position: fixed;
+	overflow: hidden;
+	overflow-y: scroll;
+	top: 46px;
+
+	height: -webkit-calc(100% - 46px);
+	height: calc(100% - 46px);
+
+	-webkit-box-shadow: inset 2px 0 0 rgba( 0,0,0,.1 );
+	box-shadow: inset 2px 0 0 rgba( 0,0,0,.1 );
+
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+
+	-webkit-overflow-scrolling: touch;
 }
 
 /* Experimental animations for sidebar */
@@ -392,7 +316,7 @@ a.preview {
 	border: none;
 	box-sizing: border-box;
 	-moz-box-sizing: border-box;
-	
+
 }
 #wpadminbar #wp-admin-bar-root-default {
 	padding-left: 50px;
@@ -406,7 +330,7 @@ a.preview {
 	overflow: hidden;
 	outline: none;
 	text-decoration: none;
-	
+
 	border: 1px solid transparent;
 	background: none;
 }
@@ -461,9 +385,24 @@ a.preview {
 .post-format-options {
 	padding-right: 0;
 }
+
 .post-format-options a {
 	margin-right: 5px;
 	margin-bottom: 5px;
+	min-width: 52px;
+}
+
+.post-format-options .post-format-title {
+	font-size: 11px;
+}
+
+.post-format-options a div {
+	height: 28px;
+	width: 28px;
+}
+
+.post-format-options a div:before {
+	font-size: 26px !important;
 }
 
 /* General Metabox */
@@ -521,8 +460,7 @@ ul#categorychecklist li {
 }
 
 /* Tags Metabox */
-.tagsdiv .newtag,
-.press-this .tagsdiv .newtag {
+.tagsdiv .newtag {
 	width: 100%;
 	padding: 25px 10px;
 	margin-bottom: 15px;
@@ -533,6 +471,20 @@ ul#categorychecklist li {
 .tagchecklist span {
 	font-size: 16px;
 	line-height: 120%;
+}
+
+/**
+ * Revisions
+ * ----------------------------------------------------------------------------
+ */
+#diff-next-revision,
+#diff-previous-revision {
+	margin-top: -1em;
+}
+table.diff {
+	-ms-word-break: break-all;
+	word-break: break-all;
+	word-wrap: break-word;
 }
 
 /**
@@ -639,8 +591,10 @@ a.wp-switch-editor {
 .tablenav br {
 	display: none;
 }
+.tablenav br.clear {
+	display: block;
+}
 p.search-box {
-	display: none;
 	float: none;
 	clear: both;
 	margin-top: 35px;
@@ -720,6 +674,9 @@ p.search-box input[name="s"] {
 }
 .widefat thead .check-column, .widefat tfoot .check-column {
 	padding: 10px 0 10px;
+}
+.widefat * {
+	word-wrap: normal;
 }
 
 /* Categories */
@@ -976,10 +933,11 @@ input[type="number"].small-text,
  * Nav Menus
  * ----------------------------------------------------------------------------
  */
- 
+
 body.nav-menus-php {
 	min-width: 0 !important;
 }
+
 #nav-menus-frame {
 	margin-left: 0;
 	float: none;
@@ -991,23 +949,30 @@ body.nav-menus-php {
 	float: none;
 	margin-left: 0;
 }
-.nav-menus-php .howto span {
-	margin-top: 14px;
-}
-#menu-management-liquid {
-	margin-top: 25px;
-}
-ul.add-menu-item-tabs {
-	margin: 30px 0 15px;
-}
-ul.add-menu-item-tabs li {
-	padding: 15px;
-}
 #side-sortables .add-menu-item-tabs {
-	margin-bottom: 15px;
+	margin: 15px 0;
+}
+ul.add-menu-item-tabs li.tabs {
+	padding: 15px;
 }
 .nav-menus-php .item-controls .item-type {
 	margin-top: 2px;
+}
+.nav-menus-php .customlinkdiv .howto input {
+	width: 65%;
+}
+.nav-menus-php .quick-search {
+	width: 85%;
+}
+
+#menu-management-liquid {
+	margin-top: 25px;
+}
+.nav-menus-php .menu-name-label.howto span {
+	margin-top: 13px
+}
+.menu-name-label #menu-name {
+	margin-top: 4px;
 }
 .nav-menus-php .major-publishing-actions .publishing-action {
 	margin-top: 6px;
@@ -1017,6 +982,23 @@ ul.add-menu-item-tabs li {
 	line-height: 50px;
 	margin-top: 12px;
 }
+.menu-item-bar .menu-item-handle,
+.menu-item-settings,
+.description-wide {
+	width: auto;
+}
+.menu-item-settings {
+	padding: 10px;
+}
+.menu-item-settings .description-thin,
+.menu-item-settings .description-wide {
+	width: 100%;
+	height: auto;
+}
+.menu-item-settings input {
+	width: 100%;
+}
+
 
 
 /**
@@ -1092,7 +1074,7 @@ div#widgets-left, div#widgets-right {
 
 
 /**
- * Plugin Management Page
+ * Plugin/Theme Management Page
  * ----------------------------------------------------------------------------
  */
 
@@ -1114,6 +1096,7 @@ div#widgets-left, div#widgets-right {
 #wpbody-content .wp-list-table.plugins tr,
 #wpbody-content .wp-list-table.plugins .column-description,
 #wpbody-content .wp-list-table.plugins .plugin-title,
+#wpbody-content .wp-list-table.plugins .theme-title,
 #wpbody-content .wp-list-table.plugins .plugin-update,
 #wpbody-content .wp-list-table.plugins .manage-column.column-name {
 	display: block;
@@ -1135,16 +1118,26 @@ div#widgets-left, div#widgets-right {
 	top: auto;
 }
 
-.wp-list-table.plugins .plugin-title {
+.active, .inactive {
+	padding-top: 0;
+}
+.wp-list-table.plugins .plugin-title,
+.wp-list-table.plugins .theme-title {
+	padding-top: 13px;
 	padding-bottom: 4px;
 }
 
 .plugins tr.active + tr.inactive th.check-column,
 .plugins tr.active + tr.inactive td,
 .wp-list-table.plugins .plugin-title,
+.wp-list-table.plugins .theme-title,
 .wp-list-table.plugins tbody th {
 	box-shadow: none;
 	-webkit-box-shadow: none;
+}
+
+.plugins tbody {
+	padding: 1px 0 0;
 }
 
 /* Set drop shadow again per original mp6 settings at line 1265 of colors-mp6.css in r687296, remove when original styles have been corrected */
@@ -1168,9 +1161,10 @@ div#widgets-left, div#widgets-right {
 
 .wp-list-table.plugins .manage-column.column-name,
 .wp-list-table.plugins .column-description,
-.wp-list-table.plugins .plugin-title {
+.wp-list-table.plugins .plugin-title,
+.wp-list-table.plugins .theme-title {
 	padding-right: 12px;
-	padding-left: 38px;
+	padding-left: 46px;
 }
 
 /*
@@ -1184,7 +1178,8 @@ div#widgets-left, div#widgets-right {
 	position: relative;
 }
 
-.wp-list-table.plugins th.check-column {
+.wp-list-table.plugins th.check-column,
+.wp-list-table.plugins tr.update th.check-column {
 	position: absolute;
 	height: auto;
 	top: 0;
@@ -1196,24 +1191,31 @@ div#widgets-left, div#widgets-right {
 
 .wp-list-table.plugins thead th.check-column,
 .wp-list-table.plugins tfoot th.check-column {
+	padding-left: 3px;
 	padding-top: 11px;
 	background: none;
 }
 
-.wp-list-table.plugins .check-column input {
+.widefat tbody th.check-column input[type="checkbox"] {
 	margin-top: -3px;
+	margin-left: 9px;
+}
+.wp-list-table.plugins .active .check-column input,
+.wp-list-table.plugins .update .check-column input {
 	margin-left: 6px;
 }
 
-.wp-list-table.plugins thead .check-column input {
-	margin-top: -5px;
+.wp-list-table.plugins thead .check-column input,
+.wp-list-table.plugins tfoot .check-column input {
+	margin-top: -6px;
 }
 
 .wp-list-table.plugins .active th.check-column {
 	background: none;
 }
 
-.wp-list-table.plugins .plugin-title strong {
+.wp-list-table.plugins .plugin-title strong,
+.wp-list-table.plugins .theme-title strong {
 	font-size: 1.4em;
 	line-height: 1.6em;
 }
@@ -1228,15 +1230,6 @@ div#widgets-left, div#widgets-right {
 	height: 30px;
 	width: 30px;
 	margin: 4px 10px 5px 0;
-}
-
-/**
- * Press This
- * ----------------------------------------------------------------------------
- */
-
-.press-this #wp-content-media-buttons {
-	top: 10px;
 }
 
 /**
@@ -1274,11 +1267,197 @@ div#widgets-left, div#widgets-right {
  */
 .jetpack_page_akismet-key-config .wrap .narrow,
 .plugins_page_akismet-key-config  .wrap .narrow,
-#akismet-conf {
+#akismet-conf,
+#akismet-connectivity {
 	width: auto !important;
 }
 #comments-form .checkforspam {
 	display: none;
+}
+
+/**
+ * RTL
+ */
+.rtl #wpcontent, .rtl.auto-fold #wpcontent {
+	margin-right: 0;
+	margin-left: auto;
+	padding-right: 10px;
+	padding-left: inherit;
+}
+.rtl .wrap {
+	margin-left: 10px;
+	margin-right: inherit;
+}
+.rtl.auto-fold #adminmenu,
+.rtl.auto-fold #adminmenuback,
+.rtl.auto-fold #adminmenuwrap {
+	right: 0;
+	left: auto;
+}
+.rtl.auto-fold #adminmenuback,
+.rtl.auto-fold #adminmenuwrap {
+	right: -200px;
+	left: auto;
+}
+
+.rtl.auto-fold #adminmenu,
+.rtl.auto-fold #adminmenuback,
+.rtl.auto-fold #adminmenuwrap {
+	-moz-transition: right .2s ease-in-out;
+	-webkit-transition: right .2s ease-in-out;
+	transition: right .2s ease-in-out;
+}
+.rtl #wpbody {
+	-moz-transition: left .2s ease-in-out;
+	-webkit-transition: left .2s ease-in-out;
+	transition: left .2s ease-in-out;
+}
+.rtl.auto-fold #adminmenu {
+	-moz-transition: right .2s ease-in-out, -moz-opacity .3s ease-in;
+	-webkit-transition: right .2s ease-in-out, -webkit-opacity .3s ease-in;
+	transition: right .2s ease-in-out, opacity .3s ease-in;
+}
+.rtl.auto-fold #adminmenu .wp-menu-name {
+	margin-left: auto;
+	margin-right: 35px;
+}
+.rtl.auto-fold #adminmenu .selected .wp-submenu,
+.rtl.auto-fold #adminmenu .wp-menu-open .wp-submenu {
+	right: -1px;
+	left: auto;
+}
+
+.rtl #moby6-toggle {
+	right: 5px;
+	left: auto;
+	padding-left: 10px;
+	padding-right: 0;
+}
+.rtl #wpadminbar #wp-admin-bar-root-default {
+	padding-right: 50px;
+	padding-left: inherit;
+}
+.rtl #moby6-toggle a:before {
+	float: right;
+}
+.rtl .moby6-open #wpbody {
+	right: auto;
+	left: -190px;
+}
+.rtl.auto-fold .moby6-open #adminmenuback,
+.rtl.auto-fold .moby6-open #adminmenuwrap {
+	right: 0;
+	left: auto;
+}
+
+.rtl .post-format-options {
+	padding-left: 0;
+	padding-right: 8px;
+}
+.rtl .post-format-options a {
+	margin-left: 5px;
+	margin-right: auto;
+	float: right;
+}
+.rtl .wp-core-ui .save-post-visibility,
+.rtl .wp-core-ui .save-timestamp {
+	margin-left: 15px;
+	margin-right: auto;
+}
+.rtl .mceToolbar tr,
+.rtl .mceToolbar td {
+    float:right !important;
+}
+.rtl .wp_themeSkin .mceButton .mceIcon {
+	margin-right: 5px;
+	margin-left: auto;
+}
+.rtl .wp_themeSkin .mceSplitButton td a.mceAction {
+	padding-left: 3px;
+	padding-right: 6px;
+}
+
+.rtl .misc-pub-section > a {
+	float: left;
+}
+
+.rtl .tablenav.bottom .displaying-num {
+	left: 0;
+	right: auto;
+}
+.rtl .form-table td {
+	padding-right: 0;
+	padding-left: auto;
+}
+
+.rtl .media-menu {
+	border-left: none;
+	border-right: inherit;
+}
+.rtl .media-menu a {
+	float: right;
+}
+.rtl .media-frame-title {
+	left: 0;
+	right: auto;
+}
+
+.rtl .attachments-browser .attachments, .rtl .attachments-browser .uploader-inline {
+	margin-left: 180px;
+	margin-right: inherit;
+}
+.rtl #nav-menus-frame {
+	margin-right: 0;
+	margin-left: auto;
+}
+.rtl #current-theme img {
+	margin-right: 0;
+	margin-left: inherit;
+}
+.rtl #templateside .highlight {
+	margin-right: -5px;
+	margin-left: auto;
+}
+
+.rtl #wpbody-content .wp-list-table.plugins .manage-column.column-name,
+.rtl #wpbody-content .wp-list-table.plugins .column-description,
+.rtl #wpbody-content .wp-list-table.plugins .plugin-title {
+	padding-right: 38px;
+	padding-left: 12px;
+}
+.rtl #wpbody-content .wp-list-table.plugins th.check-column {
+	right: 0;
+	left: auto;
+	padding-right: 2px;
+	padding-left: auto;
+}
+.rtl #wpbody-content .wp-list-table.plugins .check-column input {
+	margin-right: 6px;
+	margin-left: auto;
+}
+
+} /* @media block */
+
+@media only screen and (max-width: 900px) {
+
+/**
+ * Jetpack CSS Editor
+ * ----------------------------------------------------------------------------
+ */
+
+#safecssform #postbox-container-1 {
+	width: 100%;
+}
+#safecssform .inner-sidebar #side-sortables,
+#safecssform .columns-2 .inner-sidebar #side-sortables {
+	min-height: 0;
+	width: 100%;
+}
+#safecssform .has-right-sidebar #post-body-content {
+	margin-right: 0;
+}
+#safecssform .has-right-sidebar #post-body {
+	margin-right: 0;
 }
 
 } /* @media block */
