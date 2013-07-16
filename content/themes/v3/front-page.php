@@ -54,48 +54,50 @@
 			);
 
 			$non_hide_loop = new WP_Query( $non_hide_loop_args );
+
+			// adump( $non_hide_loop, "Non-hide-loop" );
+
 		    if ( $non_hide_loop->have_posts() ) {
-		    		while ( $non_hide_loop->have_posts() ) {
-		    			$non_hide_loop->the_post();
-		    			?>
+	    		while ( $non_hide_loop->have_posts() ) {
+	    			$non_hide_loop->the_post();
+	    			?>
 
-					    <article <?php post_class('clearfix'); ?> role="article">
-							<?php
-							if( !has_post_format( 'aside' ) ) {
-								?>
-								<header class="article-header">
-								    <h1 class="h2">
-								    	<a href="<?php the_permalink() ?>" rel="bookmark">
-								    		<?php the_title(); ?>
-								    	</a>
-								    </h1>
-							    </header>
-								<section class="post-content clearfix">
-								    <?php the_content(); ?>
-							    </section> <!-- end article section -->
-							    <?php
-							} else {
-								?>
-								<section class="post-content clearfix aside">
-								    <p>
-								    	<?php the_content(); ?>
-								    </p>
-							    </section>
-							<?php
-							} ?>
-					    </article>
-	    			<?php
-	    	 		}
-	    	 		wp_reset_postdata(); // end non_hide_loop()
+				    <article <?php post_class('clearfix'); ?> role="article">
+						<?php
+						if( !has_post_format( 'aside' ) ) {
+							?>
+							<header class="article-header">
+							    <h1 class="h2">
+							    	<a href="<?php the_permalink() ?>" rel="bookmark">
+							    		<?php the_title(); ?>
+							    	</a>
+							    </h1>
+						    </header>
+							<section class="post-content clearfix">
+							    <?php the_content(); ?>
+						    </section> <!-- end article section -->
+						    <?php
+						} else {
+							?>
+							<section class="post-content clearfix aside">
+							    <p>
+							    	<?php the_content(); ?>
+							    </p>
+						    </section>
+						<?php
+						} ?>
+				    </article>
+    			<?php
+    	 		}
+    	 		wp_reset_postdata(); // end non_hide_loop()
 
-	    	 		if (function_exists('bones_page_navi')) { // if experimental feature is active ?>
-			        <?php bones_page_navi(); // use the page navi function ?>
-		        <?php
-		    	}
-		    }
+    	 		if ( function_exists( 'bones_page_navi' ) ) { // if experimental feature is active
+    	 			bones_page_navi(); // use the page navi function ?>
+	        	<?php
+	    		} // endwhile $non_hide_loop->have_posts()
+		    } // endif $non_hide_loop->have_posts()
 		    ?>
 	    </div>
 	</div>
 </div>
-
 <?php get_footer();

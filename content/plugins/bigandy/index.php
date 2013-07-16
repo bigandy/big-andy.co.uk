@@ -207,8 +207,8 @@ require_once 'init-styles.php';
 require_once 'admin-area.php';
 require_once 'cpts.php';
 require_once 'content.php';
-// require_once 'misc.php';
-// require_once 'tax-meta/tax-meta.php';
+require_once 'misc.php';
+require_once 'tax-meta/tax-meta.php';
 
 
 if ( $options['shortcodes'] == "Y" ) {
