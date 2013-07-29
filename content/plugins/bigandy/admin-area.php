@@ -110,7 +110,9 @@ function ba_remove_menus() {
 		__( 'Appearance' ),
 		__( 'Profile' ),
 		__( 'Media' ),
-		__( 'BackWPUp' ),
+		// __( 'BackWPUp' ),
+		__( 'Performance' ),
+		__( 'Contact' ),
 	);
 	end( $menu );
 	while ( prev( $menu ) ) {
