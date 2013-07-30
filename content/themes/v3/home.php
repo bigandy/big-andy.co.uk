@@ -1,22 +1,15 @@
 <?php get_header(); ?>
-
 <div class="content">
-
 	<div class="wrap clearfix inner-content">
-
 	    <div class="eightcol first clearfix main" role="main">
-
 	    	<?php
 	    	// hidden post class
 		    $hide_id = 31;
 		    // get paged
 	    	$paged = ( get_query_var( 'paged' ) ) ? get_query_var( 'paged' ) : 1;
-
     		if ( $paged < 1 )
-
 			{
 				$sticky = get_option( 'sticky_posts' );
-
 				/* Sort the stickies with the newest ones at the top */
 				rsort( $sticky );
 
@@ -32,8 +25,8 @@
 
 		    	$sticky_loop = new WP_Query( $sticky_loop_args );
 
-				if( $sticky_loop->have_posts() ) :
-					while ( $sticky_loop->have_posts() ) :
+				if( $sticky_loop->have_posts() ) {
+					while ( $sticky_loop->have_posts() ) {
 						$sticky_loop->the_post(); ?>
 
 						<article role="article">
@@ -48,11 +41,10 @@
 						</article>
 
 					<?php
-					endwhile;
-				endif;
+					}
+				}
 				wp_reset_postdata(); // end of sticky_loop
 			} // end if $paged > 2
-
 
 			$non_hide_loop_args = array(
 				'cat' => -$hide_id,
@@ -62,75 +54,48 @@
 			);
 
 			$non_hide_loop = new WP_Query( $non_hide_loop_args );
-		    if ( $non_hide_loop->have_posts() ) :
-		    		while ( $non_hide_loop->have_posts() ) :
-		    			$non_hide_loop->the_post(); ?>
+		    if ( $non_hide_loop->have_posts() ) {
+		    		while ( $non_hide_loop->have_posts() ) {
+		    			$non_hide_loop->the_post();
+		    			?>
 
 					    <article <?php post_class('clearfix'); ?> role="article">
-
-
-
-							<?php if( !has_post_format( 'aside' ) ){ ?>
+							<?php
+							if( !has_post_format( 'aside' ) ) {
+								?>
 								<header class="article-header">
 								    <h1 class="h2">
 								    	<a href="<?php the_permalink() ?>" rel="bookmark">
 								    		<?php the_title(); ?>
 								    	</a>
 								    </h1>
-							    </header> <!-- end article header -->
-
-							    <?php if ( has_post_format('audio') ) { ?>
-
-									<section class="entry-content clearfix">
-										<?php the_post_format_audio(); ?>
-									</section> <!-- end article section -->
-
-								<?php } else if ( has_post_format('video') ) { ?>
-
-									<section class="entry-content clearfix">
-										<?php the_post_format_video(); ?>
-									</section> <!-- end article section -->
-
-								<?php } else { ?>
-
-									<section class="post-content clearfix">
-									    <?php the_content(); ?>
-								    </section> <!-- end article section -->
-
-							    <?php } ?>
-
-
-
-							<?php } else { ?>
-
+							    </header>
+								<section class="post-content clearfix">
+								    <?php the_content(); ?>
+							    </section> <!-- end article section -->
+							    <?php
+							} else {
+								?>
 								<section class="post-content clearfix aside">
 								    <p>
 								    	<?php the_content(); ?>
 								    </p>
 							    </section>
-
-							<?php } ?>
-
-					    </article> <!-- end article -->
-
-	    		<?php
-	    	 		endwhile;
+							<?php
+							} ?>
+					    </article>
+	    			<?php
+	    	 		}
 	    	 		wp_reset_postdata(); // end non_hide_loop()
-	    	 	?>
 
-
-		        <?php if (function_exists('bones_page_navi')) { // if experimental feature is active ?>
-
+	    	 		if (function_exists('bones_page_navi')) { // if experimental feature is active ?>
 			        <?php bones_page_navi(); // use the page navi function ?>
+		        <?php
+		    	}
+		    }
+		    ?>
+	    </div>
+	</div>
+</div>
 
-		        <?php } ?>
-
-		    <?php endif; ?>
-
-	    </div> <!-- end .main -->
-
-	</div> <!-- end .inner-content -->
-
-</div> <!-- end .content -->
-
-<?php get_footer(); ?>
+<?php get_footer();

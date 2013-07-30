@@ -1,30 +1,37 @@
 <?php
 
+add_action( 'init', 'moby6_init' );
 function moby6_init() {
-	add_action( 'admin_head', 'moby6_add_headers' );
-	add_action( 'admin_print_styles', 'moby6_add_css' );
-	add_action( 'admin_print_scripts', 'moby6_add_js' );
-	add_filter( 'shortcut_link', 'moby6_enlarge_pressthis' );
-}
-add_action( 'admin_init', 'moby6_init' );
+	// add viewport meta tag to to admin
+	add_action( 'admin_head', 'moby6_viewport_meta' );
 
-function moby6_add_headers() {
-	echo '<meta name="viewport" content="width=device-width,initial-scale=1">';
-}
+	// load admin styles/scripts
+	add_action( 'admin_print_styles', 'moby6_enqueue_styles' );
+	add_action( 'admin_print_scripts', 'moby6_enqueue_scripts' );
 
-function moby6_add_css() {
-	$modtime = filemtime( plugin_dir_path( __FILE__ ) . 'css/shared.css' );
-	wp_enqueue_style( 'moby6-shared', plugins_url( 'css/shared.css', __FILE__ ), false, $modtime );
-
-	// Specific tweaks for mobile and tablet sizes.
-	wp_enqueue_style( 'moby6-smartphone', plugins_url( 'css/smartphone.css', __FILE__ ) );
-	wp_enqueue_style( 'moby6-tablet', plugins_url( 'css/tablet.css', __FILE__ ) );
+	// load admin-bar styles
+	add_action( 'admin_print_styles', 'moby6_enqueue_adminbar_styles' );
+	add_action( 'wp_enqueue_scripts', 'moby6_enqueue_adminbar_styles' );
 }
 
-function moby6_add_js() {
-	wp_enqueue_script( 'moby6-shared', plugins_url( 'js/shared.js', __FILE__ ), array( 'jquery', 'backbone' ) );
+function moby6_viewport_meta() {
+	echo '<meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1.0,maximum-scale=1.0">';
 }
 
-function moby6_enlarge_pressthis($link) {
-	return str_replace( 'width=720,height=570', 'width=770,height=570', $link );
+function moby6_enqueue_styles() {
+	$modtime = filemtime( plugin_dir_path( __FILE__ ) . 'css/moby6.css' );
+	wp_enqueue_style( 'moby6', plugins_url( 'css/moby6.css', __FILE__ ), false, $modtime );
+}
+
+function moby6_enqueue_scripts() {
+	$modtime = filemtime( plugin_dir_path( __FILE__ ) . 'js/moby6.js' );
+	wp_enqueue_script( 'moby6', plugins_url( 'js/moby6.js', __FILE__ ), array( 'jquery', 'backbone' ), $modtime );
+	wp_enqueue_script( 'moby6-jq-mobile', plugins_url( 'js/jquery.mobile.custom.min.js', __FILE__ ), array( 'jquery' ), '1.3.1' );
+}
+
+function moby6_enqueue_adminbar_styles() {
+	if ( is_admin_bar_showing() ) {
+		$modtime = filemtime( plugin_dir_path( __FILE__ ) . 'css/admin-bar.css' );
+		wp_enqueue_style( 'moby6-admin-bar', plugins_url( 'css/admin-bar.css', __FILE__ ), false, $modtime );
+	}
 }
