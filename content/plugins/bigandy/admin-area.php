@@ -110,9 +110,7 @@ function ba_remove_menus() {
 		__( 'Appearance' ),
 		__( 'Profile' ),
 		__( 'Media' ),
-		// __( 'BackWPUp' ),
-		__( 'Performance' ),
-		__( 'Contact' ),
+		// __( 'wpcf7' ),
 	);
 	end( $menu );
 	while ( prev( $menu ) ) {
