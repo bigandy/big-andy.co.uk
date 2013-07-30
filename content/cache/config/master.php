@@ -1,7 +1,7 @@
 <?php
 
 return array(
-	'version' => '0.9.2.10',
+	'version' => '0.9.2.11',
 	'cluster.messagebus.debug' => false,
 	'cluster.messagebus.enabled' => false,
 	'cluster.messagebus.sns.region' => '',
@@ -648,6 +648,7 @@ return array(
 	'timelimit.domain_rename' => 120,
 	'timelimit.minify_recommendations' => 600,
 	'minify.auto.filename_length' => 150,
+	'minify.auto.disable_filename_length_test' => false,
 	'common.instance_id' => 0,
 	'common.force_master' => true,
 	'newrelic.enabled' => false,

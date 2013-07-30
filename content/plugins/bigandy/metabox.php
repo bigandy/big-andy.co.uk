@@ -10,10 +10,13 @@ function ba_scpt_demo() {
     $meta = new Super_Custom_Post_Meta( 'post' );
 
     $meta->add_meta_box( array(
-	    'id' => 'post_meta', // the title is converted from 'id', if there's no 'title' parameter
+	    'id' => 'post_meta',
 	    'title' => 'Post Meta',
 	    'fields' => array(
-	        'hide_front_page' => array( 'label' => __( 'Hide from Front Page?', 'my-locale' ), 'type' => 'radio', 'options' => array( 'Yes' ) ),
+	        'hide_front_page' => array(
+	        	'label' => __( 'Hide from Front Page?', 'my-locale' ),
+	        	'type' => 'radio',
+	        	'options' => array( 'Yes' ) ),
 	    ),
 	    'context' => 'side'
 	) );

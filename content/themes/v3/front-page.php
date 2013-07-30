@@ -50,12 +50,26 @@
 				'cat' => -$hide_id,
 				'post__not_in' => $sticky,
                 'ignore_sticky_posts' => 1,
-                'paged' => $paged
+                'paged' => $paged,
+                'meta_query' => array(
+                	'relation' => 'OR',
+                    array(
+                        'key' => 'hide_front_page',
+                        'compare' => 'NOT EXISTS',
+                        'value'   => 'Fantazmajazzle',
+                    ),
+                    array(
+                        'key' => 'hide_front_page',
+                        'compare' => '!=',
+                        'value' => 'Yes'
+                    ),
+                )
 			);
 
-			$non_hide_loop = new WP_Query( $non_hide_loop_args );
+			// ah_dump($non_hide_loop_args);
 
-			// adump( $non_hide_loop, "Non-hide-loop" );
+			$non_hide_loop = new WP_Query( $non_hide_loop_args );
+			// ah_dump($non_hide_loop);
 
 		    if ( $non_hide_loop->have_posts() ) {
 	    		while ( $non_hide_loop->have_posts() ) {
