@@ -22,7 +22,7 @@ module.exports = function(grunt) {
             'Are You Serious? Yes. \n' +
             'big-andy.co.uk - v<%= meta.version %> - ' +
             'Stylesheet generated on <%= grunt.template.today("yyyy-mm-dd") %>\n' +
-            '*/'
+            '*/ '
         },
         // let us know if our JS is sound
         jshint: {
