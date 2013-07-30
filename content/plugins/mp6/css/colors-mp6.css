@@ -1,5 +1,6 @@
 /*------------------------------------------------------------------------------
 
+Last merged revision: 24761
 
 Howdy! This is the CSS file that controls the
 MP6 color style on the WordPress Dashboard.
@@ -349,16 +350,15 @@ h3.dashboard-widget-title small,
 	border-bottom: 1px solid #e1e1e1;
 }
 
-.accordion-section .accordion-section-title,
-.accordion-section.open .accordion-section-content {
+.accordion-section-content {
 	border-left: none;
 	border-right: none;
 }
 
-.control-section:hover .accordion-section-title,
-.control-section .accordion-section-title:hover,
-.control-section.open .accordion-section-title,
-.control-section .accordion-section-title:focus {
+.js .control-section:hover .accordion-section-title,
+.js .control-section .accordion-section-title:hover,
+.js .control-section.open .accordion-section-title,
+.js .control-section .accordion-section-title:focus {
 	background: #0074a2;
 	border-color: #0074a2 !important;
 }
@@ -644,7 +644,7 @@ div.updated,
 	box-shadow: 0 1px 2px rgba(0,0,0,0.1);
 }
 
-#update-nag, 
+#update-nag,
 .update-nag {
 	background-color: #fff;
 	border-left: 4px solid #ffba00;
@@ -724,6 +724,13 @@ a,
 	-moz-transition: all .1s ease-in-out;
 	-webkit-transition: all .1s ease-in-out;
 	transition: all .1s ease-in-out;
+}
+
+.wp-list-table a,
+.media-router a {
+	-moz-transition: none;
+	-webkit-transition: none;
+	transition: none;
 }
 
 #adminmenu a {
@@ -943,9 +950,11 @@ a.post-format-icon:hover:before {
 }
 
 .widget,
+#available-widgets .widget-top,
+.menu-item-handle,
 .menu-item-settings,
-#widget-list .widget-top,
 .postbox,
+#menu-settings-column .accordion-container,
 #menu-management .menu-edit,
 .manage-menus,
 table.widefat,
@@ -961,12 +970,10 @@ p.popular-tags,
 	box-shadow: 0 1px 3px rgba(0,0,0,0.13);
 }
 
-.widget,
-.menu-item-settings,
-#widget-list .widget-top,
-#widgets-right .widget-top {
-	-webkit-box-shadow: 0 0 0 1px rgba(0,0,0,0.07);
-	box-shadow: 0 0 0 1px rgba(0,0,0,0.07);
+#available-widgets .widget,
+.widget.ui-sortable-helper {
+	-webkit-box-shadow: none;
+	box-shadow: none;
 }
 
 .postbox table.widefat {
@@ -999,7 +1006,8 @@ p.popular-tags,
 
 #widget-list .widget .widget-top,
 #wp_inactive_widgets .widget .widget-top,
-.menu-item-handle {
+.menu-item-handle,
+.deleting .widget-top {
 	background: #ddd;
 	color: #333;
 }
@@ -1012,7 +1020,8 @@ p.popular-tags,
 #misc-publishing-actions label[for="post_status"]:before,
 #post-body #visibility:before,
 .curtime #timestamp:before,
-span.wp-media-buttons-icon:before {
+span.wp-media-buttons-icon:before,
+span.jetpack-contact-form-icon:before {
 	color: #888;
 }
 
@@ -1026,14 +1035,16 @@ span.wp-media-buttons-icon:before {
 
 #welcome-panel.welcome-panel .welcome-panel-close::before,
 .tagchecklist span a:before,
-#bulk-titles div a:before {
+#bulk-titles div a:before,
+.wp-pointer-buttons a.close:before {
 	background: none;
 	color: #bbb;
 }
 
 #welcome-panel.welcome-panel .welcome-panel-close:hover:before,
 .tagchecklist span a:hover:before,
-#bulk-titles div a:hover:before {
+#bulk-titles div a:hover:before,
+.wp-pointer-buttons a.close:hover:before {
 	color: #c00;
 }
 
@@ -1201,7 +1212,7 @@ table.widefat .spam a:hover,
 }
 
 /* flyout menu arrow */
-#adminmenu li.wp-has-submenu.wp-not-current-submenu:hover:after {
+#adminmenu li.wp-has-submenu.wp-not-current-submenu.opensub:hover:after {
 	border-right-color: #333;
 }
 
@@ -1270,6 +1281,12 @@ table.widefat .spam a:hover,
 	color: #bbb;
 }
 
+#adminmenu .wp-submenu li.current a,
+.folded #adminmenu a.wp-has-current-submenu:focus + .wp-submenu li.current a,
+.folded #adminmenu .wp-has-current-submenu .wp-submenu li.current a {
+	color: #fff;
+}
+
 /* Apply these styles to auto-folded menus */
 @media only screen and (max-width: 900px) {
 	.auto-fold #adminmenu a.wp-has-current-submenu:focus + .wp-submenu a,
@@ -1336,12 +1353,13 @@ table.diff .diff-deletedline del {
 	box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 
-.revisions-diff {
+.revisions-meta,
+.revisions-diff,
+.revisions.pinned .revisions-controls {
 	background-color: #fff;
 	box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 
-/* Diff */
 table.diff .diff-deletedline {
 	background-color: #ffe9e9;
 }
@@ -1358,65 +1376,32 @@ table.diff .diff-addedline ins {
 	background-color: #afa;
 }
 
-#diff-header {
-	border-bottom: 1px solid #ddd;
-}
-
-#diff-slider .ui-slider-tooltip,
-#diff-slider-ticks .ui-slider-tooltip {
+.revisions-tooltip,
+.revisions-tooltip-arrow span {
 	border-color: #d7d7d7;
 	background-color: #fff;
 }
 
-#diff-title-to strong {
-	color: #08a;
+.revisions-tickmarks {
+	background-color: #fff;
 }
 
-.revision-tick.completed-false {
-	background-color: #99c;
-	background-image: url(../images/wpspin_light.gif) no-repeat;
-	background-position: middle;
-	background-size: 1px 10px;
+.revisions-tickmarks > div {
+	border-color: #aaa;
 }
 
-.revision-tick.completed-false {
-	background-image: none;
+.revisions.pinned .revisions-controls {
+	background: #fff;
 }
 
-.revision-tick.scope-of-changes-none {
-	background-color: #d7d7d7;
+.revisions.pinned .revisions-meta {
+	box-shadow: none;
 }
-
-.revision-tick.scope-of-changes-vsmall {
-	background-color: #c3c3c3;
-}
-
-.revision-tick.scope-of-changes-small {
-	background-color: #b0b0b0;
-}
-
-.revision-tick.scope-of-changes-med {
-	background-color: #9c9c9c;
-}
-
-.revision-tick.scope-of-changes-large {
-	background-color: #898989;
-}
-
-.revision-tick.scope-of-changes-vlarge {
-	background-color: #757575;
-}
-
-.diff-label {
-	color: #666;
-}
-
 
 /* jQuery UI Slider */
 
 .wp-slider.ui-slider {
 	border-color: #d7d7d7;
-	background: #fff;
 }
 
 .wp-slider .ui-slider-handle,
@@ -1441,10 +1426,6 @@ table.diff .diff-addedline ins {
 	background: -webkit-linear-gradient(-45deg,  #0074a2 0%,#005684 100%);
 	background: linear-gradient(135deg,  #0074a2 0%,#005684 100%);
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0074a2', endColorstr='#005684',GradientType=1 );
-}
-
-.wp-slider .ui-slider-range {
-	background: #ccc;
 }
 
 /* edit image */
@@ -1659,7 +1640,8 @@ div.widgets-sortables,
 	color: #666;
 }
 
-.deleting .widget-title * {
+.deleting .widget-title,
+.deleting .widget-top a.widget-action:after {
 	color: #aaa;
 }
 
@@ -1681,10 +1663,6 @@ div.widgets-sortables,
 }
 
 /* added from nav-menu.css */
-#menu-management .menu-edit {
-	border-color: #dfdfdf;
-}
-
 #menu-management #post-body {
 	background: #fff;
 	border-top-color: #fff;
@@ -1836,7 +1814,7 @@ div.widgets-sortables,
 
 .nav-tab {
 	color: #0074a2;
-	border-color: #ddd;
+	border-color: #ccc;
 	background: #ddd;
 }
 
@@ -1997,6 +1975,39 @@ h2.nav-tab-wrapper, h3.nav-tab-wrapper {
 	box-shadow: 0 0 0 1px #2ea2cc;
 	background: #0074a2;
 	background-image: none;
+}
+
+/* TinyMCE modal */
+
+.mp6 .clearlooks2 {
+	box-shadow: 0 5px 15px rgba(0,0,0,0.7);
+}
+
+.mp6 .clearlooks2 .mceMiddle span,
+.mp6 .clearlooks2 .mceMiddle .mceLeft,
+.mp6 .clearlooks2 .mceMiddle .mceRight,
+.mp6 .clearlooks2 .mceBottom,
+.mp6 .clearlooks2 .mceBottom .mceLeft,
+.mp6 .clearlooks2 .mceBottom .mceCenter,
+.mp6 .clearlooks2 .mceBottom .mceRight {
+	background-color: #fcfcfc;
+}
+
+.mp6 .clearlooks2 .mceFocus .mceTop .mceLeft,
+.mp6 .clearlooks2 .mceFocus .mceTop .mceRight {
+	background-color: #f3f3f3;
+}
+
+.mp6 .clearlooks2 .mceTop span,
+.mp6 .clearlooks2 .mceFocus .mceTop span {
+	color: #222;
+}
+
+.mp6 .clearlooks2 .mceClose:before {
+	color: #666;
+}
+.mp6 .clearlooks2 .mceClose:hover:before {
+	color: #2ea2cc;
 }
 
 

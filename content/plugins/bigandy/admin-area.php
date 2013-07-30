@@ -110,12 +110,21 @@ function ba_remove_menus() {
 		__( 'Appearance' ),
 		__( 'Profile' ),
 		__( 'Media' ),
-		// __( 'wpcf7' ),
 	);
 	end( $menu );
 	while ( prev( $menu ) ) {
 		$value = explode( ' ', $menu[key( $menu )][0] );
 		if ( in_array( $value[0] != NULL?$value[0]:"" , $restricted ) ) {unset( $menu[key( $menu )] );}
 	}
+
+    remove_menu_page( 'wpseo_dashboard' );
 }
-// add_action( 'admin_menu', 'ba_remove_menus' );
+add_action( 'admin_menu', 'ba_remove_menus' );
+
+/* Remove Contact Form 7 Links from dashboard menu items if not admin */
+
+// function remove_wpcf7() {
+
+// }
+
+// add_action('admin_menu', 'remove_wpcf7');

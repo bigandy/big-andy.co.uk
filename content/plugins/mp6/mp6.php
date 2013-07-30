@@ -3,7 +3,7 @@
 Plugin Name: MP6
 Plugin URI: http://wordpress.org/extend/plugins/mp6/
 Description: This is a plugin to break the wp-admin UI, and is not recommended for non-savvy users.
-Version: 1.8
+Version: 1.9
 Author:
 Author URI: http://wordpress.org
 License: GPLv2 or later
@@ -17,6 +17,12 @@ if ( ( ! defined( 'IFRAME_REQUEST' ) || IFRAME_REQUEST !== true ) && ! isset( $_
 
 // load the sticky admin menu component
 require_once( plugin_dir_path(__FILE__) . 'components/sticky-menu/sticky-menu.php' );
+
+// define color scheme name (in your `wp-config.php`)
+# define( 'MP6_COLOR_SCHEME', 'blue' );
+// load the color schemes component
+# require_once( plugin_dir_path(__FILE__) . 'components/color-schemes/colors.php' );
+
 
 // register Open Sans stylesheet
 add_action( 'init', 'mp6_register_open_sans' );
@@ -67,28 +73,39 @@ function mp6_register_admin_color_scheme() {
 add_action( 'login_init', 'mp6_replace_wp_default_styles' );
 add_action( 'login_init', 'mp6_fix_login_color_scheme' );
 function mp6_fix_login_color_scheme() {
+
 	global $wp_styles;
+
 	$wp_styles->registered[ 'colors-fresh' ]->src = plugins_url( 'css/colors-mp6.css', __FILE__ );
 	$wp_styles->registered[ 'colors-fresh' ]->ver = filemtime( plugin_dir_path( __FILE__ ) . 'css/colors-mp6.css' );
 	$wp_styles->registered[ 'colors-fresh' ]->deps[] = 'open-sans';
 	$wp_styles->registered[ 'colors-fresh' ]->deps[] = 'dashicons';
+
 }
 
 // replace default admin-bar.css with MP6's
 add_action( 'init', 'mp6_replace_admin_bar_style' );
 function mp6_replace_admin_bar_style() {
+
 	global $wp_styles;
+
+	if ( ! isset( $wp_styles->registered[ 'admin-bar' ] ) )
+		return;
+
 	$wp_styles->registered[ 'admin-bar' ]->src = plugins_url( 'css/admin-bar.css', __FILE__ );
 	$wp_styles->registered[ 'admin-bar' ]->ver = filemtime( plugin_dir_path( __FILE__ ) . 'css/admin-bar.css' );
 	$wp_styles->registered[ 'admin-bar' ]->deps[] = 'open-sans';
 	$wp_styles->registered[ 'admin-bar' ]->deps[] = 'dashicons';
 	$wp_styles->registered[ 'admin-bar' ]->extra[ 'suffix' ] = '';
+
 }
 
 // replace some default css files with ours
 add_action( 'admin_init', 'mp6_replace_wp_default_styles' );
 function mp6_replace_wp_default_styles() {
+
 	global $wp_styles;
+
 	$wp_styles->registered[ 'buttons' ]->src = plugins_url( 'css/buttons.css', __FILE__ );
 	$wp_styles->registered[ 'buttons' ]->ver = filemtime( plugin_dir_path( __FILE__ ) . 'css/buttons.css' );
 	$wp_styles->registered[ 'editor-buttons' ]->src = plugins_url( 'css/editor.css', __FILE__ );
@@ -105,6 +122,32 @@ function mp6_replace_wp_default_styles() {
 	$wp_styles->registered[ 'wp-admin' ]->extra[ 'suffix' ] = '';
 	$wp_styles->registered[ 'wp-pointer' ]->src = plugins_url( 'css/wp-pointer.css', __FILE__ );
 	$wp_styles->registered[ 'wp-pointer' ]->ver = filemtime( plugin_dir_path( __FILE__ ) . 'css/wp-pointer.css' );
+
+}
+
+// load our very own dialog.css
+add_filter( 'tiny_mce_before_init', 'mp6_mce_init' );
+function mp6_mce_init( $mce_init ) {
+
+	// make sure we don't override other custom `content_css` files
+	$content_css = plugins_url( 'css/tinymce-dialog.css', __FILE__ );
+	if ( isset( $mce_init[ 'content_css' ] ) )
+		$content_css .= ',' . $mce_init[ 'content_css' ];
+
+	$mce_init[ 'content_css' ] = $content_css;
+	$mce_init[ 'popup_css' ] = plugins_url( 'css/tinymce-dialog.css', __FILE__ );
+
+	return $mce_init;
+
+}
+
+// load our wp-admin.css if it's force printed: `wp_admin_css( 'wp-admin', true );`
+add_filter( 'style_loader_tag', 'mp6_fix_style_tag_href' );
+function mp6_fix_style_tag_href( $handle ) {
+	if ( strpos( $handle, admin_url( '/css/wp-admin.css' ) ) !== false ) {
+		$handle = str_replace( admin_url( '/css/wp-admin.css' ), plugins_url( 'css/wp-admin.css', __FILE__ ), $handle );
+	}
+	return $handle;
 }
 
 // force the MP6 color-scheme setting on to use the new CSS
@@ -113,19 +156,25 @@ function mp6_force_admin_color( $color_scheme ) {
 	return 'mp6';
 }
 
-// Add an MP6 body class to the front-end
+// Add an `mp6` body class to the front-end
 add_filter( 'body_class', 'mp6_add_body_class_frontend' );
 function mp6_add_body_class_frontend( $classes ) {
 	$classes[] = 'mp6';
 	return $classes;
 }
 
-// Add an MP6 body class to the back-end
+// Add body classes to the back-end
 add_filter( 'admin_body_class', 'mp6_add_body_class_backend' );
 function mp6_add_body_class_backend( $classes ) {
+
 	if ( is_multisite() )
 		$classes .= ' multisite';
+
+	if ( is_network_admin() )
+		$classes .= ' network-admin';
+
 	return $classes . ' mp6 ';
+
 }
 
 // override WP's default toolbar top margin
@@ -135,7 +184,6 @@ function mp6_override_toolbar_margin() {
 <style type="text/css" media="screen">
 	html { margin-top: 32px !important; }
 	* html body { margin-top: 32px !important; }
-
 	@media screen and ( max-width: 782px ) {
 		html { margin-top: 46px !important; }
 		* html body { margin-top: 46px !important; }

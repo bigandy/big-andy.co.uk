@@ -16,7 +16,7 @@ FileETag MTime Size
     ExpiresByType text/html M3600
 </IfModule>
 <IfModule mod_headers.c>
-    Header set X-Powered-By "W3 Total Cache/0.9.2.10"
+    Header set X-Powered-By "W3 Total Cache/0.9.2.11"
     Header set Vary "Accept-Encoding, Cookie"
     Header set Pragma "public"
     Header append Cache-Control "public, must-revalidate, proxy-revalidate"

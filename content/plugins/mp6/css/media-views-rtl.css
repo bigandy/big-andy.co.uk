@@ -1,4 +1,4 @@
-/* Last merged revision: 23031 */
+/* Last merged revision: 24533 */
 
 /**
  * Modal
@@ -45,6 +45,10 @@
 
 .media-sidebar .setting {
 	float: right;
+}
+
+.media-sidebar .setting .link-to-custom {
+	direction: ltr;
 }
 
 .media-sidebar .setting span {
@@ -282,6 +286,11 @@
 
 .media-embed .setting {
 	float: right;
+}
+
+.media-frame .embed-url input,
+.media-frame .link-to-custom {
+	direction: ltr;
 }
 
 /**

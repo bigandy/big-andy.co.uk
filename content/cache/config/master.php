@@ -649,7 +649,7 @@ return array(
 	'timelimit.minify_recommendations' => 600,
 	'minify.auto.filename_length' => 150,
 	'minify.auto.disable_filename_length_test' => false,
-	'common.instance_id' => 0,
+	'common.instance_id' => 112181556,
 	'common.force_master' => true,
 	'newrelic.enabled' => false,
 	'newrelic.api_key' => '',

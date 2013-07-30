@@ -123,16 +123,17 @@
 }
 
 .media-modal-close span.media-modal-icon {
-	background: none;
 	display: block;
 	margin: 8px auto 0;
 	width: 15px;
 	height: 15px;
+	background-image: none;
 }
 
 .media-modal-close .media-modal-icon:before {
 	content: '\f158';
-	font: normal 20px/1 'Dashicons';
+	font: normal 20px/1 'dashicons';
+	speak: none;
 	vertical-align: middle;
 	-webkit-font-smoothing: antialiased;
 	color: #666;
@@ -158,7 +159,7 @@
 }
 
 .media-modal-icon {
-	background-image: url('../../../../wp-includes/images/uploader-icons.png');
+	background-image: url('../images/uploader-icons.png');
 	background-repeat: no-repeat;
 }
 
@@ -275,10 +276,11 @@
 	max-width: 65%;
 }
 
-.media-sidebar .setting input[type="checkbox"] {
-	width: auto;
+.media-sidebar .setting input[type="checkbox"],
+.media-sidebar .field input[type="checkbox"] {
+	width: 16px;
 	float: none;
-	margin-top: 8px;
+	margin: 8px 3px 0;
 	padding: 0;
 }
 
@@ -296,6 +298,7 @@
 
 .media-sidebar .setting input,
 .media-sidebar .setting textarea {
+	margin: 1px;
 	width: 65%;
 	float: right;
 }
@@ -350,8 +353,7 @@
 
 .compat-item .field {
 	float: right;
-	width: 65%;
-	padding-right: 1px;
+	width: 66%;
 }
 
 .compat-item .field input {
@@ -1242,13 +1244,13 @@
  */
 
 .media-frame .spinner {
-	background: url('../../../../wp-includes/images/wpspin.gif') no-repeat;
-	background-size: 16px 16px;
+	background: url('../images/spinner.gif') no-repeat;
+	background-size: 20px 20px;
 	display: none;
 	opacity: 0.7;
 	filter: alpha(opacity=70);
-	width: 16px;
-	height: 16px;
+	width: 20px;
+	height: 20px;
 	margin: 0;
 }
 
@@ -1614,6 +1616,10 @@
 	.media-menu .separator {
 		margin: 12px 10px;
 	}
+
+	.media-modal-close {
+		right: 20px;
+	}
 }
 
 @media only screen and (max-width: 800px) {
@@ -1649,12 +1655,13 @@
   (-o-min-device-pixel-ratio: 5/4),
   (-webkit-min-device-pixel-ratio: 1.25),
   (min-resolution: 120dpi) {
+
   	.media-modal-icon {
-  		background-image: url('../../../../wp-includes/images/uploader-icons-2x.png');
+  		background-image: url('../images/uploader-icons-2x.png');
   		background-size: 134px 15px;
   	}
 
   	.media-frame .spinner {
-  		background-image: url('../../../../wp-includes/images/wpspin-2x.gif');
+  		background-image: url('../images/spinner-2x.gif');
   	}
 }

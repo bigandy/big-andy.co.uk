@@ -375,6 +375,10 @@ a.preview {
  * General New Post Form
  * ----------------------------------------------------------------------------
  */
+#post-body-content {
+	min-width: 0;
+}
+
 #titlediv #title {
 	padding: 8px;
 }
@@ -531,20 +535,34 @@ div.quicktags-toolbar input {
 
 #wp-content-editor-tools {
 	padding-top: 20px;
+	padding-right: 15px;
+	overflow: hidden;
 }
 
 a.wp-switch-editor {
 	font-size: 16px;
-	margin: -12px 0 0 5px;
+	line-height: 1em;
+	margin: 3px 0 0 7px;
 	padding: 12px 15px !important;
 }
 
-#wp-content-media-buttons {
-	position: absolute;
-	top: 5px;
-}
 #wp-content-media-buttons a {
-	padding: 10px 15px 12px;
+	font-size: 16px;
+	line-height: 37px;
+	height: 39px;
+	padding: 0 20px 0 15px;
+}
+
+.wp-media-buttons span.wp-media-buttons-icon,
+.wp-media-buttons span.jetpack-contact-form-icon {
+	width: 22px !important;
+	margin-top: -3px !important;
+	margin-left: -5px !important;
+}
+
+.wp-media-buttons .add_media span.wp-media-buttons-icon:before,
+.wp-media-buttons #insert-jetpack-contact-form span.jetpack-contact-form-icon:before {
+	font-size: 20px !important;
 }
 
 #content_wp_fullscreen {
@@ -883,6 +901,8 @@ input[type="number"].small-text,
 
 .media-frame-content {
 	min-height: 300px;
+	max-height: 500px;
+	overflow: auto;
 }
 
 .media-toolbar-primary, .media-toolbar-secondary {
