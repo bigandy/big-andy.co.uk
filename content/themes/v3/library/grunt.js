@@ -3,7 +3,7 @@ module.exports = function(grunt) {
   // Project configuration.
   grunt.initConfig({
     meta: {
-      version: '3.3.0',
+      version: '3.4.0',
       banner: '/* big-andy.co.uk - v<%= meta.version %> - ' +
         '<%= grunt.template.today("yyyy-mm-dd") %>\n' +
         '* http://big-andy.co.uk\n' +
