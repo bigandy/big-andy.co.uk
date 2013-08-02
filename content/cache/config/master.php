@@ -669,6 +669,5 @@ return array(
 	'newrelic.use_network_wide_id' => false,
 	'pgcache.late_init' => false,
 	'newrelic.include_rum' => true,
-	'wordpress.home' => 'http://big-andy.local',
 	'pgcache.bad_behavior_path' => '',
 );
