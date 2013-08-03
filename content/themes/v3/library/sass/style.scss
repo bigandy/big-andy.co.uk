@@ -34,11 +34,11 @@ big-andy.co.uk - v3.4.0 - Stylesheet generated on 2013-07-30
 
 // gallery
 
-@import "gallery";
+// @import "gallery";
 
-@import "thoughts-template";
+// @import "thoughts-template";
 @import "post-format";
-@import "page-home";
+// @import "page-home";
 @import "menu";
 
 
@@ -143,14 +143,14 @@ big-andy.co.uk - v3.4.0 - Stylesheet generated on 2013-07-30
 }
 
 // http://perishablepress.com/wp/wp-content/online/demos/css-wrap-demo.html
-.page-home p {
-	white-space: pre-line;      // CSS 3.0
-	white-space: -pre-wrap;     // Opera 4-6
-	white-space: -o-pre-wrap;   // Opera 7
-	white-space: -moz-pre-wrap; // Mozilla
-	white-space: -hp-pre-wrap;  // HP Printers
-	word-wrap: break-word;      // IE 5+
-}
+// .page-home p {
+// 	white-space: pre-line;      // CSS 3.0
+// 	white-space: -pre-wrap;     // Opera 4-6
+// 	white-space: -o-pre-wrap;   // Opera 7
+// 	white-space: -moz-pre-wrap; // Mozilla
+// 	white-space: -hp-pre-wrap;  // HP Printers
+// 	word-wrap: break-word;      // IE 5+
+// }
 
 // importing plugin code last!
 @import "plugins/cf7";

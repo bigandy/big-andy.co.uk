@@ -10,15 +10,6 @@
 	}
 }
 
-.dark {
-	background:rgba(orange,0.1);
-
-	.nav,
-	.nav a {
-		background:transparent;
-	}
-}
-
 // LAYOUT & GRID STYLES
 .container {
 	position: relative;
@@ -37,7 +28,6 @@ a, a:visited {
 	&:hover, &:focus {
 		color: lighten($bones-black, 19%);
 	}
-
 
 	&:link {
 		-webkit-tap-highlight-color : rgba(0,0,0,0);
@@ -91,7 +81,7 @@ h5, .h5 {
 .nav {
 	border: 1px solid #ccc;
 	border-bottom: 0;
-
+	margin-bottom: 2em;
 
 
 		a {
@@ -101,20 +91,6 @@ h5, .h5 {
 			background-color: #eee;
 			border-bottom: 1px solid #ccc;
 
-
-		ul.sub-menu,
-		ul.children {
-
-			li {
-
-				a {
-					padding-left: 30px;
-				}
-
-			}
-
-		}
-
 	} // end .menu li
 
 
@@ -123,66 +99,43 @@ h5, .h5 {
 
 a.current-menu-item,
 a.current_page_parent {
-		color:$bones-blue;
+		color: $bones-blue;
 }
 
-// POSTS & CONTENT STYLES
 
-// .content {
-// 	margin-top: 2.2em;
-// }
+// post meta
+.meta {
+	color: #999;
+}
 
-		// post meta
-		.meta {
-			color: #999;
-		}
+// post content
+.post-content {
 
-		// post content
-		.post-content {
+	dd {
+		margin-left: 0;
+		font-size: 0.9em;
+		color: #787878;
+		margin-bottom: 1.5em;
+	}
 
-			dd {
-				margin-left: 0;
-				font-size: 0.9em;
-				color: #787878;
-				margin-bottom: 1.5em;
-			}
+	img {
+		margin: 0 0 1.5em 0;
+		max-width: 100%;
+		height: auto;
+	}
 
-			img {
-				margin: 0 0 1.5em 0;
-				max-width: 100%;
-				height: auto;
-			}
+	video, object {
+		max-width: 100%;
+		height: auto;
+	}
 
-			video, object {
-				max-width: 100%;
-				height: auto;
-			}
+	code {
+		background: #eee;
+		border: 1px solid #cecece;
+		padding: 0 2px;
+	}
 
-			code {
-				background: #eee;
-				border: 1px solid #cecece;
-				padding: 0 2px;
-			}
-
-		} // end of .post-content
-
-		.wp-caption {
-			background: #eee;
-			padding: 5px;
-
-			// images inside wp-caption
-			img {
-				margin-bottom: 0;
-				width: 100%;
-			}
-
-			p.wp-caption-text {
-				font-size: 0.85em;
-				margin: 4px 0 7px;
-				text-align: center;
-			}
-
-		} // end .wp-caption
+} // end of .post-content
 
 // PAGE NAVI STYLES
 
