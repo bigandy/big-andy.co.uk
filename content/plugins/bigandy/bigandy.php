@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: bigandy functionality
-Version: 2.0
-Description: Functionality for big-andy.co.uk
+Version: 1.2
+Description: Shortcode for address, plus other stuff
 Author: Andrew Hudson
-Author URI: http://big-andy.co.uk
-Plugin URI: http://big-andy.co.uk
+Author URI: http://andyhudson.me
+Plugin URI: http://andyhudson.me
 */
 
 // Now to be able to turn these on and off!
@@ -29,11 +29,14 @@ function my_first_plugin_remove() {
 }
 
 $ah_plugin_options = array(
+	'output' => 'test',
 	'admin' => 'yes',
 	'security' => 'yes',
 	'shortcodes' => 'no',
 	'menu' => 'yes',
 	'widgets' => 'yes',
+	'footer' => 'yes',
+	'darkLight' => 'light',
 );
 
 add_action( 'admin_menu', 'ah_plugin_admin_menu' );
@@ -59,7 +62,20 @@ function ah_plugin_admin_options_page() {
 
 		<?php wp_nonce_field( 'update-options' ); ?>
 
-	        <fieldset <?php if ( $options['admin'] == "Y" ) echo 'class="is-active"'; ?>>
+	        <fieldset class="no-bg">
+	        	<label for="ahOutput">Google Analytics Code:</label>
+	        	<?php
+
+	$options = get_option( 'ah_plugin_options' );
+	$ah_output = $options['output'];
+
+	echo "<input name='ah_plugin_options[output]' type='text' id='ahOutput' value='{$options['output']}' />";?>
+
+
+	        </fieldset>
+
+
+			<fieldset <?php if ( $options['admin'] == "Y" ) echo 'class="is-active"'; ?>>
 				<label for="adminArea">Admin Area</label>
 				<select name="ah_plugin_options[admin]" id="adminArea">
 	                <option value="Y" <?php selected( $options['admin'], "Y" ); ?> >Yes</option>
@@ -110,6 +126,25 @@ function ah_plugin_admin_options_page() {
 				</select>
 			</fieldset>
 
+			<fieldset <?php if ( $options['footer'] == "Y" ) echo 'class="is-active"'; ?>>
+				<label for="ahFooter">Footer: </label>
+				<select name="ah_plugin_options[footer]" id="ahFooter">
+	                <option value="N" <?php selected( $options['footer'], "N" ); ?> >No</option>
+	                <option value="Y" <?php selected( $options['footer'], "Y" ); ?> >Yes</option>
+				</select>
+			</fieldset>
+
+			<fieldset <?php if ( $options['darkLight'] == "Dark" ) echo 'class="is-active"'; ?>>
+	            <p class="label">Dark/Light: </p>
+
+	            <label for="ahRadioTestOn">Light</label>
+	                <input type="radio" name="ah_plugin_options[darkLight]" id="ahRadioTestOn" value="Light" <?php checked( $options['darkLight'], "Light" ); ?> />
+	            <label for="ahRadioTestOff">Dark</label>
+	                <input type="radio" name="ah_plugin_options[darkLight]" id="ahRadioTestOff" value="Dark" <?php checked( $options['darkLight'], "Dark" ); ?> />
+
+
+	        </fieldset>
+
 			<input type="hidden" name="action" value="update" />
 			<input type="hidden" name="page_options" value="ah_plugin_options" />
 			<input type="submit" value="Save Changes" />
@@ -121,12 +156,15 @@ function ah_plugin_admin_options_page() {
 
 	if ( $options === false ) {
 		$options = array(
+			'output' => 'empty',
 			'admin' => 'N',
 			'security' => 'N',
 			'shortcodes' => 'N',
 			'menu' => 'N',
 			'images' => 'Y',
 			'widgets' => 'N',
+			'footer' => 'N',
+			'darkLight' => 'Light'
 		);
 		update_option( 'ah_plugin_options', $options );
 	}
@@ -138,12 +176,15 @@ function ah_plugin_admin_options_page() {
 		<h2>Results</h2>
 		<?php
 	$ah_options = array(
+		'output',
 		'admin',
 		'shortcodes',
 		'security',
 		'menu',
 		'images',
 		'widgets',
+		'footer',
+		'darkLight'
 	);
 
 	echo "<ul class='bullet'>";
@@ -186,6 +227,27 @@ if ( $options['images'] == "Y" ) {
 }
 if ( $options['widgets'] == "Y" ) {
 	require_once 'ah-widgets.php';
+}
+if ( $options['footer'] == "Y" ) {
+	require_once 'ah-footer.php';
+}
+
+// Add specific CSS class by filter
+add_filter( 'body_class', 'ah_body_class_names' );
+function ah_body_class_names( $classes ) {
+	// add 'class-name' to the $classes array
+
+	$options = get_option( 'ah_plugin_options' );
+
+	if ( $options['darkLight'] == "Dark" ) {
+		$lightDark = "dark";
+	} else {
+		$lightDark = "light";
+	}
+
+	$classes[] = $lightDark;
+	// return the $classes array
+	return $classes;
 }
 
 
