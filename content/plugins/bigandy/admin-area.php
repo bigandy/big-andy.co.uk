@@ -1,19 +1,6 @@
 <?php
 
 if ( $options['admin'] == "Y" ) {
-	// http://www.wprecipes.com/how-to-remove-menus-in-wordpress-dashboard
-	// function ah_remove_menus() {
-	// 	global $menu;
-	// 	$restricted = array( __( 'Users' ), __( 'Comments' ) );
-	// 	end( $menu );
-	// 	while ( prev( $menu ) ) {
-	// 		$value = explode( ' ', $menu[key( $menu )][0] );
-	// 		if ( in_array( $value[0] != NULL?$value[0]:"" , $restricted ) ) {unset( $menu[key( $menu )] );}
-	// 	}
-	// }
-	// add_action( 'admin_menu', 'ah_remove_menus' );
-	// remove comment moderation from admin bar
-	// http://wpmu.org/how-to-add-or-remove-links-from-the-wordpress-3-1-admin-bar/
 	function ah_admin_bar_render() {
 		global $wp_admin_bar;
 		$wp_admin_bar->remove_menu( 'comments' );
@@ -41,6 +28,27 @@ if ( $options['admin'] == "Y" ) {
 	}
 
 	add_action( 'admin_init', 'ah_change_admin_cap' );
+
+	function ba_remove_menus() {
+	global $menu;
+	$restricted = array(
+		__( 'Users' ),
+		__( 'Comments' ),
+		__( 'Pages' ),
+		__( 'Tools' ),
+		__( 'Appearance' ),
+		__( 'Profile' ),
+		__( 'Media' ),
+	);
+	end( $menu );
+	while ( prev( $menu ) ) {
+		$value = explode( ' ', $menu[key( $menu )][0] );
+		if ( in_array( $value[0] != NULL?$value[0]:"" , $restricted ) ) {unset( $menu[key( $menu )] );}
+	}
+
+    remove_menu_page( 'wpseo_dashboard' );
+}
+add_action( 'admin_menu', 'ba_remove_menus' );
 
 } else {
 	function ah_change_admin_cap() {
@@ -100,26 +108,7 @@ add_action('wp_dashboard_setup', 'ba_remove_dashboard_widgets' );
  * Note that this doesn't stop user from going to direct url.
  */
 
-function ba_remove_menus() {
-	global $menu;
-	$restricted = array(
-		__( 'Users' ),
-		__( 'Comments' ),
-		__( 'Pages' ),
-		__( 'Tools' ),
-		__( 'Appearance' ),
-		__( 'Profile' ),
-		__( 'Media' ),
-	);
-	end( $menu );
-	while ( prev( $menu ) ) {
-		$value = explode( ' ', $menu[key( $menu )][0] );
-		if ( in_array( $value[0] != NULL?$value[0]:"" , $restricted ) ) {unset( $menu[key( $menu )] );}
-	}
 
-    remove_menu_page( 'wpseo_dashboard' );
-}
-add_action( 'admin_menu', 'ba_remove_menus' );
 
 /* Remove Contact Form 7 Links from dashboard menu items if not admin */
 
