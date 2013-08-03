@@ -34,13 +34,13 @@
 <body <?php body_class(); ?>>
 
 	<div class="container">
-		<header class="header" role="banner">
+		<header class="header" role="banner" id="triggerContainer">
 
 			<div class="wrap clearfix inner-header">
 
 				<?php if( !is_page_template('page-templates/no-header.php' ) && !is_page_template('page-templates/thoughts.php' ) ) {  ?>
 
-				<p class="logo h1" id="before"><a href="<?php echo home_url(); ?>" rel="nofollow"><?php bloginfo('name'); ?></a></p>
+				<p class="logo h1"><a href="<?php echo home_url(); ?>" rel="nofollow"><?php bloginfo('name'); ?></a></p>
 
 				<nav role="navigation" class="nav top-nav clearfix" id="top-nav">
 					<?php bones_main_nav(); ?>

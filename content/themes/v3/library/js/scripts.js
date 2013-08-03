@@ -1,6 +1,6 @@
 // using JavaScript instead of jQuery. Woot!
 
-var before = document.getElementById('before'),
+var triggerContainer = document.getElementById('triggerContainer'),
 	topNav = document.getElementById('top-nav'),
 	triggerInner = document.createElement('i'),
 	triggerInnerText = document.createTextNode('menu');
@@ -12,7 +12,7 @@ var trigger = document.createElement('a');
 
 
 // console.log(trigger);
-before.appendChild(trigger);
+triggerContainer.appendChild(trigger);
 
 
 function toggle(){

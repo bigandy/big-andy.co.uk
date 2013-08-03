@@ -42,13 +42,14 @@ function ah_name_shortcode( $atts, $content = null ) {
 	extract( shortcode_atts( array(
 				'name' => 'Andrew JD Hudson',
 				'wrapper' => 'span',
-				'link' => ""
+				'link' => '',
+				'class' => ''
 			), $atts ) );
 
 	if ($link !="") {
-		$output = '<'. $wrapper .' class="fn"><a href="'. $link .'">'. $name .'</a></'. $wrapper .'>';
+		$output = '<'. $wrapper .' class="fn '. $class .'"><a href="'. $link .'">'. $name .'</a></'. $wrapper .'>';
 	} else {
-		$output = '<'. $wrapper .' class="fn">'. $name .'</'. $wrapper .'>';
+		$output = '<'. $wrapper .' class="fn '. $class .'">'. $name .'</'. $wrapper .'>';
 	}
 	return $output;
 }

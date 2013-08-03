@@ -3,8 +3,8 @@
 	padding-bottom: 10px;
 	text-align: left;
 	background: transparent;
-	
-	padding:50px 0 30px 300px;
+
+	padding:50px 0 30px 50px;
 	position: absolute;
 	top: -25px;
 	right: 5%;
@@ -15,14 +15,14 @@
 		width: 24px;
 		height: 13px;
 		display: inline-block;
-		text-indent: -999em; 
+		text-indent: -999em;
 	}
 }
 
 
 @media (max-width: 481px) {
-
-	.logo {
+	.logo,
+	h1 {
 		margin: 15px 0;
 		font-size: 30px;
 	}
@@ -35,10 +35,5 @@
 	.js .is-open {
 		display: block;
 	}
-
-	.content {
-		margin: 0;
-	}
-
 }
 
