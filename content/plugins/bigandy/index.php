@@ -35,8 +35,6 @@ $ah_plugin_options = array(
 	'shortcodes' => 'no',
 	'menu' => 'yes',
 	'widgets' => 'yes',
-	'footer' => 'yes',
-	'darkLight' => 'light',
 );
 
 add_action( 'admin_menu', 'ah_plugin_admin_menu' );
@@ -126,25 +124,6 @@ function ah_plugin_admin_options_page() {
 				</select>
 			</fieldset>
 
-			<fieldset <?php if ( $options['footer'] == "Y" ) echo 'class="is-active"'; ?>>
-				<label for="ahFooter">Footer: </label>
-				<select name="ah_plugin_options[footer]" id="ahFooter">
-	                <option value="N" <?php selected( $options['footer'], "N" ); ?> >No</option>
-	                <option value="Y" <?php selected( $options['footer'], "Y" ); ?> >Yes</option>
-				</select>
-			</fieldset>
-
-			<fieldset <?php if ( $options['darkLight'] == "Dark" ) echo 'class="is-active"'; ?>>
-	            <p class="label">Dark/Light: </p>
-
-	            <label for="ahRadioTestOn">Light</label>
-	                <input type="radio" name="ah_plugin_options[darkLight]" id="ahRadioTestOn" value="Light" <?php checked( $options['darkLight'], "Light" ); ?> />
-	            <label for="ahRadioTestOff">Dark</label>
-	                <input type="radio" name="ah_plugin_options[darkLight]" id="ahRadioTestOff" value="Dark" <?php checked( $options['darkLight'], "Dark" ); ?> />
-
-
-	        </fieldset>
-
 			<input type="hidden" name="action" value="update" />
 			<input type="hidden" name="page_options" value="ah_plugin_options" />
 			<input type="submit" value="Save Changes" />
@@ -163,8 +142,6 @@ function ah_plugin_admin_options_page() {
 			'menu' => 'N',
 			'images' => 'Y',
 			'widgets' => 'N',
-			'footer' => 'N',
-			'darkLight' => 'Light'
 		);
 		update_option( 'ah_plugin_options', $options );
 	}
@@ -183,8 +160,6 @@ function ah_plugin_admin_options_page() {
 		'menu',
 		'images',
 		'widgets',
-		'footer',
-		'darkLight'
 	);
 
 	echo "<ul class='bullet'>";
@@ -227,27 +202,6 @@ if ( $options['images'] == "Y" ) {
 }
 if ( $options['widgets'] == "Y" ) {
 	require_once 'ah-widgets.php';
-}
-if ( $options['footer'] == "Y" ) {
-	require_once 'ah-footer.php';
-}
-
-// Add specific CSS class by filter
-add_filter( 'body_class', 'ah_body_class_names' );
-function ah_body_class_names( $classes ) {
-	// add 'class-name' to the $classes array
-
-	$options = get_option( 'ah_plugin_options' );
-
-	if ( $options['darkLight'] == "Dark" ) {
-		$lightDark = "dark";
-	} else {
-		$lightDark = "light";
-	}
-
-	$classes[] = $lightDark;
-	// return the $classes array
-	return $classes;
 }
 
 
