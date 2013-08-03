@@ -11,7 +11,7 @@ var trigger = document.createElement('a');
 	trigger.appendChild(triggerInner);
 
 
-console.log(trigger);
+// console.log(trigger);
 before.appendChild(trigger);
 
 
