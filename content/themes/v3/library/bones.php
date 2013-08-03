@@ -125,7 +125,7 @@ function bones_scripts_and_styles() {
 
     wp_deregister_script('jquery');
    	wp_register_script('jquery', "//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js", true, null, true);
-   	wp_enqueue_script('jquery');
+   	// wp_enqueue_script('jquery');
   }
 }
 

@@ -1,8 +1,24 @@
-// this is for the nav button
-jQuery(document).ready(function($) {
+// using JavaScript instead of jQuery. Woot!
 
-    $('.top-nav').before('<a href="#" class="menu-trigger"><i>Menu</i></a>');
-    $('.menu-trigger').click(function() {
-        $('.top-nav').toggleClass('is-open');
-    });
-});
+var before = document.getElementById('before'),
+	topNav = document.getElementById('top-nav'),
+	triggerInner = document.createElement('i'),
+	triggerInnerText = document.createTextNode('menu');
+	triggerInner.appendChild(triggerInnerText);
+
+var trigger = document.createElement('a');
+	trigger.className = 'menu-trigger';
+	trigger.appendChild(triggerInner);
+
+
+console.log(trigger);
+before.appendChild(trigger);
+
+
+function toggle(){
+	topNav.classList.toggle("is-open");
+}
+
+trigger.addEventListener('click', function() {
+    toggle();
+}, false);

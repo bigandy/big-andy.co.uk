@@ -4,7 +4,7 @@ module.exports = function(grunt) {
     grunt.initConfig({
         meta: {
           name: "big-andy.co.uk",
-          version: '3.3',
+          version: '3.4',
           banner: '/* big-andy.co.uk - v<%= meta.version %> - ' +
             '<%= grunt.template.today("yyyy-mm-dd") %>\n' +
             '* http://big-andy.co.uk\n' +
@@ -120,7 +120,8 @@ module.exports = function(grunt) {
             },
             js: {
                 files: [
-                    '<%= jshint.all %>'
+                    '<%= jshint.all %>',
+                    'js/*'
                 ],
                 tasks: ['jshint', 'uglify']
             }
@@ -142,8 +143,7 @@ module.exports = function(grunt) {
         'compass',
         'uglify',
         'watch',
-        'cssmin',
-
+        'cssmin'
     ]);
 
 };
