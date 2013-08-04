@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
+	<link rel="dns-prefetch" href="//use.typekit.net">
 	<script async defer>
 	  (function() {
 	    var config = {
