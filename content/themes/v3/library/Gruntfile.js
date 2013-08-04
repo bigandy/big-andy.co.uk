@@ -17,6 +17,7 @@ module.exports = function(grunt) {
             'Author: Andrew JD Hudson \n' +
             'Author URI: http://www.big-andy.co.uk \n' +
             'Tags: flexble-width, translation-ready, microformats, rtl-language-support \n' +
+            'Version: <%= meta.version %> \n' +
             'License: WTFPL \n' +
             'License URI: http://sam.zoy.org/wtfpl/ - ' +
             'Are You Serious? Yes. \n' +
