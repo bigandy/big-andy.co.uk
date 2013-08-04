@@ -69,7 +69,7 @@ module.exports = function(grunt) {
                         // 'js/libs/google-analytics.js',
                         // 'js/libs/typekit.js',
                         // 'js/libs/lightbox.js',
-                        'js/scripts.js',
+                        'js/scripts.js'
                     ]
                 }
             }
@@ -77,7 +77,8 @@ module.exports = function(grunt) {
 
         // style (Sass) compilation via Compass
         compass: {
-            dist: {
+
+            compileWithBanner: {
                 options: {
                     sassDir: 'sass',
                     cssDir: '../',
@@ -89,9 +90,21 @@ module.exports = function(grunt) {
                     outputStyle: 'compressed',
                     relativeAssets: true,
                     noLineComments: true,
-                    force: true
+                    force: true,
+                    specify: 'sass/style.scss',
+                    banner: '<%= meta.wpblock %>'
                 }
-            }
+
+                // options: {
+                //   sassDir: 'test/fixtures',
+                //   cssDir: 'tmp4',
+                //   specify: 'test/fixtures/simple.sass',
+                //   banner: '/* <%= pkg.name %> banner */'
+                // }
+              },
+
+
+
         },
 
 
