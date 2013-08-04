@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: bigandy functionality
-Version: 1.2
-Description: Shortcode for address, plus other stuff
+Version: 2.0
+Description: functionality for big-andy.co.uk in a plugin
 Author: Andrew Hudson
-Author URI: http://andyhudson.me
-Plugin URI: http://andyhudson.me
+Author URI: http://big-andy.co.uk
+Plugin URI: http://big-andy.co.uk
 */
 
 // Now to be able to turn these on and off!
@@ -29,7 +29,6 @@ function my_first_plugin_remove() {
 }
 
 $ah_plugin_options = array(
-	'output' => 'test',
 	'admin' => 'yes',
 	'security' => 'yes',
 	'shortcodes' => 'no',
@@ -53,7 +52,11 @@ function ah_plugin_admin_menu() {
 
 function ah_plugin_admin_options_page() {
 
-?>
+
+	$options = get_option( 'ah_plugin_options' );
+	$ah_output = $options['output'];
+
+	?>
 	<div class="wrap">
 		<?php screen_icon(); ?>
 		<h2>Bigandy Plugin Options</h2>
@@ -62,26 +65,12 @@ function ah_plugin_admin_options_page() {
 
 		<?php wp_nonce_field( 'update-options' ); ?>
 
-	        <fieldset class="no-bg">
-	        	<label for="ahOutput">Google Analytics Code:</label>
-	        	<?php
-
-	$options = get_option( 'ah_plugin_options' );
-	$ah_output = $options['output'];
-
-	echo "<input name='ah_plugin_options[output]' type='text' id='ahOutput' value='{$options['output']}' />";?>
-
-
-	        </fieldset>
-
-
 			<fieldset <?php if ( $options['admin'] == "Y" ) echo 'class="is-active"'; ?>>
 				<label for="adminArea">Admin Area</label>
 				<select name="ah_plugin_options[admin]" id="adminArea">
 	                <option value="Y" <?php selected( $options['admin'], "Y" ); ?> >Yes</option>
 	                <option value="N" <?php selected( $options['admin'], "N" ); ?> >No</option>
 	            </select>
-
 			</fieldset>
 
 			<fieldset <?php if ( $options['shortcodes'] == "Y" ) echo 'class="is-active"'; ?>>
@@ -126,28 +115,9 @@ function ah_plugin_admin_options_page() {
 				</select>
 			</fieldset>
 
-			<fieldset <?php if ( $options['footer'] == "Y" ) echo 'class="is-active"'; ?>>
-				<label for="ahFooter">Footer: </label>
-				<select name="ah_plugin_options[footer]" id="ahFooter">
-	                <option value="N" <?php selected( $options['footer'], "N" ); ?> >No</option>
-	                <option value="Y" <?php selected( $options['footer'], "Y" ); ?> >Yes</option>
-				</select>
-			</fieldset>
-
-			<fieldset <?php if ( $options['darkLight'] == "Dark" ) echo 'class="is-active"'; ?>>
-	            <p class="label">Dark/Light: </p>
-
-	            <label for="ahRadioTestOn">Light</label>
-	                <input type="radio" name="ah_plugin_options[darkLight]" id="ahRadioTestOn" value="Light" <?php checked( $options['darkLight'], "Light" ); ?> />
-	            <label for="ahRadioTestOff">Dark</label>
-	                <input type="radio" name="ah_plugin_options[darkLight]" id="ahRadioTestOff" value="Dark" <?php checked( $options['darkLight'], "Dark" ); ?> />
-
-
-	        </fieldset>
-
 			<input type="hidden" name="action" value="update" />
 			<input type="hidden" name="page_options" value="ah_plugin_options" />
-			<input type="submit" value="Save Changes" />
+			<input type="submit" value="Save Changes" class="button" />
 
 			<?php
 
@@ -156,7 +126,6 @@ function ah_plugin_admin_options_page() {
 
 	if ( $options === false ) {
 		$options = array(
-			'output' => 'empty',
 			'admin' => 'N',
 			'security' => 'N',
 			'shortcodes' => 'N',
@@ -176,7 +145,6 @@ function ah_plugin_admin_options_page() {
 		<h2>Results</h2>
 		<?php
 	$ah_options = array(
-		'output',
 		'admin',
 		'shortcodes',
 		'security',
