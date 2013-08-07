@@ -91,7 +91,7 @@ class Super_Custom_Post_Type extends Super_Custom_Post_Meta {
 	 * @author Matthew Boynes
 	 */
 	public function register_post_type( $customizations = array() ) {
-		if ( isset( $customizations['menu_icon'] ) && ( is_array( $customizations['menu_icon'] ) || false === strpos( $customizations['menu_icon'], '.' ) ) ) {
+		if ( isset( $customizations['menu_icon'] ) && false === strpos( $customizations['menu_icon'], '.' ) ) {
 			$this->set_icon( $customizations['menu_icon'] );
 			unset( $customizations['menu_icon'] ); # here we unset it because it will get set properly in the default array
 		}
@@ -100,38 +100,38 @@ class Super_Custom_Post_Type extends Super_Custom_Post_Meta {
 			apply_filters( 'scpt_plugin_default_cpt_options', array(
 				'label' => $this->plural,
 				'labels' => array(
-					'name'               => _x( $this->plural, $this->type ),
-					'singular_name'      => _x( $this->singular, $this->type ),
-					'add_new'            => _x( 'New ' . $this->singular, $this->type ),
-					'add_new_item'       => _x( 'Add New ' . $this->singular, $this->type ),
-					'edit_item'          => _x( 'Edit ' . $this->singular, $this->type ),
-					'new_item'           => _x( 'New ' . $this->singular, $this->type ),
-					'view_item'          => _x( 'View ' . $this->singular, $this->type ),
-					'search_items'       => _x( 'Search ' . $this->plural, $this->type ),
-					'not_found'          => _x( 'No ' . $this->plural . ' found', $this->type ),
+					'name' => _x( $this->plural, $this->type ),
+					'singular_name' => _x( $this->singular, $this->type ),
+					'add_new' => _x( 'New ' . $this->singular, $this->type ),
+					'add_new_item' => _x( 'Add New ' . $this->singular, $this->type ),
+					'edit_item' => _x( 'Edit ' . $this->singular, $this->type ),
+					'new_item' => _x( 'New ' . $this->singular, $this->type ),
+					'view_item' => _x( 'View ' . $this->singular, $this->type ),
+					'search_items' => _x( 'Search ' . $this->plural, $this->type ),
+					'not_found' => _x( 'No ' . $this->plural . ' found', $this->type ),
 					'not_found_in_trash' => _x( 'No ' . $this->plural . ' found in Trash', $this->type ),
-					'parent_item_colon'  => _x( 'Parent ' . $this->singular . ':', $this->type ),
-				),
-				'description'         => $this->plural,
-				'public'              => true,
-				'menu_position'       => 5, # => Below posts
-				'supports'            => array( 'title', 'editor', 'thumbnail', 'revisions', 'excerpt', 'page-attributes' ),
-				'has_archive'         => true,
-				'menu_icon'           => $this->icon ? $this->icon : false,
-				'taxonomies'          => array(),
+					'parent_item_colon' => _x( 'Parent ' . $this->singular . ':', $this->type ),
+					'menu_name' => _x( $this->plural, $this->type ),
+					),
+				'description' => $this->plural,
+				'public' => true,
+				'publicly_queryable' => true,
+				'exclude_from_search' => false,
+				'show_ui' => true,
+				'show_in_menu' => true,
+				'menu_position' => 5, # => Below posts
+				'capability_type' => 'post',
+				'supports' => array( 'title', 'editor', 'thumbnail', 'revisions', 'excerpt', 'page-attributes' ),
+				'has_archive' => true,
+				'show_in_nav_menus' => true,
+				'taxonomies' => array(),
+				'menu_icon' => $this->icon ? sprintf( $this->icon, 16 ) : false,
 				# These are other values mentioned for reference, but WP's defaults are sufficient
-				# 'exclude_from_search' => opposite of 'public'
-				# 'publicly_queryable'  => {value of public},
-				# 'show_ui'             => {value of public},
-				# 'show_in_nav_menus'   => {value of public},
-				# 'show_in_menu'        => {value of show_ui},
-				# 'show_in_admin_bar'   => {value of show_in_menu}
-				# 'capability_type'     => 'post',
-				# 'hierarchical'        => false,
-				# 'rewrite'             => true,
-				# 'query_var'           => true,
-				# 'can_export'          => true,
-			), $this->type ),
+				# 'hierarchical' => false,
+				# 'rewrite' => true,
+				# 'query_var' => true,
+				# 'can_export' => true,
+			) ),
 			$customizations
 		);
 
@@ -148,10 +148,6 @@ class Super_Custom_Post_Type extends Super_Custom_Post_Meta {
 	 */
 	public function connect_taxes( $taxes ) {
 		if ( !is_array( $taxes ) ) $taxes = array( $taxes );
-		foreach ( $taxes as &$tax ) {
-			if ( $tax instanceof Super_Custom_Taxonomy )
-				$tax = $tax->name;
-		}
 		$this->cpt['taxonomies'] = array_merge( $this->cpt['taxonomies'], $taxes );
 	}
 
@@ -164,7 +160,7 @@ class Super_Custom_Post_Type extends Super_Custom_Post_Meta {
 	 * @author Matthew Boynes
 	 */
 	protected function register_cpt_action() {
-		add_action( 'init', array( $this, 'register_cpt' ) );
+		add_action( 'init', array( &$this, 'register_cpt' ) );
 	}
 
 
@@ -181,63 +177,30 @@ class Super_Custom_Post_Type extends Super_Custom_Post_Meta {
 
 
 	/**
-	 * Set an icon given an index and name, e.g. array( 'library' => 'font_awesome', 'name' => 'calendar' )
+	 * Set an icon given an index and name, e.g. 078_warning_sign
 	 *
-	 * @param string|array $name If string, it's assumed to be a part of the library 'font_awesome'
-	 * @return void
+	 * @param string $name
+	 * @return string
 	 * @author Matthew Boynes
 	 */
 	public function set_icon( $name ) {
-		if ( !is_array( $name ) )
-			$name = array( 'library' => 'font_awesome', 'name' => $name );
-
-		if ( isset( $name['library'] ) ) {
-			if ( 'font_awesome' == $name['library'] )
-				require_once SCPT_PLUGIN_DIR . '/includes/class-scpt-font-awesome.php';
-			$this->icon = apply_filters( 'scpt_plugin_icon_' . $name['library'], 'none', $name, $this->type );
+		$this->icon_name = $name;
+		$this->icon = SCPT_PLUGIN_URL . 'images/%d/' . $name . '.png';
+		if ( $this->cpt ) {
+			$this->cpt['menu_icon'] = sprintf( $this->icon, 16 );
 		}
+		add_filter( 'sanitize_html_class', array( &$this, 'post_icon' ), 10, 2 );
+		return $this->icon;
 	}
 
 
-	/**
-	 * Magic Method! Call this to get or set individual arguments for the custom post type. This is a shortcut for calling $object->cpt['argument'].
-	 * For instance:
-	 * 		$slide->hierarchical()       === $slide->cpt['hierarchical']
-	 * 		$slide->hierarchical( true ) === $slide->cpt['hierarchical'] = true;
-	 *
-	 * Furthermore, if you pass multiple arguments to the method, those will be interpreted as an array. For instance:
-	 * 		$slide->supports( 'title', 'editor' ) === $slide->cpt['supports'] = array( 'title', 'editor' )
-	 *
-	 * @param string $name The function call
-	 * @param array $arguments The arguments passed to the function
-	 * @return mixed
-	 */
-	public function __call( $name, $arguments ) {
-		$c = count( $arguments );
-		if ( 0 == $c ) {
-			if ( isset( $this->cpt[ $name ] ) )
-				return $this->cpt[ $name ];
-			switch ( $name ) {
-				case 'exclude_from_search' : return ! $this->cpt['public'];
-				case 'publicly_queryable'  : return $this->cpt['public'];
-				case 'show_ui'             : return $this->cpt['public'];
-				case 'show_in_nav_menus'   : return $this->cpt['public'];
-				case 'show_in_menu'        : return $this->show_ui();
-				case 'show_in_admin_bar'   : return $this->show_in_menu();
-				case 'capability_type'     : return 'post';
-				case 'hierarchical'        : return false;
-				case 'taxonomies'          : return array();
-				case 'rewrite'             : return true;
-				case 'query_var'           : return true;
-				case 'can_export'          : return true;
-			}
-			return null;
-		} elseif ( 1 == $c ) {
-			$this->cpt[ $name ] = $arguments[0];
-		} else {
-			$this->cpt[ $name ] = $arguments;
+	public function post_icon( $sanitized, $class ) {
+		if ( 'icon32-posts-' . $this->type == $class ) {
+			$sanitized .= ' glyphicons_' . $this->icon_name;
 		}
+		return $sanitized;
 	}
+
 
 }
 
