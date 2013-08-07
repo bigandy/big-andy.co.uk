@@ -59,12 +59,18 @@ if ( !function_exists( 'get_scpt_formatted_meta' ) ) {
 		return set_known_scpt_meta( $key, $value[0], $post_id );
 	}
 
-	function get_known_field_info( $key, $post_id ) {
+	function get_known_field_info( $key, $post_id = false ) {
 		global $scpt_known_custom_fields;
-		$post =& get_post( $post_id );
-		if ( !is_array( $scpt_known_custom_fields ) || !isset( $scpt_known_custom_fields[ $post->post_type ] ) || !isset( $scpt_known_custom_fields[ $post->post_type ][ $key ] ) || !$scpt_known_custom_fields[ $post->post_type ][ $key ] )
+		if ( false === $post_id ) {
+			$post_type = get_post_type();
+		} elseif ( intval( $post_id ) ) {
+			$post_type = get_post_type( $post_id );
+		} elseif ( is_string( $post_id ) ) {
+			$post_type = $post_id;
+		}
+		if ( !is_array( $scpt_known_custom_fields ) || !isset( $scpt_known_custom_fields[ $post_type ] ) || !isset( $scpt_known_custom_fields[ $post_type ][ $key ] ) || !$scpt_known_custom_fields[ $post_type ][ $key ] )
 			return false;
-		return $scpt_known_custom_fields[ $post->post_type ][ $key ];
+		return $scpt_known_custom_fields[ $post_type ][ $key ];
 	}
 
 	/**
@@ -109,10 +115,36 @@ if ( !function_exists( 'get_scpt_formatted_meta' ) ) {
 	function get_scpt_meta_fields( $post_type = false ) {
 		global $scpt_known_custom_fields;
 		if ( false == $post_type ) {
-			global $post;
-			$post_type = $post->post_type;
+			$post_type = $GLOBALS['post']->post_type;
 		}
 		return isset( $scpt_known_custom_fields[ $post_type ] ) ? $scpt_known_custom_fields[ $post_type ] : array();
+	}
+
+
+	/**
+	 * Get an array of meta fields for a given post or the current one.
+	 * Thanks to Aaron Holbrook (aaronholbrook)
+	 *
+	 * @param int $post_id Optional. If absent, uses the post ID of the current post
+	 * @param array|string $args Optional. Options are:
+	 * 		'single_only' => the $single param for get_post_meta. All or nothing!
+	 * @return array
+	 */
+	function get_scpt_meta_data( $post_id = false, $args = array() ) {
+		$args = wp_parse_args( $args, array(
+			'single_only' => true
+		) );
+		$meta = array();
+		if ( false == $post_id ) {
+			$post_id = get_the_ID();
+		}
+		if ( $post_id ) {
+			$meta_fields = get_scpt_meta_fields( get_post_type( $post_id ) );
+			foreach ( $meta_fields as $key => $type ) {
+				$meta[ $key ] = get_post_meta( $post_id, $key, $args['single_only'] );
+			}
+		}
+		return $meta;
 	}
 }
 
@@ -129,16 +161,17 @@ if ( !function_exists( 'connect_types_and_taxes' ) ) {
 	 * @author Matthew Boynes
 	 */
 	function connect_types_and_taxes( $types, $taxes ) {
-		if ( !is_array( $types ) ) $types = array( $types );
-		if ( !is_array( $taxes ) ) $taxes = array( $taxes );
-		foreach ( $types as $type ) {
-			foreach ( $taxes as $tax ) {
-				$type->connect_taxes( $tax->name );
-				$tax->connect_post_types( $type->type );
-			}
-		}
+		if ( ! is_array( $types ) )
+			$types = array( $types );
+
+		if ( ! is_array( $taxes ) )
+			$taxes = array( $taxes );
+
+		foreach ( (array) $types as $type )
+			$type->connect_taxes( $taxes );
+
+		foreach ( (array) $taxes as $tax )
+			$tax->connect_post_types( $types );
 	}
 }
 
-
-?>
