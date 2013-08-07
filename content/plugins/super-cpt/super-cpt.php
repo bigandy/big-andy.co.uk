@@ -4,9 +4,9 @@
 	Plugin Name: SuperCPT
 	Plugin URI: http://wordpress.org/extend/plugins/super-cpt/
 	Description: Insanely easy and attractive custom post types, custom post meta, and custom taxonomies
-	Version: 0.1.3
+	Version: 0.2
 	Author: Matthew Boynes, Union Street Media
-	Copyright 2011-2012 Shared and distributed between Matthew Boynes and Union Street Media
+	Copyright 2011-2013 Shared and distributed between Matthew Boynes and Union Street Media
 
 	GNU General Public License, Free Software Foundation <http://creativecommons.org/licenses/GPL/2.0/>
 	This program is free software; you can redistribute it and/or modify
@@ -25,9 +25,9 @@
 */
 
 if ( !defined( 'SCPT_PLUGIN_URL' ) )
-	define( 'SCPT_PLUGIN_URL', plugins_url( 'super-cpt' ) . '/' );
+	define( 'SCPT_PLUGIN_URL', plugins_url( '', __FILE__ ) . '/' );
 if ( !defined( 'SCPT_PLUGIN_DIR' ) )
-	define( 'SCPT_PLUGIN_DIR', dirname( __FILE__ ) );
+	define( 'SCPT_PLUGIN_DIR', __DIR__ );
 
 require_once SCPT_PLUGIN_DIR . '/includes/scpt-helpers.php';
 require_once SCPT_PLUGIN_DIR . '/includes/class-scpt-markup.php';
@@ -48,7 +48,7 @@ class Super_CPT {
 	 */
 	function __construct() {
 		if ( is_admin() )
-			add_action( 'init', array( &$this, 'admin_hooks' ) );
+			add_action( 'init', array( $this, 'admin_hooks' ) );
 	}
 
 	/**
@@ -62,7 +62,7 @@ class Super_CPT {
 		if ( apply_filters( 'scpt_show_admin_menu', true ) )
 			$scpt_admin = new SCPT_Admin;
 
-		add_action( 'admin_enqueue_scripts', array( &$this, 'load_js_and_css' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'load_js_and_css' ) );
 	}
 
 
@@ -73,8 +73,8 @@ class Super_CPT {
 	 * @author Matthew Boynes
 	 */
 	function load_js_and_css() {
-		wp_register_style( 'supercpt.css', SCPT_PLUGIN_URL . 'css/supercpt.css', array(), '1.3' );
-		wp_register_script( 'supercpt.js', SCPT_PLUGIN_URL . 'js/supercpt.js', array( 'jquery', 'jquery-ui-core', 'jquery-ui-datepicker' ), '1.1' );
+		wp_register_style( 'supercpt.css', SCPT_PLUGIN_URL . 'css/supercpt.css', array(), '0.2.0' );
+		wp_register_script( 'supercpt.js', SCPT_PLUGIN_URL . 'js/supercpt.js', array( 'jquery', 'jquery-ui-core' ), '0.2.1' );
 		wp_enqueue_style( 'supercpt.css' );
 	}
 
