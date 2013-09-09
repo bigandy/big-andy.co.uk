@@ -1,4 +1,4 @@
-				<div class="sidebar fourcol last clearfix sidebar1" role="complementary">
+				<div class="sidebar fourcol first clearfix sidebar1" role="complementary">
 
 					<?php if ( is_active_sidebar( 'sidebar1' ) ) : ?>
 
@@ -7,7 +7,7 @@
 					<?php else : ?>
 
 						<!-- This content shows up if there are no widgets defined in the backend. -->
-						
+
 						<div class="alert help">
 							<p>Please activate some Widgets.</p>
 						</div>

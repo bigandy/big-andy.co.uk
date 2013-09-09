@@ -4,7 +4,7 @@
 
 				<div class="wrap clearfix inner-content">
 
-					<div class="eightcol first clearfix main" role="main">
+					<div class="twelvecol first clearfix main" role="main">
 
 						<?php if (have_posts()) : while (have_posts()) : the_post(); ?>
 

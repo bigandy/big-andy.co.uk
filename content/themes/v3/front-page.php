@@ -1,7 +1,7 @@
 <?php get_header(); ?>
 <div class="content">
 	<div class="wrap clearfix inner-content">
-	    <div class="eightcol first clearfix main" role="main">
+	    <div class="twelvecol first clearfix main" role="main">
 	    	<?php
 	    	// hidden post class
 		    $hide_id = 31;
