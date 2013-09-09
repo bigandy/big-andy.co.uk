@@ -42,7 +42,15 @@
 					<p class="logo h1"><a href="<?php echo home_url(); ?>" rel="nofollow"><?php bloginfo('name'); ?></a></p>
 
 					<nav role="navigation" class="nav top-nav clearfix" id="top-nav">
-						<?php bones_main_nav(); ?>
+						<?php
+							wp_nav_menu( array(
+					    	   'container'=> false,
+					    	   'depth' => 0,
+					    	   'items_wrap' => '%3$s',  // hides containing ul
+					    	   'walker' => new ah_description_walker()
+					    	   )
+					        );
+					    ?>
 					</nav>
 				</div> <!-- end .inner-header -->
 			</header> <!-- end header -->

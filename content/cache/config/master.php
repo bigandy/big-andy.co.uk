@@ -321,12 +321,12 @@ return array(
 	'cdn.netdna.alias' => '',
 	'cdn.netdna.consumerkey' => '',
 	'cdn.netdna.consumersecret' => '',
-	'cdn.netdna.authorization_key' => '',
+	'cdn.netdna.authorization_key' => 'bigandy+e9887c839e64757541136886960fcaa4051fa4cec+25d50350c7ae878d67f00619bd3c0b7c',
 	'cdn.netdna.domain' => array(
 		0 => 'cdn.bigandy.netdna-cdn.com',
 	),
 	'cdn.netdna.ssl' => 'auto',
-	'cdn.netdna.zone_id' => 0,
+	'cdn.netdna.zone_id' => 64006,
 	'cdn.maxcdn.authorization_key' => '',
 	'cdn.maxcdn.domain' => array(
 	),
@@ -361,8 +361,10 @@ return array(
 	'cdn.reject.admins' => false,
 	'cdn.reject.logged_roles' => false,
 	'cdn.reject.roles' => array(
+		0 => '',
 	),
 	'cdn.reject.ua' => array(
+		0 => '',
 	),
 	'cdn.reject.uri' => array(
 	),
@@ -621,7 +623,7 @@ return array(
 	'notes.plugins_updated' => false,
 	'notes.cdn_upload' => false,
 	'notes.cdn_reupload' => false,
-	'notes.need_empty_pgcache' => false,
+	'notes.need_empty_pgcache' => true,
 	'notes.need_empty_minify' => false,
 	'notes.need_empty_objectcache' => false,
 	'notes.root_rules' => true,

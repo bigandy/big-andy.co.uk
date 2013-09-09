@@ -10,6 +10,7 @@
 *.sass-cache/
 /content/debug.log
 /content/cache/*
+/content/cache/**/*.php
 
 ## sublime text files
 *.sublime-*

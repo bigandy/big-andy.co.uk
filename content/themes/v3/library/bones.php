@@ -175,25 +175,6 @@ function bones_theme_support() {
 
 
 /*********************
-MENUS & NAVIGATION
-*********************/
-
-// the main menu
-function bones_main_nav() {
-	// display the wp3 menu if available
-
-    	wp_nav_menu( array(
-    	   'container'=> false,
-    	   'depth' => 0,
-    	   'items_wrap' => '%3$s',  // hides containing ul
-    	   'walker' => new description_walker()
-    	   )
-        );
-
-} /* end bones main nav */
-
-
-/*********************
 RELATED POSTS FUNCTION
 *********************/
 
