@@ -1,1 +1,1 @@
-¼uûQ<?php exit; ?>a:1:{s:7:"content";a:4:{s:12:"twentyeleven";s:7:"/themes";s:9:"twentyten";s:7:"/themes";s:12:"twentytwelve";s:7:"/themes";s:2:"v3";s:7:"/themes";}}
+uú-R<?php exit; ?>a:1:{s:7:"content";a:1:{s:2:"v3";s:7:"/themes";}}

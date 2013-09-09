@@ -1,19 +1,19 @@
-=== BackWPup ===
+=== BackWPup Free - WordPress Backup Plugin ===
 Contributors: inpsyde, danielhuesken, Bueltge, nullbyte
-Tags: backup, dump, database, file, ftp, xml, time, upload, multisite, cloud, dropbox, storage, S3
+Tags: Amazon, Amazon S3, back up, backup, chinese, cloud, cloud files, database, db backup, dropbox, dump, file, french, ftp, ftps, german, migrate, multisite, russian, schedule, sftp, storage, S3, time, upload, xml
 Requires at least: 3.2
 Tested up to: 3.5.1
-Stable tag: 3.0.11
+Stable tag: 3.0.13
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-Flexible, scheduled WordPress backups to any location
+Schedule complete automatic backups of your WordPress installation. Decide which content will be stored (Dropbox, S3…). This is the free version
 
 == Description ==
 
-The backup files can be used to save your whole installation including `/wp-content/`
-and push them to an external Backup Service, if you don’t want to save the backups on
-the same server. With the single backup .zip file you are able to restore an installation.
+The **backup plugin** **[BackWPup Free](http://marketpress.com/product/backwpup-pro/)** can be used to save your complete installation including /wp-content/ and push them to an external Backup Service, like **Dropbox**, **S3**, **FTP** and many more, see list below. With a single backup .zip file you are able to easily restore an installation. Please understand: this free version will not be supported as good as the [BackWPup Pro version](http://marketpress.com/product/backwpup-pro/).
+
+BackWPup Free is the number 1 backup-plugin for WordPress with nearly 1.000.000 downloads and in the top 20 of all WordPress Plugins (checked on rankwp.com)
 
 * Database Backup  *(needs mysqli)*
 * WordPress XML Export
@@ -24,27 +24,34 @@ the same server. With the single backup .zip file you are able to restore an ins
 * Backups in zip, tar, tar.gz, tar.bz2 format *(needs gz, bz2, ZipArchive)*
 * Store backup to directory
 * Store backup to FTP server *(needs ftp)*
+* Store backup to Dropbox *(needs curl)*
 * Store backup to S3 services *(needs curl)*
 * Store backup to Microsoft Azure (Blob) *(needs PHP 5.3.2, curl)*
 * Store backup to RackSpaceCloud *(needs PHP 5.3.2, curl)*
-* Store backup to Dropbox *(needs curl)*
 * Store backup to SugarSync *(needs curl)*
 * Send logs and backups by email
 * Multi-site support only as network admin
+* Pro version and support available - [BackWPup Pro](http://marketpress.com/product/backwpup-pro/)
 
-Get the Pro Version: http://marketpress.com/product/backwpup-pro/
+= Available languages =  
+* english (standard)
+* french / français (fr_FR)
+* german / deutsch (de_DE)
+* russian / pоссия (ru_RU)
+* simplified chinese (zh_CN)
 
-**WordPress 3.2 and PHP 5.2.6 required!**
+= Requirements =  
+* WordPress 3.2 and PHP 5.2.6 required!
+* To use the Plugin with full functionality PHP 5.3.3 with mysqli, FTP,gz, bz2,  ZipArchive and curl is needed.
+* Plugin functions that don't work because of your server settings, will not be displayed in admin area.
 
-**To use the Plugin with full functionality PHP 5.3.3 with mysqli, FTP,gz, bz2,  ZipArchive and curl is needed.**
+**Remember: The most expensive backup is the one you never did! And please test your backups!**
 
-**Plugin functions that don't work will be not displayed.**
-
-**Test your Backups!**
+Get the [BackWPup Pro](http://marketpress.com/product/backwpup-pro/) Version with more features on [MarketPress.com](http://marketpress.com/product/backwpup-pro/)
 
 **Made by [Inpsyde](http://inpsyde.com) &middot; We love WordPress**
 
-Have a look at the premium plugins in our [market](http://marketpress.com).
+Have a look at our other premium plugins at [MarketPress.com](http://marketpress.com).
 
 == Frequently Asked Questions ==
 
@@ -81,7 +88,6 @@ Not really a solution, but a way to identify the real problem: see remarks on WP
 = I get this error message: `The HTTP response test get a error "Connection time-out"` =
 
 BackWPup performs a simple HTTP request to the server itself every time you click `run now` or whenever a backup job starts automatically. The HTTP response test message could mean:
-
 * Your host does not allow *loop back connections*. (If you know what `WP_ALTERNATE_CRON` is, try it.)
 * Your WordPress root directory or backup directory requires authetification. Set username and password in Settings->Network.
 * The Server can’t resolve its own hostname.
@@ -118,12 +124,10 @@ Go to Settings->Jobs and try a different option for “Reduce server load”.
 
 
 = Can I cancel a running backup job via FTP? =
-
 Yes. Go to your BackWPup temp directory and find a file named `backwpup-xyz-working.php` where “xyz” is a random string of numbers and characters. Delete that file to cancel the currently running backup job.
 
 
 = Can I move the temp directory to a different location? =
-
 Yes. You need to have writing access to the wp-config.php file (usually residing in the root directory of your WordPress installation). 
 
 * Open wp-config.php and find the line where it says `if ( !defined('ABSPATH') )`. 
@@ -179,6 +183,14 @@ Please check all settings after the update:
 
 
 == Changelog ==
+= Version 3.0.13 =
+* Improved: Redirect when accessing the WordPress backend
+* Added: Debug Informations to Logfile
+* Added Sydney region for rackspace cloud
+* Added London region for rackspace cloud
+* Fixed: Cross-site scripting issue. Thanks to High-Tech Bridge for helping us: https://www.htbridge.com/advisory/HTB23161
+* Fixed: Fatal error when uninstalling on WordPress 3.4.2 and older
+
 = Version 3.0.12 =
 * Fixed: Redirect when accessing the WordPress backend
 * Added: Russian translation

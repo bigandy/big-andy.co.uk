@@ -3,13 +3,19 @@ Contributors: mboynes, unionstreetmedia
 Tags: custom-post-types, custom-post-type, cms, custom-field, custom-fields, meta, custom-taxonomy, custom-taxonomies
 Requires at least: 3.0
 Tested up to: 3.6
-Stable tag: 0.2
+Stable tag: 0.2.1
 Donate Link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=22PRU6U4U78RC
 License: GPLv2 or later
 
 Insanely easy and attractive custom post types, custom post meta, and custom taxonomies
 
 == Description ==
+
+= UPGRADE NOTICE =
+
+SuperCPT now uses Font Awesome instead of Glyphicons. Some icon names will carry over, but not all. If this is a considerable inconvenience for you for a project, simply do not update it. It's not a security release, so updating isn't necessary.
+
+= Overview =
 
 SuperCPT is an object wrapper for Custom Post Types, Custom Taxonomies, and Custom Post Meta "for coders, by coders." Simply put, SuperCPT:
 
@@ -144,6 +150,11 @@ Here is the full demo code:
 
 
 == Changelog ==
+
+= 0.2.1 =
+
+* Improving PHP <5.3 support
+
 
 = 0.2 =
 

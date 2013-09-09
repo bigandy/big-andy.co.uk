@@ -4,7 +4,7 @@
 	Plugin Name: SuperCPT
 	Plugin URI: http://wordpress.org/extend/plugins/super-cpt/
 	Description: Insanely easy and attractive custom post types, custom post meta, and custom taxonomies
-	Version: 0.2
+	Version: 0.2.1
 	Author: Matthew Boynes, Union Street Media
 	Copyright 2011-2013 Shared and distributed between Matthew Boynes and Union Street Media
 
@@ -27,7 +27,7 @@
 if ( !defined( 'SCPT_PLUGIN_URL' ) )
 	define( 'SCPT_PLUGIN_URL', plugins_url( '', __FILE__ ) . '/' );
 if ( !defined( 'SCPT_PLUGIN_DIR' ) )
-	define( 'SCPT_PLUGIN_DIR', __DIR__ );
+	define( 'SCPT_PLUGIN_DIR', dirname( __FILE__ ) );
 
 require_once SCPT_PLUGIN_DIR . '/includes/scpt-helpers.php';
 require_once SCPT_PLUGIN_DIR . '/includes/class-scpt-markup.php';
