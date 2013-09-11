@@ -88,25 +88,27 @@ module.exports = function(grunt) {
                     javascriptsDir: '../js/build',
                     fontsDir: 'fonts',
                     environment: 'production',
-                    outputStyle: 'compressed',
+                    outputStyle: 'expanded',
                     relativeAssets: true,
                     noLineComments: true,
                     force: true,
                     specify: 'sass/style.scss',
                     banner: '<%= meta.wpblock %>'
                 }
+            }
+        },// end compass
 
-                // options: {
-                //   sassDir: 'test/fixtures',
-                //   cssDir: 'tmp4',
-                //   specify: 'test/fixtures/simple.sass',
-                //   banner: '/* <%= pkg.name %> banner */'
-                // }
-              },
-
-
-
-        },
+         sass: {
+            dist: {
+                options: {
+                    'sourcemap': true,
+                    'style': 'compressed'
+                },
+                files: {
+                    'sass/style.scss': '../style.css'
+                }
+            }
+          },
 
 
          cssmin: {
@@ -147,6 +149,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-compass');
+    grunt.loadNpmTasks('grunt-contrib-sass');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
 
@@ -155,6 +158,7 @@ module.exports = function(grunt) {
     grunt.registerTask('default', [
         'jshint',
         'compass',
+        // 'sass',
         'uglify',
         'watch',
         'cssmin'
