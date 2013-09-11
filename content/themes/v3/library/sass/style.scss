@@ -5,141 +5,24 @@
 }
 
 // IMPORTING STYLES
-
-// import normalize
 @import "normalize";
-
-// import mixins
+@import "variables";
 @import "mixins";
 
-// BASE (MOBILE) SIZE
-// This is the average viewing window. So Desktops, Laptops, and
-// in general anyone not viewing on a mobile device. Here's where
-// you can add resource intensive styles.
-
-// styles in base.scss
 @import "base";
-
-// gallery
-
-// @import "gallery";
-
-// @import "thoughts-template";
 @import "post-format";
-// @import "page-home";
 @import "menu";
 
 
-// LARGER MOBILE DEVICES
-// This is for devices like the Galaxy Note or something that's
-// larger than an iPhone but smaller than a tablet. Let's call them
-// tweeners.
-
 @media only screen and (min-width: 481px) {
-
-	// styles in 481up.scss
-	@import "481up";
-
-} // end of media query
-
-// TABLET & SMALLER LAPTOPS
-// This is the average viewing window. So Desktops, Laptops, and
-// in general anyone not viewing on a mobile device. Here's where
-// you can add resource intensive styles.
-
-@media only screen and (min-width: 768px) {
-
-	// styles in 768up.scss
-	@import "768up";
-
-} // end of media query
-
-// PRINT STYLESHEET
-// Feel free to customize this. Remember to add things that won't make
-// sense to print at the bottom. Things like nav, ads, and forms should
-// be set to display none.
-
-@media print {
-	* {
-		background: transparent !important;
-		color: black !important;
-		text-shadow: none !important;
-		filter:none !important;
-		-ms-filter: none !important;
-	}
-
-	a, a:visited {
-		color: #444 !important;
-		text-decoration: underline;
-
-		// show links on printed pages
-		&:after {
-			content: " (" attr(href) ")";
-		}
-
-		// show title too
-		abbr[title]:after {
-			content: " (" attr(title) ")";
-		}
-	}
-
-	.ir a:after,
-	a[href^="javascript:"]:after,
-	a[href^="#"]:after {
-		content: "";
-	}
-
-	pre, blockquote {
-		border: 1px solid #999;
-		page-break-inside: avoid;
-	}
-
-	thead {
-		display: table-header-group;
-	}
-
-	tr, img {
-		page-break-inside: avoid;
-	}
-
-	img {
-		max-width: 100% !important;
-	}
-
-    @page {
-    	margin: 0.5cm;
-    }
-
-    p, h2, h3 {
-    	orphans: 3;
-    	widows: 3;
-    }
-
-    h2,
-    h3 {
-    	page-break-after: avoid;
-    }
-
-    // hide content people who print don't need to see
-    .sidebar,
-    .page-navigation,
-    .wp-prev-next,
-    .respond-form,
-    nav {
-    	display: none;
-    }
+	@import "media-queries/481up";
 }
 
-// http://perishablepress.com/wp/wp-content/online/demos/css-wrap-demo.html
-// .page-home p {
-// 	white-space: pre-line;      // CSS 3.0
-// 	white-space: -pre-wrap;     // Opera 4-6
-// 	white-space: -o-pre-wrap;   // Opera 7
-// 	white-space: -moz-pre-wrap; // Mozilla
-// 	white-space: -hp-pre-wrap;  // HP Printers
-// 	word-wrap: break-word;      // IE 5+
-// }
+@media only screen and (min-width: 768px) {
+	@import "media-queries/768up";
+}
+
+@import "print";
 
 // importing plugin code last!
 @import "plugins/cf7";
-// @import "plugins/lightbox"; // not required at the moment!

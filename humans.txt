@@ -2,13 +2,13 @@
 	Creator: Andrew Hudson
 	Contact: andy [at] big-andy.co.uk
 	Twitter: @bigandy
-	From: Reading, UK
-	
+	From: Didcot, Oxfordshire
+
 /* Site */
 
 	url: http://big-andy.co.uk
 	Doctype:HTML5
-	With: WordPress, HTML5 Boilerplate, SSH, Capistrano, Git, SASS, Aptana Studio 3, Notepad++
-	
+	With: WordPress, HTML5 Boilerplate, SSH, Capistrano, Git, SASS, Sublime Text 3
+
 /* humans.txt */
 	http://humanstxt.org/

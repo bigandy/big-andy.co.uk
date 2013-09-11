@@ -1,5 +1,12 @@
 {
   "name": "big-andy.co.uk",
+  "version": "3.4.0",
+  "description": "personal site for Andrew JD Hudson",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bigandy/big-andy.co.uk"
+  },
+  "author": "Andrew Hudson",
   "dependencies": {
     "grunt": "~0.4.1",
     "grunt-contrib-jshint": "~0.4.3",

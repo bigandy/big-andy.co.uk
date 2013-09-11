@@ -7,10 +7,13 @@
 .DS_Store
 .DS_Store
 .project
+npm-debug.log
 *.sass-cache/
 /content/debug.log
 /content/cache/*
 /content/cache/**/*.php
+content/cache/config/master.php
+/content/cache/config/master.php
 
 ## sublime text files
 *.sublime-*
@@ -25,3 +28,5 @@
 /content/themes/twentyeleven/*
 /content/themes/twentytwelve/*
 /content/themes/twentythirteen/*
+
+content/cache/config/master.php
