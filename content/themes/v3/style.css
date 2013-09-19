@@ -8,7 +8,7 @@ Tags: flexble-width, translation-ready, microformats, rtl-language-support
 Version: 3.4 
 License: WTFPL 
 License URI: http://sam.zoy.org/wtfpl/ - Are You Serious? Yes. 
-big-andy.co.uk - v3.4 - Stylesheet generated on 2013-09-11
+big-andy.co.uk - v3.4 - Stylesheet generated on 2013-09-19
 */ 
 * {
   -moz-box-sizing: border-box;
@@ -460,7 +460,7 @@ h1, .h1 {
 }
 
 h2, .h2 {
-  font-size: 1.75em;
+  font-size: 1.25em;
   line-height: 1.4em;
   margin-bottom: 0.375em;
 }
@@ -496,7 +496,7 @@ h5, .h5 {
 
 a.current-menu-item,
 a.current_page_parent {
-  color: #fb631a;
+  color: #1990db;
 }
 
 .meta {
@@ -810,6 +810,10 @@ ul ol {
   }
   .nav a:hover, .nav a:focus {
     background-color: #dedede;
+  }
+
+  h2, .h2 {
+    font-size: 1.75em;
   }
 
   iframe {
