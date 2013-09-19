@@ -108,7 +108,7 @@ h5, .h5 {
 
 a.current-menu-item,
 a.current_page_parent {
-		color: $bones-blue;
+		color: $orange;
 }
 
 
@@ -435,6 +435,22 @@ ul ol {
 .list-plain {
 	list-style: none;
 	padding-left: 0;
+
+	a {
+		text-decoration: none;
+		display: block;
+
+		&:hover,
+		&:focus {
+			span {
+				color: $orange;
+			}
+		}
+	}
+	span {
+		margin-right: 0.25em;
+	}
+
 }
 
 .list-inline{

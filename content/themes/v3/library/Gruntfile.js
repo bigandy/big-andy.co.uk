@@ -88,7 +88,7 @@ module.exports = function(grunt) {
                     javascriptsDir: '../js/build',
                     fontsDir: 'fonts',
                     environment: 'production',
-                    outputStyle: 'expanded',
+                    outputStyle: 'compressed',
                     relativeAssets: true,
                     noLineComments: true,
                     force: true,
