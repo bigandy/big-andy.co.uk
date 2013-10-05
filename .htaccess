@@ -671,7 +671,7 @@ AddCharset utf-8 .atom .css .js .json .rss .vtt .xml
     <IfModule mod_headers.c>
         Header set Pragma "public"
         Header append Cache-Control "public, must-revalidate, proxy-revalidate"
-         Header set X-Powered-By "W3 Total Cache/0.9.2.11"
+         Header set X-Powered-By "W3 Total Cache/0.9.3"
     </IfModule>
 </FilesMatch>
 <FilesMatch "\.(html|htm|rtf|rtx|svg|svgz|txt|xsd|xsl|xml|HTML|HTM|RTF|RTX|SVG|SVGZ|TXT|XSD|XSL|XML)$">
@@ -679,7 +679,7 @@ AddCharset utf-8 .atom .css .js .json .rss .vtt .xml
     <IfModule mod_headers.c>
         Header set Pragma "public"
         Header append Cache-Control "public, must-revalidate, proxy-revalidate"
-         Header set X-Powered-By "W3 Total Cache/0.9.2.11"
+         Header set X-Powered-By "W3 Total Cache/0.9.3"
     </IfModule>
 </FilesMatch>
 <FilesMatch "\.(asf|asx|wax|wmv|wmx|avi|bmp|class|divx|doc|docx|eot|exe|gif|gz|gzip|ico|jpg|jpeg|jpe|json|mdb|mid|midi|mov|qt|mp3|m4a|mp4|m4v|mpeg|mpg|mpe|mpp|otf|odb|odc|odf|odg|odp|ods|odt|ogg|pdf|png|pot|pps|ppt|pptx|ra|ram|svg|svgz|swf|tar|tif|tiff|ttf|ttc|wav|wma|wri|xla|xls|xlsx|xlt|xlw|zip|ASF|ASX|WAX|WMV|WMX|AVI|BMP|CLASS|DIVX|DOC|DOCX|EOT|EXE|GIF|GZ|GZIP|ICO|JPG|JPEG|JPE|JSON|MDB|MID|MIDI|MOV|QT|MP3|M4A|MP4|M4V|MPEG|MPG|MPE|MPP|OTF|ODB|ODC|ODF|ODG|ODP|ODS|ODT|OGG|PDF|PNG|POT|PPS|PPT|PPTX|RA|RAM|SVG|SVGZ|SWF|TAR|TIF|TIFF|TTF|TTC|WAV|WMA|WRI|XLA|XLS|XLSX|XLT|XLW|ZIP)$">
@@ -687,12 +687,12 @@ AddCharset utf-8 .atom .css .js .json .rss .vtt .xml
     <IfModule mod_headers.c>
         Header set Pragma "public"
         Header append Cache-Control "public, must-revalidate, proxy-revalidate"
-         Header set X-Powered-By "W3 Total Cache/0.9.2.11"
+         Header set X-Powered-By "W3 Total Cache/0.9.3"
     </IfModule>
 </FilesMatch>
 # END W3TC Browser Cache
 # BEGIN W3TC CDN
-<FilesMatch "\.(ttf|otf|eot|woff)$">
+<FilesMatch "\.(ttf|ttc|otf|eot|woff|font.css)$">
 <IfModule mod_headers.c>
     Header set Access-Control-Allow-Origin "*"
 </IfModule>
