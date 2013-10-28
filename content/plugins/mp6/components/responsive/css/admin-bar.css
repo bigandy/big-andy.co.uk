@@ -184,9 +184,20 @@ html #wpadminbar {
 	color: #eee;
 }
 
-/* Hide Jetpack toolbar notes in this view, responsiveness may come in the future */
-#wpadminbar #wp-admin-bar-notes {
+/* Hide all third party items */
+#wp-admin-bar-root-default > li,
+#wp-admin-bar-top-secondary > li {
 	display: none;
+}
+
+#wp-admin-bar-root-default li#wp-admin-bar-wp-logo,
+#wp-admin-bar-root-default li#wp-admin-bar-my-sites,
+#wp-admin-bar-root-default li#wp-admin-bar-site-name,
+#wp-admin-bar-root-default li#wp-admin-bar-new-content,
+#wp-admin-bar-root-default li#wp-admin-bar-comments,
+#wp-admin-bar-root-default li#wp-admin-bar-new-content,
+#wp-admin-bar-top-secondary li#wp-admin-bar-my-account {
+	display: block;
 }
 
 /* Experimental fix for touch toolbar dropdown positioning */

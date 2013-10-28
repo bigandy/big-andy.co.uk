@@ -1,7 +1,7 @@
 <?php
 
 return array(
-	'version' => '0.9.2.11',
+	'version' => '0.9.3',
 	'cluster.messagebus.debug' => false,
 	'cluster.messagebus.enabled' => false,
 	'cluster.messagebus.sns.region' => '',
@@ -620,7 +620,7 @@ return array(
 	'notes.wp_content_perms' => false,
 	'notes.theme_changed' => false,
 	'notes.wp_upgraded' => false,
-	'notes.plugins_updated' => false,
+	'notes.plugins_updated' => true,
 	'notes.cdn_upload' => false,
 	'notes.cdn_reupload' => false,
 	'notes.need_empty_pgcache' => true,
