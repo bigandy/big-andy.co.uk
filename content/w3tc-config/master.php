@@ -251,7 +251,7 @@ return array(
 	'minify.cache.files' => array(
 		0 => 'https://ajax.googleapis.com',
 	),
-	'cdn.enabled' => true,
+	'cdn.enabled' => false,
 	'cdn.debug' => false,
 	'cdn.engine' => 'netdna',
 	'cdn.uploads.enable' => true,
@@ -398,6 +398,7 @@ return array(
 	'varnish.enabled' => false,
 	'varnish.debug' => false,
 	'varnish.servers' => array(
+		0 => '',
 	),
 	'browsercache.enabled' => true,
 	'browsercache.no404wp' => false,
@@ -672,4 +673,5 @@ return array(
 	'pgcache.late_init' => false,
 	'newrelic.include_rum' => true,
 	'plugin.type' => '',
+	'plugin.license_key' => '',
 );
