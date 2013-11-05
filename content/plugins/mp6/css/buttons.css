@@ -126,6 +126,7 @@ TABLE OF CONTENTS:
 
 	-webkit-box-shadow: inset 0 1px 0 #fff, 0 1px 0 rgba(0,0,0,.08);
 	box-shadow: inset 0 1px 0 #fff, 0 1px 0 rgba(0,0,0,.08);
+ 	vertical-align: top;
 }
 
 .wp-core-ui .button.hover,
@@ -156,7 +157,6 @@ TABLE OF CONTENTS:
 	color: #333;
 	-webkit-box-shadow: inset 0 2px 5px -3px rgba( 0, 0, 0, 0.5 );
  	box-shadow: inset 0 2px 5px -3px rgba( 0, 0, 0, 0.5 );
- 	vertical-align: top;
 }
 
 /* this creates an inset effect on the text */

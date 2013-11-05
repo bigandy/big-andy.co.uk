@@ -19,7 +19,7 @@
 
 		init : function() {
 
-			this.adminMenu = $( '#adminmenu' );
+			this.selector = $( '#adminmenu .wp-menu-image, #wpadminbar .ab-item' );
 
 			this.setColors();
 			this.findElements();
@@ -39,7 +39,7 @@
 
 		findElements : function() {
 
-			this.adminMenu.find( '.wp-menu-image' ).each(function() {
+			this.selector.each(function() {
 
 				var bgimg = $(this).css( 'background-image' );
 
