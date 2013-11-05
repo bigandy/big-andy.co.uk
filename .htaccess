@@ -17,6 +17,16 @@
 </IfModule>
 # END W3TC Page Cache core
 
+# BEGIN W3TC CDN
+<FilesMatch "\.(ttf|ttc|otf|eot|woff|font.css)$">
+<IfModule mod_headers.c>
+    Header set Access-Control-Allow-Origin "*"
+</IfModule>
+</FilesMatch>
+# END W3TC CDN
+
+
+
 # BEGIN W3TC Browser Cache
 <IfModule mod_mime.c>
     AddType text/css .css

@@ -671,4 +671,5 @@ return array(
 	'newrelic.use_network_wide_id' => false,
 	'pgcache.late_init' => false,
 	'newrelic.include_rum' => true,
+	'plugin.type' => '',
 );
