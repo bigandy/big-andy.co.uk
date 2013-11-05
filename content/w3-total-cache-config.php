@@ -192,7 +192,7 @@ return array(
 	'minify.error.last' => '',
 	'minify.error.notification' => '',
 	'minify.error.notification.last' => 0,
-	'cdn.enabled' => true,
+	'cdn.enabled' => false,
 	'cdn.debug' => false,
 	'cdn.engine' => 'netdna',
 	'cdn.uploads.enable' => true,
