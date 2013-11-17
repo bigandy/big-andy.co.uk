@@ -12,12 +12,25 @@ div.widget-liquid-left {
 }
 	div.widget-liquid-left div#widgets-left {
 		margin: 0;
+		padding-top: 12px;
 	}
 		div.widget-liquid-left div#widgets-left .sidebar-name {
-			padding-left: 0;
+			padding-left: 15px;
+			margin-right: 10px;
 			border: none;
+			-webkit-box-sizing: border-box;
+			-moz-box-sizing: border-box;
+			box-sizing: border-box;
 		}
-
+			div.widget-liquid-left div#widgets-left .sidebar-name:hover {
+				background: #ddd;
+			}
+		div.widget-liquid-left div#widgets-left .closed .sidebar-name,
+		div.widget-liquid-left div#widgets-left .inactive-sidebar.closed .sidebar-name {
+			background: #ccc;
+			margin-bottom: 10px;
+			border-radius: 0;
+		}
 		div.widget-liquid-left div#widgets-left .sidebar-name h3 {
 			padding: 10px 0;
 			margin: 0 10px 0 0;
@@ -25,17 +38,15 @@ div.widget-liquid-left {
 		div.widget-liquid-left div#widgets-left .sidebar-name:hover h3 {
 			color: #464646;
 		}
-		div.widget-liquid-left div#widgets-left .sidebar-name-arrow {
-			display: none;
-		}
+		div.widget-liquid-left div#widgets-left .sidebar-name-arrow {}
 		div.widget-liquid-left div#widgets-left .description {
 			padding: 0;
-			margin: 0 10px 5px 0;
+			margin: 0 20px 5px 5px;
 		}
 		div.widget-liquid-left div#widgets-left .widget-holder {
 			background: transparent;
 			border: none;
-			padding: 0;
+			padding: 0 10px;
 		}
 
 	div.widget-liquid-left div#widgets-left #available-widgets {
@@ -78,6 +89,7 @@ div.widget-liquid-left {
 			color: #ccc;
 			display: inline-block;
 			-webkit-font-smoothing: antialiased;
+			-moz-osx-font-smoothing: grayscale;
 			font: normal 20px/1 'dashicons';
 			vertical-align: top;
 		}
@@ -356,6 +368,7 @@ div.widget-liquid-right div#widgets-right .widgets-sortables:before {
 	content: '\f111';
 	display: inline-block;
 	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 	font: normal 16px/1 'dashicons';
 	vertical-align: top;
 	position: relative;
@@ -376,5 +389,28 @@ div.widget-liquid-right div#widgets-right .widgets-sortables:before {
 
 	div.widget-liquid-right #widgets-right.single-sidebar div.widgets-holder-wrap {
 		width: 100%;
+	}
+}
+
+@media screen and (max-width: 480px) {
+	div.widget-liquid-left {
+		width: 100%;
+		float: none;
+		border-right: none;
+		padding-right: 0;
+	}
+		div.widget-liquid-left div#widgets-left .sidebar-name {
+			margin-right: 0;
+		}
+		div.widget-liquid-left div#widgets-left #available-widgets #widget-list {}
+		div.widget-liquid-left div#widgets-left #available-widgets .widget-top {
+			margin-right: 0;
+		}
+		div.widget-liquid-left div#widgets-left .inactive-sidebar .widgets-sortables {
+			margin-right: 0;
+		}
+	div.widget-liquid-right {
+		width: 100%;
+		float: none;
 	}
 }
