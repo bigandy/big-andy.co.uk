@@ -9,15 +9,12 @@
 	  })();
 	</script>
 	<link href='http://fonts.googleapis.com/css?family=Bitter:700' rel='stylesheet' type='text/css'>
-	<title><?php
-	/*
-	 * Print the <title> tag based on what is being viewed.
-	 */
-	global $page, $paged;
-
-	wp_title( '-', true, 'right' );
-
-	?></title>
+	<title>
+		<?php
+		global $page, $paged;
+		wp_title( '-', true, 'right' );
+		?>
+	</title>
 	<meta name="robots" content="all" />
 	<meta name="HandheldFriendly" content="True">
 	<meta name="MobileOptimized" content="320">
@@ -26,18 +23,13 @@
 	<link rel="shortcut icon" href="/content/themes/v3/favicon.ico" />
 	<link rel="alternate" type="application/rss+xml" title="bigandy &raquo; Feed" href="/feed/" />
 	<?php wp_head(); ?>
-
 </head>
-
 <body <?php body_class(); ?>>
-
 	<div class="container">
-
 		<?php if( !is_page_template('page-templates/no-header.php' ) && !is_page_template('page-templates/thoughts.php' ) ) {  ?>
 			<header class="header" role="banner" id="triggerContainer">
 				<div class="wrap clearfix inner-header">
 					<p class="logo h1"><a href="<?php echo home_url(); ?>" rel="nofollow"><?php bloginfo('name'); ?></a></p>
-
 					<nav role="navigation" class="nav top-nav clearfix" id="top-nav">
 						<?php
 							wp_nav_menu( array(
@@ -52,5 +44,3 @@
 				</div> <!-- end .inner-header -->
 			</header> <!-- end header -->
 		<?php } ?>
-
-
