@@ -4,10 +4,10 @@
 // [address] using microformats : http://microformats.org/code/hcard/creator
 function ah_address_shortcode( $atts ) {
 	extract( shortcode_atts( array(
-				'street' => '19 Cambridge Street',
-				'town' => 'Reading',
-				'county' => 'Berkshire',
-				'postcode' => 'RG1 7PA',
+				'street' => '40 Hawthorn Place',
+				'town' => 'Didcot',
+				'county' => 'Oxfordshire',
+				'postcode' => 'OX11 6BF',
 			), $atts ) );
 	return '<div class="adr">
   <span class="street-address">'. $street .'</span>,
@@ -40,7 +40,7 @@ add_shortcode( 'email', 'ah_email_shortcode' );
 // [name]
 function ah_name_shortcode( $atts, $content = null ) {
 	extract( shortcode_atts( array(
-				'name' => 'Andrew JD Hudson',
+				'name' => 'Andrew Hudson',
 				'wrapper' => 'span',
 				'link' => '',
 				'class' => ''

@@ -17,7 +17,7 @@ if ( file_exists( dirname( __FILE__ ) . '/local-config.php' ) ) {
 	define( 'DB_HOST', '%%DB_HOST%%' ); // Probably 'localhost'
 }
 
-define( 'WP_STACK_CDN_DOMAIN', 'cdn.bigandy.netdna-cdn.com' );
+// define( 'WP_STACK_CDN_DOMAIN', 'cdn.bigandy.netdna-cdn.com' );
 
 // ========================
 // Custom Content Directory
@@ -48,6 +48,9 @@ define('EMPTY_TRASH_DAYS', 7); // empty weekly
 
 // define size of PHP memory
 define('WP_MEMORY_LIMIT', '64M');
+
+/** Enable W3 Total Cache */
+define('WP_CACHE', true); // Added by W3 Total Cache
 
 // ===========
 // Hide errors

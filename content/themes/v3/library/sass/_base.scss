@@ -7,18 +7,6 @@
 	color: $white;
 }
 
-// GENERAL STYLES
-.wf-loading {
-	p, h1, h2, h3, h4, h5, h6, li, .h1, .h2, .h3 {
-		visibility: hidden;
-	}
-}
-.wf-active {
-	p, h1, h2, h3, h4, h5, h6, li, .h1, .h2, .h3 {
-		visibility: visible;
-	}
-}
-
 // LAYOUT & GRID STYLES
 .container {
 	position: relative;
@@ -47,11 +35,12 @@ body {
 	font-family: "freight-sans-pro-1","freight-sans-pro-2", sans-serif;
 	line-height: 1.5;
 	color: #565656;
-	font-size:18px;
+	font-size: 16px;
 }
 
 h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5 {
-	font-family: "chaparral-pro-1", "chaparral-pro-2", georgia, serif;
+	// font-family: "chaparral-pro-1", "chaparral-pro-2", georgia, serif;
+	font-family: 'Bitter', serif;
 	text-rendering: optimizelegibility;
 	font-weight: 500;
 
