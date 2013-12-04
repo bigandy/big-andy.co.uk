@@ -66,16 +66,12 @@
                 )
 			);
 
-			// ah_dump($non_hide_loop_args);
-
 			$non_hide_loop = new WP_Query( $non_hide_loop_args );
-			// ah_dump($non_hide_loop);
 
 		    if ( $non_hide_loop->have_posts() ) {
 	    		while ( $non_hide_loop->have_posts() ) {
 	    			$non_hide_loop->the_post();
 	    			?>
-
 				    <article <?php post_class('clearfix'); ?> role="article">
 						<?php
 						if( !has_post_format( 'aside' ) ) {
