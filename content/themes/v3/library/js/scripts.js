@@ -22,3 +22,8 @@ function toggle(){
 trigger.addEventListener('click', function() {
     toggle();
 }, false);
+
+// Fast click. Remove 300ms wait after click on mobile
+window.addEventListener('load', function() {
+    FastClick.attach(document.body);
+}, false);
