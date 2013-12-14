@@ -1,0 +1,14 @@
+{
+  "name": "Bigandy-v4",
+  "version": "0.0.1",
+  "dependencies": {
+    "grunt": "*",
+    "grunt-contrib-sass": "*",
+    "grunt-contrib-uglify": "*",
+    "grunt-contrib-watch": "*",
+    "grunt-contrib-jshint": "~0.7.1"
+  },
+  "devDependencies": {
+    "grunt-contrib-jshint": "~0.7.1"
+  }
+}
