@@ -9,6 +9,10 @@
 <body>
 	<header>
 		<div class="header__row content-container">
-			<h1>Andrew Hudson</h1>
+			<h1>
+				<a href="<?php echo home_url(); ?>">
+					Andrew Hudson
+				</a>
+			</h1>
 		</div>
 	</header>

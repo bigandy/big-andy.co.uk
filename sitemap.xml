@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type="text/xsl" href="http://big-andy.local/content/plugins/google-sitemap-generator/sitemap.xsl"?><!-- generator="wordpress/3.9-alpha" -->
 <!-- sitemap-generator-url="http://www.arnebrachhold.de" sitemap-generator-version="3.3" -->
-<!-- generated-on="December 14, 2013 7:47 pm" -->
+<!-- generated-on="December 15, 2013 10:10 am" -->
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">	<url>
 		<loc>http://big-andy.local/</loc>
-		<lastmod>2013-12-04T15:38:58+00:00</lastmod>
+		<lastmod>2013-12-15T10:10:06+00:00</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
+	</url>
+	<url>
+		<loc>http://big-andy.local/blog/starting-v4-of-big-andy-co-uk/</loc>
+		<lastmod>2013-12-15T10:10:06+00:00</lastmod>
+		<changefreq>monthly</changefreq>
+		<priority>0.2</priority>
 	</url>
 	<url>
 		<loc>http://big-andy.local/blog/automation-solution/</loc>
@@ -254,6 +260,12 @@
 		<priority>0.2</priority>
 	</url>
 	<url>
+		<loc>http://big-andy.local/blog/changing-web-hosts/</loc>
+		<lastmod>2012-12-08T21:36:12+00:00</lastmod>
+		<changefreq>monthly</changefreq>
+		<priority>0.2</priority>
+	</url>
+	<url>
 		<loc>http://big-andy.local/blog/cold-feet/</loc>
 		<lastmod>2012-12-08T21:36:12+00:00</lastmod>
 		<changefreq>monthly</changefreq>
@@ -266,25 +278,19 @@
 		<priority>0.2</priority>
 	</url>
 	<url>
-		<loc>http://big-andy.local/blog/changing-web-hosts/</loc>
-		<lastmod>2012-12-08T21:36:12+00:00</lastmod>
-		<changefreq>monthly</changefreq>
-		<priority>0.2</priority>
-	</url>
-	<url>
 		<loc>http://big-andy.local/blog/running-with-ale/</loc>
 		<lastmod>2012-12-08T21:36:12+00:00</lastmod>
 		<changefreq>monthly</changefreq>
 		<priority>0.2</priority>
 	</url>
 	<url>
-		<loc>http://big-andy.local/blog/monday-long-run/</loc>
+		<loc>http://big-andy.local/blog/happy-st-andrews-day/</loc>
 		<lastmod>2012-12-08T21:36:11+00:00</lastmod>
 		<changefreq>monthly</changefreq>
 		<priority>0.2</priority>
 	</url>
 	<url>
-		<loc>http://big-andy.local/blog/happy-st-andrews-day/</loc>
+		<loc>http://big-andy.local/blog/two-girl-kittens/</loc>
 		<lastmod>2012-12-08T21:36:11+00:00</lastmod>
 		<changefreq>monthly</changefreq>
 		<priority>0.2</priority>
@@ -296,7 +302,7 @@
 		<priority>0.2</priority>
 	</url>
 	<url>
-		<loc>http://big-andy.local/blog/two-girl-kittens/</loc>
+		<loc>http://big-andy.local/blog/monday-long-run/</loc>
 		<lastmod>2012-12-08T21:36:11+00:00</lastmod>
 		<changefreq>monthly</changefreq>
 		<priority>0.2</priority>
@@ -344,6 +350,12 @@
 		<priority>0.2</priority>
 	</url>
 	<url>
+		<loc>http://big-andy.local/blog/140-days-reading-half-marathon/</loc>
+		<lastmod>2012-11-07T15:44:23+00:00</lastmod>
+		<changefreq>monthly</changefreq>
+		<priority>0.2</priority>
+	</url>
+	<url>
 		<loc>http://big-andy.local/blog/the-2013-tour-de-france/</loc>
 		<lastmod>2012-11-07T15:44:23+00:00</lastmod>
 		<changefreq>monthly</changefreq>
@@ -357,12 +369,6 @@
 	</url>
 	<url>
 		<loc>http://big-andy.local/blog/javascript-the-good-parts/</loc>
-		<lastmod>2012-11-07T15:44:23+00:00</lastmod>
-		<changefreq>monthly</changefreq>
-		<priority>0.2</priority>
-	</url>
-	<url>
-		<loc>http://big-andy.local/blog/140-days-reading-half-marathon/</loc>
 		<lastmod>2012-11-07T15:44:23+00:00</lastmod>
 		<changefreq>monthly</changefreq>
 		<priority>0.2</priority>
@@ -560,7 +566,13 @@
 		<priority>0.6</priority>
 	</url>
 	<url>
-		<loc>http://big-andy.local/blog/quit-yo-jibba-jabba-its-april-you-fool/</loc>
+		<loc>http://big-andy.local/blog/spring-back-forward/</loc>
+		<lastmod>2012-10-17T09:07:11+00:00</lastmod>
+		<changefreq>monthly</changefreq>
+		<priority>0.2</priority>
+	</url>
+	<url>
+		<loc>http://big-andy.local/blog/ment-to-be-takin-it-ez/</loc>
 		<lastmod>2012-10-17T09:07:11+00:00</lastmod>
 		<changefreq>monthly</changefreq>
 		<priority>0.2</priority>
@@ -584,24 +596,6 @@
 		<priority>0.2</priority>
 	</url>
 	<url>
-		<loc>http://big-andy.local/blog/ment-to-be-takin-it-ez/</loc>
-		<lastmod>2012-10-17T09:07:11+00:00</lastmod>
-		<changefreq>monthly</changefreq>
-		<priority>0.2</priority>
-	</url>
-	<url>
-		<loc>http://big-andy.local/blog/newness/</loc>
-		<lastmod>2012-10-17T09:07:11+00:00</lastmod>
-		<changefreq>monthly</changefreq>
-		<priority>0.2</priority>
-	</url>
-	<url>
-		<loc>http://big-andy.local/blog/snow-its-a-coming/</loc>
-		<lastmod>2012-10-17T09:07:11+00:00</lastmod>
-		<changefreq>monthly</changefreq>
-		<priority>0.2</priority>
-	</url>
-	<url>
 		<loc>http://big-andy.local/blog/football-running/</loc>
 		<lastmod>2012-10-17T09:07:11+00:00</lastmod>
 		<changefreq>monthly</changefreq>
@@ -614,13 +608,25 @@
 		<priority>0.2</priority>
 	</url>
 	<url>
-		<loc>http://big-andy.local/blog/spring-back-forward/</loc>
+		<loc>http://big-andy.local/blog/newness/</loc>
 		<lastmod>2012-10-17T09:07:11+00:00</lastmod>
 		<changefreq>monthly</changefreq>
 		<priority>0.2</priority>
 	</url>
 	<url>
-		<loc>http://big-andy.local/blog/while-everyone-was-doing-the-marathon/</loc>
+		<loc>http://big-andy.local/blog/quit-yo-jibba-jabba-its-april-you-fool/</loc>
+		<lastmod>2012-10-17T09:07:11+00:00</lastmod>
+		<changefreq>monthly</changefreq>
+		<priority>0.2</priority>
+	</url>
+	<url>
+		<loc>http://big-andy.local/blog/snow-its-a-coming/</loc>
+		<lastmod>2012-10-17T09:07:11+00:00</lastmod>
+		<changefreq>monthly</changefreq>
+		<priority>0.2</priority>
+	</url>
+	<url>
+		<loc>http://big-andy.local/blog/not-slow-and-ez/</loc>
 		<lastmod>2012-10-17T09:07:10+00:00</lastmod>
 		<changefreq>monthly</changefreq>
 		<priority>0.2</priority>
@@ -632,25 +638,7 @@
 		<priority>0.2</priority>
 	</url>
 	<url>
-		<loc>http://big-andy.local/blog/not-slow-and-ez/</loc>
-		<lastmod>2012-10-17T09:07:10+00:00</lastmod>
-		<changefreq>monthly</changefreq>
-		<priority>0.2</priority>
-	</url>
-	<url>
-		<loc>http://big-andy.local/blog/four-times-off/</loc>
-		<lastmod>2012-10-17T09:07:10+00:00</lastmod>
-		<changefreq>monthly</changefreq>
-		<priority>0.2</priority>
-	</url>
-	<url>
 		<loc>http://big-andy.local/blog/look-out-10/</loc>
-		<lastmod>2012-10-17T09:07:10+00:00</lastmod>
-		<changefreq>monthly</changefreq>
-		<priority>0.2</priority>
-	</url>
-	<url>
-		<loc>http://big-andy.local/blog/massachre-of-the-smiling-toadstalls/</loc>
 		<lastmod>2012-10-17T09:07:10+00:00</lastmod>
 		<changefreq>monthly</changefreq>
 		<priority>0.2</priority>
@@ -662,19 +650,37 @@
 		<priority>0.2</priority>
 	</url>
 	<url>
+		<loc>http://big-andy.local/blog/massachre-of-the-smiling-toadstalls/</loc>
+		<lastmod>2012-10-17T09:07:10+00:00</lastmod>
+		<changefreq>monthly</changefreq>
+		<priority>0.2</priority>
+	</url>
+	<url>
+		<loc>http://big-andy.local/blog/while-everyone-was-doing-the-marathon/</loc>
+		<lastmod>2012-10-17T09:07:10+00:00</lastmod>
+		<changefreq>monthly</changefreq>
+		<priority>0.2</priority>
+	</url>
+	<url>
+		<loc>http://big-andy.local/blog/four-times-off/</loc>
+		<lastmod>2012-10-17T09:07:10+00:00</lastmod>
+		<changefreq>monthly</changefreq>
+		<priority>0.2</priority>
+	</url>
+	<url>
 		<loc>http://big-andy.local/blog/stinging-eyes-banshee-feet/</loc>
 		<lastmod>2012-10-17T09:07:10+00:00</lastmod>
 		<changefreq>monthly</changefreq>
 		<priority>0.2</priority>
 	</url>
 	<url>
-		<loc>http://big-andy.local/blog/the-other-side/</loc>
+		<loc>http://big-andy.local/blog/not-eht-best/</loc>
 		<lastmod>2012-10-17T09:07:09+00:00</lastmod>
 		<changefreq>monthly</changefreq>
 		<priority>0.2</priority>
 	</url>
 	<url>
-		<loc>http://big-andy.local/blog/not-eht-best/</loc>
+		<loc>http://big-andy.local/blog/the-other-side/</loc>
 		<lastmod>2012-10-17T09:07:09+00:00</lastmod>
 		<changefreq>monthly</changefreq>
 		<priority>0.2</priority>
@@ -716,7 +722,7 @@
 		<priority>0.2</priority>
 	</url>
 	<url>
-		<loc>http://big-andy.local/blog/bloody-marvelous-2/</loc>
+		<loc>http://big-andy.local/blog/running/</loc>
 		<lastmod>2012-10-17T09:06:45+00:00</lastmod>
 		<changefreq>monthly</changefreq>
 		<priority>0.2</priority>
@@ -728,7 +734,7 @@
 		<priority>0.2</priority>
 	</url>
 	<url>
-		<loc>http://big-andy.local/blog/running/</loc>
+		<loc>http://big-andy.local/blog/bloody-marvelous-2/</loc>
 		<lastmod>2012-10-17T09:06:45+00:00</lastmod>
 		<changefreq>monthly</changefreq>
 		<priority>0.2</priority>
