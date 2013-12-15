@@ -6,9 +6,9 @@ module.exports = function (grunt) {
             dist: {
                 options: {
                     sourcemap: true, // [true|false] (needs sass 3.3.0, gem install sass--pre)
-                    style: 'expanded', // [nested|compact|compressed|expanded]
+                    style: 'compressed', // [nested|compact|compressed|expanded]
                     trace: true,
-                    // precision: 8,
+                    precision: 8,
                     // compass: false, // can be true, config.rb should be in the same dir as Gruntfile.js
                     debugInfo: false, // if you're using FireSass Firebug plugin
                     // lineNumbers: true, // attache the line numbers in the generated css
@@ -55,7 +55,7 @@ module.exports = function (grunt) {
         },
         watch: {
             css: {
-                files: 'sass/*.sass',
+                files: ['sass/*.sass', 'sass/plugins/*.sass'],
                 tasks: ['sass'],
                 options: {
                     spawn: true

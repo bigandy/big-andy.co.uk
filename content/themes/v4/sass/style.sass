@@ -1,5 +1,26 @@
-@import "plugins/normalize", "plugins/foundation", "variables", "header", "page", "footer"
-body
-	background-color: #6b5e5e
-	background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScyNCcgaGVpZ2h0PScyNCc+Cgk8ZWxsaXBzZSBjeD0nNTAlJyBjeT0nNTAlJyByeD0nNTAlJyByeT0nNTAlJyBmaWxsLW9wYWNpdHk9JzAnIHN0cm9rZT0nI2ZmMDAwMCcgc3Ryb2tlLW9wYWNpdHk9JzEnIHN0cm9rZS13aWR0aD0nMTAnLz4KPC9zdmc+')
+/*!
+ * Theme Name: Bigandy Zurb
+ * Theme URI: http://zurb.foundation.com
+ * Description: This site was built on top of Zurb Foundation v5
+ * Author: Andrew JD Hudson
+ * Author URI: http://www.big-andy.co.uk
+ * Tags: flexble-width, translation-ready, microformats, rtl-language-support
+ * Version: 4.0
+ */
 
+@import "plugins/normalize", "plugins/foundation", "variables", "header", "page", "footer"
+
+html.logged-in
+	margin-top: 0!important
+
+.logged-in
+	body
+		padding-top: 32px
+
+
+//
+// Media Queries
+//
+
+@media all and (min-width: 600px)
+	@import "media-queries/600"

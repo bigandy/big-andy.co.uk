@@ -1,4 +1,4 @@
-@import ../functions
+@import functions
 
 //
 // Foundation Variables
@@ -176,12 +176,8 @@ $text-direction: ltr !default
 $default-float: left !default
 $opposite-direction: right !default
 
-@if $text-direction == ltr
-  $default-float: left
-  $opposite-direction: right
-@else
-  $default-float: right
-  $opposite-direction: left
+$default-float: left
+$opposite-direction: right
 
 // We use these as default colors throughout
 $primary-color: #008cba !default

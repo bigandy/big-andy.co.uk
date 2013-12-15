@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" <?php if( is_user_logged_in() ) { echo 'class="logged-in"'; } ?>>
 <head>
 	<meta charset="UTF-8">
 	<title><?php wp_title(); ?></title>
@@ -7,7 +7,7 @@
 	<?php wp_head(); ?>
 </head>
 <body>
-	<header class="row">
+	<header>
 		<div class="header__row content-container">
 			<h1>Andrew Hudson</h1>
 		</div>
