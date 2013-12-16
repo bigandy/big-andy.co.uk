@@ -31,6 +31,7 @@ module.exports = function (grunt) {
                         // 'js/vendor/custom.modernizr.js',
                         // 'js/foundation/*.js',
                         'js/plugins/**/*.js',
+                        'js/components/requirejs/require.js',
                         'js/main.js'
                     ]
                 }
@@ -46,9 +47,9 @@ module.exports = function (grunt) {
             options: {
                 jshintrc: '.jshintrc',
                 ignores: [
-                    'js/vendor/custom.modernizr.js',
-                    'js/vendor/chosen.jquery.js',
-                    'js/foundation/*.js',
+                    // 'js/vendor/custom.modernizr.js',
+                    // 'js/vendor/chosen.jquery.js',
+                    // 'js/foundation/*.js',
                     'js/app.min.js'
                 ]
             }
