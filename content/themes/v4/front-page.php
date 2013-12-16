@@ -26,6 +26,17 @@ get_header();
 		}
 		?>
 	</div>
+
+		<div class="flexbox-container">
+
+			<div class="flexbox-inner">1</div>
+			<div class="flexbox-inner">2</div>
+			<div class="flexbox-inner">3</div>
+			<div class="flexbox-inner">4</div>
+			<div class="flexbox-inner">5</div>
+
+
+		</div>
 </main>
 <?php
 get_footer();

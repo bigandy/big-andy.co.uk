@@ -1,0 +1,12 @@
+{
+	"name": "Big-andy-v4",
+	"version": "4.0.1",
+	"main": "index.php",
+	"ignores": [
+		"js/bower-components"
+	],
+	"dependencies": {
+		"jquery": "2.0.3",
+		"requirejs": "2.1.9"
+	}
+}

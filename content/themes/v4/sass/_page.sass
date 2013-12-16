@@ -13,3 +13,16 @@ main,
 footer,
 	@extend .row
 
+.flexbox-container
+	+flexbox()
+	+align-items(center)
+	+flex-just(center)
+	background: $red
+	width: 100%
+	border: 1px solid $black
+	min-height: 400px
+
+
+.flexbox-inner
+
+	+order(1)

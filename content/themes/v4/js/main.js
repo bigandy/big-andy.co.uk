@@ -1,16 +1,24 @@
-// here's the js
+var require;
 
-(function ($) {
-	'use strict';
+require.config({
+	'baseUrl': 'content/themes/v4/js',
+	'paths': {
+		'jQuery': 'bower-components/jQuery/jquery.min',
+	},
+	'shim': {
+		'jQuery': {
+			'exports': 'jQuery'
+		}
+	},
+	waitSeconds: 20
 
-	$(document).ready(function () {
+});
 
-		console.log('this is test. test');
-
-
-
-	});
-
-
-
-}(jQuery));
+require(
+	['jQuery'], function ($) {
+		'use strict';
+		var h1 = $('h1');
+		console.log(h1);
+		console.log('this is awesome');
+	}
+);

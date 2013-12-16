@@ -31,7 +31,7 @@ module.exports = function (grunt) {
                         // 'js/vendor/custom.modernizr.js',
                         // 'js/foundation/*.js',
                         'js/plugins/**/*.js',
-                        'js/components/requirejs/require.js',
+                        // 'js/bower-components/requirejs/require.js',
                         'js/main.js'
                     ]
                 }
@@ -56,7 +56,11 @@ module.exports = function (grunt) {
         },
         watch: {
             css: {
-                files: ['sass/*.sass', 'sass/plugins/*.sass', 'sass/media-queries/*.sass'],
+                files: [
+                    'sass/*.sass',
+                    'sass/plugins/*.sass',
+                    'sass/media-queries/*.sass'
+                ],
                 tasks: ['sass'],
                 options: {
                     spawn: true
@@ -65,6 +69,7 @@ module.exports = function (grunt) {
             js: {
                 files: [
                     'js/plugins/**/*.js',
+                    'js/bower-components/*.js',
                     'js/main.js'
                 ],
 
