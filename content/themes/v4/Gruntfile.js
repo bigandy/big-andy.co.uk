@@ -26,8 +26,8 @@ module.exports = function (grunt) {
         uglify: {
             dist: {
                 files: {
-                    'js/app.min.js': [
-                        'js/vendor/chosen.jquery.js',
+                    'js/build/app.min.js': [
+                        // 'js/vendor/chosen.jquery.js',
                         // 'js/vendor/custom.modernizr.js',
                         // 'js/foundation/*.js',
                         'js/plugins/**/*.js',
@@ -55,7 +55,7 @@ module.exports = function (grunt) {
         },
         watch: {
             css: {
-                files: ['sass/*.sass', 'sass/plugins/*.sass'],
+                files: ['sass/*.sass', 'sass/plugins/*.sass', 'sass/media-queries/*.sass'],
                 tasks: ['sass'],
                 options: {
                     spawn: true
