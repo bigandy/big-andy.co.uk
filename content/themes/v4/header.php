@@ -8,11 +8,18 @@
 </head>
 <body>
 	<header>
-		<div class="header__row content-container">
+		<div class="header__row">
 			<h1>
 				<a href="<?php echo home_url(); ?>">
 					Andrew Hudson
 				</a>
 			</h1>
+			<nav>
+				<a href="">Home</a>
+				<a href="">Blog</a>
+				<a href="">About</a>
+				<a href="">Portfolio</a>
+				<a href="">Contact</a>
+			</nav>
 		</div>
 	</header>

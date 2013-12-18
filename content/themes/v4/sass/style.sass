@@ -8,14 +8,20 @@
  * Version: 4.0
  */
 
-@import "plugins/normalize", "plugins/foundation", "plugins/flexbox-mixin", "variables", "header", "page", "footer"
+@import "variables"
+@import "plugins/normalize"
+@import "plugins/foundation"
+@import "plugins/flexbox-mixin"
+
+// Theme Specific
+@import  "mixins", "header", "page", "footer"
 
 html.logged-in
 	margin-top: 0!important
 
-.logged-in
-	body
-		padding-top: 32px
+// .logged-in
+// 	body
+// 		padding-top: 32px
 
 
 //
