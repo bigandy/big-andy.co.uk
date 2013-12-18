@@ -14,7 +14,10 @@ npm-debug.log
 /content/cache/**/*.php
 content/cache/config/master.php
 /content/cache/config/master.php
-sitemap.*
+
+bower-compenents/*
+bower-components/
+node_modules/
 
 ## sublime text files
 *.sublime-*
