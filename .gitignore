@@ -14,6 +14,8 @@ npm-debug.log
 /content/cache/**/*.php
 content/cache/config/master.php
 /content/cache/config/master.php
+sitemap.*
+
 
 ## sublime text files
 *.sublime-*

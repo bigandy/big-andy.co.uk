@@ -49,8 +49,7 @@ define('EMPTY_TRASH_DAYS', 7); // empty weekly
 // define size of PHP memory
 define('WP_MEMORY_LIMIT', '64M');
 
-/** Enable W3 Total Cache */
-define('WP_CACHE', true); // Added by W3 Total Cache
+
 
 // ===========
 // Hide errors
