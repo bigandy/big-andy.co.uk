@@ -21,7 +21,6 @@ content/cache/config/master.php
 /content/themes/v3/library/stylesheets
 /content/themes/v3/library/stylesheets/*
 /content/themes/v3/library/css/*
-/content/themes/test-theme/src/node_modules
 /content/w3tc/pgcache/*
 /content/w3tc/objectcache/*
 /content/themes/twentyten/*
