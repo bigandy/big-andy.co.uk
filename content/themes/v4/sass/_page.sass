@@ -1,28 +1,46 @@
 body
 	font-family: "Open Sans", sans-serif
+	border-bottom: 10px solid $red
+
 
 
 .content-container
 	@extend .large-12
 	@extend .columns
-	background: $white
-	padding: +rem-calc(20)
 
-header,
+// header,
 main,
 footer,
 	@extend .row
 
 .flexbox-container
 	+flexbox()
-	+align-items(center)
-	+flex-just(center)
-	background: $red
+	+flex-direction(column)
+	// +align-items(row-reverse)
+
 	width: 100%
 	border: 1px solid $black
-	min-height: 400px
 
 
 .flexbox-inner
+	// min-height: 100px
+	background: red
+	margin: 1em
+	padding: 1em
+	// -webkit-flex: 1
+	// flex: 1
+	+flex()
 
-	+order(1)
+	// +align-self(flex-start)
+	// +flex-direction(column)
+
+
+	p
+		padding: 1em
+
+	// &:nth-child(2)
+	// 	+flex(4)
+	// 	+align-self(center)
+
+	// &:nth-child(3)
+	// 	+align-self(flex-end)

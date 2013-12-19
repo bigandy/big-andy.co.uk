@@ -1,4 +1,6 @@
-# Aims of v4
+# Big-andy.co.uk v4
+
+## Aims of v4
 
 Utilise as much new technology as possible :
 * SVG, Flexbox, rems, off-canvas menu, backbone (?), foundation v5
@@ -9,3 +11,5 @@ Blog
 Portfolio
 
 Speed is priority
+
+
