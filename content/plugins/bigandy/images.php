@@ -65,11 +65,11 @@ function gallery_shortcode_ah_new($attr) {
 
 	if ( !empty($include) ) {
 		$_attachments = get_posts( array(
-			'include' => $include, 
-			'post_status' => 'inherit', 
-			'post_type' => 'attachment', 
-			'post_mime_type' => 'image', 
-			'order' => $order, 
+			'include' => $include,
+			'post_status' => 'inherit',
+			'post_type' => 'attachment',
+			'post_mime_type' => 'image',
+			'order' => $order,
 			'orderby' => $orderby
 			) );
 
@@ -79,21 +79,21 @@ function gallery_shortcode_ah_new($attr) {
 		}
 	} elseif ( !empty($exclude) ) {
 		$attachments = get_children( array(
-				'post_parent' => $id, 
-				'exclude' => $exclude, 
-				'post_status' => 'inherit', 
-				'post_type' => 'attachment', 
-				'post_mime_type' => 'image', 
-				'order' => $order, 
+				'post_parent' => $id,
+				'exclude' => $exclude,
+				'post_status' => 'inherit',
+				'post_type' => 'attachment',
+				'post_mime_type' => 'image',
+				'order' => $order,
 				'orderby' => $orderby
 				) );
 	} else {
 		$attachments = get_children( array(
-			'post_parent' => $id, 
-			'post_status' => 'inherit', 
-			'post_type' => 'attachment', 
-			'post_mime_type' => 'image', 
-			'order' => $order, 
+			'post_parent' => $id,
+			'post_status' => 'inherit',
+			'post_type' => 'attachment',
+			'post_mime_type' => 'image',
+			'order' => $order,
 			'orderby' => $orderby
 			) );
 	}
@@ -108,7 +108,7 @@ function gallery_shortcode_ah_new($attr) {
 		return $output;
 	}
 
-	
+
 
 	$itemtag = tag_escape($itemtag);
 	$captiontag = tag_escape($captiontag);
@@ -227,9 +227,19 @@ add_filter( 'edit_comment_link', 'nuke_title_attribute' );
 add_filter( 'the_author_posts_link', 'nuke_title_attribute' );
 add_filter( 'get_archives_link', 'nuke_title_attribute' );
 
-function ah_add_class_attachment_link($html){
-	    $postid = get_the_ID();
-	    $html = str_replace('<a','<a rel="lightbox'. $postid .'"',$html);
-	    return $html;
-	}
-	add_filter('wp_get_attachment_link','ah_add_class_attachment_link',100,1);
+function ah_mime_types( $mimes ){
+	$mimes['svg'] = 'image/svg+xml';
+	$mimes['webp'] = 'image/webp';
+	return $mimes;
+}
+add_filter( 'upload_mimes', 'ah_mime_types' );
+
+function ah_add_class_attachment_link($html) {
+	$postid = get_the_ID();
+	$html = str_replace( '<a','<a rel="lightbox'. $postid .'"', $html );
+	return $html;
+}
+add_filter( 'wp_get_attachment_link', 'ah_add_class_attachment_link', 100, 1 );
+
+
+
