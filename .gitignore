@@ -12,7 +12,10 @@
 ## sublime text files
 *.sublime-*
 
+/content/themes/v3/library/node_modules/
 /content/themes/v3/library/stylesheets
 /content/themes/v3/library/stylesheets/*
 /content/themes/v3/library/css/*
 /content/themes/test-theme/src/node_modules
+/content/cache/
+/content/themes/v3/library/sass/style.scss.map
