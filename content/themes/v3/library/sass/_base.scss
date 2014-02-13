@@ -18,7 +18,7 @@
 	margin: 0 auto;
 }
 
-a, a:visited {
+a {
 	color: $bones-black;
 
 	// on hover
@@ -52,6 +52,12 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5 {
 h1, .h1 {
 	font-size: 2.5em;
 	line-height: 1.333em;
+
+
+}
+
+h1 a {
+	color: $orange;
 }
 
 h2, .h2 {

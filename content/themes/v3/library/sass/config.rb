@@ -18,7 +18,7 @@ output_style = :compact
 relative_assets = true
 # To disable debugging comments that display the original location of your selectors.
 # line_comments = false
-
+sourcemap = true
 
 # 3. You can select your preferred output style here (can be overridden via the command line):
 output_style = :compressed
