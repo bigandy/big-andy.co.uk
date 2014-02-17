@@ -9,7 +9,7 @@
 @import "variables";
 @import "mixins";
 
-@import "base";
+@import "page";
 @import "post-format";
 @import "menu";
 
@@ -25,4 +25,4 @@
 @import "print";
 
 // importing plugin code last!
-@import "plugins/cf7";
+// @import "plugins/cf7";
