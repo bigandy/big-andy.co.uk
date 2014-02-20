@@ -1,11 +1,11 @@
 var require;
 
 require.config({
-	'baseUrl': 'content/themes/v4/',
+	'baseUrl': 'content/themes/v4/bower_components',
 	'paths': {
-		'jQuery': 'bower_components/jQuery/jquery.min',
-		'backbone': 'bower_components/backbone/backbone-min',
-		'underscore': 'bower_components/underscore/underscore-min'
+		'jQuery': 'jQuery/jquery.min',
+		'backbone': 'backbone/backbone-min',
+		'underscore': 'underscore/underscore-min'
 	},
 	'shim': {
 		'jQuery': {
@@ -25,8 +25,8 @@ require.config({
 require(
 	[
 		'jQuery',
-		// 'underscore',
-		// 'backbone'
+		'underscore',
+		'backbone'
 	], function ($) {
 		'use strict';
 		var h1 = $('h1');
