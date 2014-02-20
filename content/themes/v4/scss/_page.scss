@@ -1,6 +1,6 @@
 body {
 	font-family: "Open Sans", sans-serif;
-	border-bottom: 10px solid $red;
+	// border-bottom: 10px solid $red;
 }
 
 .content-container {
@@ -8,26 +8,27 @@ body {
 	@extend .columns;
 }
 
+header,
 main,
 footer {
 	@extend .row;
 }
 
-.flexbox-container {
-	@include flexbox;
-	@include flex-direction(column);
-	width: 100%;
-	border: 1px solid $black;
-}
+// .flexbox-container {
+// 	@include flexbox;
+// 	@include flex-direction(column);
+// 	width: 100%;
+// 	border: 1px solid $black;
+// }
 
 
-.flexbox-inner {
-	background: red;
-	margin: 1em;
-	padding: 1em;
-	@include flex;
+// .flexbox-inner {
+// 	// background: red;
+// 	margin: 1em;
+// 	padding: 1em;
+// 	@include flex;
 
-	p {
-		padding: 1em;
-	}
-}
+// 	p {
+// 		padding: 1em;
+// 	}
+// }

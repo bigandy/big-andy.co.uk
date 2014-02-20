@@ -3,18 +3,19 @@
 
 // Behold, here are all the Foundation components.
 @import
-  "../bower_components/foundation/scss/foundation/components/accordion";
+  // "../bower_components/foundation/scss/foundation/components/accordion",
   // "../bower_components/foundation/scss/foundation/components/alert-boxes",
   // "../bower_components/foundation/scss/foundation/components/block-grid",
   // "../bower_components/foundation/scss/foundation/components/breadcrumbs",
   // "../bower_components/foundation/scss/foundation/components/button-groups",
   // "../bower_components/foundation/scss/foundation/components/buttons",
-  // "../bower_components/foundation/scss/foundation/components/clearing",
+  "../bower_components/foundation/scss/foundation/components/clearing",
   // "../bower_components/foundation/scss/foundation/components/dropdown",
   // "../bower_components/foundation/scss/foundation/components/dropdown-buttons",
   // "../bower_components/foundation/scss/foundation/components/flex-video",
   // "../bower_components/foundation/scss/foundation/components/forms",
-  // "../bower_components/foundation/scss/foundation/components/grid",
+  "../bower_components/foundation/scss/foundation/components/grid",
+  "../bower_components/foundation/scss/foundation/components/type";
   // "../bower_components/foundation/scss/foundation/components/inline-lists",
   // "../bower_components/foundation/scss/foundation/components/joyride",
   // "../bower_components/foundation/scss/foundation/components/keystrokes",
@@ -35,6 +36,6 @@
   // "../bower_components/foundation/scss/foundation/components/thumbs",
   // "../bower_components/foundation/scss/foundation/components/tooltips",
   // "../bower_components/foundation/scss/foundation/components/top-bar",
-  // "../bower_components/foundation/scss/foundation/components/type",
+
   // "../bower_components/foundation/scss/foundation/components/offcanvas",
   // "../bower_components/foundation/scss/foundation/components/visibility";
