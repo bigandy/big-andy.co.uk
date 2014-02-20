@@ -1,3 +1,4 @@
+// https://raw2.github.com/mastastealth/sass-flex-mixin/master/flex.scss
 // Flexbox Mixins
 // http://philipwalton.github.io/solved-by-flexbox/
 // https://github.com/philipwalton/solved-by-flexbox
@@ -57,22 +58,30 @@
 // display: flex | inline-flex
 //
 // http://w3.org/tr/css3-flexbox/#flex-containers
+//
+// (Placeholder selectors for each type, for those who rather @extend)
 
-=flexbox
-  display: -webkit-box
-  display: -webkit-flex
-  display: -moz-flex
-  display: -ms-flexbox
-  display: flex
+@mixin flexbox {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+%flexbox { @include flexbox; }
 
 //----------------------------------
 
-=inline-flex
-  display: -webkit-inline-box
-  display: -webkit-inline-flex
-  display: -moz-inline-flex
-  display: -ms-inline-flexbox
-  display: inline-flex
+@mixin inline-flex {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -moz-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+}
+
+%inline-flex { @include inline-flex; }
 
 //----------------------------------------------------------------------
 
@@ -87,27 +96,27 @@
 //
 // http://w3.org/tr/css3-flexbox/#flex-direction-property
 
-=flex-direction($value: row)
-  @if $value == row-reverse
-    -webkit-box-direction: reverse
-    -webkit-box-orient: horizontal
-  @else if $value == column
-    -webkit-box-direction: normal
-    -webkit-box-orient: vertical
-  @else if $value == column-reverse
-    -webkit-box-direction: reverse
-    -webkit-box-orient: vertical
-  @else
-    -webkit-box-direction: normal
-    -webkit-box-orient: horizontal
-  -webkit-flex-direction: $value
-  -moz-flex-direction: $value
-  -ms-flex-direction: $value
-  flex-direction: $value
-
-// Shorter version:
-=flex-dir($value: false)
-  +flex-direction($value)
+@mixin flex-direction($value: row) {
+  @if $value == row-reverse {
+    -webkit-box-direction: reverse;
+    -webkit-box-orient: horizontal;
+  } @else if $value == column {
+    -webkit-box-direction: normal;
+    -webkit-box-orient: vertical;
+  } @else if $value == column-reverse {
+    -webkit-box-direction: reverse;
+    -webkit-box-orient: vertical;
+  } @else {
+    -webkit-box-direction: normal;
+    -webkit-box-orient: horizontal;
+  }
+  -webkit-flex-direction: $value;
+  -moz-flex-direction: $value;
+  -ms-flex-direction: $value;
+  flex-direction: $value;
+}
+  // Shorter version:
+  @mixin flex-dir($value: false) { @include flex-direction($value); }
 
 //----------------------------------------------------------------------
 
@@ -122,15 +131,17 @@
 //
 // http://w3.org/tr/css3-flexbox/#flex-wrap-property
 
-=flex-wrap($value: nowrap)
+@mixin flex-wrap($value: nowrap) {
   // No Webkit Box fallback.
-  -webkit-flex-wrap: $value
-  -moz-flex-wrap: $value
-  @if $value == nowrap
-    -ms-flex-wrap: none
-  @else
-    -ms-flex-wrap: $value
-  flex-wrap: $value
+  -webkit-flex-wrap: $value;
+  -moz-flex-wrap: $value;
+  @if $value == nowrap {
+    -ms-flex-wrap: none;
+  } @else {
+    -ms-flex-wrap: $value;
+  }
+  flex-wrap: $value;
+}
 
 //----------------------------------------------------------------------
 
@@ -145,12 +156,13 @@
 //
 // http://w3.org/tr/css3-flexbox/#flex-flow-property
 
-=flex-flow($values: row nowrap)
+@mixin flex-flow($values: (row nowrap)) {
   // No Webkit Box fallback.
-  -webkit-flex-flow: $values
-  -moz-flex-flow: $values
-  -ms-flex-flow: $values
-  flex-flow: $values
+  -webkit-flex-flow: $values;
+  -moz-flex-flow: $values;
+  -ms-flex-flow: $values;
+  flex-flow: $values;
+}
 
 //----------------------------------------------------------------------
 
@@ -163,12 +175,13 @@
 //
 // http://w3.org/tr/css3-flexbox/#order-property
 
-=order($int: 0)
-  -webkit-box-ordinal-group: $int + 1
-  -webkit-order: $int
-  -moz-order: $int
-  -ms-flex-order: $int
-  order: $int
+@mixin order($int: 0) {
+  -webkit-box-ordinal-group: $int + 1;
+  -webkit-order: $int;
+  -moz-order: $int;
+  -ms-flex-order: $int;
+  order: $int;
+}
 
 //----------------------------------------------------------------------
 
@@ -181,12 +194,13 @@
 //
 // http://w3.org/tr/css3-flexbox/#flex-grow-property
 
-=flex-grow($int: 0)
-  -webkit-box-flex: $int
-  -webkit-flex-grow: $int
-  -moz-flex-grow: $int
-  -ms-flex-positive: $int
-  flex-grow: $int
+@mixin flex-grow($int: 0) {
+  -webkit-box-flex: $int;
+  -webkit-flex-grow: $int;
+  -moz-flex-grow: $int;
+  -ms-flex-positive: $int;
+  flex-grow: $int;
+}
 
 //----------------------------------------------------------------------
 
@@ -199,11 +213,12 @@
 //
 // http://w3.org/tr/css3-flexbox/#flex-shrink-property
 
-=flex-shrink($int: 1)
-  -webkit-flex-shrink: $int
-  -moz-flex-shrink: $int
-  -ms-flex-negative: $int
-  flex-shrink: $int
+@mixin flex-shrink($int: 1) {
+  -webkit-flex-shrink: $int;
+  -moz-flex-shrink: $int;
+  -ms-flex-negative: $int;
+  flex-shrink: $int;
+}
 
 //----------------------------------------------------------------------
 
@@ -214,13 +229,14 @@
 // Values: Like "width"
 // Default: auto
 //
-// http://w3.org/tr/css3-flexbox/#flex-shrink-property
+// http://www.w3.org/TR/css3-flexbox/#flex-basis-property
 
-=flex-basis($value: auto)
-  -webkit-flex-basis: $value
-  -moz-flex-basis: $value
-  -ms-flex-preferred-size: $value
-  flex-basis: $value
+@mixin flex-basis($value: auto) {
+  -webkit-flex-basis: $value;
+  -moz-flex-basis: $value;
+  -ms-flex-preferred-size: $value;
+  flex-basis: $value;
+}
 
 //----------------------------------------------------------------------
 
@@ -237,13 +253,14 @@
 //
 // http://w3.org/tr/css3-flexbox/#flex-property
 
-=flex($fg: 1, $fs: null, $fb: null)
-  -webkit-box-flex: $fg
-  -webkit-flex: $fg $fs $fb
-  -moz-box-flex: $fg
-  -moz-flex: $fg $fs $fb
-  -ms-flex: $fg $fs $fb
-  flex: $fg $fs $fb
+@mixin flex($fg: 1, $fs: null, $fb: null) {
+  -webkit-box-flex: $fg;
+  -webkit-flex: $fg $fs $fb;
+  -moz-box-flex: $fg;
+  -moz-flex: $fg $fs $fb;
+  -ms-flex: $fg $fs $fb;
+  flex: $fg $fs $fb;
+}
 
 //----------------------------------------------------------------------
 
@@ -263,26 +280,26 @@
 //
 // http://w3.org/tr/css3-flexbox/#justify-content-property
 
-=justify-content($value: flex-start)
-  @if $value == flex-start
-    -webkit-box-pack: start
-    -ms-flex-pack: start
-  @else if $value == flex-end
-    -webkit-box-pack: end
-    -ms-flex-pack: end
-  @else if $value == space-between
-    -webkit-box-pack: justify
-    -ms-flex-pack: justify
-  @else
-    -webkit-box-pack: $value
-    -ms-flex-pack: $value
-  -webkit-justify-content: $value
-  -moz-justify-content: $value
-  justify-content: $value
-
-// Shorter version:
-=flex-just($value: flex-start)
-  +justify-content($value)
+@mixin justify-content($value: flex-start) {
+  @if $value == flex-start {
+    -webkit-box-pack: start;
+    -ms-flex-pack: start;
+  } @else if $value == flex-end {
+    -webkit-box-pack: end;
+    -ms-flex-pack: end;
+  } @else if $value == space-between {
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+  } @else {
+    -webkit-box-pack: $value;
+    -ms-flex-pack: $value;
+  }
+  -webkit-justify-content: $value;
+  -moz-justify-content: $value;
+  justify-content: $value;
+}
+  // Shorter version:
+  @mixin flex-just($value: flex-start) { @include justify-content($value); }
 
 //----------------------------------------------------------------------
 
@@ -301,19 +318,21 @@
 //
 // http://w3.org/tr/css3-flexbox/#align-items-property
 
-=align-items($value: stretch)
-  @if $value == flex-start
-    -webkit-box-align: start
-    -ms-flex-align: start
-  @else if $value == flex-end
-    -webkit-box-align: end
-    -ms-flex-align: end
-  @else
-    -webkit-box-align: $value
-    -ms-flex-align: $value
-  -webkit-align-items: $value
-  -moz-align-items: $value
-  align-items: $value
+@mixin align-items($value: stretch) {
+  @if $value == flex-start {
+    -webkit-box-align: start;
+    -ms-flex-align: start;
+  } @else if $value == flex-end {
+    -webkit-box-align: end;
+    -ms-flex-align: end;
+  } @else {
+    -webkit-box-align: $value;
+    -ms-flex-align: $value;
+  }
+  -webkit-align-items: $value;
+  -moz-align-items: $value;
+  align-items: $value;
+}
 
 //----------------------------------
 
@@ -322,17 +341,19 @@
 // Values: auto | flex-start | flex-end | center | baseline | stretch
 // Default: auto
 
-=align-self($value: auto)
+@mixin align-self($value: auto) {
   // No Webkit Box Fallback.
-  -webkit-align-self: $value
-  -moz-align-self: $value
-  @if $value == flex-start
-    -ms-flex-item-align: start
-  @else if $value == flex-end
-    -ms-flex-item-align: end
-  @else
-    -ms-flex-item-align: $value
-  align-self: $value
+  -webkit-align-self: $value;
+  -moz-align-self: $value;
+  @if $value == flex-start {
+    -ms-flex-item-align: start;
+  } @else if $value == flex-end {
+    -ms-flex-item-align: end;
+  } @else {
+    -ms-flex-item-align: $value;
+  }
+  align-self: $value;
+}
 
 //----------------------------------------------------------------------
 
@@ -348,14 +369,16 @@
 //
 // http://w3.org/tr/css3-flexbox/#align-content-property
 
-=align-content($value: stretch)
+@mixin align-content($value: stretch) {
   // No Webkit Box Fallback.
-  -webkit-align-content: $value
-  -moz-align-content: $value
-  @if $value == flex-start
-    -ms-flex-line-pack: start
-  @else if $value == flex-end
-    -ms-flex-line-pack: end
-  @else
-    -ms-flex-line-pack: $value
-  align-content: $value
+  -webkit-align-content: $value;
+  -moz-align-content: $value;
+  @if $value == flex-start {
+    -ms-flex-line-pack: start;
+  } @else if $value == flex-end {
+    -ms-flex-line-pack: end;
+  } @else {
+    -ms-flex-line-pack: $value;
+  }
+  align-content: $value;
+}

@@ -1,0 +1,30 @@
+.header__row {
+	@include flexbox;
+	@include flex-direction(column);
+}
+header h1 {
+	@include order(2);
+}
+
+nav {
+	@include order(1);
+	background: $red;
+	@include flexbox;
+	@include flex-wrap(wrap);
+
+	a {
+		color: $white;
+		@include fs(14);
+		@include flex;
+		text-align: center;
+		text-transform: uppercase;
+		min-width: 100px;
+		padding: 1rem;
+
+		&:hover,
+		&:focus {
+			color: $white;
+			text-decoration: underline;
+		}
+	}
+}

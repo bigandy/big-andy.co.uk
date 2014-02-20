@@ -1,14 +1,29 @@
 {
   "name": "Bigandy-v4",
   "version": "0.0.1",
+  "description": "v4 of big-andy.co.uk",
+  "main": "main.js",
+  "repository": "git@github.com:bigandy/bigandy.git",
   "dependencies": {
-    "grunt": "*",
-    "grunt-contrib-sass": "*",
-    "grunt-contrib-uglify": "*",
-    "grunt-contrib-watch": "*",
-    "grunt-contrib-jshint": "~0.7.1"
+    "gulp": "~3.5.2",
+    "gulp-concat": "~2.1.7",
+    "gulp-jshint": "~1.4.2",
+    "gulp-livereload": "~1.1.1",
+    "gulp-sass": "~0.7.0",
+    "gulp-uglify": "~0.2.1",
+    "gulp-util": "~2.2.14"
   },
   "devDependencies": {
-    "grunt-contrib-jshint": "~0.7.1"
-  }
+    "gulp-minify-css": "~0.3.0",
+    "gulp-autoprefixer": "0.0.6",
+    "gulp-strip-debug": "~0.1.1",
+    "gulp-livereload": "~1.1.1",
+    "jshint-stylish": "~0.1.5"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Andrew JD Hudson",
+  "twitter": "@bigandy",
+  "license": "ISC"
 }
