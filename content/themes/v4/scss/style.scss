@@ -10,7 +10,8 @@
 
 @import "variables";
 @import "../bower_components/normalize-scss/normalize";
-@import "plugins/foundation";
+// @import "../bower_components/foundation/scss/foundation/settings"; // foundation settings reference point
+@import "plugins/foundation/foundation"; // import foundation or parts of foundation
 @import "plugins/flexbox-mixin";
 
 // Theme Specific
@@ -18,10 +19,6 @@
 @import "header";
 @import "page";
 @import "footer";
-
-html.logged-in {
-	margin-top: 0 !important;
-}
 
 //
 // Media Queries

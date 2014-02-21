@@ -3,6 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<title><?php wp_title(); ?></title>
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
 	<script src="<?php echo get_stylesheet_directory_uri(); ?>/bower_components/requirejs/require.js" data-main="<?php echo get_stylesheet_directory_uri(); ?>/build/js/script.min.js"></script>
 	<?php wp_head(); ?>
 </head>

@@ -1,12 +1,13 @@
-var gulp    = require('gulp'),
-	utils   = require('gulp-util'),
-	uglify  = require('gulp-uglify'),
-	concat  = require('gulp-concat'),
-	jshint  = require('gulp-jshint'),
+/* global require */
+var gulp = require('gulp'),
+	gutil = require('gulp-util'),
+	uglify = require('gulp-uglify'),
+	concat = require('gulp-concat'),
+	jshint = require('gulp-jshint'),
 	stripDebug = require('gulp-strip-debug'),
-	sass    = require('gulp-sass'),
+	sass = require('gulp-sass'),
 	autoprefix = require('gulp-autoprefixer'),
-	// minifyCSS = require('gulp-minify-css'),
+	minifyCSS = require('gulp-minify-css'),
 	livereload = require('gulp-livereload'),
 	stylish = require('jshint-stylish');
 
@@ -16,18 +17,26 @@ gulp.task('js', function () {
 			'js/plugins.js',
 			'js/main.js',
 		])
-		.pipe(jshint('.jshint'))
-		.pipe(jshint.reporter(stylish))
-		.pipe(stripDebug())
+		.pipe(gutil.env.type === 'production' ? stripDebug() : gutil.noop())
 		.pipe(uglify())
 		.pipe(concat('script.min.js'))
 		.pipe(gulp.dest('build/js'));
+});
+
+gulp.task('lint', function() {
+  gulp.src([
+			'js/plugins.js',
+			'js/main.js',
+		])
+		.pipe(jshint('.jshint'))
+		.pipe(jshint.reporter(stylish));
 });
 
 // sass
 gulp.task('sass', function () {
     gulp.src('scss/*.scss')
 		.pipe(sass({
+			errLogToConsole: true,
 			outputStyle: 'compressed',
 			sourceComments: 'map'
 		}))
@@ -38,7 +47,7 @@ gulp.task('sass', function () {
 
 gulp.task('livereload', function () {
 	gulp.src([
-		'build/**', '*.html'
+		'style.css', 'build/**', '*.php'
 	])
 	.pipe(livereload()
 	);
@@ -57,3 +66,4 @@ gulp.task('watch', function () {
 
 // The default task (called when you run `gulp` from cli)
 gulp.task('default', ['js', 'sass', 'watch', 'livereload']);
+gulp.task('production', ['js', 'sass']);
