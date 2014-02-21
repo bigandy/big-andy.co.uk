@@ -173,7 +173,6 @@ $options = get_option( 'ah_plugin_options' );
 // include sub pages
 require_once 'init-styles.php';
 require_once 'admin-area.php';
-require_once 'cpts.php';
 require_once 'content.php';
 require_once 'misc.php';
 require_once 'metabox.php';
@@ -219,10 +218,10 @@ function ah_body_class_names( $classes ) {
 }
 
 
-// remove contact form 7 JS and CSS
-define('WPCF7_LOAD_CSS', false);
-define('WPCF7_LOAD_JS', false);
+// // remove contact form 7 JS and CSS
+// define('WPCF7_LOAD_CSS', false);
+// define('WPCF7_LOAD_JS', false);
 
-/** Allow only admins to see contact form 7 settings in admin panel */
-define( 'WPCF7_ADMIN_READ_CAPABILITY', false );
-define( 'WPCF7_ADMIN_READ_WRITE_CAPABILITY', false );
+// * Allow only admins to see contact form 7 settings in admin panel
+// define( 'WPCF7_ADMIN_READ_CAPABILITY', false );
+// define( 'WPCF7_ADMIN_READ_WRITE_CAPABILITY', false );
