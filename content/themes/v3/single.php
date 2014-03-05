@@ -16,7 +16,7 @@
 											<time datetime="<?php echo the_time('Y-m-j'); ?>" pubdate>
 												<?php the_time('F jS, Y'); ?>
 											</time>
-											by <a href="<?php bloginfo( 'url' ); ?>/blog/author/andrew-hudson/">
+											by <a href="<?php echo home_url(); ?>/author/andrew-hudson/">
 												Andrew</a>
 											<span class="amp">&amp;</span> filed under <?php the_category(', '); ?>.</p>
 									</header>
