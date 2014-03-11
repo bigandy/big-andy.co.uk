@@ -18,7 +18,7 @@
 	<meta name="robots" content="all" />
 	<meta name="HandheldFriendly" content="True">
 	<meta name="MobileOptimized" content="320">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimal-ui"/>
 	<link rel='stylesheet' href='/content/themes/v3/style.css' />
 	<link rel="shortcut icon" href="/content/themes/v3/favicon.ico" />
 	<link rel="alternate" type="application/rss+xml" title="bigandy &raquo; Feed" href="/feed/" />

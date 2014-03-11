@@ -33,3 +33,6 @@ node_modules/
 /content/themes/twentythirteen/*
 
 content/cache/config/master.php
+
+
+/content/themes/v4/bower_components
