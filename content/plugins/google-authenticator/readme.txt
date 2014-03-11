@@ -2,9 +2,9 @@
 Contributors: Henrik.Schack
 Donate Link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=henrik%40schack%2edk&lc=US&item_name=Google%20Authenticator&item_number=Google%20Authenticator&no_shipping=0&no_note=1&tax=0&bn=PP%2dDonationsBF&charset=UTF%2d8
 Tags: authentication,otp,password,security,login,android,iphone,blackberry
-Requires at least: 3.5
-Tested up to: 3.5
-Stable tag: 0.44
+Requires at least: 3.8
+Tested up to: 3.8.1
+Stable tag: 0.47
 
 Google Authenticator for your WordPress blog.
 
@@ -30,10 +30,6 @@ You may also want to write down the secret on a piece of paper and store it in a
 
 == Frequently Asked Questions ==
 
-= The iPhone app keeps telling me I'm trying to scan an authentication token barcode that isn't valid, what to do ? =
-
-Apparently the iPhone app won't accept a barcode containing space characters in the description, removing space characters in the description should fix the problem.
-
 = Can I use Google Authenticator for WordPress with the Android/iPhone apps for WordPress? =
 
 Yes, you can enable the App password feature to make that possible, but notice that the XMLRPC interface isn't protected by two-factor authentication, only a long password.
@@ -44,10 +40,8 @@ No, you'll have to delete the existing account from the Google Authenticator app
 
 = I am unable to log in using this plugin, what's wrong ? =
 
-The Google Authenticator verification codes are time based, so it's crucial that the clock in your phone is accurate and in sync with the clock on the server where your WordPress installation is hosted. 
-
+The Google Authenticator verification codes are time based, so it's crucial that the clock in your phone is accurate and in sync with the clock on the server where your WordPress installation is hosted.
 If you have an Android phone, you can use an app like [ClockSync](https://market.android.com/details?id=ru.org.amip.ClockSync) to set your clock in case your Cell provider doesn't provide accurate time information
-
 Another option is to enable "relaxed mode" in the settings for the plugin, this will enable more valid codes by allowing up to a 4 min. timedrift in each direction.
 
 = I have several users on my WordPress installation, is that a supported configuration ? =
@@ -56,11 +50,25 @@ Yes, each user has his own Google Authenticator settings.
 
 = During installation I forgot the thing about making sure my webhost is capable of providing accurate time information, I'm now unable to login, please help. =
 
-If you have SSH or FTP access to your webhosting account, you can manually delete the plugin from your WordPress installation,   
+If you have SSH or FTP access to your webhosting account, you can manually delete the plugin from your WordPress installation,
 just delete the wp-content/plugins/google-authenticator directory, and you'll be able to login using username/password again.
 
 = I don't own a Smartphone, isn't there another way to generate these secret codes ? =
-Yes, there is a Chrome browser extension you can use : http://4bits.dk/Uwg09z
+
+Yes, there is a webbased version here : http://gauth.apps.gbraad.nl/  
+Github project here : https://github.com/gbraad/html5-google-authenticator
+
+= Can I create backupcodes ? =
+
+No, but if you're using an Android smartphone you can replace the Google Authenticator app with [Authenticator Plus](https://play.google.com/store/apps/details?id=com.mufri.authenticatorplus).  
+It's a really nice app that can import your existing settings, sync between devices and backup/restore using your sd-card.  
+It's not a free app, but it's well worth the money.
+
+= Any known incompatabilities ? =
+
+Yes, the Man-in-the-middle attack/replay detection code isn't compatible with the test/setup mode in the "Stop spammer registration plugin",
+please remember to remove the "Check credentials on all login attempts" checkmark before installing my plugin.
+
 
 
 == Screenshots ==
@@ -72,7 +80,27 @@ Yes, there is a Chrome browser extension you can use : http://4bits.dk/Uwg09z
 
 == Changelog ==
 
-= 0.44 =
+= 0.47 =  
+* Google chart API replaced with jquery-qrcode
+* QR codes now contain a heading saying WordPress (Feature request by Flemming Mahler)
+* Danish translation & updated .pot file.
+* Plugin now logs login attempts recognized as Man-in-the-middle attacks.
+
+= 0.46 =  
+* Man-in-the-middle attack protection added.
+* Show warning before displaying the QR code.
+* FAQ updated.
+
+= 0.45 =  
+* Spaces in the description field should now work on iPhones.
+* Some depricated function calls replaced.
+* Code inputfield easier to use for .jp users now.
+* Sanitize description field input.
+* App password hash function switched to one that doesn't have rainbow tables available.
+* PHP notices occurring during app password login removed.
+
+
+= 0.44 =  
 * Installation/FAQ section updated.
 * Simplified Chinese translation by Kaijia Feng added. 
 * Tabindex on loginpage removed, no longer needed, was used by older WordPress installations.
@@ -81,46 +109,47 @@ Yes, there is a Chrome browser extension you can use : http://4bits.dk/Uwg09z
 * Compatibility with Ryan Hellyer's plugin http://geek.ryanhellyer.net/products/deactivate-google-authenticator/
 * Must enter all 6 code digits.
 
-= 0.43 =
+= 0.43 =  
 * It's now possible for an admin to hide the Google Authenticaator settings on a per-user basis. (Feature request by : Skate-O)
 
-= 0.42 =
+= 0.42 =  
 * Autocomplete disabled on code input field. (Feature request by : hiphopsmurf)
 
-= 0.41 =
+= 0.41 =  
 * Italian translation by Aldo Latino added.
 
-= 0.40 =
+= 0.40 =  
 * Bugfix, typo corrected and PHP notices removed. Thanks to Dion Hulse for his patch.
 
-= 0.39 =
+= 0.39 =  
 * Bugfix, Description was not saved to WordPress database when updating profile. Thanks to xxdesmus for noticing this.
 
-= 0.38 =
+= 0.38 =  
 * Usability fix, input field for codes changed from password to text type.
 
-= 0.37 =
+= 0.37 =  
 * The plugin now supports "relaxed mode" when authenticating. If selected, codes from 4 minutes before and 4 minutes after will work. 30 seconds before and after is still the default setting.
 
-= 0.36 =
+= 0.36 =  
 * Bugfix, now an App password can only be used for XMLRPC/APP-Request logins.
 
-= 0.35 =
+= 0.35 =  
 * Initial WordPress app support added (XMLRPC).
 
-= 0.30 =
+= 0.30 =  
 * Code cleanup
 * Changed generation of secret key, to no longer have requirement of SHA256 on the server
 * German translation
 
-= 0.20 =
+= 0.20 =  
 * Initial release
+
 
 == Credits ==
 
 Thanks to:
 
-[Tobias B�thge](http://tobias.baethge.com/) for his code rewrite and German translation.
+[Tobias Bäthge](http://tobias.baethge.com/) for his code rewrite and German translation.
 
 [Pascal de Bruijn](http://blog.pcode.nl/) for his "relaxed mode" idea.
 
@@ -130,4 +159,10 @@ Thanks to:
 
 [Aldo Latino](http://profiles.wordpress.org/users/aldolat/) for his Italian translation.
 
-[Kaijia Feng](http://www.kaijia.me/) for his Simplified Chinese translation. 
+[Kaijia Feng](http://www.kaijia.me/) for his Simplified Chinese translation.
+
+[Alex Concha](http://www.buayacorp.com/) for his security tips.
+
+[Jerome Etienne](http://jetienne.com/) for his jquery-qrcode plugin.
+
+[Sébastien Prunier](http://orizhial.com/) for his Spanish and French translation.

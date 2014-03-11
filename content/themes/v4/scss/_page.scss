@@ -13,21 +13,17 @@ footer {
 	@extend .row;
 }
 
-// .flexbox-container {
-// 	@include flexbox;
-// 	@include flex-direction(column);
-// 	width: 100%;
-// 	border: 1px solid $black;
-// }
+.list--plain {
+	margin: 0;
+	list-style: none;
+}
 
 
-// .flexbox-inner {
-// 	// background: red;
-// 	margin: 1em;
-// 	padding: 1em;
-// 	@include flex;
+.list--inline {
+	@extend %cf;
+	@extend .list--plain;
 
-// 	p {
-// 		padding: 1em;
-// 	}
-// }
+	li {
+		float: left;
+	}
+}

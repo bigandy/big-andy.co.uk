@@ -25,7 +25,7 @@ class WPSEO_Sitemaps {
 	/**
 	 *     Flag to indicate if this is an invalid or empty sitemap.
 	 */
-	private $bad_sitemap = false;
+	public $bad_sitemap = false;
 
 	/**
 	 * The maximum number of entries per sitemap page
@@ -43,6 +43,12 @@ class WPSEO_Sitemaps {
 	private $n = 1;
 
 	/**
+	 * Holds the home_url() value to speed up loops
+	 * @var string $home_url
+	 */
+	private $home_url = '';
+
+	/**
 	 * Class constructor
 	 */
 	function __construct() {
@@ -50,15 +56,16 @@ class WPSEO_Sitemaps {
 			define( "ENT_XML1", 16 );
 
 		add_action( 'init', array( $this, 'init' ), 1 );
-		add_action( 'wp_loaded', array( $this, 'redirect' ), 1 );
+		add_action( 'template_redirect', array( $this, 'redirect' ) );
 		add_filter( 'redirect_canonical', array( $this, 'canonical' ) );
 		add_action( 'wpseo_hit_sitemap_index', array( $this, 'hit_sitemap_index' ) );
 
 		// default stylesheet
-		$abs_main_sitemap_url = str_replace( get_option( 'home' ), $_SERVER['SERVER_NAME'], home_url( 'main-sitemap.xsl' ) );
-		$this->stylesheet = '<?xml-stylesheet type="text/xsl" href="' . $abs_main_sitemap_url . '"?>';
+		$this->stylesheet = '<?xml-stylesheet type="text/xsl" href="' . home_url( 'main-sitemap.xsl' ) . '"?>';
 
 		$this->options = get_wpseo_options();
+
+		$this->home_url = home_url();
 	}
 
 	/**
@@ -150,34 +157,30 @@ class WPSEO_Sitemaps {
 	 * Hijack requests for potential sitemaps and XSL files.
 	 */
 	function redirect() {
-
-		if ( preg_match( '/.*?([^\/]+)?sitemap(.*?).(xsl|xml)$/', $_SERVER['REQUEST_URI'], $match ) ) {
-
-			$this->n = $match[2];
-
-			$match[1] = ltrim( rtrim( $match[1], '-' ), '/' );
-
-			if ( $match[3] == 'xsl' ) {
-				$this->xsl_output( $match[1] );
-				$this->sitemap_close();
-			} else if ( $match[3] == 'xml' ) {
-				if ( empty( $match[1]) )
-					$match[1] = 1;
-
-				$this->build_sitemap( $match[1] );
-			} else {
-				return;
-			}
-
-			// 404 for invalid or emtpy sitemaps
-			if ( $this->bad_sitemap ) {
-				$GLOBALS['wp_query']->is_404 = true;
-				return;
-			}
-
-			$this->output();
+		$xsl = get_query_var( 'xsl' );
+		if ( ! empty( $xsl ) ) {
+			$this->xsl_output( $xsl );
 			$this->sitemap_close();
 		}
+
+		$type = get_query_var( 'sitemap' );
+		if ( empty( $type ) )
+			return;
+			
+		$n = get_query_var( 'sitemap_n' );
+		if( is_scalar( $n ) && intval( $n ) > 0 ) {
+			$this->n = intval( $n );
+		}
+
+		$this->build_sitemap( $type );
+		// 404 for invalid or emtpy sitemaps
+		if ( $this->bad_sitemap ) {
+			$GLOBALS['wp_query']->is_404 = true;
+			return;
+		}
+
+		$this->output();
+		$this->sitemap_close();
 	}
 
 	/**
@@ -315,8 +318,7 @@ class WPSEO_Sitemaps {
 			}
 		}
 
-		if ( ! ( isset( $this->options['disable-author'] ) && $this->options['disable-author'] ) ||
-				! ( isset( $this->options['disable_author_sitemap'] ) && $this->options['disable_author_sitemap'] ) ) {
+		if ( ! isset( $this->options['disable-author'] ) && ! isset( $this->options['disable_author_sitemap'] ) ) {
 
 			// reference user profile specific sitemaps
 			$users = get_users( array( 'who' => 'authors', 'fields' => 'id' ) );
@@ -387,7 +389,7 @@ class WPSEO_Sitemaps {
 
 		$output = '';
 
-		$steps  = 25;
+		$steps  = ( 25 > $this->max_entries ) ? $this->max_entries : 25;
 		$n      = (int) $this->n;
 		$offset = ( $n > 1 ) ? ( $n - 1 ) * $this->max_entries : 0;
 		$total  = $offset + $this->max_entries;
@@ -408,7 +410,7 @@ class WPSEO_Sitemaps {
 			$front_id = get_option( 'page_on_front' );
 			if ( ! $front_id && ( $post_type == 'post' || $post_type == 'page' ) ) {
 				$output .= $this->sitemap_url( array(
-					'loc' => home_url( '/' ),
+					'loc' => $this->home_url,
 					'pri' => 1,
 					'chf' => 'daily',
 				) );
@@ -490,9 +492,17 @@ class WPSEO_Sitemaps {
 
 				$url = array();
 
-				$url['mod'] = ( isset( $p->post_modified_gmt ) && $p->post_modified_gmt != '0000-00-00 00:00:00' ) ? $p->post_modified_gmt : $p->post_date_gmt;
+				$url['mod'] = ( isset( $p->post_modified_gmt ) && $p->post_modified_gmt != '0000-00-00 00:00:00' && $p->post_modified_gmt > $p->post_date_gmt ) ? $p->post_modified_gmt : $p->post_date_gmt;
 				$url['chf'] = 'weekly';
 				$url['loc'] = get_permalink( $p );
+
+				/**
+				 * Do not include external URLs.
+				 * A plugin like http://wordpress.org/plugins/page-links-to/ can rewrite permalinks to external URLs.
+				 */
+				if ( false === strpos( $url['loc'], $this->home_url ) ) {
+					continue;
+				}
 
 				$canonical = wpseo_get_value( 'canonical', $p->ID );
 				if ( $canonical && $canonical != '' && $canonical != $url['loc'] ) {
@@ -584,8 +594,12 @@ class WPSEO_Sitemaps {
 				$url['images'] = apply_filters( 'wpseo_sitemap_urlimages', $url['images'], $p->ID );
 
 				if ( ! in_array( $url['loc'], $stackedurls ) ) {
-					$output .= $this->sitemap_url( $url );
-					$stackedurls[] = $url['loc'];
+					// Use this filter to adjust the entry before it gets added to the sitemap
+					$url = apply_filters( 'wpseo_sitemap_entry', $url, 'post', $p );
+					if ( ! empty( $url ) ) {
+						$output .= $this->sitemap_url( $url );
+						$stackedurls[] = $url['loc'];
+					}
 				}
 
 				// Clear the post_meta and the term cache for the post, as we no longer need it now.
@@ -677,7 +691,12 @@ class WPSEO_Sitemaps {
 					AND		p.post_password = ''", $c->taxonomy, $c->term_id );
 			$url['mod'] = $wpdb->get_var( $sql );
 			$url['chf'] = 'weekly';
-			$output .= $this->sitemap_url( $url );
+
+			// Use this filter to adjust the entry before it gets added to the sitemap
+			$url = apply_filters( 'wpseo_sitemap_entry', $url, 'term', $c );
+
+			if ( ! empty( $url ) )
+				$output .= $this->sitemap_url( $url );
 		}
 
 		if ( empty( $output ) ) {
@@ -698,9 +717,7 @@ class WPSEO_Sitemaps {
 	 * @since 1.4.8
 	 */
 	function build_user_map() {
-		if ( ( isset( $this->options['disable-author'] ) && $this->options['disable-author'] ) ||
-				( isset( $this->options['disable_author_sitemap'] ) && $this->options['disable_author_sitemap'] ) ) {
-			$this->bad_sitemap = true;
+		if ( isset( $this->options['disable-author'] ) || isset( $this->options['disable_author_sitemap'] ) ) {			$this->bad_sitemap = true;
 			return;
 		}
 
@@ -743,12 +760,17 @@ class WPSEO_Sitemaps {
 
 		foreach ( $users as $user ) {
 			if ( $author_link = get_author_posts_url( $user->ID ) ) {
-				$output .= $this->sitemap_url( array(
+				$url = array(
 					'loc' => $author_link,
 					'pri' => 0.8,
 					'chf' => 'weekly',
 					'mod' => date( 'c', isset( $user->_yoast_wpseo_profile_updated ) ? $user->_yoast_wpseo_profile_updated : time() )
-				) );
+				);
+				// Use this filter to adjust the entry before it gets added to the sitemap
+				$url = apply_filters( 'wpseo_sitemap_entry', $url, 'user', $user );
+
+				if ( ! empty( $url ) )
+					$output .= $this->sitemap_url( $url );
 			}
 		}
 

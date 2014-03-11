@@ -4,9 +4,9 @@ Plugin Name: Google Authenticator
 Plugin URI: http://henrik.schack.dk/google-authenticator-for-wordpress
 Description: Two-Factor Authentication for WordPress using the Android/iPhone/Blackberry app as One Time Password generator.
 Author: Henrik Schack
-Version: 0.44
+Version: 0.47
 Author URI: http://henrik.schack.dk/
-Compatibility: WordPress 3.5
+Compatibility: WordPress 3.8
 Text Domain: google-authenticator
 Domain Path: /lang
 
@@ -18,7 +18,11 @@ Domain Path: /lang
 	Thanks to Daniel Werl for his usability tips.
 	Thanks to Dion Hulse for his bugfixes.
 	Thanks to Aldo Latino for his Italian translation.
-	Thanks to Kaijia Feng for his Simplified Chinese translation. 
+	Thanks to Kaijia Feng for his Simplified Chinese translation.
+	Thanks to Ian Dunn for fixing some depricated function calls.
+	Thanks to Kimmo Suominen for fixing the iPhone description issue.
+	Thanks to Alex Concha for some security tips.
+	Thanks to Sébastien Prunier for his Spanish and French translations.
 
 ----------------------------------------------------------------------------
 
@@ -61,21 +65,25 @@ function init() {
     add_action( 'login_footer', array( $this, 'loginfooter' ) );
     add_filter( 'authenticate', array( $this, 'check_otp' ), 50, 3 );
 
-    if ( defined( 'DOING_AJAX' ) && DOING_AJAX )
+    if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
         add_action( 'wp_ajax_GoogleAuthenticator_action', array( $this, 'ajax_callback' ) );
+    }
 
     add_action( 'personal_options_update', array( $this, 'personal_options_update' ) );
     add_action( 'profile_personal_options', array( $this, 'profile_personal_options' ) );
     add_action( 'edit_user_profile', array( $this, 'edit_user_profile' ) );
     add_action( 'edit_user_profile_update', array( $this, 'edit_user_profile_update' ) );
 
+	add_action('admin_enqueue_scripts', array($this, 'add_qrcode_script'));
+
     load_plugin_textdomain( 'google-authenticator', false, basename( dirname( __FILE__ ) ) . '/lang' );
 }
+
 
 /**
  * Check the verification code entered by the user.
  */
-function verify( $secretkey, $thistry, $relaxedmode ) {
+function verify( $secretkey, $thistry, $relaxedmode, $lasttimeslot ) {
 
 	// Did the user enter 6 digits ?
 	if ( strlen( $thistry ) != 6) {
@@ -113,9 +121,18 @@ function verify( $secretkey, $thistry, $relaxedmode ) {
 		// Only 32 bits
 		$value = $value & 0x7FFFFFFF;
 		$value = $value % 1000000;
-		if ( $value == $thistry ) {
-			return true;
-		}	
+		if ( $value === $thistry ) {
+			// Check for replay (Man-in-the-middle) attack.
+			// Since this is not Star Trek, time can only move forward,
+			// meaning current login attempt has to be in the future compared to
+			// last successful login.
+			if ( $lasttimeslot >= ($tm+$i) ) {
+				error_log("Google Authenticator plugin: Man-in-the-middle attack detected (Could also be 2 legit login attempts within the same 30 second period)");
+				return false;
+			}
+			// Return timeslot in which login happened.
+			return $tm+$i;
+		}
 	}
 	return false;
 }
@@ -134,6 +151,14 @@ function create_secret() {
     return $secret;
 }
 
+/**
+ * Add the script to generate QR codes.
+ */
+function add_qrcode_script() {
+    wp_enqueue_script('jquery');
+    wp_register_script('qrcode_script', plugins_url('jquery.qrcode.min.js', __FILE__),array("jquery"));
+    wp_enqueue_script('qrcode_script');
+}
 
 /**
  * Add verification code field to login form.
@@ -141,7 +166,7 @@ function create_secret() {
 function loginform() {
     echo "\t<p>\n";
     echo "\t\t<label title=\"".__('If you don\'t have Google Authenticator enabled for your WordPress account, leave this field empty.','google-authenticator')."\">".__('Google Authenticator code','google-authenticator')."<span id=\"google-auth-info\"></span><br />\n";
-    echo "\t\t<input type=\"text\" name=\"googleotp\" id=\"user_email\" class=\"input\" value=\"\" size=\"20\" /></label>\n";
+    echo "\t\t<input type=\"text\" name=\"googleotp\" id=\"user_email\" class=\"input\" value=\"\" size=\"20\" style=\"ime-mode: inactive;\" /></label>\n";
     echo "\t</p>\n";
 }
 
@@ -168,10 +193,10 @@ function check_otp( $user, $username = '', $password = '' ) {
 
 	// Get information on user, we need this in case an app password has been enabled,
 	// since the $user var only contain an error at this point in the login flow.
-	$user = get_userdatabylogin( $username );
+	$user = get_user_by( 'login', $username );
 
 	// Does the user have the Google Authenticator enabled ?
-	if ( trim(get_user_option( 'googleauthenticator_enabled', $user->ID ) ) == 'enabled' ) {
+	if ( isset( $user->ID ) && trim(get_user_option( 'googleauthenticator_enabled', $user->ID ) ) == 'enabled' ) {
 
 		// Get the users secret
 		$GA_secret = trim( get_user_option( 'googleauthenticator_secret', $user->ID ) );
@@ -180,18 +205,28 @@ function check_otp( $user, $username = '', $password = '' ) {
 		$GA_relaxedmode = trim( get_user_option( 'googleauthenticator_relaxedmode', $user->ID ) );
 		
 		// Get the verification code entered by the user trying to login
-		$otp = trim( $_POST[ 'googleotp' ] );
-	
+		if ( !empty( $_POST['googleotp'] )) { // Prevent PHP notices when using app password login
+			$otp = trim( $_POST[ 'googleotp' ] );
+		} else {
+			$otp = '';
+		}
+		// When was the last successful login performed ?
+		$lasttimeslot = trim( get_user_option( 'googleauthenticator_lasttimeslot', $user->ID ) );
 		// Valid code ?
-		if ( $this->verify( $GA_secret, $otp, $GA_relaxedmode ) ) {
+		if ( $timeslot = $this->verify( $GA_secret, $otp, $GA_relaxedmode, $lasttimeslot ) ) {
+			// Store the timeslot in which login was successful.
+			update_user_option( $user->ID, 'googleauthenticator_lasttimeslot', $timeslot, true );
 			return $userstate;
 		} else {
 			// No, lets see if an app password is enabled, and this is an XMLRPC / APP login ?
 			if ( trim( get_user_option( 'googleauthenticator_pwdenabled', $user->ID ) ) == 'enabled' && ( defined('XMLRPC_REQUEST') || defined('APP_REQUEST') ) ) {
 				$GA_passwords 	= json_decode(  get_user_option( 'googleauthenticator_passwords', $user->ID ) );
-				$passwordsha1	= trim($GA_passwords->{'password'} );
+				$passwordhash	= trim($GA_passwords->{'password'} );
 				$usersha1		= sha1( strtoupper( str_replace( ' ', '', $password ) ) );
-				if ( $passwordsha1 == $usersha1 ) {
+				if ( $passwordhash == $usersha1 ) { // ToDo: Remove after some time when users have migrated to new format
+					return new WP_User( $user->ID );
+				  // Try the new version based on thee wp_hash_password	function
+				} elseif (wp_check_password( strtoupper( str_replace( ' ', '', $password ) ), $passwordhash)) {
 					return new WP_User( $user->ID );
 				} else {
 					// Wrong XMLRPC/APP password !
@@ -201,7 +236,7 @@ function check_otp( $user, $username = '', $password = '' ) {
 				return new WP_Error( 'invalid_google_authenticator_token', __( '<strong>ERROR</strong>: The Google Authenticator code is incorrect or has expired.', 'google-authenticator' ) );
 			}	
 		}
-	}		
+	}
 	// Google Authenticator isn't enabled for this account,
 	// just resume normal authentication.
 	return $userstate;
@@ -252,10 +287,6 @@ function profile_personal_options() {
 	echo "</td>\n";
 	echo "</tr>\n";
 
-	// Create URL for the Google charts QR code generator.
-	$chl = urlencode( "otpauth://totp/{$GA_description}?secret={$GA_secret}" );
-	$qrcodeurl = "https://chart.googleapis.com/chart?cht=qr&amp;chs=300x300&amp;chld=H|0&amp;chl={$chl}";
-
 	if ( $is_profile_page || IS_PROFILE_PAGE ) {
 		echo "<tr>\n";
 		echo "<th scope=\"row\">".__( 'Relaxed mode', 'google-authenticator' )."</th>\n";
@@ -274,14 +305,15 @@ function profile_personal_options() {
 		echo "<td>\n";
 		echo "<input name=\"GA_secret\" id=\"GA_secret\" value=\"{$GA_secret}\" readonly=\"readonly\"  type=\"text\" size=\"25\" />";
 		echo "<input name=\"GA_newsecret\" id=\"GA_newsecret\" value=\"".__("Create new secret",'google-authenticator')."\"   type=\"button\" class=\"button\" />";
-		echo "<input name=\"show_qr\" id=\"show_qr\" value=\"".__("Show/Hide QR code",'google-authenticator')."\"   type=\"button\" class=\"button\" onclick=\"jQuery('#GA_QR_INFO').toggle('slow');\" />";
+		echo "<input name=\"show_qr\" id=\"show_qr\" value=\"".__("Show/Hide QR code",'google-authenticator')."\"   type=\"button\" class=\"button\" onclick=\"ShowOrHideQRCode();\" />";
 		echo "</td>\n";
 		echo "</tr>\n";
 
 		echo "<tr>\n";
 		echo "<th></th>\n";
 		echo "<td><div id=\"GA_QR_INFO\" style=\"display: none\" >";
-		echo "<img id=\"GA_QRCODE\"  src=\"{$qrcodeurl}\" alt=\"QR Code\"/>";
+		echo "<div id=\"GA_QRCODE\"/></div>";
+
 		echo '<span class="description"><br/> ' . __( 'Scan this with the Google Authenticator app.', 'google-authenticator' ) . '</span>';
 		echo "</div></td>\n";
 		echo "</tr>\n";
@@ -298,36 +330,41 @@ function profile_personal_options() {
 		echo "<td>\n";
 		echo "<input name=\"GA_password\" id=\"GA_password\" readonly=\"readonly\" value=\"".$GA_password."\" type=\"text\" size=\"25\" />";
 		echo "<input name=\"GA_createpassword\" id=\"GA_createpassword\" value=\"".__("Create new password",'google-authenticator')."\"   type=\"button\" class=\"button\" />";
-		echo "<span class=\"description\" id=\"GA_passworddesc\">".__(' Password is not stored in cleartext, this is your only chance to see it.','google-authenticator')."</span>\n";
+		echo "<span class=\"description\" id=\"GA_passworddesc\"> ".__(' Password is not stored in cleartext, this is your only chance to see it.','google-authenticator')."</span>\n";
 		echo "</td>\n";
 		echo "</tr>\n";
 	}
-	
 
 	echo "</tbody></table>\n";
 	echo "<script type=\"text/javascript\">\n";
 	echo "var GAnonce='".wp_create_nonce('GoogleAuthenticatoraction')."';\n";
+
   	echo <<<ENDOFJS
-  	var pwdata;
+  	//Create new secret and display it
 	jQuery('#GA_newsecret').bind('click', function() {
+		// Remove existing QRCode
+		jQuery('#GA_QRCODE').html("");
 		var data=new Object();
 		data['action']	= 'GoogleAuthenticator_action';
 		data['nonce']	= GAnonce;
 		jQuery.post(ajaxurl, data, function(response) {
   			jQuery('#GA_secret').val(response['new-secret']);
-  			chl=escape("otpauth://totp/"+jQuery('#GA_description').val()+"?secret="+jQuery('#GA_secret').val());
-  			qrcodeurl="https://chart.googleapis.com/chart?cht=qr&chs=300x300&chld=H|0&chl="+chl;
-  			jQuery('#GA_QRCODE').attr('src',qrcodeurl);
-  			jQuery('#GA_QR_INFO').show('slow');
+  			var qrcode="otpauth://totp/WordPress:"+escape(jQuery('#GA_description').val())+"?secret="+jQuery('#GA_secret').val()+"&issuer=WordPress";
+			jQuery('#GA_QRCODE').qrcode(qrcode);
+ 			jQuery('#GA_QR_INFO').show('slow');
   		});  	
-	});  
-	
-	jQuery('#GA_description').bind('focus blur change keyup', function() {
-  		chl=escape("otpauth://totp/"+jQuery('#GA_description').val()+"?secret="+jQuery('#GA_secret').val());
-  		qrcodeurl="https://chart.googleapis.com/chart?cht=qr&chs=300x300&chld=H|0&chl="+chl;
-  		jQuery('#GA_QRCODE').attr('src',qrcodeurl);
 	});
-	
+
+	// If the user starts modifying the description, hide the qrcode
+	jQuery('#GA_description').bind('focus blur change keyup', function() {
+		// Only remove QR Code if it's visible
+		if (jQuery('#GA_QR_INFO').is(':visible')) {
+			jQuery('#GA_QR_INFO').hide('slow');
+			jQuery('#GA_QRCODE').html("");
+  		}
+	});
+
+	// Create new app password
 	jQuery('#GA_createpassword').bind('click',function() {
 		var data=new Object();
 		data['action']	= 'GoogleAuthenticator_action';
@@ -357,10 +394,20 @@ function profile_personal_options() {
 			jQuery('#GA_pwdenabled').attr('disabled', true);
 			jQuery('#GA_createpassword').attr('disabled', true);
 		}
-	}		
+	}
+
+	function ShowOrHideQRCode() {
+		if (jQuery('#GA_QR_INFO').is(':hidden')) {
+			var qrcode="otpauth://totp/WordPress:"+escape(jQuery('#GA_description').val())+"?secret="+jQuery('#GA_secret').val()+"&issuer=WordPress";
+			jQuery('#GA_QRCODE').qrcode(qrcode);
+	        jQuery('#GA_QR_INFO').show('slow');
+		} else {
+			jQuery('#GA_QR_INFO').hide('slow');
+			jQuery('#GA_QRCODE').html("");
+		}
+	}
 </script>
 ENDOFJS;
-		
 }
 
 /**
@@ -375,7 +422,7 @@ function personal_options_update() {
 
 
 	$GA_enabled	= ! empty( $_POST['GA_enabled'] );
-	$GA_description	= trim( $_POST['GA_description'] );
+	$GA_description	= trim( sanitize_text_field($_POST['GA_description'] ) );
 	$GA_relaxedmode	= ! empty( $_POST['GA_relaxedmode'] );
 	$GA_secret	= trim( $_POST['GA_secret'] );
 	$GA_pwdenabled	= ! empty( $_POST['GA_pwdenabled'] );
@@ -403,7 +450,7 @@ function personal_options_update() {
 	// Only store password if a new one has been generated.
 	if (strtoupper($GA_password) != 'XXXXXXXXXXXXXXXX' ) {
 		// Store the password in a format that can be expanded easily later on if needed.
-		$GA_password = array( 'appname' => 'Default', 'password' => sha1( $GA_password ) );
+		$GA_password = array( 'appname' => 'Default', 'password' => wp_hash_password( $GA_password ) );
 		update_user_option( $user_id, 'googleauthenticator_passwords', json_encode( $GA_password ), true );
 	}
 	
@@ -478,10 +525,10 @@ function edit_user_profile_update() {
 function ajax_callback() {
 	global $user_id;
 
-	// Some AJAX security
+	// Some AJAX security.
 	check_ajax_referer( 'GoogleAuthenticatoraction', 'nonce' );
 	
-	// Create new secret, using the users password hash as input for further hashing
+	// Create new secret.
 	$secret = $this->create_secret();
 
 	$result = array( 'new-secret' => $secret );
