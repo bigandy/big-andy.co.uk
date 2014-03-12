@@ -1,20 +1,17 @@
 <?php
 
-$t = get_template_directory() . '/functions/';
-
-include( $t . 'ss.php' );
+$functions = get_template_directory() . '/functions/';
 
 
-// <?php
+include( $functions . 'misc.php');
+include( $functions . 'ss.php');
+// include( $functions . 'admin/admin-styles.php');
+// include( $functions . 'admin/admin.php');
+// // include( $functions . 'cpts.php');
+include( $functions . 'images.php');
+// include( $functions . 'metaboxes.php');
+include( $functions . 'nav.php');
+// include( $functions . 'shortcodes.php');
 
-// $f = get_stylesheet_directory() . '/functions/';
 
-// include( $f . 'misc.php');
-// include( $f . 'ss.php');
-// include( $f . 'admin/admin-styles.php');
-// include( $f . 'admin/admin.php');
-// // include( $f . 'cpts.php');
-// include( $f . 'images.php');
-// include( $f . 'metaboxes.php');
-// include( $f . 'nav.php');
-// include( $f . 'shortcodes.php');
+
