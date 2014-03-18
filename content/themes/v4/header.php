@@ -12,22 +12,22 @@
 		<div class="header__row content-container">
 			<h1>
 				<a href="<?php echo home_url(); ?>">
-					Andrew Hudson
+					Mr. Hudson
 				</a>
 			</h1>
 			<nav role="navigation" class="nav top-nav clearfix" id="top-nav">
 				<?php
 				$menu_args = array(
-				    'theme_location'  => 'primary',
-				    'container'       => 'nav',
-				    'container_id'    => false,
-				    // 'container_class' => 'large-8 columns',
-				    'menu_class'      => 'list--inline header__menu',
-				    'menu_id'		  => '',
+					'theme_location'  => 'primary',
+					'container'       => 'nav',
+					'container_id'    => false,
+					// 'container_class' => 'large-8 columns',
+					'menu_class'      => 'list--inline header__menu',
+					'menu_id'		  => '',
 				);
 
 				wp_nav_menu( $menu_args );
-			    ?>
+				?>
 			</nav>
 		</div>
 	</header>

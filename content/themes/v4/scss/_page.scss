@@ -13,6 +13,22 @@ footer {
 	@extend .row;
 }
 
+.header__row {
+	background: black;
+	background: blue;
+
+	h1 {
+		text-align: center;
+		font-family: serif;
+		// letter-spacing: 10px;
+		a {
+			color: $white;
+			font-weight: bold;
+		}
+	}
+}
+
+
 .list--plain {
 	margin: 0;
 	list-style: none;
