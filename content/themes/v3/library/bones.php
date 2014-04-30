@@ -21,31 +21,31 @@ add_action('after_setup_theme','bones_ahoy', 15);
 
 function bones_ahoy() {
 
-    // launching operation cleanup
-    add_action('init', 'bones_head_cleanup');
-    // remove WP version from RSS
-    add_filter('the_generator', 'bones_rss_version');
-    // remove pesky injected css for recent comments widget
-    add_filter( 'wp_head', 'bones_remove_wp_widget_recent_comments_style', 1 );
-    // clean up comment styles in the head
-    add_action('wp_head', 'bones_remove_recent_comments_style', 1);
-    // clean up gallery output in wp
-    // add_filter('gallery_style', 'bones_gallery_style');
+	// launching operation cleanup
+	add_action('init', 'bones_head_cleanup');
+	// remove WP version from RSS
+	add_filter('the_generator', 'bones_rss_version');
+	// remove pesky injected css for recent comments widget
+	add_filter( 'wp_head', 'bones_remove_wp_widget_recent_comments_style', 1 );
+	// clean up comment styles in the head
+	add_action('wp_head', 'bones_remove_recent_comments_style', 1);
+	// clean up gallery output in wp
+	// add_filter('gallery_style', 'bones_gallery_style');
 
-    // enqueue base scripts and styles
-    add_action('wp_enqueue_scripts', 'bones_scripts_and_styles', 999);
+	// enqueue base scripts and styles
+	add_action('wp_enqueue_scripts', 'bones_scripts_and_styles', 999);
 
-    // launching this stuff after theme setup
-    add_action('after_setup_theme','bones_theme_support');
-    // adding sidebars to Wordpress (these are created in functions.php)
-    // add_action( 'widgets_init', 'bones_register_sidebars' );
-    // adding the bones search form (created in functions.php)
-    add_filter( 'get_search_form', 'bones_wpsearch' );
+	// launching this stuff after theme setup
+	add_action('after_setup_theme','bones_theme_support');
+	// adding sidebars to Wordpress (these are created in functions.php)
+	// add_action( 'widgets_init', 'bones_register_sidebars' );
+	// adding the bones search form (created in functions.php)
+	// add_filter( 'get_search_form', 'bones_wpsearch' );
 
-    // cleaning up random code around images
-    add_filter('the_content', 'bones_filter_ptags_on_images');
-    // cleaning up excerpt
-    add_filter('excerpt_more', 'bones_excerpt_more');
+	// cleaning up random code around images
+	add_filter('the_content', 'bones_filter_ptags_on_images');
+	// cleaning up excerpt
+	add_filter('excerpt_more', 'bones_excerpt_more');
 
 } /* end bones ahoy */
 
@@ -85,7 +85,7 @@ function bones_rss_version() { return ''; }
 // remove injected CSS for recent comments widget
 function bones_remove_wp_widget_recent_comments_style() {
    if ( has_filter('wp_head', 'wp_widget_recent_comments_style') ) {
-      remove_filter('wp_head', 'wp_widget_recent_comments_style' );
+	  remove_filter('wp_head', 'wp_widget_recent_comments_style' );
    }
 }
 
@@ -93,7 +93,7 @@ function bones_remove_wp_widget_recent_comments_style() {
 function bones_remove_recent_comments_style() {
   global $wp_widget_factory;
   if (isset($wp_widget_factory->widgets['WP_Widget_Recent_Comments'])) {
-    remove_action('wp_head', array($wp_widget_factory->widgets['WP_Widget_Recent_Comments'], 'recent_comments_style'));
+	remove_action('wp_head', array($wp_widget_factory->widgets['WP_Widget_Recent_Comments'], 'recent_comments_style'));
   }
 }
 
@@ -105,27 +105,27 @@ SCRIPTS & ENQUEUEING
 function bones_scripts_and_styles() {
   if (!is_admin()) {
 
-    // comment reply script for threaded comments
-    if ( is_singular() AND comments_open() AND (get_option('thread_comments') == 1)) {
-      wp_enqueue_script( 'comment-reply' );
-    }
+	// comment reply script for threaded comments
+	if ( is_singular() AND comments_open() AND (get_option('thread_comments') == 1)) {
+	  wp_enqueue_script( 'comment-reply' );
+	}
 
-    /*
-    * I recommend using a plugin to call jQuery
-    * using the google cdn. That way it stays cached
-    * and your site will load faster.
-    * http://www.wpbeginner.com/wp-themes/replace-default-wordpress-jquery-script-with-google-library/
-    */
-    wp_deregister_style( 'mediaelement' );
-    wp_deregister_style( 'wp-mediaelement' );
-    wp_deregister_script( 'mediaelement' );
+	/*
+	* I recommend using a plugin to call jQuery
+	* using the google cdn. That way it stays cached
+	* and your site will load faster.
+	* http://www.wpbeginner.com/wp-themes/replace-default-wordpress-jquery-script-with-google-library/
+	*/
+	wp_deregister_style( 'mediaelement' );
+	wp_deregister_style( 'wp-mediaelement' );
+	wp_deregister_script( 'mediaelement' );
 
-    // mediaelement-css
+	// mediaelement-css
 
 
-    wp_deregister_script('jquery');
-   	wp_register_script('jquery', "//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js", true, null, true);
-   	// wp_enqueue_script('jquery');
+	wp_deregister_script('jquery');
+	wp_register_script('jquery', "//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js", true, null, true);
+	// wp_enqueue_script('jquery');
   }
 }
 
@@ -185,18 +185,18 @@ function bones_related_posts() {
 	$tags = wp_get_post_tags($post->ID);
 	if($tags) {
 		foreach($tags as $tag) { $tag_arr .= $tag->slug . ','; }
-        $args = array(
-        	'tag' => $tag_arr,
-        	'numberposts' => 5, /* you can change this to show more */
-        	'post__not_in' => array($post->ID)
-     	);
-        $related_posts = get_posts($args);
-        if($related_posts) {
-        	foreach ($related_posts as $post) : setup_postdata($post); ?>
-	           	<li class="related_post"><a href="<?php the_permalink() ?>" title="<?php the_title_attribute(); ?>"><?php the_title(); ?></a></li>
-	        <?php endforeach; }
-	    else { ?>
-            <?php echo '<li class="no_related_post">No Related Posts Yet!</li>'; ?>
+		$args = array(
+			'tag' => $tag_arr,
+			'numberposts' => 5, /* you can change this to show more */
+			'post__not_in' => array($post->ID)
+		);
+		$related_posts = get_posts($args);
+		if($related_posts) {
+			foreach ($related_posts as $post) : setup_postdata($post); ?>
+				<li class="related_post"><a href="<?php the_permalink() ?>" title="<?php the_title_attribute(); ?>"><?php the_title(); ?></a></li>
+			<?php endforeach; }
+		else { ?>
+			<?php echo '<li class="no_related_post">No Related Posts Yet!</li>'; ?>
 		<?php }
 	}
 	wp_reset_query();

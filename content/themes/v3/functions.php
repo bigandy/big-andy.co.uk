@@ -130,3 +130,5 @@ function login_error_message($error){
     }
     return $error;
 }
+
+add_theme_support( 'post-formats', array( 'video', 'aside', 'gallery' ) );
