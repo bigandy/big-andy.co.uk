@@ -2,9 +2,18 @@ $white: white;
 $black: black;
 $red: red;
 
-$primary-color: brown;
+$primary-color: red;
+
+$sentinel: 'Sentinel A', 'Sentinel B';
 
 $opensans: 'Open Sans', sans-serif;
+
+
+$header-font-weight: 800;
+$header-font-style: normal;
+$header-font-family: $sentinel, $opensans;
+
+
 $body-font-family: $opensans;
 // $header-font-family: $body-font-family;
 $row-width: rem-calc(1440);

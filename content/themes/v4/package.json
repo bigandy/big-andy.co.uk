@@ -18,7 +18,8 @@
     "gulp-autoprefixer": "0.0.6",
     "gulp-strip-debug": "~0.1.1",
     "gulp-livereload": "~1.1.1",
-    "jshint-stylish": "~0.1.5"
+    "jshint-stylish": "~0.1.5",
+    "gulp-uncss": "^0.4.3"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

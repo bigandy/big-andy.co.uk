@@ -3,8 +3,8 @@ body {
 }
 
 .content-container {
-	@extend .large-12;
-	@extend .columns;
+	@extend .row;
+	@extend %cf;
 }
 
 header,
@@ -15,15 +15,17 @@ footer {
 
 .header__row {
 	background: black;
-	background: blue;
+	// background: blue;
 
 	h1 {
 		text-align: center;
 		font-family: serif;
 		// letter-spacing: 10px;
+
 		a {
 			color: $white;
 			font-weight: bold;
+			// text-transform: uppercase;
 		}
 	}
 }

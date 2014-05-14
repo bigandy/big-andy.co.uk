@@ -3,7 +3,11 @@
 <head>
 	<meta charset="utf-8">
 	<title><?php wp_title(); ?></title>
+
+	<link rel="stylesheet" type="text/css" href="//cloud.typography.com/7502092/707264/css/fonts.css" />
+
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+
 	<script src="<?php echo get_stylesheet_directory_uri(); ?>/bower_components/requirejs/require.js" data-main="<?php echo get_stylesheet_directory_uri(); ?>/build/js/script.min.js"></script>
 	<?php wp_head(); ?>
 </head>
@@ -12,7 +16,7 @@
 		<div class="header__row content-container">
 			<h1>
 				<a href="<?php echo home_url(); ?>">
-					Mr. Hudson
+					Andrew Hudson - Front-end Developer
 				</a>
 			</h1>
 			<nav role="navigation" class="nav top-nav clearfix" id="top-nav">
