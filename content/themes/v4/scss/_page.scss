@@ -13,24 +13,6 @@ footer {
 	@extend .row;
 }
 
-.header__row {
-	background: black;
-	// background: blue;
-
-	h1 {
-		text-align: center;
-		// font-family: serif;
-		// letter-spacing: 10px;
-
-		a {
-			color: $white;
-			font-weight: bold;
-			// text-transform: uppercase;
-		}
-	}
-}
-
-
 .list--plain {
 	margin: 0;
 	list-style: none;
@@ -53,6 +35,9 @@ footer {
 	a {
 		border-bottom: 3px solid transparent;
 		margin-bottom: -3px;
+		// transition: border 0.1s ease-in-out;
+
+
 		&:hover,
 		&:focus {
 			border-bottom-color: $primary-color;

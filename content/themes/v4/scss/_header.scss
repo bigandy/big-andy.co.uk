@@ -2,6 +2,19 @@ header {
 	margin-bottom: 1rem;
 }
 
+.header__row {
+	background: black;
+	padding: 1.5rem 0 1rem;
+
+	h1 {
+		text-align: center;
+
+		a {
+			color: inherit;
+		}
+	}
+}
+
 
 .header__nav {
 	text-align: center;
