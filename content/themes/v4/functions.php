@@ -11,7 +11,7 @@ include( $functions . 'ss.php');
 include( $functions . 'images.php');
 // include( $functions . 'metaboxes.php');
 include( $functions . 'nav.php');
-// include( $functions . 'shortcodes.php');
+include( $functions . 'shortcodes.php');
 
 
 

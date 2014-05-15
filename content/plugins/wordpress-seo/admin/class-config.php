@@ -39,6 +39,7 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 			'wpseo_bulk-title-editor',
 			'wpseo_bulk-description-editor',
 			'wpseo_licenses',
+			'wpseo_network_licenses',
 		);
 
 		/**
@@ -78,64 +79,93 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 				}
 			}
 
-			$banners = array(
+			$service_banners = array(
 				array(
-					'url' => 'https://yoast.com/hire-us/website-review/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=website-review-banner',
-					'img' => 'banner-website-review.png',
-					'alt' => 'Website Review banner',
-				),
+				'url' => 'https://yoast.com/hire-us/website-review/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=website-review-banner',
+				'img' => 'banner-website-review.png',
+				'alt' => 'Website Review banner'
+				)
+			);
+
+			$plugin_banners = array(
 				array(
-					'url' => 'https://yoast.com/wordpress/seo-premium/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=premium-seo-banner',
+					'url' => 'https://yoast.com/wordpress/plugins/seo-premium/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=premium-seo-banner',
 					'img' => 'banner-premium-seo.png',
 					'alt' => 'Banner WordPress SEO Premium',
 				),
 			);
 
 			if ( ! class_exists( 'wpseo_Video_Sitemap' ) ) {
-				$banners[] = array(
-					'url' => 'https://yoast.com/wordpress/video-seo/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=video-seo-banner',
+				$plugin_banners[] = array(
+					'url' => 'https://yoast.com/wordpress/plugins/video-seo/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=video-seo-banner',
 					'img' => 'banner-video-seo.png',
 					'alt' => 'Banner WordPress SEO Video SEO extension',
 				);
 			}
 
 			if ( ! class_exists( 'wpseo_Video_Manual' ) ) {
-				$banners[] = array(
-					'url' => 'https://yoast.com/wordpress/video-manual-wordpress-seo/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=video-manual-banner',
+				$plugin_banners[] = array(
+					'url' => 'https://yoast.com/wordpress/plugins/video-manual-wordpress-seo/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=video-manual-banner',
 					'img' => 'banner-video-seo-manual.png',
 					'alt' => 'Banner WordPress SEO Video manual',
 				);
 			}
 
-			if ( class_exists( 'Woocommerce' ) ) {
-				$banners[] = array(
-					'url' => 'https://yoast.com/wordpress/yoast-woocommerce-seo/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=woocommerce-seo-banner',
+			if ( class_exists( 'Woocommerce' ) && ! class_exists( 'Yoast_WooCommerce_SEO' ) ) {
+				$plugin_banners[] = array(
+					'url' => 'https://yoast.com/wordpress/plugins/yoast-woocommerce-seo/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=woocommerce-seo-banner',
 					'img' => 'banner-woocommerce-seo.png',
 					'alt' => 'Banner WooCommerce SEO plugin',
 				);
 			}
 
 			if ( ! defined( 'WPSEO_LOCAL_VERSION' ) ) {
-				$banners[] = array(
-					'url' => 'https://yoast.com/wordpress/local-seo/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=local-seo-banner',
+				$plugin_banners[] = array(
+					'url' => 'https://yoast.com/wordpress/plugins/local-seo/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=local-seo-banner',
 					'img' => 'banner-local-seo.png',
 					'alt' => 'Banner Local SEO plugin',
 				);
 			}
-			shuffle( $banners );
+
+			if ( ! class_exists( 'WPSEO_News' ) ) {
+				$plugin_banners[] = array(
+					'url' => 'https://yoast.com/wordpress/plugins/news-seo/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=news-seo-banner',
+					'img' => 'banner-news-seo.png',
+					'alt' => 'Banner News SEO',
+				);
+			}
+
+			if ( ! class_exists( 'Post_Connector' ) ) {
+				$plugin_banners[] = array(
+					'url' => 'https://yoast.com/wordpress/plugins/post-connector/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=post-connector-banner',
+					'img' => 'banner-post-connector.png',
+					'alt' => 'Banner Post Connector plugin',
+				);
+			}
+
+			shuffle( $service_banners );
+			shuffle( $plugin_banners );
 			?>
-			<div class="postbox-container" id="sidebar-container">
+			<div class="wpseo_content_cell" id="sidebar-container">
 				<div id="sidebar">
 			<?php
+
+			$service_banner = $service_banners[0];
+
+			echo '<a target="_blank" href="' . esc_url( $service_banner['url'] ) . '"><img width="261" height="190" src="' . plugins_url( 'images/' . $service_banner['img'], WPSEO_FILE ) . '" alt="' . esc_attr( $service_banner['alt'] ) . '"/></a><br/><br/>';
+
 			$i = 0;
-			foreach ( $banners as $banner ) {
+			foreach ( $plugin_banners as $banner ) {
 				if ( $i == 2 )
 					break;
-				echo '<a target="_blank" href="' . esc_url( $banner['url'] ) . '"><img src="' . plugins_url( 'images/' . $banner['img'], WPSEO_FILE ) . '" alt="' . esc_attr( $banner['alt'] ) . '"/></a><br/><br/>';
+				echo '<a target="_blank" href="' . esc_url( $banner['url'] ) . '"><img width="261" src="' . plugins_url( 'images/' . $banner['img'], WPSEO_FILE ) . '" alt="' . esc_attr( $banner['alt'] ) . '"/></a><br/><br/>';
 				$i++;
 			}
 			?>
-					<br/><br/><br/>
+					<?php
+						echo __( 'Remove these ads?', 'wordpress-seo' ) . '<br/>';
+						echo '<a target="_blank" href="https://yoast.com/wordpress/plugins/seo-premium/#utm_source=wordpress-seo-config&utm_medium=textlink&utm_campaign=remove-ads-link">' . __('Upgrade to WordPress SEO Premium &raquo;', 'wordpress-seo') . '</a><br/><br/>';
+					?>
 				</div>
 			</div>
 		<?php
@@ -161,7 +191,8 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 			require_once( ABSPATH . 'wp-admin/options-head.php' );
 			?>
 			<h2 id="wpseo-title"><?php echo esc_html( get_admin_page_title() ); ?></h2>
-			<div id="wpseo_content_top" class="postbox-container">
+			<div class="wpseo_content_wrapper">
+			<div class="wpseo_content_cell" id="wpseo_content_top">
 			<div class="metabox-holder">
 			<div class="meta-box-sortables">
 			<?php
@@ -195,6 +226,8 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 			if ( $show_sidebar ) {
 				$this->admin_sidebar();
 			}
+
+			echo '</div><!-- end of div wpseo_content_wrapper -->';
 
 
 			/* Add the current settings array to the page for debugging purposes,
@@ -231,12 +264,14 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 		/**
 		 * Deletes all post meta values with a given meta key from the database
 		 *
+		 * @todo [JRF => whomever] This method does not seem to be used anywhere. Double-check before removal.
+		 *
 		 * @param string $meta_key Key to delete all meta values for.
 		 */
-		function delete_meta( $meta_key ) {
+		/*function delete_meta( $meta_key ) {
 			global $wpdb;
 			$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->postmeta WHERE meta_key = %s", $meta_key ) );
-		}
+		}*/
 
 		/**
 		 * Exports the current site's WP SEO settings.
@@ -245,7 +280,7 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 		 * @return bool|string $return False when failed, the URL to the export file when succeeded.
 		 */
 		function export_settings( $include_taxonomy ) {
-			$content = '; ' . __( 'This is a settings export file for the WordPress SEO plugin by Yoast.com', 'wordpress-seo' ) . " - http://yoast.com/wordpress/seo/ \r\n";
+			$content = '; ' . __( 'This is a settings export file for the WordPress SEO plugin by Yoast.com', 'wordpress-seo' ) . " - https://yoast.com/wordpress/plugins/seo/ \r\n";
 
 			$optarr = WPSEO_Options::get_option_names();
 
@@ -362,8 +397,9 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 		 * @return string
 		 */
 		function checkbox( $var, $label, $label_left = false, $option = '' ) {
-			if ( empty( $option ) )
+			if ( empty( $option ) ) {
 				$option = $this->currentoption;
+			}
 
 			$options = $this->get_option( $option );
 
@@ -407,8 +443,9 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 		 * @return string
 		 */
 		function textinput( $var, $label, $option = '' ) {
-			if ( empty( $option ) )
+			if ( empty( $option ) ) {
 				$option = $this->currentoption;
+			}
 
 			$options = $this->get_option( $option );
 			$val     = ( isset( $options[$var] ) ) ? $options[$var] : '';
@@ -426,8 +463,9 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 		 * @return string
 		 */
 		function textarea( $var, $label, $option = '', $class = '' ) {
-			if ( empty( $option ) )
+			if ( empty( $option ) ) {
 				$option = $this->currentoption;
+			}
 
 			$options = $this->get_option( $option );
 			$val     = ( isset( $options[$var] ) ) ? $options[$var] : '';
@@ -443,8 +481,9 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 		 * @return string
 		 */
 		function hidden( $var, $option = '' ) {
-			if ( empty( $option ) )
+			if ( empty( $option ) ) {
 				$option = $this->currentoption;
+			}
 
 			$options = $this->get_option( $option );
 
@@ -495,8 +534,9 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 		 * @return string
 		 */
 		function file_upload( $var, $label, $option = '' ) {
-			if ( empty( $option ) )
+			if ( empty( $option ) ) {
 				$option = $this->currentoption;
+			}
 
 			$options = $this->get_option( $option );
 

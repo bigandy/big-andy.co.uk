@@ -34,3 +34,11 @@
 // 		console.log('this is awesome');
 // 	}
 // );
+
+(function($){
+
+	// Target your .container, .wrapper, .post, etc.
+	$("article").fitVids();
+
+})(jQuery);
+

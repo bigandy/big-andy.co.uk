@@ -1,17 +1,17 @@
-body {
-	font-family: $opensans;
-}
+// body {
+// 	font-family: $opensans;
+// }
 
 .content-container {
 	@extend .row;
 	@extend %cf;
 }
 
-header,
-main,
-footer {
-	@extend .row;
-}
+// header,
+// main,
+// footer {
+// 	@extend .row;
+// }
 
 .list--plain {
 	margin: 0;
@@ -44,4 +44,10 @@ footer {
 		}
 	}
 
+}
+
+article {
+	&:nth-child(odd) {
+		clear: left;
+	}
 }

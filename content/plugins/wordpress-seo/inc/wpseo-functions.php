@@ -42,7 +42,21 @@ function wpseo_do_upgrade() {
 		// Add new capabilities on upgrade
 		wpseo_add_capabilities();
 	}
-	
+
+	/* Only correct the breadcrumb defaults for upgrades from v1.5+ to v1.5.2.3, upgrades from earlier version
+	   will already get this functionality in the clean_up routine. */
+	if ( version_compare( $option_wpseo['version'], '1.4.25', '>' ) && version_compare( $option_wpseo['version'], '1.5.2.3', '<' ) ) {
+		add_action( 'init', array( 'WPSEO_Options', 'bring_back_breadcrumb_defaults' ), 3 );
+	}
+
+	if ( version_compare( $option_wpseo['version'], '1.4.25', '>' ) && version_compare( $option_wpseo['version'], '1.5.2.4', '<' ) ) {
+		/* Make sure empty maintax/mainpt strings will convert to 0 */
+		WPSEO_Options::clean_up( 'wpseo_internallinks', $option_wpseo['version'] );
+
+		/* Remove slashes from taxonomy meta texts */
+		WPSEO_Options::clean_up( 'wpseo_taxonomy_meta', $option_wpseo['version'] );
+	}
+
 	// Make sure version nr gets updated for any version without specific upgrades
 	$option_wpseo = get_option( 'wpseo' ); // re-get to make sure we have the latest version
 	if ( version_compare( $option_wpseo['version'], WPSEO_VERSION, '<' ) ) {
@@ -71,7 +85,7 @@ if ( ! function_exists( 'yoast_breadcrumb' ) ) {
 	 * Other than that, leaving the setting is an easy way to enable/disable the bc without having to
 	 * edit the template files again, but having to manually enable when you've added the template tag
 	 * in your theme is kind of double, so I'm undecided about what to do.
-	 * I guess I'm leaning towards removing the option key in combination with adding the bc shortcode.
+	 * I guess I'm leaning towards removing the option key.
 	 *
 	 * @param string $before  What to show before the breadcrumb.
 	 * @param string $after   What to show after the breadcrumb.
@@ -82,20 +96,9 @@ if ( ! function_exists( 'yoast_breadcrumb' ) ) {
 	function yoast_breadcrumb( $before = '', $after = '', $display = true ) {
 		$options = get_option( 'wpseo_internallinks' );
 
-		$breadcrumbs_string = "";
-
 		if ( $options['breadcrumbs-enable'] === true ) {
-			$breadcrumbs = new WPSEO_Breadcrumbs();
-
-			$breadcrumbs_string = $breadcrumbs->breadcrumb( $before, $after, false );
+			return WPSEO_Breadcrumbs::breadcrumb( $before, $after, $display );
 		}
-
-		// Output $breadcrumbs_string is $display is true
-		if ( true === $display ) {
-			echo $breadcrumbs_string;
-		}
-
-		return $breadcrumbs_string;
 	}
 }
 
@@ -156,31 +159,33 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 	$string = strip_tags( $string );
 
 	// Let's see if we can bail super early.
-	if ( strpos( $string, '%%' ) === false )
+	if ( strpos( $string, '%%' ) === false ) {
 		return trim( preg_replace( '`\s+`u', ' ', $string ) );
+	}
 
 	global $sep;
-	if ( ! isset( $sep ) || empty( $sep ) )
+	if ( ! isset( $sep ) || empty( $sep ) ) {
 		$sep = '-';
+	}
 
 	$simple_replacements = array(
 		'%%sep%%'          => $sep,
 		'%%sitename%%'     => get_bloginfo( 'name' ),
 		'%%sitedesc%%'     => get_bloginfo( 'description' ),
-		'%%currenttime%%'  => date( get_option( 'time_format' ) ),
-		'%%currentdate%%'  => date( get_option( 'date_format' ) ),
-		'%%currentday%%'   => date( 'j' ),
-		'%%currentmonth%%' => date( 'F' ),
-		'%%currentyear%%'  => date( 'Y' ),
+		'%%currenttime%%'  => date_i18n( get_option( 'time_format' ) ),
+		'%%currentdate%%'  => date_i18n( get_option( 'date_format' ) ),
+		'%%currentday%%'   => date_i18n( 'j' ),
+		'%%currentmonth%%' => date_i18n( 'F' ),
+		'%%currentyear%%'  => date_i18n( 'Y' ),
 	);
 
-	foreach ( $simple_replacements as $var => $repl ) {
-		$string = str_replace( $var, $repl, $string );
-	}
+	$string = str_replace( array_keys( $simple_replacements ), array_values( $simple_replacements ), $string );
+
 
 	// Let's see if we can bail early.
-	if ( strpos( $string, '%%' ) === false )
+	if ( strpos( $string, '%%' ) === false ) {
 		return trim( preg_replace( '`\s+`u', ' ', $string ) );
+	}
 
 	global $wp_query;
 
@@ -198,33 +203,38 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 		'term404'		=> '',
 	);
 
-	if ( isset( $args['post_content'] ) )
+	if ( isset( $args['post_content'] ) ) {
 		$args['post_content'] = wpseo_strip_shortcode( $args['post_content'] );
-	if ( isset( $args['post_excerpt'] ) )
+	}
+	if ( isset( $args['post_excerpt'] ) ) {
 		$args['post_excerpt'] = wpseo_strip_shortcode( $args['post_excerpt'] );
+	}
 
 	$r = (object) wp_parse_args( $args, $defaults );
 
 	$max_num_pages = 1;
-	if ( ! is_single() ) {
+	if ( ! is_singular() ) {
 		$pagenum = get_query_var( 'paged' );
-		if ( $pagenum === 0 )
+		if ( $pagenum === 0 ) {
 			$pagenum = 1;
+		}
 
-		if ( isset( $wp_query->max_num_pages ) && $wp_query->max_num_pages != '' && $wp_query->max_num_pages != 0 )
+		if ( isset( $wp_query->max_num_pages ) && $wp_query->max_num_pages != '' && $wp_query->max_num_pages != 0 ) {
 			$max_num_pages = $wp_query->max_num_pages;
+		}
 	}
 	else {
 		global $post;
 		$pagenum       = get_query_var( 'page' );
 		$max_num_pages = ( isset( $post->post_content ) ) ? substr_count( $post->post_content, '<!--nextpage-->' ) : 1;
-		if ( $max_num_pages >= 1 )
+		if ( $max_num_pages >= 1 ) {
 			$max_num_pages++;
+		}
 	}
 
 	// Let's do date first as it's a bit more work to get right.
 	if ( $r->post_date != '' ) {
-		$date = mysql2date( get_option( 'date_format' ), $r->post_date );
+		$date = mysql2date( get_option( 'date_format' ), $r->post_date, true );
 	}
 	else {
 		if ( get_query_var( 'day' ) && get_query_var( 'day' ) != '' ) {
@@ -252,7 +262,7 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 		'%%term404%%'	   => sanitize_text_field( str_replace( '-', ' ', $r->term404 ) ),
 	);
 
-	if ( isset( $r->ID ) ) {
+	if ( isset( $r->ID ) && ! empty( $r->ID ) ) {
 		$replacements = array_merge(
 			$replacements, array(
 				'%%caption%%'      => $r->post_excerpt,
@@ -261,7 +271,7 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 				'%%excerpt_only%%' => strip_tags( $r->post_excerpt ),
 				'%%focuskw%%'      => WPSEO_Meta::get_value( 'focuskw', $r->ID ),
 				'%%id%%'           => $r->ID,
-				'%%modified%%'     => mysql2date( get_option( 'date_format' ), $r->post_modified ),
+				'%%modified%%'     => mysql2date( get_option( 'date_format' ), $r->post_modified, true ),
 				'%%name%%'         => get_the_author_meta( 'display_name', ! empty( $r->post_author ) ? $r->post_author : get_query_var( 'author' ) ),
 				'%%tag%%'          => wpseo_get_terms( $r->ID, 'post_tag' ),
 				'%%title%%'        => stripslashes( $r->post_title ),
@@ -286,7 +296,7 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 	*
 	* @api array $replacements The replacements
 	*/
-	$replacements = apply_filters( "wpseo_replacements", $replacements );
+	$replacements = apply_filters( 'wpseo_replacements', $replacements );
 
 	foreach ( $replacements as $var => $repl ) {
 		if ( ! in_array( $var, $omit ) ) {
@@ -300,7 +310,13 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 	}
 
 	if ( isset( $wp_query->query_vars['post_type'] ) && preg_match_all( '`%%pt_([^%]+)%%`u', $string, $matches, PREG_SET_ORDER ) ) {
-		$pt        = get_post_type_object( $wp_query->query_vars['post_type'] );
+		$post_type = $wp_query->query_vars['post_type'];
+
+		if ( is_array( $post_type ) ) {
+			$post_type = reset( $post_type );
+		}
+
+		$pt        = get_post_type_object( $post_type );
 		$pt_plural = $pt_singular = $pt->name;
 		if ( isset( $pt->labels->singular_name ) ) {
 			$pt_singular = $pt->labels->singular_name;
@@ -312,10 +328,20 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 		$string = str_replace( '%%pt_plural%%', $pt_plural, $string );
 	}
 
-	if ( preg_match_all( '`%%cf_([^%]+)%%`u', $string, $matches, PREG_SET_ORDER ) ) {
+	if ( ( is_singular() || is_admin() ) && preg_match_all( '`%%cf_([^%]+)%%`u', $string, $matches, PREG_SET_ORDER ) ) {
 		global $post;
-		foreach ( $matches as $match ) {
-			$string = str_replace( $match[0], get_post_meta( $post->ID, $match[1], true ), $string );
+		if( is_object( $post ) && isset( $post->ID ) ) {
+			foreach ( $matches as $match ) {
+				$string = str_replace( $match[0], get_post_meta( $post->ID, $match[1], true ), $string );
+			}
+		}
+	}
+
+	if ( ( is_singular() || is_admin() ) && false !== strpos( $string, '%%parent_title%%' ) ) {
+		global $post;
+		if ( isset( $post->post_parent ) && 0 != $post->post_parent ) {
+			$parent_title = get_the_title( $post->post_parent );
+			$string = str_replace( '%%parent_title%%', $parent_title, $string );
 		}
 	}
 
@@ -464,6 +490,11 @@ add_action( 'init', 'wpseo_xml_sitemaps_init', 1 );
  * Notify search engines of the updated sitemap.
  */
 function wpseo_ping_search_engines( $sitemapurl = null ) {
+	// Don't ping if blog is not public
+	if ( '0' == get_option( 'blog_public' ) ) {
+		return;
+	}
+
 	$options = get_option( 'wpseo_xml' );
 	$base    = $GLOBALS['wp_rewrite']->using_index_permalinks() ? 'index.php/' : '';
 	if ( $sitemapurl == null ) {
@@ -677,7 +708,7 @@ function wpseo_sitemap_handler( $atts ) {
 						// include if this key doesn't exists
 						array(
 							'key'     => WPSEO_Meta::$meta_prefix . 'meta-robots-noindex',
-							'value'   => '', // This is ignored, but is necessary...
+							'value'   => 'needs-a-value-anyway', // This is ignored, but is necessary...
 							'compare' => 'NOT EXISTS',
 						),
 						// OR if key does exists include if it is not 1
@@ -887,7 +918,7 @@ if ( ! function_exists( 'wpseo_calc' ) ) {
 			return false;
 		}
 
-		if( ! isset( $bc ) ) {
+		if ( ! isset( $bc ) ) {
 			$bc = extension_loaded( 'bcmath' );
 		}
 
@@ -976,6 +1007,59 @@ if ( ! function_exists( 'wpseo_calc' ) ) {
 			return $result;
 		}
 		return false;
+	}
+}
+
+/**
+ * Check if the web server is running on Apache
+ * @return bool
+ */
+function wpseo_is_apache() {
+	if ( isset( $_SERVER['SERVER_SOFTWARE'] ) && stristr( $_SERVER['SERVER_SOFTWARE'], 'apache' ) !== false ) {
+		return true;
+	}
+	return false;
+}
+
+/**
+ * Check if the web service is running on Nginx
+ *
+ * @return bool
+ */
+function wpseo_is_nginx() {
+	if ( isset( $_SERVER['SERVER_SOFTWARE'] ) && stristr( $_SERVER['SERVER_SOFTWARE'], 'nginx' ) !== false ) {
+		return true;
+	}
+	return false;
+}
+
+/**
+ * WordPress SEO breadcrumb shortcode
+ * [wpseo_breadcrumb]
+ *
+ * @return string
+ */
+function wpseo_shortcode_yoast_breadcrumb() {
+	return yoast_breadcrumb( '', '', false );
+}
+add_shortcode( 'wpseo_breadcrumb', 'wpseo_shortcode_yoast_breadcrumb' );
+
+
+/**
+ * Emulate PHP native ctype_digit() function for when the ctype extension would be disabled *sigh*
+ * Only emulates the behaviour for when the input is a string, does not handle integer input as ascii value
+ *
+ * @param	string	$string
+ *
+ * @return 	bool
+ */
+if ( ! extension_loaded( 'ctype' ) || ! function_exists( 'ctype_digit' ) ) {
+	function ctype_digit( $string ) {
+		$return = false;
+		if ( ( is_string( $string ) && $string !== '' ) && preg_match( '`^\d+$`', $string ) === 1 ){
+			$return = true;
+		}
+		return $return;
 	}
 }
 
@@ -1082,37 +1166,3 @@ function wpseo_get_term_meta( $term, $taxonomy, $meta ) {
 	_deprecated_function( __FUNCTION__, 'WPSEO 1.5.0', 'WPSEO_Taxonomy_Meta::get_term_meta' );
 	WPSEO_Taxonomy_Meta::get_term_meta( $term, $taxonomy, $meta );
 }
-
-/**
- * Check if the web server is running on Apache
- * @return bool
- */
-function wpseo_is_apache() {
-	if ( isset( $_SERVER['SERVER_SOFTWARE'] ) && stristr( $_SERVER['SERVER_SOFTWARE'], 'apache' ) !== false ) {
-		return true;
-	}
-	return false;
-}
-
-/**
- * Check if the web service is running on Nginx
- *
- * @return bool
- */
-function wpseo_is_nginx() {
-	if ( isset( $_SERVER['SERVER_SOFTWARE'] ) && stristr( $_SERVER['SERVER_SOFTWARE'], 'nginx' ) !== false ) {
-		return true;
-	}
-	return false;
-}
-
-/**
- * WordPress SEO breadcrumb shortcode
- * [wpseo_breadcrumb]
- *
- * @return string
- */
-function wpseo_shortcode_yoast_breadcrumb() {
-	return yoast_breadcrumb( '', '', false );
-}
-add_shortcode( 'wpseo_breadcrumb', 'wpseo_shortcode_yoast_breadcrumb' );

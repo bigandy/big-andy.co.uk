@@ -9,12 +9,28 @@ var gulp = require('gulp'),
 	autoprefix = require('gulp-autoprefixer'),
 	minifyCSS = require('gulp-minify-css'),
 	livereload = require('gulp-livereload'),
-	stylish = require('jshint-stylish');
+	stylish = require('jshint-stylish'),
+	uncss = require('gulp-uncss');
+
+gulp.task('uncss', function() {
+    return gulp.src('style.css')
+        .pipe(uncss({
+            html: [
+				'html/front-page.html',
+				'html/about.html',
+				'html/single.html',
+				'html/cv.html'
+            ]
+        }))
+        .pipe(gulp.dest('./build'));
+});
+
+
 
 // concat and minify the js
 gulp.task('js', function () {
 	gulp.src([
-			'js/plugins.js',
+			'bower_components/FitVids/jquery.fitvids.js',
 			'js/main.js',
 		])
 		.pipe(gutil.env.type === 'production' ? stripDebug() : gutil.noop())
@@ -38,7 +54,7 @@ gulp.task('sass', function () {
 		.pipe(sass({
 			errLogToConsole: true,
 			outputStyle: 'compressed',
-			sourceComments: 'map'
+			// sourceComments: 'map'
 		}))
         // .pipe(autoprefix('last 5 versions'))
         // .pipe(minifyCSS())
@@ -67,3 +83,4 @@ gulp.task('watch', function () {
 // The default task (called when you run `gulp` from cli)
 gulp.task('default', ['js', 'sass', 'watch', 'livereload']);
 gulp.task('production', ['js', 'sass']);
+gulp.task('tidycss', ['uncss']);

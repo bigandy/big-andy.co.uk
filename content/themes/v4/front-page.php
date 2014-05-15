@@ -2,10 +2,18 @@
 get_header();
 ?>
 <main>
-	<div class="main__row content-container">
+	<div class="row content-container">
 		<?php
+
+    	// hidden post class
+	    $hide_id = 31;
+	    // get paged
+    	$paged = ( get_query_var( 'paged' ) ) ? get_query_var( 'paged' ) : 1;
+
 		$home_args = array(
-			'posts_per_page' => 5
+			'posts_per_page' => 6,
+			'paged' => $paged,
+			'cat' => -$hide_id
 		);
 
 		$home_loop = new WP_Query( $home_args );
@@ -23,7 +31,7 @@ get_header();
 						</h1>
 			    	</header>
 					<section class="post-content clearfix">
-					    <?php the_content(); ?>
+					    <?php the_excerpt(); ?>
 				    </section>
 			    </article>
 			<?php

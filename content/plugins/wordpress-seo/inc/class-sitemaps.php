@@ -5,10 +5,10 @@
 
 if ( ! defined( 'WPSEO_VERSION' ) ) {
 	header( 'Status: 403 Forbidden' );
-	header( 'HTTP/1.1 403 Forbidden' );
+
+	header( 'HTTP/1.1 403 Forbidden', true, 403 );
 	exit();
 }
-
 
 if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 	/**
@@ -67,7 +67,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 				define( 'ENT_XML1', 16 );
 			}
 
-			add_action( 'template_redirect', array( $this, 'redirect' ) );
+			add_action( 'template_redirect', array( $this, 'redirect' ), 9 );
 			add_filter( 'redirect_canonical', array( $this, 'canonical' ) );
 			add_action( 'wpseo_hit_sitemap_index', array( $this, 'hit_sitemap_index' ) );
 
@@ -78,6 +78,15 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 			$this->max_entries = $this->options['entries-per-page'];
 			$this->home_url    = home_url();
 
+		}
+
+		/**
+		 * Returns the server HTTP protocol to use for output, if it's set.
+		 *
+		 * @return string
+		 */
+		private function http_protocol() {
+			return ( isset( $_SERVER['SERVER_PROTOCOL'] ) && $_SERVER['SERVER_PROTOCOL'] !== '' ) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.1';
 		}
 
 		/**
@@ -143,8 +152,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 		 * @since 1.4.16
 		 */
 		function sitemap_close() {
-			global $wp_filter;
-			$wp_filter['wp_footer'] = 1;
+			remove_all_actions("wp_footer");
 			die();
 		}
 
@@ -304,7 +312,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 				foreach ( $taxonomies as $tax ) {
 
 					$steps = $this->max_entries;
-					$count = count( $all_taxonomies[$tax] );
+					$count = ( isset ( $all_taxonomies[$tax] ) ) ? count( $all_taxonomies[$tax] ) : 1;
 					$n     = ( $count > $this->max_entries ) ? (int) ceil( $count / $this->max_entries ) : 1;
 
 					for ( $i = 0; $i < $n; $i ++ ) {
@@ -408,6 +416,30 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 		}
 
 		/**
+		 * Function to dynamically filter the change frequency
+		 *
+		 * @param string $filter  Expands to wpseo_sitemap_$filter_change_freq, allowing for a change of the frequency for numerous specific URLs
+		 * @param string $default The default value for the frequency
+		 * @param string $url     The URL of the currenty entry
+		 *
+		 * @return mixed|void
+		 */
+		private function filter_frequency( $filter, $default, $url ) {
+			/**
+			 * Filter: 'wpseo_sitemap_' . $filter . '_change_freq' - Allow filtering of the specific change frequency
+			 *
+			 * @api string $default The default change frequency
+			 */
+			$change_freq = apply_filters( 'wpseo_sitemap_' . $filter . '_change_freq', $default, $url );
+
+			if ( ! in_array( $change_freq, array( 'always', 'hourly', 'daily', 'weekly', 'monthly', 'yearly', 'never' ) ) ) {
+				$change_freq = $default;
+			}
+
+			return $change_freq;
+		}
+
+		/**
 		 * Build a sub-sitemap for a specific post type -- example.com/post_type-sitemap.xml
 		 *
 		 * @param string $post_type Registered post type's slug
@@ -449,22 +481,23 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 				$front_id = get_option( 'page_on_front' );
 				if ( ! $front_id && ( $post_type == 'post' || $post_type == 'page' ) ) {
 					$output .= $this->sitemap_url(
-						array(
-							'loc' => $this->home_url,
-							'pri' => 1,
-							'chf' => 'daily',
-						)
+							array(
+									'loc' => $this->home_url,
+									'pri' => 1,
+									'chf' => $this->filter_frequency( 'homepage', 'daily', $this->home_url ),
+							)
 					);
 				} else {
 					if ( $front_id && $post_type == 'post' ) {
 						$page_for_posts = get_option( 'page_for_posts' );
 						if ( $page_for_posts ) {
+							$page_for_posts_url = get_permalink( $page_for_posts );
 							$output .= $this->sitemap_url(
-								array(
-									'loc' => get_permalink( $page_for_posts ),
-									'pri' => 1,
-									'chf' => 'daily',
-								)
+									array(
+											'loc' => $page_for_posts_url,
+											'pri' => 1,
+											'chf' => $change_freq = $this->filter_frequency( 'blogpage', 'daily', $page_for_posts_url ),
+									)
 							);
 						}
 					}
@@ -473,12 +506,12 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 				$archive = get_post_type_archive_link( $post_type );
 				if ( $archive ) {
 					$output .= $this->sitemap_url(
-						array(
-							'loc' => $archive,
-							'pri' => 0.8,
-							'chf' => 'weekly',
-							'mod' => $this->get_last_modified( $post_type ), // get_lastpostmodified( 'gmt', $post_type ) #17455
-						)
+							array(
+									'loc' => $archive,
+									'pri' => 0.8,
+									'chf' => $this->filter_frequency( $post_type . '_archive', 'weekly', $archive ),
+									'mod' => $this->get_last_modified( $post_type ), // get_lastpostmodified( 'gmt', $post_type ) #17455
+							)
 					);
 				}
 			}
@@ -547,7 +580,6 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 						$url = array();
 
 						$url['mod'] = ( isset( $p->post_modified_gmt ) && $p->post_modified_gmt != '0000-00-00 00:00:00' && $p->post_modified_gmt > $p->post_date_gmt ) ? $p->post_modified_gmt : $p->post_date_gmt;
-						$url['chf'] = 'weekly';
 						$url['loc'] = get_permalink( $p );
 
 						/**
@@ -556,13 +588,16 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 						 * Note that only absolute local URLs are allowed as the check after this removes external URLs.
 						 *
 						 * @api string $url URL to use in the XML sitemap
+						 *
 						 * @param object $p Post object for the URL
 						 */
 						$url['loc'] = apply_filters( 'wpseo_xml_sitemap_post_url', $url['loc'], $p );
 
+						$url['chf'] = $this->filter_frequency( $post_type . '_single', 'weekly', $url['loc'] );
+
 						/**
 						 * Do not include external URLs.
-						 * @see http://wordpress.org/plugins/page-links-to/ can rewrite permalinks to external URLs.
+						 * @see https://wordpress.org/plugins/page-links-to/ can rewrite permalinks to external URLs.
 						 */
 						if ( false === strpos( $url['loc'], $this->home_url ) ) {
 							continue;
@@ -729,8 +764,16 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 			$n      = (int) $this->n;
 			$offset = ( $n > 1 ) ? ( $n - 1 ) * $this->max_entries : 0;
 
-			$terms = get_terms( $taxonomy->name, array( 'hide_empty' => true ) );
-			$terms = array_splice( $terms, $offset, $steps );
+			/**
+			 * Filter: 'wpseo_sitemap_exclude_empty_terms' - Allow people to include empty terms in sitemap
+			 *
+			 * @api bool $hide_empty Whether or not to hide empty terms, defaults to true.
+			 *
+			 * @param object $taxonomy The taxonomy we're getting terms for.
+			 */
+			$hide_empty = apply_filters( 'wpseo_sitemap_exclude_empty_terms', true, $taxonomy );
+			$terms      = get_terms( $taxonomy->name, array( 'hide_empty' => $hide_empty ) );
+			$terms      = array_splice( $terms, $offset, $steps );
 
 			if ( is_array( $terms ) && $terms !== array() ) {
 				foreach ( $terms as $c ) {
@@ -783,7 +826,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 						$c->term_id
 					);
 					$url['mod'] = $wpdb->get_var( $sql );
-					$url['chf'] = 'weekly';
+					$url['chf'] = $this->filter_frequency( $c->taxonomy . '_term', 'weekly', $url['loc'] );
 
 					// Use this filter to adjust the entry before it gets added to the sitemap
 					$url = apply_filters( 'wpseo_sitemap_entry', $url, 'term', $c );
@@ -794,16 +837,16 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 				}
 			}
 
-			if ( empty( $output ) ) {
-				$this->bad_sitemap = true;
-
-				return;
-			}
-
 			$this->sitemap = '<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ';
 			$this->sitemap .= 'xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" ';
 			$this->sitemap .= 'xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n";
-			$this->sitemap .= $output . '</urlset>';
+
+			// Only add $ouput != empty
+			if ( ! empty( $output ) ) {
+				$this->sitemap .= $output;
+			}
+
+			$this->sitemap .= '</urlset>';
 		}
 
 
@@ -832,7 +875,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 					'meta_query' => array(
 						array(
 							'key'     => '_yoast_wpseo_profile_updated',
-							'value'   => '', // This is ignored, but is necessary...
+							'value'   => 'needs-a-value-anyway', // This is ignored, but is necessary...
 							'compare' => 'NOT EXISTS',
 						),
 					)
@@ -868,10 +911,10 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 					$author_link = get_author_posts_url( $user->ID );
 					if ( $author_link !== '' ) {
 						$url = array(
-							'loc' => $author_link,
-							'pri' => 0.8,
-							'chf' => 'weekly',
-							'mod' => date( 'c', isset( $user->_yoast_wpseo_profile_updated ) ? $user->_yoast_wpseo_profile_updated : time() ),
+								'loc' => $author_link,
+								'pri' => 0.8,
+								'chf' => $change_freq = $this->filter_frequency( 'author_archive', 'daily', $author_link ),
+								'mod' => date( 'c', isset( $user->_yoast_wpseo_profile_updated ) ? $user->_yoast_wpseo_profile_updated : time() ),
 						);
 						// Use this filter to adjust the entry before it gets added to the sitemap
 						$url = apply_filters( 'wpseo_sitemap_entry', $url, 'user', $user );
@@ -912,7 +955,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 		 */
 		function xsl_output( $type ) {
 			if ( $type == 'main' ) {
-				header( 'HTTP/1.1 200 OK', true, 200 );
+				header( $this->http_protocol() .' 200 OK', true, 200 );
 				// Prevent the search engines from indexing the XML Sitemap.
 				header( 'X-Robots-Tag: noindex, follow', true );
 				header( 'Content-Type: text/xml' );
@@ -933,7 +976,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 		 * Spit out the generated sitemap and relevant headers and encoding information.
 		 */
 		function output() {
-			header( 'HTTP/1.1 200 OK', true, 200 );
+			header( $this->http_protocol() .' 200 OK', true, 200 );
 			// Prevent the search engines from indexing the XML Sitemap.
 			header( 'X-Robots-Tag: noindex, follow', true );
 			header( 'Content-Type: text/xml' );
@@ -959,7 +1002,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 		 */
 		function sitemap_url( $url ) {
 			if ( isset( $url['mod'] ) ) {
-				$date = mysql2date( 'Y-m-d\TH:i:s+00:00', $url['mod'] );
+				$date = mysql2date( 'Y-m-d\TH:i:s+00:00', $url['mod'], false );
 			} else {
 				$date = date( 'c' );
 			}
@@ -1051,7 +1094,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 			} else {
 				$result = 0;
 				foreach ( $post_types as $post_type ) {
-					if ( strotime( $this->post_type_dates[$post_type] ) > $result ) {
+					if ( isset( $this->post_type_dates[$post_type] ) && strtotime( $this->post_type_dates[$post_type] ) > $result ) {
 						$result = strtotime( $this->post_type_dates[$post_type] );
 					}
 				}

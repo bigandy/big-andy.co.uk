@@ -69,23 +69,25 @@ label.radio {
 	margin-right: 20px;
 }
 
+.wpseo_content_wrapper {
+	display: table;
+	width: 100%;
+}
+.wpseo_content_cell {
+	display: table-cell;
+	height: 500px;
+	padding: 0;
+	margin: 0;
+	vertical-align: top;
+}
+
 #wpseo_content_top {
 	min-width: 800px;
-	width: 100%;
-	padding: 0 261px 0 0;
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	box-sizing: border-box;
 }
 
 #sidebar-container {
-	position: absolute;
-	top: 105px;
-	right: 10px;
 	width: 261px;
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	box-sizing: border-box;
+	padding: 0 0 0 20px;
 }
 
 @media (max-width: 1020px) {
@@ -291,6 +293,7 @@ input.wpseo-new-title, textarea.wpseo-new-metadesc {
 	padding: 20px 10px 0 120px;
 	border-bottom: 1px solid #ccc;
 	background: #fff no-repeat left 10px;
+	background-size: 130px 100px;
 }
 
 .wpseotab .extension a {
@@ -315,4 +318,14 @@ input.wpseo-new-title, textarea.wpseo-new-metadesc {
 
 .wpseotab .woocommerce-seo h3 {
 	background-image: url(../images/Woo_130x100.png);
+}
+
+.wpseotab .news-seo h3 {
+	background-image: url(../images/News_SEO.png);
+	background-size: 115px 100px;
+}
+
+.wpseotab .post-connector h3 {
+	background-image: url(../images/post-connector.png);
+	background-size: 115px 100px;
 }
