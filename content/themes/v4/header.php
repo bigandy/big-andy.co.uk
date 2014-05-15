@@ -13,7 +13,7 @@
 </head>
 <body>
 	<header>
-		<div class="header__row content-container">
+		<div class="header__row content-container row">
 			<h1>
 				<a href="<?php echo home_url(); ?>">
 					Andrew Hudson - Front-end Developer
@@ -25,7 +25,7 @@
 					'theme_location'  => 'primary',
 					'container'       => 'nav',
 					'container_id'    => false,
-					// 'container_class' => 'large-8 columns',
+					'container_class' => 'large-12 columns header__nav',
 					'menu_class'      => 'list--inline header__menu',
 					'menu_id'		  => '',
 				);

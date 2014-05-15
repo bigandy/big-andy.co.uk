@@ -19,7 +19,7 @@ footer {
 
 	h1 {
 		text-align: center;
-		font-family: serif;
+		// font-family: serif;
 		// letter-spacing: 10px;
 
 		a {
@@ -44,4 +44,19 @@ footer {
 	li {
 		float: left;
 	}
+}
+
+
+// Styles specific to the_content()
+.post-content,
+.header__menu {
+	a {
+		border-bottom: 3px solid transparent;
+		margin-bottom: -3px;
+		&:hover,
+		&:focus {
+			border-bottom-color: $primary-color;
+		}
+	}
+
 }

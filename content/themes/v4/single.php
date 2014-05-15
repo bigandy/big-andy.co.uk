@@ -10,11 +10,7 @@ get_header();
     			?>
 			    <article role="article" class="large-6 columns">
 					<header class="article-header">
-					    <h1>
-					   		<a href="<?php the_permalink(); ?>">
-					   			<?php the_title(); ?>
-					   		</a>
-						</h1>
+					    <h1><?php the_title(); ?></h1>
 			    	</header>
 					<section class="post-content clearfix">
 					    <?php the_content(); ?>
