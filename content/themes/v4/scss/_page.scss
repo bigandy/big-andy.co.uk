@@ -44,6 +44,10 @@
 		}
 	}
 
+	.large-6 + .large-6:last-child {
+		float: left;
+	}
+
 }
 
 article {
