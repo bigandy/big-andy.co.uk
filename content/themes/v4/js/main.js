@@ -1,39 +1,13 @@
-/* global require*/
+// Google Analytics Code
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-6954334-3']);
+_gaq.push(['_trackPageview']);
 
-// require.config({
-// 	'baseUrl': 'content/themes/v4/bower_components',
-// 	'paths': {
-// 		'jQuery': 'jQuery/jquery.min',
-// 		'backbone': 'backbone/backbone-min',
-// 		'underscore': 'underscore/underscore-min'
-// 	},
-// 	'shim': {
-// 		'jQuery': {
-// 			'exports': 'jQuery'
-// 		},
-// 		'backbone': {
-// 			'exports': 'backbone'
-// 		},
-// 		'underscore': {
-// 			'exports': 'underscore'
-// 		}
-// 	},
-// 	waitSeconds: 20
-
-// });
-
-// require(
-// 	[
-// 		'jQuery',
-// 		'underscore',
-// 		'backbone'
-// 	], function ($) {
-// 		'use strict';
-// 		var h1 = $('h1');
-// 		console.log(h1);
-// 		console.log('this is awesome');
-// 	}
-// );
+(function() {
+var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
 
 (function($){
 
