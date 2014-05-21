@@ -54,7 +54,7 @@ gulp.task('sass', function () {
     gulp.src('scss/*.scss')
 		.pipe(sass({
 			errLogToConsole: true,
-			outputStyle: 'expanded',
+			outputStyle: 'compressed',
 			// sourceComments: 'map'
 		}))
         // .pipe(autoprefix('last 5 versions'))
