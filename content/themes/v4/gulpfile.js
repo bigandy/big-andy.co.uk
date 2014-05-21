@@ -30,6 +30,7 @@ gulp.task('uncss', function() {
 // concat and minify the js
 gulp.task('js', function () {
 	gulp.src([
+			'bower_components/jquery/dist/jquery.min.js',
 			'bower_components/FitVids/jquery.fitvids.js',
 			'js/main.js',
 		])
@@ -53,7 +54,7 @@ gulp.task('sass', function () {
     gulp.src('scss/*.scss')
 		.pipe(sass({
 			errLogToConsole: true,
-			outputStyle: 'compressed',
+			outputStyle: 'expanded',
 			// sourceComments: 'map'
 		}))
         // .pipe(autoprefix('last 5 versions'))

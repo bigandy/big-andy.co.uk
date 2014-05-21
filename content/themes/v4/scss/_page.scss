@@ -4,14 +4,7 @@
 
 .content-container {
 	@extend .row;
-	@extend %cf;
 }
-
-// header,
-// main,
-// footer {
-// 	@extend .row;
-// }
 
 .list--plain {
 	margin: 0;
@@ -20,13 +13,13 @@
 
 
 .list--inline {
-	@extend %cf;
 	@extend .list--plain;
 
 	li {
 		float: left;
 	}
 }
+
 
 
 // Styles specific to the_content()
@@ -44,6 +37,12 @@
 		}
 	}
 
+	.current_page_item {
+	> a {
+			border-bottom: 3px solid $primary-color;
+		}
+	}
+
 	.large-6 + .large-6:last-child {
 		float: left;
 	}
@@ -55,3 +54,29 @@ article {
 		clear: left;
 	}
 }
+
+// vcard styles
+
+.vcard {
+	border: 0;
+	padding: 0;
+	margin: 0;
+
+	.fn {
+		font-size: 2.75em;
+	}
+
+	.adr {
+		margin-bottom: 0.3rem;
+	}
+
+	.email, .tel {
+		@extend p;
+	}
+
+	a {
+		margin-bottom: 0;
+		border-bottom: 0;
+	}
+}
+
