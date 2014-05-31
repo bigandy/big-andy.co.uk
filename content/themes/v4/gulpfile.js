@@ -38,6 +38,9 @@ gulp.task('js', function () {
 		.pipe(uglify())
 		.pipe(concat('script.min.js'))
 		.pipe(gulp.dest('build/js'));
+	gulp.src(['bower_components/picturefill/dist/picturefill.min.js'])
+		.pipe(gulp.dest('build/js'));
+
 });
 
 gulp.task('lint', function() {

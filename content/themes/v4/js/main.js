@@ -12,7 +12,7 @@ var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga
 (function($){
 
 	// Target your .container, .wrapper, .post, etc.
-	$("article").fitVids();
+	// $("article").fitVids();
 
 })(jQuery);
 
