@@ -120,70 +120,79 @@ add_shortcode( 'picture', 'ah_picture_shortcode' );
 
 
 
-$img_src = '<img src="http://big-andy.local/content/uploads/700.jpeg" alt="700" width="1400" height="700" class="alignnone size-full wp-image-2558">';
-
 
 
 function ah_picture_content ($content) {
+
+
+
+
 	if ( is_page_template('templates/template-picture.php') && is_singular() && is_main_query()) {
+
+		// This is an example generated image markup :
+		// $img_src = '<img src="http://big-andy.local/content/uploads/700.jpeg" alt="700" width="1400" height="700" class="alignnone size-full wp-image-2558">';
+
+		// first want to get the image link http://big-andy.local/content/uploads/700.jpeg
+
+		// then want to get the id of the image, the number in wp-image-2558
+
+		// then want to get the other classes: alignnone and size-full
+
+
 		// $return = preg_match_all($pattern, $content, $matches);
-	// preg_match_all('/< *img[^>]*src *= *["\']?([^"\']*)/', $content, $src_matches);
+		// preg_match_all('/< *img[^>]*src *= *["\']?([^"\']*)/', $content, $src_matches);
 
-	// preg_match_all("/wp-image-(\d*)/", $input_lines, $output_array);
-	preg_match_all("/wp-image-(\d*)/", $content, $id_array);
+		// preg_match_all("/wp-image-(\d*)/", $input_lines, $output_array);
+		preg_match_all("/wp-image-(\d*)/", $content, $id_array);
 
-	// preg_match_all("/class="(.*)"/", $contentss, $outputss_array);
-	// preg_match_all('/< *img[^>]*class *= *["\']?([^"\']*)/', $content, $class_matches);
-
-
-
-	// the array that I want:
-
-	// $ideal_output = array(
-	// 	'item' => array(
-	// 		'source' => 'http://big-andy.local/content/uploads/700.jpeg',
-	// 		'id' => '2558',
-	// 		'class' => 'alignnone size-full wp-image-2558'
-	// 	)
-	// );
-
-	// ba_preit($ideal_output);
-
-	// foreach ($ideal_output[item] as $key => $value) {
-	// 	echo $key . ' ' .$value . '<br />';
-
-
-	// }
+		// preg_match_all("/class="(.*)"/", $contentss, $outputss_array);
+		// preg_match_all('/< *img[^>]*class *= *["\']?([^"\']*)/', $content, $class_matches);
 
 
 
-	// echo ah_get_output_picture($ideal_output['item']['id'], $ideal_output['item']['class']);
+		// the array that I want:
+
+		// $ideal_output = array(
+		// 	'item' => array(
+		// 		'source' => 'http://big-andy.local/content/uploads/700.jpeg',
+		// 		'id' => '2558',
+		// 		'class' => 'alignnone size-full wp-image-2558'
+		// 	)
+		// );
+
+		// ba_preit($ideal_output);
+
+		// foreach ($ideal_output[item] as $key => $value) {
+		// 	echo $key . ' ' .$value . '<br />';
 
 
-	$image_ids = $id_array[1];
-	$html = '';
-	foreach ($image_ids as $id) {
-		$html .= ah_get_output_picture($id);
-	}
+		// }
 
-	return $html;
 
-	// ba_preit($classes);
 
-	// $html = '';
-	// foreach ($sources as $picture) {
-	// 	echo '<picture><img src="'.$picture.'" />';
-	// 	// $html .='<picture class="'$classes[0]'">';
-	// }
+		// echo ah_get_output_picture($ideal_output['item']['id'], $ideal_output['item']['class']);
 
-	// echo $html;
-	// return $content;
 
-	// first want to get the image link http://big-andy.local/content/uploads/700.jpeg
+		$image_ids = $id_array[1];
+		$html = '';
+		foreach ($image_ids as $id) {
+			$html .= ah_get_output_picture($id);
+		}
 
-	// then want to get the id of the image, the number in wp-image-2558
+		return $html;
 
-	// then want to get the other classes: alignnone and size-full
+		// ba_preit($classes);
+
+		// $html = '';
+		// foreach ($sources as $picture) {
+		// 	echo '<picture><img src="'.$picture.'" />';
+		// 	// $html .='<picture class="'$classes[0]'">';
+		// }
+
+		// echo $html;
+		// return $content;
+
+
 	}
 	return $content;
 
