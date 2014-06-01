@@ -54,7 +54,7 @@ function ah_plugin_admin_options_page() {
 
 
 	$options = get_option( 'ah_plugin_options' );
-	$ah_output = $options['output'];
+	// $ah_output = $options['output'];
 
 	?>
 	<div class="wrap">
@@ -132,7 +132,6 @@ function ah_plugin_admin_options_page() {
 			'menu' => 'N',
 			'images' => 'Y',
 			'widgets' => 'N',
-			'footer' => 'N',
 			'darkLight' => 'Light'
 		);
 		update_option( 'ah_plugin_options', $options );
@@ -151,7 +150,6 @@ function ah_plugin_admin_options_page() {
 		'menu',
 		'images',
 		'widgets',
-		'footer',
 		'darkLight'
 	);
 
@@ -175,18 +173,15 @@ require_once 'init-styles.php';
 require_once 'admin-area.php';
 require_once 'cpts.php';
 require_once 'content.php';
-require_once 'misc.php';
 require_once 'metabox.php';
 
 
 if ( $options['shortcodes'] == "Y" ) {
 	require_once 'shortcodes.php';
 }
-
 if ( $options['security'] == "Y" ) {
 	require_once 'security-stuff.php';
 }
-
 if ( $options['menu'] == "Y" ) {
 	require_once 'remove-menu-classes.php';
 }
@@ -195,9 +190,6 @@ if ( $options['images'] == "Y" ) {
 }
 if ( $options['widgets'] == "Y" ) {
 	require_once 'ah-widgets.php';
-}
-if ( $options['footer'] == "Y" ) {
-	require_once 'ah-footer.php';
 }
 
 // Add specific CSS class by filter

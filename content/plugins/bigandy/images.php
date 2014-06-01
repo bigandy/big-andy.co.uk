@@ -65,11 +65,11 @@ function gallery_shortcode_ah_new($attr) {
 
 	if ( !empty($include) ) {
 		$_attachments = get_posts( array(
-			'include' => $include, 
-			'post_status' => 'inherit', 
-			'post_type' => 'attachment', 
-			'post_mime_type' => 'image', 
-			'order' => $order, 
+			'include' => $include,
+			'post_status' => 'inherit',
+			'post_type' => 'attachment',
+			'post_mime_type' => 'image',
+			'order' => $order,
 			'orderby' => $orderby
 			) );
 
@@ -79,21 +79,21 @@ function gallery_shortcode_ah_new($attr) {
 		}
 	} elseif ( !empty($exclude) ) {
 		$attachments = get_children( array(
-				'post_parent' => $id, 
-				'exclude' => $exclude, 
-				'post_status' => 'inherit', 
-				'post_type' => 'attachment', 
-				'post_mime_type' => 'image', 
-				'order' => $order, 
+				'post_parent' => $id,
+				'exclude' => $exclude,
+				'post_status' => 'inherit',
+				'post_type' => 'attachment',
+				'post_mime_type' => 'image',
+				'order' => $order,
 				'orderby' => $orderby
 				) );
 	} else {
 		$attachments = get_children( array(
-			'post_parent' => $id, 
-			'post_status' => 'inherit', 
-			'post_type' => 'attachment', 
-			'post_mime_type' => 'image', 
-			'order' => $order, 
+			'post_parent' => $id,
+			'post_status' => 'inherit',
+			'post_type' => 'attachment',
+			'post_mime_type' => 'image',
+			'order' => $order,
 			'orderby' => $orderby
 			) );
 	}
@@ -108,7 +108,7 @@ function gallery_shortcode_ah_new($attr) {
 		return $output;
 	}
 
-	
+
 
 	$itemtag = tag_escape($itemtag);
 	$captiontag = tag_escape($captiontag);
@@ -146,6 +146,13 @@ function gallery_shortcode_ah_new($attr) {
 // Altering the image_downsize function
 // http://wordpress.stackexchange.com/questions/29881/stop-wordpress-from-hardcoding-img-width-and-height-attributes
 
+function ah_mime_types( $mimes ){
+	$mimes['svg'] = 'image/svg+xml';
+	$mimes['webp'] = 'image/webp';
+	return $mimes;
+}
+add_filter( 'upload_mimes', 'ah_mime_types' );
+
 function ah_image_downsize( $value = false, $id, $size ) {
 	if ( !wp_attachment_is_image( $id ) )
 		return false;
@@ -174,7 +181,7 @@ function ah_image_downsize( $value = false, $id, $size ) {
 	return false;
 }
 
-add_filter( 'image_downsize', 'ah_image_downsize', 1, 3 );
+// add_filter( 'image_downsize', 'ah_image_downsize', 1, 3 );
 
 /* END [gallery] */
 
