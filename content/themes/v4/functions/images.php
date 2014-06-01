@@ -125,8 +125,8 @@ $img_src = '<img src="http://big-andy.local/content/uploads/700.jpeg" alt="700" 
 
 
 function ah_picture_content ($content) {
-
-	// $return = preg_match_all($pattern, $content, $matches);
+	if ( is_page_template('templates/template-picture.php') && is_singular() && is_main_query()) {
+		// $return = preg_match_all($pattern, $content, $matches);
 	// preg_match_all('/< *img[^>]*src *= *["\']?([^"\']*)/', $content, $src_matches);
 
 	// preg_match_all("/wp-image-(\d*)/", $input_lines, $output_array);
@@ -184,10 +184,12 @@ function ah_picture_content ($content) {
 	// then want to get the id of the image, the number in wp-image-2558
 
 	// then want to get the other classes: alignnone and size-full
+	}
+	return $content;
 
 
 }
-// add_filter( 'the_content', 'ah_picture_content' );
+add_filter( 'the_content', 'ah_picture_content' );
 
 
 
