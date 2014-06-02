@@ -93,25 +93,14 @@ function ah_featured_picture_replacement () {
 
 function ah_picture_shortcode( $atts, $content ) {
 	 extract( shortcode_atts( array(
-		'url' => '',
 		'id' => '',
-		'class' => ''
 	), $atts ) );
 
-	if ($url) {
-		echo $url;
-	}
 
 	if ($id) {
-		return ah_output_picture($id, $class);
+		return ah_output_picture($id);
 	}
 
-	$img = $content;
-	echo $content;
-
-	// <img class="alignnone size-full wp-image-2544" src="http://big-andy.local/content/uploads/da.jpg" alt="da" width="1006" height="1500">
-
-	// return ah_output_picture($picture_id);
 }
 
 add_shortcode( 'picture', 'ah_picture_shortcode' );
@@ -198,7 +187,7 @@ function ah_picture_content ($content) {
 
 
 }
-add_filter( 'the_content', 'ah_picture_content' );
+// add_filter( 'the_content', 'ah_picture_content' );
 
 function ah_replace_huge_files( $content ) {
     $regex = "/<img (.*?)class=\"((.*?)wp-image-(\d+)(.*?))\" (alt=\"(.*?)\")((.*?)width=\"(\d+)\"(.*?))\/>/i";
