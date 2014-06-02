@@ -1,6 +1,6 @@
 <?php
-if( !function_exists('ba_preit') ) {
-	function ba_preit( $obj, $echo = true ) {
+if( !function_exists('ah_preit') ) {
+	function ah_preit( $obj, $echo = true ) {
 		if( $echo ) {
 			echo '<pre>' . print_r( $obj, true ) . '</pre>';
 		} else {
@@ -8,15 +8,15 @@ if( !function_exists('ba_preit') ) {
 		}
 	}
 }
-if( !function_exists('ba_silent') ) {
-	function ba_silent( $obj ) {
+if( !function_exists('ah_silent') ) {
+	function ah_silent( $obj ) {
 		echo '<pre style="display: none;">' . print_r( $obj, true ) . '</pre>';
 	}
 }
 
 // Hide Links Admin Menu
-add_action( 'admin_menu', 'ba_remove_menu_pages' );
-function ba_remove_menu_pages() {
+add_action( 'admin_menu', 'ah_remove_menu_pages' );
+function ah_remove_menu_pages() {
 	remove_menu_page('link-manager.php');
 }
 

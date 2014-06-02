@@ -11,7 +11,7 @@ add_image_size('pic-small', 500, 9999, false);
  * Adds the medium and the full to the image size list in the editor, so people can
  * only insert them into pages and articles.
  */
-function ba_add_additional_image_sizes( $sizes ) {
+function ah_add_additional_image_sizes( $sizes ) {
 	global $_wp_additional_image_sizes;
 	if ( empty($_wp_additional_image_sizes) ) {
 		return $sizes;
@@ -26,7 +26,7 @@ function ba_add_additional_image_sizes( $sizes ) {
 	return $sizes;
 }
 
-add_filter( 'image_size_names_choose', 'ba_add_additional_image_sizes' );
+add_filter( 'image_size_names_choose', 'ah_add_additional_image_sizes' );
 
 
 if (function_exists('picturefill_wp_add_image_size')) {
@@ -40,7 +40,7 @@ add_theme_support('html5', array( 'gallery' ));
 
 
 
-function ba_get_extra_thumbnail_sizes(){
+function ah_get_extra_thumbnail_sizes(){
     global $_wp_additional_image_sizes;
 
  	$sizes = array();
@@ -60,7 +60,7 @@ function ba_get_extra_thumbnail_sizes(){
  }
 
 function ah_get_output_picture ($id, $class = '') {
-	$sizes = ba_get_extra_thumbnail_sizes();
+	$sizes = ah_get_extra_thumbnail_sizes();
 
 	if ($class) {
 		$picture_class = 'class="'.$class.'"';
@@ -160,7 +160,7 @@ function ah_picture_content ($content) {
 		// 	)
 		// );
 
-		// ba_preit($ideal_output);
+		// ah_preit($ideal_output);
 
 		// foreach ($ideal_output[item] as $key => $value) {
 		// 	echo $key . ' ' .$value . '<br />';
@@ -181,7 +181,7 @@ function ah_picture_content ($content) {
 
 		return $html;
 
-		// ba_preit($classes);
+		// ah_preit($classes);
 
 		// $html = '';
 		// foreach ($sources as $picture) {
@@ -199,6 +199,33 @@ function ah_picture_content ($content) {
 
 }
 add_filter( 'the_content', 'ah_picture_content' );
+
+function ah_replace_huge_files( $content ) {
+    $regex = "/<img (.*?)class=\"((.*?)wp-image-(\d+)(.*?))\" (alt=\"(.*?)\")((.*?)width=\"(\d+)\"(.*?))\/>/i";
+
+    preg_match_all($regex, $content, $matches);
+    foreach ($matches[0] as $key => $imgstring) {
+
+        // If the width of the image is larger than 1024
+        if($matches[10][$key] > 1024) {
+
+            // let's construct the image itself
+            $id = $matches[4][$key];
+
+            // let's get the appropriately sized images. I've included 3, but you be the judge.
+            $bigsrc = wp_get_attachment_image_src( $id, 'large' );
+
+            // let's build that query
+            $string = "<img src='{$bigsrc[0]}' {$matches[6][$key]}>";
+
+            // let's replace the original one
+            $content = str_replace($imgstring, $string, $content);
+        }
+    }
+
+    return $content;
+}
+// add_filter( 'the_content', 'ah_replace_huge_files' );
 
 
 
