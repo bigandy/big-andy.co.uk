@@ -19,7 +19,8 @@
 								    </footer>
 							    </article>
 					    	<?php
-					    	} else {
+					    	}
+					    } else {
 					    		?>
 	    					    <article class="hentry clearfix post-not-found">
 	    					    	<header class="article-header">
@@ -33,7 +34,6 @@
 	    					    	</footer>
 	    					    </article>
 					    	<?php
-					    	}
 					    }
 					    ?>
     				</div>
