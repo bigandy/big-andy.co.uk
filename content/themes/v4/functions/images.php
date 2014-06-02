@@ -109,25 +109,21 @@ function ah_replace_content_img_with_picture( $content ) {
 	if ( is_page_template('templates/template-picture.php') && is_singular() && is_main_query()) {
 	    $regex = "/<img (.*?)class=\"((.*?)wp-image-(\d+)(.*?))\" (alt=\"(.*?)\")((.*?)width=\"(\d+)\"(.*?))\/>/i";
 
-	    // echo $content;
-
 	    preg_match_all("/<img (.*?)class=\"((.*?)wp-image-(\d+)(.*?))\"(.*?)>/", $content, $matches);
 
-	    // ah_preit($matches);
-
 	    foreach ($matches[0] as $key => $imgstring) {
-	        // If the width of the image is larger than 1024
 
-	            // let's construct the image itself
-	            $id = $matches[4][$key];
-	            $class = $matches[2][$key];
+            $id = $matches[4][$key];
+            $class = $matches[2][$key];
 
+            // the string with <img>
+            $img = $matches[0][$key];
 
-	            $imgstring = $matches[0][$key];
-	            $string = ah_get_output_picture($id,$class);
+            // string with <picture>
+            $picture = ah_get_output_picture($id,$class);
 
-	            // let's replace the original one
-	            $content = str_replace($imgstring, $string, $content);
+            // replace <img> with <picture>
+            $content = str_replace($img, $picture, $content);
 	    }
 
 	    return $content;
