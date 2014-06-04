@@ -1,11 +1,13 @@
 {
   "name": "Bigandy-v4",
-  "version": "0.0.1",
+  "version": "4.0.1",
   "description": "v4 of big-andy.co.uk",
-  "main": "main.js",
-  "repository": "git@github.com:bigandy/bigandy.git",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bigandy/big-andy.co.uk.git"
+  },
   "dependencies": {
-    "gulp": "~3.5.2",
+    "gulp": "~3.7.0",
     "gulp-concat": "~2.1.7",
     "gulp-jshint": "~1.4.2",
     "gulp-livereload": "~1.1.1",
@@ -20,9 +22,6 @@
     "gulp-livereload": "~1.1.1",
     "jshint-stylish": "~0.1.5",
     "gulp-uncss": "^0.4.3"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Andrew JD Hudson",
   "twitter": "@bigandy",
