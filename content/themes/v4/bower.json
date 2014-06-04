@@ -1,28 +1,32 @@
 {
-	"name": "Big-andy-v4",
-	"version": "4.0.1",
-	"main": "index.php",
-	"ignores": [
-		"js/bower-components"
-	],
-  	"authors": [
+  "name": "Big-andy-v4",
+  "version": "4.0.1",
+  "main": "index.php",
+  "ignores": [
+    "js/bower-components"
+  ],
+  "authors": [
     "Andrew Hudson <ahudson@gmail.com>"
-  	],
-  	"license": "MIT",
-  	"private": true,
-  	"ignore": [
-	    "**/.*",
-	    "node_modules",
-	    "bower_components",
-	    "test",
-	    "tests"
-	],
-	"dependencies": {
-		"jquery": "~2.1.1",
-		"requirejs": "2.1.9",
-		"backbone": "1.1.0",
-		"underscore": "1.5.2",
-		"foundation": "~5.1.1",
-		"normalize-scss": "~2.1.3"
-	}
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.1",
+    "requirejs": "2.1.9",
+    "backbone": "1.1.0",
+    "underscore": "1.5.2",
+    "foundation": "~5.1.1",
+    "normalize-scss": "~2.1.3",
+    "picturefill": "^2.1.0"
+  },
+  "devDependencies": {
+    "picturefill": "~2.1.0"
+  }
 }

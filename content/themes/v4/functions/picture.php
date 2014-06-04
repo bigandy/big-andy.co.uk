@@ -1,0 +1,99 @@
+<?php
+
+//
+// ah_get_extra_thumbnail_sizes()
+// outputs non-standard wordpress image sizes.
+
+function ah_get_extra_thumbnail_sizes(){
+    global $_wp_additional_image_sizes;
+
+ 	$sizes = array();
+
+ 	// remove first 3 i.e. the default sizes 'thumbnail', 'medium', and 'large'
+ 	$sliced_sizes = array_slice(get_intermediate_image_sizes(), 3);
+
+		foreach( $sliced_sizes as $s ){
+			$sizes[ $s ] = array( 0, 0 );
+
+		if ( isset( $_wp_additional_image_sizes ) && isset( $_wp_additional_image_sizes[ $s ] ) ) {
+					$sizes[ $s ] = $_wp_additional_image_sizes[ $s ]['width'];
+		}
+	}
+
+	return $sizes;
+}
+
+function ah_get_output_picture ($id, $class = '') {
+	$sizes = ah_get_extra_thumbnail_sizes();
+
+	if ($class) {
+		$picture_class = 'class="'.$class.'"';
+	} else {
+		$picture_class = '';
+	}
+
+	$html = '<picture '.$picture_class.'>';
+    	foreach ($sizes as $size => $key) {
+	    	$thumb = wp_get_attachment_image_src($id, $size);
+    		$html .= '<source media="(min-width: '.$key.'px)" srcset="'.$thumb[0].'">';
+    	}
+
+    	$fallback_thumb = wp_get_attachment_image_src($id, 'large');
+    	$html .= '<img src="'.$fallback_thumb[0].'" />';
+	$html .= '</picture>';
+	return $html;
+}
+
+function ah_output_picture ($id, $class = '') {
+	echo ah_get_output_picture($id, $class);
+}
+
+function ah_featured_picture_replacement () {
+	$post_thumbnail_id = get_post_thumbnail_id();
+
+	ah_output_picture($post_thumbnail_id);
+}
+
+/**
+ * ah_picture_shortcode
+ * Shortcode to utilise the id of the image
+ * @todo change to use normal image from insert image into page
+ */
+function ah_picture_shortcode( $atts, $content ) {
+	 extract( shortcode_atts( array(
+		'id' => '',
+	), $atts ) );
+
+	if ($id) {
+		return ah_output_picture($id);
+	}
+}
+add_shortcode( 'picture', 'ah_picture_shortcode' );
+
+function ah_replace_content_img_with_picture( $content ) {
+
+	if ( is_page_template('templates/template-picture.php') && is_singular() && is_main_query()) {
+	    $regex = "/<img (.*?)class=\"((.*?)wp-image-(\d+)(.*?))\" (alt=\"(.*?)\")((.*?)width=\"(\d+)\"(.*?))\/>/i";
+
+	    preg_match_all("/<img (.*?)class=\"((.*?)wp-image-(\d+)(.*?))\"(.*?)>/", $content, $matches);
+
+	    foreach ($matches[0] as $key => $imgstring) {
+
+            $id = $matches[4][$key];
+            $class = $matches[2][$key];
+
+            // the string with <img>
+            $img = $matches[0][$key];
+
+            // string with <picture>
+            $picture = ah_get_output_picture($id, $class);
+
+            // replace <img> with <picture>
+            $content = str_replace($img, $picture, $content);
+	    }
+
+	    return $content;
+	}
+	return $content;
+}
+add_filter( 'the_content', 'ah_replace_content_img_with_picture' );
