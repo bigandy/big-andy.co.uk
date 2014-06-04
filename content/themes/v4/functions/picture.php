@@ -8,17 +8,30 @@ function ah_get_extra_thumbnail_sizes(){
     global $_wp_additional_image_sizes;
 
  	$sizes = array();
+ 	$reduced_sizes = array();
 
- 	// remove first 3 i.e. the default sizes 'thumbnail', 'medium', and 'large'
- 	$sliced_sizes = array_slice(get_intermediate_image_sizes(), 3);
+ 	$all_sizes = get_intermediate_image_sizes();
 
-		foreach( $sliced_sizes as $s ){
-			$sizes[ $s ] = array( 0, 0 );
+ 	// check if there are additional image sizes
+ 	if ( isset( $_wp_additional_image_sizes ) ) {
+ 		foreach ($all_sizes as $size) {
+	 		// compile array of image sizes beginning with pic-
+	 		if (substr( $size, 0, 4 ) === "pic-") {
+		 		array_push($reduced_sizes, $size);
+	 		}
+	 	}
+ 	}
 
-		if ( isset( $_wp_additional_image_sizes ) && isset( $_wp_additional_image_sizes[ $s ] ) ) {
-					$sizes[ $s ] = $_wp_additional_image_sizes[ $s ]['width'];
+ 	// check that there are image sizes beginning with pic-
+ 	if(!empty($reduced_sizes)) {
+ 		foreach( $reduced_sizes	 as $s ){
+			$sizes[ $s ] = array();
+
+			if ( isset( $_wp_additional_image_sizes[ $s ] ) ) {
+				$sizes[ $s ] = $_wp_additional_image_sizes[ $s ]['width'];
+			}
 		}
-	}
+ 	}
 
 	return $sizes;
 }
@@ -60,25 +73,34 @@ function ah_featured_picture_replacement () {
  * @todo change to use normal image from insert image into page
  */
 function ah_picture_shortcode( $atts, $content ) {
-	 extract( shortcode_atts( array(
+	extract( shortcode_atts( array(
 		'id' => '',
 	), $atts ) );
 
 	if ($id) {
 		return ah_output_picture($id);
+	} else {
+	    preg_match_all("/<img (.*?)class=\"((.*?)wp-image-(\d+)(.*?))\"(.*?)>/", $content, $matches);
+
+		foreach ($matches[0] as $key => $imgstring) {
+            $id = $matches[4][$key];
+            $class = $matches[2][$key];
+
+            return ah_get_output_picture($id, $class);
+	    }
 	}
+
+	// return $content;
 }
 add_shortcode( 'picture', 'ah_picture_shortcode' );
 
 function ah_replace_content_img_with_picture( $content ) {
 
 	if ( is_page_template('templates/template-picture.php') && is_singular() && is_main_query()) {
-	    $regex = "/<img (.*?)class=\"((.*?)wp-image-(\d+)(.*?))\" (alt=\"(.*?)\")((.*?)width=\"(\d+)\"(.*?))\/>/i";
 
 	    preg_match_all("/<img (.*?)class=\"((.*?)wp-image-(\d+)(.*?))\"(.*?)>/", $content, $matches);
 
 	    foreach ($matches[0] as $key => $imgstring) {
-
             $id = $matches[4][$key];
             $class = $matches[2][$key];
 
@@ -86,7 +108,7 @@ function ah_replace_content_img_with_picture( $content ) {
             $img = $matches[0][$key];
 
             // string with <picture>
-            $picture = ah_get_output_picture($id, $class);
+            $picture = ah_get_output_picture($id);
 
             // replace <img> with <picture>
             $content = str_replace($img, $picture, $content);
@@ -96,4 +118,5 @@ function ah_replace_content_img_with_picture( $content ) {
 	}
 	return $content;
 }
-add_filter( 'the_content', 'ah_replace_content_img_with_picture' );
+// make sure it is run before the picture shortcode runs
+add_filter( 'the_content', 'ah_replace_content_img_with_picture', 11 );
