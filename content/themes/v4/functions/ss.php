@@ -13,7 +13,7 @@ function ah_enQ_scripts() {
 	wp_register_style( 'main', get_stylesheet_uri() );
 	wp_enqueue_style( 'main' );
 
-	if (is_page_template('templates/template-picture.php')) {
+	if (is_page_template('templates/template-picture.php') || has_category('picture')) {
 		wp_register_script( 'picturefill', $r . 'picturefill.min.js', false, null, true);
 		wp_enqueue_script('picturefill');
 		// wp_register_script( $handle, $src, $deps, $ver, $in_footer );
