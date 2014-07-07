@@ -13,19 +13,21 @@ var gulp = require('gulp'),
 	uncss = require('gulp-uncss');
 
 gulp.task('uncss', function() {
-    return gulp.src('style.css')
+    return gulp.src('./style.css')
         .pipe(uncss({
             html: [
-				'html/front-page.html',
-				'html/about.html',
-				'html/single.html',
-				'html/cv.html'
+				'http://big-andy.local/contact/',
+				'http://big-andy.local/cv/',
+				'http://big-andy.local/about/',
+				'http://big-andy.local/photos/',
+				'http://big-andy.local/',
+				'http://big-andy.local/blog/picture-featured-image-test-post/',
+				'http://big-andy.local/blog/breaking-borders-3/'
             ]
         }))
-        .pipe(gulp.dest('./build'));
+        .pipe(minifyCSS())
+        .pipe(gulp.dest('.'));
 });
-
-
 
 // concat and minify the js
 gulp.task('js', function () {
@@ -87,4 +89,4 @@ gulp.task('watch', function () {
 // The default task (called when you run `gulp` from cli)
 gulp.task('default', ['js', 'sass', 'watch', 'livereload']);
 gulp.task('production', ['js', 'sass']);
-gulp.task('tidycss', ['uncss']);
+gulp.task('deploy', ['sass', 'uncss', 'js']);
