@@ -79,7 +79,7 @@ gulp.task('livereload', function () {
 gulp.task('watch', function () {
 	gulp.watch('js/*', ['js']);
 	gulp.watch('scss/*', ['sass']);
-	gulp.watch('./style.css', ['uncss']);
+	// gulp.watch('./style.css', ['uncss']);
 
 	var server = livereload();
 	gulp.watch(['style.css', 'build/**', '*.php']).on('change', function(file) {
