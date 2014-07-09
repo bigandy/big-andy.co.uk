@@ -2,6 +2,10 @@
 // 	font-family: $opensans;
 // }
 
+h1 {
+	font-size: 2rem;
+}
+
 .content-container {
 	@extend .row;
 }
@@ -20,16 +24,12 @@
 	}
 }
 
-
-
 // Styles specific to the_content()
 .post-content,
 .header__menu {
 	a {
 		border-bottom: 3px solid transparent;
 		margin-bottom: -3px;
-		// transition: border 0.1s ease-in-out;
-
 
 		&:hover,
 		&:focus {

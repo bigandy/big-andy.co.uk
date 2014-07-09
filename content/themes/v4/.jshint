@@ -61,7 +61,7 @@
     "validthis"     : false,     // true: Tolerate using this in a non-constructor function
 
     // Legacy
-    "nomen"         : true,    // true: Prohibit dangling `_` in variables
+    "nomen"         : false,    // true: Prohibit dangling `_` in variables
     "onevar"        : false,    // true: Allow only one `var` statement per function
     "passfail"      : false,    // true: Stop on first error
     "white"         : true,    // true: Check against strict whitespace and indentation rules
