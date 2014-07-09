@@ -22,7 +22,7 @@ get_header();
     		while ( $home_loop->have_posts() ) {
     			$home_loop->the_post();
     			?>
-			    <article role="article" class="large-6 columns">
+			    <article role="article" class="large-8 large-push-2 small-12 columns">
 					<header class="article-header">
 					    <h1>
 					   		<a href="<?php the_permalink(); ?>">
