@@ -15,7 +15,7 @@ get_header();
 					<section class="post-content clearfix row">
 					    <?php
 					    if (has_post_thumbnail()) {
-						   ah_featured_picture_replacement();
+							ah_featured_picture_replacement();
 					    }
 
 					    the_content(); ?>
