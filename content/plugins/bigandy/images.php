@@ -234,9 +234,19 @@ add_filter( 'edit_comment_link', 'nuke_title_attribute' );
 add_filter( 'the_author_posts_link', 'nuke_title_attribute' );
 add_filter( 'get_archives_link', 'nuke_title_attribute' );
 
-function ah_add_class_attachment_link($html){
-	    $postid = get_the_ID();
-	    $html = str_replace('<a','<a rel="lightbox'. $postid .'"',$html);
-	    return $html;
-	}
-	add_filter('wp_get_attachment_link','ah_add_class_attachment_link',100,1);
+function ah_mime_types( $mimes ){
+	$mimes['svg'] = 'image/svg+xml';
+	$mimes['webp'] = 'image/webp';
+	return $mimes;
+}
+add_filter( 'upload_mimes', 'ah_mime_types' );
+
+function ah_add_class_attachment_link($html) {
+	$postid = get_the_ID();
+	$html = str_replace( '<a','<a rel="lightbox'. $postid .'"', $html );
+	return $html;
+}
+add_filter( 'wp_get_attachment_link', 'ah_add_class_attachment_link', 100, 1 );
+
+
+
