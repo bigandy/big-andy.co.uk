@@ -2,6 +2,10 @@
 // 	font-family: $opensans;
 // }
 
+h1 {
+	font-size: 2rem;
+}
+
 .content-container {
 	@extend .row;
 }
@@ -20,16 +24,12 @@
 	}
 }
 
-
-
-// Styles specific to the_content()
+// Links
 .post-content,
 .header__menu {
 	a {
 		border-bottom: 3px solid transparent;
 		margin-bottom: -3px;
-		// transition: border 0.1s ease-in-out;
-
 
 		&:hover,
 		&:focus {
@@ -44,11 +44,17 @@
 		}
 	}
 
-	.large-6 + .large-6:last-child {
-		float: left;
-	}
+
+
 
 }
+
+.content-container {
+	.columns + .columns:last-child {
+		float: left;
+	}
+}
+
 
 article {
 	&:nth-child(odd) {

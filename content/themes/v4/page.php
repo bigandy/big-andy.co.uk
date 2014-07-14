@@ -8,7 +8,7 @@ get_header();
     		while ( have_posts() ) {
     			the_post();
     			?>
-			    <article role="article" class="large-6 columns">
+			    <article role="article" class="large-8 large-push-2 small-12 columns">
 					<section class="post-content clearfix">
 						<?php
 						if (has_post_thumbnail()) {

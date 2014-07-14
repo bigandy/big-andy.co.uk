@@ -46,9 +46,8 @@ gulp.task('js', function () {
 });
 
 gulp.task('lint', function() {
-  gulp.src([
-			'js/plugins.js',
-			'js/main.js',
+	gulp.src([
+			'js/main.js'
 		])
 		.pipe(jshint('.jshint'))
 		.pipe(jshint.reporter(stylish));
@@ -77,8 +76,9 @@ gulp.task('livereload', function () {
 
 // Rerun the task when a file changes
 gulp.task('watch', function () {
-	gulp.watch('js/*', ['js']);
+	gulp.watch('js/*', ['js', 'lint']);
 	gulp.watch('scss/*', ['sass']);
+	// gulp.watch('./style.css', ['uncss']);
 
 	var server = livereload();
 	gulp.watch(['style.css', 'build/**', '*.php']).on('change', function(file) {

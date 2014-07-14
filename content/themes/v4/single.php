@@ -8,10 +8,10 @@ get_header();
     		while ( have_posts() ) {
     			the_post();
 
-    			if (has_category( 'picture' )) {
+    			if ( has_category( 'picture' ) ) {
     				$class = 'large-12';
     			} else {
-    				$class = 'large-6';
+    				$class = 'large-6 large-push-3 small-12';
     			}
 
     			?>

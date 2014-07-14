@@ -2,6 +2,7 @@
 <html lang="en" <?php if( is_user_logged_in() ) { echo 'class="logged-in"'; } ?>>
 <head>
 	<meta charset="utf-8">
+	<link rel="dns-prefetch" href="//cloud.typography.com">
 	<meta name="robots" content="all" />
 	<meta name="HandheldFriendly" content="True">
 	<meta name="MobileOptimized" content="320">
@@ -10,8 +11,6 @@
 	<title><?php wp_title(); ?></title>
 
 	<link rel="stylesheet" type="text/css" href="//cloud.typography.com/7502092/707264/css/fonts.css" />
-
-	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
 
 	<?php wp_head(); ?>
 </head>
