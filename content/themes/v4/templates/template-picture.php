@@ -17,7 +17,6 @@ get_header();
 					    if (has_post_thumbnail()) {
 							ah_featured_picture_replacement();
 					    }
-
 					    the_content(); ?>
 				    </section>
 			    </article>
@@ -25,9 +24,7 @@ get_header();
 	 		}
 	 	}
 	 	wp_reset_postdata();
-
 	 	?>
-
 	</div>
 </main>
 <?php

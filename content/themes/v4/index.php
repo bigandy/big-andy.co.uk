@@ -1,6 +1,4 @@
-<?php
-get_header();
-?>
+<?php get_header(); ?>
 <main>
 	<div class="row content-container">
 		<?php
@@ -9,7 +7,7 @@ get_header();
     			the_post();
     			?>
 			    <article role="article" class="large-6 columns">
-					<header class="article-header">
+					<header class="article__header">
 					    <h1>
 					   		<a href="<?php the_permalink(); ?>">
 					   			<?php the_title(); ?>
@@ -24,9 +22,7 @@ get_header();
 	 		}
 	 	}
 	 	wp_reset_postdata();
-
 	 	?>
-
 	</div>
 </main>
 <?php

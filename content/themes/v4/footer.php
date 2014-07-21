@@ -3,13 +3,10 @@
 			$class = 'large-12';
 		} elseif (is_single()) {
 			$class = $class = 'large-6 large-push-3 small-12';
-		}
-
-		else {
+		} else {
 			$class = 'large-8 large-push-2 small-12';
 		}
 		?>
-
 		<footer>
 			<div class="row footer__row content-container">
 				<div class="columns <?php echo $class; ?>">

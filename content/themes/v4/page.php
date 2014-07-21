@@ -1,6 +1,4 @@
-<?php
-get_header();
-?>
+<?php get_header(); ?>
 <main>
 	<div class="row content-container">
 		<?php
@@ -14,17 +12,15 @@ get_header();
 						if (has_post_thumbnail()) {
 							ah_featured_picture_replacement();
 						}
-
-						the_content(); ?>
+						the_content();
+						?>
 				    </section>
 			    </article>
 			<?php
 	 		}
 	 	}
 	 	wp_reset_postdata();
-
 	 	?>
-
 	</div>
 </main>
 <?php

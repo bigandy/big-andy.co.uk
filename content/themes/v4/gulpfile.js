@@ -26,6 +26,7 @@ gulp.task('uncss', function() {
             ]
         }))
         .pipe(minifyCSS())
+        .pipe(autoprefix('last 2 versions'))
         .pipe(gulp.dest('.'));
 });
 
@@ -55,30 +56,28 @@ gulp.task('lint', function() {
 
 // sass
 gulp.task('sass', function () {
-    gulp.src('scss/*.scss')
+    gulp.src('./scss/**/*.scss')
 		.pipe(sass({
 			errLogToConsole: true,
-			outputStyle: 'compressed',
-			// sourceComments: 'map'
+			outputStyle: 'compressed'
+			// sourceComments: 'map',
+			// sourceMap: 'sass'
 		}))
-        // .pipe(autoprefix('last 5 versions'))
-        // .pipe(minifyCSS())
+		.pipe(livereload())
         .pipe(gulp.dest('.'));
 });
 
 gulp.task('livereload', function () {
 	gulp.src([
-		'style.css', 'build/**', '*.php'
+		'style.css', 'build/**', '*.php',
 	])
-	.pipe(livereload()
-	);
+	.pipe(livereload());
 });
 
 // Rerun the task when a file changes
 gulp.task('watch', function () {
 	gulp.watch('js/*', ['js', 'lint']);
 	gulp.watch('scss/*', ['sass']);
-	// gulp.watch('./style.css', ['uncss']);
 
 	var server = livereload();
 	gulp.watch(['style.css', 'build/**', '*.php']).on('change', function(file) {

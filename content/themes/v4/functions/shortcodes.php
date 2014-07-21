@@ -1,5 +1,4 @@
 <?php
-
 function ah_empty_paragraph_fix( $content ) {
 	// An array of the offending tags.
 	$arr = array (
@@ -15,8 +14,6 @@ add_filter( 'the_content', 'ah_empty_paragraph_fix' );
 
 /**
  * Shorcode to produce half column
- * @param  [type] $content [description]
- * @return [type]          [description]
  */
 function ah_half ( $atts, $content ) {
 	$html = '<div class="large-6 columns">'.do_shortcode($content).'</div>';

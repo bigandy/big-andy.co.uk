@@ -1,15 +1,13 @@
 <?php
-
-//
-// ah_get_extra_thumbnail_sizes()
-// outputs non-standard wordpress image sizes.
-
+/**
+ * ah_get_extra_thumbnail_sizes()
+ * outputs non-standard wordpress image sizes.
+ */
 function ah_get_extra_thumbnail_sizes(){
     global $_wp_additional_image_sizes;
 
  	$sizes = array();
  	$reduced_sizes = array();
-
  	$all_sizes = get_intermediate_image_sizes();
 
  	// check if there are additional image sizes
@@ -32,7 +30,6 @@ function ah_get_extra_thumbnail_sizes(){
 			}
 		}
  	}
-
 	return $sizes;
 }
 

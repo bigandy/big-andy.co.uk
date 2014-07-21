@@ -17,17 +17,15 @@ get_header();
 						if (has_post_thumbnail()) {
 							ah_featured_picture_replacement();
 						}
-
-						the_content(); ?>
+						the_content();
+						?>
 				    </section>
 			    </article>
 			<?php
 	 		}
 	 	}
 	 	wp_reset_postdata();
-
 	 	?>
-
 	</div>
 </main>
 <?php

@@ -43,10 +43,6 @@ h1 {
 			border-bottom: 3px solid $primary-color;
 		}
 	}
-
-
-
-
 }
 
 .content-container {
@@ -60,6 +56,26 @@ article {
 	&:nth-child(odd) {
 		clear: left;
 	}
+}
+.article__header--front-page {
+	margin-bottom: 1rem;
+
+	h1 {
+		display: inline-block;
+	}
+}
+
+.article__time {
+	display: inline-block;
+	padding: 1rem;
+	font-weight: bold;
+	position: relative;
+	top: -0.25rem;
+	margin-right: 1rem;
+}
+
+.article__content--front-page {
+	margin-left: 107px;
 }
 
 // vcard styles
@@ -93,4 +109,28 @@ picture,
 picture > img {
 	width: 100%;
 	max-width: 100%;
+}
+
+// Testing Flexbox stuff
+.box-container {
+	@include flexbox();
+	@include flex-direction(column);
+}
+
+.box {
+	background: red;
+	padding: 3rem;
+	margin-bottom: 3rem;
+}
+
+.box-1 {
+	@include order(1);
+}
+
+.box-2 {
+	@include order(2);
+}
+
+.box-3 {
+	@include order(3);
 }
