@@ -14,14 +14,14 @@ function ah_get_extra_thumbnail_sizes(){
  	if ( isset( $_wp_additional_image_sizes ) ) {
  		foreach ($all_sizes as $size) {
 	 		// compile array of image sizes beginning with pic-
-	 		if (substr( $size, 0, 4 ) === "pic-") {
-		 		array_push($reduced_sizes, $size);
+	 		if ( substr( $size, 0, 4 ) === "pic-" ) {
+		 		array_push( $reduced_sizes, $size );
 	 		}
 	 	}
  	}
 
  	// check that there are image sizes beginning with pic-
- 	if(!empty($reduced_sizes)) {
+ 	if( ! empty( $reduced_sizes ) ) {
  		foreach( $reduced_sizes	 as $s ){
 			$sizes[ $s ] = array();
 
@@ -33,34 +33,33 @@ function ah_get_extra_thumbnail_sizes(){
 	return $sizes;
 }
 
-function ah_get_output_picture ($id, $class = '') {
+function ah_get_output_picture ( $id, $class = '' ) {
 	$sizes = ah_get_extra_thumbnail_sizes();
 
-	if ($class) {
-		$picture_class = 'class="'.$class.'"';
+	if ( $class ) {
+		$picture_class = 'class="' . $class . '"';
 	} else {
 		$picture_class = '';
 	}
 
-	$html = '<picture '.$picture_class.'>';
-    	foreach ($sizes as $size => $key) {
-	    	$thumb = wp_get_attachment_image_src($id, $size);
-    		$html .= '<source media="(min-width: '.$key.'px)" srcset="'.$thumb[0].'">';
+	$html = '<picture ' . $picture_class . '>';
+    	foreach ( $sizes as $size => $key ) {
+	    	$thumb = wp_get_attachment_image_src( $id, $size );
+    		$html .= '<source media="(min-width: ' . $key . 'px)" srcset="' . $thumb[0] . '">';
     	}
 
-    	$fallback_thumb = wp_get_attachment_image_src($id, 'large');
-    	$html .= '<img src="'.$fallback_thumb[0].'" />';
+    	$fallback_thumb = wp_get_attachment_image_src( $id, 'large' );
+    	$html .= '<img src="' . $fallback_thumb[0] . '" />';
 	$html .= '</picture>';
 	return $html;
 }
 
-function ah_output_picture ($id, $class = '') {
-	echo ah_get_output_picture($id, $class);
+function ah_output_picture ( $id, $class = '' ) {
+	echo ah_get_output_picture( $id, $class );
 }
 
 function ah_featured_picture_replacement () {
 	$post_thumbnail_id = get_post_thumbnail_id();
-
 	ah_output_picture($post_thumbnail_id);
 }
 
@@ -74,16 +73,16 @@ function ah_picture_shortcode( $atts, $content ) {
 		'id' => '',
 	), $atts ) );
 
-	if ($id) {
-		return ah_output_picture($id);
+	if ( $id ) {
+		return ah_output_picture( $id );
 	} else {
-	    preg_match_all("/<img (.*?)class=\"((.*?)wp-image-(\d+)(.*?))\"(.*?)>/", $content, $matches);
+	    preg_match_all( "/<img (.*?)class=\"((.*?)wp-image-(\d+)(.*?))\"(.*?)>/", $content, $matches );
 
-		foreach ($matches[0] as $key => $imgstring) {
-            $id = $matches[4][$key];
-            $class = $matches[2][$key];
+		foreach ( $matches[0] as $key => $imgstring ) {
+            $id = $matches[4][ $key ];
+            $class = $matches[2][ $key ];
 
-            return ah_get_output_picture($id, $class);
+            return ah_get_output_picture( $id, $class );
 	    }
 	}
 
@@ -92,23 +91,22 @@ function ah_picture_shortcode( $atts, $content ) {
 add_shortcode( 'picture', 'ah_picture_shortcode' );
 
 function ah_replace_content_img_with_picture( $content ) {
+	if ( is_page_template( 'templates/template-picture.php' ) && is_singular() && is_main_query()) {
 
-	if ( is_page_template('templates/template-picture.php') && is_singular() && is_main_query()) {
+	    preg_match_all( "/<img (.*?)class=\"((.*?)wp-image-(\d+)(.*?))\"(.*?)>/", $content, $matches );
 
-	    preg_match_all("/<img (.*?)class=\"((.*?)wp-image-(\d+)(.*?))\"(.*?)>/", $content, $matches);
-
-	    foreach ($matches[0] as $key => $imgstring) {
-            $id = $matches[4][$key];
-            $class = $matches[2][$key];
+	    foreach ( $matches[0] as $key => $imgstring ) {
+            $id = $matches[4][ $key ];
+            $class = $matches[2][ $key ];
 
             // the string with <img>
-            $img = $matches[0][$key];
+            $img = $matches[0][ $key ];
 
             // string with <picture>
-            $picture = ah_get_output_picture($id);
+            $picture = ah_get_output_picture( $id );
 
             // replace <img> with <picture>
-            $content = str_replace($img, $picture, $content);
+            $content = str_replace( $img, $picture, $content );
 	    }
 
 	    return $content;

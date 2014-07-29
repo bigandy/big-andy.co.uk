@@ -1,5 +1,5 @@
 <?php
-if( !function_exists('ah_preit') ) {
+if( ! function_exists( 'ah_preit' ) ) {
 	function ah_preit( $obj, $echo = true ) {
 		if( $echo ) {
 			echo '<pre>' . print_r( $obj, true ) . '</pre>';
@@ -8,7 +8,7 @@ if( !function_exists('ah_preit') ) {
 		}
 	}
 }
-if( !function_exists('ah_silent') ) {
+if( ! function_exists( 'ah_silent' ) ) {
 	function ah_silent( $obj ) {
 		echo '<pre style="display: none;">' . print_r( $obj, true ) . '</pre>';
 	}
@@ -17,7 +17,7 @@ if( !function_exists('ah_silent') ) {
 // Hide Links Admin Menu
 add_action( 'admin_menu', 'ah_remove_menu_pages' );
 function ah_remove_menu_pages() {
-	remove_menu_page('link-manager.php');
+	remove_menu_page( 'link-manager.php' );
 }
 
 /**
@@ -27,6 +27,6 @@ function ah_remove_menu_pages() {
  * from http://codex.wordpress.org/Function_Reference/the_excerpt#Make_the_.22read_more.22_link_to_the_post
  */
 function ah_excerpt_more( $more ) {
-	return ' <a class="read-more" href="'. get_permalink( get_the_ID() ) . '">' . __('Read More', 'ah') . '</a>';
+	return ' <a class="read-more" href="'. get_permalink( get_the_ID() ) . '">Read More</a>';
 }
 add_filter( 'excerpt_more', 'ah_excerpt_more' );
