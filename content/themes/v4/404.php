@@ -1,6 +1,4 @@
-<?php
-get_header();
-?>
+<?php get_header(); ?>
 <main>
 	<div class="row content-container">
 	    <article role="article" class="large-12 columns">

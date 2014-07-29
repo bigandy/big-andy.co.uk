@@ -15,7 +15,7 @@
 			    <article role="article" class="columns <?php echo $class; ?>">
 					<header class="article__header">
 						<?php
-						if (has_post_thumbnail()) {
+						if ( has_post_thumbnail() ) {
 							ah_featured_picture_replacement();
 						}
 						?>

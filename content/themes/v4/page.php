@@ -9,7 +9,7 @@
 			    <article role="article" class="large-8 large-push-2 small-12 columns">
 					<section class="post-content clearfix">
 						<?php
-						if (has_post_thumbnail()) {
+						if ( has_post_thumbnail() ) {
 							ah_featured_picture_replacement();
 						}
 						the_content();
