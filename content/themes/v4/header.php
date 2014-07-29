@@ -1,5 +1,10 @@
 <!doctype html>
-<html lang="en" <?php if ( is_user_logged_in() ) { echo 'class="logged-in"'; } ?>>
+<?php
+if ( is_user_logged_in() ) {
+	$class = 'class="logged-in"';
+}
+?>
+<html lang="en" <?php echo $class; ?>>
 <head>
 	<meta charset="utf-8">
 	<link rel="dns-prefetch" href="//cloud.typography.com">
