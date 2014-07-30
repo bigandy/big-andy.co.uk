@@ -2,6 +2,8 @@
 <?php
 if ( is_user_logged_in() ) {
 	$class = 'class="logged-in"';
+} else {
+	$class = '';
 }
 ?>
 <html lang="en" <?php echo $class; ?>>

@@ -18,7 +18,7 @@
     			?>
 			    <article role="article" class="large-8 large-push-2 small-12 columns">
 					<header class="article__header article__header--front-page">
-						<time class="article__time" datetime="<?php the_time('c'); ?>" pubdate>
+						<time class="article__time" datetime="<?php the_time( 'c' ); ?>" pubdate>
 							<?php the_time( 'd M' ); ?>
 						</time>
 					    <h1>
@@ -26,9 +26,7 @@
 					   			<?php the_title(); ?>
 					   		</a>
 						</h1>
-
 			    	</header>
-
 					<section class="post-content clearfix article__content--front-page">
 					    <?php the_excerpt(); ?>
 				    </section>
