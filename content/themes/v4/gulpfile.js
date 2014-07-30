@@ -34,7 +34,7 @@ gulp.task('uncss', function() {
 gulp.task('js', function () {
 	gulp.src([
 			'bower_components/jquery/dist/jquery.min.js',
-			'bower_components/FitVids/jquery.fitvids.js',
+			// 'bower_components/FitVids/jquery.fitvids.js',
 			'js/main.js',
 		])
 		.pipe(gutil.env.type === 'production' ? stripDebug() : gutil.noop())

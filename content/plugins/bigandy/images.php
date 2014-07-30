@@ -146,13 +146,6 @@ function gallery_shortcode_ah_new($attr) {
 // Altering the image_downsize function
 // http://wordpress.stackexchange.com/questions/29881/stop-wordpress-from-hardcoding-img-width-and-height-attributes
 
-function ah_mime_types( $mimes ){
-	$mimes['svg'] = 'image/svg+xml';
-	$mimes['webp'] = 'image/webp';
-	return $mimes;
-}
-add_filter( 'upload_mimes', 'ah_mime_types' );
-
 function ah_image_downsize( $value = false, $id, $size ) {
 	if ( !wp_attachment_is_image( $id ) )
 		return false;
@@ -247,6 +240,3 @@ function ah_add_class_attachment_link($html) {
 	return $html;
 }
 add_filter( 'wp_get_attachment_link', 'ah_add_class_attachment_link', 100, 1 );
-
-
-

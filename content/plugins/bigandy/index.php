@@ -208,12 +208,3 @@ function ah_body_class_names( $classes ) {
 	// return the $classes array
 	return $classes;
 }
-
-
-// // remove contact form 7 JS and CSS
-// define('WPCF7_LOAD_CSS', false);
-// define('WPCF7_LOAD_JS', false);
-
-// * Allow only admins to see contact form 7 settings in admin panel
-// define( 'WPCF7_ADMIN_READ_CAPABILITY', false );
-// define( 'WPCF7_ADMIN_READ_WRITE_CAPABILITY', false );
