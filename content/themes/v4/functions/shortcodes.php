@@ -1,7 +1,7 @@
 <?php
 function ah_empty_paragraph_fix( $content ) {
 	// An array of the offending tags.
-	$arr = array (
+	$arr = array(
 		'<p>[' => '[',
 		']</p>' => ']',
 		']<br />' => ']',
@@ -15,13 +15,13 @@ add_filter( 'the_content', 'ah_empty_paragraph_fix' );
 /**
  * Shorcode to produce half column
  */
-function ah_half ( $atts, $content ) {
+function ah_half( $atts, $content ) {
 	$html = '<div class="large-6 columns">' . do_shortcode( $content ) . '</div>';
 	return $html;
 }
 add_shortcode( 'half', 'ah_half' );
 
-function ah_full ( $atts, $content ) {
+function ah_full( $atts, $content ) {
 	$html = '<div class="large-12 columns">' . do_shortcode( $content ) . '</div>';
 	return $html;
 }

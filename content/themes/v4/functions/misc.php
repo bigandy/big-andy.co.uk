@@ -1,14 +1,14 @@
 <?php
-if( ! function_exists( 'ah_preit' ) ) {
+if ( ! function_exists( 'ah_preit' ) ) {
 	function ah_preit( $obj, $echo = true ) {
-		if( $echo ) {
+		if ( $echo ) {
 			echo '<pre>' . print_r( $obj, true ) . '</pre>';
 		} else {
 			return '<pre>' . print_r( $obj, true ) . '</pre>';
 		}
 	}
 }
-if( ! function_exists( 'ah_silent' ) ) {
+if ( ! function_exists( 'ah_silent' ) ) {
 	function ah_silent( $obj ) {
 		echo '<pre style="display: none;">' . print_r( $obj, true ) . '</pre>';
 	}
@@ -20,12 +20,6 @@ function ah_remove_menu_pages() {
 	remove_menu_page( 'link-manager.php' );
 }
 
-/**
- * [ah_excerpt_more description]
- * @param  [type] $more [description]
- * @return [type]       [description]
- * from http://codex.wordpress.org/Function_Reference/the_excerpt#Make_the_.22read_more.22_link_to_the_post
- */
 function ah_excerpt_more( $more ) {
 	return ' <a class="read-more" href="'. get_permalink( get_the_ID() ) . '">Read More</a>';
 }

@@ -15,7 +15,7 @@ function ah_add_additional_image_sizes( $sizes ) {
 	}
 
 	foreach ( $_wp_additional_image_sizes as $id => $data ) {
-		if ( !isset($sizes[ $id ]) ) {
+		if ( ! isset($sizes[ $id ]) ) {
 			$sizes[ $id ] = ucfirst( str_replace( '-', ' ', $id ) );
 		}
 	}
@@ -28,7 +28,7 @@ add_filter( 'image_size_names_choose', 'ah_add_additional_image_sizes' );
 
 // this is called only when the theme has been switched
 function ah_after_theme_switch() {
-    /* default option to not link to media */
+	/* default option to not link to media */
 	update_option( 'image_default_link_type', 'none' );
 
 	/* Add html5 capability */
