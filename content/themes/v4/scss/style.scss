@@ -1,5 +1,5 @@
 /*!
-* Theme Name: Bigandy Zurb
+* Theme Name: Bigandy v4
 * Theme URI: http://zurb.foundation.com
 * Description: This site was built on top of Zurb Foundation v5
 * Author: Andrew JD Hudson
@@ -16,10 +16,10 @@
 @import "plugins/flexbox-mixin";
 
 // Theme Specific
-@import "mixins";
+// @import "mixins";
 @import "header";
 @import "page";
-@import "footer";
+// @import "footer";
 
 //
 // Media Queries

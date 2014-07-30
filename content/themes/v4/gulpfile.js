@@ -41,6 +41,7 @@ gulp.task('js', function () {
 		.pipe(uglify())
 		.pipe(concat('script.min.js'))
 		.pipe(gulp.dest('build/js'));
+
 	gulp.src(['bower_components/picturefill/dist/picturefill.min.js'])
 		.pipe(gulp.dest('build/js'));
 
@@ -88,4 +89,4 @@ gulp.task('watch', function () {
 // The default task (called when you run `gulp` from cli)
 gulp.task('default', ['js', 'sass', 'watch', 'livereload']);
 gulp.task('production', ['js', 'sass']);
-gulp.task('deploy', ['sass', 'uncss', 'js']);
+gulp.task('deploy', ['uncss']);
