@@ -38,7 +38,8 @@ h1 {
 	}
 
 	.current-menu-item,
-	.current_page_item {
+	.current_page_item,
+	.current_page_parent {
 	> a {
 			border-bottom: 3px solid $primary-color;
 		}
