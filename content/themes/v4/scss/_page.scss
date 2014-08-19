@@ -17,6 +17,18 @@ h1 {
 	margin-top: 0;
 }
 
+.center {
+	text-align: center;
+}
+
+.page__title {
+	background: $black;
+	color: $white;
+	padding: 1rem 0;
+	text-align: center;
+	margin: 0;
+}
+
 .content-container {
 	@extend .row;
 }
@@ -33,6 +45,13 @@ h1 {
 	li {
 		float: left;
 	}
+}
+
+pre {
+	// background: lightgray;
+	padding: 1rem 0;
+	// text-align: center;
+	// display: none;
 }
 
 a {
@@ -75,6 +94,7 @@ article {
 		clear: left;
 	}
 }
+
 .article__header--front-page {
 	margin-bottom: 1rem;
 
@@ -94,6 +114,15 @@ article {
 
 .article__content--front-page {
 	margin-left: 107px;
+}
+
+
+.home__intro {
+	p {
+		font-size: 150%;
+		font-weight: bold;
+		text-align: center;
+	}
 }
 
 // vcard styles
