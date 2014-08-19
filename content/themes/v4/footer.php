@@ -16,7 +16,8 @@
 		<footer>
 			<div class="row footer__row content-container">
 				<div class="columns <?php echo $class; ?>">
-					<p>&copy; <?php echo date('Y'); ?> Andrew JD Hudson</p>
+					<p class="left">&copy; <?php echo date('Y'); ?> Andrew JD Hudson</p>
+					<a href="/style-guide" class="right link--dark">Style Guide</a>
 				</div>
 			</div>
 		</footer>

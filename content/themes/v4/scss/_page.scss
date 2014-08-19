@@ -6,6 +6,17 @@ h1 {
 	font-size: 2rem;
 }
 
+.seperator {
+	padding: 1rem 0;
+	margin: 3rem 0;
+	border-top: 1px solid $body-color;
+	border-bottom: 1px solid $body-color;
+}
+
+.seperator:first-child {
+	margin-top: 0;
+}
+
 .content-container {
 	@extend .row;
 }
@@ -24,25 +35,31 @@ h1 {
 	}
 }
 
-// Links
-.post-content,
-.header__menu {
-	a {
-		border-bottom: 3px solid transparent;
-		margin-bottom: -3px;
+a {
+	border-bottom: 3px solid transparent;
+	margin-bottom: -3px;
 
-		&:hover,
-		&:focus {
-			border-bottom-color: $primary-color;
-		}
+	&:hover,
+	&:focus {
+		border-bottom-color: $primary-color;
 	}
+}
 
-	.current-menu-item,
-	.current_page_item,
-	.current_page_parent {
-	> a {
-			border-bottom: 3px solid $primary-color;
-		}
+.link--dark {
+	color: $body-color;
+}
+
+.header__link {
+	border-bottom: 0;
+}
+
+// Links
+
+.current-menu-item,
+.current_page_item,
+.current_page_parent {
+> a {
+		border-bottom: 3px solid $primary-color;
 	}
 }
 

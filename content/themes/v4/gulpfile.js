@@ -21,6 +21,8 @@ gulp.task('uncss', function() {
 				'http://big-andy.local/about/',
 				'http://big-andy.local/photos/',
 				'http://big-andy.local/',
+				'http://big-andy.local/blog',
+				'http://big-andy.local/style-guide',
 				'http://big-andy.local/blog/picture-featured-image-test-post/',
 				'http://big-andy.local/blog/breaking-borders-3/'
             ]

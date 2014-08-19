@@ -14,11 +14,11 @@
 	<?php wp_head(); ?>
 </head>
 <body>
-	<header>
+	<header class="header">
 		<div class="header__row content-container row">
 			<div class="large-12 columns">
 				<h1>
-					<a href="<?php echo home_url(); ?>">Andrew JD Hudson - Front-end Developer</a>
+					<a href="<?php echo home_url(); ?>" class="header__link">Andrew JD Hudson - Front-end Developer</a>
 				</h1>
 				<nav role="navigation" class="header__nav nav top-nav clearfix" id="top-nav">
 					<?php
