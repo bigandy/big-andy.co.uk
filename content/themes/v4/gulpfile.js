@@ -44,6 +44,8 @@ gulp.task('js', function () {
 
 	gulp.src(['bower_components/picturefill/dist/picturefill.min.js'])
 		.pipe(gulp.dest('build/js'));
+	gulp.src(['js/analytics.js'])
+		.pipe(gulp.dest('build/js'));
 
 });
 

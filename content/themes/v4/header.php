@@ -1,15 +1,9 @@
 <!doctype html>
-<?php
-if ( is_user_logged_in() ) {
-	$class = 'class="logged-in"';
-} else {
-	$class = '';
-}
-?>
-<html lang="en" <?php echo $class; ?>>
+<html lang="en">
 <head>
 	<meta charset="utf-8">
 	<link rel="dns-prefetch" href="//cloud.typography.com">
+	<link rel="stylesheet" type="text/css" href="//cloud.typography.com/7502092/707264/css/fonts.css" />
 	<meta name="robots" content="all" />
 	<meta name="HandheldFriendly" content="True">
 	<meta name="MobileOptimized" content="320">
@@ -17,7 +11,6 @@ if ( is_user_logged_in() ) {
 	<title>
 		<?php wp_title(); ?>
 	</title>
-	<link rel="stylesheet" type="text/css" href="//cloud.typography.com/7502092/707264/css/fonts.css" />
 	<?php wp_head(); ?>
 </head>
 <body>
@@ -25,7 +18,7 @@ if ( is_user_logged_in() ) {
 		<div class="header__row content-container row">
 			<div class="large-12 columns">
 				<h1>
-					<a href="<?php echo home_url(); ?>">Andrew Hudson - Front-end Developer</a>
+					<a href="<?php echo home_url(); ?>">Andrew JD Hudson - Front-end Developer</a>
 				</h1>
 				<nav role="navigation" class="header__nav nav top-nav clearfix" id="top-nav">
 					<?php

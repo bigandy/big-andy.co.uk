@@ -1,7 +1,7 @@
 <?php get_header(); ?>
 <main>
 	<div class="row content-container">
-		<article role="article" class="large-8 large-push-2 small-12 columns">
+		<article role="article" class="large-10 small-12 columns">
 			<section class="post-content clearfix article__content--front-page">
 				<?php
 
