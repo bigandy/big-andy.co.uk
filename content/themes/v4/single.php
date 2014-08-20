@@ -3,16 +3,16 @@
 	<div class="row content-container">
 		<?php
 		if ( have_posts() ) {
-    		while ( have_posts() ) {
-    			the_post();
-    			if ( has_category( 'picture' ) ) {
-    				$class = 'large-12';
-    			} else {
-    				$class = 'large-6 large-push-3 small-12';
-    			}
+			while ( have_posts() ) {
+				the_post();
+				if ( has_category( 'picture' ) ) {
+					$class = 'large-12';
+				} else {
+					$class = 'large-6 large-push-3 small-12';
+				}
 
-    			?>
-			    <article role="article" class="columns <?php echo $class; ?>">
+				?>
+				<article role="article" class="columns <?php echo $class; ?>">
 					<header class="article__header">
 						<?php
 						if ( has_post_thumbnail() ) {
@@ -28,10 +28,10 @@
 				    </section>
 			    </article>
 			<?php
-	 		}
-	 	}
-	 	wp_reset_postdata();
-	 	?>
+			}
+		}
+		wp_reset_postdata();
+		?>
 	</div>
 </main>
 <?php

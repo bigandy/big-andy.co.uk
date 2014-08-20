@@ -3,9 +3,9 @@
 	<div class="row content-container">
 		<?php
 		if ( have_posts() ) {
-    		while ( have_posts() ) {
-    			the_post();
-    			?>
+			while ( have_posts() ) {
+				the_post();
+				?>
 			    <article role="article" class="large-6 columns">
 					<header class="article__header">
 					    <h1>
@@ -19,10 +19,10 @@
 				    </section>
 			    </article>
 			<?php
-	 		}
-	 	}
-	 	wp_reset_postdata();
-	 	?>
+			}
+		}
+		wp_reset_postdata();
+		?>
 	</div>
 </main>
 <?php
