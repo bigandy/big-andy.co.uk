@@ -1,7 +1,3 @@
-// body {
-// 	font-family: $opensans;
-// }
-
 h1 {
 	font-size: 2rem;
 }
@@ -33,6 +29,8 @@ h1 {
 	@extend .row;
 }
 
+
+// Lists
 .list--plain {
 	margin: 0;
 	list-style: none;
@@ -48,12 +46,13 @@ h1 {
 }
 
 pre {
-	// background: lightgray;
-	padding: 1rem 0;
-	// text-align: center;
-	// display: none;
+	background: lightgray;
+	padding: .5rem;
+	margin: .25rem 0;
 }
 
+
+// Links
 a {
 	border-bottom: 3px solid transparent;
 	margin-bottom: -3px;
@@ -63,16 +62,6 @@ a {
 		border-bottom-color: $primary-color;
 	}
 }
-
-.link--dark {
-	color: $body-color;
-}
-
-.header__link {
-	border-bottom: 0;
-}
-
-// Links
 
 .current-menu-item,
 .current_page_item,
@@ -86,6 +75,14 @@ a {
 	.columns + .columns:last-child {
 		float: left;
 	}
+}
+
+.link--dark {
+	color: $body-color;
+}
+
+.header__link {
+	border-bottom: 0;
 }
 
 
@@ -108,7 +105,7 @@ article {
 	padding: 1rem;
 	font-weight: bold;
 	position: relative;
-	top: -0.25rem;
+	top: -.25rem;
 	margin-right: 1rem;
 }
 
@@ -121,11 +118,9 @@ article {
 	font-size: 1.5rem;
 	font-weight: bold;
 	text-align: center;
-	// margin: 1rem 0;
 }
 
 // vcard styles
-
 .vcard {
 	border: 0;
 	padding: 0;
@@ -137,7 +132,7 @@ article {
 	}
 
 	.adr {
-		margin-bottom: 0.3rem;
+		margin-bottom: .3rem;
 	}
 
 	.email, .tel {
@@ -150,33 +145,9 @@ article {
 	}
 }
 
-
+// Picture Styles
 picture,
 picture > img {
 	width: 100%;
 	max-width: 100%;
-}
-
-// Testing Flexbox stuff
-.box-container {
-	@include flexbox();
-	@include flex-direction(column);
-}
-
-.box {
-	background: red;
-	padding: 3rem;
-	margin-bottom: 3rem;
-}
-
-.box-1 {
-	@include order(1);
-}
-
-.box-2 {
-	@include order(2);
-}
-
-.box-3 {
-	@include order(3);
 }
