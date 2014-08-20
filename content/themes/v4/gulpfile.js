@@ -36,7 +36,6 @@ gulp.task('uncss', function() {
 gulp.task('js', function () {
 	gulp.src([
 			'bower_components/jquery/dist/jquery.min.js',
-			// 'bower_components/FitVids/jquery.fitvids.js',
 			'js/main.js',
 		])
 		.pipe(gutil.env.type === 'production' ? stripDebug() : gutil.noop())
@@ -65,8 +64,6 @@ gulp.task('sass', function () {
 		.pipe(sass({
 			errLogToConsole: true,
 			outputStyle: 'compressed'
-			// sourceComments: 'map',
-			// sourceMap: 'sass'
 		}))
 		.pipe(livereload())
         .pipe(gulp.dest('.'));
