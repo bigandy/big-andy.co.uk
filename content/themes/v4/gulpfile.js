@@ -35,7 +35,7 @@ gulp.task('uncss', function() {
 // concat and minify the js
 gulp.task('js', function () {
 	gulp.src([
-			'bower_components/jquery/dist/jquery.min.js',
+			// 'bower_components/jquery/dist/jquery.min.js',
 			'js/main.js',
 		])
 		.pipe(gutil.env.type === 'production' ? stripDebug() : gutil.noop())
