@@ -82,7 +82,7 @@ gulp.task('livereload', function () {
 // Rerun the task when a file changes
 gulp.task('watch', function () {
 	gulp.watch('js/*', ['js', 'lint']);
-	gulp.watch('scss/*', ['sass']);
+	gulp.watch('scss/**/*', ['sass']);
 
 	var server = livereload();
 	gulp.watch(['style.css', 'build/**', '*.php']).on('change', function(file) {

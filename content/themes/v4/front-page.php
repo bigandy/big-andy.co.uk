@@ -6,7 +6,11 @@
 			if ( have_posts() ) {
 				while ( have_posts() ) {
 					the_post();
-					the_content();
+					?>
+					<h1 class="home__intro">
+						<?php echo get_the_content(); ?>
+					</h1>
+					<?php
 				}
 			}
 			?>
