@@ -93,4 +93,4 @@ gulp.task('watch', function () {
 // The default task (called when you run `gulp` from cli)
 gulp.task('default', ['js', 'sass', 'watch', 'livereload']);
 gulp.task('production', ['js', 'sass']);
-gulp.task('deploy', ['uncss']);
+gulp.task('deploy', ['uncss', 'js']);
