@@ -23,8 +23,8 @@ gulp.task('uncss', function() {
 				'http://big-andy.local/',
 				'http://big-andy.local/blog',
 				'http://big-andy.local/style-guide',
-				'http://big-andy.local/blog/picture-featured-image-test-post/',
-				'http://big-andy.local/blog/breaking-borders-3/'
+				'http://big-andy.local/https/',
+				'http://big-andy.local/breaking-borders-3/'
             ]
         }))
         .pipe(minifyCSS())
