@@ -13,3 +13,4 @@ _gaq.push(['_trackPageview']);
 	s.parentNode.insertBefore(ga, s);
 })();
 
+console.log('hello there!');
