@@ -9,14 +9,14 @@
 			    <article role="article" class="large-6 columns">
 					<header class="article__header">
 					    <h1>
-					   		<a href="<?php the_permalink(); ?>">
-					   			<?php the_title(); ?>
+							<a href="<?php the_permalink(); ?>">
+								<?php the_title(); ?>
 					   		</a>
 						</h1>
 			    	</header>
-					<section class="post-content clearfix">
-					    <?php the_content(); ?>
-				    </section>
+					<div class="post-content clearfix">
+						<?php the_content(); ?>
+				    </div>
 			    </article>
 			<?php
 			}

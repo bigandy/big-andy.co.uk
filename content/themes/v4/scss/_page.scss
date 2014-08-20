@@ -2,21 +2,6 @@ h1 {
 	font-size: 2rem;
 }
 
-.seperator {
-	padding: 1rem 0;
-	margin: 3rem 0;
-	border-top: 1px solid $body-color;
-	border-bottom: 1px solid $body-color;
-}
-
-.seperator:first-child {
-	margin-top: 0;
-}
-
-.center {
-	text-align: center;
-}
-
 .page__title {
 	background: $black;
 	color: $white;
@@ -94,25 +79,16 @@ article {
 
 .article__header--front-page {
 	margin-bottom: 1rem;
-
-	h1 {
-		display: inline-block;
-	}
 }
 
 .article__time {
-	display: inline-block;
-	padding: 1rem;
 	font-weight: bold;
-	position: relative;
-	top: -.25rem;
-	margin-right: 1rem;
 }
 
-.article__content--front-page {
-	margin-left: 107px;
+.article__title {
+	padding-right: .5rem;
+	font-size: 2rem;
 }
-
 
 .home__intro {
 	font-size: 1.5rem;

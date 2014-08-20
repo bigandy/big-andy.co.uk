@@ -1,0 +1,10 @@
+.seperator {
+	padding: 1rem 0;
+	margin: 3rem 0;
+	border-top: 1px solid $body-color;
+	border-bottom: 1px solid $body-color;
+}
+
+.seperator:first-child {
+	margin-top: 0;
+}

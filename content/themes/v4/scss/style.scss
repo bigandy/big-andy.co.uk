@@ -19,16 +19,22 @@
 // @import "mixins";
 @import "header";
 @import "page";
-// @import "footer";
+@import "styleguide";
 
 //
 // Media Queries
 //
 
-@media all and (min-width: 600px) {
-	@import "media-queries/600";
+@media all and (min-width: 37.5em) {
+	@import "media-queries/37-5em";
 }
 
-@media all and (min-width: 64.063em) {
+
+// 30 * 16 = 480px and up
+@media all and (min-width: 30em) {
+	@import "media-queries/30em";
+}
+
+@media all and (min-width: 64em) {
 	@import "media-queries/64em";
 }
