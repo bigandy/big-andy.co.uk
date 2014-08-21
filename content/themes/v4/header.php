@@ -6,7 +6,7 @@
 	<meta name="HandheldFriendly" content="True">
 	<meta name="MobileOptimized" content="320">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-	<style><?php include_once('build/css/critical.css'); ?></style>
+	<style><?php include_once('style.css'); ?></style>
 	<title>
 		<?php wp_title(); ?>
 	</title>
