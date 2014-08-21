@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<link rel="dns-prefetch" href="//cloud.typography.com">
-	<link rel="stylesheet" type="text/css" href="//cloud.typography.com/7502092/707264/css/fonts.css" />
+	<!-- <link rel="dns-prefetch" href="//cloud.typography.com"> -->
+	<!-- <link rel="stylesheet" type="text/css" href="//cloud.typography.com/7502092/707264/css/fonts.css" /> -->
 	<meta name="robots" content="all" />
 	<meta name="HandheldFriendly" content="True">
 	<meta name="MobileOptimized" content="320">
