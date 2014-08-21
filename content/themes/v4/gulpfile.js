@@ -10,20 +10,19 @@ var gulp = require('gulp'),
 	minifyCSS = require('gulp-minify-css'),
 	livereload = require('gulp-livereload'),
 	stylish = require('jshint-stylish'),
-	uncss = require('gulp-uncss');
+	uncss = require('gulp-uncss'),
+	penthouse = require('penthouse'),
+	Promise = require("bluebird"),
+	penthouseAsync = Promise.promisify(penthouse);
 
-var penthouse = require('penthouse');
-var Promise = require("bluebird");
-var penthouseAsync = Promise.promisify(penthouse);
-
-gulp.task('critical', function(){
-  penthouseAsync({
-    url : 'https://big-andy.co.uk/',
-    css : './style.css',
-    height: 480
-  }).then( function (criticalCSS){
-    require('fs').writeFile('build/css/critical.css', criticalCSS );
-  });
+gulp.task('critical', function() {
+	penthouseAsync({
+		url : 'https://big-andy.co.uk/',
+		css : './style.css',
+		height: 480
+	}).then( function (criticalCSS){
+		require('fs').writeFile('build/css/critical.css', criticalCSS);
+	});
 });
 
 gulp.task('uncss', function() {
