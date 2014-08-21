@@ -6,8 +6,8 @@ function ah_enque_scripts() {
 
 	wp_enqueue_script( 'main' );
 
-	wp_register_style( 'main', get_stylesheet_uri() );
-	wp_enqueue_style( 'main' );
+	// wp_register_style( 'main', get_stylesheet_uri() );
+	// wp_enqueue_style( 'main' );
 
 	if ( ! is_front_page() ) {
 		if ( is_page_template( 'templates/template-picture.php' ) || has_category( 'picture' ) ) {
