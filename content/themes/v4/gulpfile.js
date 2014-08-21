@@ -19,7 +19,8 @@ gulp.task('critical', function() {
 	penthouseAsync({
 		url : 'https://big-andy.co.uk/',
 		css : './style.css',
-		height: 600
+		height: 600,
+		width: 400
 	}).then( function (criticalCSS){
 		require('fs').writeFile('build/css/critical.css', criticalCSS);
 	});
