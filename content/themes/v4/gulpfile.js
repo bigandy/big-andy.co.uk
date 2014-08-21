@@ -18,7 +18,7 @@ var penthouseAsync = Promise.promisify(penthouse);
 
 gulp.task('critical', function(){
   penthouseAsync({
-    url : 'https://big-andy.local/',
+    url : 'https://big-andy.co.uk/',
     css : './style.css',
     height: 480
   }).then( function (criticalCSS){
@@ -43,7 +43,7 @@ gulp.task('uncss', function() {
         }))
         .pipe(minifyCSS({
 				keepSpecialComments: 0
-        	}))
+			}))
         .pipe(autoprefix('last 2 versions'))
         .pipe(gulp.dest('.'));
 });

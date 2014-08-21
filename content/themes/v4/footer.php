@@ -22,5 +22,6 @@ if ( is_front_page() ) {
 	</div>
 </footer>
 <?php wp_footer(); ?>
+<link rel="stylesheet" href="/content/themes/v4/style.css">
 </body>
 </html>
