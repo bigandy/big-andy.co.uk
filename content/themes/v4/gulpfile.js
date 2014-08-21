@@ -36,7 +36,9 @@ gulp.task('uncss', function() {
 gulp.task('js', function () {
 	gulp.src([
 			// 'bower_components/jquery/dist/jquery.min.js',
-			'js/main.js',
+			'js/font-loader.js',
+			'js/google-analytics-caller.js',
+			// 'js/main.js',
 		])
 		.pipe(gutil.env.type === 'production' ? stripDebug() : gutil.noop())
 		.pipe(uglify())
