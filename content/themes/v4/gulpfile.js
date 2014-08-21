@@ -52,7 +52,7 @@ gulp.task('js', function () {
 	gulp.src([
 			'js/font-loader.js',
 			'js/google-analytics-caller.js',
-			'js/lazy-load-css.js',
+			// 'js/lazy-load-css.js',
 			// 'js/main.js',
 		])
 		.pipe(gutil.env.type === 'production' ? stripDebug() : gutil.noop())
