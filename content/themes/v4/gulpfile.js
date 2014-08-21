@@ -12,6 +12,20 @@ var gulp = require('gulp'),
 	stylish = require('jshint-stylish'),
 	uncss = require('gulp-uncss');
 
+var penthouse = require('penthouse');
+var Promise = require("bluebird");
+var penthouseAsync = Promise.promisify(penthouse);
+
+gulp.task('critical', function(){
+  penthouseAsync({
+    url : 'https://big-andy.local/',
+    css : './style.css',
+    height: 480
+  }).then( function (criticalCSS){
+    require('fs').writeFile('build/css/critical.css', criticalCSS );
+  });
+});
+
 gulp.task('uncss', function() {
     return gulp.src('./style.css')
         .pipe(uncss({
@@ -37,9 +51,9 @@ gulp.task('uncss', function() {
 // concat and minify the js
 gulp.task('js', function () {
 	gulp.src([
-			// 'bower_components/jquery/dist/jquery.min.js',
 			'js/font-loader.js',
 			'js/google-analytics-caller.js',
+			'js/lazy-load-css.js',
 			// 'js/main.js',
 		])
 		.pipe(gutil.env.type === 'production' ? stripDebug() : gutil.noop())
