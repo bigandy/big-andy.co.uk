@@ -83,7 +83,6 @@ gulp.task('sass', function () {
 			errLogToConsole: true,
 			outputStyle: 'compressed'
 		}))
-		.pipe(livereload())
         .pipe(gulp.dest('.'));
 });
 
