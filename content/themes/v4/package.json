@@ -7,6 +7,7 @@
     "url": "https://github.com/bigandy/big-andy.co.uk.git"
   },
   "dependencies": {
+    "critical": "^0.1.6",
     "gulp": "~3.8.0",
     "gulp-concat": "~2.1.7",
     "gulp-jshint": "~1.4.2",
