@@ -27,11 +27,9 @@ gulp.task('uncss', function() {
 				'http://big-andy.local/breaking-borders-3/'
             ]
         }))
-        .pipe(minifyCSS(
-        	{
+        .pipe(minifyCSS({
         		keepSpecialComments: 0
-        	}
-        ))
+        	}))
         .pipe(autoprefix('last 2 versions'))
         .pipe(gulp.dest('.'));
 });
