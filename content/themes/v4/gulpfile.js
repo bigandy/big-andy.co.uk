@@ -38,7 +38,7 @@ gulp.task('uncss', function() {
 gulp.task('js', function () {
 	gulp.src([
 			// 'bower_components/jquery/dist/jquery.min.js',
-			'js/font-loader.js',
+			// 'js/font-loader.js',
 			'js/google-analytics-caller.js',
 			// 'js/main.js',
 		])
@@ -50,6 +50,9 @@ gulp.task('js', function () {
 	gulp.src(['bower_components/picturefill/dist/picturefill.min.js'])
 		.pipe(gulp.dest('build/js'));
 	gulp.src(['js/analytics.js'])
+		.pipe(gulp.dest('build/js'));
+	gulp.src(['js/font-loader.js'])
+		.pipe(uglify())
 		.pipe(gulp.dest('build/js'));
 
 });
