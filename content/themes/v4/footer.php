@@ -17,7 +17,7 @@ if ( is_front_page() ) {
 	<div class="row footer__row content-container">
 		<div class="columns <?php echo $class; ?>">
 			<p class="left">&copy; <?php echo date( 'Y' ); ?> Andrew JD Hudson</p>
-			<a href="/style-guide" class="right link--dark">Style Guide</a>
+			<a href="/style-guide" class="right footer__link link--dark">Style Guide</a>
 		</div>
 	</div>
 </footer>

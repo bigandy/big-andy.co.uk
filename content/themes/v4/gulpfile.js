@@ -10,7 +10,21 @@ var gulp = require('gulp'),
 	minifyCSS = require('gulp-minify-css'),
 	livereload = require('gulp-livereload'),
 	stylish = require('jshint-stylish'),
-	uncss = require('gulp-uncss');
+	uncss = require('gulp-uncss'),
+	penthouse = require('penthouse'),
+	Promise = require("bluebird"),
+	penthouseAsync = Promise.promisify(penthouse);
+
+gulp.task('critical', function() {
+	penthouseAsync({
+		url : 'https://big-andy.co.uk/',
+		css : './style.css',
+		height: 600,
+		width: 400
+	}).then( function (criticalCSS){
+		require('fs').writeFile('build/css/critical.css', criticalCSS);
+	});
+});
 
 gulp.task('uncss', function() {
     return gulp.src('./style.css')
@@ -28,8 +42,8 @@ gulp.task('uncss', function() {
             ]
         }))
         .pipe(minifyCSS({
-        		keepSpecialComments: 0
-        	}))
+				keepSpecialComments: 0
+			}))
         .pipe(autoprefix('last 2 versions'))
         .pipe(gulp.dest('.'));
 });
@@ -40,6 +54,7 @@ gulp.task('js', function () {
 			// 'bower_components/jquery/dist/jquery.min.js',
 			// 'js/font-loader.js',
 			'js/google-analytics-caller.js',
+			// 'js/lazy-load-css.js',
 			// 'js/main.js',
 		])
 		.pipe(gutil.env.type === 'production' ? stripDebug() : gutil.noop())
@@ -72,7 +87,6 @@ gulp.task('sass', function () {
 			errLogToConsole: true,
 			outputStyle: 'compressed'
 		}))
-		.pipe(livereload())
         .pipe(gulp.dest('.'));
 });
 
