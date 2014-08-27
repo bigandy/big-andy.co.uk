@@ -2,9 +2,13 @@
 function ah_enque_scripts() {
 	$build = get_stylesheet_directory_uri() . '/build/js/';
 
-	wp_register_script( 'main', $build . 'script.min.js', false, null, true );
+	// if the user is not logged in, show the google analytics script
+	if ( ! is_user_logged_in() ) {
+		wp_register_script( 'main', $build . 'script.min.js', false, null, true );
+		wp_enqueue_script( 'main' );
+	}
 
-	wp_enqueue_script( 'main' );
+
 
 	// wp_register_style( 'main', get_stylesheet_uri() );
 	// wp_enqueue_style( 'main' );
