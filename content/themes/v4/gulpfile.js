@@ -13,7 +13,14 @@ var gulp = require('gulp'),
 	uncss = require('gulp-uncss'),
 	penthouse = require('penthouse'),
 	Promise = require("bluebird"),
-	penthouseAsync = Promise.promisify(penthouse);
+	penthouseAsync = Promise.promisify(penthouse),
+	svgSprite = require("gulp-svg-sprites");
+
+gulp.task('sprites', function () {
+    return gulp.src('assets/svg/*.svg')
+        .pipe(svgSprite())
+        .pipe(gulp.dest("assets"));
+});
 
 gulp.task('critical', function() {
 	penthouseAsync({
