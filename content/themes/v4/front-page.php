@@ -40,6 +40,8 @@
 						<time class="article__time" datetime="<?php the_time( 'c' ); ?>">
 							<?php the_time( 'jS F Y' ); ?>
 						</time>
+						<svg class="icon"><use xlink:href="#sunflower-face" /></svg>
+						<svg class="icon"><use xlink:href="#pen" /></svg>
 					</header>
 					<div class="post-content clearfix article__content--front-page">
 						<?php the_excerpt(); ?>

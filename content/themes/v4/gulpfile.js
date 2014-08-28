@@ -17,9 +17,12 @@ var gulp = require('gulp'),
 	svgSprite = require("gulp-svg-sprites");
 
 gulp.task('sprites', function () {
-    return gulp.src('assets/svg/*.svg')
-        .pipe(svgSprite())
-        .pipe(gulp.dest("assets"));
+    return gulp.src('images/svg/*.svg')
+        .pipe(svgSprite({
+        	mode: 'symbols',
+        	preview: false
+        }))
+        .pipe(gulp.dest('build'));
 });
 
 gulp.task('critical', function() {
@@ -116,6 +119,6 @@ gulp.task('watch', function () {
 });
 
 // The default task (called when you run `gulp` from cli)
-gulp.task('default', ['js', 'sass', 'watch', 'livereload']);
+gulp.task('default', ['js', 'sass', 'watch', 'livereload', 'sprites']);
 gulp.task('production', ['js', 'sass']);
 gulp.task('deploy', ['uncss', 'js']);

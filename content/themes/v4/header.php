@@ -13,6 +13,7 @@
 	<?php wp_head(); ?>
 </head>
 <body>
+	<?php include_once( 'build/svg/symbols.svg' ); ?>
 	<header class="header">
 		<div class="header__row content-container row">
 			<div class="large-12 columns">
