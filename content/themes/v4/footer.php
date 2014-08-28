@@ -21,9 +21,9 @@ if ( is_front_page() ) {
 		</div>
 	</div>
 </footer>
-<?php wp_footer(); ?>
 <script>
 <?php include_once( 'build/js/font-loader.js' ); ?>
 </script>
+<?php wp_footer(); ?>
 </body>
 </html>
