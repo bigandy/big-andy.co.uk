@@ -111,6 +111,7 @@ gulp.task('livereload', function () {
 gulp.task('watch', function () {
 	gulp.watch('js/*', ['js', 'lint']);
 	gulp.watch('scss/**/*', ['sass']);
+	gulp.watch('images/svg/*.svg', ['sprites']);
 
 	var server = livereload();
 	gulp.watch(['style.css', 'build/**', '*.php']).on('change', function(file) {

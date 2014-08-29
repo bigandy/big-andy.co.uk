@@ -22,6 +22,11 @@
 	}
 }
 
+@mixin wh($value) {
+	width: $value;
+	height: $value;
+}
+
 %ir {
 	background-color: transparent;
 	border: 0;
