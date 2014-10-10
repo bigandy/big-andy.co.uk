@@ -111,7 +111,8 @@ article {
 		margin-bottom: .3rem;
 	}
 
-	.email, .tel {
+	.email,
+	.tel {
 		@extend p;
 	}
 
@@ -127,3 +128,4 @@ picture > img {
 	width: 100%;
 	max-width: 100%;
 }
+
