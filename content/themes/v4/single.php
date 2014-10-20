@@ -17,13 +17,18 @@
 					if ( has_post_thumbnail() ) {
 						ah_featured_picture_replacement();
 					}
-					?>
-				    <h1>
-				    	<?php the_title(); ?>
-				    </h1>
+
+			    	the_title( '<h1>', '</h1>' );
+
+			    	?>
 		    	</header>
 				<section class="post-content clearfix">
-				    <?php the_content(); ?>
+				    <?php
+
+				    the_content();
+
+				    edit_post_link( 'Edit Post', '<p>', '</p>' );
+				    ?>
 			    </section>
 		    </article>
 		<?php
