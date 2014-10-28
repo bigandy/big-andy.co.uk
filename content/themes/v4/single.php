@@ -18,9 +18,13 @@
 						ah_featured_picture_replacement();
 					}
 
-			    	the_title( '<h1>', '</h1>' );
-
 			    	?>
+			    	<h1 class="article__title">
+			    		<?php the_title(); ?>
+			    	</h1>
+			    	<time class="article__time" datetime="<?php the_time( 'c' ); ?>">
+						<?php the_time( 'd/m/Y' ); ?>
+					</time>
 		    	</header>
 				<section class="post-content clearfix">
 				    <?php
