@@ -1,0 +1,10 @@
+{
+	"folders":
+	[
+		{
+			"follow_symlinks": true,
+			"path": "./content/themes/v4",
+			"path": "."
+		}
+	]
+}
