@@ -11,8 +11,8 @@
 */
 
 // Mixin for line-height:
-@mixin line($line-height, $base) {
-	line-height: $line-height / $base * 1;
+@mixin line($lineHeight, $base) {
+	line-height: $lineHeight / $base * 1;
 }
 
 @mixin hocus {
@@ -25,10 +25,6 @@
 @mixin wh($value) {
 	width: $value;
 	height: $value;
-}
-
-@function rows($rows) {
-	@return $rows * 18px;
 }
 
 %ir {
