@@ -27,6 +27,10 @@
 	height: $value;
 }
 
+@function rows($rows) {
+	@return $rows * 16px;
+}
+
 %ir {
 	background-color: transparent;
 	border: 0;

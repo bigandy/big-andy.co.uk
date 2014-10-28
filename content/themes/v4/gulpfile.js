@@ -102,7 +102,7 @@ gulp.task('sass', function () {
 
 gulp.task('livereload', function () {
 	gulp.src([
-		'style.css', 'build/**', '*.php',
+		'style.css', 'build/**', '*.php', 'scss/*.scss'
 	])
 	.pipe(livereload());
 });
