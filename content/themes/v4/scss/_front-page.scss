@@ -1,5 +1,29 @@
+.home__articles {
+	border-top: 2px dotted lightgray;
+}
+
 .article--home {
 	border-bottom: 2px dotted lightgray;
 	padding-bottom: rows(1);
 	margin: rows(1) 0;
+}
+
+.article__header--front-page {
+	margin-bottom: 1rem;
+}
+
+.article__time {
+	font-weight: bold;
+	font-size: 80%;
+}
+
+.article__title {
+	padding-right: .5rem;
+	font-size: 2rem;
+}
+
+.home__intro {
+	font-size: 1.5rem;
+	font-weight: bold;
+	text-align: center;
 }
