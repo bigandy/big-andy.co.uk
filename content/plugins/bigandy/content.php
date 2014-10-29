@@ -1,5 +1,4 @@
 <?php
-
 function ah_myContentFunct( $content ) {
 
     if ( is_home() && has_post_format( 'aside' ) ) {
@@ -8,8 +7,6 @@ function ah_myContentFunct( $content ) {
 
         return $content;
     }
-
-
     return $content;
 }
 

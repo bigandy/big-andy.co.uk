@@ -10,10 +10,10 @@ function ah_address_shortcode( $atts ) {
 				'postcode' => 'OX11 6BF',
 			), $atts ) );
 	return '<div class="adr">
-  <span class="street-address">'. $street .'</span>,
-  <span class="locality">'. $town .'</span>,
-  <span class="region">'. $county .'</span>,
-  <span class="postal-code">'. $postcode .'</span>
+  <span class="street-address">' . $street . '</span>,
+  <span class="locality">' . $town . '</span>,
+  <span class="region">' . $county . '</span>,
+  <span class="postal-code">' . $postcode . '</span>
  </div>';
 }
 add_shortcode( 'address', 'ah_address_shortcode' );
@@ -22,7 +22,7 @@ add_shortcode( 'address', 'ah_address_shortcode' );
 function ah_telephone_shortcode( $atts, $content = null ) {
 	extract( shortcode_atts( array(
 				'telephone' => '077 36063 671',
-				'label' => ''
+				'label' => '',
 			), $atts ) );
 	return '<div class="tel">'. $label . $telephone .'</div>';
 }
@@ -31,7 +31,7 @@ add_shortcode( 'telephone', 'ah_telephone_shortcode' );
 // [email]
 function ah_email_shortcode( $atts, $content = null ) {
 	extract( shortcode_atts( array(
-				'email' => 'andy@big-andy.co.uk'
+				'email' => 'andy@big-andy.co.uk',
 			), $atts ) );
 	return '<a class="email" href="mailto:'. $email .'">'. $email .'</a>';
 }
@@ -43,10 +43,10 @@ function ah_name_shortcode( $atts, $content = null ) {
 				'name' => 'Andrew Hudson',
 				'wrapper' => 'span',
 				'link' => '',
-				'class' => ''
+				'class' => '',
 			), $atts ) );
 
-	if ($link !="") {
+	if ( $link !="" ) {
 		$output = '<'. $wrapper .' class="fn '. $class .'"><a href="'. $link .'">'. $name .'</a></'. $wrapper .'>';
 	} else {
 		$output = '<'. $wrapper .' class="fn '. $class .'">'. $name .'</'. $wrapper .'>';

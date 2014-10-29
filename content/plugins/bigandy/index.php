@@ -35,7 +35,6 @@ $ah_plugin_options = array(
 	'menu' => 'yes',
 	'widgets' => 'yes',
 	'footer' => 'yes',
-	'darkLight' => 'light',
 );
 
 add_action( 'admin_menu', 'ah_plugin_admin_menu' );
@@ -132,7 +131,6 @@ function ah_plugin_admin_options_page() {
 			'menu' => 'N',
 			'images' => 'Y',
 			'widgets' => 'N',
-			'darkLight' => 'Light'
 		);
 		update_option( 'ah_plugin_options', $options );
 	}
@@ -150,7 +148,6 @@ function ah_plugin_admin_options_page() {
 		'menu',
 		'images',
 		'widgets',
-		'darkLight'
 	);
 
 	echo "<ul class='bullet'>";
@@ -189,22 +186,4 @@ if ( $options['images'] == "Y" ) {
 }
 if ( $options['widgets'] == "Y" ) {
 	require_once 'ah-widgets.php';
-}
-
-// Add specific CSS class by filter
-add_filter( 'body_class', 'ah_body_class_names' );
-function ah_body_class_names( $classes ) {
-	// add 'class-name' to the $classes array
-
-	$options = get_option( 'ah_plugin_options' );
-
-	if ( $options['darkLight'] == "Dark" ) {
-		$lightDark = "dark";
-	} else {
-		$lightDark = "light";
-	}
-
-	$classes[] = $lightDark;
-	// return the $classes array
-	return $classes;
 }
