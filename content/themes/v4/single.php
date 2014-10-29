@@ -9,7 +9,6 @@
 			} else {
 				$class = 'large-6 large-push-3 small-12';
 			}
-
 			?>
 			<article role="article" class="columns <?php echo $class; ?>">
 				<header class="article__header">
@@ -17,7 +16,6 @@
 					if ( has_post_thumbnail() ) {
 						ah_featured_picture_replacement();
 					}
-
 			    	?>
 			    	<h1 class="article__title">
 			    		<?php the_title(); ?>
@@ -28,7 +26,6 @@
 		    	</header>
 				<section class="post-content clearfix">
 				    <?php
-
 				    the_content();
 
 				    edit_post_link( 'Edit Post', '<p>', '</p>' );

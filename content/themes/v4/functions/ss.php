@@ -14,7 +14,7 @@ function ah_enque_scripts() {
 	// wp_enqueue_style( 'main' );
 
 	if ( ! is_front_page() ) {
-		if ( is_page_template( 'templates/template-picture.php' ) || has_category( 'picture' ) ) {
+		if ( is_page_template( 'templates/template-picture.php' ) || is_singular() ) {
 			wp_register_script( 'picturefill', $build . 'picturefill.min.js', false, null, true );
 			wp_enqueue_script( 'picturefill' );
 		}

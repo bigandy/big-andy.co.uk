@@ -1,16 +1,12 @@
 <?php
 if ( is_front_page() ) {
 	$class = 'large-8 large-push-2 small-12';
-	$condition = 'condition one';
 } elseif ( is_page_template( 'templates/template-full.php' ) || has_category( 'picture' ) ) {
 	$class = 'large-12';
-	$condition = 'condition two';
 } elseif ( is_single() ) {
 	$class = $class = 'large-6 large-push-3 small-12';
-	$condition = 'condition three';
 } else {
 	$class = 'large-8 large-push-2 small-12';
-	$condition = 'condition four';
 }
 ?>
 <footer>

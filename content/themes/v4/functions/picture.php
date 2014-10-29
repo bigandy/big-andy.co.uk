@@ -88,7 +88,7 @@ function ah_picture_shortcode( $atts, $content ) {
 add_shortcode( 'picture', 'ah_picture_shortcode' );
 
 function ah_replace_content_img_with_picture( $content ) {
-	if ( is_page_template( 'templates/template-picture.php' ) && is_singular() && is_main_query() ) {
+	if ( is_page_template( 'templates/template-picture.php' ) || is_singular() ) {
 
 		preg_match_all( '<img (.*?)class=\"((.*?)wp-image-(\d+)(.*?))\"(.*?)>', $content, $matches );
 
@@ -97,13 +97,14 @@ function ah_replace_content_img_with_picture( $content ) {
 			$class = $matches[2][ $key ];
 
 			// the string with <img>
-			$img = $matches[0][ $key ];
+			$img = '<' . $matches[0][ $key ] . ' />';
 
 			// string with <picture>
 			$picture = ah_get_output_picture( $id );
 
 			// replace <img> with <picture>
 			$content = str_replace( $img, $picture, $content );
+
 		}
 
 		return $content;

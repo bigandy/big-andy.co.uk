@@ -15,7 +15,7 @@ function ah_add_additional_image_sizes( $sizes ) {
 	}
 
 	foreach ( $_wp_additional_image_sizes as $id => $data ) {
-		if ( ! isset($sizes[ $id ]) ) {
+		if ( ! isset( $sizes[ $id ] ) ) {
 			$sizes[ $id ] = ucfirst( str_replace( '-', ' ', $id ) );
 		}
 	}
@@ -25,19 +25,11 @@ function ah_add_additional_image_sizes( $sizes ) {
 
 add_filter( 'image_size_names_choose', 'ah_add_additional_image_sizes' );
 
+/* Add html5 capability */
+add_theme_support( 'html5',
+	array(
+		'gallery',
+	)
+);
 
-// this is called only when the theme has been switched
-function ah_after_theme_switch() {
-	/* default option to not link to media */
-	update_option( 'image_default_link_type', 'none' );
-
-	/* Add html5 capability */
-	add_theme_support( 'html5',
-		array(
-			'gallery',
-		)
-	);
-
-	add_theme_support( 'post-thumbnails' );
-}
-add_action( 'after_switch_theme', 'ah_after_theme_switch' );
+add_theme_support( 'post-thumbnails' );
