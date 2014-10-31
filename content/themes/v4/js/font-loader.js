@@ -2,7 +2,9 @@
 	"use strict";
 	// once cached, the css file is stored on the client forever unless
 	// the URL below is changed. Any change will invalidate the cache
-	var css_href = './content/themes/v4/fonts/202630/96764CDC8B79CE819.css';
+	var css_href = './content/themes/v4/fonts/238271/58268DBA792B6A0DE.css';
+
+
 	// a simple event handler wrapper
 	function on(el, ev, callback) {
 		if (el.addEventListener) {

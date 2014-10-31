@@ -7,7 +7,6 @@
 	<meta name="MobileOptimized" content="320">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 	<style><?php include_once( 'style.css' ); ?></style>
-	<link rel="stylesheet" type="text/css" href="//cloud.typography.com/7502092/707264/css/fonts.css" />
 	<title>
 		<?php wp_title(); ?>
 	</title>
