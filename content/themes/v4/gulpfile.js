@@ -114,7 +114,12 @@ gulp.task('watch', function () {
 	gulp.watch('images/svg/*.svg', ['sprites']);
 
 	var server = livereload();
-	gulp.watch(['style.css', 'build/**', '*.php']).on('change', function(file) {
+	gulp.watch([
+		'style.css',
+		'build/**',
+		'*.php',
+		'scss/**'
+	]).on('change', function(file) {
 		server.changed(file.path);
 	});
 });
