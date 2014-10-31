@@ -22,7 +22,7 @@ function ah_get_extra_thumbnail_sizes() {
 
 	// check that there are image sizes beginning with pic-
 	if ( ! empty( $reduced_sizes ) ) {
-		foreach ( $reduced_sizes	 as $s ){
+		foreach ( $reduced_sizes as $s ){
 			$sizes[ $s ] = array();
 
 			if ( isset( $_wp_additional_image_sizes[ $s ] ) ) {

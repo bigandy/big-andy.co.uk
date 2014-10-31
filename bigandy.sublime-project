@@ -8,6 +8,10 @@
 			"file_exclude_patterns": [
 				".jshint",
 				"*.log"
+			],
+			"folder_exclude_patterns": [
+				"bower_components",
+				"node_modules"
 			]
 		}
 	]
