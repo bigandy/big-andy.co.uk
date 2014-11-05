@@ -4,7 +4,7 @@
 		{
 			"follow_symlinks": true,
 			"path": "./content/themes/v4",
-			// "path": "."
+			// "path": ".",
 			"file_exclude_patterns": [
 				".jshint",
 				"*.log",
