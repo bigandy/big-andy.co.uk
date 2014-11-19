@@ -6,7 +6,7 @@
 	<meta name="HandheldFriendly" content="True">
 	<meta name="MobileOptimized" content="320">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-	<meta name="theme-color" content="#ff0000">
+	<meta name="theme-color" content="rgba(255,0,100,0.4)">
 	<style><?php include_once( 'style.css' ); ?></style>
 	<title>
 		<?php wp_title(); ?>
