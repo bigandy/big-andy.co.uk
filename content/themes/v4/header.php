@@ -7,7 +7,7 @@
 	<meta name="MobileOptimized" content="320">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 	<meta name="theme-color" content="rgba(0,0,0,0.25)">
-	<link rel="icon" sizes="192x192" href="<?php echo TEMPLATEURI; ?>images/ba-octagon.svg">
+	<link rel="icon" sizes="192x192" href="<?php echo TEMPLATEURI; ?>/images/ba3.png" type="image/svg+xml">
 	<style><?php include_once( 'style.css' ); ?></style>
 	<title>
 		<?php wp_title(); ?>
