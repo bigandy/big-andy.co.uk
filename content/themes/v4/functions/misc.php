@@ -43,3 +43,16 @@ if ( ! function_exists( 'ah_wrap_embed' ) ) {
 	}
 	// add_filter( 'embed_oembed_html', 'ah_wrap_embed', 10, 4 );
 }
+
+if ( ! function_exists( 'ah_init_constants' ) ) {
+	function ah_init_constants() {
+		if ( ! defined( 'TEMPLATEURI' ) ) {
+			define( 'TEMPLATEURI', trailingslashit( get_stylesheet_directory_uri() ) );
+		}
+
+		if ( ! defined( 'HOMEURL' ) ) {
+			define( 'HOMEURL', trailingslashit( get_home_url() ) );
+		}
+	}
+}
+add_action( 'init', 'ah_init_constants' );
