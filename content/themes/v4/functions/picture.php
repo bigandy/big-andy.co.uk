@@ -14,7 +14,7 @@ function ah_get_extra_thumbnail_sizes() {
 	if ( isset( $_wp_additional_image_sizes ) ) {
 		foreach ( $all_sizes as $size ) {
 			// compile array of image sizes beginning with pic-
-			if ( substr( $size, 0, 4 ) === 'pic-' ) {
+			if ( 'pic-' === substr( $size, 0, 4 ) ) {
 				array_push( $reduced_sizes, $size );
 			}
 		}

@@ -16,8 +16,8 @@
 					if ( has_post_thumbnail() ) {
 						ah_featured_picture_replacement();
 					}
-			    	?>
-			    	<h1 class="article__title">
+					?>
+					<h1 class="article__title">
 			    		<?php the_title(); ?>
 			    	</h1>
 			    	<time class="article__time" datetime="<?php the_time( 'c' ); ?>">
@@ -26,10 +26,10 @@
 		    	</header>
 				<section class="post-content clearfix">
 				    <?php
-				    the_content();
+					the_content();
 
-				    edit_post_link( 'Edit Post', '<p>', '</p>' );
-				    ?>
+					edit_post_link( 'Edit Post', '<p>', '</p>' );
+					?>
 			    </section>
 		    </article>
 		<?php

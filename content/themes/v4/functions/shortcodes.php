@@ -28,7 +28,7 @@ function ah_shortcode_full( $atts, $content ) {
 add_shortcode( 'full', 'ah_shortcode_full' );
 
 
-function ah_shortcode_icon( $atts, $content ) {
+function ah_shortcode_icon( $atts ) {
 	extract( shortcode_atts( array(
 		'type' => 'pen',
 		'size' => '',
@@ -37,7 +37,6 @@ function ah_shortcode_icon( $atts, $content ) {
 	if ( $size !== '' ) {
 		$size = ' icon--' . $size;
 	}
-
 
 	$html = '<svg class="icon icon--shortcode' . $size . '"><use xlink:href="#'. $type .'" /></svg>';
 	return $html;

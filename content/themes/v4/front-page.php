@@ -17,41 +17,40 @@
 	    </section>
 	    <section class="home__articles">
     	    <?php
-    		// hidden post
-    		$hide_id = 31;
+			// hidden post
+			$hide_id = 31;
 
-    		$home_args = array(
-    			'posts_per_page' => 6,
-    			'cat' => -$hide_id,
-    		);
+			$home_args = array(
+				'posts_per_page' => 6,
+				'cat' => -$hide_id,
+			);
 
-    		$home_loop = new WP_Query( $home_args );
+			$home_loop = new WP_Query( $home_args );
 
-    		if ( $home_loop->have_posts() ) {
-    			while ( $home_loop->have_posts() ) {
-    				$home_loop->the_post();
-    				?>
-    				<article role="article" class="article--home">
-    					<header class="article__header article__header--front-page">
-
-    						<h2 class="article__title">
-    							<a href="<?php the_permalink(); ?>">
-    								<?php the_title(); ?>
-    							</a>
-    						</h2>
+			if ( $home_loop->have_posts() ) {
+				while ( $home_loop->have_posts() ) {
+					$home_loop->the_post();
+					?>
+					<article role="article" class="article--home">
+						<header class="article__header article__header--front-page">
+							<h2 class="article__title">
+								<a href="<?php the_permalink(); ?>">
+									<?php the_title(); ?>
+								</a>
+							</h2>
 							<time class="article__time" datetime="<?php the_time( 'c' ); ?>">
 								<?php the_time( 'd/m/Y' ); ?>
 							</time>
-    					</header>
-    					<div class="post-content clearfix article__content--front-page">
-    						<?php the_excerpt(); ?>
-    					</div>
-    				</article>
-    				<?php
-    			}
-    		}
-    		wp_reset_postdata();
-    		?>
+						</header>
+						<div class="post-content clearfix article__content--front-page">
+							<?php the_excerpt(); ?>
+						</div>
+					</article>
+					<?php
+				}
+			}
+			wp_reset_postdata();
+			?>
 	    </section>
 	</div>
 

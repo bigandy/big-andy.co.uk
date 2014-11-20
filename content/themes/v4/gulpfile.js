@@ -14,7 +14,8 @@ var gulp = require('gulp'),
 	penthouse = require('penthouse'),
 	Promise = require("bluebird"),
 	penthouseAsync = Promise.promisify(penthouse),
-	svgSprite = require("gulp-svg-sprites");
+	svgSprite = require("gulp-svg-sprites"),
+	phpcs = require('gulp-phpcs');
 
 gulp.task('sprites', function () {
     return gulp.src('images/svg/*.svg')
@@ -59,7 +60,7 @@ gulp.task('uncss', function() {
 });
 
 // concat and minify the js
-gulp.task('js', function () {
+gulp.task('js', ['js-lint'], function () {
 	gulp.src([
 			// 'bower_components/jquery/dist/jquery.min.js',
 			// 'js/font-loader.js',
@@ -82,12 +83,21 @@ gulp.task('js', function () {
 
 });
 
-gulp.task('lint', function() {
+gulp.task('js-lint', function() {
 	gulp.src([
 			'js/main.js'
 		])
 		.pipe(jshint('.jshint'))
 		.pipe(jshint.reporter(stylish));
+});
+
+gulp.task('wordpress-lint', function () {
+	return gulp.src(['./**/*.php', '!node_modules/**/*.php'])
+		.pipe(phpcs({
+			// bin: 'phpcs',
+			standard: 'code.ruleset.xml'
+		}))
+		.pipe(phpcs.reporter('log'));
 });
 
 // sass
@@ -109,7 +119,7 @@ gulp.task('livereload', function () {
 
 // Rerun the task when a file changes
 gulp.task('watch', function () {
-	gulp.watch('js/*', ['js', 'lint']);
+	gulp.watch('js/*', ['js']);
 	gulp.watch('scss/**/*', ['sass']);
 	gulp.watch('images/svg/*.svg', ['sprites']);
 
