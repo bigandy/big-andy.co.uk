@@ -104,10 +104,22 @@ gulp.task('wordpress-lint', function () {
 gulp.task('sass', function () {
     gulp.src('./scss/**/*.scss')
 		.pipe(sass({
+			includePaths: ['bower_components/foundation/scss'],
 			errLogToConsole: true,
 			outputStyle: 'compressed'
 		}))
         .pipe(gulp.dest('.'));
+});
+
+gulp.task('scss-lint', function () {
+	gulp.src([
+			'scss/**/*.scss',
+			'!scss/style.scss' // ignore this file so can include commenting in it.
+		])
+		.pipe(scsslint({
+			'config': '.scss-lint.yml',
+			// 'customReport': myCustomReporter
+		}));
 });
 
 gulp.task('livereload', function () {

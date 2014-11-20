@@ -23,7 +23,7 @@ bower-components/
 node_modules/
 
 ## sublime text files
-*.sublime-workspace
+*.sublime-*
 
 /content/themes/v3/library/stylesheets
 /content/themes/v3/library/stylesheets/*
