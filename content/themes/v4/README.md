@@ -6,10 +6,12 @@ Then run `phpcs -s -v -p --standard=./code.ruleset.xml ./**/*.php *.php` to chec
 
 ## How to install
 1. install composer
-`brew update
+<pre>
+brew update
 brew tap homebrew/dupes
 brew tap homebrew/php
-brew install composer`
+brew install composer
+</pre>
 2. add composer to PATH
 in ~/.bash_profile: add the line : `export PATH=~/.composer/vendor/bin:$PATH`
 3. install phpcs
