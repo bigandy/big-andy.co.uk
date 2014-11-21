@@ -49,7 +49,7 @@ add_action( 'init', 'ah_init_constants' );
 
 if ( ! function_exists( 'ah_header_theme_color' ) ) {
 	function ah_header_theme_color() {
-		return '<meta name="theme-color" content="<?php echo esc_attr( THEMECOLOR ); ?>">';
+		echo '<meta name="theme-color" content="<?php echo esc_attr( THEMECOLOR ); ?>">';
 	}
 	add_action( 'wp_head', 'ah_header_theme_color' );
 }
