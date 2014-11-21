@@ -31,6 +31,18 @@ if ( ! function_exists( 'ah_init_constants' ) ) {
 		if ( ! defined( 'HOMEURL' ) ) {
 			define( 'HOMEURL', trailingslashit( get_home_url() ) );
 		}
+
+		if ( ! defined( 'THEMECOLOR' ) ) {
+			$theme_color = get_theme_mod( 'ba_meta_color' );
+
+			if ( '#008AD7' !== $theme_color ) {
+				$meta_color = $theme_color;
+			} else {
+				$meta_color = '#008AD7';
+			}
+
+			define( 'THEMECOLOR', $meta_color );
+		}
 	}
 }
 add_action( 'init', 'ah_init_constants' );
