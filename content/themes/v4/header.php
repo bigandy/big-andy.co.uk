@@ -9,7 +9,7 @@
 	<?php
 	$theme_color = get_theme_mod( 'ba_meta_color' );
 
-	if ( '#008AD7' !== $theme_color ) {
+	if ( ! empty( $theme_color ) && '#008AD7' !== $theme_color ) {
 		$meta_color = $theme_color;
 	} else {
 		$meta_color = '#008AD7';
