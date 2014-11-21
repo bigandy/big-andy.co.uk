@@ -8,16 +8,16 @@ class BigAndyThemeCustomizer {
 		// Colour Picker for theme-color meta in header.php
 		// add new section
 		$wp_customize->add_section(
-			'ba_theme_colors',
+			'ah_theme_colors',
 			array(
-				'title' => __( 'Theme Colours', 'ba' ),
+				'title' => __( 'Theme Colours', 'ah' ),
 				'priority' => 100,
 			)
 		);
 
 		// add color picker setting
 		$wp_customize->add_setting(
-			'ba_meta_color',
+			'ah_meta_color',
 			array(
 				'default' => '#008AD7',
 			)
@@ -27,15 +27,15 @@ class BigAndyThemeCustomizer {
 		$wp_customize->add_control(
 			new WP_Customize_Color_Control(
 				$wp_customize,
-				'ba_theme_colors',
+				'ah_theme_colors',
 				array(
 					'label' => 'Link Color',
-					'section' => 'ba_theme_colors',
-					'settings' => 'ba_meta_color',
+					'section' => 'ah_theme_colors',
+					'settings' => 'ah_meta_color',
 				)
 			)
 		);
 		// END of theme-color Colour Picker
 	}
 }
-$batc = new BigAndyThemeCustomizer;
+$ahtc = new BigAndyThemeCustomizer;
