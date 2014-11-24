@@ -69,11 +69,7 @@ gulp.task('uncss', function() {
 // concat and minify the js
 gulp.task('js', ['js-lint'], function () {
 	gulp.src([
-			// 'bower_components/jquery/dist/jquery.min.js',
-			// 'js/font-loader.js',
 			'js/google-analytics-caller.js',
-			// 'js/lazy-load-css.js',
-			// 'js/main.js',
 		])
 		.pipe(gutil.env.type === 'production' ? stripDebug() : gutil.noop())
 		.pipe(uglify())
@@ -157,17 +153,19 @@ gulp.task('watch', function () {
 
 // The default task (called when you run `gulp` from cli)
 gulp.task('default', [
-	// 'js',
+	'js',
 	'lint',
 	'sass',
 	'watch',
 	'livereload',
 	'sprites'
 ]);
-gulp.task('production', ['js', 'sass']);
+gulp.task('production', [
+	'js', 'sass'
+]);
 gulp.task('deploy', [
 	'uncss',
-	// 'js'
+	'js'
 ]);
 
 gulp.task('lint', ['scss-lint', 'js-lint', 'wordpress-lint'])
