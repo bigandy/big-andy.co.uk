@@ -18,5 +18,7 @@ in ~/.bash_profile: add the line : `export PATH=~/.composer/vendor/bin:$PATH`
 `composer global require "squizlabs/php_codesniffer=*"`
 4. install wpcs
 `composer create-project wp-coding-standards/wpcs:dev-master --no-dev`
-5. test it works
+5. Add its path to PHP_CodeSniffer configuration:
+`phpcs --config-set installed_paths /path/to/wpcs`
+6. test it works
 `phpcs -s -v -p --standard=./code.ruleset.xml ./**/*.php *.php`
