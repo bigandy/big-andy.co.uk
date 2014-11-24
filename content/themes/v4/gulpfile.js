@@ -13,9 +13,9 @@ var gulp = require('gulp'),
 	stylish = require('jshint-stylish'),
 	uncss = require('gulp-uncss'),
 	penthouse = require('penthouse'),
-	Promise = require("bluebird"),
+	Promise = require('bluebird'),
 	penthouseAsync = Promise.promisify(penthouse),
-	svgSprite = require("gulp-svg-sprites"),
+	svgSprite = require('gulp-svg-sprites'),
 	phpcs = require('gulp-phpcs'),
 	svgmin = require('gulp-svgmin');
 
@@ -101,7 +101,6 @@ gulp.task('js-lint', function() {
 gulp.task('wordpress-lint', function () {
 	return gulp.src(['./**/*.php', '!node_modules/**/*.php'])
 		.pipe(phpcs({
-			// bin: 'phpcs',
 			standard: 'code.ruleset.xml'
 		}))
 		.pipe(phpcs.reporter('log'));
@@ -126,13 +125,15 @@ gulp.task('scss-lint', function () {
 		])
 		.pipe(scsslint({
 			'config': '.scss-lint.yml',
-			// 'customReport': myCustomReporter
 		}));
 });
 
 gulp.task('livereload', function () {
 	gulp.src([
-		'style.css', 'build/**', '*.php', 'scss/*.scss'
+		'style.css',
+		'build/**',
+		'*.php',
+		'scss/*.scss'
 	])
 	.pipe(livereload());
 });
