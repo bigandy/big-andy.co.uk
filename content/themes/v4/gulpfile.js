@@ -6,6 +6,7 @@ var gulp = require('gulp'),
 	jshint = require('gulp-jshint'),
 	stripDebug = require('gulp-strip-debug'),
 	sass = require('gulp-sass'),
+	scsslint = require('gulp-scss-lint'),
 	autoprefix = require('gulp-autoprefixer'),
 	minifyCSS = require('gulp-minify-css'),
 	livereload = require('gulp-livereload'),
@@ -150,3 +151,5 @@ gulp.task('watch', function () {
 gulp.task('default', ['js', 'sass', 'watch', 'livereload', 'sprites']);
 gulp.task('production', ['js', 'sass']);
 gulp.task('deploy', ['uncss', 'js']);
+
+gulp.task('lint', ['scss-lint', 'js-lint', 'wordpress-lint'])
