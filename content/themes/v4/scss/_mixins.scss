@@ -3,12 +3,11 @@
 	font-size: $fontSize / $base * 1em;
 }
 
-/* Useage :
-* If you want element to be 13px and parent is 16px :
-* +fs(13)
-* If you want element to be 22px and parent is 32px :
-* +fs(22,32)
-*/
+// Useage :
+// If you want element to be 13px and parent is 16px :
+// +fs(13)
+// If you want element to be 22px and parent is 32px :
+// +fs(22,32)
 
 // Mixin for line-height:
 @mixin line($lineHeight, $base) {
@@ -35,7 +34,6 @@
 	background-color: transparent;
 	border: 0;
 	overflow: hidden;
-	*text-indent: -9999px;
 
 	&:before {
 		content: "";

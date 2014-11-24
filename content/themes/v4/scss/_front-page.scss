@@ -1,10 +1,10 @@
 .home__articles {
-	border-top: 1px dotted lightgray;
+	border-top: 1px dotted $light-gray;
 	margin-top: 1rem;
 }
 
 .article--home {
-	border-bottom: 1px dotted lightgray;
+	border-bottom: 1px dotted $light-gray;
 	padding-bottom: rows(1);
 	margin: rows(1) 0;
 }
@@ -24,7 +24,6 @@
 }
 
 .home__intro {
-	// font-size: 1.5rem;
 	font-weight: bold;
 	text-align: center;
 }

@@ -16,14 +16,20 @@ var gulp = require('gulp'),
 	Promise = require("bluebird"),
 	penthouseAsync = Promise.promisify(penthouse),
 	svgSprite = require("gulp-svg-sprites"),
-	phpcs = require('gulp-phpcs');
+	phpcs = require('gulp-phpcs'),
+	svgmin = require('gulp-svgmin');
 
 gulp.task('sprites', function () {
-    return gulp.src('images/svg/*.svg')
+    return gulp.src([
+    		'images/svg/*.svg',
+    	])
         .pipe(svgSprite({
         	mode: 'symbols',
         	preview: false
         }))
+        .pipe(svgmin([{
+        	cleanupIDs: false
+        }]))
         .pipe(gulp.dest('build'));
 });
 
@@ -42,15 +48,15 @@ gulp.task('uncss', function() {
     return gulp.src('./style.css')
         .pipe(uncss({
             html: [
-				'http://big-andy.local/contact/',
-				'http://big-andy.local/cv/',
-				'http://big-andy.local/about/',
-				'http://big-andy.local/photos/',
-				'http://big-andy.local/',
-				'http://big-andy.local/blog',
-				'http://big-andy.local/style-guide',
-				'http://big-andy.local/https/',
-				'http://big-andy.local/breaking-borders-3/'
+				'http://big-andy.co.uk/contact/',
+				'http://big-andy.co.uk/cv/',
+				'http://big-andy.co.uk/about/',
+				'http://big-andy.co.uk/photos/',
+				'http://big-andy.co.uk/',
+				'http://big-andy.co.uk/blog',
+				'http://big-andy.co.uk/style-guide',
+				'http://big-andy.co.uk/https/',
+				'http://big-andy.co.uk/breaking-borders-3/'
             ]
         }))
         .pipe(minifyCSS({
@@ -115,7 +121,8 @@ gulp.task('sass', function () {
 gulp.task('scss-lint', function () {
 	gulp.src([
 			'scss/**/*.scss',
-			'!scss/style.scss' // ignore this file so can include commenting in it.
+			'!scss/style.scss', // ignore this file so can include commenting in it.
+			'!scss/plugins/**/*.scss'
 		])
 		.pipe(scsslint({
 			'config': '.scss-lint.yml',
@@ -149,13 +156,17 @@ gulp.task('watch', function () {
 
 // The default task (called when you run `gulp` from cli)
 gulp.task('default', [
-	'js',
+	// 'js',
+	'lint',
 	'sass',
 	'watch',
 	'livereload',
 	'sprites'
 ]);
 gulp.task('production', ['js', 'sass']);
-gulp.task('deploy', ['uncss', 'js']);
+gulp.task('deploy', [
+	'uncss',
+	// 'js'
+]);
 
 gulp.task('lint', ['scss-lint', 'js-lint', 'wordpress-lint'])

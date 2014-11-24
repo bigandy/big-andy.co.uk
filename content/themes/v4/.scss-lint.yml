@@ -43,7 +43,7 @@ linters:
 
   HexNotation:
     enabled: true
-    style: uppercase # or 'lowercase'
+    style: lowercase # or 'uppercase'
 
   HexValidation:
     enabled: true

@@ -27,6 +27,7 @@
     "gulp-scss-lint": "^0.1.4",
     "gulp-strip-debug": "~0.1.1",
     "gulp-svg-sprites": "^1.1.0",
+    "gulp-svgmin": "^0.4.8",
     "gulp-uncss": "^0.4.5",
     "jshint-stylish": "~0.1.5"
   },

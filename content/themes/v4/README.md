@@ -22,3 +22,6 @@ in ~/.bash_profile: add the line : `export PATH=~/.composer/vendor/bin:$PATH`
 `phpcs --config-set installed_paths /path/to/wpcs`
 6. test it works
 `phpcs -s -v -p --standard=./code.ruleset.xml ./**/*.php *.php`
+
+# Sass Linting
+Install scss-lint with `[sudo] gem install scss-lint`

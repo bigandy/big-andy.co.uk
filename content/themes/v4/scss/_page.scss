@@ -15,19 +15,20 @@ h2 {
 }
 
 .content-container {
-	@extend .row;
+	.columns + .columns:last-child {
+		float: left;
+	}
 }
 
-
 // Lists
-.list--plain {
+%list--plain {
 	margin: 0;
 	list-style: none;
 }
 
 
 .list--inline {
-	@extend .list--plain;
+	@extend %list--plain;
 
 	li {
 		float: left;
@@ -35,7 +36,7 @@ h2 {
 }
 
 pre {
-	background: lightgray;
+	background: $light-gray;
 	padding: .5rem;
 	margin: .25rem 0;
 }
@@ -55,16 +56,12 @@ a {
 .current-menu-item,
 .current_page_item,
 .current_page_parent {
-> a {
+	> a {
 		border-bottom: 3px solid $primary-color;
 	}
 }
 
-.content-container {
-	.columns + .columns:last-child {
-		float: left;
-	}
-}
+
 
 .link--dark {
 	color: $body-color;
@@ -98,7 +95,9 @@ article {
 
 	.email,
 	.tel {
-		@extend p;
+		font-size: 1rem;
+		line-height: 1.6;
+		margin-bottom: 1.25rem;
 	}
 
 	a {
