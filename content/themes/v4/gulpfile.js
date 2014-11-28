@@ -164,6 +164,7 @@ gulp.task('production', [
 	'js', 'sass'
 ]);
 gulp.task('deploy', [
+	'sass',
 	'uncss',
 	'js'
 ]);
