@@ -165,7 +165,8 @@ gulp.task('production', [
 gulp.task('deploy', [
 	'sass',
 	'uncss',
-	'js'
+	'js',
+	'lint',
 ]);
 
 gulp.task('lint', ['scss-lint', 'js-lint', 'wordpress-lint'])
