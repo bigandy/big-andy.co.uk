@@ -137,4 +137,14 @@ picture > img {
 .links {
 	@extend %cf;
 	padding: rows(1);
+	// position: absolute;
+	// width: 100%;
+
+	// .right {
+	// 	text-align: right;
+	// }
+
+	// div {
+	// 	width: 25%;
+	// }
 }
