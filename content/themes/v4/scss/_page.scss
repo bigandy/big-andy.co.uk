@@ -43,6 +43,13 @@ pre {
 
 
 // Links
+a,
+.current {
+	border-bottom: 3px solid transparent;
+	margin-bottom: -3px;
+}
+
+
 a {
 	border-bottom: 3px solid transparent;
 	margin-bottom: -3px;
@@ -51,6 +58,10 @@ a {
 	&:focus {
 		border-bottom-color: $primary-color;
 	}
+}
+
+.current {
+	border-bottom-color: $black
 }
 
 .current-menu-item,
@@ -113,3 +124,16 @@ picture > img {
 	max-width: 100%;
 }
 
+.wp-pagenavi {
+	padding: rows(1) 0;
+	text-align: center;
+
+	a,
+	span {
+		padding: .5em;
+	}
+
+	.current {
+
+	}
+}

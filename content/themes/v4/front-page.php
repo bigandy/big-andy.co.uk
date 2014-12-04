@@ -23,6 +23,7 @@
 			$home_args = array(
 				'posts_per_page' => 6,
 				'cat' => -$hide_id,
+				'paged' => get_query_var( 'page' )
 			);
 
 			$home_loop = new WP_Query( $home_args );
@@ -49,6 +50,16 @@
 					<?php
 				}
 			}
+
+			if ( function_exists( 'wp_pagenavi' ) ) {
+				$pagenavi_args = array(
+					'query' => $home_loop,
+				);
+
+
+				wp_pagenavi( $pagenavi_args );
+			}
+
 			wp_reset_postdata();
 			?>
 	    </section>
