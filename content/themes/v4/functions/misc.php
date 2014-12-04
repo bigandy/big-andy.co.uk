@@ -32,6 +32,10 @@ if ( ! function_exists( 'ah_init_constants' ) ) {
 			define( 'HOMEURL', trailingslashit( get_home_url() ) );
 		}
 
+		if ( ! defined( 'POSTSPERPAGE' ) ) {
+			define( 'POSTSPERPAGE', get_option( 'posts_per_page' ) );
+		}
+
 		if ( ! defined( 'THEMECOLOR' ) ) {
 			$theme_color = get_theme_mod( 'ah_meta_color' );
 
