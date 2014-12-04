@@ -10,6 +10,15 @@
 				$class = 'large-6 large-push-3 small-12';
 			}
 			?>
+			<div class="links">
+				<div class="left">
+					<?php previous_post_link(); ?>
+				</div>
+				<div class="right">
+					<?php next_post_link(); ?>
+				</div>
+			</div>
+
 			<article role="article" class="columns <?php echo esc_attr( $class ); ?>">
 				<header class="article__header">
 					<?php

@@ -133,3 +133,8 @@ picture > img {
 		padding: .5em;
 	}
 }
+
+.links {
+	@extend %cf;
+	padding: rows(1);
+}
