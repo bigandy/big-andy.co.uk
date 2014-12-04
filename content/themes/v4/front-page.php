@@ -20,10 +20,7 @@
 			// hidden post
 			$hide_id = 31;
 
-			// ah_preit( POSTSPERPAGE );
-
 			$home_args = array(
-				// 'posts_per_page' => POSTSPERPAGE,
 				'cat' => -$hide_id,
 				'paged' => get_query_var( 'page' )
 			);
