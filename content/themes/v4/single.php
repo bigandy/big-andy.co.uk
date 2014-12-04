@@ -10,7 +10,7 @@
 				$class = 'large-6 large-push-3 small-12';
 			}
 			?>
-			<article role="article" class="columns <?php echo $class; ?>">
+			<article role="article" class="columns <?php echo esc_attr( $class ); ?>">
 				<header class="article__header">
 					<?php
 					if ( has_post_thumbnail() ) {

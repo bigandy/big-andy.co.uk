@@ -8,7 +8,7 @@
 					the_post();
 					?>
 					<h2 class="home__intro">
-						<?php echo get_the_content(); ?>
+						<?php echo wp_kses_post( get_the_content() ); ?>
 					</h2>
 					<?php
 				}

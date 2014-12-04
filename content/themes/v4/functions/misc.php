@@ -2,15 +2,15 @@
 if ( ! function_exists( 'ah_preit' ) ) {
 	function ah_preit( $obj, $echo = true ) {
 		if ( $echo ) {
-			echo '<pre>' . print_r( $obj, true ) . '</pre>';
+			echo '<pre>' . esc_html( print_r( $obj, true ) ) . '</pre>';
 		} else {
-			return '<pre>' . print_r( $obj, true ) . '</pre>';
+			return '<pre>' . esc_html( print_r( $obj, true ) ) . '</pre>';
 		}
 	}
 }
 if ( ! function_exists( 'ah_silent' ) ) {
 	function ah_silent( $obj ) {
-		echo '<pre style="display: none;">' . print_r( $obj, true ) . '</pre>';
+		echo '<pre style="display: none;">' . esc_html( print_r( $obj, true ) ) . '</pre>';
 	}
 }
 

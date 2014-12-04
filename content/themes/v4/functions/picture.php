@@ -55,7 +55,7 @@ function ah_get_output_picture( $id, $class = '' ) {
 }
 
 function ah_output_picture( $id, $class = '' ) {
-	echo ah_get_output_picture( $id, $class );
+	echo wp_kses_post( ah_get_output_picture( $id, $class ) );
 }
 
 function ah_featured_picture_replacement() {
@@ -68,20 +68,20 @@ function ah_featured_picture_replacement() {
  * Shortcode to utilise the id of the image
  */
 function ah_picture_shortcode( $atts, $content ) {
-	extract( shortcode_atts( array(
+	$atts = shortcode_atts( array(
 		'id' => '',
-	), $atts ) );
+	), $atts, 'picture' );
 
-	if ( $id ) {
-		return ah_output_picture( $id );
+	if ( $atts['id'] ) {
+		return ah_output_picture( $atts['id'] );
 	} else {
 		preg_match_all( '<img (.*?)class=\"((.*?)wp-image-(\d+)(.*?))\"(.*?)>', $content, $matches );
 
 		foreach ( $matches[0] as $key => $imgstring ) {
-			$id = $matches[4][ $key ];
-			$class = $matches[2][ $key ];
+			$picture_id = $matches[4][ $key ];
+			$picture_class = $matches[2][ $key ];
 
-			return ah_get_output_picture( $id, $class );
+			return ah_get_output_picture( $picture_id, $picture_class );
 		}
 	}
 }

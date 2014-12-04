@@ -61,7 +61,7 @@ a {
 }
 
 .current {
-	border-bottom-color: $black
+	border-bottom-color: $black;
 }
 
 .current-menu-item,
@@ -131,9 +131,5 @@ picture > img {
 	a,
 	span {
 		padding: .5em;
-	}
-
-	.current {
-
 	}
 }
