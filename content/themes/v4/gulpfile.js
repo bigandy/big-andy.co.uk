@@ -17,7 +17,8 @@ var gulp = require('gulp'),
 	penthouseAsync = Promise.promisify(penthouse),
 	svgSprite = require('gulp-svg-sprites'),
 	phpcs = require('gulp-phpcs'),
-	svgmin = require('gulp-svgmin');
+	svgmin = require('gulp-svgmin'),
+	critical = require('critical');
 
 gulp.task('sprites', function () {
     return gulp.src([
@@ -35,8 +36,18 @@ gulp.task('sprites', function () {
 
 gulp.task('critical', function() {
 	penthouseAsync({
-		url : 'https://big-andy.co.uk/',
-		css : './style.css',
+		url: [
+			'https://big-andy.co.uk/contact/',
+			'https://big-andy.co.uk/cv/',
+			'https://big-andy.co.uk/about/',
+			'https://big-andy.co.uk/photos/',
+			'https://big-andy.co.uk/',
+			'https://big-andy.co.uk/blog',
+			'https://big-andy.co.uk/style-guide',
+			'https://big-andy.co.uk/https/',
+			'https://big-andy.co.uk/breaking-borders-3/'
+        ],
+		css: './style.css',
 		height: 600,
 		width: 400
 	}).then( function (criticalCSS){
@@ -44,19 +55,31 @@ gulp.task('critical', function() {
 	});
 });
 
+// gulp.task('critical', function () {
+//     critical.generate({
+//         styleTarget: 'build/css/critical.css',
+//         src: 'https://big-andy.co.uk',
+//         base: '.',
+//         width: 320,
+//         height: 480,
+//         minify: true
+//     });
+// });
+
+
 gulp.task('uncss', function() {
     return gulp.src('./style.css')
         .pipe(uncss({
             html: [
-				'http://big-andy.co.uk/contact/',
-				'http://big-andy.co.uk/cv/',
-				'http://big-andy.co.uk/about/',
-				'http://big-andy.co.uk/photos/',
-				'http://big-andy.co.uk/',
-				'http://big-andy.co.uk/blog',
-				'http://big-andy.co.uk/style-guide',
-				'http://big-andy.co.uk/https/',
-				'http://big-andy.co.uk/breaking-borders-3/'
+				'https://big-andy.co.uk/contact/',
+				'https://big-andy.co.uk/cv/',
+				'https://big-andy.co.uk/about/',
+				'https://big-andy.co.uk/photos/',
+				'https://big-andy.co.uk/',
+				'https://big-andy.co.uk/blog',
+				'https://big-andy.co.uk/style-guide',
+				'https://big-andy.co.uk/https/',
+				'https://big-andy.co.uk/breaking-borders-3/'
             ]
         }))
         .pipe(minifyCSS({
@@ -70,6 +93,7 @@ gulp.task('uncss', function() {
 gulp.task('js', ['js-lint'], function () {
 	gulp.src([
 			'js/google-analytics-caller.js',
+			'js/lazy-load-css.js',
 		])
 		.pipe(gutil.env.type === 'production' ? stripDebug() : gutil.noop())
 		.pipe(uglify())

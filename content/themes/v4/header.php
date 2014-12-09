@@ -7,7 +7,7 @@
 	<meta name="MobileOptimized" content="320">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 	<link rel="icon" sizes="192x192" href="<?php echo esc_url( TEMPLATEURI ); ?>images/ba3.png" type="image/svg+xml">
-	<style><?php include_once( 'style.css' ); ?></style>
+	<style><?php include_once( 'build/css/critical.css' ); ?></style>
 	<title>
 		<?php wp_title(); ?>
 	</title>

@@ -10,7 +10,6 @@ function ah_get_extra_thumbnail_sizes( $small_screen = 0 ) {
 	$sizes = array();
 	$reduced_sizes = array();
 	$all_sizes = get_intermediate_image_sizes();
-	// echo $is_single_post;
 
 	// check if there are additional image sizes
 	if ( isset( $_wp_additional_image_sizes ) ) {
