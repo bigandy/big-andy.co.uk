@@ -34,7 +34,7 @@ gulp.task('sprites', function () {
         .pipe(gulp.dest('build'));
 });
 
-gulp.task('critical', function() {
+gulp.task('critical-css', function() {
 	penthouseAsync({
 		url: [
 			'https://big-andy.co.uk/contact/',
@@ -54,18 +54,6 @@ gulp.task('critical', function() {
 		require('fs').writeFile('build/css/critical.css', criticalCSS);
 	});
 });
-
-// gulp.task('critical', function () {
-//     critical.generate({
-//         styleTarget: 'build/css/critical.css',
-//         src: 'https://big-andy.co.uk',
-//         base: '.',
-//         width: 320,
-//         height: 480,
-//         minify: true
-//     });
-// });
-
 
 gulp.task('uncss', function() {
     return gulp.src('./style.css')
@@ -191,6 +179,7 @@ gulp.task('deploy', [
 	'uncss',
 	'js',
 	'lint',
+	'critical-css'
 ]);
 
 gulp.task('lint', ['scss-lint', 'js-lint', 'wordpress-lint'])
