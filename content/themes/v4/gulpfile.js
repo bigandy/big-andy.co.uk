@@ -6,30 +6,48 @@ var gulp = require('gulp'),
 	jshint = require('gulp-jshint'),
 	stripDebug = require('gulp-strip-debug'),
 	sass = require('gulp-sass'),
+	scsslint = require('gulp-scss-lint'),
 	autoprefix = require('gulp-autoprefixer'),
 	minifyCSS = require('gulp-minify-css'),
 	livereload = require('gulp-livereload'),
 	stylish = require('jshint-stylish'),
 	uncss = require('gulp-uncss'),
 	penthouse = require('penthouse'),
-	Promise = require("bluebird"),
+	Promise = require('bluebird'),
 	penthouseAsync = Promise.promisify(penthouse),
-	svgSprite = require("gulp-svg-sprites"),
-	phpcs = require('gulp-phpcs');
+	svgSprite = require('gulp-svg-sprites'),
+	phpcs = require('gulp-phpcs'),
+	svgmin = require('gulp-svgmin'),
+	critical = require('critical');
 
 gulp.task('sprites', function () {
-    return gulp.src('images/svg/*.svg')
+    return gulp.src([
+    		'images/svg/*.svg',
+    	])
         .pipe(svgSprite({
         	mode: 'symbols',
         	preview: false
         }))
+        .pipe(svgmin([{
+        	cleanupIDs: false
+        }]))
         .pipe(gulp.dest('build'));
 });
 
-gulp.task('critical', function() {
+gulp.task('critical-css', function() {
 	penthouseAsync({
-		url : 'https://big-andy.co.uk/',
-		css : './style.css',
+		url: [
+			'https://big-andy.co.uk/contact/',
+			'https://big-andy.co.uk/cv/',
+			'https://big-andy.co.uk/about/',
+			'https://big-andy.co.uk/photos/',
+			'https://big-andy.co.uk/',
+			'https://big-andy.co.uk/blog',
+			'https://big-andy.co.uk/style-guide',
+			'https://big-andy.co.uk/https/',
+			'https://big-andy.co.uk/breaking-borders-3/'
+        ],
+		css: './style.css',
 		height: 600,
 		width: 400
 	}).then( function (criticalCSS){
@@ -41,15 +59,15 @@ gulp.task('uncss', function() {
     return gulp.src('./style.css')
         .pipe(uncss({
             html: [
-				'http://big-andy.local/contact/',
-				'http://big-andy.local/cv/',
-				'http://big-andy.local/about/',
-				'http://big-andy.local/photos/',
-				'http://big-andy.local/',
-				'http://big-andy.local/blog',
-				'http://big-andy.local/style-guide',
-				'http://big-andy.local/https/',
-				'http://big-andy.local/breaking-borders-3/'
+				'https://big-andy.co.uk/contact/',
+				'https://big-andy.co.uk/cv/',
+				'https://big-andy.co.uk/about/',
+				'https://big-andy.co.uk/photos/',
+				'https://big-andy.co.uk/',
+				'https://big-andy.co.uk/blog',
+				'https://big-andy.co.uk/style-guide',
+				'https://big-andy.co.uk/https/',
+				'https://big-andy.co.uk/breaking-borders-3/'
             ]
         }))
         .pipe(minifyCSS({
@@ -62,11 +80,8 @@ gulp.task('uncss', function() {
 // concat and minify the js
 gulp.task('js', ['js-lint'], function () {
 	gulp.src([
-			// 'bower_components/jquery/dist/jquery.min.js',
-			// 'js/font-loader.js',
 			'js/google-analytics-caller.js',
-			// 'js/lazy-load-css.js',
-			// 'js/main.js',
+			'js/lazy-load-css.js',
 		])
 		.pipe(gutil.env.type === 'production' ? stripDebug() : gutil.noop())
 		.pipe(uglify())
@@ -94,7 +109,6 @@ gulp.task('js-lint', function() {
 gulp.task('wordpress-lint', function () {
 	return gulp.src(['./**/*.php', '!node_modules/**/*.php'])
 		.pipe(phpcs({
-			// bin: 'phpcs',
 			standard: 'code.ruleset.xml'
 		}))
 		.pipe(phpcs.reporter('log'));
@@ -114,17 +128,20 @@ gulp.task('sass', function () {
 gulp.task('scss-lint', function () {
 	gulp.src([
 			'scss/**/*.scss',
-			'!scss/style.scss' // ignore this file so can include commenting in it.
+			'!scss/style.scss', // ignore this file so can include commenting in it.
+			'!scss/plugins/**/*.scss'
 		])
 		.pipe(scsslint({
 			'config': '.scss-lint.yml',
-			// 'customReport': myCustomReporter
 		}));
 });
 
 gulp.task('livereload', function () {
 	gulp.src([
-		'style.css', 'build/**', '*.php', 'scss/*.scss'
+		'style.css',
+		'build/**',
+		'*.php',
+		'scss/*.scss'
 	])
 	.pipe(livereload());
 });
@@ -147,6 +164,22 @@ gulp.task('watch', function () {
 });
 
 // The default task (called when you run `gulp` from cli)
-gulp.task('default', ['js', 'sass', 'watch', 'livereload', 'sprites']);
-gulp.task('production', ['js', 'sass']);
-gulp.task('deploy', ['uncss', 'js']);
+gulp.task('default', [
+	'js',
+	'sass',
+	'watch',
+	'livereload',
+	'sprites'
+]);
+gulp.task('production', [
+	'js', 'sass'
+]);
+gulp.task('deploy', [
+	'sass',
+	'uncss',
+	'js',
+	'lint',
+	'critical-css'
+]);
+
+gulp.task('lint', ['scss-lint', 'js-lint', 'wordpress-lint'])

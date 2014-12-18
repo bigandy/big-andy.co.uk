@@ -3,7 +3,8 @@
  * ah_get_extra_thumbnail_sizes()
  * outputs non-standard wordpress image sizes.
  */
-function ah_get_extra_thumbnail_sizes() {
+
+function ah_get_extra_thumbnail_sizes( $small_screen = 0 ) {
 	global $_wp_additional_image_sizes;
 
 	$sizes = array();
@@ -15,7 +16,15 @@ function ah_get_extra_thumbnail_sizes() {
 		foreach ( $all_sizes as $size ) {
 			// compile array of image sizes beginning with pic-
 			if ( 'pic-' === substr( $size, 0, 4 ) ) {
-				array_push( $reduced_sizes, $size );
+				// checks to see if we're on a singular page, then removes
+				if ( 1 === $small_screen ) {
+					// only adds pic-small and pic-medium to array
+					if ( ! in_array( $size, array( 'pic-large', 'pic-max' ) ) ) {
+						array_push( $reduced_sizes, $size );
+					}
+				} else {
+					array_push( $reduced_sizes, $size );
+				}
 			}
 		}
 	}
@@ -33,8 +42,8 @@ function ah_get_extra_thumbnail_sizes() {
 	return $sizes;
 }
 
-function ah_get_output_picture( $id, $class = '' ) {
-	$sizes = ah_get_extra_thumbnail_sizes();
+function ah_get_output_picture( $id, $class = '', $singular = false ) {
+	$sizes = ah_get_extra_thumbnail_sizes( $singular );
 
 	if ( $class ) {
 		$picture_class = 'class="' . $class . '"';
@@ -55,7 +64,7 @@ function ah_get_output_picture( $id, $class = '' ) {
 }
 
 function ah_output_picture( $id, $class = '' ) {
-	echo ah_get_output_picture( $id, $class );
+	echo wp_kses_post( ah_get_output_picture( $id, $class ) );
 }
 
 function ah_featured_picture_replacement() {
@@ -68,28 +77,37 @@ function ah_featured_picture_replacement() {
  * Shortcode to utilise the id of the image
  */
 function ah_picture_shortcode( $atts, $content ) {
-	extract( shortcode_atts( array(
+	$atts = shortcode_atts( array(
 		'id' => '',
-	), $atts ) );
+	), $atts, 'picture' );
 
-	if ( $id ) {
-		return ah_output_picture( $id );
+	if ( $atts['id'] ) {
+		return ah_output_picture( $atts['id'] );
 	} else {
 		preg_match_all( '<img (.*?)class=\"((.*?)wp-image-(\d+)(.*?))\"(.*?)>', $content, $matches );
 
 		foreach ( $matches[0] as $key => $imgstring ) {
-			$id = $matches[4][ $key ];
-			$class = $matches[2][ $key ];
+			$picture_id = $matches[4][ $key ];
+			$picture_class = $matches[2][ $key ];
 
-			return ah_get_output_picture( $id, $class );
+			return ah_get_output_picture( $picture_id, $picture_class );
 		}
 	}
 }
 add_shortcode( 'picture', 'ah_picture_shortcode' );
 
 function ah_replace_content_img_with_picture( $content ) {
-	if ( is_page_template( 'templates/template-picture.php' ) || is_singular() ) {
+	$template_picture = is_page_template( 'templates/template-picture.php' );
+	$cat_picture = has_category( 'picture' );
 
+	// if we're on a picture template, or single i.e. blog post page.
+	if ( is_singular() ) {
+
+		if ( $template_picture || $cat_picture ) {
+			$small_screen = 0;
+		} else {
+			$small_screen = 1;
+		}
 		preg_match_all( '<img (.*?)class=\"((.*?)wp-image-(\d+)(.*?))\"(.*?)>', $content, $matches );
 
 		foreach ( $matches[0] as $key => $imgstring ) {
@@ -100,11 +118,10 @@ function ah_replace_content_img_with_picture( $content ) {
 			$img = '<' . $matches[0][ $key ] . ' />';
 
 			// string with <picture>
-			$picture = ah_get_output_picture( $id );
+			$picture = ah_get_output_picture( $id, '', $small_screen );
 
 			// replace <img> with <picture>
 			$content = str_replace( $img, $picture, $content );
-
 		}
 
 		return $content;

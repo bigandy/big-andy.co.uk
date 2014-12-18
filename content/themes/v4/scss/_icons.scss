@@ -1,11 +1,10 @@
 .icon {
-	display: inline-block;
 	@include wh(30px);
-
-	fill: orange;
+	display: inline-block;
+	fill: $orange;
 
 	@include hocus {
-		fill: blue;
+		fill: $blue;
 	}
 }
 
@@ -16,10 +15,6 @@
 
 .icon--small {
 	@include wh(50px);
-}
-
-.icon--large {
-	@include wh(100px);
 }
 
 .icon--large {

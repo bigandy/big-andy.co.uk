@@ -10,7 +10,7 @@
 
 @import "foundation/functions";
 @import "variables";
-@import "normalize";
+@import "../bower_components/normalize-scss/normalize";
 @import "plugins/foundation/foundation"; // import foundation or parts of foundation
 @import "plugins/flexbox-mixin";
 

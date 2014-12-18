@@ -1,6 +1,6 @@
 <?php
 function ah_enque_scripts() {
-	$build = TEMPLATEURI . '/build/js/';
+	$build = TEMPLATEURI . 'build/js/';
 
 	// if the user is not logged in, show the google analytics script
 	if ( ! is_user_logged_in() ) {
