@@ -23,9 +23,9 @@
 	<?php include_once( 'build/svg/symbols.svg' ); ?>
 	<header class="header">
 		<div class="header__row content-container row">
-			<div class="large-12 columns">
+			<div class="large-8 large-push-2 small-12 columns">
 				<h1>
-					<a href="<?php echo esc_url( home_url() ); ?>" class="header__link">Andrew Hudson</a>
+					<a href="<?php echo esc_url( home_url() ); ?>" class="header__link">A<span>ndrew</span> H<span>udson</span></a>
 				</h1>
 				<nav role="navigation" class="header__nav nav top-nav clearfix" id="top-nav">
 					<?php

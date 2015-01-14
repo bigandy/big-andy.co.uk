@@ -26,7 +26,7 @@
 		<!-- <exclude name="WordPress.WhiteSpace.ControlStructureSpacing" /> -->
 		<!-- <exclude name="WordPress.Functions.FunctionCallSignature" /> -->
 
-		<exclude name="WordPress.WhiteSpace.ScopeIndent"/>
+		<exclude name="Generic.WhiteSpace.ScopeIndent"/>
 	</rule>
 </ruleset>
 

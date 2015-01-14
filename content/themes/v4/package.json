@@ -9,12 +9,10 @@
   "dependencies": {
     "bluebird": "^2.3.0",
     "critical": "^0.1.6",
-    "gulp": "~3.8.0",
     "gulp-concat": "~2.1.7",
     "gulp-jshint": "~1.4.2",
-    "gulp-livereload": "~1.1.1",
     "gulp-uglify": "~0.2.1",
-    "gulp-util": "~2.2.14",
+    "gulp-util": "~2.2.20",
     "penthouse": "^0.2.5"
   },
   "devDependencies": {
@@ -29,7 +27,6 @@
     "gulp-svg-sprites": "^1.1.0",
     "gulp-svgmin": "^0.4.8",
     "gulp-uncss": "^0.4.5",
-    "gulp-util": "^2.2.20",
     "jshint-stylish": "~0.1.5"
   },
   "author": "Andrew JD Hudson",

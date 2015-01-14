@@ -54,3 +54,10 @@ if ( ! function_exists( 'ah_header_theme_color' ) ) {
 	add_action( 'wp_head', 'ah_header_theme_color' );
 }
 
+// This fixes the broken floating wordpress admin menu that you get when window < 600px
+if ( ! function_exists( 'ah_admin_mobile_menu_fix' ) && is_user_logged_in() ) {
+	function ah_admin_mobile_menu_fix() {
+		echo '<style>@media (max-width: 600px) { #wpadminbar { position: fixed; } }</style>';
+	}
+	add_action( 'wp_head', 'ah_admin_mobile_menu_fix' );
+}

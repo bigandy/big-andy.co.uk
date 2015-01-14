@@ -26,15 +26,24 @@
 //
 // Media Queries
 //
-@media all and (min-width: 37.5em) {
-	@import "media-queries/37-5em";
-}
+
 
 // 30 * 16 = 480px and up
 @media all and (min-width: 30em) {
 	@import "media-queries/30em";
 }
 
+// 37.5 * 16 = 600 and up
+@media all and (min-width: 37.5em) {
+	@import "media-queries/37-5em";
+}
+
+// 64 * 16 = 1024 and up
 @media all and (min-width: 64em) {
 	@import "media-queries/64em";
+}
+
+// 74 * 16 = 1184 and up
+@media all and (min-width: 74em) {
+	@import "media-queries/74em";
 }

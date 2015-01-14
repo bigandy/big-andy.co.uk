@@ -11,10 +11,10 @@ if ( file_exists( dirname( __FILE__ ) . '/local-config.php' ) ) {
 	include( dirname( __FILE__ ) . '/local-config.php' );
 } else {
 	define( 'WP_LOCAL_DEV', false );
-	define( 'DB_NAME', '%%DB_NAME%%' );
-	define( 'DB_USER', '%%DB_USER%%' );
-	define( 'DB_PASSWORD', '%%DB_PASSWORD%%' );
-	define( 'DB_HOST', '%%DB_HOST%%' ); // Probably 'localhost'
+	define( 'DB_NAME', 'ba_wordpress' );
+	define( 'DB_USER', 'bigandyusernew' );
+	define( 'DB_PASSWORD', '8I3Aw2KrdRQ&Q:nZ[,gxPY>dEo^LK-' );
+	define( 'DB_HOST', 'localhost' ); // Probably 'localhost'
 }
 
 // define( 'WP_STACK_CDN_DOMAIN', 'cdn.bigandy.netdna-cdn.com' );
@@ -95,12 +95,6 @@ define( 'WP_DEBUG_DISPLAY', false );
 // =================================================================
 // define( 'SAVEQUERIES', true );
 // define( 'WP_DEBUG', true );
-
-// ===========================================================================================
-// This can be used to programatically set the stage when deploying (e.g. production, staging)
-// ===========================================================================================
-define( 'WP_STAGE', '%%WP_STAGE%%' );
-define( 'STAGING_DOMAIN', '%%WP_STAGING_DOMAIN%%' ); // Does magic in WP Stack to handle staging domain rewriting
 
 // ===================
 // Bootstrap WordPress
