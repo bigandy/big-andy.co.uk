@@ -59,15 +59,15 @@ gulp.task('uncss', function() {
     return gulp.src('./style.css')
         .pipe(uncss({
             html: [
-				'https://big-andy.co.uk/contact/',
-				'https://big-andy.co.uk/cv/',
-				'https://big-andy.co.uk/about/',
-				'https://big-andy.co.uk/photos/',
-				'https://big-andy.co.uk/',
-				'https://big-andy.co.uk/blog',
-				'https://big-andy.co.uk/style-guide',
-				'https://big-andy.co.uk/https/',
-				'https://big-andy.co.uk/breaking-borders-3/'
+				'http://big-andy.dev/contact/',
+				'http://big-andy.dev/cv/',
+				'http://big-andy.dev/about/',
+				'http://big-andy.dev/photos/',
+				'http://big-andy.dev/',
+				'http://big-andy.dev/blog',
+				'http://big-andy.dev/style-guide',
+				'http://big-andy.dev/https/',
+				'http://big-andy.dev/breaking-borders-3/'
             ]
         }))
         .pipe(minifyCSS({
