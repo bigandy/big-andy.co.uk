@@ -22,7 +22,7 @@ if ( is_front_page() ) {
 if ( ! is_user_logged_in() ) {
 	wp_register_script( 'main', $build . 'script.min.js', false, null, true );
 	?>
-	<script src="<?php echo TEMPLATEURI . 'build/js/script.min.js'; ?>"></script>
+	<script async defer src="<?php echo TEMPLATEURI . 'build/js/script.min.js'; ?>"></script>
 	<?php
 }
 ?>
