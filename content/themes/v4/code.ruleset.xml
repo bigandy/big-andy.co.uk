@@ -2,9 +2,6 @@
 <ruleset name="Example Project">
 	<description>A custom set of rules to check for a WPized WordPress project</description>
 
-	<!-- <exclude-pattern>/docroot/wp-admin/*</exclude-pattern> -->
-	<exclude-pattern>/functions/admin/*</exclude-pattern>
-
 	<rule ref="Squiz.PHP.CommentedOutCode"/>
 	<rule ref="Squiz.WhiteSpace.SuperfluousWhitespace"/>
 	<!-- <rule ref="Generic.CodeAnalysis.UnusedFunctionParameter"/> -->
@@ -29,5 +26,3 @@
 		<exclude name="Generic.WhiteSpace.ScopeIndent"/>
 	</rule>
 </ruleset>
-
-

@@ -52,13 +52,13 @@ function ah_get_output_picture( $id, $class = '', $singular = false ) {
 	}
 
 	$html = '<picture ' . $picture_class . '>';
-		foreach ( $sizes as $size => $key ) {
-			$thumb = wp_get_attachment_image_src( $id, $size );
-			$html .= '<source media="(min-width: ' . $key . 'px)" srcset="' . $thumb[0] . '">';
-		}
+	foreach ( $sizes as $size => $key ) {
+		$thumb = wp_get_attachment_image_src( $id, $size );
+		$html .= '<source media="(min-width: ' . $key . 'px)" srcset="' . $thumb[0] . '">';
+	}
 
-		$fallback_thumb = wp_get_attachment_image_src( $id, 'large' );
-		$html .= '<img src="' . $fallback_thumb[0] . '" />';
+	$fallback_thumb = wp_get_attachment_image_src( $id, 'large' );
+	$html .= '<img src="' . $fallback_thumb[0] . '" />';
 	$html .= '</picture>';
 	return $html;
 }
