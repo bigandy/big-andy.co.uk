@@ -51,17 +51,27 @@ function ah_get_output_picture( $id, $class = '', $singular = false ) {
 		$picture_class = '';
 	}
 
-	$html = '<picture ' . $picture_class . '>';
+	// $html = '<picture ' . $picture_class . '>';
+	$fallback_thumb = wp_get_attachment_image_src( $id, 'large' );
+
+	$html = '<img src="' . $fallback_thumb[0] . '" srcset="';
+
+	$count = 0;
 	foreach ( $sizes as $size => $key ) {
 		$thumb = wp_get_attachment_image_src( $id, $size );
-		$html .= '<source media="(min-width: ' . $key . 'px)" srcset="' . $thumb[0] . '">';
+		$divider = ($count !== 0) ? ', '  : '';
+
+		$html .= $divider . $key . 'w ' . $thumb[0];
+		$count++;
 	}
 
-	$fallback_thumb = wp_get_attachment_image_src( $id, 'large' );
-	$html .= '<img src="' . $fallback_thumb[0] . '" />';
-	$html .= '</picture>';
+	$html .= '" />';
+	// $html .= '</picture>';
 	return $html;
 }
+
+//<img src="small.jpg" srcset="medium.jpg 1000w, large.jpg 2000w" alt="yah">
+
 
 function ah_output_picture( $id, $class = '' ) {
 	echo wp_kses_post( ah_get_output_picture( $id, $class ) );
