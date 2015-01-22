@@ -1,5 +1,6 @@
 /shared
 /local-config.php
+wp-config.php
 /sql-dump-*.sql
 /db-sync
 /content/upgrade/
