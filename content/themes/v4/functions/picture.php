@@ -66,11 +66,8 @@ function ah_get_output_picture( $id, $class = '', $singular = false ) {
 	}
 
 	$html .= '" />';
-	// $html .= '</picture>';
 	return $html;
 }
-
-//<img src="small.jpg" srcset="medium.jpg 1000w, large.jpg 2000w" alt="yah">
 
 
 function ah_output_picture( $id, $class = '' ) {
