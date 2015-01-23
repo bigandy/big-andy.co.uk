@@ -61,7 +61,7 @@ function ah_get_output_picture( $id, $class = '', $singular = false ) {
 		$thumb = wp_get_attachment_image_src( $id, $size );
 		$divider = ($count !== 0) ? ', '  : '';
 
-		$html .= $divider . $key . 'w ' . $thumb[0];
+		$html .= $divider .  $thumb[0] . ' ' . $key . 'w';
 		$count++;
 	}
 
