@@ -60,9 +60,6 @@ function ah_get_output_picture( $id, $class = '', $singular = false ) {
 		$thumb = wp_get_attachment_image_src( $id, $size );
 		$divider = ($count !== 0) ? ', '  : '';
 
-		ah_preit( floor( $key / 16 ) - 1 );
-		ah_preit( floor( $key / 16 ) );
-
 		$html .= $divider .  $thumb[0] . ' ' . $key . 'w';
 		$count++;
 	}
