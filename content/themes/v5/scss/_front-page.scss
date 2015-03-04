@@ -1,0 +1,29 @@
+.home__articles {
+	border-top: 1px dotted $light-gray;
+	margin-top: 1rem;
+}
+
+.article--home {
+	border-bottom: 1px dotted $light-gray;
+	padding-bottom: rows(1);
+	margin: rows(1) 0;
+}
+
+.article__header--front-page {
+	margin-bottom: 1rem;
+}
+
+.article__time {
+	font-weight: bold;
+	font-size: 80%;
+}
+
+.article__title {
+	padding-right: .5rem;
+
+}
+
+.home__intro {
+	font-weight: bold;
+	text-align: center;
+}

@@ -1,0 +1,35 @@
+{
+  "name": "Bigandy-v4",
+  "version": "4.0.1",
+  "description": "v4 of big-andy.co.uk",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bigandy/big-andy.co.uk.git"
+  },
+  "dependencies": {
+    "bluebird": "^2.3.0",
+    "critical": "^0.1.6",
+    "gulp-concat": "~2.1.7",
+    "gulp-jshint": "~1.4.2",
+    "gulp-uglify": "~0.2.1",
+    "gulp-util": "~2.2.20",
+    "penthouse": "^0.2.5"
+  },
+  "devDependencies": {
+    "gulp": "^3.8.10",
+    "gulp-autoprefixer": "0.0.6",
+    "gulp-livereload": "~1.1.1",
+    "gulp-minify-css": "~0.3.0",
+    "gulp-phpcs": "^0.2.1",
+    "gulp-sass": "^0.7.2",
+    "gulp-scss-lint": "^0.1.4",
+    "gulp-strip-debug": "~0.1.1",
+    "gulp-svg-sprites": "^1.1.0",
+    "gulp-svgmin": "^0.4.8",
+    "gulp-uncss": "^0.4.5",
+    "jshint-stylish": "~0.1.5"
+  },
+  "author": "Andrew JD Hudson",
+  "twitter": "@bigandy",
+  "license": "ISC"
+}
