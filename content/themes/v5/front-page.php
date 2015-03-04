@@ -1,21 +1,7 @@
 <?php get_header(); ?>
 <main class="row content-container">
-	<div class="large-8 large-push-2 small-12 columns">
-		<section class="home__intro">
-			<?php
-			if ( have_posts() ) {
-				while ( have_posts() ) {
-					the_post();
-					?>
-					<h2 class="home__intro">
-						<?php echo wp_kses_post( get_the_content() ); ?>
-					</h2>
-					<?php
-				}
-			}
-			?>
-	    </section>
-	    <section class="home__articles">
+	<div class="large-12 small-12 columns">
+	    <section class="home__articles flex-container">
     	    <?php
 			// hidden post
 			$hide_id = 31;
@@ -31,7 +17,7 @@
 				while ( $home_loop->have_posts() ) {
 					$home_loop->the_post();
 					?>
-					<article role="article" class="article--home">
+					<article role="article" class="article--home flex-item">
 						<header class="article__header article__header--front-page">
 							<h2 class="article__title">
 								<a href="<?php the_permalink(); ?>">
@@ -48,15 +34,6 @@
 					</article>
 					<?php
 				}
-			}
-
-			if ( function_exists( 'wp_pagenavi' ) ) {
-				$pagenavi_args = array(
-					'query' => $home_loop,
-				);
-
-
-				wp_pagenavi( $pagenavi_args );
 			}
 
 			wp_reset_postdata();

@@ -29,15 +29,17 @@
 				</h1>
 				<nav role="navigation" class="header__nav nav top-nav clearfix" id="top-nav">
 					<?php
-					$menu_args = array(
-						'theme_location'  => 'primary',
-						'container'       => false,
-						'container_id'    => false,
-						'container_class' => 'header__nav',
-						'menu_class'      => 'list--inline header__menu',
-						'menu_id'		  => '',
-					);
-					wp_nav_menu( $menu_args );
+					if ( has_nav_menu( 'primary' ) ) {
+						$menu_args = array(
+							'theme_location'  => 'primary',
+							'container'       => false,
+							'container_id'    => false,
+							'container_class' => 'header__nav',
+							'menu_class'      => 'list--inline header__menu',
+							'menu_id'		  => '',
+						);
+						wp_nav_menu( $menu_args );
+					}
 					?>
 				</nav>
 			</div>

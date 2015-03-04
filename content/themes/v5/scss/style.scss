@@ -1,11 +1,11 @@
 /*!
-* Theme Name: Bigandy v4
+* Theme Name: Bigandy v5
 * Theme URI: http://zurb.foundation.com
 * Description: This site was built on top of Zurb Foundation v5
 * Author: Andrew JD Hudson
 * Author URI: http://www.big-andy.co.uk
 * Tags: flexble-width, translation-ready, microformats, rtl-language-support
-* Version: 4.0
+* Version: 5.0
 */
 
 @import "foundation/functions";
@@ -31,19 +31,35 @@
 // 30 * 16 = 480px and up
 @media all and (min-width: 30em) {
 	@import "media-queries/30em";
+
+	body {
+		background: orange;
+	}
 }
 
 // 37.5 * 16 = 600 and up
 @media all and (min-width: 37.5em) {
 	@import "media-queries/37-5em";
+
+	body {
+		background: blue;
+	}
 }
 
 // 64 * 16 = 1024 and up
 @media all and (min-width: 64em) {
 	@import "media-queries/64em";
+
+	body {
+		background: green;
+	}
 }
 
 // 74 * 16 = 1184 and up
 @media all and (min-width: 74em) {
 	@import "media-queries/74em";
+
+	body {
+		background: yellow;
+	}
 }
