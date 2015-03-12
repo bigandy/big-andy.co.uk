@@ -1,5 +1,5 @@
 <?php
-function ah_enque_scripts() {
+function ah_enqueue_scripts() {
 	$build = TEMPLATEURI . 'build/js/';
 
 	if ( ! is_front_page() ) {
@@ -9,4 +9,4 @@ function ah_enque_scripts() {
 		}
 	}
 }
-add_action( 'wp_enqueue_scripts', 'ah_enque_scripts' );
+add_action( 'wp_enqueue_scripts', 'ah_enqueue_scripts' );
