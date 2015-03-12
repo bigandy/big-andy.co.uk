@@ -53,7 +53,7 @@ function ah_get_output_picture( $id, $class = '', $singular = false ) {
 
 	$fallback_thumb = wp_get_attachment_image_src( $id, 'large' );
 
-	$html = '<img src="' . $fallback_thumb[0] . '" srcset="';
+	$html = '<img data-src="' . $fallback_thumb[0] . '" data-srcset="';
 
 	$count = 0;
 	foreach ( $sizes as $size => $key ) {

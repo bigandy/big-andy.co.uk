@@ -88,7 +88,14 @@ gulp.task('js', ['js-lint'], function () {
 		.pipe(concat('script.min.js'))
 		.pipe(gulp.dest('build/js'));
 
-	gulp.src(['bower_components/picturefill/dist/picturefill.min.js'])
+	gulp.src([
+		'bower_components/jquery/dist/jquery.js',
+		'bower_components/picturefill/dist/picturefill.min.js',
+		'bower_components/lazyloadxt/dist/jquery.lazyloadxt.js',
+		'bower_components/lazyloadxt/dist/jquery.lazyloadxt.srcset.js'
+	])
+		.pipe(uglify())
+		.pipe(concat('picturefill.min.js'))
 		.pipe(gulp.dest('build/js'));
 	gulp.src(['js/analytics.js'])
 		.pipe(gulp.dest('build/js'));
