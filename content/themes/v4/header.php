@@ -20,7 +20,7 @@
 	<?php wp_head(); ?>
 </head>
 <body>
-	<?php include_once( 'build/svg/symbols.svg' ); ?>
+	<?php // include_once( 'build/svg/symbols.svg' ); ?>
 	<header class="header">
 		<div class="header__row content-container row">
 			<div class="large-8 large-push-2 small-12 columns">
