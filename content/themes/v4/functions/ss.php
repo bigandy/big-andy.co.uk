@@ -8,10 +8,5 @@ function ah_enqueue_scripts() {
 			wp_enqueue_script( 'picturefill' );
 		}
 	}
-
-
-	// if ( is_admin() ) {
-	// 	wp_enqueue_script( 'jquery' );
-	// }
 }
 add_action( 'wp_enqueue_scripts', 'ah_enqueue_scripts' );
