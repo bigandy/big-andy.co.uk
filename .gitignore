@@ -21,6 +21,7 @@ content/cache/config/master.php
 
 bower-compenents/*
 bower-components/
+bower_components
 node_modules/
 
 ## sublime text files

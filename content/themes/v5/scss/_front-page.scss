@@ -26,4 +26,24 @@
         display: block;
         margin-bottom: rows(1);
     }
+
+    // a {
+    //     display: block;
+    //     // position: absolute;
+    //     top: 0;
+    //     left: 0;
+    // }
+}
+
+.article--home {
+    background-size: cover;
+    background-position: 50% 0;
+}
+
+.article--home--image {
+    a,
+    p,
+    time {
+        color: $black;
+    }
 }
