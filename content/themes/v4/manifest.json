@@ -1,7 +1,7 @@
 {
   "lang": "en",
-  "name": "Super Racer 2000",
-  "short_name": "Racer2K",
+  "name": "Andrew JD Hudson",
+  "short_name": "Bigandy",
   "icons": [{
 		"src": "icon/lowres",
 		"sizes": "64x64",
@@ -15,7 +15,7 @@
 		"density": 2
 	  }],
   "scope": "/racer/",
-  "start_url": "/racer/start.html",
+  "start_url": "/",
   "display": "fullscreen",
   "orientation": "landscape",
   "theme_color": "aliceblue"
