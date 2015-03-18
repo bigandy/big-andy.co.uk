@@ -17,6 +17,6 @@
   "scope": "/racer/",
   "start_url": "/",
   "display": "fullscreen",
-  "orientation": "landscape",
-  "theme_color": "aliceblue"
+  "orientation": "portrait",
+  "theme_color": "green"
 }
