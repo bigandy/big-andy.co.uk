@@ -16,7 +16,7 @@
 	  }],
   "scope": "/racer/",
   "start_url": "/",
-  "display": "fullscreen",
+  "display": "browser",
   "orientation": "portrait",
   "theme_color": "green"
 }
