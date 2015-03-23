@@ -42,29 +42,46 @@ function ah_get_extra_thumbnail_sizes( $small_screen = 0 ) {
 	return $sizes;
 }
 
-function ah_get_output_picture( $id, $class = '', $singular = false ) {
+function ah_get_output_resp_image( $id, $class = '', $singular = false, $lazyload = false, $width = false, $height = false ) {
 	$sizes = ah_get_extra_thumbnail_sizes( $singular );
 
 	if ( $class ) {
-		$picture_class = 'class="' . $class . '"';
+		$image_class = ' class="' . $class . '"';
 	} else {
-		$picture_class = '';
+		$image_class = '';
+	}
+
+	if ( $height ) {
+		$output_height = 'height="' . $height . '"';
+	} else {
+		$output_height = '';
+	}
+
+	if ( $width ) {
+		$output_width = 'width="' . $width . '"';
+	} else {
+		$output_width = '';
 	}
 
 	$fallback_thumb = wp_get_attachment_image_src( $id, 'large' );
 
-	$html = '<img data-src="' . $fallback_thumb[0] . '" data-srcset="';
+	if ( false === $lazyload ) {
+		$html = '<img src="' . $fallback_thumb[0] . '" srcset="';
+	} else {
+		$html = '<img data-src="' . $fallback_thumb[0] . '" data-srcset="';
+	}
 
 	$count = 0;
 	foreach ( $sizes as $size => $key ) {
 		$thumb = wp_get_attachment_image_src( $id, $size );
+
 		$divider = ($count !== 0) ? ', '  : '';
 
 		$html .= $divider .  $thumb[0] . ' ' . $key . 'w';
 		$count++;
 	}
 
-	$html .= '" sizes="100%"';
+	$html .= '" sizes="(min-width: 995px) 1000px, 100%"' . $image_class . $output_height . $output_width;
 	$html .= ' />';
 	return $html;
 }
@@ -103,7 +120,7 @@ function ah_picture_shortcode( $atts, $content ) {
 }
 add_shortcode( 'picture', 'ah_picture_shortcode' );
 
-function ah_replace_content_img_with_picture( $content ) {
+function ah_replace_content_img_with_resp_image( $content ) {
 	$template_picture = is_page_template( 'templates/template-picture.php' );
 	$cat_picture = has_category( 'picture' );
 
@@ -115,20 +132,23 @@ function ah_replace_content_img_with_picture( $content ) {
 		} else {
 			$small_screen = 1;
 		}
-		preg_match_all( '<img (.*?)class=\"((.*?)wp-image-(\d+)(.*?))\"(.*?)>', $content, $matches );
+
+		preg_match_all( '<img (.*?)width=\"((.*?)(\d+)(.*?))\"(.*?)(.*?)height=\"((.*?)(\d+)(.*?))\"(.*?)(.*?)class=\"((.*?)wp-image-(\d+)(.*?))\"(.*?)>', $content, $matches );
 
 		foreach ( $matches[0] as $key => $imgstring ) {
-			$id = $matches[4][ $key ];
-			$class = $matches[2][ $key ];
+			$id = $matches[16][ $key ];
+			$class = $matches[15][ $key ];
+			$height = $matches[8][ $key ];
+			$width = $matches[4][ $key ];
 
 			// the string with <img>
 			$img = '<' . $matches[0][ $key ] . ' />';
 
-			// string with <picture>
-			$picture = ah_get_output_picture( $id, '', $small_screen );
+			// string with <img srcset>
+			$resp_img = ah_get_output_resp_image( $id, $class, $small_screen, true, $width, $height );
 
-			// replace <img> with <picture>
-			$content = str_replace( $img, $picture, $content );
+			// replace <img> with <img srcset...>
+			$content = str_replace( $img, $resp_img, $content );
 		}
 
 		return $content;
@@ -136,4 +156,4 @@ function ah_replace_content_img_with_picture( $content ) {
 	return $content;
 }
 // make sure it is run before the picture shortcode runs
-add_filter( 'the_content', 'ah_replace_content_img_with_picture', 11 );
+add_filter( 'the_content', 'ah_replace_content_img_with_resp_image', 11 );
