@@ -87,13 +87,13 @@ function ah_get_output_resp_image( $id, $class = '', $singular = false, $lazyloa
 }
 
 
-function ah_output_picture( $id, $class = '' ) {
-	echo wp_kses_post( ah_get_output_picture( $id, $class ) );
+function ah_output_resp_img( $id, $class = '' ) {
+	echo ah_get_output_resp_image( $id, $class ) ;
 }
 
-function ah_featured_picture_replacement() {
+function ah_featured_resp_image_replacement() {
 	$post_thumbnail_id = get_post_thumbnail_id();
-	ah_output_picture( $post_thumbnail_id );
+	ah_output_resp_img( $post_thumbnail_id );
 }
 
 /**
@@ -114,7 +114,7 @@ function ah_picture_shortcode( $atts, $content ) {
 			$picture_id = $matches[4][ $key ];
 			$picture_class = $matches[2][ $key ];
 
-			return ah_get_output_picture( $picture_id, $picture_class );
+			return ah_get_output_resp_image( $picture_id, $picture_class );
 		}
 	}
 }
