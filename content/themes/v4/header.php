@@ -8,7 +8,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 	<!-- Startup configuration -->
 	<link rel="manifest" href="<?php echo esc_url( TEMPLATEURI ); ?>manifest.json">
-	<link rel="icon" sizes="192x192" href="<?php echo esc_url( TEMPLATEURI ); ?>images/ba3.png" type="image/svg+xml">
+	<link rel="icon" sizes="192x192" href="<?php echo esc_url( TEMPLATEURI ); ?>images/ba.png" type="image/png">
 	<style><?php
 	if ( is_admin() ) {
 		$css = 'build/css/critical.css';

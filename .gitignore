@@ -19,3 +19,4 @@ node_modules/
 *.sublime-*
 
 /content/themes/v4/bower_components
+*.map
