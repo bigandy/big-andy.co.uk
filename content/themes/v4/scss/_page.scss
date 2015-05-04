@@ -136,22 +136,11 @@ picture > img {
 
 	a,
 	span {
-		padding: .5em;
-		margin: .5em;
+		padding: 1em;
 	}
 }
 
 .links {
 	@extend %cf;
 	padding: rows(1);
-	// position: absolute;
-	// width: 100%;
-
-	// .right {
-	// 	text-align: right;
-	// }
-
-	// div {
-	// 	width: 25%;
-	// }
 }
