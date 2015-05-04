@@ -20,7 +20,7 @@
 		exclude problematic sniffs like so.
 		-->
 
-		<!-- <exclude name="WordPress.WhiteSpace.ControlStructureSpacing" /> -->
+		<exclude name="WordPress.WhiteSpace.ControlStructureSpacing" />
 		<!-- <exclude name="WordPress.Functions.FunctionCallSignature" /> -->
 
 		<exclude name="Generic.WhiteSpace.ScopeIndent"/>
