@@ -27,6 +27,12 @@ function ah_shortcode_full( $atts, $content ) {
 }
 add_shortcode( 'full', 'ah_shortcode_full' );
 
+function ah_shortcode_row( $atts, $content ) {
+	$html = '<div class="row">' . do_shortcode( $content ) . '</div>';
+	return $html;
+}
+add_shortcode( 'row', 'ah_shortcode_row' );
+
 
 function ah_shortcode_icon( $atts ) {
 	$atts = shortcode_atts( array(
