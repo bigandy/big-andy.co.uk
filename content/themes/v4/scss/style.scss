@@ -8,17 +8,32 @@
 * Version: 4.0
 */
 $font-src: '/content/themes/v4/fonts/';
-$font-name: 'font/andadasc-bold-webfont';
+/* open-sans-regular - latin */
 @font-face {
-    font-family: 'andada_scbold';
-    src: url('#{$font-src}#{$font-name}.eot');
-    src: url('#{$font-src}#{$font-name}.eot?#iefix') format('embedded-opentype'),
-         url('#{$font-src}#{$font-name}.woff2') format('woff2'),
-         url('#{$font-src}#{$font-name}.woff') format('woff'),
-         url('#{$font-src}#{$font-name}.ttf') format('truetype'),
-         url('#{$font-src}#{$font-name}.svg#andada_scbold') format('svg');
-    font-weight: normal;
-    font-style: normal;
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Open Sans'), local('OpenSans'),
+       url('#{$font-src}open-sans-v13-latin-regular.woff2') format('woff2'), /* Chrome 26+, Opera 23+ */
+       url('#{$font-src}open-sans-v13-latin-regular.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+/* open-sans-600 - latin */
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 600;
+  src: local('Open Sans Semibold'), local('OpenSans-Semibold'),
+       url('#{$font-src}open-sans-v13-latin-600.woff2') format('woff2'), /* Chrome 26+, Opera 23+ */
+       url('#{$font-src}open-sans-v13-latin-600.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+/* open-sans-800 - latin */
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 800;
+  src: local('Open Sans Extrabold'), local('OpenSans-Extrabold'),
+       url('#{$font-src}open-sans-v13-latin-800.woff2') format('woff2'), /* Chrome 26+, Opera 23+ */
+       url('#{$font-src}open-sans-v13-latin-800.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
 }
 
 @import "foundation/functions";
