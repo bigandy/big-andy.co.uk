@@ -18,7 +18,18 @@ var gulp = require('gulp'),
 	svgSprite = require('gulp-svg-sprites'),
 	phpcs = require('gulp-phpcs'),
 	svgmin = require('gulp-svgmin'),
-	critical = require('critical');
+	critical = require('critical'),
+	pages = [
+		'http://big-andy.dev/contact/',
+		'http://big-andy.dev/cv/',
+		'http://big-andy.dev/about/',
+		'http://big-andy.dev/photos/',
+		'http://big-andy.dev/',
+		'http://big-andy.dev/blog',
+		'http://big-andy.dev/style-guide',
+		'http://big-andy.dev/https/',
+		'http://big-andy.dev/breaking-borders-3/'
+	];
 
 gulp.task('sprites', function () {
 	return gulp.src([
@@ -36,17 +47,7 @@ gulp.task('sprites', function () {
 
 gulp.task('critical-css', function() {
 	penthouseAsync({
-		url: [
-			'https://big-andy.co.uk/contact/',
-			'https://big-andy.co.uk/cv/',
-			'https://big-andy.co.uk/about/',
-			'https://big-andy.co.uk/photos/',
-			'https://big-andy.co.uk/',
-			'https://big-andy.co.uk/blog',
-			'https://big-andy.co.uk/style-guide',
-			'https://big-andy.co.uk/https/',
-			'https://big-andy.co.uk/breaking-borders-3/'
-		],
+		url: pages,
 		css: './style.css',
 		height: 600,
 		width: 400
@@ -58,17 +59,7 @@ gulp.task('critical-css', function() {
 gulp.task('uncss', function() {
 	return gulp.src('./style.css')
 		.pipe(uncss({
-			html: [
-				'http://big-andy.dev/contact/',
-				'http://big-andy.dev/cv/',
-				'http://big-andy.dev/about/',
-				'http://big-andy.dev/photos/',
-				'http://big-andy.dev/',
-				'http://big-andy.dev/blog',
-				'http://big-andy.dev/style-guide',
-				'http://big-andy.dev/https/',
-				'http://big-andy.dev/breaking-borders-3/'
-			]
+			html: pages,
 		}))
 		.pipe(minifyCSS({
 				keepSpecialComments: 0

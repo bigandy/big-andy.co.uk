@@ -7,12 +7,29 @@
 * Tags: flexble-width, translation-ready, microformats, rtl-language-support
 * Version: 4.0
 */
+$font-src: '/content/themes/v4/fonts/';
+$font-name: 'font/andadasc-bold-webfont';
+@font-face {
+    font-family: 'andada_scbold';
+    src: url('#{$font-src}#{$font-name}.eot');
+    src: url('#{$font-src}#{$font-name}.eot?#iefix') format('embedded-opentype'),
+         url('#{$font-src}#{$font-name}.woff2') format('woff2'),
+         url('#{$font-src}#{$font-name}.woff') format('woff'),
+         url('#{$font-src}#{$font-name}.ttf') format('truetype'),
+         url('#{$font-src}#{$font-name}.svg#andada_scbold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
 
 @import "foundation/functions";
 @import "variables";
 @import "../bower_components/normalize-scss/normalize";
 @import "plugins/foundation/foundation"; // import foundation or parts of foundation
 @import "plugins/flexbox-mixin";
+
+
+
+
 
 // Theme Specific
 @import "mixins";

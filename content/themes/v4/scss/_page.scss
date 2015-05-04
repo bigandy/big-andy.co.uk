@@ -6,6 +6,12 @@ h2 {
 	font-size: 1.5em;
 }
 
+h1,
+h2,
+h3 {
+	letter-spacing: -1px;
+}
+
 .page__title {
 	background: $black;
 	color: $white;

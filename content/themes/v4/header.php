@@ -3,14 +3,12 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="robots" content="all" />
-	<meta name="HandheldFriendly" content="True">
-	<meta name="MobileOptimized" content="320">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-	<!-- Startup configuration -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<link rel="manifest" href="<?php echo esc_url( TEMPLATEURI ); ?>manifest.json">
 	<link rel="icon" sizes="192x192" href="<?php echo esc_url( TEMPLATEURI ); ?>images/ba3.png" type="image/svg+xml">
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,800,700' rel='stylesheet' type='text/css'>
 	<style><?php
-	if ( is_admin() ) {
+	if ( ! is_user_logged_in() ) {
 		$css = 'build/css/critical.css';
 	} else {
 		$css = 'style.css';
@@ -26,7 +24,7 @@
 	<header class="header">
 		<div class="header__row content-container row">
 			<div class="large-8 large-push-2 small-12 columns">
-				<h1>
+				<h1 class="header__title">
 					<a href="<?php echo esc_url( home_url() ); ?>" class="header__link">A<span>ndrew</span> H<span>udson</span></a>
 				</h1>
 				<nav role="navigation" class="header__nav nav top-nav clearfix" id="top-nav">
