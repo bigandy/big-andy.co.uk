@@ -5,7 +5,7 @@
 	<meta name="robots" content="all" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<link rel="manifest" href="<?php echo esc_url( TEMPLATEURI ); ?>manifest.json">
-	<link rel="icon" sizes="192x192" href="<?php echo esc_url( TEMPLATEURI ); ?>images/ba3.png" type="image/svg+xml">
+	<link rel="icon" sizes="192x192" href="<?php echo esc_url( TEMPLATEURI ); ?>images/ba.png" type="image/png">
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,800,700' rel='stylesheet' type='text/css'>
 	<style><?php
 	if ( ! is_user_logged_in() ) {

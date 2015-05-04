@@ -6,18 +6,10 @@ wp-config.php
 /content/upgrade/
 /content/uploads/*
 .DS_Store
-.DS_Store
 .project
 npm-debug.log
 *.sass-cache/
 /content/debug.log
-/content/cache/*
-/content/cache/**/*.php
-content/cache/config/master.php
-/content/cache/config/master.php
-
-/content/plugins/picture-plugin
-/content/plugins/github-updater-develop
 
 bower-compenents/*
 bower-components/
@@ -26,16 +18,5 @@ node_modules/
 ## sublime text files
 *.sublime-*
 
-/content/themes/v3/library/stylesheets
-/content/themes/v3/library/stylesheets/*
-/content/themes/v3/library/css/*
-/content/w3tc/pgcache/*
-/content/w3tc/objectcache/*
-/content/themes/twentyten/*
-/content/themes/twentyeleven/*
-/content/themes/twentytwelve/*
-/content/themes/twentythirteen/*
-
-content/cache/config/master.php
-
 /content/themes/v4/bower_components
+*.map

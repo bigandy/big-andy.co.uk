@@ -23,24 +23,24 @@
 				<header class="article__header">
 					<?php
 					if ( has_post_thumbnail() ) {
-						ah_featured_picture_replacement();
+						ah_featured_resp_image_replacement();
 					}
 					?>
 					<h1 class="article__title">
-			    		<?php the_title(); ?>
-			    	</h1>
-			    	<time class="article__time" datetime="<?php the_time( 'c' ); ?>">
+						<?php the_title(); ?>
+					</h1>
+					<time class="article__time" datetime="<?php the_time( 'c' ); ?>">
 						<?php the_time( 'd/m/Y' ); ?>
 					</time>
-		    	</header>
+				</header>
 				<section class="post-content clearfix">
-				    <?php
+					<?php
 					the_content();
 
 					edit_post_link( 'Edit Post', '<p>', '</p>' );
 					?>
-			    </section>
-		    </article>
+				</section>
+			</article>
 		<?php
 		}
 	}
