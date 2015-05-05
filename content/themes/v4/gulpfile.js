@@ -114,13 +114,19 @@ gulp.task('wordpress-lint', function () {
 
 // sass
 gulp.task('sass', function () {
-	gulp.src('./scss/**/*.scss')
+	gulp.src('./scss/style.scss')
 		.pipe(sass({
 			includePaths: ['bower_components/foundation/scss'],
 			errLogToConsole: true,
 			outputStyle: 'compressed'
 		}))
 		.pipe(gulp.dest('.'));
+
+	gulp.src('./scss/font.scss')
+		.pipe(sass({
+			outputStyle: 'compressed'
+		}))
+		.pipe(gulp.dest('./build/css'));
 });
 
 gulp.task('scss-lint', function () {
