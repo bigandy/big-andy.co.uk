@@ -12,7 +12,7 @@ if ( is_front_page() ) {
 <footer>
 	<div class="row footer__row content-container">
 		<div class="columns <?php echo esc_attr( $class ); ?>">
-			<p class="left">&copy; <?php echo esc_attr( date( 'Y' ) ); ?> Andrew JD Hudson</p>
+			<p class="left">&copy; 2006-<?php echo esc_attr( date( 'Y' ) ); ?> Andrew JD Hudson</p>
 			<a href="/style-guide" class="right footer__link link--dark">Style Guide</a>
 		</div>
 	</div>
