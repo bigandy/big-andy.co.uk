@@ -24,7 +24,9 @@
     "underscore": "1.5.2",
     "foundation": "~5.1.1",
     "picturefill": "^2.1.0",
-    "normalize-scss": "~3.0.2",
     "lazyloadxt": "~1.0.5"
+  },
+  "devDependencies": {
+    "foundation": "zurb/bower-foundation#~5.4.7"
   }
 }

@@ -8,17 +8,17 @@
 * Version: 4.0
 */
 
-@import "foundation/functions";
 @import "variables";
-@import "../bower_components/normalize-scss/normalize";
-@import "plugins/foundation/foundation"; // import foundation or parts of foundation
-@import "plugins/flexbox-mixin";
+@import "normalize";
 
+// @import "plugins/foundation/foundation"; // import foundation or parts of foundation
+// @import "plugins/flexbox-mixin";
 
+// Or selectively include components
+@import "foundation/components/grid";
+@import "foundation/components/type";
 
-
-
-// Theme Specific
+// // Theme Specific
 @import "mixins";
 @import "header";
 @import "page";
@@ -27,10 +27,9 @@
 @import "icons";
 @import "front-page";
 
-//
-// Media Queries
-//
-
+// //
+// // Media Queries
+// //
 
 // 30 * 16 = 480px and up
 @media all and (min-width: 30em) {

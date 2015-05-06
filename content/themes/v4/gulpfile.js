@@ -98,7 +98,7 @@ gulp.task('wordpress-lint', function () {
 
 // sass
 gulp.task('sass', function () {
-	gulp.src('./scss/style.scss')
+	gulp.src('./scss/**/*.scss')
 		.pipe(sass({
 			includePaths: ['bower_components/foundation/scss'],
 			errLogToConsole: true,
@@ -124,16 +124,6 @@ gulp.task('scss-lint', function () {
 		}));
 });
 
-gulp.task('livereload', function () {
-	gulp.src([
-		'style.css',
-		'build/**',
-		'*.php',
-		'scss/*.scss'
-	])
-	.pipe(livereload());
-});
-
 // Rerun the task when a file changes
 gulp.task('watch', function () {
 	gulp.watch('js/*', ['js']);
@@ -156,11 +146,12 @@ gulp.task('default', [
 	'js',
 	'sass',
 	'watch',
-	'livereload',
 ]);
+
 gulp.task('production', [
 	'js', 'sass'
 ]);
+
 gulp.task('deploy', [
 	'sass',
 	'uncss',
@@ -169,4 +160,4 @@ gulp.task('deploy', [
 	'critical-css'
 ]);
 
-gulp.task('lint', ['scss-lint', 'js-lint', 'wordpress-lint'])
+gulp.task('lint', ['scss-lint', 'js-lint', 'wordpress-lint']);
