@@ -15,9 +15,7 @@ var gulp = require('gulp'),
 	penthouse = require('penthouse'),
 	Promise = require('bluebird'),
 	penthouseAsync = Promise.promisify(penthouse),
-	svgSprite = require('gulp-svg-sprites'),
 	phpcs = require('gulp-phpcs'),
-	svgmin = require('gulp-svgmin'),
 	critical = require('critical'),
 	pages = [
 		'http://big-andy.dev/contact/',
@@ -30,20 +28,6 @@ var gulp = require('gulp'),
 		'http://big-andy.dev/https/',
 		'http://big-andy.dev/breaking-borders-3/'
 	];
-
-gulp.task('sprites', function () {
-	return gulp.src([
-			'images/svg/*.svg',
-		])
-		.pipe(svgSprite({
-			mode: 'symbols',
-			preview: false
-		}))
-		.pipe(svgmin([{
-			cleanupIDs: false
-		}]))
-		.pipe(gulp.dest('build'));
-});
 
 gulp.task('critical-css', function() {
 	penthouseAsync({
@@ -173,7 +157,6 @@ gulp.task('default', [
 	'sass',
 	'watch',
 	'livereload',
-	'sprites'
 ]);
 gulp.task('production', [
 	'js', 'sass'
