@@ -88,7 +88,7 @@ function ah_get_output_resp_image( $id, $class = '', $singular = false, $lazyloa
 
 
 function ah_output_resp_img( $id, $class = '' ) {
-	echo ah_get_output_resp_image( $id, $class );
+	echo balanceTags( ah_get_output_resp_image( $id, $class ) );
 }
 
 function ah_featured_resp_image_replacement() {
