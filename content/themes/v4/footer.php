@@ -25,9 +25,7 @@ if ( ! is_user_logged_in() ) {
 	<?php
 }
 ?>
-<script>
-	<?php include_once( 'build/js/font-loader.js' ); ?>
-</script>
+<script><?php include_once( 'build/js/font-loader.js' ); ?></script>
 <?php wp_footer(); ?>
 </body>
 </html>
