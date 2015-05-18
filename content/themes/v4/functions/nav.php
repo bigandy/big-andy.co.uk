@@ -5,5 +5,4 @@
  */
 register_nav_menus( array(
 	'primary' => 'Primary Navigation',
-	'footer' => 'Footer Navigation',
 ));
