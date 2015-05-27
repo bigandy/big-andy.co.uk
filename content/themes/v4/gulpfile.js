@@ -128,7 +128,7 @@ gulp.task('scss-lint', function () {
 gulp.task('watch', function () {
 	gulp.watch('js/*', ['js']);
 	gulp.watch('scss/**/*', ['sass']);
-	gulp.watch('images/svg/*.svg', ['sprites']);
+	// gulp.watch('images/svg/*.svg', ['sprites']);
 
 	var server = livereload();
 	gulp.watch([
