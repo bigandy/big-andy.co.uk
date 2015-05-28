@@ -117,7 +117,7 @@ gulp.task('scss-lint', function () {
 	gulp.src([
 			'scss/**/*.scss',
 			'!scss/style.scss', // ignore this file so can include commenting in it.
-			'!scss/plugins/**/*.scss'
+			'!scss/font.scss'
 		])
 		.pipe(scsslint({
 			'config': '.scss-lint.yml',
