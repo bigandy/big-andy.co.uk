@@ -44,6 +44,9 @@ gulp.task('uncss', function() {
 	return gulp.src('./style.css')
 		.pipe(uncss({
 			html: pages,
+			ignore: [
+				'[data-visited]'
+			]
 		}))
 		.pipe(minifyCSS({
 				keepSpecialComments: 0

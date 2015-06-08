@@ -1,9 +1,9 @@
 /* global localStorage, window, document */
 
 // http://joelcalifa.com/blog/revisiting-visited
-// localStorage.clear();
 localStorage.setItem('visited-' + window.location.pathname, true);
-var links = document.getElementsByTagName('a'),
+
+var links = document.getElementsByClassName('article__link'),
 	linksLength = links.length,
 	i = linksLength;
 

@@ -14,9 +14,9 @@
 				}
 			}
 			?>
-	    </section>
-	    <section class="home__articles">
-    	    <?php
+		</section>
+		<section class="home__articles">
+			<?php
 			// hidden post
 			$hide_id = 31;
 
@@ -34,7 +34,7 @@
 					<article role="article" class="article--home">
 						<header class="article__header article__header--front-page">
 							<h2 class="article__title">
-								<a href="<?php the_permalink(); ?>">
+								<a href="<?php the_permalink(); ?>" class="article__link">
 									<?php the_title(); ?>
 								</a>
 							</h2>
@@ -61,7 +61,7 @@
 
 			wp_reset_postdata();
 			?>
-	    </section>
+		</section>
 	</div>
 
 </main>

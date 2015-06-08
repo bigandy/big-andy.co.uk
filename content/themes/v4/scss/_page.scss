@@ -21,20 +21,15 @@ h3 {
 }
 
 .content-container {
-
-
-
 	.columns + .columns:last-child {
 		float: left;
 	}
 }
 
-main {
-	[data-visited] {
-		text-decoration: line-through;
-	}
-
+[data-visited] {
+	text-decoration: line-through;
 }
+
 
 // Lists
 %list--plain {
