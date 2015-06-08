@@ -21,9 +21,19 @@ h3 {
 }
 
 .content-container {
+
+
+
 	.columns + .columns:last-child {
 		float: left;
 	}
+}
+
+main {
+	[data-visited] {
+		text-decoration: line-through;
+	}
+
 }
 
 // Lists
@@ -147,3 +157,4 @@ picture > img {
 	@extend %cf;
 	padding: rows(1);
 }
+
