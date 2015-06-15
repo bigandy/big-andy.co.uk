@@ -45,7 +45,8 @@ gulp.task('uncss', function() {
 		.pipe(uncss({
 			html: pages,
 			ignore: [
-				'[data-visited]'
+				'[data-visited]',
+				'[data-visited] .post-content'
 			]
 		}))
 		.pipe(minifyCSS({
