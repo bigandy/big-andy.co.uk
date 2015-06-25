@@ -45,3 +45,8 @@
 @media all and (min-width: 74em) {
 	@import "media-queries/74em";
 }
+
+// 74 * 16 = 1184 and up
+@media print {
+	@import "media-queries/print";
+}
