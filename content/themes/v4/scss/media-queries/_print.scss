@@ -1,8 +1,8 @@
 * {
-	background: transparent !important;
-	color: $black !important; // Black prints faster: h5bp.com/s
-	box-shadow: none !important;
-	text-shadow: none !important;
+	background: transparent;
+	color: $black; // Black prints faster: h5bp.com/s
+	box-shadow: none;
+	text-shadow: none;
 }
 
 a,
@@ -26,7 +26,7 @@ img {
 }
 
 img {
-	max-width: 100% !important;
+	max-width: 100%;
 }
 
 @page {
@@ -52,4 +52,12 @@ h3 {
 
 .header__link {
 	text-decoration: none;
+}
+
+.header__title {
+	letter-spacing: -4px;
+
+	span {
+		display: inline-block;
+	}
 }
