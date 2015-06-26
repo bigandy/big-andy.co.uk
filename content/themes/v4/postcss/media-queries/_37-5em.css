@@ -1,0 +1,29 @@
+.header__row {
+	padding: 0;
+
+
+}
+
+.header__title {
+	font-size: 3.75rem;
+	margin-bottom: 1.5rem;
+	float: left;
+	margin-top: 1rem;
+	letter-spacing: -10px;
+
+	span {
+		display: none;
+	}
+}
+
+
+.header__nav {
+	float: right;
+	margin-top: 3rem;
+}
+
+h2 {
+	font-size: 2rem;
+}
+
+

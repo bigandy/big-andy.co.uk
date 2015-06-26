@@ -27,7 +27,11 @@ var gulp = require('gulp'),
 		'http://big-andy.dev/style-guide',
 		'http://big-andy.dev/https/',
 		'http://big-andy.dev/breaking-borders-3/'
-	];
+	],
+	postcss = require('gulp-postcss'),
+	autoprefixer = require('autoprefixer-core'),
+	mqpacker = require('css-mqpacker'),
+	csswring = require('csswring');
 
 gulp.task('critical-css', function() {
 	penthouseAsync({
@@ -54,6 +58,17 @@ gulp.task('uncss', function() {
 			}))
 		.pipe(autoprefix('last 2 versions'))
 		.pipe(gulp.dest('.'));
+});
+
+gulp.task('css', function () {
+    var processors = [
+        autoprefixer({browsers: ['last 1 version']}),
+        mqpacker,
+        csswring
+    ];
+    return gulp.src('./postcss/*.css')
+        .pipe(postcss(processors))
+        .pipe(gulp.dest('./build/postcss'));
 });
 
 // concat and minify the js

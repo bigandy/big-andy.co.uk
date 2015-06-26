@@ -1,0 +1,12 @@
+.article__time,
+.article__title {
+	display: inline-block;
+}
+
+.wp-pagenavi {
+	a,
+	span {
+		margin-left: 0;
+		margin-right: 0;
+	}
+}

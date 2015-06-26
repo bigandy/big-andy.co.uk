@@ -1,0 +1,23 @@
+.icon {
+	@include wh(30px);
+	display: inline-block;
+	fill: $orange;
+
+	@include hocus {
+		fill: $blue;
+	}
+}
+
+.icon--shortcode {
+	@include wh(100px);
+	fill: $body-color;
+}
+
+.icon--small {
+	@include wh(50px);
+}
+
+.icon--large {
+	@include wh(150px);
+}
+

@@ -1,0 +1,8 @@
+
+.header__title {
+	letter-spacing: -3px;
+
+	span {
+		display: inline;
+	}
+}

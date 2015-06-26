@@ -1,0 +1,176 @@
+h1 {
+	font-size: 2rem;
+}
+
+h2 {
+	font-size: 1.5em;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -1px;
+}
+
+.page__title {
+	background: $black;
+	color: $white;
+	padding: 1rem 0;
+	text-align: center;
+	margin: 0;
+}
+
+.content-container {
+	.columns + .columns:last-child {
+		float: left;
+	}
+}
+
+[data-visited] {
+	background-color: rgba($yellow, .15);
+	position: relative;
+	margin-top: 0;
+	margin-bottom: 0;
+
+	&:after {
+		content: "Viewed";
+		position: absolute;
+		top: 1.75em;
+		right: 1em;
+		background-color: $red;
+		padding: .75em;
+		color: $white;
+		border-radius: .75em;
+		font-size: 12px;
+		font-style: italic;
+	}
+
+
+	.post-content {
+		display: none;
+	}
+}
+
+
+// Lists
+%list--plain {
+	margin: 0;
+	list-style: none;
+}
+
+
+.list--inline {
+	@extend %list--plain;
+
+	li {
+		float: left;
+	}
+}
+
+pre {
+	background: $light-gray;
+	padding: .5rem;
+	margin: .25rem 0;
+}
+
+
+// Links
+a,
+.current {
+	border-bottom: 3px solid transparent;
+	margin-bottom: -3px;
+}
+
+
+a {
+	border-bottom: 3px solid transparent;
+	margin-bottom: -3px;
+
+	&:hover,
+	&:focus {
+		border-bottom-color: $primary-color;
+	}
+}
+
+.current {
+	border-bottom-color: $black;
+}
+
+.current-menu-item,
+.current_page_item,
+.current_page_parent {
+	> a {
+		border-bottom: 3px solid $primary-color;
+	}
+}
+
+
+
+.link--dark {
+	color: $body-color;
+}
+
+.header__link {
+	border-bottom: 0;
+}
+
+
+article {
+	&:nth-child(odd) {
+		clear: left;
+	}
+}
+
+// vcard styles
+.vcard {
+	border: 0;
+	padding: 0;
+	margin: 0;
+	display: block;
+
+	.fn {
+		font-size: 2.75em;
+	}
+
+	.adr {
+		margin-bottom: .3rem;
+	}
+
+	.email,
+	.tel {
+		font-size: 1rem;
+		line-height: 1.6;
+		margin-bottom: 1.25rem;
+	}
+
+	a {
+		margin-bottom: 0;
+		border-bottom: 0;
+	}
+}
+
+// Picture Styles
+picture,
+picture > img {
+	width: 100%;
+	max-width: 100%;
+}
+
+.wp-pagenavi {
+	padding-top: rows(1);
+	padding-bottom: rows(3);
+	text-align: center;
+
+	a,
+	span {
+		padding: 1em;
+		margin-left: 1em;
+		margin-right: 1em;
+	}
+}
+
+.links {
+	@extend %cf;
+	padding: rows(1);
+}
+
