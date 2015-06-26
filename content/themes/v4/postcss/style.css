@@ -8,45 +8,45 @@
 * Version: 4.0
 */
 
-@import "variables";
-@import "normalize";
+/*@import "_variables.css";*/
+/*@import "../bower_components/normalize.css/normalize.css";*/
 
-// Or selectively include components
-@import "foundation/components/grid";
-@import "foundation/components/type";
+/* Or selectively include components*/
+/*@import "foundation/components/grid";*/
+/*@import "foundation/components/type";*/
 
-// Theme Specific
-@import "mixins";
-@import "header";
-@import "page";
-@import "styleguide";
-@import "footer";
-@import "icons";
-@import "front-page";
+/* Theme Specific*/
+@import "_mixins.css";
+@import "_header.css";
+@import "_page.css";
+@import "_styleguide.css";
+@import "_footer.css";
+@import "_icons.css";
+@import "_front-page.css";
 
-// Media Queries
+/* Media Queries */
 
-// 30 * 16 = 480px and up
+/* 30 * 16 = 480px and up*/
 @media all and (min-width: 30em) {
-	@import "media-queries/30em";
+	@import "media-queries/_30em.css";
 }
 
-// 37.5 * 16 = 600 and up
+/* 37.5 * 16 = 600 and up*/
 @media all and (min-width: 37.5em) {
-	@import "media-queries/37-5em";
+	@import "media-queries/_37-5em.css";
 }
 
-// 64 * 16 = 1024 and up
+/* 64 * 16 = 1024 and up*/
 @media all and (min-width: 64em) {
-	@import "media-queries/64em";
+	@import "media-queries/_64em.css";
 }
 
-// 74 * 16 = 1184 and up
+/* 74 * 16 = 1184 and up*/
 @media all and (min-width: 74em) {
-	@import "media-queries/74em";
+	@import "media-queries/_74em.css";
 }
 
-// 74 * 16 = 1184 and up
+/* 74 * 16 = 1184 and up*/
 @media print {
-	@import "media-queries/print";
+	@import "media-queries/_print.css";
 }

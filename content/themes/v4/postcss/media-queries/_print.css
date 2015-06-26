@@ -1,6 +1,6 @@
 * {
 	background: transparent;
-	color: $black; // Black prints faster: h5bp.com/s
+	color: $black;
 	box-shadow: none;
 	text-shadow: none;
 }
@@ -17,7 +17,7 @@ blockquote {
 }
 
 thead {
-	display: table-header-group; // h5bp.com/t
+	display: table-header-group;
 }
 
 tr,

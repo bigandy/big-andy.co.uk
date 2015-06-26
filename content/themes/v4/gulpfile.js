@@ -32,7 +32,15 @@ var gulp = require('gulp'),
 	autoprefixer = require('autoprefixer-core'),
 	mqpacker = require('css-mqpacker'),
 	csswring = require('csswring'),
-	nestedcss = require('postcss-nested');
+	mixins = require('postcss-mixins'),
+	nestedcss = require('postcss-nested'),
+	postcssImport = require('postcss-import'),
+	vars = require('postcss-simple-vars'),
+	colours = require('./postcss/colours'),
+	fs = require('fs'),
+	inputCss = fs.readFileSync('postcss/style.css', 'utf8'),
+	postcssRoot = require('postcss'),
+	cssnext = require('gulp-cssnext');
 
 gulp.task('critical-css', function() {
 	penthouseAsync({
@@ -64,13 +72,22 @@ gulp.task('uncss', function() {
 gulp.task('css', function () {
 	var processors = [
 		autoprefixer({browsers: ['last 1 version']}),
+		mixins,
 		mqpacker,
 		csswring,
-		nestedcss
+		nestedcss,
+		vars({ variables: colours }),
+		postcssImport,
+		cssnext
 	];
-	return gulp.src('./postcss/*.css')
+
+	return gulp
+		.src('postcss/style.css')
 		.pipe(postcss(processors))
-		.pipe(gulp.dest('./build/postcss'));
+		.on('error', function (error) {
+		  console.log(error)
+		})
+		.pipe(gulp.dest('build/postcss'))
 });
 
 // concat and minify the js
@@ -120,12 +137,24 @@ gulp.task('wordpress-lint', function () {
 
 // sass
 gulp.task('sass', function () {
+	var processors = [
+		autoprefixer({browsers: ['last 1 version']}),
+	];
+
 	gulp.src('./scss/**/*.scss')
 		.pipe(sass({
 			includePaths: ['bower_components/foundation/scss'],
-			errLogToConsole: true,
-			outputStyle: 'compressed'
+			// errLogToConsole: true,
+			// outputStyle: 'compressed'
 		}))
+
+		.pipe(cssnext({
+			browsers: ('last 1 version'),
+			compress: true,
+			sourcemap: true
+		}))
+
+		.pipe(postcss(processors))
 		.pipe(gulp.dest('.'));
 
 	gulp.src('./scss/font.scss')
