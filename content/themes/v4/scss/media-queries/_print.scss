@@ -1,0 +1,63 @@
+* {
+	background: transparent;
+	color: $black; // Black prints faster: h5bp.com/s
+	box-shadow: none;
+	text-shadow: none;
+}
+
+a,
+a:visited {
+	text-decoration: underline;
+}
+
+pre,
+blockquote {
+	border: 1px solid $aluminum;
+	page-break-inside: avoid;
+}
+
+thead {
+	display: table-header-group; // h5bp.com/t
+}
+
+tr,
+img {
+	page-break-inside: avoid;
+}
+
+img {
+	max-width: 100%;
+}
+
+@page {
+	margin: .5cm;
+}
+
+p,
+h2,
+h3 {
+	orphans: 3;
+	widows: 3;
+}
+
+h2,
+h3 {
+	page-break-after: avoid;
+}
+
+.header__nav,
+.footer__link {
+	display: none;
+}
+
+.header__link {
+	text-decoration: none;
+}
+
+.header__title {
+	letter-spacing: -4px;
+
+	span {
+		display: inline-block;
+	}
+}

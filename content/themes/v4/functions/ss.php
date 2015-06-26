@@ -8,6 +8,12 @@ function ah_enqueue_scripts() {
 			wp_enqueue_script( 'picturefill' );
 		}
 	}
+
+	if ( is_user_logged_in() ) {
+		wp_register_script( 'main', $build . 'script.min.js', false, null, true );
+		wp_enqueue_script( 'main' );
+	}
+
 }
 add_action( 'wp_enqueue_scripts', 'ah_enqueue_scripts' );
 

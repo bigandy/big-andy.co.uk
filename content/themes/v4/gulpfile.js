@@ -44,6 +44,10 @@ gulp.task('uncss', function() {
 	return gulp.src('./style.css')
 		.pipe(uncss({
 			html: pages,
+			ignore: [
+				'[data-visited]',
+				'[data-visited] .post-content'
+			]
 		}))
 		.pipe(minifyCSS({
 				keepSpecialComments: 0
@@ -57,6 +61,7 @@ gulp.task('js', ['js-lint'], function () {
 	gulp.src([
 			// 'js/google-analytics-caller.js',
 			'js/lazy-load-css.js',
+			'js/main.js',
 		])
 		.pipe(gutil.env.type === 'production' ? stripDebug() : gutil.noop())
 		.pipe(uglify())
