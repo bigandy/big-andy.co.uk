@@ -29,7 +29,8 @@
     "gulp-scss-lint": "^0.1.4",
     "gulp-strip-debug": "~0.1.1",
     "gulp-uncss": "^0.4.5",
-    "jshint-stylish": "~0.1.5"
+    "jshint-stylish": "~0.1.5",
+    "postcss-nested": "^0.3.2"
   },
   "author": "Andrew JD Hudson",
   "twitter": "@bigandy",

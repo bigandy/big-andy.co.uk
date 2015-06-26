@@ -1,15 +1,15 @@
-// Mixin for Generating relative font-sizes:
+/* Mixin for Generating relative font-sizes:*/
 @mixin fs($fontSize, $base: 16) {
 	font-size: $fontSize / $base * 1em;
 }
 
-// Useage :
+/* Useage :
 // If you want element to be 13px and parent is 16px :
 // +fs(13)
 // If you want element to be 22px and parent is 32px :
-// +fs(22,32)
+// +fs(22,32) */
 
-// Mixin for line-height:
+/* Mixin for line-height: */
 @mixin line($lineHeight, $base) {
 	line-height: $lineHeight / $base * 1;
 }

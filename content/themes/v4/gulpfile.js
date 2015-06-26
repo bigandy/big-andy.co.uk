@@ -31,7 +31,8 @@ var gulp = require('gulp'),
 	postcss = require('gulp-postcss'),
 	autoprefixer = require('autoprefixer-core'),
 	mqpacker = require('css-mqpacker'),
-	csswring = require('csswring');
+	csswring = require('csswring'),
+	nestedcss = require('postcss-nested');
 
 gulp.task('critical-css', function() {
 	penthouseAsync({
@@ -61,14 +62,15 @@ gulp.task('uncss', function() {
 });
 
 gulp.task('css', function () {
-    var processors = [
-        autoprefixer({browsers: ['last 1 version']}),
-        mqpacker,
-        csswring
-    ];
-    return gulp.src('./postcss/*.css')
-        .pipe(postcss(processors))
-        .pipe(gulp.dest('./build/postcss'));
+	var processors = [
+		autoprefixer({browsers: ['last 1 version']}),
+		mqpacker,
+		csswring,
+		nestedcss
+	];
+	return gulp.src('./postcss/*.css')
+		.pipe(postcss(processors))
+		.pipe(gulp.dest('./build/postcss'));
 });
 
 // concat and minify the js
