@@ -18,16 +18,16 @@
     "tests"
   ],
   "dependencies": {
-    "jquery": "~2.1.1",
-    "requirejs": "2.1.9",
-    "backbone": "1.1.0",
-    "underscore": "1.5.2",
+    "jquery": "~2.1.4",
+    "requirejs": "2.1.18",
+    "backbone": "1.2.1",
+    "underscore": "1.8.3",
     "foundation": "~5.1.1",
     "picturefill": "~2.3.1",
     "lazyloadxt": "~1.0.5",
     "normalize.css": "~3.0.3"
   },
   "devDependencies": {
-    "foundation": "zurb/bower-foundation#~5.4.7"
+    "foundation": "zurb/bower-foundation#~5.5.2"
   }
 }
