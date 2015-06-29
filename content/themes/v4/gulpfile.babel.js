@@ -1,23 +1,25 @@
-/* global require */
-var gulp = require('gulp'),
-	gutil = require('gulp-util'),
-	uglify = require('gulp-uglify'),
-	concat = require('gulp-concat'),
-	jshint = require('gulp-jshint'),
-	stripDebug = require('gulp-strip-debug'),
-	sass = require('gulp-sass'),
-	scsslint = require('gulp-scss-lint'),
-	autoprefix = require('gulp-autoprefixer'),
-	minifyCSS = require('gulp-minify-css'),
-	livereload = require('gulp-livereload'),
-	stylish = require('jshint-stylish'),
-	uncss = require('gulp-uncss'),
-	penthouse = require('penthouse'),
-	Promise = require('bluebird'),
-	penthouseAsync = Promise.promisify(penthouse),
-	phpcs = require('gulp-phpcs'),
-	critical = require('critical'),
-	pages = [
+import gulp from 'gulp';
+import gutil from 'gulp-util';
+import uglify from 'gulp-uglify';
+import concat from 'gulp-concat';
+import jshint from 'gulp-jshint';
+import sass from 'gulp-sass';
+import scsslint from 'gulp-scss-lint';
+import autoprefix from 'gulp-autoprefixer';
+import minifyCSS from 'gulp-minify-css';
+import livereload from 'gulp-livereload';
+import stylish from 'jshint-stylish';
+import uncss from 'gulp-uncss';
+import penthouse from 'penthouse';
+import Promise from 'bluebird';
+import phpcs from 'gulp-phpcs';
+import critical from 'critical';
+import autoprefixer from 'autoprefixer-core';
+import cssnext from 'gulp-cssnext';
+import postcss from 'gulp-postcss';
+import nano from 'gulp-cssnano';
+
+var pages = [
 		'http://big-andy.dev/contact/',
 		'http://big-andy.dev/cv/',
 		'http://big-andy.dev/about/',
@@ -28,12 +30,15 @@ var gulp = require('gulp'),
 		'http://big-andy.dev/https/',
 		'http://big-andy.dev/breaking-borders-3/'
 	],
-	postcss = require('gulp-postcss'),
-	autoprefixer = require('autoprefixer-core'),
-	mqpacker = require('css-mqpacker'),
-	csswring = require('csswring');
+	penthouseAsync = Promise.promisify(penthouse),
+	browsers = ['last 1 version'],
+	processors = [
+		autoprefixer({
+			browsers: browsers
+		})
+	];;
 
-gulp.task('critical-css', function() {
+gulp.task('critical-css', () => {
 	penthouseAsync({
 		url: pages,
 		css: './style.css',
@@ -44,41 +49,66 @@ gulp.task('critical-css', function() {
 	});
 });
 
-gulp.task('uncss', function() {
+gulp.task('uncss', () => {
 	return gulp.src('./style.css')
 		.pipe(uncss({
 			html: pages,
 			ignore: [
 				'[data-visited]',
-				'[data-visited] .post-content'
+				'[data-visited] .post-content',
 			]
 		}))
+
+		.pipe(postcss(processors))
 		.pipe(minifyCSS({
-				keepSpecialComments: 0
-			}))
-		.pipe(autoprefix('last 2 versions'))
+			keepSpecialComments: 0
+		}))
+
+		.pipe(nano())
 		.pipe(gulp.dest('.'));
 });
 
-gulp.task('css', function () {
-    var processors = [
-        autoprefixer({browsers: ['last 1 version']}),
-        mqpacker,
-        csswring
-    ];
-    return gulp.src('./postcss/*.css')
-        .pipe(postcss(processors))
-        .pipe(gulp.dest('./build/postcss'));
+// sass
+gulp.task('sass', () => {
+	gulp.src('./scss/**/*.scss')
+		.pipe(sass({
+			includePaths: ['bower_components/foundation/scss'],
+		}))
+
+		.pipe(postcss(processors))
+
+		.pipe(cssnext({
+			browsers: browsers,
+			compress: false,
+			sourcemap: false
+		}))
+
+		.pipe(gulp.dest('.'));
+
+	gulp.src('./scss/font.scss')
+		.pipe(sass({
+			outputStyle: 'compressed'
+		}))
+		.pipe(gulp.dest('./build/css'));
+});
+
+gulp.task('scss-lint', () => {
+	gulp.src([
+			'scss/**/*.scss',
+			'!scss/style.scss', // ignore this file so can include commenting in it.
+			'!scss/font.scss'
+		])
+		.pipe(scsslint({
+			'config': '.scss-lint.yml',
+		}));
 });
 
 // concat and minify the js
-gulp.task('js', ['js-lint'], function () {
+gulp.task('js', ['js-lint'], () => {
 	gulp.src([
-			// 'js/google-analytics-caller.js',
 			'js/lazy-load-css.js',
 			'js/main.js',
 		])
-		.pipe(gutil.env.type === 'production' ? stripDebug() : gutil.noop())
 		.pipe(uglify())
 		.pipe(concat('script.min.js'))
 		.pipe(gulp.dest('build/js'));
@@ -100,7 +130,7 @@ gulp.task('js', ['js-lint'], function () {
 
 });
 
-gulp.task('js-lint', function() {
+gulp.task('js-lint', () => {
 	gulp.src([
 			'js/main.js'
 		])
@@ -108,7 +138,7 @@ gulp.task('js-lint', function() {
 		.pipe(jshint.reporter(stylish));
 });
 
-gulp.task('wordpress-lint', function () {
+gulp.task('wordpress-lint', () => {
 	return gulp.src(['./**/*.php', '!node_modules/**/*.php'])
 		.pipe(phpcs({
 			standard: 'code.ruleset.xml'
@@ -116,36 +146,10 @@ gulp.task('wordpress-lint', function () {
 		.pipe(phpcs.reporter('log'));
 });
 
-// sass
-gulp.task('sass', function () {
-	gulp.src('./scss/**/*.scss')
-		.pipe(sass({
-			includePaths: ['bower_components/foundation/scss'],
-			errLogToConsole: true,
-			outputStyle: 'compressed'
-		}))
-		.pipe(gulp.dest('.'));
 
-	gulp.src('./scss/font.scss')
-		.pipe(sass({
-			outputStyle: 'compressed'
-		}))
-		.pipe(gulp.dest('./build/css'));
-});
-
-gulp.task('scss-lint', function () {
-	gulp.src([
-			'scss/**/*.scss',
-			'!scss/style.scss', // ignore this file so can include commenting in it.
-			'!scss/font.scss'
-		])
-		.pipe(scsslint({
-			'config': '.scss-lint.yml',
-		}));
-});
 
 // Rerun the task when a file changes
-gulp.task('watch', function () {
+gulp.task('watch', () => {
 	gulp.watch('js/*', ['js']);
 	gulp.watch('scss/**/*', ['sass']);
 	// gulp.watch('images/svg/*.svg', ['sprites']);
