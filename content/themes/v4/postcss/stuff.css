@@ -1,0 +1,55 @@
+.row{width:100%;margin:0 auto;max-width:90rem}
+
+
+.row:after,.row:before{content:" ";display:table}
+
+.row:after{clear:both}
+
+.row .row{width:auto;margin:0 -.9375rem;max-width:none}
+.row .row:after,.row .row:before{content:" ";display:table}
+.row .row:after{clear:both}
+.columns{padding-left:.9375rem;padding-right:.9375rem;width:100%;float:left}
+[class*=column]+[class*=column]:last-child{float:right}
+@media only screen{.columns{position:relative;padding-left:.9375rem;padding-right:.9375rem;float:left}
+.small-12{width:100%}
+}
+
+@media only screen and (min-width:40.063em){
+	.columns{position:relative;padding-left:.9375rem;padding-right:.9375rem;float:left}
+}
+
+@media only screen and (min-width:55em){
+	.large-push-2{position:relative;left:16.66667%;right:auto}
+	.large-push-3{position:relative;left:25%;right:auto}
+	.columns{position:relative;padding-left:.9375rem;padding-right:.9375rem;float:left}
+	.large-6{width:50%}
+	.large-8{width:66.66667%}
+	.large-12{width:100%}
+}
+
+body,html{height:100%}
+*,:after,:before{-moz-box-sizing:border-box;box-sizing:border-box}
+
+
+body{background:#fff;color:#222;padding:0;margin:0;font-family:Open Sans,serif;font-weight:400;font-style:normal;line-height:1.5;position:relative;cursor:auto}
+a:hover{cursor:pointer}
+img{max-width:100%;height:auto;-ms-interpolation-mode:bicubic}
+.left{float:left!important}
+.right{float:right!important}
+.clearfix:after,.clearfix:before{content:" ";display:table}
+.clearfix:after{clear:both}
+img{display:inline-block;vertical-align:middle}
+div,h1,h2,h3,h4,li,ol,p,ul{margin:0;padding:0}
+a{color:#c1272d;text-decoration:none;line-height:inherit}
+a:focus,a:hover{color:#a62227}
+p{font-family:inherit;font-weight:400;font-size:1rem;margin-bottom:1.25rem;text-rendering:optimizeLegibility;line-height:1.6}
+h1,h2,h3,h4{font-family:Open Sans,serif;font-weight:800;font-style:normal;color:#222;text-rendering:optimizeLegibility;margin-top:.2rem;margin-bottom:.5rem;line-height:1.4}
+h3{font-size:1.375rem}
+h4{font-size:1.125rem}
+em{font-style:italic}
+em,strong{line-height:inherit}
+strong{font-weight:700}
+ol,ul{font-size:1rem;line-height:1.6;margin-bottom:1.25rem;list-style-position:outside;font-family:inherit}
+ul{margin-left:1.1rem}
+ol{margin-left:1.4rem}
+acronym{text-transform:uppercase;font-size:90%;color:#222;cursor:help}

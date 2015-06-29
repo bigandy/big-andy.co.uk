@@ -5,7 +5,7 @@
 
 .article--home {
 	border-bottom: 1px dotted $light-gray;
-	margin: rows(1) 0;
+	margin: 1rows 0;
 	padding-left: 1em;
 	padding-right: 1em;
 	padding-top: 1em;

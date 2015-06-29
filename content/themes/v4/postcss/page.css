@@ -27,7 +27,7 @@ h3 {
 }
 
 [data-visited] {
-	background-color: rgba($yellow, .15);
+	background-color: color($yellow a(15%));
 	position: relative;
 	margin-top: 0;
 	margin-bottom: 0;
@@ -45,22 +45,14 @@ h3 {
 		font-style: italic;
 	}
 
-
 	.post-content {
 		display: none;
 	}
 }
 
 
-// Lists
-%list--plain {
-	margin: 0;
-	list-style: none;
-}
-
-
 .list--inline {
-	@extend %list--plain;
+	@mixin list--plain;
 
 	li {
 		float: left;
@@ -104,8 +96,6 @@ a {
 	}
 }
 
-
-
 .link--dark {
 	color: $body-color;
 }
@@ -113,7 +103,6 @@ a {
 .header__link {
 	border-bottom: 0;
 }
-
 
 article {
 	&:nth-child(odd) {
@@ -149,7 +138,7 @@ article {
 	}
 }
 
-// Picture Styles
+/*/Picture Styles*/
 picture,
 picture > img {
 	width: 100%;
@@ -157,8 +146,8 @@ picture > img {
 }
 
 .wp-pagenavi {
-	padding-top: rows(1);
-	padding-bottom: rows(3);
+	padding-top: 1rows;
+	padding-bottom: 3rows;
 	text-align: center;
 
 	a,
@@ -170,7 +159,7 @@ picture > img {
 }
 
 .links {
-	@extend %cf;
-	padding: rows(1);
+	@mixin cf;
+	padding: 1rows;
 }
 

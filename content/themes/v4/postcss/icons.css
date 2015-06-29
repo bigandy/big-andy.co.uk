@@ -1,23 +1,22 @@
 .icon {
-	@include wh(30px);
+	@mixin wh 30px;
 	display: inline-block;
 	fill: $orange;
 
-	@include hocus {
+	&:hover {
 		fill: $blue;
 	}
 }
 
 .icon--shortcode {
-	@include wh(100px);
+	@mixin wh 100px;
 	fill: $body-color;
 }
 
 .icon--small {
-	@include wh(50px);
+	@mixin wh 50px;
 }
 
 .icon--large {
-	@include wh(150px);
+	@mixin wh 150px;
 }
-

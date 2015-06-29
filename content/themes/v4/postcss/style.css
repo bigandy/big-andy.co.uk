@@ -5,48 +5,44 @@
 * Author: Andrew JD Hudson
 * Author URI: http://www.big-andy.co.uk
 * Tags: flexble-width, translation-ready, microformats, rtl-language-support
-* Version: 4.0
+* Version: 5.0
 */
 
-/*@import "_variables.css";*/
-/*@import "../bower_components/normalize.css/normalize.css";*/
-
-/* Or selectively include components*/
-/*@import "foundation/components/grid";*/
-/*@import "foundation/components/type";*/
+@import "../bower_components/normalize.css/normalize.css";
 
 /* Theme Specific*/
-@import "_mixins.css";
-@import "_header.css";
-@import "_page.css";
-@import "_styleguide.css";
-@import "_footer.css";
-@import "_icons.css";
-@import "_front-page.css";
+@import "mixins.css";
+@import "stuff.css";
+@import "header.css";
+@import "page.css";
+@import "styleguide.css";
+@import "footer.css";
+@import "icons.css";
+@import "front-page.css";
 
 /* Media Queries */
 
 /* 30 * 16 = 480px and up*/
 @media all and (min-width: 30em) {
-	@import "media-queries/_30em.css";
+	@import "media-queries/30em.css";
 }
 
 /* 37.5 * 16 = 600 and up*/
 @media all and (min-width: 37.5em) {
-	@import "media-queries/_37-5em.css";
+	@import "media-queries/37-5em.css";
 }
 
 /* 64 * 16 = 1024 and up*/
 @media all and (min-width: 64em) {
-	@import "media-queries/_64em.css";
+	@import "media-queries/64em.css";
 }
 
 /* 74 * 16 = 1184 and up*/
 @media all and (min-width: 74em) {
-	@import "media-queries/_74em.css";
+	@import "media-queries/74em.css";
 }
 
 /* 74 * 16 = 1184 and up*/
 @media print {
-	@import "media-queries/_print.css";
+	@import "media-queries/print.css";
 }

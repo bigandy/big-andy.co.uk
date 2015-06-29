@@ -3,10 +3,10 @@ import gutil from 'gulp-util';
 import uglify from 'gulp-uglify';
 import concat from 'gulp-concat';
 import jshint from 'gulp-jshint';
+
 import sass from 'gulp-sass';
+
 import scsslint from 'gulp-scss-lint';
-import autoprefix from 'gulp-autoprefixer';
-import minifyCSS from 'gulp-minify-css';
 import livereload from 'gulp-livereload';
 import stylish from 'jshint-stylish';
 import uncss from 'gulp-uncss';
@@ -14,10 +14,21 @@ import penthouse from 'penthouse';
 import Promise from 'bluebird';
 import phpcs from 'gulp-phpcs';
 import critical from 'critical';
-import autoprefixer from 'autoprefixer-core';
-import cssnext from 'gulp-cssnext';
-import postcss from 'gulp-postcss';
 import nano from 'gulp-cssnano';
+
+import postcss from 'gulp-postcss';
+import autoprefixer from 'autoprefixer-core';
+import mixins from 'postcss-mixins';
+import nestedcss from 'postcss-nested';
+import postcssImport from 'postcss-import';
+import vars from 'postcss-simple-vars';
+import colours from './postcss/colours';
+import colorFunction from'postcss-color-function';
+import postcssRoot from 'postcss';
+import cssnext from 'gulp-cssnext';
+import simpleExtend from 'postcss-simple-extend';
+import focus from 'postcss-focus';
+import rows from 'postcss-rows';
 
 var pages = [
 		'http://big-andy.dev/contact/',
@@ -92,6 +103,35 @@ gulp.task('sass', () => {
 		.pipe(gulp.dest('./build/css'));
 });
 
+gulp.task('postcss', () => {
+	var processors = [
+		autoprefixer({browsers: ['last 1 version']}),
+		postcssImport,
+		mixins(),
+		simpleExtend,
+		nestedcss,
+		vars({ variables: colours }),
+		focus,
+		colorFunction,
+		rows({
+			multiplier: 16,
+			unit: 'rows'
+		})
+	];
+	return gulp.src([
+			'./postcss/style.css',
+			'./postcss/font.css'
+		])
+		.pipe(postcss(processors))
+		.pipe(cssnext({
+			browsers: ('last 1 version'),
+			compress: true,
+			sourcemap: false,
+			safe: true
+		}))
+		.pipe(gulp.dest('./build/postcss/'));
+});
+
 gulp.task('scss-lint', () => {
 	gulp.src([
 			'scss/**/*.scss',
@@ -152,6 +192,7 @@ gulp.task('wordpress-lint', () => {
 gulp.task('watch', () => {
 	gulp.watch('js/*', ['js']);
 	gulp.watch('scss/**/*', ['sass']);
+	// gulp.watch('postcss/**/*', ['postcss']);
 	// gulp.watch('images/svg/*.svg', ['sprites']);
 
 	var server = livereload();

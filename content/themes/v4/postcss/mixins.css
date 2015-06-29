@@ -26,11 +26,13 @@
 	height: $value;
 }
 
-@define-mixin rows $rows {
-	@return $rows * 16px;
+/*@define-mixin rows $rows {
+	@return $rows * 16 + 'px';
 }
+*/
 
-%ir {
+
+@define-mixin ir {
 	background-color: transparent;
 	border: 0;
 	overflow: hidden;
@@ -43,19 +45,19 @@
 	}
 }
 
-%cf {
-	&:after {
+@define-mixin cf {
+	&::after {
 		clear: both;
 	}
 
-	&:before,
-	&:after {
+	&::before,
+	&::after {
 		content: " ";
 		display: table;
 	}
 }
 
-%vh {
+@define-placeholder vh {
 	border: 0;
 	clip: rect(0 0 0 0);
 	height: 1px;
@@ -65,3 +67,10 @@
 	position: absolute;
 	width: 1px;
 }
+
+@define-mixin list--plain {
+	margin: 0;
+	list-style: none;
+}
+
+

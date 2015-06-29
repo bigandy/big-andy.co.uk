@@ -1,6 +1,6 @@
 .header {
 	margin-bottom: 1rem;
-	background-color: rgba($black, .1);
+	background-color: color($black a(10%));
 	background-image: $header-bg;
 
 	&__row {
