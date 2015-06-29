@@ -3,7 +3,6 @@ import gutil from 'gulp-util';
 import uglify from 'gulp-uglify';
 import concat from 'gulp-concat';
 import jshint from 'gulp-jshint';
-import stripDebug from 'gulp-strip-debug';
 import sass from 'gulp-sass';
 import scsslint from 'gulp-scss-lint';
 import autoprefix from 'gulp-autoprefixer';
@@ -15,6 +14,10 @@ import penthouse from 'penthouse';
 import Promise from 'bluebird';
 import phpcs from 'gulp-phpcs';
 import critical from 'critical';
+import autoprefixer from 'autoprefixer-core';
+import cssnext from 'gulp-cssnext';
+import postcss from 'gulp-postcss';
+import nano from 'gulp-cssnano';
 
 var pages = [
 		'http://big-andy.dev/contact/',
@@ -27,14 +30,13 @@ var pages = [
 		'http://big-andy.dev/https/',
 		'http://big-andy.dev/breaking-borders-3/'
 	],
-	penthouseAsync = Promise.promisify(penthouse);
-
-
-import autoprefixer from 'autoprefixer-core';
-import cssnext from 'gulp-cssnext';
-import postcss from 'gulp-postcss';
-
-
+	penthouseAsync = Promise.promisify(penthouse),
+	browsers = ['last 1 version'],
+	processors = [
+		autoprefixer({
+			browsers: browsers
+		})
+	];;
 
 gulp.task('critical-css', () => {
 	penthouseAsync({
@@ -53,24 +55,60 @@ gulp.task('uncss', () => {
 			html: pages,
 			ignore: [
 				'[data-visited]',
-				'[data-visited] .post-content'
+				'[data-visited] .post-content',
 			]
 		}))
+
+		.pipe(postcss(processors))
 		.pipe(minifyCSS({
-				keepSpecialComments: 0
-			}))
-		.pipe(autoprefix('last 2 versions'))
+			keepSpecialComments: 0
+		}))
+
+		.pipe(nano())
 		.pipe(gulp.dest('.'));
+});
+
+// sass
+gulp.task('sass', () => {
+	gulp.src('./scss/**/*.scss')
+		.pipe(sass({
+			includePaths: ['bower_components/foundation/scss'],
+		}))
+
+		.pipe(postcss(processors))
+
+		.pipe(cssnext({
+			browsers: browsers,
+			compress: false,
+			sourcemap: false
+		}))
+
+		.pipe(gulp.dest('.'));
+
+	gulp.src('./scss/font.scss')
+		.pipe(sass({
+			outputStyle: 'compressed'
+		}))
+		.pipe(gulp.dest('./build/css'));
+});
+
+gulp.task('scss-lint', () => {
+	gulp.src([
+			'scss/**/*.scss',
+			'!scss/style.scss', // ignore this file so can include commenting in it.
+			'!scss/font.scss'
+		])
+		.pipe(scsslint({
+			'config': '.scss-lint.yml',
+		}));
 });
 
 // concat and minify the js
 gulp.task('js', ['js-lint'], () => {
 	gulp.src([
-			// 'js/google-analytics-caller.js',
 			'js/lazy-load-css.js',
 			'js/main.js',
 		])
-		.pipe(gutil.env.type === 'production' ? stripDebug() : gutil.noop())
 		.pipe(uglify())
 		.pipe(concat('script.min.js'))
 		.pipe(gulp.dest('build/js'));
@@ -108,47 +146,7 @@ gulp.task('wordpress-lint', () => {
 		.pipe(phpcs.reporter('log'));
 });
 
-// sass
-gulp.task('sass', () => {
-	var processors = [
-		autoprefixer({browsers: ['last 1 version']}),
-	];
 
-	gulp.src('./scss/**/*.scss')
-		.pipe(sass({
-			includePaths: ['bower_components/foundation/scss'],
-			// errLogToConsole: true,
-			// outputStyle: 'compressed'
-		}))
-
-		.pipe(postcss(processors))
-
-		.pipe(cssnext({
-			browsers: ('last 1 version'),
-			compress: false,
-			sourcemap: false
-		}))
-
-
-		.pipe(gulp.dest('.'));
-
-	gulp.src('./scss/font.scss')
-		.pipe(sass({
-			outputStyle: 'compressed'
-		}))
-		.pipe(gulp.dest('./build/css'));
-});
-
-gulp.task('scss-lint', () => {
-	gulp.src([
-			'scss/**/*.scss',
-			'!scss/style.scss', // ignore this file so can include commenting in it.
-			'!scss/font.scss'
-		])
-		.pipe(scsslint({
-			'config': '.scss-lint.yml',
-		}));
-});
 
 // Rerun the task when a file changes
 gulp.task('watch', () => {
