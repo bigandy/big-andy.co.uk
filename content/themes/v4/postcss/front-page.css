@@ -1,10 +1,10 @@
 .home__articles {
-	border-top: 1px dotted $light-gray;
+	border-top: 1px dotted var(--light-gray);
 	margin-top: 1rem;
 }
 
 .article--home {
-	border-bottom: 1px dotted $light-gray;
+	border-bottom: 1px dotted var(--light-gray);
 	margin: 1rows 0;
 	padding-left: 1em;
 	padding-right: 1em;

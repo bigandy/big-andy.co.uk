@@ -13,8 +13,8 @@ h3 {
 }
 
 .page__title {
-	background: $black;
-	color: $white;
+	background: var(--black);
+	color: var(--white);
 	padding: 1rem 0;
 	text-align: center;
 	margin: 0;
@@ -27,7 +27,7 @@ h3 {
 }
 
 [data-visited] {
-	background-color: color($yellow a(15%));
+	background-color: color(var(--yellow) a(15%));
 	position: relative;
 	margin-top: 0;
 	margin-bottom: 0;
@@ -37,9 +37,9 @@ h3 {
 		position: absolute;
 		top: 1.75em;
 		right: 1em;
-		background-color: $red;
+		background-color: var(--red);
 		padding: .75em;
-		color: $white;
+		color: var(--white);
 		border-radius: .75em;
 		font-size: 12px;
 		font-style: italic;
@@ -60,7 +60,7 @@ h3 {
 }
 
 pre {
-	background: $light-gray;
+	background: var(--light-gray);
 	padding: .5rem;
 	margin: .25rem 0;
 }
@@ -80,24 +80,24 @@ a {
 
 	&:hover,
 	&:focus {
-		border-bottom-color: $primary-color;
+		border-bottom-color: var(--primary-color);
 	}
 }
 
 .current {
-	border-bottom-color: $black;
+	border-bottom-color: var(--black);
 }
 
 .current-menu-item,
 .current_page_item,
 .current_page_parent {
 	> a {
-		border-bottom: 3px solid $primary-color;
+		border-bottom: 3px solid var(--primary-color);
 	}
 }
 
 .link--dark {
-	color: $body-color;
+	color: var(--body-color);
 }
 
 .header__link {

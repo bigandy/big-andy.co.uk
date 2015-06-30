@@ -1,16 +1,16 @@
 .icon {
 	@mixin wh 30px;
 	display: inline-block;
-	fill: $orange;
+	fill: var(--orange);
 
 	&:hover {
-		fill: $blue;
+		fill: var(--blue);
 	}
 }
 
 .icon--shortcode {
 	@mixin wh 100px;
-	fill: $body-color;
+	fill: var(--body-color);
 }
 
 .icon--small {

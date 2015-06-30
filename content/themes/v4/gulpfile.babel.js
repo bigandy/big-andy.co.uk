@@ -22,33 +22,30 @@ import autoprefixer from 'autoprefixer-core';
 import mixins from 'postcss-mixins';
 import nestedcss from 'postcss-nested';
 import postcssImport from 'postcss-import';
-import vars from 'postcss-simple-vars';
-import colours from './postcss/colours';
 import colorFunction from'postcss-color-function';
 import postcssRoot from 'postcss';
 import cssnext from 'gulp-cssnext';
 import simpleExtend from 'postcss-simple-extend';
 import focus from 'postcss-focus';
 import rows from 'postcss-rows';
+import customProperties from 'postcss-custom-properties';
 
-var pages = [
-		'http://big-andy.dev/contact/',
-		'http://big-andy.dev/cv/',
-		'http://big-andy.dev/about/',
-		'http://big-andy.dev/photos/',
-		'http://big-andy.dev/',
-		'http://big-andy.dev/blog',
-		'http://big-andy.dev/style-guide',
-		'http://big-andy.dev/https/',
-		'http://big-andy.dev/breaking-borders-3/'
+var envLive = 'https://big-andy.co.uk/',
+	envDev = 'http://big-andy.dev',
+	env = envLive,
+	pages = [
+		env + 'contact/',
+		env + 'cv/',
+		env + 'about/',
+		env + 'photos/',
+		env + '',
+		env + 'blog',
+		env + 'style-guide',
+		env + 'https/',
+		env + 'breaking-borders-3/'
 	],
 	penthouseAsync = Promise.promisify(penthouse),
-	browsers = ['last 1 version'],
-	processors = [
-		autoprefixer({
-			browsers: browsers
-		})
-	];;
+	browsers = ['last 1 version'];
 
 gulp.task('critical-css', () => {
 	penthouseAsync({
@@ -89,12 +86,11 @@ gulp.task('sass', () => {
 
 gulp.task('postcss', () => {
 	var processors = [
-
 		postcssImport,
-		mixins(),
+		mixins,
+		customProperties,
 		simpleExtend,
 		nestedcss,
-		vars({ variables: colours }),
 		focus,
 		colorFunction,
 		rows({
@@ -201,7 +197,6 @@ gulp.task('watch', () => {
 gulp.task('default', [
 	'js',
 	'postcss',
-	// 'sass',
 	'watch'
 ]);
 
