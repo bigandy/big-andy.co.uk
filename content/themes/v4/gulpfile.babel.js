@@ -105,7 +105,7 @@ gulp.task('sass', () => {
 
 gulp.task('postcss', () => {
 	var processors = [
-		autoprefixer({browsers: ['last 1 version']}),
+
 		postcssImport,
 		mixins(),
 		simpleExtend,
@@ -116,7 +116,8 @@ gulp.task('postcss', () => {
 		rows({
 			multiplier: 16,
 			unit: 'rows'
-		})
+		}),
+		autoprefixer({browsers: browsers})
 	];
 	return gulp.src([
 			'./postcss/style.css',
@@ -186,8 +187,6 @@ gulp.task('wordpress-lint', () => {
 		.pipe(phpcs.reporter('log'));
 });
 
-
-
 // Rerun the task when a file changes
 gulp.task('watch', () => {
 	gulp.watch('js/*', ['js']);
@@ -209,8 +208,9 @@ gulp.task('watch', () => {
 // The default task (called when you run `gulp` from cli)
 gulp.task('default', [
 	'js',
+	// 'postcss',
 	'sass',
-	'watch',
+	'watch'
 ]);
 
 gulp.task('production', [
