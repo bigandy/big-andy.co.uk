@@ -15,6 +15,7 @@ import Promise from 'bluebird';
 import phpcs from 'gulp-phpcs';
 import critical from 'critical';
 import nano from 'gulp-cssnano';
+import minifyCss from 'gulp-minify-css';
 
 import postcss from 'gulp-postcss';
 import autoprefixer from 'autoprefixer-core';
@@ -70,32 +71,15 @@ gulp.task('uncss', () => {
 			]
 		}))
 
-		.pipe(postcss(processors))
-		.pipe(minifyCSS({
+
+		.pipe(minifyCss({
 			keepSpecialComments: 0
 		}))
-
-		.pipe(nano())
 		.pipe(gulp.dest('.'));
 });
 
 // sass
 gulp.task('sass', () => {
-	gulp.src('./scss/**/*.scss')
-		.pipe(sass({
-			includePaths: ['bower_components/foundation/scss'],
-		}))
-
-		.pipe(postcss(processors))
-
-		.pipe(cssnext({
-			browsers: browsers,
-			compress: false,
-			sourcemap: false
-		}))
-
-		.pipe(gulp.dest('.'));
-
 	gulp.src('./scss/font.scss')
 		.pipe(sass({
 			outputStyle: 'compressed'
@@ -119,7 +103,7 @@ gulp.task('postcss', () => {
 		}),
 		autoprefixer({browsers: browsers})
 	];
-	return gulp.src([
+	gulp.src([
 			'./postcss/style.css',
 			'./postcss/font.css'
 		])
@@ -130,7 +114,15 @@ gulp.task('postcss', () => {
 			sourcemap: false,
 			safe: true
 		}))
-		.pipe(gulp.dest('./build/postcss/'));
+		.pipe(gulp.dest('.'));
+
+	gulp.src('./postcss/font.scss')
+		.pipe(cssnext({
+			browsers: ('last 1 version'),
+			compress: true,
+			sourcemap: false,
+		}))
+		.pipe(gulp.dest('./build/css'));
 });
 
 gulp.task('scss-lint', () => {
@@ -190,8 +182,8 @@ gulp.task('wordpress-lint', () => {
 // Rerun the task when a file changes
 gulp.task('watch', () => {
 	gulp.watch('js/*', ['js']);
-	gulp.watch('scss/**/*', ['sass']);
-	// gulp.watch('postcss/**/*', ['postcss']);
+	// gulp.watch('scss/**/*', ['sass']);
+	gulp.watch('postcss/**/*', ['postcss']);
 	// gulp.watch('images/svg/*.svg', ['sprites']);
 
 	var server = livereload();
@@ -208,17 +200,18 @@ gulp.task('watch', () => {
 // The default task (called when you run `gulp` from cli)
 gulp.task('default', [
 	'js',
-	// 'postcss',
-	'sass',
+	'postcss',
+	// 'sass',
 	'watch'
 ]);
 
 gulp.task('production', [
-	'js', 'sass'
+	'js',
+	'postcss'
 ]);
 
 gulp.task('deploy', [
-	'sass',
+	'postcss',
 	'uncss',
 	'js',
 	'lint',
