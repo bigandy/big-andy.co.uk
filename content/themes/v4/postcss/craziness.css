@@ -1,0 +1,19 @@
+:root {
+	--craziness: true;
+}
+
+@if var(--craziness) == true {
+	html {
+		animation: adjustHue 100s alternate infinite;
+	}
+
+	@keyframes adjustHue {
+		0% {
+			filter: hue-rotate(0);
+		}
+
+		100% {
+			filter: hue-rotate(360deg);
+		}
+	}
+}

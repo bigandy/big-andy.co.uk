@@ -29,6 +29,8 @@ import simpleExtend from 'postcss-simple-extend';
 import focus from 'postcss-focus';
 import rows from 'postcss-rows';
 import customProperties from 'postcss-custom-properties';
+import conditionals from 'postcss-conditionals';
+
 
 var envLive = 'https://big-andy.co.uk/',
 	envDev = 'http://big-andy.dev',
@@ -97,7 +99,10 @@ gulp.task('postcss', () => {
 			multiplier: 16,
 			unit: 'rows'
 		}),
-		autoprefixer({browsers: browsers})
+		conditionals,
+		autoprefixer({
+			browsers: browsers
+		})
 	];
 	gulp.src([
 			'./postcss/style.css',
