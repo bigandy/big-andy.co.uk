@@ -81,7 +81,7 @@ function ah_get_output_resp_image( $id, $class = '', $singular = false, $lazyloa
 		$count++;
 	}
 
-	$html .= '" sizes="(min-width: 995px) 1000px, 100%"' . $image_class . $output_height . $output_width;
+	$html .= '" sizes="(min-width: 995px) 1000px, 100vw"' . $image_class . $output_height . $output_width;
 	$html .= ' />';
 	return $html;
 }

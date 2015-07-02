@@ -29,7 +29,6 @@ import simpleExtend from 'postcss-simple-extend';
 import focus from 'postcss-focus';
 import rows from 'postcss-rows';
 import customProperties from 'postcss-custom-properties';
-import conditionals from 'postcss-conditionals';
 
 
 var envLive = 'https://big-andy.co.uk/',
@@ -70,7 +69,6 @@ gulp.task('uncss', () => {
 			]
 		}))
 
-
 		.pipe(minifyCss({
 			keepSpecialComments: 0
 		}))
@@ -99,7 +97,6 @@ gulp.task('postcss', () => {
 			multiplier: 16,
 			unit: 'rows'
 		}),
-		conditionals,
 		autoprefixer({
 			browsers: browsers
 		})
