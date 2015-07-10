@@ -1,7 +1,7 @@
 <?php
 // common functions for Standard and Cloud plugins
 
-define( 'EWWW_IMAGE_OPTIMIZER_VERSION', '245.0' );
+define( 'EWWW_IMAGE_OPTIMIZER_VERSION', '246.0' );
 
 // initialize debug global
 $disabled = ini_get( 'disable_functions' );
@@ -181,7 +181,7 @@ function ewww_image_optimizer_filter_page_output( $buffer ) {
 			$ewww_debug .= 'did not find expanded head tag either<br>';
 			return $buffer;
 		}
-		$ewww_debug .= $html_head[0] . '<br>';
+//		$ewww_debug .= $html_head[0] . '<br>';
 		$html = new DOMDocument;
 		$libxml_previous_error_reporting = libxml_use_internal_errors( true );
 		$html->encoding = 'utf-8';
@@ -190,6 +190,9 @@ function ewww_image_optimizer_filter_page_output( $buffer ) {
 		if ( defined( 'LIBXML_VERSION' ) && LIBXML_VERSION < 20800 ) {
 			// converts the buffer from utf-8 to html-entities
 			$buffer = mb_convert_encoding( $buffer, 'HTML-ENTITIES', 'UTF-8' );
+		} elseif ( ! defined( 'LIBXML_VERSION' ) ) {
+			$ewww_debug .= 'cannot detect libxml version<br>';
+			return $buffer;
 		}
 		if ( preg_match( '/<.DOCTYPE.+xhtml/', $buffer ) ) {
 			$html->recover = true;
@@ -325,7 +328,7 @@ function ewww_image_optimizer_filter_page_output( $buffer ) {
 		if ( ! empty( $html_head ) ) {
 			$buffer = preg_replace( '/<html.+>\s.*<head>/', $html_head[0], $buffer );
 		}
-		ewww_image_optimizer_debug_log();
+//		ewww_image_optimizer_debug_log();
 	}
 	return $buffer;
 }
@@ -1136,7 +1139,7 @@ function ewww_image_optimizer_aux_paths_sanitize ($input) {
 			$path_array[] = $path;
 		}
 	}
-	ewww_image_optimizer_debug_log();
+//	ewww_image_optimizer_debug_log();
 	ewwwio_memory( __FUNCTION__ );
 	return $path_array;
 }
@@ -2410,7 +2413,7 @@ function ewww_image_optimizer_custom_column($column_name, $id) {
 		switch($type) {
 			case 'image/jpeg':
 				// if jpegtran is missing, tell them that
-				if(!EWWW_IMAGE_OPTIMIZER_JPEGTRAN && !ewww_image_optimizer_get_option('ewww_image_optimizer_cloud_jpg')) {
+				if( ! EWWW_IMAGE_OPTIMIZER_JPEGTRAN && ! ewww_image_optimizer_get_option('ewww_image_optimizer_cloud_jpg')) {
 					$valid = false;
 					$msg = '<br>' . sprintf(__('%s is missing', EWWW_IMAGE_OPTIMIZER_DOMAIN), '<em>jpegtran</em>');
 				} else {
@@ -2421,7 +2424,7 @@ function ewww_image_optimizer_custom_column($column_name, $id) {
 				break; 
 			case 'image/png':
 				// if pngout and optipng are missing, tell the user
-				if(!EWWW_IMAGE_OPTIMIZER_PNGOUT && !EWWW_IMAGE_OPTIMIZER_OPTIPNG && !ewww_image_optimizer_get_option('ewww_image_optimizer_cloud_png')) {
+				if( ! EWWW_IMAGE_OPTIMIZER_PNGOUT && ! EWWW_IMAGE_OPTIMIZER_OPTIPNG && ! ewww_image_optimizer_get_option('ewww_image_optimizer_cloud_png')) {
 					$valid = false;
 					$msg = '<br>' . sprintf(__('%s is missing', EWWW_IMAGE_OPTIMIZER_DOMAIN), '<em>optipng/pngout</em>');
 				} else {
