@@ -137,7 +137,6 @@ gulp.task('scss-lint', () => {
 // concat and minify the js
 gulp.task('js', ['js-lint'], () => {
 	gulp.src([
-			'bower_components/jquery/dist/jquery.js',
 			'js/lazy-load-css.js',
 			'js/main.js',
 		])
