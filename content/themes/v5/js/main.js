@@ -25,19 +25,15 @@
 
 
 
-	function getWeather(data) {
+	function getWeather() {
 		// using units=metric for celcius - can be changed
-		var weather = '//api.openweathermap.org/data/2.5/weather?q=oxford,uk&units=metric&APPID=d8c7ee9216b8e2039669c7b012fcc66e';
+		var weather = '//api.openweathermap.org/data/2.5/weather?q=oxford,uk&units=metric&APPID=d8c7ee9216b8e2039669c7b012fcc66e'; // jshint ignore:line
 
 		$.ajax({
 			dataType: 'jsonp',
 			url: weather,
 			success: function (data) {
-				console.log(data);
-
-				console.log('weather is ' + data.weather[0].main);
 				homeWeather.text(data.weather[0].main + 'y');
-
 			}
 		});
 	}
