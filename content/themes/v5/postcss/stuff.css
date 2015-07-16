@@ -85,8 +85,8 @@ html {
 }
 
 *,
-*:after,
-*:before {
+*::after,
+*::before {
 	box-sizing: border-box;
 }
 
@@ -121,13 +121,13 @@ img {
 	float: right!important;
 }
 
-.clearfix:after,
-.clearfix:before {
+.clearfix::after,
+.clearfix::before {
 	content: " ";
 	display: table;
 }
 
-.clearfix:after {
+.clearfix::after {
 	clear: both;
 }
 
