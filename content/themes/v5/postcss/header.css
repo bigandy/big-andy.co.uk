@@ -1,7 +1,33 @@
+:root {
+	--angleA: 120deg;
+	--angleB: 60deg;
+	--headerDark: rgba(255, 255, 255, .75);
+	--headerLight: rgba(0, 0, 50, .25);
+}
+
+
 .header {
 	margin-bottom: 1rem;
 	background-color: color(var(--black) a(10%));
-	background-image: var(--header-bg);
+	/*background-image: var(--header-bg);*/
+
+	/*background-color: blue;*/
+	/*background-image:
+	repeating-linear-gradient(var(--angleA), var(--headerDark), var(--headerDark) 1px, transparent 1px, transparent 60px),
+	repeating-linear-gradient(var(--angleB), var(--headerDark), var(--headerDark) 1px, transparent 1px, transparent 60px),
+	linear-gradient(var(--angleB),var(--headerLight) 25%, transparent 25%, transparent 75%,var(--headerLight) 75%,var(--headerLight)),
+	linear-gradient(var(--angleA),var(--headerLight) 25%, transparent 25%, transparent 75%,var(--headerLight) 75%,var(--headerLight));
+	background-size: 70px 124px;*/
+
+
+	/*background-color:#269;*/
+	background-image: linear-gradient(rgba(255,255,255,.5) 2px, transparent 2px),
+	linear-gradient(90deg, rgba(255,255,255,.5) 1px, transparent 1px),
+	linear-gradient(rgba(255,255,255,.1) 1px, transparent 1px),
+	linear-gradient(90deg, rgba(255,255,255,.1) 1px, transparent 1px);
+	background-position:0 0, 0 0, 0 0, 0 0;
+	background-size: 21px 21px, 21px 21px, 5px 5px, 5px 5px;
+
 
 	&__row {
 		padding: 1.5rem 0 .5rem;
