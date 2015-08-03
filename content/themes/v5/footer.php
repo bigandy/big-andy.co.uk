@@ -21,7 +21,7 @@ if ( is_front_page() ) {
 <?php
 if ( ! is_user_logged_in() ) {
 	?>
-	<script async src="<?php echo esc_url( TEMPLATEURI ) . 'build/js/script.min.js'; ?>"></script>
+	<script async src="/content/themes/v5/build/js/script.min.js"></script>
 	<?php
 }
 ?>

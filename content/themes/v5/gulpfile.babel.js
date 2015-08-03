@@ -3,9 +3,7 @@ import gutil from 'gulp-util';
 import uglify from 'gulp-uglify';
 import concat from 'gulp-concat';
 import jshint from 'gulp-jshint';
-
 import sass from 'gulp-sass';
-
 import scsslint from 'gulp-scss-lint';
 import livereload from 'gulp-livereload';
 import stylish from 'jshint-stylish';
@@ -40,8 +38,8 @@ var envLive = 'https://big-andy.co.uk/',
 		env + 'about/',
 		env + 'photos/',
 		env + '',
-		env + 'blog',
-		env + 'style-guide',
+		env + 'blog/',
+		env + 'style-guide/',
 		env + 'https/',
 		env + 'breaking-borders-3/'
 	],
@@ -50,10 +48,12 @@ var envLive = 'https://big-andy.co.uk/',
 
 gulp.task('critical-css', () => {
 	penthouseAsync({
-		url: pages,
+		url: [
+			'http://big-andy.dev/'
+		],
 		css: './style.css',
-		height: 600,
-		width: 400
+		height: 3000, // 600
+		width: 400 // 400
 	}).then( function (criticalCSS){
 		require('fs').writeFile('build/css/critical.css', criticalCSS);
 	});
