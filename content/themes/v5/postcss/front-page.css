@@ -28,4 +28,9 @@
 .home__intro {
 	font-weight: 800;
 	text-align: center;
+
+	&--archive {
+		text-align: left;
+		margin-left: 1rem;
+	}
 }

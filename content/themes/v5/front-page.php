@@ -1,28 +1,38 @@
-<?php get_header(); ?>
+<?php
+get_header();
+$paged = get_query_var( 'page' );
+?>
 <main class="row content-container">
 	<div class="large-8 large-push-2 small-12 columns">
 		<section class="home__intro">
 			<?php
-			if ( have_posts() ) {
-				while ( have_posts() ) {
-					the_post();
-					?>
-					<h2 class="home__intro">
-						<?php echo wp_kses_post( get_the_content() ); ?>
-					</h2>
+			if ( have_posts() && '' === $paged ) {
+				?>
 					<?php
-				}
+					while ( have_posts() ) {
+						the_post();
+						?>
+						<h2 class="home__intro">
+							<?php echo wp_kses_post( get_the_content() ); ?>
+						</h2>
+						<?php
+					}
+					?>
+
+				<?php
+			} else {
+				?>
+				<h2 class="home__intro--archive">Post Archive: Page <?php echo esc_html( $paged ); ?></h2>
+				<?php
 			}
 			?>
 		</section>
+
 		<section class="home__articles">
 			<?php
-			// hidden post
-			$hide_id = 31;
-
 			$home_args = array(
-				'cat' => -$hide_id,
-				'paged' => get_query_var( 'page' )
+				'cat' => -31,
+				'paged' => $paged,
 			);
 
 			$home_loop = new WP_Query( $home_args );
