@@ -156,6 +156,13 @@ picture > img {
 		margin-left: 1em;
 		margin-right: 1em;
 	}
+
+
+}
+
+.nextpostslink,
+.previouspostslink {
+	display: none;
 }
 
 .links {

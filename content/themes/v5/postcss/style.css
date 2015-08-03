@@ -29,6 +29,11 @@
 	@import "media-queries/30em.css";
 }
 
+/* 35 * 16 = 560px and up*/
+@media all and (min-width: 35em) {
+	@import "media-queries/35em.css";
+}
+
 /* 37.5 * 16 = 600 and up*/
 @media all and (min-width: 37.5em) {
 	@import "media-queries/37-5em.css";
