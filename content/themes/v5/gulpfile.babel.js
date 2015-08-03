@@ -32,8 +32,8 @@ import customProperties from 'postcss-custom-properties';
 
 
 var envLive = 'https://big-andy.co.uk/',
-	envDev = 'http://big-andy.dev',
-	env = envLive,
+	envDev = 'http://big-andy.dev/',
+	env = envDev,
 	pages = [
 		env + 'contact/',
 		env + 'cv/',
