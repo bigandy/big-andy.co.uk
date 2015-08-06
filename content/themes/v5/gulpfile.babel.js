@@ -83,6 +83,7 @@ gulp.task('uncss', () => {
 			ignore: [
 				'[data-visited]',
 				'[data-visited] .post-content',
+				'.svg-sprite'
 			]
 		}))
 
