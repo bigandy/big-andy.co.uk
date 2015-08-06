@@ -14,6 +14,8 @@ import phpcs from 'gulp-phpcs';
 import critical from 'critical';
 import nano from 'gulp-cssnano';
 import minifyCss from 'gulp-minify-css';
+import svgStore from 'gulp-svgstore';
+import svgmin from 'gulp-svgmin';
 
 import postcss from 'gulp-postcss';
 import autoprefixer from 'autoprefixer-core';
@@ -45,6 +47,21 @@ var envLive = 'https://big-andy.co.uk/',
 	],
 	penthouseAsync = Promise.promisify(penthouse),
 	browsers = ['last 1 version'];
+
+gulp.task('sprites', () => {
+	return gulp.src([
+			'images/svg/*.svg'
+		])
+		.pipe(svgStore({ inlineSvg: true }))
+
+		.pipe(svgmin({
+			plugins:
+				[{
+					cleanupIDs: false
+				}]
+			}))
+		.pipe(gulp.dest('build/svg'));
+});
 
 gulp.task('critical-css', () => {
 	penthouseAsync({
@@ -180,9 +197,8 @@ gulp.task('wordpress-lint', () => {
 // Rerun the task when a file changes
 gulp.task('watch', () => {
 	gulp.watch('js/*', ['js']);
-	// gulp.watch('scss/**/*', ['sass']);
 	gulp.watch('postcss/**/*', ['postcss']);
-	// gulp.watch('images/svg/*.svg', ['sprites']);
+	gulp.watch('images/svg/*.svg', ['sprites']);
 
 	var server = livereload();
 	gulp.watch([
