@@ -101,7 +101,7 @@ gulp.task('sass', () => {
 		.pipe(gulp.dest('./build/css'));
 });
 
-gulp.task('postcss', () => {
+gulp.task('css', () => {
 	var processors = [
 		postcssImport,
 		mixins,
@@ -197,7 +197,7 @@ gulp.task('wordpress-lint', () => {
 // Rerun the task when a file changes
 gulp.task('watch', () => {
 	gulp.watch('js/*', ['js']);
-	gulp.watch('postcss/**/*', ['postcss']);
+	gulp.watch('postcss/**/*', ['css']);
 	gulp.watch('images/svg/*.svg', ['sprites']);
 
 	var server = livereload();
@@ -214,17 +214,17 @@ gulp.task('watch', () => {
 // The default task (called when you run `gulp` from cli)
 gulp.task('default', [
 	'js',
-	'postcss',
+	'css',
 	'watch'
 ]);
 
 gulp.task('production', [
 	'js',
-	'postcss'
+	'css'
 ]);
 
 gulp.task('deploy', [
-	'postcss',
+	'css',
 	'uncss',
 	'js',
 	'lint',

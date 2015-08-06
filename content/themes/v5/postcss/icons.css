@@ -1,3 +1,7 @@
+.svg-sprite {
+	display: none;
+}
+
 .icon {
 	@mixin wh 30px;
 	display: inline-block;
