@@ -5,10 +5,32 @@
 
 .article--home {
 	border-bottom: 1px dotted var(--light-gray);
-	margin: 1rows 0;
 	padding-left: 1em;
 	padding-right: 1em;
 	padding-top: 1em;
+}
+
+[data-visited] {
+	background-color: color(var(--yellow) a(15%));
+	position: relative;
+	margin-top: 1rows;
+
+	&::after {
+		content: "Viewed";
+		position: absolute;
+		top: 1.75em;
+		right: 1em;
+		background-color: var(--red);
+		padding: .75em;
+		color: var(--white);
+		border-radius: .75em;
+		font-size: 12px;
+		font-style: italic;
+	}
+
+	.post-content {
+		display: none;
+	}
 }
 
 .article__header--front-page {

@@ -26,29 +26,7 @@ h3 {
 	}
 }
 
-[data-visited] {
-	background-color: color(var(--yellow) a(15%));
-	position: relative;
-	margin-top: 0;
-	margin-bottom: 0;
 
-	&::after {
-		content: "Viewed";
-		position: absolute;
-		top: 1.75em;
-		right: 1em;
-		background-color: var(--red);
-		padding: .75em;
-		color: var(--white);
-		border-radius: .75em;
-		font-size: 12px;
-		font-style: italic;
-	}
-
-	.post-content {
-		display: none;
-	}
-}
 
 
 .list--inline {
