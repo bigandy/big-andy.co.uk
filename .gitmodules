@@ -1,11 +1,7 @@
 [submodule "wp"]
 	path = wp
-	
 	url = https://github.com/WordPress/WordPress.git
 
-[submodule "content/plugins/Shortcake"]
-	path = content/plugins/Shortcake
-	url = https://github.com/fusioneng/Shortcake.git
 [submodule "content/plugins/wp-api"]
 	path = content/plugins/wp-api
 	url = git@github.com:WP-API/WP-API.git
