@@ -4,4 +4,4 @@
 
 [submodule "content/plugins/wp-api"]
 	path = content/plugins/wp-api
-	url = git@github.com:WP-API/WP-API.git
+	url = https://github.com/WP-API/WP-API.git
