@@ -18,6 +18,9 @@ function ah_admin_bar_remove_items( WP_Admin_Bar $wp_admin_bar ) {
 		'wp-logo',
 		'wpseo-menu',
 		'backwpup',
+		'new-media',
+		'new-page',
+		'new-user',
 	];
 
 	foreach ( $remove_array as $item ) {
