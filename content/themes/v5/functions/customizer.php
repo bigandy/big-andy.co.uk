@@ -1,4 +1,36 @@
 <?php
+/**
+ * Remove Items from the admin bar
+ *
+ * @param  WP_Admin_Bar $wp_admin_bar [description]
+ * @return [type]                     [description]
+ */
+function ah_admin_bar_remove_items( WP_Admin_Bar $wp_admin_bar ) {
+	// bail if current user doesnt have cap
+	if ( ! current_user_can( 'manage_options' ) ) {
+		return;
+	}
+
+	// remove items from menu bar
+	$remove_array = [
+		'customize',
+		'comments',
+		'wp-logo',
+		'wpseo-menu',
+		'backwpup',
+		'new-post',
+		'new-media',
+		'new-page',
+		'new-user',
+	];
+
+	foreach ( $remove_array as $item ) {
+		$wp_admin_bar->remove_node( $item );
+	}
+}
+add_action( 'admin_bar_menu', 'ah_admin_bar_remove_items', 9999 );
+
+
 class BigAndyThemeCustomizer {
 	function __construct() {
 		add_action( 'customize_register', array( $this, 'customize_register' ) );

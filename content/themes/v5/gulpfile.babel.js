@@ -30,7 +30,6 @@ import focus from 'postcss-focus';
 import rows from 'postcss-rows';
 import customProperties from 'postcss-custom-properties';
 
-
 var envLive = 'https://big-andy.co.uk/',
 	envDev = 'http://big-andy.dev/',
 	env = envDev,
@@ -228,9 +227,9 @@ gulp.task('production', [
 gulp.task('deploy', [
 	'css',
 	'uncss',
+	'critical-css',
 	'js',
-	'lint',
-	'critical-css'
+	'lint'
 ]);
 
 gulp.task('lint', ['scss-lint', 'js-lint', 'wordpress-lint']);

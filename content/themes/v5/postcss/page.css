@@ -36,8 +36,8 @@ h3 {
 
 pre {
 	background: var(--light-gray);
-	padding: .5rem;
-	margin: .25rem 0;
+	padding: 0 1rem 1rem;
+	margin-bottom: 1rem;
 }
 
 
