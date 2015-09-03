@@ -10,6 +10,7 @@ wp-config.php
 npm-debug.log
 *.sass-cache/
 /content/debug.log
+vvv-hosts
 
 bower-compenents/*
 bower-components/
