@@ -9,3 +9,31 @@ function ah_rest_prepare_post( $data, $post, $request ) {
 	return $data;
 }
 add_filter( 'rest_prepare_post', 'ah_rest_prepare_post', 10, 3 );
+
+function ah_rest_remove_garbage( $data, $post, $request ) {
+	$_data = $data->data;
+
+	$remove_array = [
+		'id',
+		'date',
+		'guid',
+		'modified',
+		'modified_gmt',
+		'slug',
+		'type',
+		'featured_image',
+		'ping_status',
+		'sticky',
+		'format',
+		'author',
+		'comment_status',
+	];
+
+	foreach ( $remove_array as $remove ) {
+		unset($_data[$remove]);
+	}
+
+	$data->data = $_data;
+	return $data;
+}
+add_filter( 'rest_prepare_post', 'ah_rest_remove_garbage', 10, 3 );
