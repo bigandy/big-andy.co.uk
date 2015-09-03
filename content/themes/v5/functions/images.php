@@ -1,8 +1,8 @@
 <?php
-add_image_size( 'pic_max', 1400, 9999, false );
-add_image_size( 'pic_large', 1000, 9999, false );
-add_image_size( 'pic_medium', 750, 9999, false );
-add_image_size( 'pic_small', 500, 9999, false );
+add_image_size( 'pic-max', 1400, 9999, false );
+add_image_size( 'pic-large', 1000, 9999, false );
+add_image_size( 'pic-medium', 750, 9999, false );
+add_image_size( 'pic-small', 500, 9999, false );
 
 /**
  * Adds the medium and the full to the image size list in the editor, so people can
