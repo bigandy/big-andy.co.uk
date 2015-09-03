@@ -15,11 +15,11 @@ function ah_get_extra_thumbnail_sizes( $small_screen = 0 ) {
 	if ( isset( $_wp_additional_image_sizes ) ) {
 		foreach ( $all_sizes as $size ) {
 			// compile array of image sizes beginning with pic-
-			if ( 'pic_' === substr( $size, 0, 4 ) ) {
+			if ( 'pic-' === substr( $size, 0, 4 ) ) {
 				// checks to see if we're on a singular page, then removes
 				if ( 1 === $small_screen ) {
 					// only adds pic-small and pic-medium to array
-					if ( ! in_array( $size, array( 'pic_large', 'pic_max' ) ) ) {
+					if ( ! in_array( $size, array( 'pic-large', 'pic-max' ) ) ) {
 						array_push( $reduced_sizes, $size );
 					}
 				} else {
