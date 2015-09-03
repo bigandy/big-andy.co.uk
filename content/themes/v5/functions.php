@@ -9,3 +9,4 @@ include( $functions . 'nav.php' );
 include( $functions . 'shortcodes.php' );
 include( $functions . 'customizer.php' );
 include( $functions . 'admin.php' );
+include( $functions . 'wp-api.php' );
