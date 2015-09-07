@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: bigandy functionality
-Version: 2.0
+Version: 2.1
 Description: functionality for big-andy.co.uk in a plugin
 Author: Andrew Hudson
 Author URI: http://big-andy.co.uk
@@ -16,13 +16,13 @@ register_activation_hook( __FILE__, 'ah_plugin_install' );
 /* What to do when the plugin is deactivated? */
 register_deactivation_hook( __FILE__, 'ah_plugin_remove' );
 
-function my_first_plugin_install() {
+function ah_plugin_install() {
 	/* Create a new database field */
 	add_option( 'ah_plugin_options' );
 	flush_rewrite_rules();
 }
 
-function my_first_plugin_remove() {
+function ah_plugin_remove() {
 	/* Delete the database field */
 	delete_option( 'ah_plugin_options' );
 	flush_rewrite_rules();
@@ -33,7 +33,6 @@ $ah_plugin_options = array(
 	'security' => 'yes',
 	'shortcodes' => 'no',
 	'menu' => 'yes',
-	'widgets' => 'yes',
 	'footer' => 'yes',
 );
 
@@ -50,11 +49,7 @@ function ah_plugin_admin_menu() {
 
 
 function ah_plugin_admin_options_page() {
-
-
 	$options = get_option( 'ah_plugin_options' );
-	// $ah_output = $options['output'];
-
 	?>
 	<div class="wrap">
 		<?php screen_icon(); ?>
@@ -106,57 +101,43 @@ function ah_plugin_admin_options_page() {
 				</select>
 			</fieldset>
 
-			<fieldset <?php if ( $options['widgets'] == "Y" ) echo 'class="is-active"'; ?>>
-				<label for="ahWidgets">Widgets</label>
-				<select name="ah_plugin_options[widgets]" id="ahWidgets">
-	                <option value="N" <?php selected( $options['widgets'], "N" ); ?> >No</option>
-	                <option value="Y" <?php selected( $options['widgets'], "Y" ); ?> >Yes</option>
-				</select>
-			</fieldset>
-
 			<input type="hidden" name="action" value="update" />
 			<input type="hidden" name="page_options" value="ah_plugin_options" />
 			<input type="submit" value="Save Changes" class="button" />
 
 			<?php
+			$options = get_option( 'ah_plugin_options' );
 
-
-	$options = get_option( 'ah_plugin_options' );
-
-	if ( $options === false ) {
-		$options = array(
-			'admin' => 'N',
-			'security' => 'N',
-			'shortcodes' => 'N',
-			'menu' => 'N',
-			'images' => 'Y',
-			'widgets' => 'N',
-		);
-		update_option( 'ah_plugin_options', $options );
-	}
-
-?>
+			if ( $options === false ) {
+				$options = array(
+					'admin' => 'N',
+					'security' => 'N',
+					'shortcodes' => 'N',
+					'menu' => 'N',
+					'images' => 'Y',
+				);
+				update_option( 'ah_plugin_options', $options );
+			}
+			?>
 		</form>
-
 
 		<h2>Results</h2>
 		<?php
-	$ah_options = array(
-		'admin',
-		'shortcodes',
-		'security',
-		'menu',
-		'images',
-		'widgets',
-	);
-
-	echo "<ul class='bullet'>";
-	foreach ( $ah_options as $ah_option ) {
-		echo"<li><strong>".ucfirst( $ah_option ).":</strong> <span>". $options[$ah_option]."</span></li>";
-	}
-	echo "</ul>";
-
-?>
+		$ah_options = array(
+			'admin',
+			'shortcodes',
+			'security',
+			'menu',
+			'images',
+		);
+		?>
+		<ul class="bullet">
+		<?php
+		foreach ( $ah_options as $ah_option ) {
+			echo"<li><strong>".ucfirst( $ah_option ).":</strong> <span>". $options[$ah_option]."</span></li>";
+		}
+		?>
+		</ul>
 	</div>
 	<?php
 
@@ -183,7 +164,4 @@ if ( $options['menu'] == "Y" ) {
 }
 if ( $options['images'] == "Y" ) {
 	require_once 'images.php';
-}
-if ( $options['widgets'] == "Y" ) {
-	require_once 'ah-widgets.php';
 }
