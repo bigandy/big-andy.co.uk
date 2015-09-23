@@ -5,7 +5,3 @@
 [submodule "content/plugins/wp-api"]
 	path = content/plugins/wp-api
 	url = https://github.com/WP-API/WP-API.git
-
-[submodule "content/plugins/OAuth1"]
-	path = content/plugins/OAuth1
-	url = https://github.com/WP-API/OAuth1
