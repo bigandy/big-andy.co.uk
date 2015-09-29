@@ -18,7 +18,7 @@ import svgStore from 'gulp-svgstore';
 import svgmin from 'gulp-svgmin';
 
 import postcss from 'gulp-postcss';
-import autoprefixer from 'autoprefixer-core';
+import autoprefixer from 'autoprefixer';
 import mixins from 'postcss-mixins';
 import nestedcss from 'postcss-nested';
 import postcssImport from 'postcss-import';
