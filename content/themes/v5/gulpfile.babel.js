@@ -125,7 +125,7 @@ gulp.task('css', () => {
 		])
 		.pipe(postcss(processors))
 		.pipe(cssnext({
-			browsers: ('last 1 version'),
+			browsers: browsers,
 			compress: true,
 			sourcemap: false,
 			safe: true
@@ -134,7 +134,7 @@ gulp.task('css', () => {
 
 	gulp.src('./postcss/font.scss')
 		.pipe(cssnext({
-			browsers: ('last 1 version'),
+			browsers: browsers,
 			compress: true,
 			sourcemap: false,
 		}))
