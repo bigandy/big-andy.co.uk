@@ -1,3 +1,5 @@
+/* global mozRequestAnimationFrame, requestAnimationFrame, msRequestAnimationFrame, webkitRequestAnimationFrame */
+
 var cb = function() {
 	var l = document.createElement('link'); l.rel = 'stylesheet';
 	l.href = '/content/themes/v5/style.css';
