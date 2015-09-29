@@ -126,9 +126,34 @@ gulp.task('css', () => {
 		.pipe(postcss(processors))
 		.pipe(cssnext({
 			browsers: browsers,
-			compress: true,
+			// compress: true,
 			sourcemap: false,
-			safe: true
+			safe: true,
+			compress: {
+				calc: false,
+				colormin: false,
+				convertValues: false,
+				discardComments: false,
+				discardDuplicates: false,
+				discardEmpty: false,
+				discardUnused: false,
+				filterOptimiser: false,
+				filterPlugins: false,
+				functionOptimiser: false,
+				mergeIdents: false,
+				mergeLonghand: false,
+				mergeRules: false,
+				minifyFontValues: false,
+				minifySelectors: false,
+				normalizeCharset: false,
+				normalizeUrl: false,// this one is the cause
+				orderedValues: true,
+				reduceIdents: true,
+				styleCache: true,
+				svgo: true,
+				uniqueSelectors: true,
+				zindex: true
+			}
 		}))
 		.pipe(gulp.dest('.'));
 
