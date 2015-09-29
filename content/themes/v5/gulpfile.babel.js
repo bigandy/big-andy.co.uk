@@ -126,7 +126,6 @@ gulp.task('css', () => {
 		.pipe(postcss(processors))
 		.pipe(cssnext({
 			browsers: browsers,
-			// compress: true,
 			sourcemap: false,
 			safe: true,
 			compress: {
