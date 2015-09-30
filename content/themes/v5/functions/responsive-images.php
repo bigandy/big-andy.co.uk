@@ -91,9 +91,9 @@ function ah_output_resp_img( $id, $class = '' ) {
 	echo balanceTags( ah_get_output_resp_image( $id, $class ) );
 }
 
-function ah_featured_resp_image_replacement() {
+function ah_featured_resp_image_replacement( $class ) {
 	$post_thumbnail_id = get_post_thumbnail_id();
-	ah_output_resp_img( $post_thumbnail_id );
+	ah_output_resp_img( $post_thumbnail_id, $class );
 }
 
 /**

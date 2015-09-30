@@ -1,0 +1,5 @@
+.article {
+	&__header__image {
+		margin-bottom: 1rows;
+	}
+}
