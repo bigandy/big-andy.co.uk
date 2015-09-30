@@ -13,7 +13,7 @@ npm-debug.log
 vvv-hosts
 
 bower-compenents/*
-bower-components/
+bower-components
 node_modules/
 
 ## sublime text files
