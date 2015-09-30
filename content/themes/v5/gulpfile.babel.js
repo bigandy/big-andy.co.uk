@@ -86,6 +86,7 @@ gulp.task('uncss', () => {
 				/pre.*/,
 				/code.*/,
 				/token.*/,
+				'.article__header__image'
 			]
 		}))
 
