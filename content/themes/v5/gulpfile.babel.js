@@ -2,11 +2,10 @@ import gulp from 'gulp';
 import gutil from 'gulp-util';
 import uglify from 'gulp-uglify';
 import concat from 'gulp-concat';
-import jshint from 'gulp-jshint';
+import eslint from 'gulp-eslint';
 import sass from 'gulp-sass';
 import scsslint from 'gulp-scss-lint';
 import livereload from 'gulp-livereload';
-import stylish from 'jshint-stylish';
 import uncss from 'gulp-uncss';
 import penthouse from 'penthouse';
 import Promise from 'bluebird';
@@ -207,8 +206,15 @@ gulp.task('js-lint', () => {
 	gulp.src([
 			'js/main.js'
 		])
-		.pipe(jshint('.jshint'))
-		.pipe(jshint.reporter(stylish));
+		// eslint() attaches the lint output to the eslint property
+		// of the file object so it can be used by other modules.
+		.pipe(eslint())
+		// eslint.format() outputs the lint results to the console.
+		// Alternatively use eslint.formatEach() (see Docs).
+		.pipe(eslint.format())
+		// To have the process exit with an error code (1) on
+		// lint error, return the stream and pipe to failAfterError last.
+		.pipe(eslint.failAfterError());
 });
 
 gulp.task('wordpress-lint', () => {
