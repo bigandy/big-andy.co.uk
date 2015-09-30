@@ -33,7 +33,6 @@ function ah_shortcode_row( $atts, $content ) {
 }
 add_shortcode( 'row', 'ah_shortcode_row' );
 
-
 function ah_shortcode_icon( $atts ) {
 	$atts = shortcode_atts( array(
 		'type' => 'pen',
@@ -51,3 +50,13 @@ function ah_shortcode_icon( $atts ) {
 	return $html;
 }
 add_shortcode( 'icon', 'ah_shortcode_icon' );
+
+function ah_shortcode_lazy( $atts, $content ) {
+	$html = '<div data-lazy-widget><!--';
+		$html .= $content;
+	$html .= '--></div>';
+
+	return $html;
+}
+add_shortcode( 'lazy', 'ah_shortcode_lazy' );
+

@@ -193,6 +193,7 @@ gulp.task('js', ['js-lint'], () => {
 		'bower_components/jquery/dist/jquery.js',
 		'bower_components/picturefill/dist/picturefill.min.js',
 		'bower_components/lazyloadxt/dist/jquery.lazyloadxt.js',
+		'bower_components/lazyloadxt/dist/jquery.lazyloadxt.widget.js',
 		'bower_components/lazyloadxt/dist/jquery.lazyloadxt.srcset.js',
 		'js/prism.min.js',
 	])
