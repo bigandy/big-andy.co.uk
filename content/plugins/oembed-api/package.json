@@ -1,0 +1,21 @@
+{
+  "name": "oembed-api",
+  "title": "oEmbed API",
+  "description": "Allow others to easily embed your blog posts on their sites using oEmbed.",
+  "version": "0.6.0",
+  "homepage": "https://github.com/swissspidy/oEmbed-API",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/swissspidy/oEmbed-API"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.5",
+    "grunt-checktextdomain": "~1.0.0",
+    "grunt-contrib-watch": "~0.6.1",
+    "grunt-exec": "~0.4.6",
+    "grunt-wp-i18n": "~0.5.1",
+    "load-grunt-config": "~0.16.0",
+    "time-grunt": "~1.1.0"
+  },
+  "keywords": []
+}

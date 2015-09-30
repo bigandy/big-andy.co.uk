@@ -1,0 +1,28 @@
+{
+  "name": "swissspidy/oembed-api",
+  "description": "Allow others to easily embed your blog posts on their sites using oEmbed.",
+  "version": "0.6.0",
+  "type": "wordpress-plugin",
+  "license": "GPL-2.0+",
+  "require": {
+    "composer/installers": "~1.0"
+  },
+  "require-dev": {
+    "phpmd/phpmd": "@stable",
+    "wp-coding-standards/wpcs": "dev-develop",
+    "sebastian/phpcpd": "*",
+    "wp-api/wp-api": "dev-develop",
+    "codeclimate/php-test-reporter": "dev-master"
+  },
+  "scripts": {
+    "post-install-cmd": "\"vendor/bin/phpcs\" --config-set installed_paths vendor/wp-coding-standards/wpcs",
+    "post-update-cmd": "\"vendor/bin/phpcs\" --config-set installed_paths vendor/wp-coding-standards/wpcs"
+  },
+  "extra": {
+    "installer-paths": {
+      "vendor/{$name}": [
+        "wp-api/wp-api"
+      ]
+    }
+  }
+}
