@@ -34,13 +34,6 @@ h3 {
 	}
 }
 
-pre {
-	background: var(--light-gray);
-	padding: 0 1rem 1rem;
-	margin-bottom: 1rem;
-}
-
-
 /* Links */
 a,
 .current {

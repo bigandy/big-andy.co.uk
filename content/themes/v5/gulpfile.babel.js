@@ -82,7 +82,10 @@ gulp.task('uncss', () => {
 				'[data-visited]',
 				'[data-visited] .post-content',
 				'.svg-sprite',
-				'.previouspostslink'
+				'.previouspostslink',
+				/pre.*/,
+				/code.*/,
+				/token.*/,
 			]
 		}))
 
@@ -189,10 +192,11 @@ gulp.task('js', ['js-lint'], () => {
 		'bower_components/jquery/dist/jquery.js',
 		'bower_components/picturefill/dist/picturefill.min.js',
 		'bower_components/lazyloadxt/dist/jquery.lazyloadxt.js',
-		'bower_components/lazyloadxt/dist/jquery.lazyloadxt.srcset.js'
+		'bower_components/lazyloadxt/dist/jquery.lazyloadxt.srcset.js',
+		'js/prism.min.js',
 	])
 		.pipe(uglify())
-		.pipe(concat('picturefill.min.js'))
+		.pipe(concat('singular.min.js'))
 		.pipe(gulp.dest('build/js'));
 	gulp.src(['js/analytics.js'])
 		.pipe(gulp.dest('build/js'));

@@ -4,8 +4,8 @@ function ah_enqueue_scripts() {
 
 	if ( ! is_front_page() ) {
 		if ( is_page_template( 'templates/template-picture.php' ) || is_singular() ) {
-			wp_register_script( 'picturefill', $build . 'picturefill.min.js', false, null, true );
-			wp_enqueue_script( 'picturefill' );
+			wp_register_script( 'singular', $build . 'singular.min.js', false, null, true );
+			wp_enqueue_script( 'singular' );
 		}
 	}
 
