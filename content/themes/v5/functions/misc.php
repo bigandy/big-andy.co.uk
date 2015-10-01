@@ -44,8 +44,9 @@ if ( ! function_exists( 'ah_init_constants' ) ) {
 			define( 'THEMECOLOR', $meta_color );
 		}
 	}
+	add_action( 'init', 'ah_init_constants' );
 }
-add_action( 'init', 'ah_init_constants' );
+
 
 if ( ! function_exists( 'ah_header_theme_color' ) ) {
 	function ah_header_theme_color() {
