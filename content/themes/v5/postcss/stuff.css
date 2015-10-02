@@ -28,7 +28,7 @@
 @media only screen {
 	.columns{
 		position: relative;
-		padding-left:. 9375rem;
+		padding-left: .9375rem;
 		padding-right: .9375rem;
 		float: left;
 	}
@@ -41,8 +41,8 @@
 	.columns {
 		position: relative;
 		padding-left: .9375rem;
-		padding-right:.9375rem;
-		float:left;
+		padding-right: .9375rem;
+		float: left;
 	}
 }
 

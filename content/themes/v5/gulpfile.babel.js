@@ -28,6 +28,8 @@ import simpleExtend from 'postcss-simple-extend';
 import focus from 'postcss-focus';
 import rows from 'postcss-rows';
 import customProperties from 'postcss-custom-properties';
+import stylelint from 'stylelint';
+import reporter from 'postcss-reporter';
 
 var envLive = 'https://big-andy.co.uk/',
 	envDev = 'http://big-andy.dev/',
@@ -168,16 +170,28 @@ gulp.task('css', () => {
 		.pipe(gulp.dest('./build/css'));
 });
 
-gulp.task('scss-lint', () => {
+gulp.task('css-lint', () => {
 	gulp.src([
-			'scss/**/*.scss',
-			'!scss/style.scss', // ignore this file so can include commenting in it.
-			'!scss/font.scss'
+		'./postcss/**/*.css',
+		'!./postcss/font.css'
 		])
-		.pipe(scsslint({
-			'config': '.scss-lint.yml',
-		}));
+		.pipe(postcss([
+			stylelint({ // an example config that has four rules
+				"rules": {
+					"block-no-empty": 2,
+					"color-no-invalid-hex": 2,
+					"declaration-colon-space-before": [2, "never"],
+					"declaration-colon-space-after": [2, "always"],
+					"indentation": [2, "tab"],
+					"number-leading-zero": [2, "never"]
+				}
+			}),
+			reporter({
+				clearMessages: true,
+			})
+		]))
 });
+
 
 // concat and minify the js
 gulp.task('js', ['js-lint'], () => {
@@ -268,4 +282,7 @@ gulp.task('deploy', [
 	'lint'
 ]);
 
-gulp.task('lint', ['scss-lint', 'js-lint', 'wordpress-lint']);
+gulp.task('lint', [
+	'js-lint',
+	'wordpress-lint'
+]);
