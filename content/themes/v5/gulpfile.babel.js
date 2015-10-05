@@ -5,7 +5,7 @@ import concat from 'gulp-concat';
 import eslint from 'gulp-eslint';
 import sass from 'gulp-sass';
 import scsslint from 'gulp-scss-lint';
-import livereload from 'gulp-livereload';
+import browserSync from 'browser-sync';
 import uncss from 'gulp-uncss';
 import penthouse from 'penthouse';
 import Promise from 'bluebird';
@@ -46,7 +46,8 @@ var envLive = 'https://big-andy.co.uk/',
 		env + 'breaking-borders-3/'
 	],
 	penthouseAsync = Promise.promisify(penthouse),
-	browsers = ['last 1 version'];
+	browsers = ['last 1 version'],
+	reload = browserSync.reload;
 
 gulp.task('sprites', () => {
 	return gulp.src([
@@ -159,7 +160,8 @@ gulp.task('css', () => {
 				zindex: true
 			}
 		}))
-		.pipe(gulp.dest('.'));
+		.pipe(gulp.dest('.'))
+		.pipe(browserSync.stream());
 
 	gulp.src('./postcss/font.scss')
 		.pipe(cssnext({
@@ -213,9 +215,10 @@ gulp.task('js', ['js-lint'], () => {
 	])
 		.pipe(uglify())
 		.pipe(concat('singular.min.js'))
-		.pipe(gulp.dest('build/js'));
-	gulp.src(['js/analytics.js'])
-		.pipe(gulp.dest('build/js'));
+		.pipe(gulp.dest('build/js'))
+		.pipe(gulp.dest('build/js'))
+		.pipe(browserSync.stream());
+
 	gulp.src(['js/font-loader.js'])
 		.pipe(uglify())
 		.pipe(gulp.dest('build/js'));
@@ -245,25 +248,24 @@ gulp.task('wordpress-lint', () => {
 		.pipe(phpcs.reporter('log'));
 });
 
+gulp.task('browser-sync', function() {
+	browserSync.init({
+		proxy: 'big-andy.dev'
+	})
+
+	gulp.watch('**/*.php').on('change', browserSync.reload);
+});
+
 // Rerun the task when a file changes
 gulp.task('watch', () => {
 	gulp.watch('js/*', ['js']);
 	gulp.watch('postcss/**/*', ['css']);
 	gulp.watch('images/svg/*.svg', ['sprites']);
-
-	var server = livereload();
-	gulp.watch([
-		'style.css',
-		'build/**',
-		'*.php',
-		'scss/**'
-	]).on('change', function(file) {
-		server.changed(file.path);
-	});
 });
 
 // The default task (called when you run `gulp` from cli)
 gulp.task('default', [
+	'browser-sync',
 	'js',
 	'css',
 	'watch'
