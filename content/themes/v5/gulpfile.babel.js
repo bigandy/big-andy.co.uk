@@ -127,7 +127,6 @@ gulp.task('css', () => {
 	];
 	gulp.src([
 			'./postcss/style.css',
-			'./postcss/font.css'
 		])
 		.pipe(postcss(processors))
 		.pipe(cssnext({
