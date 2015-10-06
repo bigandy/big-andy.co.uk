@@ -15,8 +15,11 @@ vvv-hosts
 bower-compenents/
 node_modules/
 
+
+
 ## sublime text files
 *.sublime-*
 
-/content/themes/v4/bower_components
+/content/themes/v6/bower_components
+/content/themes/v6/node_modules
 *.map
