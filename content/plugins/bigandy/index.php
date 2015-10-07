@@ -153,15 +153,15 @@ require_once 'content.php';
 require_once 'metabox.php';
 
 
-if ( $options['shortcodes'] == "Y" ) {
+if ( $options['shortcodes'] === "Y" ) {
 	require_once 'shortcodes.php';
 }
-if ( $options['security'] == "Y" ) {
+if ( $options['security'] === "Y" ) {
 	require_once 'security-stuff.php';
 }
-if ( $options['menu'] == "Y" ) {
+if ( $options['menu'] === "Y" ) {
 	require_once 'remove-menu-classes.php';
 }
-if ( $options['images'] == "Y" ) {
+if ( $options['images'] === "Y" ) {
 	require_once 'images.php';
 }

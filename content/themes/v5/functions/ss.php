@@ -6,6 +6,7 @@ function ah_enqueue_scripts() {
 		if ( is_page_template( 'templates/template-picture.php' ) || is_singular() ) {
 			wp_register_script( 'singular', $build . 'singular.min.js', false, null, true );
 			wp_enqueue_script( 'singular' );
+			wp_deregister_script( 'wp-oembed' );
 		}
 	}
 
