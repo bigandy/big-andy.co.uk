@@ -21,7 +21,7 @@ import autoprefixer from 'autoprefixer';
 import mixins from 'postcss-mixins';
 import nestedcss from 'postcss-nested';
 import postcssImport from 'postcss-import';
-import colorFunction from'postcss-color-function';
+import colorFunction from 'postcss-color-function';
 import postcssRoot from 'postcss';
 import cssnext from 'gulp-cssnext';
 import simpleExtend from 'postcss-simple-extend';
