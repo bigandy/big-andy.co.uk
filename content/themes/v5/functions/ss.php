@@ -6,9 +6,15 @@ function ah_enqueue_scripts() {
 		if ( is_page_template( 'templates/template-picture.php' ) || is_singular() ) {
 			wp_register_script( 'singular', $build . 'singular.min.js', false, null, true );
 			wp_enqueue_script( 'singular' );
-			// wp_deregister_script( 'wp-oembed' );
 		}
 	}
+
+	// don't want the script on front-page or pages.
+	if ( is_front_page() || is_page() ) {
+		wp_deregister_script( 'wp-oembed' );
+	}
+
+
 
 	if ( is_user_logged_in() ) {
 		wp_register_script( 'main', $build . 'script.min.js', false, null, true );
