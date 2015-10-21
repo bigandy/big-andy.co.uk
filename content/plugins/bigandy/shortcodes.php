@@ -1,55 +1,67 @@
 <?php
-
 /* Shortcodes */
 // [address] using microformats : http://microformats.org/code/hcard/creator
 function ah_address_shortcode( $atts ) {
-	extract( shortcode_atts( array(
-				'street' => '40 Hawthorn Place',
-				'town' => 'Didcot',
-				'county' => 'Oxfordshire',
-				'postcode' => 'OX11 6BF',
-			), $atts ) );
+	$atts = shortcode_atts(
+		array(
+			'street' => '40 Hawthorn Place',
+			'town' => 'Didcot',
+			'county' => 'Oxfordshire',
+			'postcode' => 'OX11 6BF',
+		), $atts, 'address' );
+
 	return '<div class="adr">
-  <span class="street-address">' . $street . '</span>,
-  <span class="locality">' . $town . '</span>,
-  <span class="region">' . $county . '</span>,
-  <span class="postal-code">' . $postcode . '</span>
+  <span class="street-address">' . esc_html( $atts['street'] ) . '</span>,
+  <span class="locality">' . esc_html( $atts['town'] ) . '</span>,
+  <span class="region">' . esc_html( $atts['county'] ) . '</span>,
+  <span class="postal-code">' . esc_html( $atts['postcode'] ) . '</span>
  </div>';
 }
 add_shortcode( 'address', 'ah_address_shortcode' );
 
 // [telephone]
 function ah_telephone_shortcode( $atts, $content = null ) {
-	extract( shortcode_atts( array(
-				'telephone' => '077 36063 671',
-				'label' => '',
-			), $atts ) );
-	return '<div class="tel">'. $label . $telephone .'</div>';
+	$atts = shortcode_atts(
+		array(
+			'telephone' => '077 36063 671',
+			'label' => '',
+		), $atts, 'telephone' );
+
+	return '<div class="tel">'. esc_html( $atts['label'] ) . esc_html( $atts['telephone'] ) .'</div>';
 }
 add_shortcode( 'telephone', 'ah_telephone_shortcode' );
 
 // [email]
 function ah_email_shortcode( $atts, $content = null ) {
+	$atts = shortcode_atts(
+		array(
+			'email' => 'andy@big-andy.co.uk',
+		), $atts, 'email' );
+
 	extract( shortcode_atts( array(
 				'email' => 'andy@big-andy.co.uk',
 			), $atts ) );
-	return '<a class="email" href="mailto:'. $email .'">'. $email .'</a>';
+
+
+	return '<a class="email" href="mailto:'. esc_url( $atts['email'] ) .'">'. $atts['email'] .'</a>';
 }
 add_shortcode( 'email', 'ah_email_shortcode' );
 
 // [name]
 function ah_name_shortcode( $atts, $content = null ) {
-	extract( shortcode_atts( array(
-				'name' => 'Andrew Hudson',
-				'wrapper' => 'span',
-				'link' => '',
-				'class' => '',
-			), $atts ) );
+	$atts = shortcode_atts(
+		array(
+			'name' => 'Andrew Hudson',
+			'wrapper' => 'span',
+			'link' => '',
+			'class' => '',
+		), $atts, 'name' );
 
-	if ( $link != "" ) {
-		$output = '<'. $wrapper .' class="fn '. $class .'"><a href="'. $link .'">'. $name .'</a></'. $wrapper .'>';
+
+	if ( $atts['link'] !== '' ) {
+		$output = '<'. $atts['wrapper'] .' class="fn '. $atts['class'] .'"><a href="'. esc_url( $atts['link'] ) .'">'. $atts['name'] .'</a></'. $atts['wrapper'] .'>';
 	} else {
-		$output = '<'. $wrapper .' class="fn '. $class .'">'. $name .'</'. $wrapper .'>';
+		$output = '<'. $atts['wrapper'] .' class="fn '. $atts['class'] .'">'. $atts['name'] .'</'. $atts['wrapper'] .'>';
 	}
 	return $output;
 }
@@ -58,12 +70,12 @@ add_shortcode( 'name', 'ah_name_shortcode' );
 
 // [website]
 function ah_website_shortcode( $atts, $content = null ) {
+	$atts = shortcode_atts(
+		array(
+			'url' => 'https://big-andy.co.uk',
+		), $atts, 'link' );
 
-	extract( shortcode_atts( array(
-				'url' => 'https://big-andy.co.uk'
-			), $atts ) );
-
-	return '<a class="url" href="' . esc_url( $url ) . '">' . preg_replace( '(^https?://)', '', $url ) . '</a>';
+	return '<a href="' . esc_url( $atts['url'] ) . '">' . esc_html( preg_replace( '(^https?://)', '', $atts['url'] ) ) . '</a>';
 }
 add_shortcode( 'website', 'ah_website_shortcode' );
 
