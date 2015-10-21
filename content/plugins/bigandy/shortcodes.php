@@ -63,7 +63,7 @@ function ah_website_shortcode( $atts, $content = null ) {
 				'url' => 'https://big-andy.co.uk'
 			), $atts ) );
 
-	return '<a class="url" href="' . esc_url( $url ) . '">'.$url.'</a>';
+	return '<a class="url" href="' . esc_url( $url ) . '">' . preg_replace( '(^https?://)', '', $url ) . '</a>';
 }
 add_shortcode( 'website', 'ah_website_shortcode' );
 
