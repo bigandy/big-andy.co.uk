@@ -46,7 +46,7 @@ function ah_name_shortcode( $atts, $content = null ) {
 				'class' => '',
 			), $atts ) );
 
-	if ( $link !="" ) {
+	if ( $link != "" ) {
 		$output = '<'. $wrapper .' class="fn '. $class .'"><a href="'. $link .'">'. $name .'</a></'. $wrapper .'>';
 	} else {
 		$output = '<'. $wrapper .' class="fn '. $class .'">'. $name .'</'. $wrapper .'>';
@@ -60,10 +60,10 @@ add_shortcode( 'name', 'ah_name_shortcode' );
 function ah_website_shortcode( $atts, $content = null ) {
 
 	extract( shortcode_atts( array(
-				'url' => 'big-andy.co.uk'
+				'url' => 'https://big-andy.co.uk'
 			), $atts ) );
 
-	return '<a class="url" href="http://'.$url.'">'.$url.'</a>';
+	return '<a class="url" href="' . esc_url( $url ) . '">'.$url.'</a>';
 }
 add_shortcode( 'website', 'ah_website_shortcode' );
 
