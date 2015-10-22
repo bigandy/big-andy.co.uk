@@ -154,8 +154,6 @@ function ah_shortcode_weather( $atts, $content ) {
 		'timeout' => 120,
 	];
 
-	// delete_transient( 'weather' ); // if you want to delete the transient, uncomment this line
-
 	$transient_name = 'weather'; // Name of value in database.
 	$cache_time = 3; // Time in hours between updates.
 
@@ -163,23 +161,20 @@ function ah_shortcode_weather( $atts, $content ) {
 	if ( false === ( $weather = get_transient( $transient_name ) ) ) {
 	   // Get new $response from the weather api
 	   $response = wp_remote_get( 'https://api.forecast.io/forecast/c3a6795997c7501f0e1e115b3600eb40/51.628284,-1.296668?units=uk', $response_args );
-	   // Get response body
-	   $response_body = json_decode( $response['body'] );
-	   // Get Current Weather Summary
-	   $weather = strtolower( $response_body->currently->summary );
-	   // Set the transient
-	   set_transient( $transient_name, $weather, 60 * 60 * $cache_time );
+	   // Check if response is an array
+	   if ( is_array( $response ) ) {
+			// Get response body
+			$response_body = json_decode( $response['body'] );
+			// Get Current Weather Summary
+			$weather = strtolower( $response_body->currently->summary );
+			// Set the transient
+			set_transient( $transient_name, $weather, 60 * 60 * $cache_time );
+		}
 	}
 
 	$html = $weather;
 
-	// if ( is_array( $response ) ) {
 
-	// 	$response_body = json_decode( $response['body'] );
-	// 	$html = strtolower( $response_body->currently->summary );
-	// } else {
-	// 	$html = 'sunny';
-	// }
 
 	return esc_html( $html );
 }
