@@ -13,7 +13,7 @@ $paged = get_query_var( 'page' );
 						the_post();
 						?>
 						<h2 class="home__intro">
-							<?php echo wp_kses_post( get_the_content() ); ?>
+							<?php echo wp_kses_post( do_shortcode( get_the_content() ) ); ?>
 						</h2>
 						<?php
 					}
