@@ -13,9 +13,6 @@
 		$css = 'style.css';
 	}
 	include_once( $css ); ?></style>
-	<title>
-		<?php wp_title(); ?>
-	</title>
 	<?php wp_head(); ?>
 </head>
 <body>

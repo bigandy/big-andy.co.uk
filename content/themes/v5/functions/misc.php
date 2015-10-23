@@ -44,9 +44,15 @@ if ( ! function_exists( 'ah_init_constants' ) ) {
 			define( 'THEMECOLOR', $meta_color );
 		}
 	}
+
+
 	add_action( 'init', 'ah_init_constants' );
 }
 
+function ah_add_title_tag() {
+	add_theme_support( 'title-tag' );
+}
+add_action( 'after_setup_theme', 'ah_add_title_tag' );
 
 if ( ! function_exists( 'ah_header_theme_color' ) ) {
 	function ah_header_theme_color() {
