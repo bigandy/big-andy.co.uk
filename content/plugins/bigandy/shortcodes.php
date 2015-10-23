@@ -155,7 +155,7 @@ function ah_shortcode_weather( $atts, $content ) {
 	];
 
 	$transient_name = 'weather'; // Name of value in database.
-	$cache_time = 3; // Time in hours between updates.
+	$cache_time = 20; // Time in minutes between updates.
 
 	// If the transient is not set
 	if ( false === ( $weather = get_transient( $transient_name ) ) ) {
@@ -168,7 +168,7 @@ function ah_shortcode_weather( $atts, $content ) {
 			// Get Current Weather Summary
 			$weather = strtolower( $response_body->currently->summary );
 			// Set the transient
-			set_transient( $transient_name, $weather, 60 * 60 * $cache_time );
+			set_transient( $transient_name, $weather, 60 * $cache_time );
 		}
 	}
 
