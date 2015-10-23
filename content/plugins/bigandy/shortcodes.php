@@ -149,7 +149,7 @@ function ah_shortcode_lazy( $atts, $content ) {
 }
 add_shortcode( 'lazy', 'ah_shortcode_lazy' );
 
-function ah_shortcode_weather( $atts, $content ) {
+function ah_set_weather() {
 	$response_args = [
 		'timeout' => 120,
 	];
@@ -172,9 +172,12 @@ function ah_shortcode_weather( $atts, $content ) {
 		}
 	}
 
-	$html = $weather;
+	return $weather;
+}
 
 
+function ah_shortcode_weather( $atts, $content ) {
+	$html = ah_set_weather();
 
 	return esc_html( $html );
 }
