@@ -50,13 +50,13 @@ class BigAndyThemeCustomizer {
 		$colors = array();
 		$colors[] = array(
 			'slug'		=> 'ah_header_color',
-			'default'	=> '#0c6b9b',
+			'default'	=> '#000000',
 			'label'		=> 'Header Color',
 			'priority'	=> 20
 		);
 		$colors[] = array(
 			'slug'		=> 'ah_theme_color',
-			'default'	=> '#034f75',
+			'default'	=> '#008AD7',
 			'label'		=> 'Theme Colour',
 			'priority'	=> 21
 		);
