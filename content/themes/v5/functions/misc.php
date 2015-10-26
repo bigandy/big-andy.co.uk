@@ -33,7 +33,7 @@ if ( ! function_exists( 'ah_init_constants' ) ) {
 		}
 
 		if ( ! defined( 'THEMECOLOR' ) ) {
-			$theme_colour = get_theme_mod( 'ah_meta_color' );
+			$theme_colour = get_option( 'ah_theme_color' );
 
 			if ( ! empty( $theme_colour ) && '#008AD7' !== $theme_colour ) {
 				$meta_color = $theme_colour;
