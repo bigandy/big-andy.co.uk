@@ -51,7 +51,7 @@ class BigAndyThemeCustomizer {
 		$colors[] = array(
 			'slug'		=> 'ah_header_color',
 			'default'	=> '#000000',
-			'label'		=> 'Header Color',
+			'label'		=> 'Admin Menu Bar Color',
 			'priority'	=> 20
 		);
 		$colors[] = array(
