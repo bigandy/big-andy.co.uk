@@ -43,8 +43,19 @@ if ( ! function_exists( 'ah_init_constants' ) ) {
 
 			define( 'THEMECOLOR', $meta_color );
 		}
-	}
 
+		if ( ! defined( 'HEADERCOLOR' ) ) {
+			$theme_color = get_option( 'ah_header_color' );
+
+			if ( ! empty( $theme_color ) ) {
+				$meta_color = $theme_color;
+			} else {
+				$meta_color = '#000000';
+			}
+
+			define( 'HEADERCOLOR', $meta_color );
+		}
+	}
 
 	add_action( 'init', 'ah_init_constants' );
 }

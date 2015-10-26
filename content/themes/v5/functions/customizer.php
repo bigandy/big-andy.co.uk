@@ -47,26 +47,37 @@ class BigAndyThemeCustomizer {
 			)
 		);
 
-		// add color picker setting
-		$wp_customize->add_setting(
-			'ah_meta_color',
-			array(
-				'default' => '#008AD7',
-			)
+		$colors = array();
+		$colors[] = array(
+			'slug'		=> 'ah_header_color',
+			'default'	=> '#0c6b9b',
+			'label'		=> 'Header Color',
+			'priority'	=> 20
 		);
+		$colors[] = array(
+			'slug'		=> 'ah_theme_color',
+			'default'	=> '#034f75',
+			'label'		=> 'Theme Colour',
+			'priority'	=> 21
+		);
+		// Build settings from $colors array
+		foreach( $colors as $color ) {
 
-		// add color picker control
-		$wp_customize->add_control(
-			new WP_Customize_Color_Control(
-				$wp_customize,
-				'ah_theme_colors',
-				array(
-					'label' => 'Link Color',
-					'section' => 'ah_theme_colors',
-					'settings' => 'ah_meta_color',
-				)
-			)
-		);
+			// customizer settings
+			$wp_customize->add_setting( $color['slug'], array(
+				'default'		=> $color['default'],
+				'type'			=> 'option',
+				'capability'	=> 'edit_theme_options'
+			) );
+
+			// customizer controls
+			$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, $color['slug'], array(
+				'label'		=> $color['label'],
+				'section'	=> 'ah_theme_colors',
+				'settings'	=> $color['slug'],
+				'priority'	=> $color['priority']
+			) ) );
+		}
 		// END of theme-color Colour Picker
 	}
 }
