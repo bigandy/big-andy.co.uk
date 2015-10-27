@@ -66,7 +66,7 @@ class BigAndyThemeCustomizer {
 			// customizer settings
 			$wp_customize->add_setting( $color['slug'], array(
 				'default'		=> $color['default'],
-				'type'			=> 'option',
+				'type'			=> 'theme_mod',
 				'capability'	=> 'edit_theme_options'
 			) );
 
