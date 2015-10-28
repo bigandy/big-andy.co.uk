@@ -75,6 +75,17 @@ gulp.task('critical-css', () => {
 	}).then( function (criticalCSS){
 		require('fs').writeFile('build/css/critical.css', criticalCSS);
 	});
+
+	penthouseAsync({
+		url: [
+			'http://big-andy.dev/test/'
+		],
+		css: './style.css',
+		height: 3000, // 600
+		width: 400 // 400
+	}).then( function (criticalCSS){
+		require('fs').writeFile('build/css/post.css', criticalCSS);
+	});
 });
 
 gulp.task('uncss', () => {

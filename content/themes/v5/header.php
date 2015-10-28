@@ -8,7 +8,11 @@
 	<link rel="icon" sizes="192x192" href="<?php echo esc_url( TEMPLATEURI ); ?>images/ba.png" type="image/png">
 	<style><?php
 	if ( ! is_user_logged_in() ) {
-		$css = 'build/css/critical.css';
+		if ( is_page() || is_front_page() ) {
+			$css = 'build/css/critical.css';
+		} else {
+			$css = 'build/css/post.css';
+		}
 	} else {
 		$css = 'style.css';
 	}
