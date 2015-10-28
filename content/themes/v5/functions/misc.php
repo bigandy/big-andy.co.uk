@@ -33,7 +33,7 @@ if ( ! function_exists( 'ah_init_constants' ) ) {
 		}
 
 		if ( ! defined( 'THEMECOLOR' ) ) {
-			$theme_colour = get_option( 'ah_theme_color' );
+			$theme_colour = get_theme_mod( 'ah_theme_color' );
 
 			if ( ! empty( $theme_colour ) && '#008AD7' !== $theme_colour ) {
 				$meta_color = $theme_colour;
@@ -45,7 +45,7 @@ if ( ! function_exists( 'ah_init_constants' ) ) {
 		}
 
 		if ( ! defined( 'HEADERCOLOR' ) ) {
-			$theme_color = get_option( 'ah_header_color' );
+			$theme_color = get_theme_mod( 'ah_header_color' );
 
 			if ( ! empty( $theme_color ) ) {
 				$meta_color = $theme_color;

@@ -75,7 +75,11 @@ function ah_website_shortcode( $atts, $content = null ) {
 			'url' => 'https://big-andy.co.uk',
 		), $atts, 'link' );
 
-	return '<a href="' . esc_url( $atts['url'] ) . '">' . esc_html( preg_replace( '(^https?://)', '', $atts['url'] ) ) . '</a>';
+	$escaped_url = preg_replace( '(^https?://)', '', $atts['url'] ); // remove the http(s)
+	$escaped_url = preg_replace( '(^www.)', '', $escaped_url ); // remove the www.
+	$escaped_url = str_replace( '/', '', $escaped_url ); // remove the final slash
+
+	return '<a href="' . esc_url( $atts['url'] ) . '">' . esc_html( $escaped_url ) . '</a>';
 }
 add_shortcode( 'website', 'ah_website_shortcode' );
 
