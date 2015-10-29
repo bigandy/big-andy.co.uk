@@ -7,19 +7,14 @@ $paged = get_query_var( 'page' );
 		<section class="home__intro">
 			<?php
 			if ( have_posts() && '' === $paged ) {
-				?>
-					<?php
-					while ( have_posts() ) {
-						the_post();
-						?>
-						<h2 class="home__intro">
-							<?php echo wp_kses_post( do_shortcode( get_the_content() ) ); ?>
-						</h2>
-						<?php
-					}
+				while ( have_posts() ) {
+					the_post();
 					?>
-
-				<?php
+					<h2 class="home__intro">
+						<?php echo wp_kses_post( do_shortcode( get_the_content() ) ); ?>
+					</h2>
+					<?php
+				}
 			} else {
 				?>
 				<h2 class="home__intro--archive">Post Archive: Page <?php echo esc_html( $paged ); ?></h2>
@@ -40,21 +35,51 @@ $paged = get_query_var( 'page' );
 			if ( $home_loop->have_posts() ) {
 				while ( $home_loop->have_posts() ) {
 					$home_loop->the_post();
+
+					if ( has_post_format( 'aside' ) ) {
+						$aside = true;
+					} else {
+						$aside = false;
+					}
 					?>
 					<article role="article" class="article--home">
 						<header class="article__header article__header--front-page">
-							<h2 class="article__title">
+							<?php
+							if ( false === $aside ) {
+								?>
+								<h2 class="article__title">
 								<a href="<?php the_permalink(); ?>" class="article__link">
-									<?php the_title(); ?>
+								<?php
+							} else {
+								?>
+								<blockquote>
+								<?php
+							}
+							the_title();
+							if ( false === $aside ) {
+								?>
 								</a>
-							</h2>
-							<time class="article__time" datetime="<?php the_time( 'c' ); ?>">
-								<?php the_time( 'd/m/Y' ); ?>
-							</time>
+								</h2>
+								<time class="article__time" datetime="<?php the_time( 'c' ); ?>">
+									<?php the_time( 'd/m/Y' ); ?>
+								</time>
+								<?php
+							} else {
+								?>
+								</blockquote>
+								<?php
+							}
+							?>
 						</header>
-						<div class="post-content clearfix article__content--front-page">
-							<?php the_excerpt(); ?>
-						</div>
+						<?php
+						if ( false === $aside ) {
+							?>
+							<div class="post-content clearfix article__content--front-page">
+								<?php the_excerpt(); ?>
+							</div>
+							<?php
+						}
+						?>
 					</article>
 					<?php
 				}

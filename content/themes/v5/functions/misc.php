@@ -60,10 +60,11 @@ if ( ! function_exists( 'ah_init_constants' ) ) {
 	add_action( 'init', 'ah_init_constants' );
 }
 
-function ah_add_title_tag() {
+function ah_add_theme_support() {
 	add_theme_support( 'title-tag' );
+	add_theme_support( 'post-formats', array( 'aside', 'link' ) );
 }
-add_action( 'after_setup_theme', 'ah_add_title_tag' );
+add_action( 'after_setup_theme', 'ah_add_theme_support' );
 
 if ( ! function_exists( 'ah_header_theme_color' ) ) {
 	function ah_header_theme_color() {
