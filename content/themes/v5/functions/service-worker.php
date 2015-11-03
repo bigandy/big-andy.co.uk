@@ -68,8 +68,11 @@ self.addEventListener('install', function(e) {
 	caches.open(cacheName).then(function(cache) {
 	  return cache.addAll([
 		'" . esc_url( HOMEURL ) . "',
+		'" . esc_url( HOMEURL ) . "wp/wp-includes/js/wp-embed.min.js',
 		'" . esc_url( get_stylesheet_uri() ). "',
 		'" . esc_url( TEMPLATEURI ) . "build/js/script.min.js',
+		'" . esc_url( TEMPLATEURI ) . "build/css/font.css',
+		'" . esc_url( TEMPLATEURI ) . "images/ba.png',
 		" . $posts_urls . "
 		" . $page_urls . "
 	  ]).then(function() {
