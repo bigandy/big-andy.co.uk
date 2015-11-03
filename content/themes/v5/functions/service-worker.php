@@ -5,7 +5,8 @@ function ah_add_serviceworker_in_root() {
 		'posts_per_page'	=> 20,
 		'post_type'			=> [
 			'post',
-		]
+		],
+		'post_status'		=> 'publish',
 	];
 
 	$posts_loop = new WP_Query( $posts_args );
@@ -22,7 +23,8 @@ function ah_add_serviceworker_in_root() {
 		'posts_per_page'	=> 5,
 		'post_type'			=> [
 			'page',
-		]
+		],
+		'post_status'		=> 'publish',
 	];
 
 	$page_loop = new WP_Query( $page_args );
@@ -61,10 +63,8 @@ self.addEventListener('install', function(e) {
 	  return cache.addAll([
 		'" . esc_url( HOMEURL ) . "',
 		'" . esc_url( get_stylesheet_uri() ). "',
-		'" . esc_url( HOMEURL ) . "wp-includes/js/jquery/jquery.js' ,
-		'" . esc_url( HOMEURL ) . "wp-includes/js/jquery/jquery-migrate.min.js',
 		'" . esc_url( TEMPLATEURI ) . "build/js/script.min.js',
-		" . $post_urls . "
+		" . $posts_urls . "
 		" . $page_urls . "
 	  ]).then(function() {
 		return self.skipWaiting();
@@ -87,7 +87,6 @@ self.addEventListener('fetch', function(event) {
   );
 });
 	";
-
 	file_put_contents( SITEROOT . 'serviceWorker.js', $data );
 }
 
