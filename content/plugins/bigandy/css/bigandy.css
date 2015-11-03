@@ -2,48 +2,52 @@
 
 .ahform label,
 .ahform .label {
-	display:inline-block;
-	width:100px;
+	display: inline-block;
+	width: 100px;
 }
 
-form.ahform {
-	margin-top:20px;
+.ahform {
+	margin-top: 20px;
 }
 
 .ahform fieldset {
-	padding:5px;
-	margin:5px 0;
-	border:1px solid #ccc;
-	background:rgba(255,0,0,0.5);
+	padding: 5px;
+	margin: 5px 0;
+	border: 1px solid #ccc;
+	background: rgba(255,0,0,0.5);
+}
+
+.ahform .fieldset--no-option {
+	background-color: #fff;
 }
 
 .ahform .is-active {
-	background:rgba(0,255,0,0.5);
+	background: rgba(0,255,0,0.5);
 }
 
 .ahform .no-bg {
-	background:transparent; 
+	background: transparent;
 }
 
 .ahform .label ~ label {
-	width:auto;
-	padding-right:10px;
+	width: auto;
+	padding-right: 10px;
 }
 
 .ahform select:focus {
-	border:1px solid black;
+	border: 1px solid black;
 }
 
 .ahform .is-active select:focus {
-	border-color:red;
+	border-color: red;
 }
 
 .bullet {
-	list-style:disc;
-	padding-left:1.5em;
+	list-style: disc;
+	padding-left: 1.5em;
 }
 
 .bullet span {
-	color:#aaa;
-	font-style:italic;
+	color: #aaa;
+	font-style: italic;
 }

@@ -62,9 +62,9 @@ function ah_plugin_admin_options_page() {
 			<fieldset <?php if ( $options['admin'] == "Y" ) echo 'class="is-active"'; ?>>
 				<label for="adminArea">Admin Area</label>
 				<select name="ah_plugin_options[admin]" id="adminArea">
-	                <option value="Y" <?php selected( $options['admin'], "Y" ); ?> >Yes</option>
-	                <option value="N" <?php selected( $options['admin'], "N" ); ?> >No</option>
-	            </select>
+					<option value="Y" <?php selected( $options['admin'], "Y" ); ?> >Yes</option>
+					<option value="N" <?php selected( $options['admin'], "N" ); ?> >No</option>
+				</select>
 			</fieldset>
 
 			<fieldset <?php if ( $options['shortcodes'] == "Y" ) echo 'class="is-active"'; ?>>
@@ -140,8 +140,6 @@ function ah_plugin_admin_options_page() {
 		</ul>
 	</div>
 	<?php
-
-	return $output;
 }
 
 $options = get_option( 'ah_plugin_options' );
