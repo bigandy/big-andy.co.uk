@@ -24,18 +24,18 @@ function ah_add_serviceworker_in_root() {
 		'post_type'			=> [
 			'page',
 		],
-		'meta_query'		=> [
-			[
+		'meta_query'		=> array(
+			array(
 				'key'		=> '_ah_page_service_worker',
 				'value'		=> 1,
-			],
-		],
+			),
+		),
 		'post_status'		=> 'publish',
 	];
 
 	$page_loop = new WP_Query( $page_args );
-	if ( $page_loop->have_page() ) {
-		while ( $page_loop->have_page() ) {
+	if ( $page_loop->have_posts() ) {
+		while ( $page_loop->have_posts() ) {
 			$page_loop->the_post();
 			$page_urls .= "'" . get_the_permalink() . "',\n\t\t";
 		}
