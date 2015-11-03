@@ -20,9 +20,15 @@ function ah_add_serviceworker_in_root() {
 
 	$page_urls = '';
 	$page_args = [
-		'posts_per_page'	=> 5,
+		'posts_per_page'	=> 25,
 		'post_type'			=> [
 			'page',
+		],
+		'meta_query'		=> [
+			[
+				'key'		=> '_ah_page_service_worker',
+				'value'		=> 1,
+			],
 		],
 		'post_status'		=> 'publish',
 	];
