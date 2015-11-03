@@ -68,13 +68,16 @@ self.addEventListener('install', function(e) {
 	caches.open(cacheName).then(function(cache) {
 	  return cache.addAll([
 		'" . esc_url( HOMEURL ) . "',
+		// Assets
 		'" . esc_url( HOMEURL ) . "wp/wp-includes/js/wp-embed.min.js',
 		'" . esc_url( get_stylesheet_uri() ). "',
 		'" . esc_url( TEMPLATEURI ) . "build/js/script.min.js',
 		'" . esc_url( TEMPLATEURI ) . "build/css/font.css',
 		'" . esc_url( TEMPLATEURI ) . "build/svg/svg.svg',
 		'" . esc_url( TEMPLATEURI ) . "images/ba.png',
+		// Posts
 		" . $posts_urls . "
+		// Pages
 		" . $page_urls . "
 	  ]).then(function() {
 		return self.skipWaiting();
