@@ -1,13 +1,10 @@
 <?php
-
-
 function ah_add_serviceworker_in_root() {
-	$urls = '';
+	$post_urls = '';
 	$posts_args = [
-		'posts_per_page'	=> -1,
+		'posts_per_page'	=> 20,
 		'post_type'			=> [
 			'post',
-			'page'
 		]
 	];
 
@@ -15,7 +12,24 @@ function ah_add_serviceworker_in_root() {
 	if ( $posts_loop->have_posts() ) {
 		while ( $posts_loop->have_posts() ) {
 			$posts_loop->the_post();
-			$urls .= "'" . get_the_permalink() . "',\n\t\t";
+			$posts_urls .= "'" . get_the_permalink() . "',\n\t\t";
+		}
+	}
+	wp_reset_postdata();
+
+	$page_urls = '';
+	$page_args = [
+		'posts_per_page'	=> 5,
+		'post_type'			=> [
+			'page',
+		]
+	];
+
+	$page_loop = new WP_Query( $page_args );
+	if ( $page_loop->have_page() ) {
+		while ( $page_loop->have_page() ) {
+			$page_loop->the_post();
+			$page_urls .= "'" . get_the_permalink() . "',\n\t\t";
 		}
 	}
 	wp_reset_postdata();
@@ -23,7 +37,7 @@ function ah_add_serviceworker_in_root() {
 	$data = "
 importScripts('" . esc_url( HOMEURL ) . "cache-polyfill.js');
 
-var cacheName = 'wpo-cache-" . date ("d-m-Y-H-i-s", filemtime( 'serviceWorker.js' ) ) . "';
+var cacheName = 'wpo-cache-" . date ( "d-m-Y-H-i-s", filemtime( SITEROOT . 'serviceWorker.js' ) ) . "';
 
 // https://ponyfoo.com/articles/serviceworker-revolution
 self.addEventListener('activate', function activator (event) {
@@ -50,7 +64,8 @@ self.addEventListener('install', function(e) {
 		'" . esc_url( HOMEURL ) . "wp-includes/js/jquery/jquery.js' ,
 		'" . esc_url( HOMEURL ) . "wp-includes/js/jquery/jquery-migrate.min.js',
 		'" . esc_url( TEMPLATEURI ) . "build/js/script.min.js',
-		" . $urls . "
+		" . $post_urls . "
+		" . $page_urls . "
 	  ]).then(function() {
 		return self.skipWaiting();
 	  });
@@ -73,7 +88,7 @@ self.addEventListener('fetch', function(event) {
 });
 	";
 
-	file_put_contents( ABSPATH . 'serviceWorker.js', $data );
+	file_put_contents( SITEROOT . 'serviceWorker.js', $data );
 }
 
 add_action( 'publish_post', 'ah_add_serviceworker_in_root' );
