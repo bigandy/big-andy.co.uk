@@ -23,7 +23,7 @@ function ah_add_serviceworker_in_root() {
 	$data = "
 importScripts('" . esc_url( HOMEURL ) . "cache-polyfill.js');
 
-var cacheName = 'wpo-cache-" . date ("d-m-Y-H-i-s", filemtime( 'serviceWorker.js' ) ) . "';
+var cacheName = 'wpo-cache-" . date ( "d-m-Y-H-i-s", filemtime( 'serviceWorker.js' ) ) . "';
 
 // https://ponyfoo.com/articles/serviceworker-revolution
 self.addEventListener('activate', function activator (event) {
@@ -42,20 +42,20 @@ self.addEventListener('activate', function activator (event) {
 });
 
 self.addEventListener('install', function(e) {
-  e.waitUntil(
-	caches.open(cacheName).then(function(cache) {
-	  return cache.addAll([
-		'" . esc_url( HOMEURL ) . "',
-		'" . esc_url( get_stylesheet_uri() ). "',
-		'" . esc_url( HOMEURL ) . "wp-includes/js/jquery/jquery.js' ,
-		'" . esc_url( HOMEURL ) . "wp-includes/js/jquery/jquery-migrate.min.js',
-		'" . esc_url( TEMPLATEURI ) . "build/js/script.min.js',
-		" . $urls . "
-	  ]).then(function() {
-		return self.skipWaiting();
-	  });
-	})
-  );
+	e.waitUntil(
+		caches.open(cacheName).then(function(cache) {
+			return cache.addAll([
+				'" . esc_url( HOMEURL ) . "',
+				'" . esc_url( get_stylesheet_uri() ). "',
+				'" . esc_url( HOMEURL ) . "wp-includes/js/jquery/jquery.js' ,
+				'" . esc_url( HOMEURL ) . "wp-includes/js/jquery/jquery-migrate.min.js',
+				'" . esc_url( TEMPLATEURI ) . "build/js/script.min.js',
+				" . $urls . "
+			]).then(function() {
+				return self.skipWaiting();
+			});
+		})
+	);
 });
 
 self.addEventListener('activate', function(event) {
