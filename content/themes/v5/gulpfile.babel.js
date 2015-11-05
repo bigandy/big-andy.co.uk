@@ -289,9 +289,9 @@ gulp.task('production', [
 gulp.task('deploy', [
 	'css',
 	'uncss',
-	'critical-css',
 	'js',
-	'lint'
+	'lint',
+	'critical-css',
 ]);
 
 gulp.task('lint', [

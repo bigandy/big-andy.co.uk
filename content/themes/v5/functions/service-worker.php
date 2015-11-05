@@ -45,7 +45,7 @@ function ah_add_serviceworker_in_root() {
 	$data = "
 importScripts('" . esc_url( HOMEURL ) . "cache-polyfill.js');
 
-var cacheName = 'wpo-cache-" . date ( "d-m-Y-H-i-s", filemtime( SITEROOT . 'serviceWorker.js' ) ) . "';
+var cacheName = 'wpo-cache-" . date( 'd-m-Y-H-i-s', filemtime( SITEROOT . 'serviceWorker.js' ) ) . "';
 
 // https://ponyfoo.com/articles/serviceworker-revolution
 self.addEventListener('activate', function activator (event) {
@@ -64,40 +64,40 @@ self.addEventListener('activate', function activator (event) {
 });
 
 self.addEventListener('install', function(e) {
-  e.waitUntil(
-	caches.open(cacheName).then(function(cache) {
-	  return cache.addAll([
-		'" . esc_url( HOMEURL ) . "',
-		// Assets
-		'" . esc_url( HOMEURL ) . "wp/wp-includes/js/wp-embed.min.js',
-		'" . esc_url( get_stylesheet_uri() ). "',
-		'" . esc_url( TEMPLATEURI ) . "build/js/script.min.js',
-		'" . esc_url( TEMPLATEURI ) . "build/css/font.css',
-		'" . esc_url( TEMPLATEURI ) . "build/svg/svg.svg',
-		'" . esc_url( TEMPLATEURI ) . "images/ba.png',
-		// Posts
-		" . $posts_urls . "
-		// Pages
-		" . $page_urls . "
-	  ]).then(function() {
-		return self.skipWaiting();
-	  });
-	})
-  );
+	e.waitUntil(
+		caches.open(cacheName).then(function(cache) {
+			return cache.addAll([
+				'" . esc_url( HOMEURL ) . "',
+				// Assets
+				'" . esc_url( HOMEURL ) . "wp/wp-includes/js/wp-embed.min.js',
+				'" . esc_url( get_stylesheet_uri() ). "',
+				'" . esc_url( TEMPLATEURI ) . "build/js/script.min.js',
+				'" . esc_url( TEMPLATEURI ) . "build/css/font.css',
+				'" . esc_url( TEMPLATEURI ) . "build/svg/svg.svg',
+				'" . esc_url( TEMPLATEURI ) . "images/ba.png',
+				// Posts
+				" . $posts_urls . "
+				// Pages
+				" . $page_urls . "
+			]).then(function() {
+				return self.skipWaiting();
+			});
+		})
+	);
 });
 
 self.addEventListener('activate', function(event) {
-  event.waitUntil(self.clients.claim());
+	event.waitUntil(self.clients.claim());
 });
 
 self.addEventListener('fetch', function(event) {
-  console.log(event.request.url);
+	console.log(event.request.url);
 
-  event.respondWith(
-	caches.match(event.request).then(function(response) {
-	  return response || fetch(event.request);
-	})
-  );
+	event.respondWith(
+		caches.match(event.request).then(function(response) {
+			return response || fetch(event.request);
+		})
+	);
 });
 	";
 	file_put_contents( SITEROOT . 'serviceWorker.js', $data );
