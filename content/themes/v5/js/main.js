@@ -2,8 +2,8 @@
 
 var links = document.getElementsByClassName('article__link'),
 	linksLength = links.length,
-	i = linksLength,
-	ajax = new XMLHttpRequest();
+	i = linksLength;
+	// ajax = new XMLHttpRequest();
 
 
 // http://joelcalifa.com/blog/revisiting-visited
@@ -18,11 +18,11 @@ while (i--) {
 	}
 }
 
-ajax.open('GET', '/content/themes/v5/build/svg/svg.svg', true);
-ajax.send();
-ajax.onload = function () {
-	var div = document.createElement('div');
-	div.innerHTML = ajax.responseText;
-	div.className = 'svg-sprite';
-	document.body.insertBefore(div, document.body.childNodes[0]);
-};
+// ajax.open('GET', '/content/themes/v5/build/svg/svg.svg', true);
+// ajax.send();
+// ajax.onload = function () {
+// 	var div = document.createElement('div');
+// 	div.innerHTML = ajax.responseText;
+// 	div.className = 'svg-sprite';
+// 	document.body.insertBefore(div, document.body.childNodes[0]);
+// };

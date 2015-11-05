@@ -73,7 +73,6 @@ self.addEventListener('install', function(e) {
 				'" . esc_url( get_stylesheet_uri() ). "',
 				'" . esc_url( TEMPLATEURI ) . "build/js/script.min.js',
 				'" . esc_url( TEMPLATEURI ) . "build/css/font.css',
-				'" . esc_url( TEMPLATEURI ) . "build/svg/svg.svg',
 				'" . esc_url( TEMPLATEURI ) . "images/ba.png',
 				// Posts
 				" . $posts_urls . "
