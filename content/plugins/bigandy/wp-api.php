@@ -20,5 +20,3 @@ function ah_rest_prepare_post( $data, $post, $request ) {
 	return $data;
 }
 add_filter( 'rest_prepare_post', 'ah_rest_prepare_post', 10, 3 );
-
-

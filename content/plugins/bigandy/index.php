@@ -149,7 +149,8 @@ require_once 'init-styles.php';
 require_once 'admin-area.php';
 require_once 'content.php';
 require_once 'metabox.php';
-
+require_once 'api-calls.php';
+require_once 'wp-api.php';
 
 if ( $options['shortcodes'] === "Y" ) {
 	require_once 'shortcodes.php';
