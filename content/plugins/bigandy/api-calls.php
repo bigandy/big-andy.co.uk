@@ -24,3 +24,6 @@ function ah_set_weather() {
 
 	return $weather;
 }
+
+
+
