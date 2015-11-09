@@ -78,7 +78,7 @@ gulp.task('critical-css', () => {
 
 	penthouseAsync({
 		url: [
-			'http://big-andy.dev/test/'
+			'http://big-andy.dev/using-forecast-io-with-wordpress/'
 		],
 		css: './style.css',
 		height: 3000, // 600
@@ -289,9 +289,9 @@ gulp.task('production', [
 gulp.task('deploy', [
 	'css',
 	'uncss',
-	'critical-css',
 	'js',
-	'lint'
+	'lint',
+	'critical-css',
 ]);
 
 gulp.task('lint', [
