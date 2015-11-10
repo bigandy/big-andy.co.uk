@@ -72,6 +72,7 @@ self.addEventListener('install', function(e) {
 				'" . esc_url( HOMEURL ) . "wp/wp-includes/js/wp-embed.min.js',
 				'" . esc_url( get_stylesheet_uri() ). "',
 				'" . esc_url( TEMPLATEURI ) . "build/js/script.min.js',
+				'" . esc_url( TEMPLATEURI ) . "build/js/singular.min.js',
 				'" . esc_url( TEMPLATEURI ) . "build/css/font.css',
 				'" . esc_url( TEMPLATEURI ) . "images/ba.png',
 				// Posts
