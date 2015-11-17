@@ -25,7 +25,8 @@
     "foundation": "~5.1.1",
     "picturefill": "~3.0.1",
     "lazyloadxt": "~1.0.5",
-    "normalize.css": "~3.0.3"
+    "normalize.css": "~3.0.3",
+    "sw-toolbox": "~3.0.0"
   },
   "devDependencies": {
     "foundation": "zurb/bower-foundation#~5.5.2"
