@@ -226,6 +226,14 @@ gulp.task('js', ['js-lint'], () => {
 		.pipe(uglify())
 		.pipe(concat('singular.min.js'))
 		.pipe(gulp.dest('build/js'))
+		.pipe(browserSync.stream());
+
+	gulp.src([
+		'bower_components/sw-toolbox/sw-toolbox.js',
+		'js/service-worker/cache-polyfill.js',
+	])
+		.pipe(uglify())
+		.pipe(concat('sw.min.js'))
 		.pipe(gulp.dest('build/js'))
 		.pipe(browserSync.stream());
 

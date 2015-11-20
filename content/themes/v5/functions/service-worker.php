@@ -43,7 +43,7 @@ function ah_add_serviceworker_in_root() {
 	wp_reset_postdata();
 
 	$data = "
-importScripts('" . esc_url( HOMEURL ) . "cache-polyfill.js');
+importScripts('" . esc_url( TEMPLATEURI ) . "build/js/sw.min.js');
 
 var cacheName = 'wpo-cache-" . date( 'd-m-Y-H-i-s', filemtime( SITEROOT . 'serviceWorker.js' ) ) . "';
 
@@ -63,18 +63,20 @@ self.addEventListener('activate', function activator (event) {
 	);
 });
 
+toolbox.precache([
+	// Assets
+	'" . esc_url( HOMEURL ) . "wp/wp-includes/js/wp-embed.min.js',
+	'" . esc_url( get_stylesheet_uri() ). "',
+	'" . esc_url( TEMPLATEURI ) . "build/js/script.min.js',
+	'" . esc_url( TEMPLATEURI ) . "build/js/singular.min.js',
+	'" . esc_url( TEMPLATEURI ) . "build/css/font.css',
+	'" . esc_url( TEMPLATEURI ) . "images/ba.png'
+]);
+
 self.addEventListener('install', function(e) {
 	e.waitUntil(
 		caches.open(cacheName).then(function(cache) {
 			return cache.addAll([
-				'" . esc_url( HOMEURL ) . "',
-				// Assets
-				'" . esc_url( HOMEURL ) . "wp/wp-includes/js/wp-embed.min.js',
-				'" . esc_url( get_stylesheet_uri() ). "',
-				'" . esc_url( TEMPLATEURI ) . "build/js/script.min.js',
-				'" . esc_url( TEMPLATEURI ) . "build/js/singular.min.js',
-				'" . esc_url( TEMPLATEURI ) . "build/css/font.css',
-				'" . esc_url( TEMPLATEURI ) . "images/ba.png',
 				// Posts
 				" . $posts_urls . "
 				// Pages
