@@ -263,6 +263,30 @@ msgid "Configure the plugin by going to the <code>SEO</code> menu that appears i
 msgstr ""
 
 #. Found in changelog list item.
+msgid "<p>Enhancement: Made the \"Analyze entire site\" button have better color contrast and resemble JetPack. Thanks <a href=\"https://github.com/wpexplorer\">WPExplorer</a> for the contribution.</p>"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Fixes JS errors in combination with Give plugin, CMB2 Framework, ACF layout builder and any other plugin that replaces the editor with something else. Thanks a lot <a href=\"https://github.com/seripap\">Daniel Seripap</a> for fixing."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Fixes JavaScript error on post types without 'editor' capability. Thanks <a href=\"https://github.com/aaronhipple\">Aaron Hipple</a> for the fix and <a href=\"https://github.com/codeforest\">Zvonko Biškup</a> for testing."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Fixes a lot of text analysis issues for languages with non-latin scripts, including the \"0% keyword density\" issues."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Fixes an issue where html tags were not stripped properly from taxonomy descriptions for custom taxonomies."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Fixes possible \"URI too long\" errors when parsing shortcodes in the content before it is analyzed."
+msgstr ""
+
+#. Found in changelog list item.
 msgid "Fixes a bug where the snippet preview was broken."
 msgstr ""
 
@@ -1047,11 +1071,19 @@ msgid "Removed a couple of languages that were not up to date."
 msgstr ""
 
 #. Found in changelog paragraph.
-msgid "Release Date: November 19th, 2015"
+msgid "Release Date: November 25th, 2015"
+msgstr ""
+
+#. Found in changelog paragraph.
+msgid "Enhancement: Made the \"Analyze entire site\" button have better color contrast and resemble JetPack. Thanks <a href=\"https://github.com/wpexplorer\">WPExplorer</a> for the contribution."
 msgstr ""
 
 #. Found in changelog paragraph.
 msgid "Bugfixes:"
+msgstr ""
+
+#. Found in changelog paragraph.
+msgid "Release Date: November 19th, 2015"
 msgstr ""
 
 #. Found in changelog paragraph.
