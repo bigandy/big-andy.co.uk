@@ -43,7 +43,8 @@ function ah_add_serviceworker_in_root() {
 	wp_reset_postdata();
 
 	$data = "
-importScripts('" . esc_url( TEMPLATEURI ) . "build/js/sw.min.js');
+importScripts('" . esc_url( TEMPLATEURI ) . "build/js/sw-toolbox.min.js');
+importScripts('" . esc_url( TEMPLATEURI ) . "js/cache-polyfill.js');
 
 var cacheName = 'wpo-cache-" . date( 'd-m-Y-H-i-s', filemtime( SITEROOT . 'serviceWorker.js' ) ) . "';
 
