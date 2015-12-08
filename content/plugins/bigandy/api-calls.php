@@ -8,7 +8,7 @@ function ah_set_weather() {
 	   // Get new $response from the weather api
 
 		$response_args = [
-			'timeout' => 120,
+			// 'timeout' => 120,
 		];
 
 		$response = wp_remote_get( 'https://api.forecast.io/forecast/c3a6795997c7501f0e1e115b3600eb40/51.628284,-1.296668?units=uk', $response_args );
