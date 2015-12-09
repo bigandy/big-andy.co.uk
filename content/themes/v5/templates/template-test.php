@@ -14,12 +14,6 @@ get_header();
 				<article role="article" class="large-12 columns">
 					<section class="post-content clearfix row">
 					<?php
-					$api_url = 'http://api.wordpress.org/secret-key/1.0/';
-					$response = wp_remote_get( $api_url );
-					$header = wp_remote_retrieve_headers( $response );
-
-					ah_preit( $header );
-
 					the_content();
 					?>
 				</section>
