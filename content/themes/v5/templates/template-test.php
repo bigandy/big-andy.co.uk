@@ -18,7 +18,7 @@ get_header();
 					$response = wp_remote_get( $api_url );
 					$header = wp_remote_retrieve_headers( $response );
 
-					var_dump( $header );
+					ah_preit( $header );
 
 					the_content();
 					?>
