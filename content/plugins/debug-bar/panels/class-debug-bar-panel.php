@@ -4,7 +4,7 @@ class Debug_Bar_Panel {
 	var $_title = '';
 	var $_visible = true;
 
-	function __constructor( $title='' ) {
+	function __construct( $title='' ) {
 		$this->title( $title );
 
 		if ( $this->init() === false ) {

@@ -20,7 +20,7 @@
 class Debug_Bar {
 	var $panels = array();
 
-	function __constructor() {
+	function __construct() {
 		if ( defined('DOING_AJAX') && DOING_AJAX )
 			add_action( 'admin_init', array( &$this, 'init_ajax' ) );
 		add_action( 'admin_bar_init', array( &$this, 'init' ) );
