@@ -29,7 +29,7 @@ function ah_cpts_init(){
 		'menu_position' 		=> null,
 		'menu_icon' 			=> 'dashicons-chart-area', // https://developer.wordpress.org/resource/dashicons/
 		'supports' 				=> false,
-		// 'map_meta_cap' 			=> true,
+		'map_meta_cap' 			=> true,
 
 	);
 
