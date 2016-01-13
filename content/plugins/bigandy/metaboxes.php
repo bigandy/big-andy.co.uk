@@ -12,6 +12,7 @@ global $meta_boxes;
 $meta_boxes = array();
 
 include_once( 'metaboxes/page.php' );
+include_once( 'metaboxes/health.php' );
 
 
 /*

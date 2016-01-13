@@ -9,4 +9,3 @@ include( $functions . 'nav.php' );
 include( $functions . 'customizer.php' );
 include( $functions . 'admin.php' );
 include( $functions . 'service-worker.php' );
-include( $functions . 'metaboxes.php' );

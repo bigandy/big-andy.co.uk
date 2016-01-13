@@ -148,7 +148,8 @@ $options = get_option( 'ah_plugin_options' );
 require_once 'init-styles.php';
 require_once 'admin-area.php';
 require_once 'content.php';
-require_once 'metabox.php';
+require_once 'cpts.php';
+require_once 'metaboxes.php';
 require_once 'api-calls.php';
 require_once 'wp-api.php';
 
