@@ -20,3 +20,29 @@ function ah_rest_prepare_post( $data, $post, $request ) {
 	return $data;
 }
 add_filter( 'rest_prepare_post', 'ah_rest_prepare_post', 10, 3 );
+
+
+function ah_add_meta_to_json( $data, $post, $request ){
+	$response_data = $data->get_data();
+
+	if ( 'view' !== $request['context']  || is_wp_error( $data ) ) {
+		return $data;
+	}
+
+	$weight = get_post_meta( $post->ID, '_ah_health_weight', true );
+
+	if ( empty( $weight ) ) {
+		$weight = '';
+	}
+
+	if (  'health' === $post->post_type  ) {
+		$response_data['health_meta'] = array(
+			'weight' => $weight,
+		);
+	}
+
+	$data->set_data( $response_data );
+
+	return $data;
+}
+add_filter( 'rest_prepare_health', 'ah_add_meta_to_json', 10, 3 );
