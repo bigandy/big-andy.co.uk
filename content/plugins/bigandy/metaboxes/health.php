@@ -12,6 +12,7 @@ $meta_boxes[] = array(
 			'name'		=> 'Weight',
 			'id'		=> $prefix . 'health_weight',
 			'type'		=> 'number',
+			'step'		=> 'any',
 		),
 		// Comments
 		array(
