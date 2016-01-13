@@ -18,7 +18,7 @@ $meta_boxes[] = array(
 		array(
 			'name'		=> 'Comments',
 			'id'		=> $prefix . 'health_comments',
-			'type'		=> 'wysiwyg',
+			'type'		=> 'textarea',
 		),
 	)
 );
