@@ -29,26 +29,29 @@ if ( $options['admin'] == "Y" ) {
 
 	add_action( 'admin_init', 'ah_change_admin_cap' );
 
-	function ba_remove_menus() {
-	global $menu;
-	$restricted = array(
-		__( 'Users' ),
-		__( 'Comments' ),
-		__( 'Pages' ),
-		__( 'Tools' ),
-		__( 'Appearance' ),
-		__( 'Profile' ),
-		__( 'Media' ),
-	);
-	end( $menu );
-	while ( prev( $menu ) ) {
-		$value = explode( ' ', $menu[key( $menu )][0] );
-		if ( in_array( $value[0] != NULL?$value[0]:"" , $restricted ) ) {unset( $menu[key( $menu )] );}
-	}
+	function ah_remove_menus() {
+		global $menu;
 
-    remove_menu_page( 'wpseo_dashboard' );
-}
-add_action( 'admin_menu', 'ba_remove_menus' );
+		$restricted = array(
+			__( 'Users' ),
+			__( 'Comments' ),
+			__( 'Pages' ),
+			__( 'Tools' ),
+			__( 'Appearance' ),
+			__( 'Profile' ),
+			__( 'Media' ),
+		);
+		end( $menu );
+		while ( prev( $menu ) ) {
+			$value = explode( ' ', $menu[key( $menu )][0] );
+			if ( in_array( $value[0] != NULL ? $value[0] : "" , $restricted ) ) {
+				unset( $menu[key( $menu )] );
+			}
+		}
+
+		remove_menu_page( 'wpseo_dashboard' );
+	}
+	add_action( 'admin_menu', 'ah_remove_menus' );
 
 } else {
 	function ah_change_admin_cap() {
