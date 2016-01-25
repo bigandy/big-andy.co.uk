@@ -151,8 +151,8 @@ require_once 'content.php';
 require_once 'cpts.php';
 require_once 'metaboxes.php';
 require_once 'api-calls.php';
-require_once 'wp-api.php';
-require_once 'health-endpoint.php';
+require_once 'rest-api/wp-api.php';
+require_once 'rest-api/health-endpoint.php';
 
 if ( $options['shortcodes'] === "Y" ) {
 	require_once 'shortcodes.php';
