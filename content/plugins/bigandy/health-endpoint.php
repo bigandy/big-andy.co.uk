@@ -37,14 +37,16 @@ function ah_get_weights() {
 		while ( $health_data->have_posts() ) {
 			$health_data->the_post();
 
-			// ah_preit( $health_data->post );
+			ah_preit( $health_data->post );
+
+
 			$post = $health_data->post;
 			$post_id = $post->ID;
 
 			$health_data_array[] = [
 				'date' => get_the_date( 'd.m.Y', $post_id ),
 				'weight' => get_post_meta( $post_id, '_ah_health_weight', true ),
-				'content' => get_the_content( $post_id ),
+				'content' => get_post_meta( $post_id, '_ah_health_comments', true ),
 			];
 			// the_title();
 		}
