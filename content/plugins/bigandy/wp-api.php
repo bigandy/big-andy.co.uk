@@ -5,6 +5,7 @@ function ah_rest_prepare_post( $data, $post, $request ) {
 	if ( empty( $_wp_additional_image_sizes ) ) {
 		return $sizes;
 	}
+
 	$_data = $data->data;
 	$thumbnail_id = get_post_thumbnail_id( $post->ID );
 
