@@ -37,7 +37,7 @@ function ah_get_weights() {
 		while ( $health_data->have_posts() ) {
 			$health_data->the_post();
 
-			ah_preit( $health_data->post );
+			// ah_preit( $health_data->post );
 
 
 			$post = $health_data->post;
