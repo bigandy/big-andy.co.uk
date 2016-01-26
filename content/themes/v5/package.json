@@ -8,7 +8,7 @@
   },
   "devDependencies": {
     "autoprefixer": "^6.0.3",
-    "babel-core": "^5.8.25",
+    "babel-core": "^6.4.5",
     "bluebird": "^2.9.34",
     "browser-sync": "^2.9.8",
     "critical": "^0.6.0",
