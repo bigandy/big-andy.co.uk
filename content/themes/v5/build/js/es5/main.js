@@ -1,15 +1,17 @@
+'use strict';
+
 /* global localStorage, window, document, XMLHttpRequest */
 
-const links = document.getElementsByClassName('article__link');
-let linksLength = links.length,
-	i = linksLength,
-	host = window.location.host;
+var links = document.getElementsByClassName('article__link');
+var linksLength = links.length,
+    i = linksLength,
+    host = window.location.host;
 
 // http://joelcalifa.com/blog/revisiting-visited
 localStorage.setItem('visited-' + window.location.pathname, true);
 
 while (i--) {
-	let link = links[i];
+	var link = links[i];
 
 	if (link.host === host && localStorage.getItem('visited-' + link.pathname)) {
 
@@ -23,3 +25,4 @@ while (i--) {
 // }
 
 // test('Testing 1 2 3...');
+//# sourceMappingURL=main.js.map
