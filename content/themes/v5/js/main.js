@@ -1,6 +1,6 @@
 /* global localStorage, window, document, XMLHttpRequest */
 
-var links = document.getElementsByClassName('article__link'),
+const links = document.getElementsByClassName('article__link'),
 	linksLength = links.length,
 	i = linksLength,
 	host = window.location.host;
@@ -9,7 +9,7 @@ var links = document.getElementsByClassName('article__link'),
 localStorage.setItem('visited-' + window.location.pathname, true);
 
 while (i--) {
-	var link = links[i];
+	let link = links[i];
 
 	if (link.host === host && localStorage.getItem('visited-' + link.pathname)) {
 
