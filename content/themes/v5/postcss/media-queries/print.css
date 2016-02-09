@@ -23,6 +23,7 @@ h3 {
 
 a {
 	color: var(--black);
+	text-decoration: none;
 }
 
 a,
