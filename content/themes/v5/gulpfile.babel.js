@@ -71,9 +71,9 @@ gulp.task('critical-css', () => {
 		],
 		css: './style.css',
 		height: 3000, // 600
-		width: 400 // 400
+		width: 400, // 400
+	    minify: true,
 	}).then(function (criticalCSS){
-		console.log(criticalCSS);
 		require('fs').writeFile('build/css/critical.css', criticalCSS);
 	});
 
@@ -83,7 +83,8 @@ gulp.task('critical-css', () => {
 		],
 		css: './style.css',
 		height: 3000, // 600
-		width: 400 // 400
+		width: 400, // 400
+		minify: true,
 	}).then(function (criticalCSS){
 		require('fs').writeFile('build/css/post.css', criticalCSS);
 	});
