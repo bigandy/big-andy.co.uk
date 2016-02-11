@@ -7,8 +7,8 @@
     "url": "https://github.com/bigandy/big-andy.co.uk.git"
   },
   "scripts": {
-    "build": "babel js -d build/js/es5 -s",
-    "watch": "babel js -d build/js/es5 -w -s"
+    "build": "gulp deploy",
+    "watch": "gulp"
   },
   "devDependencies": {
     "autoprefixer": "^6.0.3",
@@ -20,8 +20,7 @@
     "bluebird": "^2.9.34",
     "browser-sync": "^2.9.8",
     "browserify": "^13.0.0",
-    "critical": "^0.6.0",
-    "criticalcss": "^0.6.1",
+    "critical": "^0.7.0",
     "eslint": "^2.0.0-rc.0",
     "gulp": "^3.9.0",
     "gulp-concat": "^2.1.7",

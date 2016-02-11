@@ -33,7 +33,7 @@ import reporter from 'postcss-reporter';
 
 var envLive = 'https://big-andy.co.uk/',
 	envDev = 'http://big-andy.dev/',
-	env = envDev,
+	env = envLive,
 	pages = [
 		env + 'contact/',
 		env + 'cv/',
@@ -67,23 +67,24 @@ gulp.task('sprites', () => {
 gulp.task('critical-css', () => {
 	penthouseAsync({
 		url: [
-			'http://big-andy.dev/'
+			env
 		],
 		css: './style.css',
 		height: 3000, // 600
 		width: 400 // 400
-	}).then( function (criticalCSS){
+	}).then(function (criticalCSS){
+		console.log(criticalCSS);
 		require('fs').writeFile('build/css/critical.css', criticalCSS);
 	});
 
 	penthouseAsync({
 		url: [
-			'http://big-andy.dev/using-forecast-io-with-wordpress/'
+			env + '/using-forecast-io-with-wordpress/'
 		],
 		css: './style.css',
 		height: 3000, // 600
 		width: 400 // 400
-	}).then( function (criticalCSS){
+	}).then(function (criticalCSS){
 		require('fs').writeFile('build/css/post.css', criticalCSS);
 	});
 });
@@ -296,7 +297,7 @@ gulp.task('production', [
 gulp.task('deploy', [
 	'css',
 	'uncss',
-	'js',
+	// 'js',
 	'lint',
 	'critical-css',
 ]);
