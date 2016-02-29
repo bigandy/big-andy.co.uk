@@ -14,7 +14,21 @@
  */
 function rwmb_meta( $key, $args = array(), $post_id = null )
 {
-	return RWMB_Helper::meta( $key, $args, $post_id );
+	/**
+	 * If meta boxes is registered in the backend only, we can't get field's params
+	 * This is for backward compatibility with version < 4.8.0
+	 */
+	if ( false == RWMB_Helper::find_field( $key ) )
+	{
+		return apply_filters( 'rwmb_meta', RWMB_Helper::meta( $key, $args, $post_id ) );
+	}
+	$args = wp_parse_args( $args, array(
+		'type' => 'text',
+	) );
+	$meta = in_array( $args['type'], array( 'oembed', 'map' ) ) ?
+		rwmb_the_value( $key, $args, $post_id, false ) :
+		rwmb_get_value( $key, $args, $post_id );
+	return apply_filters( 'rwmb_meta', $meta, $key, $args, $post_id );
 }
 
 /**
@@ -27,7 +41,7 @@ function rwmb_meta( $key, $args = array(), $post_id = null )
  *
  * @return mixed false if field doesn't exist. Field value otherwise.
  */
-function rwmb_get_field( $field_id, $args = array(), $post_id = null )
+function rwmb_get_value( $field_id, $args = array(), $post_id = null )
 {
 	$field = RWMB_Helper::find_field( $field_id );
 
@@ -36,13 +50,14 @@ function rwmb_get_field( $field_id, $args = array(), $post_id = null )
 
 	/**
 	 * Allow developers to change the returned value of field
+	 * For version < 4.8.2, the filter name was 'rwmb_get_field'
 	 *
 	 * @param mixed    $value   Field value
 	 * @param array    $field   Field parameter
 	 * @param array    $args    Additional arguments. Rarely used. See specific fields for details
 	 * @param int|null $post_id Post ID. null for current post. Optional.
 	 */
-	$value = apply_filters( 'rwmb_get_field', $value, $field, $args, $post_id );
+	$value  = apply_filters( 'rwmb_get_value', $value, $field, $args, $post_id );
 
 	return $value;
 }
@@ -57,7 +72,7 @@ function rwmb_get_field( $field_id, $args = array(), $post_id = null )
  *
  * @return string
  */
-function rwmb_the_field( $field_id, $args = array(), $post_id = null, $echo = true )
+function rwmb_the_value( $field_id, $args = array(), $post_id = null, $echo = true )
 {
 	// Find field
 	$field = RWMB_Helper::find_field( $field_id );
@@ -69,13 +84,14 @@ function rwmb_the_field( $field_id, $args = array(), $post_id = null, $echo = tr
 
 	/**
 	 * Allow developers to change the returned value of field
+	 * For version < 4.8.2, the filter name was 'rwmb_get_field'
 	 *
 	 * @param mixed    $value   Field HTML output
 	 * @param array    $field   Field parameter
 	 * @param array    $args    Additional arguments. Rarely used. See specific fields for details
 	 * @param int|null $post_id Post ID. null for current post. Optional.
 	 */
-	$output = apply_filters( 'rwmb_the_field', $output, $field, $args, $post_id );
+	$output = apply_filters( 'rwmb_the_value', $output, $field, $args, $post_id );
 
 	if ( $echo )
 		echo $output;
@@ -104,7 +120,7 @@ function rwmb_meta_shortcode( $atts )
 	$post_id  = $atts['post_id'];
 	unset( $atts['meta_key'], $atts['post_id'] );
 
-	return rwmb_the_field( $field_id, $atts, $post_id, false );
+	return rwmb_the_value( $field_id, $atts, $post_id, false );
 }
 
 add_shortcode( 'rwmb_meta', 'rwmb_meta_shortcode' );
