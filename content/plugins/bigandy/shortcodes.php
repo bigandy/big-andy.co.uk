@@ -154,8 +154,10 @@ function ah_shortcode_lazy( $atts, $content ) {
 add_shortcode( 'lazy', 'ah_shortcode_lazy' );
 
 function ah_shortcode_weather( $atts, $content ) {
-	$html = ah_set_weather();
+	$weather = ah_set_weather();
 
-	return esc_html( $html );
+	ah_preit( $weather );
+
+	return esc_html( $weather );
 }
 add_shortcode( 'weather', 'ah_shortcode_weather' );
