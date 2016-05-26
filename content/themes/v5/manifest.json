@@ -1,21 +1,16 @@
 {
   "lang": "en",
-  "name": "Andrew JD Hudson",
-  "short_name": "Bigandy",
-  "icons": [{
-		"src": "icon/lowres",
-		"sizes": "64x64",
-		"type": "image/webp"
-	  }, {
-		"src": "icon/hd_small",
-		"sizes": "64x64"
-	  }, {
-		"src": "icon/hd_hi",
-		"sizes": "128x128",
-		"density": 2
+  "name": "big-andy.co.uk",
+  "short_name": "big-andy.co.uk",
+  "icons": [
+	  {
+		"src": "/content/themes/v5/images/ba.png",
+		"sizes": "192x192",
+		"type": "image/png"
 	  }],
   "theme_color": "#008AD7",
+  "background_color": "#000000",
   "start_url": "/",
   "display": "browser",
-  "orientation": "portrait",
+  "orientation": "portrait"
 }
