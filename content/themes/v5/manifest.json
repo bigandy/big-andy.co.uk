@@ -1,6 +1,8 @@
 {
-  "lang": "en",
+  "manifest_version": 2,
   "name": "big-andy.co.uk",
+  "version": "2",
+  "lang": "en",
   "short_name": "big-andy.co.uk",
   "icons": [
 	  {
