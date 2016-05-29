@@ -71,7 +71,8 @@ toolbox.precache([
 	'" . esc_url( TEMPLATEURI ) . "build/js/script.min.js',
 	'" . esc_url( TEMPLATEURI ) . "build/js/singular.min.js',
 	'" . esc_url( TEMPLATEURI ) . "build/css/font.css',
-	'" . esc_url( TEMPLATEURI ) . "images/ba.png'
+	'" . esc_url( TEMPLATEURI ) . "images/ba.png',
+	'" . esc_url( TEMPLATEURI ) . "manifest.json',
 ]);
 
 self.addEventListener('install', function(e) {
