@@ -10,7 +10,7 @@
 
 @import "../bower_components/normalize.css/normalize.css";
 
-/* Theme Specific*/
+/* Theme Specific */
 @import "variables.css";
 @import "mixins.css";
 @import "stuff.css";
@@ -22,36 +22,18 @@
 @import "front-page.css";
 @import "prism.css";
 @import "single.css";
-/*@import "craziness.css";*/
 
 /* Media Queries */
+@import "media-queries/30em.css" (min-width: 30em);
 
-/* 30 * 16 = 480px and up*/
-@media all and (min-width: 30em) {
-	@import "media-queries/30em.css";
-}
+@import "media-queries/35em.css" (min-width: 35em);
 
-/* 35 * 16 = 560px and up*/
-@media all and (min-width: 35em) {
-	@import "media-queries/35em.css";
-}
+@import "media-queries/37-5em.css" (min-width: 37.5em);
 
-/* 37.5 * 16 = 600 and up*/
-@media all and (min-width: 37.5em) {
-	@import "media-queries/37-5em.css";
-}
+@import "media-queries/64em.css" (min-width: 64em);
 
-/* 64 * 16 = 1024 and up*/
-@media all and (min-width: 64em) {
-	@import "media-queries/64em.css";
-}
+@import "media-queries/74em.css" (min-width: 74em);
 
-/* 74 * 16 = 1184 and up*/
-@media all and (min-width: 74em) {
-	@import "media-queries/74em.css";
-}
-
-/* 74 * 16 = 1184 and up*/
 @media print {
 	@import "media-queries/print.css";
 }

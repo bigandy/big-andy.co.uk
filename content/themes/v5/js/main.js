@@ -2,8 +2,9 @@
 
 const links = document.getElementsByClassName('article__link'),
 	linksLength = links.length,
-	i = linksLength,
 	host = window.location.host;
+
+let i = linksLength;
 
 // http://joelcalifa.com/blog/revisiting-visited
 localStorage.setItem('visited-' + window.location.pathname, true);
