@@ -49,20 +49,20 @@ var envLive = 'https://big-andy.co.uk/',
 	browsers = ['last 1 version'],
 	reload = browserSync.reload;
 
-// gulp.task('sprites', () => {
-// 	return gulp.src([
-// 			'images/svg/*.svg'
-// 		])
-// 		.pipe(svgStore({ inlineSvg: true }))
+gulp.task('sprites', () => {
+	return gulp.src([
+			'images/svg/*.svg'
+		])
+		.pipe(svgStore({ inlineSvg: true }))
 
-// 		.pipe(svgmin({
-// 			plugins:
-// 				[{
-// 					cleanupIDs: false
-// 				}]
-// 			}))
-// 		.pipe(gulp.dest('build/svg'));
-// });
+		.pipe(svgmin({
+			plugins:
+				[{
+					cleanupIDs: false
+				}]
+			}))
+		.pipe(gulp.dest('build/svg'));
+});
 
 // gulp.task('critical-css', () => {
 // 	penthouseAsync({
@@ -113,15 +113,7 @@ gulp.task('uncss', () => {
 });
 
 gulp.task('css', () => {
-	var processors = [
-		postcssImport,
-		mixins,
-		customProperties,
-		simpleExtend,
-		nestedcss,
-		focus,
-		colorFunction,
-		cssnext({
+	var cssNextOptions = {
 			browsers: browsers,
 			sourcemap: false,
 			safe: true,
@@ -150,7 +142,16 @@ gulp.task('css', () => {
 				uniqueSelectors: true,
 				zindex: true
 			}
-		}),
+		};
+	var processors = [
+		postcssImport,
+		mixins,
+		customProperties,
+		simpleExtend,
+		nestedcss,
+		focus,
+		colorFunction,
+		cssnext(cssNextOptions),
 		rows({
 			multiplier: 16,
 			unit: 'rows'
@@ -158,21 +159,14 @@ gulp.task('css', () => {
 	];
 
 
-	gulp.src([
-			'./postcss/style.css',
-		])
+	gulp.src('./postcss/style.css')
 		.pipe(postcss(processors))
+		.pipe(gulp.dest('.'))
+		.pipe(browserSync.stream());
 
-		.pipe(gulp.dest('.'));
-		// .pipe(browserSync.stream());
-
-	// gulp.src('./postcss/font.scss')
-	// 	.pipe(cssnext({
-	// 		browsers: browsers,
-	// 		compress: true,
-	// 		sourcemap: false,
-	// 	}))
-	// 	.pipe(gulp.dest('./build/css'));
+	gulp.src('./postcss/font.scss')
+		.pipe(postcss(processors))
+		.pipe(gulp.dest('./build/css'));
 });
 
 // gulp.task('css-lint', () => {
@@ -258,27 +252,27 @@ gulp.task('css', () => {
 // 		.pipe(phpcs.reporter('log'));
 // });
 
-// gulp.task('browser-sync', function() {
-// 	browserSync.init({
-// 		proxy: 'big-andy.dev'
-// 	})
-//
-// 	// gulp.watch('**/*.php').on('change', browserSync.reload);
-// });
+gulp.task('browser-sync', function() {
+	browserSync.init({
+		proxy: 'big-andy.dev'
+	})
+
+	gulp.watch('**/*.php').on('change', browserSync.reload);
+});
 
 // // Rerun the task when a file changes
-// gulp.task('watch', () => {
-// 	gulp.watch('js/*', ['js']);
-// 	gulp.watch('postcss/**/*', ['css']);
-// 	gulp.watch('images/svg/*.svg', ['sprites']);
-// });
+gulp.task('watch', () => {
+	// gulp.watch('js/*', ['js']);
+	gulp.watch('postcss/**/*', ['css']);
+	gulp.watch('images/svg/*.svg', ['sprites']);
+});
 
 // The default task (called when you run `gulp` from cli)
 gulp.task('default', [
-	// 'browser-sync',
+	'browser-sync',
 	// 'js',
 	'css',
-	// 'watch'
+	'watch'
 ]);
 
 // gulp.task('production', [
