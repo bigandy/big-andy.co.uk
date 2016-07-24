@@ -64,31 +64,31 @@ gulp.task('sprites', () => {
 		.pipe(gulp.dest('build/svg'));
 });
 
-// gulp.task('critical-css', () => {
-// 	penthouseAsync({
-// 		url: [
-// 			env
-// 		],
-// 		css: './style.css',
-// 		height: 3000, // 600
-// 		width: 400, // 400
-// 	    minify: true,
-// 	}).then(function (criticalCSS){
-// 		require('fs').writeFile('build/css/critical.css', criticalCSS);
-// 	});
+gulp.task('critical-css', () => {
+	penthouseAsync({
+		url: [
+			env
+		],
+		css: './style.css',
+		height: 3000, // 600
+		width: 400, // 400
+	    minify: true,
+	}).then(function (criticalCSS){
+		require('fs').writeFile('build/css/critical.css', criticalCSS);
+	});
 
-// 	penthouseAsync({
-// 		url: [
-// 			env + '/using-forecast-io-with-wordpress/'
-// 		],
-// 		css: './style.css',
-// 		height: 3000, // 600
-// 		width: 400, // 400
-// 		minify: true,
-// 	}).then(function (criticalCSS){
-// 		require('fs').writeFile('build/css/post.css', criticalCSS);
-// 	});
-// });
+	penthouseAsync({
+		url: [
+			env + '/using-forecast-io-with-wordpress/'
+		],
+		css: './style.css',
+		height: 3000, // 600
+		width: 400, // 400
+		minify: true,
+	}).then(function (criticalCSS){
+		require('fs').writeFile('build/css/post.css', criticalCSS);
+	});
+});
 
 gulp.task('uncss', () => {
 	return gulp.src('./style.css')
@@ -169,88 +169,90 @@ gulp.task('css', () => {
 		.pipe(gulp.dest('./build/css'));
 });
 
-// gulp.task('css-lint', () => {
-// 	gulp.src([
-// 		'./postcss/**/*.css',
-// 		'!./postcss/font.css'
-// 		])
-// 		.pipe(postcss([
-// 			stylelint({ // an example config that has four rules
-// 				"rules": {
-// 					"block-no-empty": 2,
-// 					"color-no-invalid-hex": 2,
-// 					"declaration-colon-space-before": [2, "never"],
-// 					"declaration-colon-space-after": [2, "always"],
-// 					"indentation": [2, "tab"],
-// 					"number-leading-zero": [2, "never"]
-// 				}
-// 			}),
-// 			reporter({
-// 				clearMessages: true,
-// 			})
-// 		]))
-// });
+gulp.task('css-lint', () => {
+	gulp.src([
+		'./postcss/**/*.css',
+		'!./postcss/font.css'
+		])
+		.pipe(postcss([
+			stylelint({ // an example config that has four rules
+				"rules": {
+					"block-no-empty": 2,
+					"color-no-invalid-hex": 2,
+					"declaration-colon-space-before": [2, "never"],
+					"declaration-colon-space-after": [2, "always"],
+					"indentation": [2, "tab"],
+					"number-leading-zero": [2, "never"]
+				}
+			}),
+			reporter({
+				clearMessages: true,
+			})
+		]))
+});
 
 
-// // concat and minify the js
-// gulp.task('js', ['js-lint'], () => {
-// 	gulp.src([
-// 			'js/lazy-load-css.js',
-// 			'js/main.js',
-// 		])
-// 		.pipe(uglify())
-// 		.pipe(concat('script.min.js'))
-// 		.pipe(gulp.dest('build/js'));
+// concat and minify the js
+gulp.task('js', () => {
+	gulp.src([
+			'js/lazy-load-css.js',
+			'js/main.js',
+		])
+		.pipe(uglify().on('error', function(e){
+		            console.log(e);
+		         }))
+		.pipe(concat('script.min.js'))
+		.pipe(gulp.dest('build/js'));
 
-// 	gulp.src([
-// 		'bower_components/jquery/dist/jquery.js',
-// 		'bower_components/picturefill/dist/picturefill.min.js',
-// 		'bower_components/lazyloadxt/dist/jquery.lazyloadxt.js',
-// 		'bower_components/lazyloadxt/dist/jquery.lazyloadxt.widget.js',
-// 		'bower_components/lazyloadxt/dist/jquery.lazyloadxt.srcset.js',
-// 		'js/prism.min.js',
-// 	])
-// 		.pipe(uglify())
-// 		.pipe(concat('singular.min.js'))
-// 		.pipe(gulp.dest('build/js'))
-// 		// .pipe(browserSync.stream());
+	gulp.src([
+		'bower_components/jquery/dist/jquery.js',
+		'bower_components/picturefill/dist/picturefill.min.js',
+		'bower_components/lazyloadxt/dist/jquery.lazyloadxt.js',
+		'bower_components/lazyloadxt/dist/jquery.lazyloadxt.widget.js',
+		'bower_components/lazyloadxt/dist/jquery.lazyloadxt.srcset.js',
+		'js/prism.min.js',
+	])
+		.pipe(uglify())
+		.pipe(concat('singular.min.js'))
+		.pipe(gulp.dest('build/js'))
+		.pipe(browserSync.stream());
 
-// 	gulp.src([
-// 		'bower_components/sw-toolbox/sw-toolbox.js',
-// 	])
-// 		.pipe(uglify())
-// 		.pipe(concat('sw-toolbox.min.js'))
-// 		.pipe(gulp.dest('build/js'));
-// 		// .pipe(browserSync.stream());
+	gulp.src([
+		'bower_components/sw-toolbox/sw-toolbox.js',
+	])
+		.pipe(uglify())
+		.pipe(concat('sw-toolbox.min.js'))
+		.pipe(gulp.dest('build/js'));
+		// .pipe(browserSync.stream());
 
-// 	gulp.src(['js/font-loader.js'])
-// 		.pipe(uglify())
-// 		.pipe(gulp.dest('build/js'));
+	gulp.src(['js/font-loader.js'])
+		.pipe(uglify())
+		.pipe(gulp.dest('build/js'));
 
-// });
+});
 
-// gulp.task('js-lint', () => {
-// 	gulp.src([
-// 			'js/main.js'
-// 		])
-// 		// eslint() attaches the lint output to the eslint property
-// 		// of the file object so it can be used by other modules.
-// 		.pipe(eslint())
-// 		// eslint.format() outputs the lint results to the console.
-// 		// Alternatively use eslint.formatEach() (see Docs).
-// 		.pipe(eslint.format())
-// 		// To have the process exit with an error code (1) on
-// 		// lint error, return the stream and pipe to failAfterError last.
-// 		.pipe(eslint.failAfterError());
-// });
+gulp.task('js-lint', () => {
+	gulp.src([
+			'js/main.js'
+		])
+		// eslint() attaches the lint output to the eslint property
+		// of the file object so it can be used by other modules.
+		.pipe(eslint())
+		// eslint.format() outputs the lint results to the console.
+		// Alternatively use eslint.formatEach() (see Docs).
+		.pipe(eslint.format())
+		// To have the process exit with an error code (1) on
+		// lint error, return the stream and pipe to failAfterError last.
+		.pipe(eslint.failAfterError());
+});
 
-// gulp.task('wordpress-lint', () => {
-// 	return gulp.src(['./**/*.php', '!node_modules/**/*.php'])
-// 		.pipe(phpcs({
-// 			standard: 'code.ruleset.xml'
-// 		}))
-// 		.pipe(phpcs.reporter('log'));
-// });
+gulp.task('wordpress-lint', () => {
+	return gulp.src(['./**/*.php', '!node_modules/**/*.php'])
+		.pipe(phpcs({
+			standard: 'code.ruleset.xml'
+		}))
+		.pipe(phpcs.reporter('log'));
+});
 
 gulp.task('browser-sync', function() {
 	browserSync.init({
@@ -262,7 +264,7 @@ gulp.task('browser-sync', function() {
 
 // // Rerun the task when a file changes
 gulp.task('watch', () => {
-	// gulp.watch('js/*', ['js']);
+	gulp.watch('js/*', ['js']);
 	gulp.watch('postcss/**/*', ['css']);
 	gulp.watch('images/svg/*.svg', ['sprites']);
 });
@@ -270,7 +272,7 @@ gulp.task('watch', () => {
 // The default task (called when you run `gulp` from cli)
 gulp.task('default', [
 	'browser-sync',
-	// 'js',
+	'js',
 	'css',
 	'watch'
 ]);
@@ -280,15 +282,15 @@ gulp.task('default', [
 // 	'css'
 // ]);
 
-// gulp.task('deploy', [
-// 	'css',
-// 	'uncss',
-// 	// 'js',
-// 	'lint',
-// 	'critical-css',
-// ]);
+gulp.task('deploy', [
+	'css',
+	'uncss',
+	'js',
+	'lint',
+	'critical-css',
+]);
 
-// gulp.task('lint', [
-// 	'js-lint',
-// 	'wordpress-lint'
-// ]);
+gulp.task('lint', [
+	'js-lint',
+	'wordpress-lint'
+]);
