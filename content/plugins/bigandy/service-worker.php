@@ -23,7 +23,7 @@ function ah_add_serviceworker_in_root() {
 	$data = "
 importScripts('" . esc_url( HOMEURL ) . "cache-polyfill.js');
 
-var cacheName = 'wpo-cache-" . date ( "d-m-Y-H-i-s", filemtime( 'serviceWorker.js' ) ) . "';
+var cacheName = 'wpo-cache-" . date( "d-m-Y-H-i-s" ) . "';
 
 // https://ponyfoo.com/articles/serviceworker-revolution
 self.addEventListener('activate', function activator (event) {
