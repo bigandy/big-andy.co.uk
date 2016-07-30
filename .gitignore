@@ -22,3 +22,5 @@ node_modules/
 /content/themes/v6/bower_components
 /content/themes/v6/node_modules
 *.map
+
+test.php
