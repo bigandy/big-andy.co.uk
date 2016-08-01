@@ -12,7 +12,7 @@ import Promise from 'bluebird';
 import phpcs from 'gulp-phpcs';
 import critical from 'critical';
 import nano from 'gulp-cssnano';
-import minifyCss from 'gulp-minify-css';
+import cleanCSS from 'gulp-clean-css';
 import svgStore from 'gulp-svgstore';
 import svgmin from 'gulp-svgmin';
 
@@ -74,6 +74,7 @@ gulp.task('critical-css', () => {
 		width: 400, // 400
 	    minify: true,
 	}).then(function (criticalCSS){
+		console.log(criticalCSS);
 		require('fs').writeFile('build/css/critical.css', criticalCSS);
 	});
 
@@ -86,6 +87,8 @@ gulp.task('critical-css', () => {
 		width: 400, // 400
 		minify: true,
 	}).then(function (criticalCSS){
+
+
 		require('fs').writeFile('build/css/post.css', criticalCSS);
 	});
 });
@@ -106,9 +109,9 @@ gulp.task('uncss', () => {
 			]
 		}))
 
-		.pipe(minifyCss({
+		.pipe(cleanCSS({
 			keepSpecialComments: 0
-		}))
+		})).minify()
 		.pipe(gulp.dest('.'));
 });
 
@@ -143,6 +146,7 @@ gulp.task('css', () => {
 				zindex: true
 			}
 		};
+
 	var processors = [
 		postcssImport,
 		mixins,

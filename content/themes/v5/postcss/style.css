@@ -34,6 +34,5 @@
 
 @import "media-queries/74em.css" (min-width: 74em);
 
-@media print {
-	@import "media-queries/print.css";
-}
+@import "media-queries/print.css" print;
+
