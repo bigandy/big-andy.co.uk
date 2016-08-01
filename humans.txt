@@ -1,14 +1,13 @@
 /* TEAM */
-	Creator: Andrew Hudson
-	Contact: andy [at] big-andy.co.uk
+	Creator: Andrew JD Hudson
+	Contact: andy@big-andy.co.uk
 	Twitter: @bigandy
-	From: Didcot, Oxfordshire
+	From: Oxford, UK
 
 /* Site */
-
-	url: http://big-andy.co.uk
-	Doctype:HTML5
-	With: WordPress, HTML5 Boilerplate, SSH, Capistrano, Git, SASS, Sublime Text 3
+	url: https://big-andy.co.uk
+	Doctype: HTML5
+	With: WordPress, HTML5, Git, PostCSS, JS
 
 /* humans.txt */
 	http://humanstxt.org/
