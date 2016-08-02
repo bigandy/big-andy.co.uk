@@ -74,7 +74,6 @@ gulp.task('critical-css', () => {
 		width: 400, // 400
 	    minify: true,
 	}).then(function (criticalCSS){
-		console.log(criticalCSS);
 		require('fs').writeFile('build/css/critical.css', criticalCSS);
 	});
 
@@ -87,8 +86,6 @@ gulp.task('critical-css', () => {
 		width: 400, // 400
 		minify: true,
 	}).then(function (criticalCSS){
-
-
 		require('fs').writeFile('build/css/post.css', criticalCSS);
 	});
 });
@@ -111,7 +108,7 @@ gulp.task('uncss', () => {
 
 		.pipe(cleanCSS({
 			keepSpecialComments: 0
-		})).minify()
+		}))
 		.pipe(gulp.dest('.'));
 });
 
@@ -161,7 +158,6 @@ gulp.task('css', () => {
 			unit: 'rows'
 		}),
 	];
-
 
 	gulp.src('./postcss/style.css')
 		.pipe(postcss(processors))
