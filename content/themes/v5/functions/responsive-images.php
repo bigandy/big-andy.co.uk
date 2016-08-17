@@ -19,7 +19,7 @@ function ah_get_extra_thumbnail_sizes( $small_screen = 0 ) {
 				// checks to see if we're on a singular page, then removes
 				if ( 1 === $small_screen ) {
 					// only adds pic-small and pic-medium to array
-					if ( ! in_array( $size, array( 'pic-large', 'pic-max' ) ) ) {
+					if ( ! in_array( $size, array( 'pic-large', 'pic-max' ), true ) ) {
 						array_push( $reduced_sizes, $size );
 					}
 				} else {

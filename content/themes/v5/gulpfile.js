@@ -1,35 +1,37 @@
-import gulp from 'gulp';
-import gutil from 'gulp-util';
-import uglify from 'gulp-uglify';
-import concat from 'gulp-concat';
-import eslint from 'gulp-eslint';
-import sass from 'gulp-sass';
-import scsslint from 'gulp-scss-lint';
-import browserSync from 'browser-sync';
-import uncss from 'gulp-uncss';
-import penthouse from 'penthouse';
-import Promise from 'bluebird';
-import phpcs from 'gulp-phpcs';
-import critical from 'critical';
-import nano from 'gulp-cssnano';
-import cleanCSS from 'gulp-clean-css';
-import svgStore from 'gulp-svgstore';
-import svgmin from 'gulp-svgmin';
+'use strict';
 
-import postcss from 'gulp-postcss';
-import autoprefixer from 'autoprefixer';
-import mixins from 'postcss-mixins';
-import nestedcss from 'postcss-nested';
-import postcssImport from 'postcss-import';
-import colorFunction from 'postcss-color-function';
-import postcssRoot from 'postcss';
-import cssnext from 'postcss-cssnext';
-import simpleExtend from 'postcss-simple-extend';
-import focus from 'postcss-focus';
-import rows from 'postcss-rows';
-import customProperties from 'postcss-custom-properties';
-import stylelint from 'stylelint';
-import reporter from 'postcss-reporter';
+const gulp = require('gulp');
+const gutil = require('gulp-util');
+const uglify = require('gulp-uglify');
+const concat = require('gulp-concat');
+const eslint = require('gulp-eslint');
+const sass = require('gulp-sass');
+const scsslint = require('gulp-scss-lint');
+const browserSync = require('browser-sync');
+const uncss = require('gulp-uncss');
+const penthouse = require('penthouse');
+const Promise = require('bluebird');
+const phpcs = require('gulp-phpcs');
+const critical = require('critical');
+const nano = require('gulp-cssnano');
+const cleanCSS = require('gulp-clean-css');
+const svgStore = require('gulp-svgstore');
+const svgmin = require('gulp-svgmin');
+
+const postcss = require('gulp-postcss');
+const autoprefixer = require('autoprefixer');
+const mixins = require('postcss-mixins');
+const nestedcss = require('postcss-nested');
+const postcssImport = require('postcss-import');
+const colorFunction = require('postcss-color-function');
+const postcssRoot = require('postcss');
+const cssnext = require('postcss-cssnext');
+const simpleExtend = require('postcss-simple-extend');
+const focus = require('postcss-focus');
+const rows = require('postcss-rows');
+const customProperties = require('postcss-custom-properties');
+const stylelint = require('stylelint');
+const reporter = require('postcss-reporter');
 
 var envLive = 'https://big-andy.co.uk/',
 	envDev = 'http://big-andy.dev/',
@@ -277,16 +279,10 @@ gulp.task('default', [
 	'watch'
 ]);
 
-// gulp.task('production', [
-// 	'js',
-// 	'css'
-// ]);
-
 gulp.task('deploy', [
 	'css',
 	'uncss',
 	'js',
-	'lint',
 	'critical-css',
 ]);
 
