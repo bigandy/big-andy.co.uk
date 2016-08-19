@@ -80,9 +80,9 @@ self.addEventListener('install', function(e) {
 		caches.open(cacheName).then(function(cache) {
 			return cache.addAll([
 				// Posts
-				" . $posts_urls . "
+				' . $posts_urls . '
 				// Pages
-				" . $page_urls . "
+				' . $page_urls . '
 			]).then(function() {
 				return self.skipWaiting();
 			});
@@ -114,14 +114,7 @@ function ah_add_service_worker_to_footer() {
 	$html = "
 	<script>
 		if('serviceWorker' in navigator) {
-			navigator.serviceWorker.register( '" . esc_url( HOMEURL ) . "serviceWorker.js', { scope: '" . esc_url( HOMEURL ) . "' })
-				.then(function(registration) {
-					console.log('Service Worker Registered');
-				});
-
-			navigator.serviceWorker.ready.then(function(registration) {
-				console.log('Service Worker Ready');
-			});
+			navigator.serviceWorker.register( '" . esc_url( HOMEURL ) . "serviceWorker.js', { scope: '" . esc_url( HOMEURL ) . "' });
 		}
 	</script>";
 	echo $html;
