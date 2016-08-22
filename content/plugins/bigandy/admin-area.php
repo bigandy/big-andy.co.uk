@@ -1,6 +1,6 @@
 <?php
 
-if ( $options['admin'] == "Y" ) {
+if ( $options['admin'] === "Y" ) {
 	function ah_admin_bar_render() {
 		global $wp_admin_bar;
 		$wp_admin_bar->remove_menu( 'comments' );
@@ -119,3 +119,5 @@ function ba_replace_howdy( $wp_admin_bar ) {
     );
 }
 add_filter( 'admin_bar_menu', 'ba_replace_howdy', 25 );
+
+
