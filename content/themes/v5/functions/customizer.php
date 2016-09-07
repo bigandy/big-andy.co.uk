@@ -52,22 +52,22 @@ class BigAndyThemeCustomizer {
 			'slug'		=> 'ah_header_color',
 			'default'	=> '#000000',
 			'label'		=> 'Admin Menu Bar Color',
-			'priority'	=> 20
+			'priority'	=> 20,
 		);
 		$colors[] = array(
 			'slug'		=> 'ah_theme_color',
 			'default'	=> '#008AD7',
 			'label'		=> 'Theme Colour',
-			'priority'	=> 21
+			'priority'	=> 21,
 		);
 		// Build settings from $colors array
-		foreach( $colors as $color ) {
+		foreach ( $colors as $color ) {
 
 			// customizer settings
 			$wp_customize->add_setting( $color['slug'], array(
 				'default'		=> $color['default'],
 				'type'			=> 'theme_mod',
-				'capability'	=> 'edit_theme_options'
+				'capability'	=> 'edit_theme_options',
 			) );
 
 			// customizer controls
@@ -75,7 +75,7 @@ class BigAndyThemeCustomizer {
 				'label'		=> $color['label'],
 				'section'	=> 'ah_theme_colors',
 				'settings'	=> $color['slug'],
-				'priority'	=> $color['priority']
+				'priority'	=> $color['priority'],
 			) ) );
 		}
 		// END of theme-color Colour Picker

@@ -19,7 +19,7 @@ function ah_get_extra_thumbnail_sizes( $small_screen = 0 ) {
 				// checks to see if we're on a singular page, then removes
 				if ( 1 === $small_screen ) {
 					// only adds pic-small and pic-medium to array
-					if ( ! in_array( $size, array( 'pic-large', 'pic-max' ) ) ) {
+					if ( ! in_array( $size, array( 'pic-large', 'pic-max' ), true ) ) {
 						array_push( $reduced_sizes, $size );
 					}
 				} else {
@@ -75,7 +75,7 @@ function ah_get_output_resp_image( $id, $class = '', $singular = false, $lazyloa
 	foreach ( $sizes as $size => $key ) {
 		$thumb = wp_get_attachment_image_src( $id, $size );
 
-		$divider = ($count !== 0) ? ', '  : '';
+		$divider = (0 === $count) ? ''  : ', ';
 
 		$html .= $divider .  $thumb[0] . ' ' . $key . 'w';
 		$count++;
@@ -85,7 +85,6 @@ function ah_get_output_resp_image( $id, $class = '', $singular = false, $lazyloa
 	$html .= ' />';
 	return $html;
 }
-
 
 function ah_output_resp_img( $id, $class = '' ) {
 	echo balanceTags( ah_get_output_resp_image( $id, $class ) );

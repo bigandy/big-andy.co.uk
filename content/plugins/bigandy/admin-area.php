@@ -1,6 +1,6 @@
 <?php
 
-if ( $options['admin'] == "Y" ) {
+if ( $options['admin'] === "Y" ) {
 	function ah_admin_bar_render() {
 		global $wp_admin_bar;
 		$wp_admin_bar->remove_menu( 'comments' );
@@ -101,22 +101,23 @@ function ba_remove_dashboard_widgets() {
 	unset($wp_meta_boxes['dashboard']['side']['core']['dashboard_primary']);
 	unset($wp_meta_boxes['dashboard']['side']['core']['dashboard_secondary']);
 }
-
 add_action('wp_dashboard_setup', 'ba_remove_dashboard_widgets' );
 
-/*
- * function ba_remove_menus()
+/**
+ * function ba_replace_howdy()
  *
- * Remove Comments, Pages, Users, Appearance and Tools from Admin Area.
- * Note that this doesn't stop user from going to direct url.
  */
 
+function ba_replace_howdy( $wp_admin_bar ) {
+    $my_account=$wp_admin_bar->get_node( 'my-account' );
+    $newtitle = str_replace( 'Howdy,', 'Logged in as', $my_account->title );
+    $wp_admin_bar->add_node(
+    	[
+	        'id' => 'my-account',
+	        'title' => $newtitle,
+    	]
+    );
+}
+add_filter( 'admin_bar_menu', 'ba_replace_howdy', 25 );
 
 
-/* Remove Contact Form 7 Links from dashboard menu items if not admin */
-
-// function remove_wpcf7() {
-
-// }
-
-// add_action('admin_menu', 'remove_wpcf7');

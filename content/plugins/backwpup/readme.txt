@@ -2,7 +2,11 @@
 Contributors: inpsyde, danielhuesken, Bueltge, nullbyte
 Tags: Amazon, Amazon S3, back up, backup, chinese, cloud, cloud files, database, db backup, dropbox, dump, file, french, ftp, ftps, german, migrate, multisite, russian, schedule, sftp, storage, S3, time, upload, xml
 Requires at least: 3.9
+<<<<<<< HEAD
 Tested up to: 4.6
+=======
+Tested up to: 4.5.3
+>>>>>>> ae06ac0626e688940e089e2ab488ce08e154fe66
 Stable tag: 3.3.4
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html

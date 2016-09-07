@@ -38,12 +38,12 @@ function ah_email_shortcode( $atts, $content = null ) {
 			'email' => 'andy@big-andy.co.uk',
 		), $atts, 'email' );
 
-	extract( shortcode_atts( array(
-				'email' => 'andy@big-andy.co.uk',
-			), $atts ) );
+	// extract( shortcode_atts( array(
+	// 			'email' => 'andy@big-andy.co.uk',
+	// 		), $atts ) );
 
 
-	return '<a class="email" href="mailto:'. esc_url( $atts['email'] ) .'">'. $atts['email'] .'</a>';
+	return '<a class="email" href="mailto:'. sanitize_email( $atts['email'] ) .'">'. $atts['email'] .'</a>';
 }
 add_shortcode( 'email', 'ah_email_shortcode' );
 
@@ -155,8 +155,6 @@ add_shortcode( 'lazy', 'ah_shortcode_lazy' );
 
 function ah_shortcode_weather( $atts, $content ) {
 	$weather = ah_set_weather();
-
-	ah_preit( $weather );
 
 	return esc_html( $weather );
 }
