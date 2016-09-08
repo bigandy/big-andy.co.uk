@@ -23,7 +23,7 @@ class RWMB_Validation
 	 * The rules are outputted in [data-rules] attribute of an hidden <script> and will be converted into JSON by JS.
 	 * @param RW_Meta_Box $object Meta Box object
 	 */
-	public function rules( RW_Meta_Box $object )
+	public function rules( $object )
 	{
 		if ( ! empty( $object->meta_box['validation'] ) )
 		{
@@ -33,10 +33,16 @@ class RWMB_Validation
 
 	/**
 	 * Enqueue scripts for validation.
+	 * @param RW_Meta_Box $object Meta Box object
 	 */
-	public function enqueue()
+	public function enqueue( $object )
 	{
-		wp_enqueue_script( 'jquery-validate', RWMB_JS_URL . 'jquery.validate.min.js', array( 'jquery' ), RWMB_VER, true );
+		if ( empty( $object->meta_box['validation'] ) )
+		{
+			return;
+		}
+		wp_enqueue_script( 'jquery-validation', RWMB_JS_URL . 'jquery-validation/jquery.validate.min.js', array( 'jquery' ), '1.15.0', true );
+		wp_enqueue_script( 'jquery-validation-additional-methods', RWMB_JS_URL . 'jquery-validation/additional-methods.min.js', array( 'jquery-validation' ), '1.15.0', true );
 		wp_enqueue_script( 'rwmb-validate', RWMB_JS_URL . 'validate.js', array( 'jquery-validate' ), RWMB_VER, true );
 		/**
 		 * Prevent loading localized string twice.

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Media field class which users WordPress media popup to upload and select files.
  */
@@ -30,8 +31,9 @@ class RWMB_Media_Field extends RWMB_File_Field
 				'noTitle'            => _x( 'No Title', 'media', 'meta-box' ),
 				'loadingUrl'         => RWMB_URL . 'img/loader.gif',
 				'extensions'         => self::get_mime_extensions(),
-				'select'             => _x( 'Select Files', 'media', 'meta-box' ),
-				'uploadInstructions' => _x( 'Drop files here to upload', 'media', 'meta-box' ),
+				'select'             => apply_filters( 'rwmb_media_select_string', _x( 'Select Files', 'media', 'meta-box' ) ),
+				'or'                 => apply_filters( 'rwmb_media_or_string', _x( 'or', 'media', 'meta-box' ) ),
+				'uploadInstructions' => apply_filters( 'rwmb_media_upload_instructions_string', _x( 'Drop files here to upload', 'media', 'meta-box' ) ),
 			) );
 		}
 	}
@@ -41,7 +43,7 @@ class RWMB_Media_Field extends RWMB_File_Field
 	 */
 	public static function add_actions()
 	{
-		$args = func_get_args();
+		$args  = func_get_args();
 		$field = reset( $args );
 		add_action( 'print_media_templates', array( self::get_class_name( $field ), 'print_templates' ) );
 	}
@@ -165,15 +167,6 @@ class RWMB_Media_Field extends RWMB_File_Field
 	 */
 	public static function value( $new, $old, $post_id, $field )
 	{
-		if ( $field['clone'] )
-		{
-			foreach ( (array) $new as $n )
-			{
-				if ( - 1 === intval( $n ) )
-					return $old;
-			}
-		}
-
 		if ( - 1 === intval( $new ) )
 			return $old;
 
