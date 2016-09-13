@@ -449,95 +449,6 @@ textarea {
 }
 */
 
-.row {
-	width: 100%;
-	margin-left: auto;
-	margin-right: auto;
-	max-width: 90rem;
-}
-
-.row::after {
-  clear: both;
-}
-
-.row::before,
-	.row::after {
-  content: " ";
-  display: table;
-}
-
-.row .row{
-	width: auto;
-	margin-left: -.9375rem;
-	margin-right: -.9375rem;
-	max-width: none;
-}
-
-.columns{
-	padding-left: .9375rem;
-	padding-right: .9375rem;
-	width: 100%;
-	float: left;
-}
-
-[class*=column] + [class*=column]:last-child {
-	float: right;
-}
-
-@media only screen {
-	.columns{
-		position: relative;
-		padding-left: .9375rem;
-		padding-right: .9375rem;
-		float: left;
-	}
-	.small-12{
-		width: 100%
-	}
-}
-
-@media only screen and (min-width: 40.063em) {
-	.columns {
-		position: relative;
-		padding-left: .9375rem;
-		padding-right: .9375rem;
-		float: left;
-	}
-}
-
-@media only screen and (min-width:55em) {
-	.large-push-2 {
-		position: relative;
-		left: 16.66667%;
-		right: auto;
-	}
-
-	.large-push-3 {
-		position: relative;
-		left: 25%;
-		right: auto;
-	}
-
-	.columns{
-		position: relative;
-		padding-left: .9375rem;
-		padding-right: .9375rem;
-		float: left;
-	}
-
-	.large-6{
-		width: 50%;
-	}
-
-	.large-8 {
-		width: 66.66667%;
-	}
-
-	.large-12{
-		width: 100%;
-	}
-}
-
 body,
 html {
 	height: 100%;
@@ -554,7 +465,7 @@ body {
 	color: #222;
 	padding: 0;
 	margin: 0;
-	font-family: Open Sans, serif;
+	font-family: 'Open Sans', serif;
 	font-weight: 400;
 	font-style: normal;
 	line-height: 1.5;
@@ -562,183 +473,52 @@ body {
 	cursor: auto;
 }
 
-a:hover, a:focus {
-	cursor: pointer;
+p {
+	margin-top: 0;
 }
 
 img {
 	max-width: 100%;
 	height: auto;
 	-ms-interpolation-mode: bicubic;
-}
-
-.left {
-	float: left!important;
-}
-
-.right {
-	float: right!important;
-}
-
-.clearfix::after,
-.clearfix::before {
-	content: " ";
-	display: table;
-}
-
-.clearfix::after {
-	clear: both;
-}
-
-img {
 	display: inline-block;
 	vertical-align: middle;
 }
 
-div,
-h1,
-h2,
-h3,
-h4,
-li,
 ol,
-p,
 ul {
-	margin: 0;
 	padding: 0;
+	font-size: 1rem;
+	line-height: 1.6;
+	list-style-position: outside;
+	font-family: inherit;
+	margin-left: 1.1rem;
+	margin-bottom: 1.25rem;
 }
 
 a {
-	color: #c1272d;
 	text-decoration: none;
-	line-height: inherit;
-}
-
-a:focus,
-a:hover,
-a:focus {
-	color: #a62227;
-}
-
-p {
-	font-family: inherit;
-	font-weight: 400;
-	font-size: 1rem;
-	margin-bottom: 1.25rem;
-	text-rendering: optimizeLegibility;
-	line-height: 1.6;
-}
-
-h1,
-h2,
-h3,
-h4 {
-	font-family: Open Sans, serif;
-	font-weight: 800;
-	font-style: normal;
-	color: #222;
-	text-rendering: optimizeLegibility;
-	margin-top: .2rem;
-	margin-bottom: .5rem;
-	line-height: 1.4;
-}
-
-h3 {
-	font-size: 1.375rem;
-}
-
-h4 {
-	font-size: 1.125rem;
-}
-
-em {
-	font-style: italic;
-}
-
-em,
-strong {
-	line-height: inherit;
-}
-
-strong {
-	font-weight: 700;
-}
-
-ol,
-ul {
-	font-size: 1rem;
-	line-height: 1.6;
-	margin-bottom: 1.25rem;
-	list-style-position: outside;
-	font-family: inherit;
-}
-
-ul {
-	margin-left: 1.1rem;
-}
-
-ol {
-	margin-left: 1.4rem;
-}
-
-acronym {
-	text-transform: uppercase;
-	font-size: 90%;
-	color: #222;
-	cursor: help;
-}
-
-.header {
-	margin-bottom: 1rem;
-	background-color: rgba(0, 0, 0, 0.1);
-	background-image: linear-gradient(rgba(255, 255, 255, .5) 2px, transparent 2px), linear-gradient(90deg, rgba(255, 255, 255, .5) 1px, transparent 1px), linear-gradient(rgba(255, 255, 255, .1) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, .1) 1px, transparent 1px);
-	background-position: 0 0, 0 0, 0 0, 0 0;
-	background-size: 21px 21px, 21px 21px, 5px 5px, 5px 5px;
-}
-
-.header__row {
-  padding: 1.5rem 0 .5rem;
-}
-
-.header__title {
-  text-align: center;
-  margin-bottom: 1rem;
-}
-
-.header__nav {
-  text-align: center;
-}
-
-.header__menu {
-  display: inline-block;
-}
-
-.header__menu li {
-  padding-right: 20px;
-}
-
-.header__menu a {
-  display: inline-block;
-  margin-bottom: 1rem;
+	color: #C1272D;
 }
 
 h1 {
-	font-size: 2rem;
+	font-size: 2em;
 }
 
 h2 {
-	font-size: 1.25em;
+	font-size: 1.5em;
 }
 
 h3 {
-	/*font-weight: normal;*/
-	font-size: 1.1em;
+	font-size: 1.25em;
 }
 
 h1,
 h2,
 h3 {
 	letter-spacing: -1px;
+	margin-top: 0;
+	margin-bottom: 0;
 }
 
 .page__title {
@@ -749,17 +529,13 @@ h3 {
 	margin: 0;
 }
 
-.content-container .columns + .columns:last-child {
-  float: left;
-}
-
 .list--inline {
 	margin: 0;
 	list-style: none;
 }
 
 .list--inline li {
-  float: left;
+  display: inline-block;
 }
 
 /* Links */
@@ -854,18 +630,60 @@ picture > img {
 	display: none;
 }
 
+.left {
+	float: left;
+}
+
+.right {
+	float: right;
+}
+
 .links {
-	padding: 16px;
+	padding: 16px 0 48px;
 }
 
-.links::after {
-  clear: both;
+.content-container {
+	max-width: 700px;
+	margin-left: auto;
+	margin-right: auto;
+	padding-left: 16px;
+	padding-right: 16px;
 }
 
-.links::before,
-	.links::after {
-  content: " ";
-  display: table;
+.header {
+	margin-bottom: 1rem;
+	background-color: rgba(0, 0, 0, 0.1);
+	background-image: linear-gradient(rgba(255, 255, 255, .5) 2px, transparent 2px), linear-gradient(90deg, rgba(255, 255, 255, .5) 1px, transparent 1px), linear-gradient(rgba(255, 255, 255, .1) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, .1) 1px, transparent 1px);
+	background-position: 0 0, 0 0, 0 0, 0 0;
+	background-size: 21px 21px, 21px 21px, 5px 5px, 5px 5px;
+}
+
+.header__row {
+  padding: .5rem 0 .5rem;
+}
+
+.header__title {
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.header__nav {
+  text-align: center;
+  margin-bottom: 0;
+}
+
+.header__menu {
+  display: inline-block;
+}
+
+.header__menu li {
+  padding-right: 20px;
+}
+
+.header__menu a {
+  display: inline-block;
+  margin-bottom: 1rem;
 }
 
 .seperator {
@@ -879,8 +697,8 @@ picture > img {
 	margin-top: 0;
 }
 
-.footer__link {
-	line-height: 1.6;
+footer {
+	padding-bottom: 64px;
 }
 
 .svg-sprite {
@@ -1131,39 +949,22 @@ pre[class*="language-"] {
 }
 
 @media (min-width: 37.5em) {
-
-.header__row {
-	padding: 0;
-
-
-}
+	/*.header__row {*/
+	/*padding: 0;*/
+/*}*/
 
 .header__title {
 	font-size: 3.75rem;
-	margin-bottom: 1.5rem;
-	float: left;
-	margin-top: 1rem;
-	letter-spacing: -10px;
 }
-
-.header__title span {
-    display: none;
-  }
-
 
 .header__nav {
-	float: right;
-	margin-top: 3rem;
-}
-
-h2 {
-	font-size: 2rem;
+	margin-top: 1rem;
 }
 }
 
 @media (min-width: 64em) {
 .home__intro {
-	margin: 1rem 0 2rem;
+	margin: 2rem 0 2rem;
 	font-size: 2rem;
 }
 }
@@ -1282,4 +1083,3 @@ footer {
     content: " - Curriculum Vitae";
   }
 }
-

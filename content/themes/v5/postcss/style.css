@@ -13,9 +13,8 @@
 /* Theme Specific */
 @import "variables.css";
 @import "mixins.css";
-@import "stuff.css";
+@import "base.css";
 @import "header.css";
-@import "page.css";
 @import "styleguide.css";
 @import "footer.css";
 @import "icons.css";
@@ -35,4 +34,3 @@
 @import "media-queries/74em.css" (min-width: 74em);
 
 @import "media-queries/print.css" print;
-

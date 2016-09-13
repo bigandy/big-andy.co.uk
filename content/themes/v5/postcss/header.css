@@ -6,16 +6,18 @@
 	background-size: 21px 21px, 21px 21px, 5px 5px, 5px 5px;
 
 	&__row {
-		padding: 1.5rem 0 .5rem;
+		padding: .5rem 0 .5rem;
 	}
 
 	&__title {
 		text-align: center;
-		margin-bottom: 1rem;
+		margin-top: 0;
+		margin-bottom: 0;
 	}
 
 	&__nav {
 		text-align: center;
+		margin-bottom: 0;
 	}
 
 	&__menu {
@@ -31,4 +33,3 @@
 		}
 	}
 }
-

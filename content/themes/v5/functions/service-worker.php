@@ -110,6 +110,8 @@ self.addEventListener('fetch', function(event) {
 add_action( 'publish_post', 'ah_add_serviceworker_in_root' );
 add_action( 'publish_page', 'ah_add_serviceworker_in_root' );
 
+
+
 function ah_add_service_worker_to_footer() {
 	$html = "
 	<script>
@@ -120,8 +122,6 @@ function ah_add_service_worker_to_footer() {
 	echo $html;
 }
 
-if ( ! is_user_logged_in() ) {
+if ( ! is_user_logged_in() && AHDEBUG === false) {
 	add_action( 'wp_footer', 'ah_add_service_worker_to_footer' );
 }
-
-

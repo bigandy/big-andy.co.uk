@@ -7,14 +7,7 @@ root = true
 [*]
 end_of_line = lf
 insert_final_newline = true
-
-# 4 space indentation
-[*.php]
-indent_style = tab
 indent_size = 4
-
-# Tab indentation (no size specified)
-[*.js]
 indent_style = tab
 
 # Indentation override for all JS under lib directory
