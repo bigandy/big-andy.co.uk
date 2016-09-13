@@ -207,11 +207,11 @@ gulp.task('js', () => {
 		.pipe(gulp.dest('build/js'));
 
 	gulp.src([
-		'bower_components/jquery/dist/jquery.js',
+		'node_modules/jquery/dist/jquery.min.js',
 		'node_modules/picturefill/dist/picturefill.min.js',
-		'bower_components/lazyloadxt/dist/jquery.lazyloadxt.js',
-		'bower_components/lazyloadxt/dist/jquery.lazyloadxt.widget.js',
-		'bower_components/lazyloadxt/dist/jquery.lazyloadxt.srcset.js',
+		'node_modules/lazyloadxt/dist/jquery.lazyloadxt.min.js',
+		'node_modules/lazyloadxt/dist/jquery.lazyloadxt.widget.min.js',
+		'node_modules/lazyloadxt/dist/jquery.lazyloadxt.srcset.min.js',
 		'js/prism.min.js',
 	])
 		.pipe(uglify())

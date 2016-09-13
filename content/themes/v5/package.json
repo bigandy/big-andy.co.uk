@@ -63,6 +63,8 @@
     "compact": true
   },
   "dependencies": {
+    "jquery": "^3.1.0",
+    "lazyloadxt": "^1.1.0",
     "normalize.css": "^4.2.0",
     "picturefill": "^3.0.2",
     "sw-toolbox": "^3.2.1"
