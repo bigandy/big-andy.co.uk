@@ -35,7 +35,7 @@ const reporter = require('postcss-reporter');
 
 var envLive = 'https://big-andy.co.uk/',
 	envDev = 'http://big-andy.dev/',
-	env = envLive,
+	env = envDev,
 	pages = [
 		env + 'contact/',
 		env + 'cv/',
@@ -201,14 +201,14 @@ gulp.task('js', () => {
 			'js/main.js',
 		])
 		.pipe(uglify().on('error', function(e){
-		            console.log(e);
-		         }))
+            console.log(e);
+         }))
 		.pipe(concat('script.min.js'))
 		.pipe(gulp.dest('build/js'));
 
 	gulp.src([
 		'bower_components/jquery/dist/jquery.js',
-		'bower_components/picturefill/dist/picturefill.min.js',
+		'node_modules/picturefill/dist/picturefill.min.js',
 		'bower_components/lazyloadxt/dist/jquery.lazyloadxt.js',
 		'bower_components/lazyloadxt/dist/jquery.lazyloadxt.widget.js',
 		'bower_components/lazyloadxt/dist/jquery.lazyloadxt.srcset.js',
@@ -220,7 +220,7 @@ gulp.task('js', () => {
 		.pipe(browserSync.stream());
 
 	gulp.src([
-		'bower_components/sw-toolbox/sw-toolbox.js',
+		'node_modules/sw-toolbox/sw-toolbox.js',
 	])
 		.pipe(uglify())
 		.pipe(concat('sw-toolbox.min.js'))

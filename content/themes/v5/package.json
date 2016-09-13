@@ -61,5 +61,10 @@
     ],
     "comments": false,
     "compact": true
+  },
+  "dependencies": {
+    "normalize.css": "^4.2.0",
+    "picturefill": "^3.0.2",
+    "sw-toolbox": "^3.2.1"
   }
 }

@@ -1,14 +1,12 @@
 /*!
 * Theme Name: Bigandy v5
-* Theme URI: http://zurb.foundation.com
-* Description: This site was built on top of Zurb Foundation v5
+* Description: No Frameworks. Just Code
 * Author: Andrew JD Hudson
 * Author URI: http://www.big-andy.co.uk
-* Tags: flexble-width, translation-ready, microformats, rtl-language-support
 * Version: 5.0
 */
 
-@import "../bower_components/normalize.css/normalize.css";
+@import "../node_modules/normalize.css/normalize.css";
 
 /* Theme Specific */
 @import "variables.css";
