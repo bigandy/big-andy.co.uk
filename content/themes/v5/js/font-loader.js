@@ -36,17 +36,6 @@
 		} else {
 			var xhr = new XMLHttpRequest();
 			xhr.open('GET', css_href, true);
-			// cater for IE8 which does not support addEventListener or attachEvent on XMLHttpRequest
-			xhr.onreadystatechange = function () {
-				if (xhr.readyState === 4) {
-					// once we have the content, quickly inject the css rules
-					injectRawStyle(xhr.responseText);
-					// and cache the text content for further use
-					// notice that this overwrites anything that might have already been previously cached
-					localStorage.font_css_cache = xhr.responseText;
-					localStorage.font_css_cache_file = css_href;
-				}
-			};
 			xhr.send();
 		}
 	}
@@ -60,5 +49,4 @@
 
 		document.getElementsByTagName('head')[0].appendChild(style);
 	}
-
 }());

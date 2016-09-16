@@ -122,6 +122,6 @@ function ah_add_service_worker_to_footer() {
 	echo $html;
 }
 
-if ( ! is_user_logged_in() && AHDEBUG === false) {
+if ( ! is_user_logged_in() && (AHDEBUG === false)) {
 	add_action( 'wp_footer', 'ah_add_service_worker_to_footer' );
 }

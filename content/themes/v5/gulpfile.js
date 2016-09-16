@@ -32,6 +32,7 @@ const rows = require('postcss-rows');
 const customProperties = require('postcss-custom-properties');
 const stylelint = require('stylelint');
 const reporter = require('postcss-reporter');
+const rename = require('gulp-rename');
 
 var envLive = 'https://big-andy.co.uk/',
 	envDev = 'http://big-andy.dev/',
@@ -166,8 +167,9 @@ gulp.task('css', () => {
 		.pipe(gulp.dest('.'))
 		.pipe(browserSync.stream());
 
-	gulp.src('./postcss/font.scss')
+	gulp.src('./postcss/font.css')
 		.pipe(postcss(processors))
+        .pipe(rename('merriweather.css'))
 		.pipe(gulp.dest('./build/css'));
 });
 
@@ -225,12 +227,6 @@ gulp.task('js', () => {
 		.pipe(uglify())
 		.pipe(concat('sw-toolbox.min.js'))
 		.pipe(gulp.dest('build/js'));
-		// .pipe(browserSync.stream());
-
-	gulp.src(['js/font-loader.js'])
-		.pipe(uglify())
-		.pipe(gulp.dest('build/js'));
-
 });
 
 gulp.task('js-lint', () => {
