@@ -96,7 +96,7 @@ body {
 	color: #222;
 	padding: 0;
 	margin: 0;
-	font-family: merriweather, sans-serif;
+	font-family: 'opensans', sans-serif;
 	font-weight: 400;
 	font-style: normal;
 	line-height: 1.5;
@@ -130,6 +130,7 @@ h1{
 	letter-spacing: -1px;
 	margin-top: 0;
 	margin-bottom: 0;
+    font-weight: 800;
 }
 
 .list--inline {

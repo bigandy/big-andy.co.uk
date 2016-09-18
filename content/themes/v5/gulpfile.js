@@ -167,16 +167,15 @@ gulp.task('css', () => {
 		.pipe(gulp.dest('.'))
 		.pipe(browserSync.stream());
 
-	gulp.src('./postcss/font.css')
+	gulp.src('./postcss/fonts/opensans.css')
 		.pipe(postcss(processors))
-        .pipe(rename('merriweather.css'))
-		.pipe(gulp.dest('./build/css'));
+		.pipe(gulp.dest('./build/css/fonts'));
 });
 
 gulp.task('css-lint', () => {
 	gulp.src([
 		'./postcss/**/*.css',
-		'!./postcss/font.css'
+		'!./postcss/font/*.css'
 		])
 		.pipe(postcss([
 			stylelint({ // an example config that has four rules
