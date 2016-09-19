@@ -143,7 +143,7 @@ add_shortcode( 'icon', 'ah_shortcode_icon' );
 
 function ah_shortcode_lazy( $atts, $content ) {
 
-	$html = '<div data-lazy-widget="lazy" class="g-plusone"></div>';
+	$html = '<div data-lazy-widget="lazy"></div>';
 
 	$html .= '<div id="lazy"><!--';
 		$html .= $content;
