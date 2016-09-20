@@ -99,6 +99,12 @@ self.addEventListener('activate', function(event) {
 self.addEventListener('fetch', function(event) {
 	console.log(event.request.url);
 
+	// This service worker won't touch the admin area and preview pages
+	// https://justmarkup.com/log/2016/01/add-service-worker-for-wordpress/
+	if (event.request.url.match(/wp-admin/) || event.request.url.match(/preview=true/)) {
+		return;
+	}
+
 	event.respondWith(
 		caches.match(event.request).then(function(response) {
 			return response || fetch(event.request);
