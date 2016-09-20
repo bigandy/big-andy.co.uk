@@ -73,7 +73,7 @@ toolbox.precache([
 	'" . esc_url( get_stylesheet_uri() ). "',
 	'" . esc_url( $template_uri ) . "build/js/script.min.js',
 	'" . esc_url( $template_uri ) . "build/js/singular.min.js',
-	'" . esc_url( $template_uri ) . "build/css/font.css',
+	'" . esc_url( $template_uri ) . "build/css/fonts/opensans.css',
 	'" . esc_url( $template_uri ) . "images/ba.png',
 	'" . esc_url( $template_uri ) . "manifest.json',
 ]);
