@@ -11,7 +11,7 @@ function ah_set_weather() {
 			// 'timeout' => 120,
 		];
 
-		$response = wp_remote_get( 'https://api.forecast.io/forecast/c3a6795997c7501f0e1e115b3600eb40/51.628284,-1.296668?units=uk', $response_args );
+		$response = wp_remote_get( 'https://api.darksky.net/forecast/c3a6795997c7501f0e1e115b3600eb40/51.628284,-1.296668?units=uk', $response_args );
 
 		// Check if response is an array
 		if ( is_array( $response ) ) {
@@ -26,6 +26,3 @@ function ah_set_weather() {
 
 	return $weather;
 }
-
-
-
