@@ -112,8 +112,6 @@ self.addEventListener('fetch', function(event) {
 add_action( 'publish_post', 'ah_add_serviceworker_in_root' );
 add_action( 'publish_page', 'ah_add_serviceworker_in_root' );
 
-ah_add_serviceworker_in_root();
-
 function ah_add_service_worker_to_footer() {
 	$html = "
 	<script>
