@@ -45,7 +45,6 @@ function ah_add_serviceworker_in_root() {
 	wp_reset_postdata();
 
 	$data = "
-		// Cool things are happening " . $template_uri . "
 importScripts('" . esc_url( $template_uri ) . "build/js/sw-toolbox.min.js');
 importScripts('" . esc_url( $template_uri ) . "js/cache-polyfill.js');
 
