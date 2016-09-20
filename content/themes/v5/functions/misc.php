@@ -24,10 +24,6 @@ if ( ! function_exists( 'ah_remove_menu_pages' ) ) {
 
 if ( ! function_exists( 'ah_init_constants' ) ) {
 	function ah_init_constants() {
-		if ( ! defined( 'AHDEBUG' ) ) {
-			define( 'AHDEBUG', true );
-		}
-
 		if ( ! defined( 'TEMPLATEURI' ) ) {
 			define( 'TEMPLATEURI', trailingslashit( get_stylesheet_directory_uri() ) );
 		}

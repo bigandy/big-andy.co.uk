@@ -1,6 +1,8 @@
 <?php
 function ah_add_serviceworker_in_root() {
-	$post_urls = '';
+	$template_uri = trailingslashit( get_stylesheet_directory_uri() );
+	$home_url = trailingslashit( get_home_url() );
+	$posts_urls = '';
 	$posts_args = [
 		'posts_per_page'	=> 20,
 		'post_type'			=> [
@@ -13,7 +15,7 @@ function ah_add_serviceworker_in_root() {
 	if ( $posts_loop->have_posts() ) {
 		while ( $posts_loop->have_posts() ) {
 			$posts_loop->the_post();
-			$posts_urls .= "'" . get_the_permalink() . "',\n\t\t";
+			$posts_urls .= "'" . get_the_permalink() . "',\n\t\t\t\t";
 		}
 	}
 	wp_reset_postdata();
@@ -37,14 +39,15 @@ function ah_add_serviceworker_in_root() {
 	if ( $page_loop->have_posts() ) {
 		while ( $page_loop->have_posts() ) {
 			$page_loop->the_post();
-			$page_urls .= "'" . get_the_permalink() . "',\n\t\t";
+			$page_urls .= "'" . get_the_permalink() . "',\n\t\t\t\t";
 		}
 	}
 	wp_reset_postdata();
 
 	$data = "
-importScripts('" . esc_url( TEMPLATEURI ) . "build/js/sw-toolbox.min.js');
-importScripts('" . esc_url( TEMPLATEURI ) . "js/cache-polyfill.js');
+		// Cool things are happening " . $template_uri . "
+importScripts('" . esc_url( $template_uri ) . "build/js/sw-toolbox.min.js');
+importScripts('" . esc_url( $template_uri ) . "js/cache-polyfill.js');
 
 var cacheName = 'wpo-cache-" . date( 'd-m-Y-H-i-s', filemtime( SITEROOT . 'serviceWorker.js' ) ) . "';
 
@@ -66,13 +69,13 @@ self.addEventListener('activate', function activator (event) {
 
 toolbox.precache([
 	// Assets
-	'" . esc_url( HOMEURL ) . "wp/wp-includes/js/wp-embed.min.js',
+	'" . esc_url( $home_url ) . "wp/wp-includes/js/wp-embed.min.js',
 	'" . esc_url( get_stylesheet_uri() ). "',
-	'" . esc_url( TEMPLATEURI ) . "build/js/script.min.js',
-	'" . esc_url( TEMPLATEURI ) . "build/js/singular.min.js',
-	'" . esc_url( TEMPLATEURI ) . "build/css/font.css',
-	'" . esc_url( TEMPLATEURI ) . "images/ba.png',
-	'" . esc_url( TEMPLATEURI ) . "manifest.json',
+	'" . esc_url( $template_uri ) . "build/js/script.min.js',
+	'" . esc_url( $template_uri ) . "build/js/singular.min.js',
+	'" . esc_url( $template_uri ) . "build/css/font.css',
+	'" . esc_url( $template_uri ) . "images/ba.png',
+	'" . esc_url( $template_uri ) . "manifest.json',
 ]);
 
 self.addEventListener('install', function(e) {
@@ -80,9 +83,9 @@ self.addEventListener('install', function(e) {
 		caches.open(cacheName).then(function(cache) {
 			return cache.addAll([
 				// Posts
-				' . $posts_urls . '
+				" . $posts_urls . "
 				// Pages
-				' . $page_urls . '
+				" . $page_urls . "
 			]).then(function() {
 				return self.skipWaiting();
 			});
@@ -110,11 +113,12 @@ self.addEventListener('fetch', function(event) {
 add_action( 'publish_post', 'ah_add_serviceworker_in_root' );
 add_action( 'publish_page', 'ah_add_serviceworker_in_root' );
 
-
+ah_add_serviceworker_in_root();
 
 function ah_add_service_worker_to_footer() {
 	$html = "
 	<script>
+
 		if('serviceWorker' in navigator) {
 			navigator.serviceWorker.register( '" . esc_url( HOMEURL ) . "serviceWorker.js', { scope: '" . esc_url( HOMEURL ) . "' });
 		}
@@ -122,6 +126,6 @@ function ah_add_service_worker_to_footer() {
 	echo $html;
 }
 
-if ( ! is_user_logged_in() && (AHDEBUG === false)) {
+if ( ! is_user_logged_in() ) {
 	add_action( 'wp_footer', 'ah_add_service_worker_to_footer' );
 }
