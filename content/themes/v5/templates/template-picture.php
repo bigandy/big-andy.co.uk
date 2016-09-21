@@ -21,7 +21,7 @@ get_header();
 						?>
 				    </section>
 			    </article>
-			<?php
+				<?php
 			}
 		}
 		wp_reset_postdata();

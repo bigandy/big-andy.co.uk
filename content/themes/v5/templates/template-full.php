@@ -13,15 +13,15 @@ get_header();
 				?>
 				<article role="article" class="large-12 columns">
 					<section class="post-content clearfix row">
-					<?php
-					if ( has_post_thumbnail() ) {
-						ah_featured_picture_replacement();
-					}
-					the_content();
-					?>
-				</section>
-			</article>
-			<?php
+						<?php
+						if ( has_post_thumbnail() ) {
+							ah_featured_picture_replacement();
+						}
+						the_content();
+						?>
+					</section>
+				</article>
+				<?php
 			}
 		}
 		wp_reset_postdata();
