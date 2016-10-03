@@ -142,20 +142,6 @@ class RWMB_Media_Field extends RWMB_File_Field
 	}
 
 	/**
-	 * Save meta value
-	 *
-	 * @param $new
-	 * @param $old
-	 * @param $post_id
-	 * @param $field
-	 */
-	public static function save( $new, $old, $post_id, $field )
-	{
-		delete_post_meta( $post_id, $field['id'] );
-		parent::save( $new, array(), $post_id, $field );
-	}
-
-	/**
 	 * Get meta values to save
 	 *
 	 * @param mixed $new
@@ -167,10 +153,22 @@ class RWMB_Media_Field extends RWMB_File_Field
 	 */
 	public static function value( $new, $old, $post_id, $field )
 	{
-		if ( - 1 === intval( $new ) )
-			return $old;
+		array_walk( $new, 'absint' );
+		return array_filter(  array_unique( $new ) );
+	}
 
-		return $new;
+	/**
+	 * Save meta value
+	 *
+	 * @param $new
+	 * @param $old
+	 * @param $post_id
+	 * @param $field
+	 */
+	public static function save( $new, $old, $post_id, $field )
+	{
+		delete_post_meta( $post_id, $field['id'] );
+		parent::save( $new, array(), $post_id, $field );
 	}
 
 	/**

@@ -28,8 +28,6 @@ abstract class RWMB_Field
 	 *
 	 * @param array $field
 	 * @param bool  $saved
-	 *
-	 * @return string
 	 */
 	public static function show( $field, $saved )
 	{

@@ -18,7 +18,7 @@ class RWMB_Loader
 	protected function constants()
 	{
 		// Script version, used to add version for scripts and styles
-		define( 'RWMB_VER', '4.9.2' );
+		define( 'RWMB_VER', '4.9.5' );
 
 		list( $path, $url ) = self::get_path( dirname( dirname( __FILE__ ) ) );
 
@@ -42,8 +42,8 @@ class RWMB_Loader
 	public static function get_path( $path = '' )
 	{
 		// Plugin base path
-		$path        = wp_normalize_path( untrailingslashit( $path ) );
-		$content_dir = wp_normalize_path( untrailingslashit( WP_CONTENT_DIR ) );
+		$path       = wp_normalize_path( untrailingslashit( $path ) );
+		$themes_dir = wp_normalize_path( untrailingslashit( dirname( realpath( get_stylesheet_directory() ) ) ) );
 
 		// Default URL
 		$url = plugins_url( '', $path . '/' . basename( $path ) . '.php' );
@@ -52,11 +52,11 @@ class RWMB_Loader
 		if (
 			0 !== strpos( $path, wp_normalize_path( WP_PLUGIN_DIR ) )
 			&& 0 !== strpos( $path, wp_normalize_path( WPMU_PLUGIN_DIR ) )
-			&& 0 === strpos( $path, $content_dir )
+			&& 0 === strpos( $path, $themes_dir )
 		)
 		{
-			$content_url = untrailingslashit( dirname( dirname( get_stylesheet_directory_uri() ) ) );
-			$url         = str_replace( $content_dir, $content_url, $path );
+			$themes_url = untrailingslashit( dirname( get_stylesheet_directory_uri() ) );
+			$url        = str_replace( $themes_dir, $themes_url, $path );
 		}
 
 		$path = trailingslashit( $path );
