@@ -12,10 +12,10 @@
 			?>
 			<div class="links">
 				<div class="left">
-					<?php previous_post_link( '<span class="visuallyhidden">Previous Post: </span>%link' ); ?>
+					<?php previous_post_link( '&laquo; <span class="visuallyhidden">Previous Post: </span>%link' ); ?>
 				</div>
 				<div class="right">
-					<?php next_post_link( '<span class="visuallyhidden">Next Post: </span>%link' ); ?>
+					<?php next_post_link( '<span class="visuallyhidden">Next Post: </span>%link &raquo;' ); ?>
 				</div>
 			</div>
 
