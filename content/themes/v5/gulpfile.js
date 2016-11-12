@@ -67,7 +67,7 @@ gulp.task('critical-css', () => {
 		height: 3000, // 600
 		width: 400, // 400
 	    minify: true,
-	}).then(function (criticalCSS){
+	}).then(criticalCSS => {
 		require('fs').writeFile('build/css/critical.css', criticalCSS);
 	});
 

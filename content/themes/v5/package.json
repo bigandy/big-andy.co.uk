@@ -37,7 +37,7 @@
     "gulp-uglify": "^1.5.4",
     "gulp-uncss": "^1.0.5",
     "gulp-util": "^3.0.6",
-    "penthouse": "^0.3.7-alpha.3",
+    "penthouse": "^0.10.2",
     "stylelint": "^6.9.0"
   },
   "author": "Andrew JD Hudson",
