@@ -84,7 +84,7 @@ gulp.task('critical-css', () => {
 	});
 });
 
-gulp.task('uncss', () => {
+gulp.task('uncss', ['sass'], () => {
 	return gulp.src('./style.css')
 		.pipe(uncss({
 			html: pages,
@@ -226,7 +226,6 @@ gulp.task('default', [
 ]);
 
 gulp.task('deploy', [
-	'sass',
 	'uncss',
 	'js',
 	'critical-css',
