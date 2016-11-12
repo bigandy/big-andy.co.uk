@@ -13,7 +13,7 @@
 [data-visited] {
 	background-color: rgba($yellow, .15);
 	position: relative;
-	margin-top: 1rows;
+	margin-top: 1rem;
 
 	&::after {
 		content: "Viewed";
