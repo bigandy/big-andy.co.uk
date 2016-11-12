@@ -1,17 +1,17 @@
 .home__articles {
-	border-top: 1px dotted var(--light-gray);
+	border-top: 1px dotted $light-gray;
 	margin-top: 1rem;
 }
 
 .article--home {
-	border-bottom: 1px dotted var(--light-gray);
+	border-bottom: 1px dotted $light-gray;
 	padding-left: 1em;
 	padding-right: 1em;
 	padding-top: 1em;
 }
 
 [data-visited] {
-	background-color: color(var(--yellow) a(15%));
+	background-color: rgba($yellow, .15);
 	position: relative;
 	margin-top: 1rows;
 
@@ -20,9 +20,9 @@
 		position: absolute;
 		top: 1.75em;
 		right: 1em;
-		background-color: var(--red);
+		background-color: $red;
 		padding: .75em;
-		color: var(--white);
+		color: $white;
 		border-radius: .75em;
 		font-size: 12px;
 		font-style: italic;

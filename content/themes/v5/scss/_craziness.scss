@@ -1,8 +1,6 @@
-:root {
-	--craziness: true;
-}
+$craziness: true;
 
-@if var(--craziness) == true {
+@if $craziness == true {
 	html {
 		animation: adjustHue 100s alternate infinite;
 	}

@@ -1,8 +1,6 @@
-/*@import '../variables.css';*/
-
 * {
 	background: transparent;
-	color: var(--black);
+	color: $black;
 	box-shadow: none;
 	text-shadow: none;
 	font-family: sans-serif;
@@ -24,7 +22,7 @@ h3 {
 }
 
 a {
-	color: var(--black);
+	color: $black;
 	text-decoration: none;
 }
 
@@ -35,7 +33,7 @@ a:visited {
 
 pre,
 blockquote {
-	border: 1px solid var--(aluminum);
+	border: 1px solid $aluminum;
 	page-break-inside: avoid;
 }
 

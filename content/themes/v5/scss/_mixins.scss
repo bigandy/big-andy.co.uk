@@ -1,5 +1,5 @@
 /* Mixin for Generating relative font-sizes:*/
-@define-mixin fs $fontSize, $base: 16 {
+@mixin fs ($fontSize, $base: 16) {
 	font-size: $fontSize / $base * 1em;
 }
 
@@ -10,18 +10,18 @@
 // +fs(22,32) */
 
 /* Mixin for line-height: */
-@define-mixin line $lineHeight, $base {
+@mixin line ($lineHeight, $base) {
 	line-height: $lineHeight / $base * 1;
 }
 
-@define-mixin hocus {
+@mixin hocus {
 	&:focus,
 	&:hover {
 		@content;
 	}
 }
 
-@define-mixin wh $value {
+@mixin wh($value) {
 	width: $value;
 	height: $value;
 }
@@ -32,7 +32,7 @@
 */
 
 
-@define-mixin ir {
+%ir {
 	background-color: transparent;
 	border: 0;
 	overflow: hidden;
@@ -45,7 +45,7 @@
 	}
 }
 
-@define-mixin cf {
+%cf {
 	&::after {
 		clear: both;
 	}
@@ -57,7 +57,7 @@
 	}
 }
 
-@define-placeholder vh {
+%vh {
 	border: 0;
 	clip: rect(0 0 0 0);
 	height: 1px;
@@ -68,9 +68,7 @@
 	width: 1px;
 }
 
-@define-mixin list--plain {
+%list--plain {
 	margin: 0;
 	list-style: none;
 }
-
-

@@ -18,20 +18,11 @@ const cleanCSS = require('gulp-clean-css');
 const svgStore = require('gulp-svgstore');
 const svgmin = require('gulp-svgmin');
 
+const sourcemaps = require('gulp-sourcemaps');
 const postcss = require('gulp-postcss');
 const autoprefixer = require('autoprefixer');
-const mixins = require('postcss-mixins');
-const nestedcss = require('postcss-nested');
-const postcssImport = require('postcss-import');
-const colorFunction = require('postcss-color-function');
-const postcssRoot = require('postcss');
-const cssnext = require('postcss-cssnext');
-const simpleExtend = require('postcss-simple-extend');
-const focus = require('postcss-focus');
-const rows = require('postcss-rows');
-const customProperties = require('postcss-custom-properties');
 const stylelint = require('stylelint');
-const reporter = require('postcss-reporter');
+// const reporter = require('postcss-reporter');
 const rename = require('gulp-rename');
 
 var envLive = 'https://big-andy.co.uk/',
@@ -115,67 +106,27 @@ gulp.task('uncss', () => {
 		.pipe(gulp.dest('.'));
 });
 
-gulp.task('css', () => {
-	var cssNextOptions = {
-			browsers: browsers,
-			sourcemap: false,
-			safe: true,
-			compress: {
-				calc: false,
-				colormin: false,
-				convertValues: false,
-				discardComments: false,
-				discardDuplicates: false,
-				discardEmpty: false,
-				discardUnused: false,
-				filterOptimiser: false,
-				filterPlugins: false,
-				functionOptimiser: false,
-				mergeIdents: false,
-				mergeLonghand: false,
-				mergeRules: false,
-				minifyFontValues: false,
-				minifySelectors: false,
-				normalizeCharset: false,
-				normalizeUrl: false,// this one is the cause
-				orderedValues: true,
-				reduceIdents: true,
-				styleCache: true,
-				svgo: true,
-				uniqueSelectors: true,
-				zindex: true
-			}
-		};
-
-	var processors = [
-		postcssImport,
-		mixins,
-		customProperties,
-		simpleExtend,
-		nestedcss,
-		focus,
-		colorFunction,
-		cssnext(cssNextOptions),
-		rows({
-			multiplier: 16,
-			unit: 'rows'
-		}),
-	];
-
-	gulp.src('./postcss/style.css')
-		.pipe(postcss(processors))
+gulp.task('sass', () => {
+	gulp.src('./scss/**/*.scss')
+		.pipe( sourcemaps.init() )
+		.pipe(sass({
+			'outputStyle': 'compressed',
+		}).on('error', sass.logError))
+		.pipe( sourcemaps.write('.') )
 		.pipe(gulp.dest('.'))
 		.pipe(browserSync.stream());
 
-	gulp.src('./postcss/fonts/opensans.css')
-		.pipe(postcss(processors))
+	gulp.src('./scss/fonts/opensans.scss')
+		.pipe(sass({
+			'outputStyle': 'compressed',
+		}).on('error', sass.logError))
 		.pipe(gulp.dest('./build/css/fonts'));
 });
 
 gulp.task('css-lint', () => {
 	gulp.src([
-		'./postcss/**/*.css',
-		'!./postcss/font/*.css'
+		'./scss/**/*.scss',
+		'!./scss/font/*.scss'
 		])
 		.pipe(postcss([
 			stylelint({ // an example config that has four rules
@@ -262,7 +213,7 @@ gulp.task('browser-sync', function() {
 // // Rerun the task when a file changes
 gulp.task('watch', () => {
 	gulp.watch('js/*', ['js']);
-	gulp.watch('postcss/**/*', ['css']);
+	gulp.watch('scss/**/*', ['sass']);
 	gulp.watch('images/svg/*.svg', ['sprites']);
 });
 
@@ -270,15 +221,16 @@ gulp.task('watch', () => {
 gulp.task('default', [
 	'browser-sync',
 	'js',
-	'css',
+	'sass',
 	'watch'
 ]);
 
 gulp.task('deploy', [
-	'css',
+	'sass',
 	'uncss',
 	'js',
 	'critical-css',
+	'sprites'
 ]);
 
 gulp.task('lint', [

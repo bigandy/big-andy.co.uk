@@ -10,9 +10,9 @@
 	if ( ! is_user_logged_in() ) {
 		$css = 'style.css';
 	} else if ( is_page() || is_front_page() ) {
-		$css = 'build/css/critical.css';
+		// $css = 'build/css/critical.css';
 	} else {
-		$css = 'build/css/post.css';
+		// $css = 'build/css/post.css';
 	}
 	include_once( $css ); ?></style>
 	<?php wp_head(); ?>

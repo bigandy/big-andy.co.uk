@@ -3,24 +3,24 @@
 }
 
 .icon {
-	@mixin wh 30px;
+	@include wh(30px);
 	display: inline-block;
-	fill: var(--orange);
+	fill: $orange;
 
 	&:hover {
-		fill: var(--blue);
+		fill: $blue;
 	}
 }
 
 .icon--shortcode {
-	@mixin wh 100px;
-	fill: var(--body-color);
+	@include wh(100px);
+	fill: $body-color;
 }
 
 .icon--small {
-	@mixin wh 50px;
+	@include wh(50px);
 }
 
 .icon--large {
-	@mixin wh 150px;
+	@include wh(150px);
 }
