@@ -36,7 +36,7 @@ const rename = require('gulp-rename');
 
 var envLive = 'https://big-andy.co.uk/',
 	envDev = 'http://big-andy.dev/',
-	env = envDev,
+	env = envLive,
 	pages = [
 		env + 'contact/',
 		env + 'cv/',
