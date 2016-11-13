@@ -21,7 +21,7 @@
 	<header class="header">
 		<div class="header__row content-container">
 			<h1 class="header__title">
-				<a href="<?php echo esc_url( HOMEURL ); ?>" class="header__link">A<span>ndrew</span> H<span>udson</span></a>
+				<a href="<?php echo esc_url( HOMEURL ); ?>" class="header__link">Andrew Hudson</a>
 			</h1>
 			<nav role="navigation" class="header__nav nav top-nav clearfix" id="top-nav">
 				<?php
