@@ -62,8 +62,8 @@ gulp.task('critical-css', () => {
 	const fs = require('fs');
 
 	const outputCSS = (criticalCSS, file) => {
-		const output = new cleanCSS().minify(criticalCSS);
-		fs.writeFile(`build/css/${file}.css`, output.styles, (err) => {
+		const output = new cleanCSS().minify(criticalCSS).styles;
+		fs.writeFile(`build/css/${file}.css`, output, (err) => {
 			if (err) {
 				console.log('outputcss error: ', err);
 			}
@@ -84,6 +84,7 @@ gulp.task('critical-css', () => {
 		});
 	}
 
+	// TODO way of writing this so don't call twice
 	runPenthouse('critical');
 	runPenthouse('post', '/30-running-days-september/');
 });
@@ -125,22 +126,13 @@ gulp.task('sass', () => {
 		.pipe(gulp.dest('./build/css/fonts'));
 });
 
-gulp.task('css-lint', () => {
+gulp.task('scss-lint', () => {
 	gulp.src([
 		'./scss/**/*.scss',
-		'!./scss/font/*.scss'
+		'!./scss/fonts/*.scss'
 		])
 		.pipe(postcss([
-			stylelint({ // an example config that has four rules
-				"rules": {
-					"block-no-empty": 2,
-					"color-no-invalid-hex": 2,
-					"declaration-colon-space-before": [2, "never"],
-					"declaration-colon-space-after": [2, "always"],
-					"indentation": [2, "tab"],
-					"number-leading-zero": [2, "never"]
-				}
-			}),
+			stylelint(),
 			reporter({
 				clearMessages: true,
 			})
@@ -235,6 +227,7 @@ gulp.task('build', [
 ]);
 
 gulp.task('lint', [
+	'scss-lint',
 	'js-lint',
 	'wordpress-lint'
 ]);

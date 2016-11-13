@@ -24,25 +24,25 @@
 
 /* Media Queries */
 @media (min-width: 30em) {
-    @import "media-queries/30em";
+	@import "media-queries/30em";
 }
 
 @media (min-width: 35em) {
-    @import "media-queries/35em";
+	@import "media-queries/35em";
 }
 
 @media (min-width: 37.5em) {
-    @import "media-queries/37-5em";
+	@import "media-queries/37-5em";
 }
 
 @media (min-width: 64em) {
-    @import "media-queries/64em";
+	@import "media-queries/64em";
 }
 
 @media (min-width: 74em) {
-    @import "media-queries/74em";
+	@import "media-queries/74em";
 }
 
 @media print {
-    @import "media-queries/print";
+	@import "media-queries/print";
 }

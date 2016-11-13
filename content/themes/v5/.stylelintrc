@@ -1,10 +1,10 @@
 {
 	"rules": {
-		"block-no-empty": 2,
-		"color-no-invalid-hex": 2,
-		"declaration-colon-space-before": [2, "never"],
-		"declaration-colon-space-after": [2, "always"],
-		"indentation": [2, "tab"],
-		"number-leading-zero": [2, "never"]
+		"block-no-empty": true,
+		"color-no-invalid-hex": true,
+		"declaration-colon-space-before": "never",
+		"declaration-colon-space-after": "always",
+		"indentation": "tab",
+		"number-leading-zero": "never"
 	}
 }
