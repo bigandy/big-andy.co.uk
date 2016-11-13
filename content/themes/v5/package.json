@@ -20,6 +20,7 @@
     "babelify": "^7.2.0",
     "bluebird": "^3.4.6",
     "browser-sync": "^2.13.0",
+    "clean-css": "^3.4.20",
     "critical": "^0.7.0",
     "eslint": "^2.0.0-rc.0",
     "gulp": "^3.9.0",

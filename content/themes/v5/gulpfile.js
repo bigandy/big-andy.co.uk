@@ -14,7 +14,8 @@ const Promise = require('bluebird');
 const phpcs = require('gulp-phpcs');
 const critical = require('critical');
 const nano = require('gulp-cssnano');
-const cleanCSS = require('gulp-clean-css');
+const gulpcleanCSS = require('gulp-clean-css');
+const cleanCSS = require('clean-css');
 const svgStore = require('gulp-svgstore');
 const svgmin = require('gulp-svgmin');
 
@@ -22,7 +23,7 @@ const sourcemaps = require('gulp-sourcemaps');
 const postcss = require('gulp-postcss');
 const autoprefixer = require('autoprefixer');
 const stylelint = require('stylelint');
-// const reporter = require('postcss-reporter');
+const reporter = require('postcss-reporter');
 const rename = require('gulp-rename');
 
 var envLive = 'https://big-andy.co.uk/',
@@ -59,29 +60,33 @@ gulp.task('sprites', () => {
 });
 
 gulp.task('critical-css', () => {
-	penthouseAsync({
-		url: [
-			env
-		],
-		css: './style.css',
-		height: 3000, // 600
-		width: 400, // 400
-	    minify: true,
-	}).then(criticalCSS => {
-		require('fs').writeFile('build/css/critical.css', criticalCSS);
-	});
+	const fs = require('fs');
 
-	penthouseAsync({
-		url: [
-			env + '/using-forecast-io-with-wordpress/'
-		],
-		css: './style.css',
-		height: 3000, // 600
-		width: 400, // 400
-		minify: true,
-	}).then(function (criticalCSS){
-		require('fs').writeFile('build/css/post.css', criticalCSS);
-	});
+	const outputCSS = (criticalCSS, file) => {
+		const output = new cleanCSS().minify(criticalCSS);
+		fs.writeFile(`build/css/${file}.css`, output.styles, (err) => {
+			if (err) {
+				console.log('outputcss error: ', err);
+			}
+		});
+	};
+
+	const runPenthouse = (outputFile, envExtra = '') => {
+		penthouseAsync({
+			url: [
+				env + envExtra
+			],
+			css: './style.css',
+			height: 3000, // 600
+			width: 400, // 400
+		    minify: true,
+		}).then(criticalCSS => {
+			outputCSS(criticalCSS, outputFile);
+		});
+	}
+
+	runPenthouse('critical');
+	runPenthouse('post', '/using-forecast-io-with-wordpress/');
 });
 
 gulp.task('uncss', ['sass'], () => {
@@ -100,7 +105,7 @@ gulp.task('uncss', ['sass'], () => {
 			]
 		}))
 
-		.pipe(cleanCSS({
+		.pipe(gulpcleanCSS({
 			keepSpecialComments: 0
 		}))
 		.pipe(gulp.dest('.'));
