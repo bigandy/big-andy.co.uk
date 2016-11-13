@@ -5,6 +5,7 @@
 		"declaration-colon-space-before": "never",
 		"declaration-colon-space-after": "always",
 		"indentation": "tab",
-		"number-leading-zero": "never"
+		"number-leading-zero": "never",
+		"length-zero-no-unit": true,
 	}
 }

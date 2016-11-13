@@ -23,7 +23,6 @@ const postcss = require('gulp-postcss');
 const autoprefixer = require('autoprefixer');
 const stylelint = require('stylelint');
 const reporter = require('postcss-reporter');
-const rename = require('gulp-rename');
 
 var envLive = 'https://big-andy.co.uk/',
 	envDev = 'http://big-andy.dev/',
