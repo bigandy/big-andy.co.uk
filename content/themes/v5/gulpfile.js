@@ -14,7 +14,6 @@ const Promise = require('bluebird');
 const phpcs = require('gulp-phpcs');
 const critical = require('critical');
 const nano = require('gulp-cssnano');
-const gulpcleanCSS = require('gulp-clean-css');
 const cleanCSS = require('clean-css');
 const svgStore = require('gulp-svgstore');
 const svgmin = require('gulp-svgmin');
@@ -77,7 +76,7 @@ gulp.task('critical-css', () => {
 				env + envExtra
 			],
 			css: './style.css',
-			height: 3000, // 600
+			height: 1200, // 600
 			width: 400, // 400
 		    minify: true,
 		}).then(criticalCSS => {
@@ -86,7 +85,7 @@ gulp.task('critical-css', () => {
 	}
 
 	runPenthouse('critical');
-	runPenthouse('post', '/using-forecast-io-with-wordpress/');
+	runPenthouse('post', '/30-running-days-september/');
 });
 
 gulp.task('uncss', ['sass'], () => {
@@ -103,10 +102,6 @@ gulp.task('uncss', ['sass'], () => {
 				/token.*/,
 				'.article__header__image'
 			]
-		}))
-
-		.pipe(gulpcleanCSS({
-			keepSpecialComments: 0
 		}))
 		.pipe(gulp.dest('.'));
 });
@@ -159,7 +154,7 @@ gulp.task('js', () => {
 			'js/lazy-load-css.js',
 			'js/main.js',
 		])
-		.pipe(uglify().on('error', function(e){
+		.pipe(uglify().on('error', e => {
             console.log(e);
          }))
 		.pipe(concat('script.min.js'))
@@ -232,7 +227,7 @@ gulp.task('default', [
 	'watch'
 ]);
 
-gulp.task('deploy', [
+gulp.task('build', [
 	'uncss',
 	'js',
 	'critical-css',
