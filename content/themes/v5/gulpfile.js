@@ -117,11 +117,11 @@ gulp.task('sass', () => {
 		.pipe(sass({
 			'outputStyle': 'compressed',
 		}).on('error', sass.logError))
-		.pipe( sourcemaps.write('.') )
+		.pipe(sourcemaps.write('.'))
 		.pipe(gulp.dest('.'))
 		.pipe(browserSync.stream());
 
-	gulp.src('./scss/fonts/opensans.scss')
+	gulp.src('./scss/fonts/opensans')
 		.pipe(sass({
 			'outputStyle': 'compressed',
 		}).on('error', sass.logError))
