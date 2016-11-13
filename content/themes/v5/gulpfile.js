@@ -112,7 +112,9 @@ gulp.task('uncss', ['sass'], () => {
 });
 
 gulp.task('sass', () => {
-	gulp.src('./scss/**/*.scss')
+	gulp.src([
+		'./scss/style.scss',
+		])
 		.pipe( sourcemaps.init() )
 		.pipe(sass({
 			'outputStyle': 'compressed',
@@ -121,7 +123,7 @@ gulp.task('sass', () => {
 		.pipe(gulp.dest('.'))
 		.pipe(browserSync.stream());
 
-	gulp.src('./scss/fonts/opensans')
+	gulp.src('./scss/fonts/opensans.scss')
 		.pipe(sass({
 			'outputStyle': 'compressed',
 		}).on('error', sass.logError))
