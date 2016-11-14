@@ -38,11 +38,6 @@ function ah_email_shortcode( $atts, $content = null ) {
 			'email' => 'andy@big-andy.co.uk',
 		), $atts, 'email' );
 
-	// extract( shortcode_atts( array(
-	// 			'email' => 'andy@big-andy.co.uk',
-	// 		), $atts ) );
-
-
 	return '<a class="email" href="mailto:'. sanitize_email( $atts['email'] ) .'">'. $atts['email'] .'</a>';
 }
 add_shortcode( 'email', 'ah_email_shortcode' );
@@ -79,7 +74,7 @@ function ah_website_shortcode( $atts, $content = null ) {
 	$escaped_url = preg_replace( '(^www.)', '', $escaped_url ); // remove the www.
 	$escaped_url = str_replace( '/', '', $escaped_url ); // remove the final slash
 
-	return '<a href="' . esc_url( $atts['url'] ) . '">' . esc_html( $escaped_url ) . '</a>';
+	return '<a href="' . esc_url( $atts['url'] ) . '" rel="noopener">' . esc_html( $escaped_url ) . '</a>';
 }
 add_shortcode( 'website', 'ah_website_shortcode' );
 
