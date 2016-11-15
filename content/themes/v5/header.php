@@ -33,7 +33,9 @@
 						'container_class' => 'header__nav',
 						'menu_class'      => 'list--inline header__menu',
 						'menu_id'		  => '',
-					);
+						// 'walker' => new AH_Walker_Nav_Menu(),
+					) );
+
 					wp_nav_menu( $menu_args );
 				}
 				?>
