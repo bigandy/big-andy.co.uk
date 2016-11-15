@@ -4,7 +4,7 @@ get_header();
  * Template Name: Picture Template
  */
 ?>
-<main class="picture-template">
+<main class="picture-template" id="main">
 	<div class="row content-container">
 		<?php
 		if ( have_posts() ) {

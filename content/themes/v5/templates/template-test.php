@@ -4,7 +4,7 @@ get_header();
  * Template Name: Test Remote Get
  */
 ?>
-<main>
+<main id="main">
 	<div class="row content-container">
 		<?php
 		if ( have_posts() ) {
