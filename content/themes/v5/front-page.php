@@ -2,7 +2,7 @@
 get_header();
 $paged = get_query_var( 'page' );
 ?>
-<main class="row content-container">
+<main class="row content-container" id="main">
 	<div class="large-8 large-push-2 small-12 columns">
 		<section class="home__intro">
 			<?php
