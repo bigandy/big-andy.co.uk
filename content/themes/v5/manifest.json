@@ -1,9 +1,9 @@
 {
   "manifest_version": 2,
-  "name": "big-andy.co.uk",
+  "name": "Andrew JD Hudson",
   "version": "2",
   "lang": "en",
-  "short_name": "Andrew JD Hudson",
+  "short_name": "Big Andy",
   "icons": [
 	  {
 		"src": "/content/themes/v5/images/cds-icon@192.png",
