@@ -1,4 +1,5 @@
 {
-	"presets": ["es2015"],
+	"presets": ["latest"],
+	"plugins": ["syntax-async-functions"],
 	"comments": false
 }

@@ -15,8 +15,8 @@
     "autoprefixer": "^6.0.3",
     "babel-cli": "^6.4.5",
     "babel-core": "^6.4.5",
-    "babel-preset-es2015": "^6.3.13",
-    "babel-preset-react": "^6.3.13",
+    "babel-plugin-syntax-async-functions": "^6.13.0",
+    "babel-preset-latest": "^6.16.0",
     "babel-register": "^6.9.0",
     "babelify": "^7.2.0",
     "bluebird": "^3.4.6",
@@ -25,6 +25,7 @@
     "critical": "^0.8.0",
     "eslint": "^3.10.0",
     "gulp": "^3.9.0",
+    "gulp-babel": "^6.1.2",
     "gulp-clean-css": "^2.0.12",
     "gulp-concat": "^2.1.7",
     "gulp-cssnano": "^2.0.0",
@@ -45,13 +46,6 @@
   "author": "Andrew JD Hudson",
   "twitter": "@bigandy",
   "license": "ISC",
-  "babel": {
-    "presets": [
-      "es2015"
-    ],
-    "comments": false,
-    "compact": true
-  },
   "dependencies": {
     "jquery": "^3.1.0",
     "lazyloadxt": "^1.1.0",

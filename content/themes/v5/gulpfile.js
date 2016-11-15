@@ -17,6 +17,7 @@ const nano = require('gulp-cssnano');
 const cleanCSS = require('clean-css');
 const svgStore = require('gulp-svgstore');
 const svgmin = require('gulp-svgmin');
+const babel = require('gulp-babel');
 
 const sourcemaps = require('gulp-sourcemaps');
 const postcss = require('gulp-postcss');
@@ -169,6 +170,11 @@ gulp.task('js', () => {
 	])
 		.pipe(uglify())
 		.pipe(concat('sw-toolbox.min.js'))
+		.pipe(gulp.dest('build/js'));
+
+    gulp.src(['js/async-await-test.js'])
+        .pipe(babel())
+        .pipe(concat('async-await-test.min.js'))
 		.pipe(gulp.dest('build/js'));
 });
 
