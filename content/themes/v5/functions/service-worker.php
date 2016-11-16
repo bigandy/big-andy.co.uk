@@ -4,7 +4,7 @@ function ah_add_serviceworker_in_root() {
 	$home_url = trailingslashit( get_home_url() );
 	$posts_urls = '';
 	$posts_args = [
-		'posts_per_page'	=> 20,
+		'posts_per_page'	=> 10,
 		'post_type'			=> [
 			'post',
 		],
