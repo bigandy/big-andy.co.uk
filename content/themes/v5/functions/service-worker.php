@@ -84,15 +84,16 @@ self.addEventListener('install', function(e) {
 				" . $posts_urls . "
 				// Pages
 				" . $page_urls . "
-			]).then(function() {
-				return self.skipWaiting();
-			});
+			])
 		})
+		.then(function() {
+			return self.skipWaiting();
+		});
 	);
 });
 
 self.addEventListener('activate', function(event) {
-	event.waitUntil(self.clients.claim());
+	return self.clients.claim();
 });
 
 self.addEventListener('fetch', function(event) {
