@@ -76,7 +76,7 @@ toolbox.precache([
 	'" . esc_url( $template_uri ) . "manifest.json',
 ]);
 
-self.addEventListener('install', e => {
+self.addEventListener('install', function(e) {
 	e.waitUntil(
 		caches.open(cacheName).then(function(cache) {
 			return cache.addAll([
@@ -84,19 +84,18 @@ self.addEventListener('install', e => {
 				" . $posts_urls . "
 				// Pages
 				" . $page_urls . "
-			])
+			]).then(function() {
+				return self.skipWaiting();
+			});
 		})
-		.then(function() {
-			return self.skipWaiting();
-		});
 	);
 });
 
-self.addEventListener('activate', () => {
-	return self.clients.claim();
+self.addEventListener('activate', function(event) {
+	event.waitUntil(self.clients.claim());
 });
 
-self.addEventListener('fetch', event => {
+self.addEventListener('fetch', function(event) {
 	console.log(event.request.url);
 
 	// This service worker won't touch the admin area and preview pages
