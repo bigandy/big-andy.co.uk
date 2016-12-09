@@ -1,6 +1,6 @@
 <?php
 function ah_cpts_init(){
-	$contact_labels = array(
+	$health_labels = array(
 		'name' 					=> _x( 'Health', 'post type general name' ),
 		'singular_name' 		=> _x( 'Health', 'post type singular name' ),
 		'add_new' 				=> _x( 'Add New', 'Health' ),
@@ -13,16 +13,15 @@ function ah_cpts_init(){
 		'not_found_in_trash' 	=> __( 'No ' . 'Health' . ' found in Trash' ),
 		'parent_item_colon' 	=> '',
 	);
-	// You can rewrite the slug on the front end by adding this to the key => Value on line 42 below.
 
-	$contact_args = array(
-		'labels' 				=> $contact_labels,
+	$health_args = array(
+		'labels' 				=> $health_labels,
 		'public' 				=> false,
 		'publicly_queryable' 	=> false,
 		'show_ui' 				=> true,
 		'show_in_menu' 			=> true,
 		'query_var' 			=> false,
-		'rewrite' 				=> false, // You can use $rewrite VAR above here.
+		'rewrite' 				=> false,
 		'capability_type' 		=> 'post',
 		'has_archive' 			=> false,
 		'hierarchical' 			=> false,
@@ -30,11 +29,10 @@ function ah_cpts_init(){
 		'menu_icon' 			=> 'dashicons-chart-area', // https://developer.wordpress.org/resource/dashicons/
 		'supports' 				=> false,
 		'map_meta_cap' 			=> true,
-		'show_in_rest'			=> false,
-
+		'show_in_rest'			=> true,
 	);
 
-	register_post_type( 'health', $contact_args );
+	register_post_type( 'health', $health_args );
 }
 
 /*
@@ -47,7 +45,6 @@ function ah_change_weight_cpt_title( $data, $postarr ) {
 		if ( isset( $_POST['_ah_health_weight'] ) ) {
 			$weight = $_POST['_ah_health_weight'];
 
-			// die($weight);
 			$data['post_title'] = $weight . 'kg - ' .  get_the_time( 'd/m/Y', $postarr['ID']);
 		}
 	}
