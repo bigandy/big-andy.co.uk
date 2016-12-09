@@ -7,7 +7,7 @@
 */
 
 @import "../node_modules/normalize-scss/sass/normalize";
-@include normalize();
+@include normalize(); // call in normalize via mixin
 
 /* Theme Specific */
 @import "variables";
