@@ -21,3 +21,55 @@ function ah_rest_prepare_post( $data, $post, $request ) {
 	return $data;
 }
 add_filter( 'rest_prepare_post', 'ah_rest_prepare_post', 10, 3 );
+
+
+function ah_rest_prepare_health( $data, $post, $request ) {
+	$post_meta = get_post_meta($post->ID);
+
+	$post_id = $post->ID;
+
+	$comments = get_post_meta( $post_id, '_ah_health_comments', true );
+	$weight = get_post_meta( $post_id, '_ah_health_weight', true );
+
+	$_data['_ah_health_comments'] = $weight ? $weight : null;
+	$_data['_ah_health_weight'] = $comments ? $comments : null;
+	$_data['date'] = get_the_date( 'd.m.Y', $post_id );
+
+	$data->data += $_data;
+	return $data;
+}
+add_filter( 'rest_prepare_health', 'ah_rest_prepare_health', 10, 3 );
+
+
+add_action( 'rest_api_init', 'ah_register_weight' );
+function ah_register_weight() {
+    register_rest_field( 'health',
+        '_ah_health_weight',
+        array(
+			'get_callback'    => 'ah_get_meta',
+            'update_callback' => 'ah_update_meta',
+            'schema'          => null,
+        )
+    );
+
+	register_rest_field( 'health',
+        '_ah_health_comments',
+        array(
+			'get_callback'    => 'ah_get_meta',
+            'update_callback' => 'ah_update_meta',
+            'schema'          => null,
+        )
+    );
+}
+
+function ah_get_meta( $object, $field_name, $request ) {
+	return get_post_meta( $object[ 'id' ], $field_name )[0];
+}
+
+function ah_update_meta( $value, $object, $field_name ) {
+    if ( ! $value ) {
+        return;
+    }
+
+    return update_post_meta( $object->ID, $field_name, $value );
+}

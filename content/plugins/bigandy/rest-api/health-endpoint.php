@@ -1,6 +1,5 @@
 <?php
-
-add_action( 'rest_api_init', 'ah_register_health_endpoint' );
+// add_action( 'rest_api_init', 'ah_register_health_endpoint' );
 function ah_register_health_endpoint() {
 	// Add deep-thoughts/v1/get-all-post-ids route
 	register_rest_route( 'bigandy/v1', '/health/', array(
@@ -11,12 +10,6 @@ function ah_register_health_endpoint() {
 
 // Return all post IDs
 function ah_get_all_weights() {
-	// if ( false === ( $health_data_array = get_transient( 'ah_all_health_data' ) ) ) {
-
-	//     // cache for 2 hours
-	//     set_transient( 'ah_all_health_data', $health_data_array, 60 * 60 * 2 );
-	// }
-
 	$health_data_array = ah_get_weights();
 
 	return $health_data_array;

@@ -16,18 +16,18 @@ function ah_cpts_init(){
 
 	$health_args = array(
 		'labels' 				=> $health_labels,
-		'public' 				=> true,
-		'publicly_queryable' 	=> true,
+		'public' 				=> false,
+		'publicly_queryable' 	=> false,
 		'show_ui' 				=> true,
 		'show_in_menu' 			=> true,
-		'query_var' 			=> false,
+		'query_var' 			=> true,
 		'rewrite' 				=> false,
 		'capability_type' 		=> 'post',
 		'has_archive' 			=> false,
 		'hierarchical' 			=> false,
 		'menu_position' 		=> null,
 		'menu_icon' 			=> 'dashicons-chart-area', // https://developer.wordpress.org/resource/dashicons/
-		'supports' 				=> false,
+		'supports' 				=> 'title',
 		'map_meta_cap' 			=> true,
 		'show_in_rest'			=> true,
 		'rest_controller_class' => 'WP_REST_Posts_Controller',
@@ -53,6 +53,3 @@ function ah_change_weight_cpt_title( $data, $postarr ) {
 	return $data;
 }
 add_filter( 'wp_insert_post_data', 'ah_change_weight_cpt_title', 99, 2 );
-
-
-
