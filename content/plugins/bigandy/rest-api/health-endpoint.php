@@ -1,5 +1,5 @@
 <?php
-// add_action( 'rest_api_init', 'ah_register_health_endpoint' );
+add_action( 'rest_api_init', 'ah_register_health_endpoint' );
 function ah_register_health_endpoint() {
 	// Add deep-thoughts/v1/get-all-post-ids route
 	register_rest_route( 'bigandy/v1', '/health/', array(
