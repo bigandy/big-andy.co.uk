@@ -4,15 +4,8 @@ function ah_register_health_endpoint() {
 	// Add deep-thoughts/v1/get-all-post-ids route
 	register_rest_route( 'bigandy/v1', '/health/', array(
 		'methods' => 'GET',
-		'callback' => 'ah_get_all_weights',
+		'callback' => 'ah_get_weights',
 	) );
-}
-
-// Return all post IDs
-function ah_get_all_weights() {
-	$health_data_array = ah_get_weights();
-
-	return $health_data_array;
 }
 
 function ah_get_weights() {
@@ -41,7 +34,6 @@ function ah_get_weights() {
 				'weight' => ( $weight ) ? $weight : null,
 				'comments' => ( $comments ) ? $comments : null,
 			];
-			// the_title();
 		}
 	}
 	wp_reset_postdata();
