@@ -30,7 +30,7 @@ function ah_cpts_init(){
 		'supports' 				=> 'title',
 		'map_meta_cap' 			=> true,
 		'show_in_rest'			=> true,
-		'rest_controller_class' => 'WP_REST_Posts_Controller',
+		// 'rest_controller_class' => 'AH_REST_Link_Controller',
 	);
 
 	register_post_type( 'health', $health_args );
