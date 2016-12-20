@@ -40,9 +40,38 @@ function ah_rest_prepare_health( $data, $post, $request ) {
 }
 add_filter( 'rest_prepare_health', 'ah_rest_prepare_health', 10, 3 );
 
-register_meta( 'health', '_ah_health_weight', array(
-    'show_in_rest' => true,
-) );
+add_action( 'rest_api_init', 'ah_register_weight' );
+function ah_register_weight() {
+  register_rest_field( 'health',
+      '_ah_health_weight',
+      array(
+			'get_callback'    => 'ah_get_meta',
+          'update_callback' => 'ah_update_meta',
+          'schema'          => null,
+      )
+  );
+
+	register_rest_field( 'health',
+      '_ah_health_comments',
+      array(
+			'get_callback'    => 'ah_get_meta',
+          'update_callback' => 'ah_update_meta',
+          'schema'          => null,
+      )
+  );
+}
+
+function ah_get_meta( $object, $field_name, $request ) {
+	return get_post_meta( $object[ 'id' ], $field_name )[0];
+}
+
+function ah_update_meta( $value, $object, $field_name ) {
+  if ( ! $value ) {
+      return;
+  }
+
+  return update_post_meta( $object->ID, $field_name, $value );
+}
 
 add_filter( 'rest_endpoints', function( $endpoints ){
     if ( isset( $endpoints['/wp/v2/users'] ) ) {
