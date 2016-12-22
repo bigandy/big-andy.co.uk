@@ -40,26 +40,22 @@ function ah_rest_prepare_health( $data, $post, $request ) {
 }
 add_filter( 'rest_prepare_health', 'ah_rest_prepare_health', 10, 3 );
 
-register_meta(
-	'health',
-	'_ah_health_weight',
-	array(
-		'show_in_rest' => true,
-		'singular' => true,
-	)
-);
-register_meta(
-	'health',
-	'_ah_health_comments',
-	array(
-		'show_in_rest' => true,
-		'singular' => true,
-	)
+$register_string_meta_args = array(
+    'type' => 'string',
+    'single' => true,
+    'show_in_rest' => true,
 );
 
-$register_meta_args = array(
+$register_integer_meta_args = array(
+    'type' => 'integer',
+    'single' => true,
+    'show_in_rest' => true,
+);
+register_meta( 'health', '_ah_health_weight', $register_integer_meta_args );
+register_meta( 'health', '_ah_health_comments',	$register_integer_meta_args );
+
+$register_string_meta_args = array(
     'type' => 'string',
-    'description' => 'My registered meta key',
     'single' => true,
     'show_in_rest' => true,
 );
