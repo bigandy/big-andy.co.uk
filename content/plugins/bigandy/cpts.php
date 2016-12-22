@@ -31,7 +31,7 @@ function ah_cpts_init(){
 									'title', 
 									'custom-fields'
 								],
-		'map_meta_cap' 			=> true,
+		'map_meta_cap' 			=> false,
 		'show_in_rest'			=> true,
 		// 'rest_controller_class' => 'AH_REST_Link_Controller',
 	);
