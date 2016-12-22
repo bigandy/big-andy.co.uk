@@ -22,11 +22,11 @@ function ah_rest_prepare_post( $data, $post, $request ) {
 }
 add_filter( 'rest_prepare_post', 'ah_rest_prepare_post', 10, 3 );
 
-$register_string_meta_args = array(
+$register_string_meta_args = [
     'type' => 'string',
     'single' => true,
     'show_in_rest' => true,
-);
+];
 
 register_meta( 'post', '_ah_health_weight', $register_string_meta_args );
 register_meta( 'post', '_ah_health_comments',	$register_string_meta_args );
