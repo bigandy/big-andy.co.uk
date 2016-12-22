@@ -27,7 +27,7 @@ function ah_cpts_init(){
 		'hierarchical' 			=> false,
 		'menu_position' 		=> null,
 		'menu_icon' 			=> 'dashicons-chart-area', // https://developer.wordpress.org/resource/dashicons/
-		'supports' 				=> 'title',
+		'supports' 				=> ['title', 'custom-fields'],
 		'map_meta_cap' 			=> true,
 		'show_in_rest'			=> true,
 		// 'rest_controller_class' => 'AH_REST_Link_Controller',
