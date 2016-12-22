@@ -38,7 +38,7 @@ function ah_rest_prepare_health( $data, $post, $request ) {
 	$data->data += $_data;
 	return $data;
 }
-add_filter( 'rest_prepare_health', 'ah_rest_prepare_health', 10, 3 );
+// add_filter( 'rest_prepare_health', 'ah_rest_prepare_health', 10, 3 );
 
 $register_string_meta_args = array(
     'type' => 'string',
