@@ -42,6 +42,22 @@ add_filter( 'rest_prepare_health', 'ah_rest_prepare_health', 10, 3 );
 
 add_action( 'rest_api_init', 'ah_register_weight' );
 function ah_register_weight() {
+	register_meta(
+		'health',
+		'_ah_health_weight',
+		array(
+			'show_in_rest' => true,
+			'singular' => true,
+		)
+	);
+	register_meta(
+		'health',
+		'_ah_health_comments',
+		array(
+			'show_in_rest' => true,
+			'singular' => true,
+		)
+	);
   register_rest_field( 'health',
       '_ah_health_weight',
       array(
