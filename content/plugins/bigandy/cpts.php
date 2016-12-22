@@ -22,7 +22,7 @@ function ah_cpts_init(){
 		'show_in_menu' 			=> true,
 		'query_var' 			=> true,
 		'rewrite' 				=> false,
-		'capability_type' 		=> 'health',
+		'capability_type' 		=> 'post',
 		'has_archive' 			=> false,
 		'hierarchical' 			=> false,
 		'menu_position' 		=> null,
