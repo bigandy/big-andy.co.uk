@@ -47,7 +47,7 @@ $register_string_meta_args = array(
 );
 
 $register_float_meta_args = array(
-    'type' => 'float',
+    'type' => 'string',
     'single' => true,
     'show_in_rest' => true,
 );
