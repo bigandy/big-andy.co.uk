@@ -57,6 +57,14 @@ register_meta(
 	)
 );
 
+$register_meta_args = array(
+    'type' => 'string',
+    'description' => 'My registered meta key',
+    'single' => true,
+    'show_in_rest' => true,
+);
+register_meta( 'post', 'ah_test', $register_meta_args );
+
 add_action( 'rest_api_init', 'ah_register_weight' );
 function ah_register_weight() {
 	
