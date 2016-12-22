@@ -51,8 +51,8 @@ $register_integer_meta_args = array(
     'single' => true,
     'show_in_rest' => true,
 );
-register_meta( 'health', '_ah_health_weight', $register_integer_meta_args );
-register_meta( 'health', '_ah_health_comments',	$register_string_meta_args );
+register_meta( 'post', '_ah_health_weight', $register_integer_meta_args );
+register_meta( 'post', '_ah_health_comments',	$register_string_meta_args );
 register_meta( 'post', 'ah_test', $register_string_meta_args );
 
 // add_action( 'rest_api_init', 'ah_register_weight' );
