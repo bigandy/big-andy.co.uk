@@ -46,6 +46,7 @@ function ah_add_serviceworker_in_root() {
 
 	$data = "
 importScripts('" . esc_url( $template_uri ) . "build/js/sw-toolbox.min.js');
+importScripts('" . esc_url( $template_uri ) . "js/async-waituntil.js');
 
 var cacheName = 'ahsw-" . date( 'd-m-Y-H-i-s', filemtime( SITEROOT . 'serviceWorker.js' ) ) . "';
 
