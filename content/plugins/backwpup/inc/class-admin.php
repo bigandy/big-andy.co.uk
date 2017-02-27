@@ -10,8 +10,6 @@ final class BackWPup_Admin {
 	/**
 	 *
 	 * Set needed filters and actions and load all needed
-	 *
-	 * @return \BackWPup_Admin
 	 */
 	public function __construct() {
 
@@ -47,13 +45,15 @@ final class BackWPup_Admin {
 		add_action( 'show_user_profile', array( $this, 'user_profile_fields' ) );
 		add_action( 'edit_user_profile',  array( $this, 'user_profile_fields' ) );
 		add_action( 'profile_update',  array( $this, 'save_profile_update' ) );
+		// show "phone home" notices only on plugin pages
+		add_filter( 'inpsyde-phone-home-show_notice', array( $this, 'hide_phone_home_client_notices' ), 10, 2 );
 
 		new BackWPup_EasyCron();
 	}
 
 	/**
 	 * @static
-	 * @return \BackWPup
+	 * @return \BackWPup_Admin
 	 */
 	public static function get_instance() {
 
@@ -133,6 +133,11 @@ final class BackWPup_Admin {
 	 * @return string
 	 */
 	public static function display_messages( $echo = TRUE ) {
+
+		/**
+		 * This hook can be used to display more messages in all BackWPup pages
+		 */
+		do_action( 'backwpup_admin_messages' );
 
 		$message_updated= '';
 		$message_error	= '';
@@ -510,6 +515,21 @@ final class BackWPup_Admin {
 		}
 
 		return;
+	}
+
+	/**
+	 * @param bool           $show
+	 * @param null|WP_Screen $screen
+	 *
+	 * @return bool
+	 */
+	public function hide_phone_home_client_notices( $show = true, $screen = null ) {
+
+		if ( $screen instanceof \WP_Screen ) {
+			return $screen->id === 'toplevel_page_backwpup' || strpos( $screen->id, 'backwpup' ) === 0;
+		}
+
+		return $show;
 	}
 
 	private function __clone() {}
