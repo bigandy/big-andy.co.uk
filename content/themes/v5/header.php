@@ -15,11 +15,6 @@
 		$css = 'build/css/post.css';
 	}
 	include_once( $css ); ?></style>
-	
-	<meta name="twitter:card" content="summary">
-	<meta name="twitter:site" content="<?php echo esc_url( get_permalink() ); ?>">
-	<meta name="twitter:title" content="<?php echo the_title(); ?>">
-	<meta name="twitter:image:src" content="https://bigandy.pw/images/manifest/ba-512.png">
 	<?php wp_head(); ?>
 </head>
 <body>
