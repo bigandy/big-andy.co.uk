@@ -53,5 +53,5 @@
 }
 
 .toplevel_page_wpseo_dashboard  .update-plugins {
-	display: none; 
+	display: none !important; 
 }
