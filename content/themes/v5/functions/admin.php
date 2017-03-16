@@ -26,14 +26,9 @@ function ba_custom_admin_logo() {
 				clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
 				color: white;
 				font-weight: bold;
-  			}
-			
-			#login h1 a::after {
 				text-indent: 0;
-				position: absolute;
-				content: "A";
-			}
-			
+  			}
+						
   			#login [type="submit"] {
 				background-color: var(--red);
 				border-color: transparent;
