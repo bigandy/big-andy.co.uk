@@ -4,8 +4,8 @@ Plugin Name: bigandy functionality
 Version: 2.2
 Description: functionality for big-andy.co.uk in a plugin
 Author: Andrew Hudson
-Author URI: http://big-andy.co.uk
-Plugin URI: http://big-andy.co.uk
+Author URI: https://big-andy.co.uk
+Plugin URI: https://big-andy.co.uk
 */
 
 // Now to be able to turn these on and off!
