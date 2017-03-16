@@ -23,7 +23,6 @@ function ba_custom_admin_logo() {
 				justify-content: center;
 				align-items: center;
 				padding: 1em;
-				text-indent: 0;
 				clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
 				color: white;
 				font-weight: bold;
