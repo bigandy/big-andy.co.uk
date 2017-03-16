@@ -18,7 +18,6 @@ function ba_custom_admin_logo() {
   
           	#login h1 a {
 				background-image: none;
-				text-indent: 0;
 				background-color: var(--red);
 				display: flex;
 				justify-content: center;
@@ -28,6 +27,9 @@ function ba_custom_admin_logo() {
 				color: white;
 				font-weight: bold;
   			}
+			#login h1 a::after {
+				content: "A";
+			}
   			#login [type="submit"] {
 				background-color: var(--red);
 				border-color: transparent;
@@ -43,8 +45,3 @@ function ba_custom_admin_logo() {
         </style>';
 }
 add_action( 'login_enqueue_scripts', 'ba_custom_admin_logo' );
-
-function ba_login_logo_url_title() {
-    return 'A';
-}
-add_filter( 'login_headertitle', 'ba_login_logo_url_title' );
