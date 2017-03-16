@@ -43,3 +43,8 @@ function ba_custom_admin_logo() {
         </style>';
 }
 add_action( 'login_enqueue_scripts', 'ba_custom_admin_logo' );
+
+function ba_login_logo_url_title() {
+    return 'A';
+}
+add_filter( 'login_headertitle', 'ba_login_logo_url_title' );
