@@ -1,14 +1,14 @@
 /* eslint-env node */
+/* eslint no-console: 0 */
 
 'use strict';
 
 const gulp = require('gulp');
 // const gutil = require('gulp-util');
 // const uglify = require('gulp-uglify');
-// const concat = require('gulp-concat');
-// const eslint = require('gulp-eslint');
+const concat = require('gulp-concat');
+const eslint = require('gulp-eslint');
 const sass = require('gulp-sass');
-// const scsslint = require('gulp-scss-lint');
 const browserSync = require('browser-sync');
 // const uncss = require('gulp-uncss');
 // const penthouse = require('penthouse');
@@ -19,12 +19,13 @@ const browserSync = require('browser-sync');
 // const cleanCSS = require('clean-css');
 // const svgStore = require('gulp-svgstore');
 // const svgmin = require('gulp-svgmin');
-// const babel = require('gulp-babel');
+const babel = require('gulp-babel');
 
-// const sourcemaps = require('gulp-sourcemaps');
+const sourcemaps = require('gulp-sourcemaps');
 const postcss = require('gulp-postcss');
 const autoprefixer = require('autoprefixer');
 const stylelint = require('stylelint');
+const syntax_scss = require('postcss-scss');
 const reporter = require('postcss-reporter');
 
 // var
@@ -109,16 +110,16 @@ const reporter = require('postcss-reporter');
 // 		.pipe(gulp.dest('.'));
 // });
 
-gulp.task('sass', () => {
+gulp.task('sass', ['sass-lint'], () => {
 	gulp.src([
 		'./scss/style.scss',
 	])
-		// .pipe( sourcemaps.init() )
+		.pipe( sourcemaps.init() )
 		.pipe(sass({
 			'outputStyle': 'compressed',
 		}).on('error', sass.logError))
-		// .pipe(sourcemaps.write('.'))
 		.pipe(postcss([ autoprefixer() ]))
+		.pipe(sourcemaps.write('.'))
 		// .pipe(autoprefixer(browsers))
 		.pipe(gulp.dest('.'))
 		.pipe(browserSync.stream());
@@ -130,72 +131,72 @@ gulp.task('sass', () => {
 	// 	.pipe(gulp.dest('./build/css/fonts'));
 });
 
-gulp.task('scss-lint', () => {
+gulp.task('sass-lint', () => {
 	gulp.src([
 		'./scss/**/*.scss',
 		'!./scss/fonts/*.scss'
 	])
 		.pipe(postcss([
 			stylelint(),
-			reporter({
-				clearMessages: true,
-			})
-		]));
+			reporter()
+		],
+		{syntax: syntax_scss}));
 });
 
 
-// // concat and minify the js
-// gulp.task('js', () => {
-// 	gulp.src([
-// 			'js/lazy-load-css.js',
-// 			'js/main.js',
-// 		])
-// 		.pipe(uglify().on('error', e => {
-//             console.log(e);
-//          }))
-// 		.pipe(concat('script.min.js'))
-// 		.pipe(gulp.dest('build/js'));
-//
-// 	gulp.src([
-// 		'node_modules/jquery/dist/jquery.min.js',
-// 		'node_modules/picturefill/dist/picturefill.min.js',
-// 		'node_modules/lazyloadxt/dist/jquery.lazyloadxt.min.js',
-// 		'node_modules/lazyloadxt/dist/jquery.lazyloadxt.widget.min.js',
-// 		'node_modules/lazyloadxt/dist/jquery.lazyloadxt.srcset.min.js',
-// 		'js/prism.min.js',
-// 	])
-// 		.pipe(uglify())
-// 		.pipe(concat('singular.min.js'))
-// 		.pipe(gulp.dest('build/js'))
-// 		.pipe(browserSync.stream());
-//
-// 	gulp.src([
-// 		'node_modules/sw-toolbox/sw-toolbox.js',
-// 	])
-// 		.pipe(uglify())
-// 		.pipe(concat('sw-toolbox.min.js'))
-// 		.pipe(gulp.dest('build/js'));
-//
-//     gulp.src(['js/async-await-test.js'])
-//         .pipe(babel())
-//         .pipe(concat('async-await-test.min.js'))
-// 		.pipe(gulp.dest('build/js'));
-// });
+// concat and minify the js
+gulp.task('js', ['js-lint'], () => {
+	gulp.src([
+		// 'js/lazy-load-css.js',
+		'js/script.js',
+	])
+		// .pipe(uglify().on('error', e => {
+		// 	console.log(e);
+		// }))
+		.pipe(babel())
+		.pipe(concat('script.min.js'))
+		.pipe(gulp.dest('build/js'));
 
-// gulp.task('js-lint', () => {
-// 	gulp.src([
-// 			'js/main.js'
-// 		])
-// 		// eslint() attaches the lint output to the eslint property
-// 		// of the file object so it can be used by other modules.
-// 		.pipe(eslint())
-// 		// eslint.format() outputs the lint results to the console.
-// 		// Alternatively use eslint.formatEach() (see Docs).
-// 		.pipe(eslint.format())
-// 		// To have the process exit with an error code (1) on
-// 		// lint error, return the stream and pipe to failAfterError last.
-// 		.pipe(eslint.failAfterError());
-// });
+	// gulp.src([
+	// 	'node_modules/jquery/dist/jquery.min.js',
+	// 	'node_modules/picturefill/dist/picturefill.min.js',
+	// 	'node_modules/lazyloadxt/dist/jquery.lazyloadxt.min.js',
+	// 	'node_modules/lazyloadxt/dist/jquery.lazyloadxt.widget.min.js',
+	// 	'node_modules/lazyloadxt/dist/jquery.lazyloadxt.srcset.min.js',
+	// 	'js/prism.min.js',
+	// ])
+	// 	.pipe(uglify())
+	// 	.pipe(concat('singular.min.js'))
+	// 	.pipe(gulp.dest('build/js'))
+	// 	.pipe(browserSync.stream());
+	//
+	// gulp.src([
+	// 	'node_modules/sw-toolbox/sw-toolbox.js',
+	// ])
+	// 	.pipe(uglify())
+	// 	.pipe(concat('sw-toolbox.min.js'))
+	// 	.pipe(gulp.dest('build/js'));
+	//
+	// gulp.src(['js/async-await-test.js'])
+    //     .pipe(babel())
+    //     .pipe(concat('async-await-test.min.js'))
+	// 	.pipe(gulp.dest('build/js'));
+});
+
+gulp.task('js-lint', () => {
+	gulp.src([
+		'js/script.js'
+	])
+		// eslint() attaches the lint output to the eslint property
+		// of the file object so it can be used by other modules.
+		.pipe(eslint())
+		// eslint.format() outputs the lint results to the console.
+		// Alternatively use eslint.formatEach() (see Docs).
+		.pipe(eslint.format())
+		// To have the process exit with an error code (1) on
+		// lint error, return the stream and pipe to failAfterError last.
+		.pipe(eslint.failAfterError());
+});
 
 // gulp.task('wordpress-lint', () => {
 // 	return gulp.src(['./**/*.php', '!node_modules/**/*.php'])
@@ -223,7 +224,7 @@ gulp.task('watch', () => {
 // The default task (called when you run `gulp` from cli)
 gulp.task('default', [
 	'browser-sync',
-	// 'js',
+	'js',
 	'sass',
 	'watch'
 ]);

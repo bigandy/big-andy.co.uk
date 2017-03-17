@@ -1,3 +1,36 @@
 .header {
+	background-color: hsla(200, 100%, 50%, .4);
+	border-bottom: 5px solid hsla(200, 100%, 50%, .4);
+	padding-top: 3em;
+	padding-bottom: 2.5em;
 
+	&__title {
+		margin-top: 0;
+		font-size: 3rem;
+		font-weight: bold;
+	}
+
+	&__nav {
+		a {
+			text-decoration: none;
+			margin-right: 10px;
+			padding-bottom: .5em;
+			border-bottom: 3px solid transparent;
+
+			&:hover,
+			&:focus {
+				color: red;
+			}
+		}
+
+		.link--active {
+			color: black;
+			border-bottom-color: currentColor;
+		}
+	}
+
+	&__menu {
+		@extend %list--plain;
+		@extend %list--inline;
+	}
 }

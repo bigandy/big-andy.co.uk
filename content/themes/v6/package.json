@@ -42,6 +42,7 @@
     "gulp-uncss": "^1.0.6",
     "gulp-util": "^3.0.8",
     "penthouse": "^0.10.9",
+    "postcss-scss": "^0.4.1",
     "stylelint": "^7.9.0"
   },
   "author": "Andrew JD Hudson",
@@ -54,5 +55,25 @@
     "picturefill": "^3.0.2",
     "sw-toolbox": "^3.6.0"
   },
-  "browserslist": ["last 1 versions"]
+  "browserslist": [
+    "last 2 versions"
+  ],
+  "babel": {
+    "presets": [
+      [
+        "env",
+        {
+          "targets": {
+            "browsers": [
+              "last 1 versions"
+            ]
+          }
+        }
+      ]
+    ],
+    "plugins": [
+      "syntax-async-functions"
+    ],
+    "comments": false
+  }
 }
