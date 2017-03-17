@@ -1,0 +1,58 @@
+{
+  "name": "Bigandy-v6",
+  "version": "6.0.1",
+  "description": "v6 of big-andy.co.uk",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bigandy/big-andy.co.uk.git"
+  },
+  "scripts": {
+    "clean": "rm -rf build",
+    "build": "npm run clean && gulp build",
+    "watch": "gulp"
+  },
+  "devDependencies": {
+    "autoprefixer": "^6.7.7",
+    "babel-cli": "^6.24.0",
+    "babel-core": "^6.24.0",
+    "babel-plugin-syntax-async-functions": "^6.13.0",
+    "babel-preset-env": "^1.2.2",
+    "babel-preset-latest": "^6.24.0",
+    "babel-register": "^6.24.0",
+    "babelify": "^7.3.0",
+    "bluebird": "^3.5.0",
+    "browser-sync": "^2.18.8",
+    "clean-css": "^4.0.9",
+    "critical": "^0.8.4",
+    "eslint": "^3.17.1",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^6.1.2",
+    "gulp-clean-css": "^3.0.3",
+    "gulp-concat": "^2.6.1",
+    "gulp-cssnano": "^2.1.2",
+    "gulp-eslint": "^3.0.1",
+    "gulp-phpcs": "^1.4.0",
+    "gulp-postcss": "^6.3.0",
+    "gulp-sass": "^3.1.0",
+    "gulp-scss-lint": "^0.4.0",
+    "gulp-sourcemaps": "^2.4.1",
+    "gulp-svgmin": "^1.2.3",
+    "gulp-svgstore": "^6.1.0",
+    "gulp-uglify": "^2.1.0",
+    "gulp-uncss": "^1.0.6",
+    "gulp-util": "^3.0.8",
+    "penthouse": "^0.10.9",
+    "stylelint": "^7.9.0"
+  },
+  "author": "Andrew JD Hudson",
+  "twitter": "@bigandy",
+  "license": "ISC",
+  "dependencies": {
+    "jquery": "^3.2.0",
+    "lazyloadxt": "^1.1.0",
+    "normalize-scss": "^6.0.0",
+    "picturefill": "^3.0.2",
+    "sw-toolbox": "^3.6.0"
+  },
+  "browserslist": ["last 1 versions"]
+}

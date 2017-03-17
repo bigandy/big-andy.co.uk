@@ -1,0 +1,50 @@
+%ir {
+	background-color: transparent;
+	border: 0;
+	overflow: hidden;
+
+	&:before {
+		content: "";
+		display: block;
+		width: 0;
+		height: 150%;
+	}
+}
+
+%cf {
+	&::after {
+		clear: both;
+	}
+
+	&::before,
+	&::after {
+		content: " ";
+		display: table;
+	}
+}
+
+%list--plain {
+	margin: 0;
+	list-style: none;
+}
+
+%visuallyhidden {
+	border: 0;
+	clip: rect(0 0 0 0);
+	height: 1px;
+	margin: -1px;
+	overflow: hidden;
+	padding: 0;
+	position: absolute;
+	width: 1px;
+	white-space: nowrap;
+}
+
+
+.center {
+	text-align: center;
+}
+
+.visuallyhidden {
+	@extend %visuallyhidden;
+}

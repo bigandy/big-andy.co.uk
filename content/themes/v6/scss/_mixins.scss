@@ -1,0 +1,15 @@
+@mixin line ($lineHeight, $base) {
+	line-height: $lineHeight / $base * 1;
+}
+
+@mixin hocus {
+	&:focus,
+	&:hover {
+		@content;
+	}
+}
+
+@mixin wh($value) {
+	width: $value;
+	height: $value;
+}

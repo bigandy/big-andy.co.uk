@@ -1,0 +1,165 @@
+body,
+html {
+	height: 100%;
+}
+
+*,
+*::after,
+*::before {
+	box-sizing: border-box;
+}
+
+body {
+	background: #fff;
+	color: #222;
+	padding: 0;
+	margin: 0;
+	font-family: $main-font-family;
+	font-weight: 400;
+	font-style: normal;
+	line-height: 1.5;
+	position: relative;
+	cursor: auto;
+}
+
+
+
+img {
+	max-width: 100%;
+	height: auto;
+	-ms-interpolation-mode: bicubic;
+	display: inline-block;
+	vertical-align: middle;
+}
+
+
+
+// .page__title {
+// 	background: $black;
+// 	color: $white;
+// 	padding: 1rem 0;
+// 	text-align: center;
+// 	margin: 0;
+// }
+//
+// .list--inline {
+// 	@extend %list--plain;
+//
+// 	li {
+// 		display: inline-block;
+// 	}
+// }
+//
+// /* Links */
+// a,
+// .current {
+// 	border-bottom: 3px solid transparent;
+// 	margin-bottom: -3px;
+// }
+//
+// a {
+// 	border-bottom: 3px solid transparent;
+// 	margin-bottom: -3px;
+//
+// 	&:hover,
+// 	&:focus {
+// 		border-bottom-color: $primary-color;
+// 	}
+// }
+//
+// .current {
+// 	border-bottom-color: $black;
+// }
+//
+// .current-menu-item,
+// .current_page_item,
+// .current_page_parent {
+// 	> a {
+// 		border-bottom: 3px solid $primary-color;
+// 	}
+// }
+//
+// .link--dark {
+// 	color: $body-color;
+// }
+//
+// .header__link {
+// 	border-bottom: 0;
+// }
+//
+// article {
+// 	&:nth-child(odd) {
+// 		clear: left;
+// 	}
+// }
+//
+// /* vcard styles */
+// .vcard {
+// 	border: 0;
+// 	padding: 0;
+// 	margin: 0;
+// 	display: block;
+//
+// 	.fn {
+// 		font-size: 2.75em;
+// 	}
+//
+// 	.adr {
+// 		margin-bottom: .3rem;
+// 	}
+//
+// 	.email,
+// 	.tel {
+// 		font-size: 1rem;
+// 		line-height: 1.6;
+// 		margin-bottom: 1.25rem;
+// 	}
+//
+// 	a {
+// 		margin-bottom: 0;
+// 		border-bottom: 0;
+// 	}
+// }
+//
+// /* Picture Styles */
+// picture,
+// picture > img {
+// 	width: 100%;
+// 	max-width: 100%;
+// }
+//
+// .wp-pagenavi {
+// 	padding-top: 1rem;
+// 	padding-bottom: 3rem;
+// 	text-align: center;
+//
+// 	a,
+// 	span {
+// 		padding: 1em;
+// 	}
+// }
+//
+// .nextpostslink,
+// .previouspostslink {
+// 	display: none;
+// }
+//
+// .left {
+// 	float: left;
+// }
+//
+// .right {
+// 	float: right;
+// }
+//
+// .links {
+// 	padding: 1rem 0 3rem;
+// }
+//
+// .content-container {
+// 	max-width: 700px;
+// 	margin-left: auto;
+// 	margin-right: auto;
+// 	padding-left: 1rem;
+// 	padding-right: 1rem;
+// }

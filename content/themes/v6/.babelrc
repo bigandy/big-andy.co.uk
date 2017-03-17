@@ -1,0 +1,5 @@
+{
+	"presets": ["latest"],
+	"plugins": ["syntax-async-functions"],
+	"comments": false
+}
