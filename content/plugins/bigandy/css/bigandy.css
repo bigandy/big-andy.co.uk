@@ -51,3 +51,8 @@
 	color: #aaa;
 	font-style: italic;
 }
+
+/* Hide the notification number icon in Yoast SEO Plugin. How annoying! */
+.toplevel_page_wpseo_dashboard  .update-plugins {
+	display: none !important; 
+}

@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: bigandy functionality
-Version: 2.1
+Version: 2.2
 Description: functionality for big-andy.co.uk in a plugin
 Author: Andrew Hudson
-Author URI: http://big-andy.co.uk
-Plugin URI: http://big-andy.co.uk
+Author URI: https://big-andy.co.uk
+Plugin URI: https://big-andy.co.uk
 */
 
 // Now to be able to turn these on and off!
@@ -52,7 +52,6 @@ function ah_plugin_admin_options_page() {
 	$options = get_option( 'ah_plugin_options' );
 	?>
 	<div class="wrap">
-		<?php screen_icon(); ?>
 		<h2>Bigandy Plugin Options</h2>
 
 		<form method="post" action="options.php" class="ahform">

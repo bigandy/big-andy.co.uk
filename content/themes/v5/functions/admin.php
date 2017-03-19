@@ -12,11 +12,25 @@ if ( current_user_can( 'update_core' ) && is_user_logged_in() ) {
 
 function ba_custom_admin_logo() {
   echo '<style>
+  			:root {
+				--red: #C1272D;
+			}
+  
           	#login h1 a {
-  				background-image: url(' . get_bloginfo( 'template_directory' ) . '/images/ba-octagon.svg);
+				background-image: none;
+				background-color: var(--red);
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				padding: 1em;
+				clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
+				color: white;
+				font-weight: bold;
+				text-indent: 0;
   			}
+						
   			#login [type="submit"] {
-				background-color: #C1272D;
+				background-color: var(--red);
 				border-color: transparent;
 				box-shadow: none;
 				border-radius: 0;
@@ -25,7 +39,7 @@ function ba_custom_admin_logo() {
 
   			#login input:focus {
   				box-shadow: none;
-  				border-color: #C1272D;
+  				border-color: var(--red);
   			}
         </style>';
 }
