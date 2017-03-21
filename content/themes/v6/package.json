@@ -65,7 +65,7 @@
         {
           "targets": {
             "browsers": [
-              "Chrome 57"
+              "last 2 versions"
             ]
           }
         }
