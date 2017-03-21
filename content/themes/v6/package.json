@@ -75,7 +75,8 @@
       "syntax-async-functions"
     ],
     "comments": false,
-    "minified": true
+    "minified": true,
+    "compact": true
   },
   "eslintConfig": {
     "rules": {

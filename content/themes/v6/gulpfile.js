@@ -150,11 +150,6 @@ gulp.task('js', ['js-lint'], () => {
 		'js/script.js',
 	])
 		.pipe(babel())
-		.pipe(babili({
-			mangle: {
-				keepClassNames: true
-			}
-		}))
 		.pipe(concat('script.min.js'))
 		.pipe(gulp.dest('build/js'));
 
@@ -183,6 +178,22 @@ gulp.task('js', ['js-lint'], () => {
     //     .pipe(concat('async-await-test.min.js'))
 	// 	.pipe(gulp.dest('build/js'));
 });
+
+// concat and minify the js
+gulp.task('js:prod', ['js-lint'], () => {
+	gulp.src([
+		'js/script.js',
+	])
+		.pipe(babel())
+		.pipe(babili({
+			mangle: {
+				keepClassNames: true
+			}
+		}))
+		.pipe(concat('script.min.js'))
+		.pipe(gulp.dest('build/js'));
+});
+
 
 gulp.task('js-lint', () => {
 	gulp.src([
@@ -230,9 +241,9 @@ gulp.task('default', [
 	'watch'
 ]);
 
-// gulp.task('build', [
+// gulp.task('deploy', [
 // 	'uncss',
-// 	'js',
+// 	'js:prod',
 // 	'critical-css',
 // 	'sprites'
 // ]);
