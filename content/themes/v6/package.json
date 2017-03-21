@@ -17,9 +17,7 @@
     "babel-core": "^6.24.0",
     "babel-plugin-syntax-async-functions": "^6.13.0",
     "babel-preset-env": "^1.2.2",
-    "babel-preset-latest": "^6.24.0",
     "babel-register": "^6.24.0",
-    "babelify": "^7.3.0",
     "bluebird": "^3.5.0",
     "browser-sync": "^2.18.8",
     "clean-css": "^4.0.9",
@@ -27,6 +25,7 @@
     "eslint": "^3.17.1",
     "gulp": "^3.9.1",
     "gulp-babel": "^6.1.2",
+    "gulp-babili": "0.0.2",
     "gulp-clean-css": "^3.0.3",
     "gulp-concat": "^2.6.1",
     "gulp-cssnano": "^2.1.2",
@@ -43,7 +42,8 @@
     "gulp-util": "^3.0.8",
     "penthouse": "^0.10.9",
     "postcss-scss": "^0.4.1",
-    "stylelint": "^7.9.0"
+    "stylelint": "^7.9.0",
+    "stylelint-config-standard": "^16.0.0"
   },
   "author": "Andrew JD Hudson",
   "twitter": "@bigandy",
@@ -65,7 +65,7 @@
         {
           "targets": {
             "browsers": [
-              "last 1 versions"
+              "Chrome 57"
             ]
           }
         }
@@ -74,6 +74,43 @@
     "plugins": [
       "syntax-async-functions"
     ],
-    "comments": false
+    "comments": false,
+    "minified": true
+  },
+  "eslintConfig": {
+    "rules": {
+      "indent": [
+        2,
+        "tab"
+      ],
+      "quotes": [
+        2,
+        "single"
+      ],
+      "linebreak-style": [
+        2,
+        "unix"
+      ],
+      "semi": [
+        2,
+        "always"
+      ]
+    },
+    "env": {
+      "browser": true,
+      "es6": true
+    },
+    "extends": "eslint:recommended"
+  },
+  "stylelint": {
+    "rules": {
+      "block-no-empty": true,
+      "color-no-invalid-hex": true,
+      "declaration-colon-space-before": "never",
+      "declaration-colon-space-after": "always",
+      "indentation": "tab",
+      "number-leading-zero": "never",
+      "length-zero-no-unit": true
+    }
   }
 }

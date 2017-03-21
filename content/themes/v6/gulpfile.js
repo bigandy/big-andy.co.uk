@@ -27,7 +27,7 @@ const autoprefixer = require('autoprefixer');
 const stylelint = require('stylelint');
 const syntax_scss = require('postcss-scss');
 const reporter = require('postcss-reporter');
-
+const babili = require("gulp-babili");
 // var
 	// envLive = 'https://big-andy.co.uk/',
 	// envDev = 'http://big-andy.dev/',
@@ -147,13 +147,14 @@ gulp.task('sass-lint', () => {
 // concat and minify the js
 gulp.task('js', ['js-lint'], () => {
 	gulp.src([
-		// 'js/lazy-load-css.js',
 		'js/script.js',
 	])
-		// .pipe(uglify().on('error', e => {
-		// 	console.log(e);
-		// }))
 		.pipe(babel())
+		.pipe(babili({
+			mangle: {
+				keepClassNames: true
+			}
+		}))
 		.pipe(concat('script.min.js'))
 		.pipe(gulp.dest('build/js'));
 
@@ -216,7 +217,7 @@ gulp.task('browser-sync', function() {
 
 // // Rerun the task when a file changes
 gulp.task('watch', () => {
-	// gulp.watch('js/*', ['js']);
+	gulp.watch('js/*', ['js']);
 	gulp.watch('scss/**/*', ['sass']);
 	// gulp.watch('images/svg/*.svg', ['sprites']);
 });
@@ -236,8 +237,9 @@ gulp.task('default', [
 // 	'sprites'
 // ]);
 //
-// gulp.task('lint', [
-// 	'scss-lint',
-// 	'js-lint',
-// 	'wordpress-lint'
-// ]);
+
+gulp.task('lint', [
+	'sass-lint',
+	'js-lint',
+	// 'wordpress-lint'
+]);
