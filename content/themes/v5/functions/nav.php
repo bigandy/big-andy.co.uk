@@ -7,8 +7,6 @@ register_nav_menus( array(
 	'primary' => 'Primary Navigation',
 ));
 
-
-
 class AH_Walker_Nav_Menu extends Walker_Nav_Menu {
 
 	/**

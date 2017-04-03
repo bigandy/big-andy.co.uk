@@ -14,14 +14,6 @@ if ( ! function_exists( 'ah_silent' ) ) {
 	}
 }
 
-// Hide Links Admin Menu
-if ( ! function_exists( 'ah_remove_menu_pages' ) ) {
-	function ah_remove_menu_pages() {
-		remove_menu_page( 'link-manager.php' );
-	}
-	add_action( 'admin_menu', 'ah_remove_menu_pages' );
-}
-
 if ( ! function_exists( 'ah_init_constants' ) ) {
 	function ah_init_constants() {
 		if ( ! defined( 'TEMPLATEURI' ) ) {
