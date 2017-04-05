@@ -72,7 +72,10 @@ toolbox.precache([
 	'" . esc_url( get_stylesheet_uri() ). "',
 	'" . esc_url( $template_uri ) . "build/js/script.min.js',
 	'" . esc_url( $template_uri ) . "build/js/singular.min.js',
-	'" . esc_url( $template_uri ) . "build/css/fonts/opensans.css',
+	'" . esc_url( $template_uri ) . "fonts/open-sans-v13-latin-regular.woff2',
+	'" . esc_url( $template_uri ) . "fonts/open-sans-v13-latin-regular.woff',
+	'" . esc_url( $template_uri ) . "fonts/fonts/open-sans-v13-latin-800.woff2',
+	'" . esc_url( $template_uri ) . "fonts/fonts/open-sans-v13-latin-800.woff',
 	'" . esc_url( $template_uri ) . "images/ba.png',
 	'" . esc_url( $template_uri ) . "manifest.json',
 ]);

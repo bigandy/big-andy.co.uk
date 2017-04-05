@@ -6,6 +6,8 @@
 * Version: 5.0
 */
 
+@import "fonts";
+
 @import "../node_modules/normalize-scss/sass/normalize";
 @include normalize(); // call in normalize via mixin
 
