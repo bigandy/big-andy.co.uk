@@ -10,9 +10,7 @@ function ah_enqueue_scripts() {
 	}
 
 	// don't want the script on front-page or pages.
-	if ( is_front_page() || is_page() ) {
-		wp_deregister_script( 'wp-embed' );
-	}
+	wp_deregister_script( 'wp-embed' );
 
 	if ( is_user_logged_in() ) {
 		wp_register_script( 'main', $build . 'script.min.js', false, null, true );

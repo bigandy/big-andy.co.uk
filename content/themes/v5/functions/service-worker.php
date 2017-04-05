@@ -68,7 +68,6 @@ self.addEventListener('activate', function activator (event) {
 
 toolbox.precache([
 	// Assets
-	'" . esc_url( $home_url ) . "wp/wp-includes/js/wp-embed.min.js',
 	'" . esc_url( get_stylesheet_uri() ). "',
 	'" . esc_url( $template_uri ) . "build/js/script.min.js',
 	'" . esc_url( $template_uri ) . "build/js/singular.min.js',
