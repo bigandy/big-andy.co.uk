@@ -153,11 +153,6 @@ gulp.task('js', () => {
 		.pipe(gulp.dest('build/js'));
 
 	gulp.src([
-		'node_modules/jquery/dist/jquery.min.js',
-		'node_modules/picturefill/dist/picturefill.min.js',
-		'node_modules/lazyloadxt/dist/jquery.lazyloadxt.min.js',
-		'node_modules/lazyloadxt/dist/jquery.lazyloadxt.widget.min.js',
-		'node_modules/lazyloadxt/dist/jquery.lazyloadxt.srcset.min.js',
 		'js/prism.min.js',
 	])
 		.pipe(uglify())
