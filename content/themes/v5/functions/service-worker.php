@@ -54,13 +54,10 @@ var cacheName = 'ahsw-" . date( 'd-m-Y-H-i-s', filemtime( SITEROOT . 'serviceWor
 self.addEventListener('activate', (event) => {
 	event.waitUntil(
 		caches.keys().then((keys) => {
-			return Promise.all(keys
-				.filter(function (key) {
-					return key.indexOf(cacheName) !== 0;
-				})
-				.map(function (key) {
-					return caches.delete(key);
-				})
+			return Promise.all(
+				keys
+					.filter((key) => key.indexOf(cacheName) !== 0)
+					.map((key) => caches.delete(key))
 			);
 		})
 	);
