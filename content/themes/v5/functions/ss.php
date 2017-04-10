@@ -1,7 +1,7 @@
 <?php
 function ah_md5_file( $file, $prefix ) {
-	$substr = substr( sha1_file( $file . $prefix ), 0, 10 );
-	return $file . $prefix;
+	$substr = substr( md5_file( $file . $prefix ), 0, 10 );
+	return $file . '.' . $substr . $prefix;
 }
 
 function ah_enqueue_scripts() {
@@ -18,6 +18,7 @@ function ah_enqueue_scripts() {
 	wp_deregister_script( 'wp-embed' );
 
 	if ( is_user_logged_in() ) {
+		echo md5_file( TEMPLATEURI . 'build/js/script', '.js' );
 		wp_register_script( 'main', ah_md5_file( TEMPLATEURI . 'build/js/script', '.js' ), false, null, true );
 		wp_enqueue_script( 'main' );
 	}
