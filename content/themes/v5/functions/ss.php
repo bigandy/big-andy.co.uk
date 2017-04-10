@@ -1,6 +1,6 @@
 <?php
 function ah_md5_file($file, $prefix) {
-	$substr = substr( md5_file( $file . $prefix ), 0, 10 );
+	$substr = substr( sha1_file( $file . $prefix ), 0, 10 );
 	return $file . '.' . $substr . $prefix;
 }
 
