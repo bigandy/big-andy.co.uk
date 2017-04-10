@@ -1,7 +1,7 @@
 <?php
 function ah_md5_file( $file, $prefix ) {
 	$substr = substr( md5( file_get_contents( $file . $prefix ) ), 0, 10 );
-	return $file . '.' . $substr . $prefix;
+	return $file . '.' . '123456789' . $prefix;
 }
 
 function ah_enqueue_scripts() {
