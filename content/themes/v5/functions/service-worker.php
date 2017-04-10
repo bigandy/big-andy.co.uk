@@ -51,16 +51,13 @@ importScripts('" . esc_url( $template_uri ) . "js/async-waituntil.js');
 var cacheName = 'ahsw-" . date( 'd-m-Y-H-i-s', filemtime( SITEROOT . 'serviceWorker.js' ) ) . "';
 
 // https://ponyfoo.com/articles/serviceworker-revolution
-self.addEventListener('activate', function activator (event) {
+self.addEventListener('activate', (event) => {
 	event.waitUntil(
-		caches.keys().then(function (keys) {
-			return Promise.all(keys
-				.filter(function (key) {
-					return key.indexOf(cacheName) !== 0;
-				})
-				.map(function (key) {
-					return caches.delete(key);
-				})
+		caches.keys().then((keys) => {
+			return Promise.all(
+				keys
+					.filter((key) => key.indexOf(cacheName) !== 0)
+					.map((key) => caches.delete(key))
 			);
 		})
 	);
@@ -79,27 +76,25 @@ toolbox.precache([
 	'" . esc_url( $template_uri ) . "manifest.json',
 ]);
 
-self.addEventListener('install', function(e) {
+self.addEventListener('install', (e) => {
 	e.waitUntil(
-		caches.open(cacheName).then(function(cache) {
+		caches.open(cacheName).then((cache) => {
 			return cache.addAll([
 				// Posts
 				" . $posts_urls . "
 				// Pages
 				" . $page_urls . "
-			]).then(function() {
+			]).then(() => {
 				return self.skipWaiting();
 			});
 		})
 	);
 });
 
-self.addEventListener('activate', function(event) {
-	event.waitUntil(self.clients.claim());
-});
+self.addEventListener('activate', (event) => event.waitUntil(self.clients.claim()));
 
-self.addEventListener('fetch', function(event) {
-	console.log(event.request.url);
+self.addEventListener('fetch', (event) => {
+	// console.log(event.request.url);
 
 	// This service worker won't touch the admin area and preview pages
 	// https://justmarkup.com/log/2016/01/add-service-worker-for-wordpress/
@@ -108,9 +103,7 @@ self.addEventListener('fetch', function(event) {
 	}
 
 	event.respondWith(
-		caches.match(event.request).then(function(response) {
-			return response || fetch(event.request);
-		})
+		caches.match(event.request).then((response) => response || fetch(event.request))
 	);
 });
 	";
