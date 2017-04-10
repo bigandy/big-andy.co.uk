@@ -1,7 +1,7 @@
 <?php
 function ah_md5_file($file, $prefix) {
 	$substr = substr( sha1_file( $file . $prefix ), 0, 10 );
-	return $file . '.' . $substr . $prefix;
+	return $file . '.' . $prefix;
 }
 
 function ah_enqueue_scripts() {
