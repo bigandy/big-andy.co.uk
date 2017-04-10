@@ -149,7 +149,7 @@ gulp.task('js', () => {
 		.pipe(uglify().on('error', e => {
             console.log(e);
          }))
-		.pipe(concat('script.min.js'))
+		.pipe(concat('script.js'))
 		.pipe(gulp.dest('build/js'));
 
 	gulp.src([
