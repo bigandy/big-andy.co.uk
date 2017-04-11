@@ -1,7 +1,11 @@
 <?php
 function ah_md5_file( $file, $prefix ) {
-	// $substr = substr( md5( file_get_contents( $file . $prefix ) ), 0, 10 );
-	return $file . $prefix;
+	$substr = substr( md5( $file . $prefix ), 0, 10 );
+
+	if ($substr !== '') {
+		$substr = '.' . $substr;
+	}
+	return $file . $substr . $prefix;
 }
 
 function ah_enqueue_scripts() {
