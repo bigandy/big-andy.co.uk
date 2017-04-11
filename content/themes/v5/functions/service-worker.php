@@ -3,7 +3,7 @@ function ah_add_serviceworker_in_root() {
 	$template_uri = trailingslashit( get_stylesheet_directory_uri() );
 	$home_url = trailingslashit( get_home_url() );
 
-	$assets = json_decode( file_get_contents( $template_uri . 'build/assets.json' ), true );
+	$assets = json_decode( file( $template_uri . 'build/assets.json' )[0], true );
 
 	$posts_urls = '';
 	$posts_args = [
@@ -111,7 +111,9 @@ self.addEventListener('fetch', (event) => {
 });
 	";
 	file_put_contents( SITEROOT . 'serviceWorker.js', $data );
+	// ah_preit($data);
 }
+// ah_add_serviceworker_in_root();
 
 add_action( 'publish_post', 'ah_add_serviceworker_in_root' );
 add_action( 'publish_page', 'ah_add_serviceworker_in_root' );
@@ -124,6 +126,7 @@ function ah_add_service_worker_to_footer() {
 		}
 	</script>";
 	echo $html;
+
 }
 
 if ( ! is_user_logged_in() ) {
