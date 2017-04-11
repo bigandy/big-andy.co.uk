@@ -6,8 +6,8 @@ function ah_md5_file( $file, $prefix ) {
 		$substr = '.' . $substr;
 	}
 
-	// return $file . $substr . $prefix;
-	return $file . $prefix;
+	return $file . $substr . $prefix;
+	// return $file . $prefix;
 }
 
 function ah_enqueue_scripts() {
