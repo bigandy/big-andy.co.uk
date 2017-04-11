@@ -45,8 +45,7 @@ function ah_add_serviceworker_in_root() {
 	wp_reset_postdata();
 
 	$data = "
-importScripts('" . esc_url( $template_uri ) . "build/js/sw-toolbox.min.js');
-importScripts('" . esc_url( $template_uri ) . "js/async-waituntil.js');
+importScripts('" . esc_url( $template_uri ) . "build/js/sw-helpers.js');
 
 var cacheName = 'ahsw-" . date( 'd-m-Y-H-i-s', filemtime( SITEROOT . 'serviceWorker.js' ) ) . "';
 
@@ -67,7 +66,7 @@ toolbox.precache([
 	// Assets
 	'" . esc_url( get_stylesheet_uri() ). "',
 	'" . esc_url( $template_uri ) . "build/js/script.js',
-	'" . esc_url( $template_uri ) . "build/js/singular.min.js',
+	'" . esc_url( $template_uri ) . "build/js/singular.js',
 	'" . esc_url( $template_uri ) . "fonts/open-sans-v13-latin-regular.woff2',
 	'" . esc_url( $template_uri ) . "fonts/open-sans-v13-latin-regular.woff',
 	'" . esc_url( $template_uri ) . "fonts/open-sans-v13-latin-800.woff2',

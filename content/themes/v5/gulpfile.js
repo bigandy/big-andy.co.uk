@@ -27,9 +27,6 @@ const reporter = require('postcss-reporter');
 
 const replace = require('gulp-replace-task');
 const fs = require('fs');
-const crypto = require('crypto');
-const hash = crypto.createHash('sha256');
-
 
 var envLive = 'https://big-andy.co.uk/',
 	// envDev = 'http://big-andy.dev/',
@@ -91,7 +88,7 @@ gulp.task('critical-css', () => {
 	runPenthouse('post', '/30-running-days-september/');
 });
 
-gulp.task('uncss', ['sass'], () => {
+gulp.task('uncss', ['sass:prod'], () => {
 	return gulp.src('./style.css')
 		.pipe(uncss({
 			html: pages,
@@ -128,6 +125,16 @@ gulp.task('sass', () => {
 		.pipe(gulp.dest('./build/css/fonts'));
 });
 
+gulp.task('sass:prod', () => {
+	gulp.src([
+		'./scss/style.scss',
+	])
+		.pipe(sass({
+			'outputStyle': 'compressed',
+		}).on('error', sass.logError))
+		.pipe(gulp.dest('.'));
+});
+
 gulp.task('scss-lint', () => {
 	gulp.src([
 		'./scss/**/*.scss',
@@ -141,23 +148,25 @@ gulp.task('scss-lint', () => {
 		]));
 });
 
-const returnHash = (filename) => {
-	const input = fs.createReadStream(filename);
-	return new Promise((resolve, reject) => {
-		input.on('readable', () => {
-			const data = input.read();
-			if (data) {
-				hash.update(data);
-			} else {
-				resolve(hash.digest('hex').substring(0,10));
-			}
-		});
-		input.on('error', (error) => reject(error));
-	});
-};
+
 
 // concat and minify the js
 gulp.task('js', () => {
+	gulp.src([
+		'js/lazy-load-css.js',
+		'js/main.js',
+	])
+	.pipe(uglify().on('error', e => {
+		console.log(e);
+	}))
+	.pipe(concat('script.js'))
+	.pipe(gulp.dest('build/js'));
+});
+
+// concat and minify the js
+gulp.task('js:prod', () => {
+	const returnHash = require('./gulp-helpers/returnHash');
+
 	returnHash('style.css').then(hash => {
 		gulp.src([
 			'js/lazy-load-css.js',
@@ -183,19 +192,14 @@ gulp.task('js', () => {
 	])
 		.pipe(uglify())
 		.pipe(concat('singular.min.js'))
-		.pipe(gulp.dest('build/js'))
-		.pipe(browserSync.stream());
+		.pipe(gulp.dest('build/js'));
 
 	gulp.src([
 		'node_modules/sw-toolbox/sw-toolbox.js',
+		'./js/async-awaituntil.js'
 	])
 		.pipe(uglify())
-		.pipe(concat('sw-toolbox.min.js'))
-		.pipe(gulp.dest('build/js'));
-
-	gulp.src(['js/async-await-test.js'])
-		.pipe(babel())
-		.pipe(concat('async-await-test.min.js'))
+		.pipe(concat('sw-helpers.min.js'))
 		.pipe(gulp.dest('build/js'));
 });
 
@@ -213,6 +217,23 @@ gulp.task('js-lint', () => {
 		// lint error, return the stream and pipe to failAfterError last.
 		.pipe(eslint.failAfterError());
 });
+
+var hash = require('gulp-hash');
+
+gulp.task('hash', () => {
+	gulp.src([
+		'./style.css',
+		'./build/js/*.js'
+	])
+		.pipe(hash({
+			template: '<%= name %>.<%= hash %><%= ext %>'
+		})) // Add hashes to the files' names
+		// .pipe(gulp.dest('public/js')) // Write the renamed files
+		.pipe(hash.manifest('assets.json', {
+		  deleteOld: true
+		})) // Switch to the manifest file
+		.pipe(gulp.dest('build')); // Write the manifest file
+})
 
 gulp.task('wordpress-lint', () => {
 	return gulp.src(['./**/*.php', '!node_modules/**/*.php'])
@@ -247,9 +268,10 @@ gulp.task('default', [
 
 gulp.task('build', [
 	'uncss',
-	'js',
+	'js:prod',
 	'critical-css',
-	'sprites'
+	'sprites',
+	'hash'
 ]);
 
 gulp.task('lint', [
