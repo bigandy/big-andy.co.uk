@@ -112,9 +112,9 @@ self.addEventListener('fetch', (event) => {
 	";
 	file_put_contents( SITEROOT . 'serviceWorker.js', $data );
 }
-if ( is_user_logged_in() ) {
-	ah_add_serviceworker_in_root();
-}
+// if ( is_user_logged_in() ) {
+// 	ah_add_serviceworker_in_root();
+// }
 
 add_action( 'publish_post', 'ah_add_serviceworker_in_root' );
 add_action( 'publish_page', 'ah_add_serviceworker_in_root' );
