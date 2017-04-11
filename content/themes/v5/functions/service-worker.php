@@ -111,10 +111,6 @@ self.addEventListener('fetch', (event) => {
 });
 	";
 	file_put_contents( SITEROOT . 'serviceWorker.js', $data );
-
-	if ( is_user_logged_in() ) {
-		ah_preit($data);
-	}
 }
 if ( is_user_logged_in() ) {
 	ah_add_serviceworker_in_root();
