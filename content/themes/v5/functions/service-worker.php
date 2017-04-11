@@ -2,6 +2,9 @@
 function ah_add_serviceworker_in_root() {
 	$template_uri = trailingslashit( get_stylesheet_directory_uri() );
 	$home_url = trailingslashit( get_home_url() );
+
+	$assets = json_decode( file_get_contents( $template_uri . 'build/assets.json' ), true );
+
 	$posts_urls = '';
 	$posts_args = [
 		'posts_per_page'	=> 10,
@@ -45,7 +48,7 @@ function ah_add_serviceworker_in_root() {
 	wp_reset_postdata();
 
 	$data = "
-importScripts('" . esc_url( $template_uri ) . "build/js/sw-helpers.js');
+importScripts('" . esc_url( $template_uri ) . "build/js/" . $assets['sw-helpers.js'] . "');
 
 var cacheName = 'ahsw-" . date( 'd-m-Y-H-i-s', filemtime( SITEROOT . 'serviceWorker.js' ) ) . "';
 
@@ -64,9 +67,10 @@ self.addEventListener('activate', (event) => {
 
 toolbox.precache([
 	// Assets
-	'" . esc_url( get_stylesheet_uri() ). "',
-	'" . esc_url( $template_uri ) . "build/js/script.js',
-	'" . esc_url( $template_uri ) . "build/js/singular.js',
+	'" . esc_url( $template_uri ) . $assets['style.css'] . "',
+	'" . esc_url( $template_uri ) . "build/js/" . $assets['script.js'] . "',
+	'" . esc_url( $template_uri ) . "build/js/" . $assets['singular.js'] . "',
+	'" . esc_url( $template_uri ) . "build/js/" . $assets['sw-helpers.js'] . "',
 	'" . esc_url( $template_uri ) . "fonts/open-sans-v13-latin-regular.woff2',
 	'" . esc_url( $template_uri ) . "fonts/open-sans-v13-latin-regular.woff',
 	'" . esc_url( $template_uri ) . "fonts/open-sans-v13-latin-800.woff2',
