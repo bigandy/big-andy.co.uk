@@ -25,8 +25,14 @@ const autoprefixer = require('autoprefixer');
 const stylelint = require('stylelint');
 const reporter = require('postcss-reporter');
 
+const replace = require('gulp-replace-task');
+const fs = require('fs');
+const crypto = require('crypto');
+const hash = crypto.createHash('sha256');
+
+
 var envLive = 'https://big-andy.co.uk/',
-	envDev = 'http://big-andy.dev/',
+	// envDev = 'http://big-andy.dev/',
 	env = envLive,
 	pages = [
 		env + 'contact/',
@@ -39,28 +45,24 @@ var envLive = 'https://big-andy.co.uk/',
 		env + 'https/',
 		env + 'breaking-borders-3/'
 	],
-	penthouseAsync = Promise.promisify(penthouse),
-	browsers = ['last 1 version'],
-	reload = browserSync.reload;
+	penthouseAsync = Promise.promisify(penthouse);
 
 gulp.task('sprites', () => {
 	return gulp.src([
-			'images/svg/*.svg'
-		])
+		'images/svg/*.svg'
+	])
 		.pipe(svgStore({ inlineSvg: true }))
 
 		.pipe(svgmin({
 			plugins:
-				[{
-					cleanupIDs: false
-				}]
-			}))
+			[{
+				cleanupIDs: false
+			}]
+		}))
 		.pipe(gulp.dest('build/svg'));
 });
 
 gulp.task('critical-css', () => {
-	const fs = require('fs');
-
 	const outputCSS = (criticalCSS, file) => {
 		const output = new cleanCSS().minify(criticalCSS).styles;
 		fs.writeFile(`build/css/${file}.css`, output, (err) => {
@@ -78,11 +80,11 @@ gulp.task('critical-css', () => {
 			css: './style.css',
 			height: 1200, // 600
 			width: 400, // 400
-		    minify: true,
+			minify: true,
 		}).then(criticalCSS => {
 			outputCSS(criticalCSS, outputFile);
 		});
-	}
+	};
 
 	// TODO way of writing this so don't call twice
 	runPenthouse('critical');
@@ -110,7 +112,7 @@ gulp.task('uncss', ['sass'], () => {
 gulp.task('sass', () => {
 	gulp.src([
 		'./scss/style.scss',
-		])
+	])
 		.pipe( sourcemaps.init() )
 		.pipe(sass({
 			'outputStyle': 'compressed',
@@ -130,27 +132,51 @@ gulp.task('scss-lint', () => {
 	gulp.src([
 		'./scss/**/*.scss',
 		'!./scss/fonts/*.scss'
-		])
+	])
 		.pipe(postcss([
 			stylelint(),
 			reporter({
 				clearMessages: true,
 			})
-		]))
+		]));
 });
 
+const returnHash = (filename) => {
+	const input = fs.createReadStream(filename);
+	return new Promise((resolve, reject) => {
+		input.on('readable', () => {
+			const data = input.read();
+			if (data) {
+				hash.update(data);
+			} else {
+				resolve(hash.digest('hex').substring(0,10));
+			}
+		});
+		input.on('error', (error) => reject(error));
+	});
+};
 
 // concat and minify the js
 gulp.task('js', () => {
-	gulp.src([
+	returnHash('style.css').then(hash => {
+		gulp.src([
 			'js/lazy-load-css.js',
 			'js/main.js',
 		])
+		.pipe(replace({
+			patterns: [
+				{
+					match: /style.css/g,
+					replacement: `style.${hash}.css`
+				}
+			]
+		}))
 		.pipe(uglify().on('error', e => {
-            console.log(e);
-         }))
+			console.log(e);
+		}))
 		.pipe(concat('script.js'))
 		.pipe(gulp.dest('build/js'));
+	});
 
 	gulp.src([
 		'js/prism.min.js',
@@ -167,16 +193,16 @@ gulp.task('js', () => {
 		.pipe(concat('sw-toolbox.min.js'))
 		.pipe(gulp.dest('build/js'));
 
-    gulp.src(['js/async-await-test.js'])
-        .pipe(babel())
-        .pipe(concat('async-await-test.min.js'))
+	gulp.src(['js/async-await-test.js'])
+		.pipe(babel())
+		.pipe(concat('async-await-test.min.js'))
 		.pipe(gulp.dest('build/js'));
 });
 
 gulp.task('js-lint', () => {
 	gulp.src([
-			'js/main.js'
-		])
+		'js/main.js'
+	])
 		// eslint() attaches the lint output to the eslint property
 		// of the file object so it can be used by other modules.
 		.pipe(eslint())
@@ -199,7 +225,7 @@ gulp.task('wordpress-lint', () => {
 gulp.task('browser-sync', function() {
 	browserSync.init({
 		proxy: 'big-andy.dev'
-	})
+	});
 
 	gulp.watch('**/*.php').on('change', browserSync.reload);
 });
