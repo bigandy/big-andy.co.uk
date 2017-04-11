@@ -66,7 +66,7 @@ self.addEventListener('activate', (event) => {
 toolbox.precache([
 	// Assets
 	'" . esc_url( get_stylesheet_uri() ). "',
-	'" . esc_url( $template_uri ) . "build/js/script.min.js',
+	'" . esc_url( $template_uri ) . "build/js/script.js',
 	'" . esc_url( $template_uri ) . "build/js/singular.min.js',
 	'" . esc_url( $template_uri ) . "fonts/open-sans-v13-latin-regular.woff2',
 	'" . esc_url( $template_uri ) . "fonts/open-sans-v13-latin-regular.woff',
