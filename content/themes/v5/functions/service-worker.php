@@ -3,7 +3,7 @@ function ah_add_serviceworker_in_root() {
 	$template_uri = trailingslashit( get_stylesheet_directory_uri() );
 	$home_url = trailingslashit( get_home_url() );
 
-	$assets = json_decode( file( $template_uri . 'build/assets.json' )[0], true );
+	$assets = json_decode( file_get_contents( SITEROOT . '/content/themes/v5/build/assets.json' ), true );
 
 	$posts_urls = '';
 	$posts_args = [
