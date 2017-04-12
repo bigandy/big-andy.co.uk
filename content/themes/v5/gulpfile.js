@@ -266,7 +266,7 @@ gulp.task('build', [
 	'uncss',
 	'js:prod',
 	'critical-css',
-	'sprites',
+	// 'sprites',
 ]);
 
 gulp.task('lint', [
