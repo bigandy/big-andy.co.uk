@@ -20,18 +20,6 @@ body {
 	line-height: 1.5;
 	position: relative;
 	cursor: auto;
-
-	&::after {
-		position: fixed;
-		content: "";
-		display: block;
-		top: 0;
-		left: 0;
-		height: 100%;
-		width: 10px;
-		background-color: rgba(orange, .4);
-		will-change: transform;
-	}
 }
 
 p {
