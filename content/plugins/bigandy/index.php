@@ -131,11 +131,11 @@ function ah_plugin_admin_options_page() {
 		);
 		?>
 		<ul class="bullet">
-		<?php
-		foreach ( $ah_options as $ah_option ) {
-			echo"<li><strong>".ucfirst( $ah_option ).":</strong> <span>". $options[$ah_option]."</span></li>";
-		}
-		?>
+			<?php
+			foreach ( $ah_options as $ah_option ) {
+				echo "<li><strong>" . ucfirst( $ah_option ) . ":</strong> <span>" . $options[$ah_option] . "</span></li>";
+			}
+			?>
 		</ul>
 	</div>
 	<?php
