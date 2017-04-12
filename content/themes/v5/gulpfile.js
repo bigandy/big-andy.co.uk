@@ -148,8 +148,6 @@ gulp.task('scss-lint', () => {
 		]));
 });
 
-
-
 // concat and minify the js
 gulp.task('js', () => {
 	gulp.src([
@@ -164,19 +162,18 @@ gulp.task('js', () => {
 });
 
 // concat and minify the js
-gulp.task('js:prod', () => {
-	const returnHash = require('./gulp-helpers/returnHash');
+gulp.task('js:prod', ['hash'], () => {
+	const assets = require('./build/assets.json');
 
-	returnHash('style.css').then(hash => {
-		gulp.src([
-			'js/lazy-load-css.js',
-			'js/main.js',
-		])
+	gulp.src([
+		'js/lazy-load-css.js',
+		'js/main.js',
+	])
 		.pipe(replace({
 			patterns: [
 				{
 					match: /style.css/g,
-					replacement: `style.${hash}.css`
+					replacement: assets['style.css']
 				}
 			]
 		}))
@@ -185,7 +182,6 @@ gulp.task('js:prod', () => {
 		}))
 		.pipe(concat('script.js'))
 		.pipe(gulp.dest('build/js'));
-	});
 
 	gulp.src([
 		'js/prism.min.js',
@@ -271,7 +267,6 @@ gulp.task('build', [
 	'js:prod',
 	'critical-css',
 	'sprites',
-	'hash'
 ]);
 
 gulp.task('lint', [
