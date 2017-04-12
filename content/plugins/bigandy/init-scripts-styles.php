@@ -7,7 +7,7 @@ function ah_plugin_styles() {
 
 function ah_plugin_scripts() {
 	// Register the script like this for a plugin:
-	wp_register_script( 'ba-script', plugins_url( 'js/bigandy.js', __FILE__ ), null, false, true );
+	wp_register_script( 'ba-script', plugins_url( 'js/bigandy.js', __FILE__ ), 'jquery', false, true );
 	wp_enqueue_script( 'ba-script' );
 }
 add_action( 'admin_enqueue_scripts', 'ah_plugin_styles' );
