@@ -2,10 +2,11 @@
 	$( document ).ready(function() {
 		const button = $('#wp-admin-bar-refresh-service-worker a');
 
-		button.on('click', () => {
+		button.on('click', (e) => {
+			e.preventDefault();
 			console.log('have been clicked!');
 
-			var data = {
+			const data = {
 				'action': 'refresh_serviceworker',
 			};
 
