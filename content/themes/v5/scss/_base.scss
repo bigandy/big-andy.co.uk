@@ -22,14 +22,15 @@ body {
 	cursor: auto;
 
 	&::after {
-		position: absolute;
+		position: fixed;
 		content: "";
 		display: block;
 		top: 0;
 		left: 0;
 		height: 100%;
 		width: 5px;
-		background-color: rgba(red, .25);
+		background-color: rgba(blue, .25);
+		will-change: transform;
 	}
 }
 
