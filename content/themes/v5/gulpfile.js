@@ -25,6 +25,8 @@ const autoprefixer = require('autoprefixer');
 const stylelint = require('stylelint');
 const reporter = require('postcss-reporter');
 
+const brotli = require('gulp-brotli');
+
 const replace = require('gulp-replace-task');
 const fs = require('fs');
 
@@ -43,6 +45,18 @@ var envLive = 'https://big-andy.co.uk/',
 		env + 'breaking-borders-3/'
 	],
 	penthouseAsync = Promise.promisify(penthouse);
+
+gulp.task('brotli', () => {
+	const src  = ['build/**/*.{js,css,svg}', 'style.css'];
+    return gulp.src(src)
+        .pipe(brotli.compress({
+            extension: "br",
+            quality: 11
+        }))
+        .pipe(gulp.dest('build'));
+});
+
+
 
 gulp.task('sprites', () => {
 	return gulp.src([
