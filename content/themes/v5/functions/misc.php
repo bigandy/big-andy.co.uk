@@ -47,7 +47,16 @@ if ( ! function_exists( 'ah_init_constants' ) ) {
 
 			define( 'HEADERCOLOR', $meta_color );
 		}
+
+
+		// ah_preit( $assets );
+		if ( ! defined( 'ASSET_CSS' ) ) {
+			$assets = json_decode( file_get_contents( SITEROOT . '/content/themes/v5/build/assets.json' ), true );
+			define( 'ASSET_CSS', $assets['style.css'] );
+		}
 	}
+
+
 
 	add_action( 'init', 'ah_init_constants' );
 }

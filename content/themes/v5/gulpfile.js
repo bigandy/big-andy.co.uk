@@ -29,6 +29,7 @@ const brotli = require('gulp-brotli');
 
 const replace = require('gulp-replace-task');
 const fs = require('fs');
+const hash = require('gulp-hash');
 
 var envLive = 'https://big-andy.co.uk/',
 	// envDev = 'http://big-andy.dev/',
@@ -54,7 +55,7 @@ gulp.task('brotli', () => {
             quality: 11
         }))
         .pipe(gulp.dest('build'));
-		
+
 	gulp.src('style.css')
         .pipe(brotli.compress({
             extension: "br",
@@ -235,7 +236,7 @@ gulp.task('js-lint', () => {
 		.pipe(eslint.failAfterError());
 });
 
-var hash = require('gulp-hash');
+
 
 gulp.task('hash', () => {
 	gulp.src([
