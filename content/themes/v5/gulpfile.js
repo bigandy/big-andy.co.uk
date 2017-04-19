@@ -47,13 +47,20 @@ var envLive = 'https://big-andy.co.uk/',
 	penthouseAsync = Promise.promisify(penthouse);
 
 gulp.task('brotli', () => {
-	const src  = ['build/**/*.{js,css,svg}', 'style.css'];
-    return gulp.src(src)
+	const src  = ['build/**/*.{js,css,svg}'];
+    gulp.src(src)
         .pipe(brotli.compress({
             extension: "br",
             quality: 11
         }))
         .pipe(gulp.dest('build'));
+		
+	gulp.src('style.css')
+        .pipe(brotli.compress({
+            extension: "br",
+            quality: 11
+        }))
+        .pipe(gulp.dest('.'));
 });
 
 
