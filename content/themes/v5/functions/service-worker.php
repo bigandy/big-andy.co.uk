@@ -121,7 +121,7 @@ function ah_add_service_worker_to_footer() {
 	$html = "
 	<script>
 		if ('serviceWorker' in navigator) {
-			document.addEventListener('load', () => {
+			window.addEventListener('load', function() {
 				navigator.serviceWorker.register( '" . esc_url( HOMEURL ) . "serviceWorker.js', { scope: '" . esc_url( HOMEURL ) . "' });
 			});
 		}
