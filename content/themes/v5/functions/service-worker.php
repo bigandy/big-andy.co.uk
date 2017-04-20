@@ -120,8 +120,10 @@ add_action( 'publish_page', 'ah_add_serviceworker_in_root' );
 function ah_add_service_worker_to_footer() {
 	$html = "
 	<script>
-		if('serviceWorker' in navigator) {
-			navigator.serviceWorker.register( '" . esc_url( HOMEURL ) . "serviceWorker.js', { scope: '" . esc_url( HOMEURL ) . "' });
+		if ('serviceWorker' in navigator) {
+			document.addEventListener('load', () => {
+				navigator.serviceWorker.register( '" . esc_url( HOMEURL ) . "serviceWorker.js', { scope: '" . esc_url( HOMEURL ) . "' });
+			});
 		}
 	</script>";
 	echo $html;
