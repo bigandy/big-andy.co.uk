@@ -5,13 +5,11 @@
 	</div>
 </footer>
 
+<script>
 <?php
-if ( ! is_user_logged_in() ) {
-	?>
-	<script async src="<?php echo ah_md5_file( TEMPLATEURI . 'build/js/script', '.js' ) ?>"></script>
-	<?php
-}
+	include('js/main.js');
 ?>
+</script>
 <?php wp_footer(); ?>
 </body>
 </html>

@@ -66,8 +66,8 @@ self.addEventListener('activate', (event) => {
 
 toolbox.precache([
 	// Assets
-	'" . esc_url( $template_uri ) . $assets['style.css'] . "',
-	'" . esc_url( $template_uri ) . "build/js/" . $assets['script.js'] . "',
+	// '" . esc_url( $template_uri ) . $assets['style.css'] . "',
+	// '" . esc_url( $template_uri ) . "build/js/" . $assets['script.js'] . "',
 	'" . esc_url( $template_uri ) . "build/js/" . $assets['singular.js'] . "',
 	'" . esc_url( $template_uri ) . "build/js/" . $assets['sw-helpers.js'] . "',
 	'" . esc_url( $template_uri ) . "fonts/open-sans-v13-latin-regular.woff2',
