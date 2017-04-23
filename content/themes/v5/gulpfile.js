@@ -173,7 +173,7 @@ gulp.task('scss-lint', () => {
 // concat and minify the js
 gulp.task('js', () => {
 	gulp.src([
-		'js/lazy-load-css.js',
+		// 'js/lazy-load-css.js',
 		'js/main.js',
 	])
 	.pipe(uglify().on('error', e => {
@@ -188,17 +188,17 @@ gulp.task('js:prod', ['hash'], () => {
 	const assets = require('./build/assets.json');
 
 	gulp.src([
-		'js/lazy-load-css.js',
+		// 'js/lazy-load-css.js',
 		'js/main.js',
 	])
-		.pipe(replace({
-			patterns: [
-				{
-					match: /style.css/g,
-					replacement: assets['style.css']
-				}
-			]
-		}))
+		// .pipe(replace({
+		// 	patterns: [
+		// 		{
+		// 			match: /style.css/g,
+		// 			replacement: assets['style.css']
+		// 		}
+		// 	]
+		// }))
 		.pipe(uglify().on('error', e => {
 			console.log(e);
 		}))
@@ -248,7 +248,7 @@ gulp.task('hash', () => {
 		})) // Add hashes to the files' names
 		// .pipe(gulp.dest('public/js')) // Write the renamed files
 		.pipe(hash.manifest('assets.json', {
-		  deleteOld: true
+		  	deleteOld: true
 		})) // Switch to the manifest file
 		.pipe(gulp.dest('build')); // Write the manifest file
 })
