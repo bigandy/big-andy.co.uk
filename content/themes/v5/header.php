@@ -12,9 +12,7 @@
 	<link rel="manifest" href="<?php echo esc_url( TEMPLATEURI ); ?>manifest.json">
 	<link rel="icon" sizes="192x192" href="<?php echo esc_url( TEMPLATEURI ); ?>images/ba.png">
 	<style><?php
-	if ( ! is_user_logged_in() ) {
-		$css = 'style.css';
-	} else if ( is_page() || is_front_page() ) {
+	if ( is_page() || is_front_page() ) {
 		$css = 'build/css/critical.css';
 	} else {
 		$css = 'build/css/post.css';
