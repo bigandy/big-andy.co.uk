@@ -5,11 +5,7 @@
 	</div>
 </footer>
 
-<script>
-<?php
-	include('js/main.js');
-?>
-</script>
+<script><?php include('build/js/script.js'); ?></script>
 <?php wp_footer(); ?>
 </body>
 </html>
