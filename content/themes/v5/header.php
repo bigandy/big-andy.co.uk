@@ -7,7 +7,6 @@
 
     <link rel="preload" href="/content/themes/v5/fonts/open-sans-v13-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
 	<link rel="preload" href="/content/themes/v5/fonts/open-sans-v13-latin-800.woff2" as="font" type="font/woff2" crossorigin>
-    <!-- <link rel="preload" href="/content/themes/v5/<?php echo ASSET_CSS; ?>" as="style"> -->
 
 	<link rel="manifest" href="<?php echo esc_url( TEMPLATEURI ); ?>manifest.json">
 	<link rel="icon" sizes="192x192" href="<?php echo esc_url( TEMPLATEURI ); ?>images/ba.png">
