@@ -28,7 +28,8 @@ function ah_cpts_init(){
 		'menu_position' 		=> null,
 		'menu_icon' 			=> 'dashicons-chart-area', // https://developer.wordpress.org/resource/dashicons/
 		'supports' 				=> [
-									'custom-fields'
+									'custom-fields',
+									'title',
 								],
 		'map_meta_cap' 			=> true,
 		'show_in_rest'			=> true,
@@ -48,7 +49,7 @@ function ah_change_weight_cpt_title( $data, $postarr ) {
 		if ( isset( $_POST['_ah_health_weight'] ) ) {
 			$weight = $_POST['_ah_health_weight'];
 
-			$data['post_title'] = $weight . 'kg - ' .  get_the_time( 'd/m/Y', $postarr['ID']);
+			$data['post_title'] = $weight . 'kg - ' .  get_the_time( 'd/m/Y', $postarr['ID'] );
 		}
 	}
 
