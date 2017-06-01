@@ -45,6 +45,7 @@ class BackWPup_Destination_Folder extends BackWPup_Destinations {
 			            <input id="idmaxbackups" name="maxbackups" type="number" min="0" step="1" value="<?php echo esc_attr( BackWPup_Option::get( $jobid, 'maxbackups' ) ); ?>" class="small-text"/>
 			            &nbsp;<?php esc_html_e( 'Number of files to keep in folder.', 'backwpup' ); ?>
 		            </label>
+		            <p><?php _e( '<strong>Warning</strong>: Files belonging to this job are now tracked. Old backup archives which are untracked will not be automatically deleted.', 'backwpup' ) ?></p>
 	            <?php } else { ?>
 		            <label for="idbackupsyncnodelete">
 			            <input class="checkbox" value="1" type="checkbox" <?php checked( BackWPup_Option::get( $jobid, 'backupsyncnodelete' ), true ); ?> name="backupsyncnodelete" id="idbackupsyncnodelete"/>
@@ -143,28 +144,31 @@ class BackWPup_Destination_Folder extends BackWPup_Destinations {
 		$files          = array();
 		$backup_folder  = BackWPup_Option::get( $jobid, 'backupdir' );
 		$backup_folder  = BackWPup_File::get_absolute_path( $backup_folder );
-		if ( is_dir( $backup_folder ) && $dir = opendir( $backup_folder ) ) { //make file list
-			while ( false !== ( $file = readdir( $dir ) ) ) {
-				if ( in_array( $file, array( '.', '..', 'index.php', '.htaccess', '.donotbackup' ), true ) || is_dir( $backup_folder . $file ) || is_link( $backup_folder . $file ) ) {
+
+		if ( is_dir( $backup_folder ) ) { //make file list
+			$dir = new BackWPup_Directory( $backup_folder );
+
+			foreach ( $dir as $file ) {
+				if ( $file->isDot() || in_array( $file->getFilename(), array( 'index.php', '.htaccess', '.donotbackup', 'Web.config' ), true ) || $file->isDir() || $file->isLink() ) {
 					continue;
 				}
-				if ( is_readable( $backup_folder . $file ) ) {
+
+				if ( $file->isReadable() ) {
 					//file list for backups
 					$files[ $filecounter ][ 'folder' ]      = $backup_folder;
-					$files[ $filecounter ][ 'file' ]        = $backup_folder . $file;
-					$files[ $filecounter ][ 'filename' ]    = $file;
+					$files[ $filecounter ][ 'file' ]        = str_replace( '\\', '/', $file->getPathname() );
+					$files[ $filecounter ][ 'filename' ]    = $file->getFilename();
 					$files[ $filecounter ][ 'downloadurl' ] = add_query_arg( array(
 																				  'page'   => 'backwpupbackups',
 																				  'action' => 'downloadfolder',
-																				  'file'   => $file,
+																				  'file'   => $file->getFilename(),
 																				  'jobid'  => $jobid
 																			 ), network_admin_url( 'admin.php' ) );
-					$files[ $filecounter ][ 'filesize' ]    = filesize( $backup_folder . $file );
-					$files[ $filecounter ][ 'time' ]        = filemtime( $backup_folder . $file );
+					$files[ $filecounter ][ 'filesize' ]    = $file->getSize();
+					$files[ $filecounter ][ 'time' ]        = $file->getMTime() + ( get_option( 'gmt_offset' ) * 3600 );
 					$filecounter ++;
 				}
 			}
-			closedir( $dir );
 		}
 
 		return $files;
@@ -187,17 +191,25 @@ class BackWPup_Destination_Folder extends BackWPup_Destinations {
 		//Delete old Backupfiles
 		$backupfilelist = array();
 		$files          = array();
-		if ( is_writable( $job_object->backup_folder ) && $dir = opendir( $job_object->backup_folder ) ) { //make file list
-			while ( FALSE !== ( $file = readdir( $dir ) ) ) {
-				if ( is_writeable( $job_object->backup_folder . $file ) && ! is_dir( $job_object->backup_folder . $file ) && ! is_link( $job_object->backup_folder . $file ) ) {
-					//list for deletion
-					if ( $job_object->is_backup_archive( $file ) ) {
-						$backupfilelist[ filemtime( $job_object->backup_folder . $file ) ] = $file;
+
+		if ( is_writable( $job_object->backup_folder ) ) { //make file list
+			try {
+				$dir = new BackWPup_Directory( $job_object->backup_folder );
+
+				foreach ( $dir as $file ) {
+					if ( $file->isWritable() && ! $file->isDir() && ! $file->isLink() ) {
+						//list for deletion
+						if ( $job_object->is_backup_archive( $file->getFilename() ) && $job_object->owns_backup_archive( $file->getFilename() ) ) {
+							$backupfilelist[ $file->getMTime() ] = clone $file;
+						}
 					}
 				}
 			}
-			closedir( $dir );
+			catch ( UnexpectedValueException $e ) {
+				$job_object->log( sprintf( __( "Could not open path: %s", 'backwpup' ), $e->getMessage() ), E_USER_WARNING );
+			}
 		}
+
 		if ( $job_object->job[ 'maxbackups' ] > 0 ) {
 			if ( count( $backupfilelist ) > $job_object->job[ 'maxbackups' ] ) {
 				ksort( $backupfilelist );
@@ -205,9 +217,9 @@ class BackWPup_Destination_Folder extends BackWPup_Destinations {
 				while ( $file = array_shift( $backupfilelist ) ) {
 					if ( count( $backupfilelist ) < $job_object->job[ 'maxbackups' ] )
 						break;
-					unlink( $job_object->backup_folder . $file );
+					unlink( $file->getPathname() );
 					foreach ( $files as $key => $filedata ) {
-						if ( $filedata[ 'file' ] == $job_object->backup_folder . $file ) {
+						if ( $filedata[ 'file' ] == $file->getPathname() ) {
 							unset( $files[ $key ] );
 						}
 					}

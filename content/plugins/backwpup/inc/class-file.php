@@ -70,36 +70,20 @@ class BackWPup_File {
 	 * @param bool $deep went thrue suborders
 	 * @return int folder size in byte
 	 */
-	public static function get_folder_size( $folder, $deep = TRUE ) {
-
+	public static function get_folder_size( $folder ) {
 		$files_size = 0;
 
-		if ( ! is_readable( $folder ) )
+		if ( ! is_readable( $folder ) ) {
 			return $files_size;
-
-		if ( $dir = opendir( $folder ) ) {
-			while ( FALSE !== ( $file = readdir( $dir ) ) ) {
-				if ( in_array( $file, array( '.', '..' ), true ) || is_link( $folder . '/' . $file ) ) {
-					continue;
-				}
-				if ( $deep && is_dir( $folder . '/' . $file ) ) {
-					$files_size = $files_size + self::get_folder_size( $folder . '/' . $file, TRUE );
-				}
-				elseif ( is_link( $folder . '/' . $file ) ) {
-					continue;
-				}
-				elseif ( is_readable( $folder . '/' . $file ) ) {
-					$file_size = filesize( $folder . '/' . $file );
-					if ( empty( $file_size ) || ! is_int( $file_size ) ) {
-						continue;
-					}
-					$files_size = $files_size + $file_size;
-				}
-			}
-			closedir( $dir );
 		}
 
-		return $files_size;
+		$iterator = new RecursiveIteratorIterator( new BackWPup_Recursive_Directory( $folder, FilesystemIterator::SKIP_DOTS ) );
+
+		foreach ( $iterator as $file ) {
+			$files_size += $file->getSize();
+		}
+
+return $files_size;
 	}
 
 	/**
@@ -176,8 +160,15 @@ class BackWPup_File {
 			$server_software = strtolower( $_SERVER[ 'SERVER_SOFTWARE' ] );
 			//IIS
 			if ( strstr( $server_software, 'microsoft-iis' ) ) {
-				if ( ! file_exists( $folder . '/web.config' ) ) {
-					file_put_contents( $folder . '/web.config', "<configuration>" . PHP_EOL . "\t<system.webServer>" . PHP_EOL . "\t\t<authorization>" . PHP_EOL . "\t\t\t<deny users=" * " />" . PHP_EOL . "\t\t</authorization>" . PHP_EOL . "\t</system.webServer>" . PHP_EOL . "</configuration>" );
+				if ( ! file_exists( $folder . '/Web.config' ) ) {
+					file_put_contents( $folder . '/Web.config',
+						"<configuration>" . PHP_EOL .
+						"\t<system.webServer>" . PHP_EOL .
+						"\t\t<authorization>" . PHP_EOL .
+						"\t\t\t<deny users=\"*\" />" . PHP_EOL .
+						"\t\t</authorization>" . PHP_EOL .
+						"\t</system.webServer>" . PHP_EOL .
+						"</configuration>" );
 				}
 			} //Nginx
 			elseif ( strstr( $server_software, 'nginx' ) ) {

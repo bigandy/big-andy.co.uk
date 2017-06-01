@@ -47,7 +47,6 @@ class BackWPup_Destination_S3 extends BackWPup_Destinations {
 						<option value="google-storage-us" <?php selected( 'google-storage-us', BackWPup_Option::get( $jobid, 's3region' ), TRUE ) ?>><?php esc_html_e( 'Google Storage: USA', 'backwpup' ); ?></option>
 						<option value="google-storage-asia" <?php selected( 'google-storage-asia', BackWPup_Option::get( $jobid, 's3region' ), TRUE ) ?>><?php esc_html_e( 'Google Storage: Asia', 'backwpup' ); ?></option>
 						<option value="dreamhost" <?php selected( 'dreamhost', BackWPup_Option::get( $jobid, 's3region' ), TRUE ) ?>><?php esc_html_e( 'Dream Host Cloud Storage', 'backwpup' ); ?></option>
-						<option value="greenqloud" <?php selected( 'greenqloud', BackWPup_Option::get( $jobid, 's3region' ), TRUE ) ?>><?php esc_html_e( 'GreenQloud Storage Qloud', 'backwpup' ); ?></option>
 					</select>
 				</td>
 			</tr>
@@ -121,6 +120,7 @@ class BackWPup_Destination_S3 extends BackWPup_Destinations {
 							<input id="ids3maxbackups" name="s3maxbackups" type="number" min="0" step="1" value="<?php echo esc_attr( BackWPup_Option::get( $jobid, 's3maxbackups' ) ); ?>" class="small-text" />
 							&nbsp;<?php esc_html_e( 'Number of files to keep in folder.', 'backwpup' ); ?>
 						</label>
+						<p><?php _e( '<strong>Warning</strong>: Files belonging to this job are now tracked. Old backup archives which are untracked will not be automatically deleted.', 'backwpup' ) ?></p>
 					<?php } else { ?>
 						<label for="ids3syncnodelete">
 							<input class="checkbox" value="1" type="checkbox" <?php checked( BackWPup_Option::get( $jobid, 's3syncnodelete' ), true ); ?> name="s3syncnodelete" id="ids3syncnodelete" />
@@ -182,6 +182,7 @@ class BackWPup_Destination_S3 extends BackWPup_Destinations {
 				wp_die( -1 );
 			}
 			check_ajax_referer( 'backwpup_ajax_nonce' );
+			$args = array();
 			$args[ 's3accesskey' ]  	= sanitize_text_field( $_POST[ 's3accesskey' ] );
 			$args[ 's3secretkey' ]  	= sanitize_text_field( $_POST[ 's3secretkey' ] );
 			$args[ 's3bucketselected' ]	= sanitize_text_field( $_POST[ 's3bucketselected' ] );
@@ -285,8 +286,6 @@ class BackWPup_Destination_S3 extends BackWPup_Destinations {
 				return 'https://storage.googleapis.com';
 			case 'dreamhost':
 				return 'https://objects-us-west-1.dream.io';
-			case 'greenqloud':
-				return 'http://s.greenqloud.com';
 			default:
 				return '';
 		}
@@ -626,7 +625,7 @@ class BackWPup_Destination_S3 extends BackWPup_Destinations {
 				foreach ( $objects as $object ) {
 					$file       = basename( $object[ 'Key' ] );
 					$changetime = strtotime( $object[ 'LastModified' ] ) + ( get_option( 'gmt_offset' ) * 3600 );
-					if ( $job_object->is_backup_archive( $file ) )
+					if ( $job_object->is_backup_archive( $file ) && $job_object->owns_backup_archive( $file ) == true )
 						$backupfilelist[ $changetime ] = $file;
 					$files[ $filecounter ][ 'folder' ]      = $this->get_s3_base_url( $job_object->job[ 's3region' ], $job_object->job[ 's3base_url' ] ). '/' .$job_object->job[ 's3bucket' ] . '/' . dirname( $object[ 'Key' ] );
 					$files[ $filecounter ][ 'file' ]        = $object[ 'Key' ];
