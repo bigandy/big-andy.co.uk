@@ -2,7 +2,15 @@
 
 require 'vendor/autoload.php';
 
-function ah_add_random_image_new_post( $id, $post ) {
+function ah_add_random_image_new_post( $post_id, $post, $update ) {
+
+	// ah_preit( $post_id );
+	// ah_preit( $post );
+	// ah_preit( $update );
+	// echo '<p>status is new' . $new_status . '</p>';
+	// echo '<p>status is old' . $old_status . '</p>';
+	// echo '<p>id is ' . $post->ID . '</p>';
+
 	// Below initialization will create a  phpredis client, or a TinyRedisClient depending on what is installed
 	$emitter = new SocketIO\Emitter(
 		array(
@@ -11,26 +19,25 @@ function ah_add_random_image_new_post( $id, $post ) {
 		)
 	);
 	// broadcast can be replaced by any of the other flags
-	// $date = the_date( 'Y-m-d' );
-	// ah_preit($date);
-	// $emitter->broadcast->emit( 'new post', $id + $post );
-	$emitter->broadcast->emit( 'published new post', $id );
+
+	$emitter->emit( 'published new post', $post_id, json_encode( $post ), $update );
 }
-add_action( 'publish_post', 'ah_add_random_image_new_post', 10, 2 );
+add_action( 'save_post', 'ah_add_random_image_new_post', 10, 3 );
+// add_action( 'publish_post', 'wpdocs_run_on_publish_only', 10, 3 );
 
-if ( current_user_can( 'update_core' ) && is_user_logged_in() ) {
+function ah_is_edit_page() {
+    global $pagenow;
 
-	function ah_is_edit_page() {
-	    global $pagenow;
-
-	    //make sure we are on the backend
-	    if ( ! is_admin() ) {
-			return false;
-		}
-
-        return in_array( $pagenow, array( 'post.php', 'post-new.php' ) );
+    //make sure we are on the backend
+    if ( ! is_admin() ) {
+		return false;
 	}
 
+    return in_array( $pagenow, array( 'post.php', 'post-new.php' ) );
+}
+
+
+if ( current_user_can( 'update_core' ) && is_user_logged_in() ) {
 	function ah_admin_header_function() {
 		if ( ah_is_edit_page() ) {
 			?>
@@ -43,17 +50,14 @@ if ( current_user_can( 'update_core' ) && is_user_logged_in() ) {
 					console.log('i connected');
 				});
 
-				if ( true !== complete ) {
-					socket.on('published new post', function(data) {
-						console.log('new post', data);
-						socket.emit('published new post', data);
-					});
-				}
-
-				socket.on('post complete', function() {
-					complete = true;
-					console.log('complete')
+				socket.on('published new post', function(id, post, update) {
+					console.log('new post', id, post, update);
+					socket.emit('published new post', id, post, update );
 				});
+
+				// socket.on('post complete', function() {
+				// 	console.log('complete')
+				// });
 			</script>
 			<?php
 		}
