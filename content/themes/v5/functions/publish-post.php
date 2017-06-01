@@ -19,8 +19,9 @@ function ah_add_random_image_new_post( $post_id, $post, $update ) {
 		)
 	);
 	// broadcast can be replaced by any of the other flags
-
-	$emitter->emit( 'published new post', $post_id, json_encode( $post ), $update );
+	if ( true === $update ) {
+		$emitter->emit( 'published new post', $post_id, json_encode( $post ), $update );
+	}
 }
 add_action( 'save_post', 'ah_add_random_image_new_post', 10, 3 );
 // add_action( 'publish_post', 'wpdocs_run_on_publish_only', 10, 3 );
@@ -50,14 +51,22 @@ if ( current_user_can( 'update_core' ) && is_user_logged_in() ) {
 					console.log('i connected');
 				});
 
-				socket.on('published new post', function(id, post, update) {
-					console.log('new post', id, post, update);
-					socket.emit('published new post', id, post, update );
+				let isDone = false;
+
+				socket.on('post complete', function() {
+					console.log('complete');
+					isDone = true;
 				});
 
-				// socket.on('post complete', function() {
-				// 	console.log('complete')
-				// });
+				socket.on('published new post', function(id, post, update) {
+					if (isDone === false) {
+						socket.emit('browser published new post', id, post, update );
+					}
+
+					console.log('is it done yet?', isDone);
+				});
+
+
 			</script>
 			<?php
 		}
