@@ -1,0 +1,5 @@
+{
+    "require": {
+        "ashiina/socket.io-emitter": "^0.8.0"
+    }
+}
