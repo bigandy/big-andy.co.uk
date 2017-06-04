@@ -2,6 +2,10 @@
 // ===================================================
 // Load database info and local development parameters
 // ===================================================
+if ( defined( 'WP_CLI' ) && WP_CLI && ! isset( $_SERVER['HTTP_HOST'] ) ) {
+    $_SERVER['HTTP_HOST'] = 'wp-cli.org';
+}
+
 if ( file_exists( dirname( __FILE__ ) . '/local-config.php' ) ) {
 	define( 'WP_LOCAL_DEV', true );
 	include( dirname( __FILE__ ) . '/local-config.php' );
@@ -57,7 +61,7 @@ define( 'WPLANG', '' );
 // ===========
 ini_set( 'display_errors', 0 );
 
-if ( ! defined ( 'WP_DEBUG_DISPLAY' ) ) {
+if ( ! defined( 'WP_DEBUG_DISPLAY' ) ) {
 	define( 'WP_DEBUG_DISPLAY', false );
 }
 
@@ -82,18 +86,15 @@ if ( ! defined( 'WP_DEBUG_LOG' ) ) {
 if ( file_exists( dirname( __FILE__ ) . '/memcached.php' ) )
 	$memcached_servers = include( dirname( __FILE__ ) . '/memcached.php' );
 
-// ===========================================================================================
-// This can be used to programatically set the stage when deploying (e.g. production, staging)
-// ===========================================================================================
-define( 'WP_STAGE', '%%WP_STAGE%%' );
-define( 'STAGING_DOMAIN', '%%WP_STAGING_DOMAIN%%' ); // Does magic in WP Stack to handle staging domain rewriting
-
 // ===================
 // Bootstrap WordPress
 // ===================
 if ( ! defined( 'SITEROOT' ) ) {
 	define( 'SITEROOT', dirname( __FILE__ ) . '/' );
 }
-if ( !defined( 'ABSPATH' ) )
+
+if ( ! defined( 'ABSPATH' ) ) {
 	define( 'ABSPATH', dirname( __FILE__ ) . '/wp/' );
+}
+
 require_once( ABSPATH . 'wp-settings.php' );
