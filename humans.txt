@@ -2,7 +2,7 @@
 	Creator: Andrew JD Hudson
 	Contact: andy@big-andy.co.uk
 	Twitter: @bigandy
-	From: Oxford, UK
+	From: Didcot, UK
 
 /* Site */
 	url: https://big-andy.co.uk
