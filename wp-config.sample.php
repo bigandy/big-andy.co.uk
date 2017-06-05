@@ -94,7 +94,7 @@ if ( ! defined( 'SITEROOT' ) ) {
 }
 
 if ( ! defined( 'ABSPATH' ) ) {
-	define( 'ABSPATH', dirname( __FILE__ ) . '/wp/' );
+	define( 'ABSPATH', dirname( __FILE__ ) . '/core/' );
 }
 
 require_once( ABSPATH . 'wp-settings.php' );
