@@ -1,6 +1,6 @@
 [submodule "content/plugins/basic-auth"]
 	path = content/plugins/basic-auth
 	url = git@github.com:eventespresso/Basic-Auth.git
-[submodule "core"]
-	path = core
+[submodule "wp"]
+	path = wp
 	url = git://core.git.wordpress.org/
