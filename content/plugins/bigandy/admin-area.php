@@ -4,7 +4,6 @@ if ( $options['admin'] === "Y" ) {
 	function ah_admin_bar_render() {
 		global $wp_admin_bar;
 		$wp_admin_bar->remove_menu( 'comments' );
-		// $wp_admin_bar->remove_menu( 'wp-logo' );
 	}
 	add_action( 'wp_before_admin_bar_render', 'ah_admin_bar_render' );
 
@@ -69,15 +68,14 @@ if ( $options['admin'] === "Y" ) {
 	function ah_remove_menus() {
 		global $menu;
 
-		$restricted = array(
+		$restricted = [
 			'Users',
 			'Comments',
-			'Pages',
 			'Tools',
 			'Appearance',
 			'Profile',
 			'Media',
-		);
+		];
 		end( $menu );
 
 		while ( prev( $menu ) ) {
@@ -125,21 +123,20 @@ if ( $options['admin'] === "Y" ) {
  * Reference: http://codex.wordpress.org/Dashboard_Widgets_API
  *
  * @package WordPress
- * @since 2.7
  *
  */
 
 function ba_remove_dashboard_widgets() {
 	global $wp_meta_boxes;
 
-	unset($wp_meta_boxes['dashboard']['side']['core']['dashboard_quick_press']);
-	unset($wp_meta_boxes['dashboard']['normal']['core']['dashboard_incoming_links']);
-	unset($wp_meta_boxes['dashboard']['side']['core']['dashboard_recent_drafts']);
-	unset($wp_meta_boxes['dashboard']['normal']['core']['dashboard_plugins']);
-	unset($wp_meta_boxes['dashboard']['normal']['core']['dashboard_recent_drafts']);
-	unset($wp_meta_boxes['dashboard']['normal']['core']['dashboard_recent_comments']);
-	unset($wp_meta_boxes['dashboard']['side']['core']['dashboard_primary']);
-	unset($wp_meta_boxes['dashboard']['side']['core']['dashboard_secondary']);
+	unset( $wp_meta_boxes['dashboard']['side']['core']['dashboard_quick_press'] );
+	unset( $wp_meta_boxes['dashboard']['normal']['core']['dashboard_incoming_links'] );
+	unset( $wp_meta_boxes['dashboard']['side']['core']['dashboard_recent_drafts'] );
+	unset( $wp_meta_boxes['dashboard']['normal']['core']['dashboard_plugins'] );
+	unset( $wp_meta_boxes['dashboard']['normal']['core']['dashboard_recent_drafts'] );
+	unset( $wp_meta_boxes['dashboard']['normal']['core']['dashboard_recent_comments'] );
+	unset( $wp_meta_boxes['dashboard']['side']['core']['dashboard_primary'] );
+	unset( $wp_meta_boxes['dashboard']['side']['core']['dashboard_secondary'] );
 }
 add_action('wp_dashboard_setup', 'ba_remove_dashboard_widgets' );
 
