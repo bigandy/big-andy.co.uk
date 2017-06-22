@@ -74,7 +74,7 @@ function ah_website_shortcode( $atts, $content = null ) {
 	$escaped_url = preg_replace( '(^www.)', '', $escaped_url ); // remove the www.
 	$escaped_url = str_replace( '/', '', $escaped_url ); // remove the final slash
 
-	return '<a href="' . esc_url( $atts['url'] ) . '" rel="noopener">' . esc_html( $escaped_url ) . '</a>';
+	return '<a href="' . esc_url( $atts['url'] ) . '" rel="noopener" target="_blank">' . esc_html( $escaped_url ) . '</a>';
 }
 add_shortcode( 'website', 'ah_website_shortcode' );
 
