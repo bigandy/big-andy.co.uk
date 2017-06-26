@@ -179,7 +179,7 @@ function ah_get_posts_pages_data() {
 					'id' 	=> $post->ID,
 					'link' 	=> get_the_permalink( $post->ID ),
 					'content' => wpautop( $post->post_content ),
-					'excerpt' 	=> $post->post_excerpt,
+					'excerpt' 	=> wpautop( $post->post_excerpt ),
 					'slug'		=> $post->post_name,
 					'title'		=> $post->post_title,
 				)
@@ -213,7 +213,6 @@ function ah_get_posts_pages_data() {
 						'id' 	=> $page->ID,
 						'link' 	=> get_the_permalink( $page->ID ),
 						'content' => wpautop( do_shortcode( $page->post_content ) ),
-						'excerpt' 	=> $page->post_excerpt,
 						'slug'		=> $page->post_name,
 						'title'		=> $page->post_title,
 					)
