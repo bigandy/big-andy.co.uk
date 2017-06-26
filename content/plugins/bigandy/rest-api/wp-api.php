@@ -172,8 +172,6 @@ function ah_get_posts_pages_data() {
 		$post_data = array();
 
 		foreach( $post_loop->posts as $post ) {
-			// ah_preit( $post );
-
 			array_push(
 				$post_data,
 				array(
@@ -183,6 +181,7 @@ function ah_get_posts_pages_data() {
 					'content' => $post->post_content,
 					'excerpt' 	=> $post->post_excerpt,
 					'slug'		=> $post->post_name,
+					'title'		=> $post->post_title,
 				)
 			);
 		}
@@ -215,6 +214,7 @@ function ah_get_posts_pages_data() {
 						'content' => $page->post_content,
 						'excerpt' 	=> $page->post_excerpt,
 						'slug'		=> $page->post_name,
+						'title'		=> $page->post_title,
 					)
 				);
 			}
