@@ -192,6 +192,7 @@ function ah_get_posts_pages_data() {
 	}
 
 	$page_data = get_transient( 'ah_pages_data' );
+	$page_data = false;
 
 	// If there is no transient, grab the pages data and put into array.
 	if ( false === $page_data ) {
@@ -211,7 +212,7 @@ function ah_get_posts_pages_data() {
 						'date' 	=> $page->post_date,
 						'id' 	=> $page->ID,
 						'link' 	=> get_the_permalink( $page->ID ),
-						'content' => $page->post_content,
+						'content' => wpautop( do_shortcode( $page->post_content ) ),
 						'excerpt' 	=> $page->post_excerpt,
 						'slug'		=> $page->post_name,
 						'title'		=> $page->post_title,
