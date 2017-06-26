@@ -92,3 +92,51 @@ add_filter( 'rest_endpoints', function( $endpoints ) {
 	}
 	return $endpoints;
 } );
+
+
+/**
+ * Adds wp-json/weight/v1/all/ endpoint with date, weight and comments information.
+ * This avoids sending too much information and saves users and server bandwidth.
+ */
+function ah_register_weight_endpoints() {
+	register_rest_route( 'weight/v1', '/all/', array(
+		'methods' => 'GET',
+		'callback' => 'ah_get_weight_data',
+	) );
+}
+add_action( 'rest_api_init', 'ah_register_weight_endpoints' );
+
+/**
+ * Attach the data to the endpoint.
+ */
+function ah_get_weight_data() {
+	$weight_data = get_transient( 'ah_weight_data' );
+
+	// If There is no transient, grab the weight data and put into array.
+	if ( false === $weight_data ) {
+		$health_args = array(
+			'post_type' => 'health',
+			'nopaging' => true,
+		);
+
+		$health_loop = new WP_Query( $health_args );
+
+		$weight_data = array();
+
+		foreach( $health_loop->posts as $post ) {
+			$custom = get_post_custom( $post->ID );
+
+			array_push( $weight_data, array(
+				'date' => $post->post_date,
+				'weight' => $custom['_ah_health_weight'][0],
+				'comments' => $custom['_ah_health_comments'][0],
+				)
+			);
+		}
+
+		// cache for 24 hours.
+		set_transient( 'ah_weight_data', $weight_data, 60 * 60 * 24 );
+	}
+
+	return $weight_data;
+}
