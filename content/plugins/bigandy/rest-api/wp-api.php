@@ -146,21 +146,21 @@ function ah_get_weight_data() {
  * Adds wp-json/bigandy/v1/pages/ endpoint with date, weight and comments information.
  * This avoids sending too much information and saves users and server bandwidth.
  */
-function ah_register_posts_endpoints() {
-	register_rest_route( 'bigandy/v1', '/posts/', array(
+function ah_register_posts_pages_endpoints() {
+	register_rest_route( 'bigandy/v1', '/posts-pages/', array(
 		'methods' => 'GET',
-		'callback' => 'ah_get_posts_data',
+		'callback' => 'ah_get_posts_pages_data',
 	) );
 }
-add_action( 'rest_api_init', 'ah_register_posts_endpoints' );
+add_action( 'rest_api_init', 'ah_register_posts_pages_endpoints' );
 
 /**
- * Attach the data to the endpoint.
+ * Attach the data to the posts-pages endpoint.
  */
-function ah_get_posts_data() {
+function ah_get_posts_pages_data() {
 	$post_data = get_transient( 'ah_posts_data' );
 
-	// If There is no transient, grab the weight data and put into array.
+	// If there is no transient, grab the posts data and put into array.
 	if ( false === $post_data ) {
 		$post_args = array(
 			'post_type' 		=> 'post',
@@ -186,9 +186,51 @@ function ah_get_posts_data() {
 				)
 			);
 		}
+		wp_reset_postdata();
 
 		// cache for 24 hours.
 		set_transient( 'ah_posts_data', $post_data, 60 * 60 * 24 );
 	}
-	return $post_data;
+
+	$page_data = get_transient( 'ah_pages_data' );
+
+	// If there is no transient, grab the pages data and put into array.
+	if ( false === $page_data ) {
+		$page_args = array(
+			'post_type' 		=> 'page',
+		);
+
+		$page_loop = new WP_Query( $page_args );
+
+		$page_data = array();
+
+		foreach( $page_loop->posts as $page ) {
+			if ( 'style-guide' !== $page->post_name ) {
+				array_push(
+					$page_data,
+					array(
+						'date' 	=> $page->post_date,
+						'id' 	=> $page->ID,
+						'link' 	=> get_the_permalink( $page->ID ),
+						'content' => $page->post_content,
+						'excerpt' 	=> $page->post_excerpt,
+						'slug'		=> $page->post_name,
+					)
+				);
+			}
+
+
+		}
+		wp_reset_postdata();
+
+		// cache for 24 hours.
+		set_transient( 'ah_pages_data', $page_data, 60 * 60 * 24 );
+	}
+
+	$result = array(
+		'pages' => $page_data,
+		'posts' => $post_data,
+	);
+
+	return $result;
 }
