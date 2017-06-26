@@ -99,7 +99,7 @@ add_filter( 'rest_endpoints', function( $endpoints ) {
  * This avoids sending too much information and saves users and server bandwidth.
  */
 function ah_register_weight_endpoints() {
-	register_rest_route( 'weight/v1', '/all/', array(
+	register_rest_route( 'bigandy/v1', '/weight/', array(
 		'methods' => 'GET',
 		'callback' => 'ah_get_weight_data',
 	) );
@@ -139,4 +139,56 @@ function ah_get_weight_data() {
 	}
 
 	return $weight_data;
+}
+
+
+/**
+ * Adds wp-json/bigandy/v1/pages/ endpoint with date, weight and comments information.
+ * This avoids sending too much information and saves users and server bandwidth.
+ */
+function ah_register_posts_endpoints() {
+	register_rest_route( 'bigandy/v1', '/posts/', array(
+		'methods' => 'GET',
+		'callback' => 'ah_get_posts_data',
+	) );
+}
+add_action( 'rest_api_init', 'ah_register_posts_endpoints' );
+
+/**
+ * Attach the data to the endpoint.
+ */
+function ah_get_posts_data() {
+	$post_data = get_transient( 'ah_posts_data' );
+
+	// If There is no transient, grab the weight data and put into array.
+	if ( false === $post_data ) {
+		$post_args = array(
+			'post_type' 		=> 'post',
+			'posts_per_page' 	=> 10,
+		);
+
+		$post_loop = new WP_Query( $post_args );
+
+		$post_data = array();
+
+		foreach( $post_loop->posts as $post ) {
+			// ah_preit( $post );
+
+			array_push(
+				$post_data,
+				array(
+					'date' 	=> $post->post_date,
+					'id' 	=> $post->ID,
+					'link' 	=> get_the_permalink( $post->ID ),
+					'content' => $post->post_content,
+					'excerpt' 	=> $post->post_excerpt,
+					'slug'		=> $post->post_name,
+				)
+			);
+		}
+
+		// cache for 24 hours.
+		set_transient( 'ah_posts_data', $post_data, 60 * 60 * 24 );
+	}
+	return $post_data;
 }
