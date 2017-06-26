@@ -1,5 +1,5 @@
 <?php
-if ( $options['admin'] === "Y" ) {
+if ( "Y" === $options['admin'] ) {
 	// Remove Comments from WordPress admin Bar
 	function ah_admin_bar_render() {
 		global $wp_admin_bar;
