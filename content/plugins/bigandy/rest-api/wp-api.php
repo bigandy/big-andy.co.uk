@@ -178,7 +178,7 @@ function ah_get_posts_pages_data() {
 					'date' 	=> $post->post_date,
 					'id' 	=> $post->ID,
 					'link' 	=> get_the_permalink( $post->ID ),
-					'content' => $post->post_content,
+					'content' => wpautop( $post->post_content ),
 					'excerpt' 	=> $post->post_excerpt,
 					'slug'		=> $post->post_name,
 					'title'		=> $post->post_title,
