@@ -8,11 +8,6 @@
 class BackWPup_Destination_Dropbox extends BackWPup_Destinations {
 
 	/**
-	 * @var $backwpup_job_object BackWPup_Job
-	 */
-	public static $backwpup_job_object = null;
-
-	/**
 	 * @return array
 	 */
 	public function option_defaults() {
@@ -271,8 +266,6 @@ class BackWPup_Destination_Dropbox extends BackWPup_Destinations {
 			}
 
 			// put the file
-			self::$backwpup_job_object = &$job_object;
-
 			if ( $job_object->substeps_done < $job_object->backup_filesize ) { //only if upload not complete
 				$response = $dropbox->upload( $job_object->backup_folder . $job_object->backup_file, $job_object->job['dropboxdir'] . $job_object->backup_file );
 				if ( $response['size'] == $job_object->backup_filesize ) {
@@ -451,6 +444,10 @@ final class BackWPup_Destination_Dropbox_API {
 	public function listFolder( $path ) {
 		$files = array();
 		$result = $this->filesListFolder( array( 'path' => $path ) );
+		if ( ! $result ) {
+			return array();
+		}
+		
 		$files = array_merge( $files, $result['entries'] );
 
 		$args = array( 'cursor' => $result['cursor'] );
@@ -535,8 +532,11 @@ final class BackWPup_Destination_Dropbox_API {
 
 		while ( $data = fread( $file_handel, $chunk_size ) ) {
 			$chunk_upload_start = microtime( true );
+			
+			if ( $this->job_object->is_debug() ) {
+				$this->job_object->log( sprintf( __( 'Uploading %s of data', 'backwpup' ), size_format( strlen( $data ) ) ) );
+			}
 
-			$this->job_object->log( sprintf( __( 'Uploading %s of data', 'backwpup' ), size_format( strlen( $data ) ) ) );
 			$this->filesUploadSessionAppendV2( array(
 				'contents' => $data,
 				'cursor' => array(
@@ -677,7 +677,7 @@ final class BackWPup_Destination_Dropbox_API {
 			return $this->request( 'files/get_metadata', $args );
 		}
 		catch ( BackWPup_Destination_Dropbox_API_Request_Exception $e ) {
-			$this->handleFilesGetMetadataError( $e->error() );
+			$this->handleFilesGetMetadataError( $e->getError() );
 		}
 	}
 
@@ -711,7 +711,7 @@ final class BackWPup_Destination_Dropbox_API {
 			Return $this->request( 'files/list_folder', $args );
 		}
 		catch ( BackWPup_Destination_Dropbox_API_Request_Exception $e ) {
-			$this->handleFilesListFolderError( $e->error() );
+			$this->handleFilesListFolderError( $e->getError() );
 		}
 	}
 
@@ -730,7 +730,7 @@ final class BackWPup_Destination_Dropbox_API {
 			Return $this->request( 'files/list_folder/continue', $args );
 		}
 		catch ( BackWPup_Destination_Dropbox_API_Request_Exception $e ) {
-			$this->handleFilesListFolderContinueError( $e->error() );
+			$this->handleFilesListFolderContinueError( $e->getError() );
 		}
 	}
 
@@ -898,7 +898,7 @@ final class BackWPup_Destination_Dropbox_API {
 			}
 
 		if ( $endpointFormat == 'oauth' ) {
-			curl_setopt( $ch, CURLOPT_POSTFIELDS, http_build_query( $args ) );
+			curl_setopt( $ch, CURLOPT_POSTFIELDS, http_build_query( $args, null, '&' ) );
 			$headers[] = 'Content-Type: application/x-www-form-urlencoded';
 		}
 		elseif ( $endpointFormat == 'rpc' ) {
@@ -1053,8 +1053,11 @@ final class BackWPup_Destination_Dropbox_API {
 	 * @return string The formatted path
 	 */
 	private function formatPath( $path ) {
-		if ( substr( $path, 0, 1 ) != '/' ) {
+		if ( ! empty( $path ) && substr( $path, 0, 1 ) != '/' ) {
 			$path = "/$path";
+		}
+		elseif ( $path == '/' ) {
+			$path = '';
 		}
 
 		return $path;

@@ -38,6 +38,8 @@ final class BackWPup_Admin {
 		add_action( 'admin_post_backwpup', array( $this, 'save_post_form' ) );
 		//Save Form posts wizard
 		add_action( 'admin_post_backwpup_wizard', array( 'BackWPup_Pro_Page_Wizard', 'save_post_form' ) );
+		// Save form posts for support
+		add_action( 'admin_post_backwpup_support', array( 'BackWPup_Pro_Page_Support', 'save_post_form' ) );
 		//Admin Footer Text replacement
 		add_filter( 'admin_footer_text', array( $this, 'admin_footer_text' ), 100 );
 		add_filter( 'update_footer', array( $this, 'update_footer' ), 100 );
@@ -89,6 +91,9 @@ final class BackWPup_Admin {
 		} else {
 			wp_register_script( 'backwpupgeneral', BackWPup::get_plugin_data( 'URL' ) . '/assets/js/general.min.js', array( 'jquery' ), BackWPup::get_plugin_data( 'Version' ), false );
 		}
+		
+		// Register clipboard.js script
+		wp_register_script( 'backwpup_clipboard', BackWPup::get_plugin_data( 'URL' ) . '/assets/js/clipboard.min.js', array( 'jquery' ), '1.7.1', true );
 
 		//add Help
 		BackWPup_Help::help();

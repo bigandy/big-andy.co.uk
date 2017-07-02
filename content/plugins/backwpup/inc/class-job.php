@@ -1708,10 +1708,10 @@ final class BackWPup_Job {
 			$dir = new BackWPup_Directory( $folder );
 	
 			foreach ( $dir as $file ) {
-				if ( $file->isDir() || $file->isDot() ) {
+				if ( $file->isDot() || $file->isDir() ) {
 					continue;
 				}
-				$path = str_replace( '\\', '/', realpath( $file->getPathname() ) );
+				$path = BackWPup_Path_Fixer::slashify( $file->getPathname() );
 				foreach ( $this->exclude_from_backup as $exclusion ) { //exclude files
 					$exclusion = trim( $exclusion );
 					if ( stripos( $path, $exclusion ) !== false && ! empty( $exclusion ) ) {
@@ -1731,7 +1731,7 @@ final class BackWPup_Job {
 						$this->log( sprintf( __( 'File size of “%s” cannot be retrieved. File might be too large and will not be added to queue.', 'backwpup' ), $file->getPathname() . ' ' . $file_size ), E_USER_WARNING );
 						continue;
 					}
-					$files[] = $path;
+					$files[] = BackWPup_Path_Fixer::slashify( realpath( $path ) );
 				}
 			}
 
@@ -2511,7 +2511,19 @@ final class BackWPup_Job {
 			'([0-5][0-9])'
 		);
 
-		$regex = "/^" . str_replace( $datevars, $dateregex, preg_quote( self::sanitize_file_name( $this->job['archivename'] ) ) ) . "$/i";
+		$regex = "/^" .
+			str_replace(
+				$datevars,
+				$dateregex,
+				preg_quote(
+					self::sanitize_file_name(
+						BackWPup_Option::normalize_archive_name(
+							$this->job['archivename'],
+							$this->job['jobid']
+						)
+					)
+				)
+			) . "$/i";
 
 		preg_match( $regex, $filename, $matches );
 		if ( ! empty( $matches[0] ) && $matches[0] === $filename ) {
