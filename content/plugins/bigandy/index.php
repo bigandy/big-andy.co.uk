@@ -153,6 +153,11 @@ require_once 'api-calls.php';
 require_once 'rest-api/wp-api.php';
 require_once 'refresh-service-worker.php';
 
+// Gutenberg blocks
+require_once 'gutenberg/random-image.php';
+
+
+
 if ( $options['shortcodes'] === "Y" ) {
 	require_once 'shortcodes.php';
 }
