@@ -16,7 +16,7 @@ serviceWorker.js
 bower-compenents/
 node_modules/
 
-vendor
+content/themes/v5/functions/vendor
 ## sublime text files
 *.sublime-*
 
