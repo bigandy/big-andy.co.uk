@@ -10,8 +10,7 @@
  */
 
 ### BEGIN AUTO-GENERATED DEFINES
-define( 'GUTENBERG_VERSION', '0.3.0' );
-define( 'GUTENBERG_GIT_COMMIT', '42b68a915fa652cde59da565a0e21e3f763de91c' );
+define( 'GUTENBERG_DEVELOPMENT_MODE', true );
 ### END AUTO-GENERATED DEFINES
 
 require_once dirname( __FILE__ ) . '/lib/init-checks.php';
