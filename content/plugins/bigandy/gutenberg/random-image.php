@@ -10,21 +10,22 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @since 0.1.0
  */
 function ah_gutenberg_random_image_block_enqueue_editor_assets() {
+	$js = 'js/random-image-block.js';
 	// Block scripts for the editor.
 	wp_enqueue_script(
 		'ah-random-image-editor',
-		plugins_url( 'js/random-image-block.js', __FILE__ ),
+		plugins_url( $js, __FILE__ ),
 		array( 'wp-blocks', 'wp-i18n', 'wp-element' ),
-		filemtime( plugin_dir_path( __FILE__ ) . 'js/random-image-block.js' )
+		filemtime( plugin_dir_path( __FILE__ ) . $js )
 	);
 
-
+	$css = 'css/random-image-block.css';
 	// Block styles for the editor.
 	wp_enqueue_style(
 		'ah-random-image-editor',
-		plugins_url( 'step-02/editor.css', __FILE__ ),
+		plugins_url( $css, __FILE__ ),
 		array( 'wp-edit-blocks' ),
-		filemtime( plugin_dir_path( __FILE__ ) . 'css/random-image-block.css' )
+		filemtime( plugin_dir_path( __FILE__ ) . $css )
 	);
 }
 add_action( 'enqueue_block_editor_assets', 'ah_gutenberg_random_image_block_enqueue_editor_assets' );
