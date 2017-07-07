@@ -1,11 +1,3 @@
-/**
- * Hello World: Step 1
- *
- * Simple block, renders and saves the same content without interactivity.
- *
- * Using inline styles - no external stylesheet needed.  Not recommended
- * because all of these styles will appear in `post_content`.
- */
 ( function( blocks, i18n, element ) {
 	var el = element.createElement;
 	var __ = i18n.__;
