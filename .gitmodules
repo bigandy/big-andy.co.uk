@@ -4,3 +4,6 @@
 [submodule "wp"]
 	path = wp
 	url = https://github.com/WordPress/WordPress.git
+[submodule "content/plugins/gutenberg"]
+	path = content/plugins/gutenberg
+	url = https://github.com/WordPress/gutenberg.git
