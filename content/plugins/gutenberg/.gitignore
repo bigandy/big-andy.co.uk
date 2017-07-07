@@ -1,0 +1,11 @@
+node_modules
+build
+coverage
+gutenberg.pot
+.vscode
+*.log
+yarn.lock
+gutenberg.zip
+storybook-static
+.DS_Store
+phpcs.xml
