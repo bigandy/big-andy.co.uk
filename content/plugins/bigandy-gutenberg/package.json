@@ -1,0 +1,45 @@
+{
+  "name": "bigandy-gutenberg",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "webpack --config webpack.config.js --watch",
+	"build": "webpack --config webpack.config.js -p"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "babel": "^6.23.0",
+    "babel-cli": "^6.24.1",
+    "babel-loader": "^7.1.1",
+    "babel-plugin-transform-react-jsx": "^6.24.1",
+    "babel-preset-env": "^1.6.0",
+    "webpack": "^3.1.0"
+  },
+  "babel": {
+  	"presets": [
+  		[ "env", {
+  			"modules": false,
+  			"targets": {
+  				"browsers": [
+  					"last 2 Chrome versions",
+  					"last 2 Firefox versions",
+  					"last 2 Safari versions",
+  					"last 2 iOS versions",
+  					"last 1 Android version",
+  					"last 1 ChromeAndroid version",
+  					"ie 11"
+  				]
+  			}
+  		} ]
+  	],
+  	"plugins": [
+  		[ "transform-react-jsx", {
+  			"pragma": "wp.element.createElement"
+  		} ]
+  	]
+  }
+}
