@@ -32,6 +32,40 @@ The more the merrier! To get started, check out our <a href="https://github.com/
 
 == Changelog ==
 
+= 0.5.0 =
+* New tabs mode for the sidebar to switch between post settings and block inspector.
+* Implement recent blocks display.
+* Mobile implementation of block mover, settings, and delete actions.
+* Search through all tabs on the inserter and hide tabs.
+* New documentation app to serve all tutorials, faqs, docs, etc.
+* Enable ability to add custom classes to blocks (via inspector).
+* Add ability to drag-and-drop on image block placeholders to upload images.
+* Add "table of contents" document outline for headings (with empty heading validation).
+* Refactor tests to use Jest API.
+* New block: Verse (intended for poetry, respecting whitespace).
+* Avoid showing UI when typing and starting a new paragraph (text block).
+* Display warning message when navigating away from the editor with unsaved changes.
+* Use old editor as "freeform".
+* Improve PHP parser compatibility with different server configurations ("mbstring" extension and PCRE settings).
+* Improve PostVisibility markup and accessibility.
+* Add shortcuts to manage indents and levels in List block.
+* Add alignment options to latest posts block.
+* Add focus styles for quick tags buttons in text mode.
+* Add way to report PHP parsing performance.
+* Add labels and roles to UrlInput.
+* Add ability to set custom placeholders for text and headings as attributes.
+* Show error message when trashing action fails.
+* Pass content to dynamic block render functions in PHP.
+* Fix various z-index issues and clarify reasonings.
+* Fix DropdownMenu arrows navigation and add missing aria-label.
+* Update sandboxed iframe size calculations.
+* Export inspector controls component under wp.blocks.
+* Adjust Travis JS builds to improve task allocation.
+* Fix warnings during tests.
+* Fix caret jumping when switching formatting in Editable.
+* Explicitly define prop-types as dependency.
+* Update list of supported browsers for consistency with core.
+
 = 0.4.0 =
 * Initial FAQ (in progress).
 * API for handling pasted content. (Aim is to have specific handling for converting Word, Markdown, Google Docs to native WordPress blocks.)

@@ -422,6 +422,11 @@ function gutenberg_editor_scripts_and_styles( $hook ) {
 	 * Scripts
 	 */
 	wp_enqueue_media();
+	wp_enqueue_editor();
+
+	wp_add_inline_script(
+		'editor', 'window.wp.oldEditor = window.wp.editor;', 'after'
+	);
 
 	gutenberg_extend_wp_api_backbone_client();
 
@@ -429,10 +434,70 @@ function gutenberg_editor_scripts_and_styles( $hook ) {
 	wp_enqueue_script(
 		'wp-editor',
 		gutenberg_url( 'editor/build/index.js' ),
-		array( 'wp-api', 'wp-date', 'wp-i18n', 'wp-blocks', 'wp-element', 'wp-components', 'wp-utils' ),
+		array( 'wp-api', 'wp-date', 'wp-i18n', 'wp-blocks', 'wp-element', 'wp-components', 'wp-utils', 'editor' ),
 		filemtime( gutenberg_dir_path() . 'editor/build/index.js' ),
 		true // enqueue in the footer.
 	);
+
+	wp_localize_script( 'wp-editor', 'wpEditorL10n', array(
+		'tinymce' => array(
+			'baseURL' => includes_url( 'js/tinymce' ),
+			'suffix' => SCRIPT_DEBUG ? '' : '.min',
+			'settings' => apply_filters( 'tiny_mce_before_init', array(
+				'external_plugins' => apply_filters( 'mce_external_plugins', array() ),
+				'plugins' => array_unique( apply_filters( 'tiny_mce_plugins', array(
+					'charmap',
+					'colorpicker',
+					'hr',
+					'lists',
+					'media',
+					'paste',
+					'tabfocus',
+					'textcolor',
+					'fullscreen',
+					'wordpress',
+					'wpautoresize',
+					'wpeditimage',
+					'wpemoji',
+					'wpgallery',
+					'wplink',
+					'wpdialogs',
+					'wptextpattern',
+					'wpview',
+				) ) ),
+				'toolbar1' => implode( ',', array_merge( apply_filters( 'mce_buttons', array(
+					'formatselect',
+					'bold',
+					'italic',
+					'bullist',
+					'numlist',
+					'blockquote',
+					'alignleft',
+					'aligncenter',
+					'alignright',
+					'link',
+					'unlink',
+					'wp_more',
+					'spellchecker',
+				), 'editor' ), array( 'kitchensink' ) ) ),
+				'toolbar2' => implode( ',', apply_filters( 'mce_buttons_2', array(
+					'strikethrough',
+					'hr',
+					'forecolor',
+					'pastetext',
+					'removeformat',
+					'charmap',
+					'outdent',
+					'indent',
+					'undo',
+					'redo',
+					'wp_help',
+				), 'editor' ) ),
+				'toolbar3' => implode( ',', apply_filters( 'mce_buttons_3', array(), 'editor' ) ),
+				'toolbar4' => implode( ',', apply_filters( 'mce_buttons_4', array(), 'editor' ) ),
+			), 'editor' ),
+		),
+	) );
 
 	// Register `wp-utils` as a dependency of `word-count` to ensure that
 	// `wp-utils` doesn't clobbber `word-count`.  See WordPress/gutenberg#1569.

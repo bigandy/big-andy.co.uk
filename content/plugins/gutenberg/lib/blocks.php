@@ -70,19 +70,30 @@ function unregister_block_type( $name ) {
 }
 
 /**
- * Renders the dynamic blocks into the post content
+ * Parses blocks out of a content string.
+ *
+ * @since 0.5.0
+ *
+ * @param  string $content Post content.
+ * @return array  Array of parsed block objects.
+ */
+function gutenberg_parse_blocks( $content ) {
+	$parser = new Gutenberg_PEG_Parser;
+	return $parser->parse( _gutenberg_utf8_split( $content ) );
+}
+
+/**
+ * Parses dynamic blocks out of `post_content` and re-renders them.
  *
  * @since 0.1.0
  *
  * @param  string $content Post content.
- *
  * @return string          Updated post content.
  */
 function do_blocks( $content ) {
 	global $wp_registered_blocks;
 
-	$parser = new Gutenberg_PEG_Parser;
-	$blocks = $parser->parse( $content );
+	$blocks = gutenberg_parse_blocks( $content );
 
 	$content_after_blocks = '';
 
@@ -90,9 +101,16 @@ function do_blocks( $content ) {
 		$block_name = isset( $block['blockName'] ) ? $block['blockName'] : null;
 		$attributes = is_array( $block['attrs'] ) ? $block['attrs'] : array();
 		if ( $block_name && isset( $wp_registered_blocks[ $block_name ] ) ) {
+
+			$content = null;
+			if ( isset( $block['rawContent'] ) ) {
+				$content = $block['rawContent'];
+			}
+
 			$content_after_blocks .= call_user_func(
 				$wp_registered_blocks[ $block_name ]['render'],
-				$attributes
+				$attributes,
+				$content
 			);
 		} else {
 			$content_after_blocks .= $block['rawContent'];
