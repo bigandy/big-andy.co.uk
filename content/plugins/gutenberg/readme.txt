@@ -32,6 +32,67 @@ The more the merrier! To get started, check out our <a href="https://github.com/
 
 == Changelog ==
 
+= 0.6.0 =
+* Split paragraphs on enter—we have been exploring different behaviours here.
+* Added grid layout option for latest posts with columns slider control.
+* Show internal posts / pages results when creating links.
+* Added "Cover Text" block with background, text color, and full-width options.
+* Autosaving drafts.
+* Added "Read More" block.
+* Added color options to the button block.
+* Added mechanism for validating and protecting blocks that may have suffered unrecognized edits.
+* Add patterns plugin for text formatting shortcuts: create lists by adding * at the beginning of a text line, use # to create headings, and backticks for code.
+* Implement initial support for Cmd/Ctrl+Z (undo) and Cmd/Ctrl+Shift+Z (redo).
+* Improve pasting experience from outside editors by transforming content before converting to blocks.
+* Improve gallery creation flow by opening into "gallery" mode from placeholder.
+* Added page attributes with menu order setting.
+* Use two distinct icons for quote style variations.
+* Created KeyboardShortcuts component to handle keyboard events.
+* Add support for custom icons (non dashicons) on blocks.
+* Initialize new posts with auto-draft to match behaviour of existing editor.
+* Don't display "save" button for published posts.
+* Added ability to set a block as "use once" only (example: "read more" block).
+* Hide gallery display settings in media modal.
+* Simplify "cover image" markup and resolve conflict state in demo.
+* Introduce PHP classes for interacting with block types.
+* Announce block search results to assistive technologies.
+* Reveal "continue writing" shortcuts on focus.
+* Update document.title when the post title changes.
+* Added focus styles to several elements in the UI.
+* Added external-link component to handle links opening in new tabs or windows.
+* Improve responsive video on embed previews.
+* Improve "speak" messages for tag suggestions.
+* Make sure newly created blocks are marked as valid.
+* Preserve valid state during transformations.
+* Allow tabbing away from table.
+* Improve display of focused panel titles.
+* Adjust padding and margins across various design elements for consistency and normalization.
+* Fix pasting freeform content.
+* Fix proper propagation of updated block attributes.
+* Fix parsing and serialization of multi-paragraph pullquotes.
+* Fix a case where toggling pending preview would consider post as saved.
+* Fix positioning of block mover on full-width blocks.
+* Fix line height regression in quote styles.
+* Fix IE11 with polyfill for fetch method.
+* Fix case where blocks are created with isTyping and it never clears.
+* Fix block warning display in IE11.
+* Polish inspector visual design.
+* Prevent unhandled actions from returning new state reference.
+* Prevent unintentionally clearing link input value.
+* Added focus styles to switch toggle components.
+* Avoid navigating outside the editor with arrow keys.
+* Add short description to Verse block.
+* Initialize demo content only for new demo posts.
+* Improve insert link accessibility.
+* Improve version compare checks for plugin compatibility.
+* Clean up obsolete poststoshowattribute in LatestPosts block.
+* Consolidate addQueryArgs usage.
+* Add unit tests to inserter.
+* Update fixtures with latest modifications and ensure all end in newlines.
+* Added codecov for code coverage.
+* Clean up JSDoc comments.
+* Link to new docs within main readme.
+
 = 0.5.0 =
 * New tabs mode for the sidebar to switch between post settings and block inspector.
 * Implement recent blocks display.
