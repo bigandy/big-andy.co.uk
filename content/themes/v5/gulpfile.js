@@ -287,7 +287,7 @@ gulp.task('default', [
 	'watch'
 ]);
 
-gulp.task('build', [
+gulp.task('deploy', [
 	'uncss',
 	'js:prod',
 	'critical-css',
