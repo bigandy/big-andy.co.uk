@@ -83,15 +83,20 @@ add_action( 'rest_api_init', 'ah_register_rest_fields' );
  *
  * @param obj $endpoints The existing WordPress endpoints.
  */
-add_filter( 'rest_endpoints', function( $endpoints ) {
-	if ( isset( $endpoints['/wp/v2/users'] ) ) {
-		unset( $endpoints['/wp/v2/users'] );
-	}
-	if ( isset( $endpoints['/wp/v2/users/(?P<id>[\d]+)'] ) ) {
-		unset( $endpoints['/wp/v2/users/(?P<id>[\d]+)'] );
-	}
-	return $endpoints;
-} );
+
+if ( ! is_user_logged_in() ) {
+	add_filter( 'rest_endpoints', function( $endpoints ) {
+		if ( isset( $endpoints['/wp/v2/users'] ) ) {
+			unset( $endpoints['/wp/v2/users'] );
+		}
+		if ( isset( $endpoints['/wp/v2/users/(?P<id>[\d]+)'] ) ) {
+			unset( $endpoints['/wp/v2/users/(?P<id>[\d]+)'] );
+		}
+		return $endpoints;
+	} );
+}
+
+
 
 
 /**
@@ -218,8 +223,6 @@ function ah_get_posts_pages_data() {
 					)
 				);
 			}
-
-
 		}
 		wp_reset_postdata();
 

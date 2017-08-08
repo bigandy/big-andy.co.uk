@@ -153,20 +153,19 @@ require_once 'api-calls.php';
 require_once 'rest-api/wp-api.php';
 require_once 'refresh-service-worker.php';
 
-// Gutenberg blocks
+// // Gutenberg blocks
 require_once 'gutenberg/random-image.php';
 
 
-
-if ( $options['shortcodes'] === "Y" ) {
+if ( "Y" === $options['shortcodes'] ) {
 	require_once 'shortcodes.php';
 }
-if ( $options['security'] === "Y" ) {
+if ( "Y" === $options['security'] ) {
 	require_once 'security-stuff.php';
 }
-if ( $options['menu'] === "Y" ) {
+if ( "Y" === $options['menu'] ) {
 	require_once 'remove-menu-classes.php';
 }
-if ( $options['images'] === "Y" ) {
+if ( "Y" === $options['images'] ) {
 	require_once 'images.php';
 }

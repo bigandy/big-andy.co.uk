@@ -87,7 +87,7 @@ if ( "Y" === $options['admin'] ) {
 
 		remove_menu_page( 'wpseo_dashboard' );
 
-    	remove_submenu_page( 'edit.php', 'edit-tags.php?taxonomy=category' );
+		remove_submenu_page( 'edit.php', 'edit-tags.php?taxonomy=category' );
 		remove_submenu_page( 'edit.php', 'edit-tags.php?taxonomy=post_tag' );
 	}
 	add_action( 'admin_menu', 'ah_remove_menus' );
@@ -125,7 +125,6 @@ if ( "Y" === $options['admin'] ) {
  * @package WordPress
  *
  */
-
 function ba_remove_dashboard_widgets() {
 	global $wp_meta_boxes;
 
@@ -144,51 +143,50 @@ add_action('wp_dashboard_setup', 'ba_remove_dashboard_widgets' );
  * function ba_replace_howdy()
  *
  */
-
 function ba_replace_howdy( $wp_admin_bar ) {
-    $my_account=$wp_admin_bar->get_node( 'my-account' );
-    $newtitle = str_replace( 'Howdy,', 'Logged in as', $my_account->title );
-    $wp_admin_bar->add_node(
-    	[
-	        'id' => 'my-account',
-	        'title' => $newtitle,
-    	]
-    );
+	$my_account = $wp_admin_bar->get_node( 'my-account' );
+	$newtitle = str_replace( 'Howdy,', 'Logged in as', $my_account->title );
+	$wp_admin_bar->add_node(
+		[
+			'id' => 'my-account',
+			'title' => $newtitle,
+		]
+	);
 }
 add_filter( 'admin_bar_menu', 'ba_replace_howdy', 25 );
 
 
 function ba_custom_admin_logo() {
   echo '<style>
-  			:root {
+			:root {
 				--red: #C1272D;
 			}
 
-          	#login h1 a {
+			#login h1 a {
 				background-image: none;
 				background-color: var(--red);
 				display: flex;
 				justify-content: center;
 				align-items: center;
 				padding: 1em;
-				clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
+				clip-path: polygon(0% 50%, 15% 85%, 50% 100%, 85% 85%, 100% 50%, 85% 15%, 50% 0%, 15% 15%);
 				color: white;
 				font-weight: bold;
 				text-indent: 0;
-  			}
+			}
 
-  			#login [type="submit"] {
+			#login [type="submit"] {
 				background-color: var(--red);
 				border-color: transparent;
 				box-shadow: none;
 				border-radius: 0;
 				text-shadow: none;
-  			}
+			}
 
-  			#login input:focus {
-  				box-shadow: none;
-  				border-color: var(--red);
-  			}
-        </style>';
+			#login input:focus {
+				box-shadow: none;
+				border-color: var(--red);
+			}
+		</style>';
 }
 add_action( 'login_enqueue_scripts', 'ba_custom_admin_logo' );
