@@ -47,6 +47,10 @@ function gutenberg_get_script_polyfill( $tests ) {
 
 	$polyfill = '';
 	foreach ( $tests as $test => $handle ) {
+		if ( ! array_key_exists( $handle, $wp_scripts->registered ) ) {
+			continue;
+		}
+
 		$polyfill .= (
 			// Test presence of feature...
 			'( ' . $test . ' ) || ' .
@@ -125,13 +129,13 @@ function gutenberg_register_scripts_and_styles() {
 	wp_register_script(
 		'wp-components',
 		gutenberg_url( 'components/build/index.js' ),
-		array( 'wp-element', 'wp-a11y' ),
+		array( 'wp-element', 'wp-a11y', 'wp-i18n', 'wp-utils' ),
 		filemtime( gutenberg_dir_path() . 'components/build/index.js' )
 	);
 	wp_register_script(
 		'wp-blocks',
 		gutenberg_url( 'blocks/build/index.js' ),
-		array( 'wp-element', 'wp-components', 'wp-utils', 'tinymce-nightly', 'tinymce-nightly-lists', 'tinymce-nightly-paste', 'tinymce-nightly-table', 'media-views', 'media-models' ),
+		array( 'wp-element', 'wp-components', 'wp-utils', 'wp-i18n', 'tinymce-nightly', 'tinymce-nightly-lists', 'tinymce-nightly-paste', 'tinymce-nightly-table', 'media-views', 'media-models' ),
 		filemtime( gutenberg_dir_path() . 'blocks/build/index.js' )
 	);
 	wp_add_inline_script(
@@ -190,7 +194,7 @@ function gutenberg_register_vendor_scripts() {
 	);
 	gutenberg_register_vendor_script(
 		'react-dom-server',
-		'https://unpkg.com/react-dom@next/umd/react-dom-server' . $react_suffix . '.js',
+		'https://unpkg.com/react-dom@next/umd/react-dom-server.browser' . $react_suffix . '.js',
 		array( 'react' )
 	);
 	$moment_script = SCRIPT_DEBUG ? 'moment.js' : 'min/moment.min.js';
@@ -373,6 +377,15 @@ function gutenberg_extend_wp_api_backbone_client() {
 		};
 JS;
 	wp_add_inline_script( 'wp-api', $script );
+
+	// Localize the wp-api settings and schema.
+	$schema_response = rest_do_request( new WP_REST_Request( 'GET', '/wp/v2' ) );
+	if ( ! $schema_response->is_error() ) {
+		wp_add_inline_script( 'wp-api', sprintf(
+			'wpApiSettings.cacheSchema = true; wpApiSettings.schema = %s;',
+			wp_json_encode( $schema_response->get_data() )
+		), 'before' );
+	}
 }
 
 /**
@@ -446,6 +459,30 @@ add_action( 'wp_enqueue_scripts', 'gutenberg_common_scripts_and_styles' );
 add_action( 'admin_enqueue_scripts', 'gutenberg_common_scripts_and_styles' );
 
 /**
+ * Returns a default color palette.
+ *
+ * @return array Color strings in hex format.
+ *
+ * @since 0.7.0
+ */
+function gutenberg_color_palette() {
+	return array(
+		'#f78da7',
+		'#eb144c',
+		'#ff6900',
+		'#fcb900',
+		'#7bdcb5',
+		'#00d084',
+		'#8ed1fc',
+		'#0693e3',
+		'#eee',
+		'#abb8c3',
+		'#444',
+		'#111',
+	);
+}
+
+/**
  * Scripts & Styles.
  *
  * Enqueues the needed scripts and styles when visiting the top-level page of
@@ -477,6 +514,7 @@ function gutenberg_editor_scripts_and_styles( $hook ) {
 		true // enqueue in the footer.
 	);
 
+	gutenberg_fix_jetpack_freeform_block_conflict();
 	wp_localize_script( 'wp-editor', 'wpEditorL10n', array(
 		'tinymce' => array(
 			'baseURL' => includes_url( 'js/tinymce' ),
@@ -611,7 +649,22 @@ function gutenberg_editor_scripts_and_styles( $hook ) {
 	);
 
 	// Initialize the editor.
-	wp_add_inline_script( 'wp-editor', 'wp.api.init().done( function() { wp.editor.createEditorInstance( \'editor\', window._wpGutenbergPost ); } );' );
+	$gutenberg_theme_support = get_theme_support( 'gutenberg' );
+	$color_palette = gutenberg_color_palette();
+
+	if ( $gutenberg_theme_support && $gutenberg_theme_support[0]['colors'] ) {
+		$color_palette = $gutenberg_theme_support[0]['colors'];
+	}
+
+	$editor_settings = array(
+		'wideImages' => $gutenberg_theme_support ? $gutenberg_theme_support[0]['wide-images'] : false,
+		'colors' => $color_palette,
+	);
+
+	wp_add_inline_script( 'wp-editor', 'wp.api.init().done( function() {'
+		. 'wp.editor.createEditorInstance( \'editor\', window._wpGutenbergPost, ' . json_encode( $editor_settings ) . ' ); '
+		. '} );'
+	);
 
 	/**
 	 * Scripts

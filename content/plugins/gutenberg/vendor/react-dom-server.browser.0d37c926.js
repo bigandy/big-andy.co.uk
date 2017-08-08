@@ -1,5 +1,5 @@
 /**
- * react-dom-server.development.js v16.0.0-beta.2
+ * react-dom-server.browser.development.js v16.0.0-beta.3
  */
 
 (function (global, factory) {
@@ -7,18 +7,6 @@
 	typeof define === 'function' && define.amd ? define(['react'], factory) :
 	(global.ReactDOMServer = factory(global.React));
 }(this, (function (react) { 'use strict';
-
-/**
- * Copyright (c) 2013-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- *
- * @providesModule reactProdInvariant
- * 
- */
 
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
@@ -73,6 +61,18 @@ function invariant(condition, format, a, b, c, d, e, f) {
 }
 
 var invariant_1 = invariant;
+
+/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ * @providesModule reactProdInvariant
+ * 
+ */
 
 /*
 object-assign
@@ -601,7 +601,9 @@ function isAttributeNameSafe(attributeName) {
     return true;
   }
   illegalAttributeNameCache[attributeName] = true;
-  warning$1(false, 'Invalid attribute name: `%s`', attributeName);
+  {
+    warning$1(false, 'Invalid attribute name: `%s`', attributeName);
+  }
   return false;
 }
 
@@ -672,174 +674,6 @@ var DOMMarkupOperations = {
 };
 
 var DOMMarkupOperations_1 = DOMMarkupOperations;
-
-/**
- * Injectable ordering of event plugins.
- */
-var eventPluginOrder = null;
-
-/**
- * Injectable mapping from names to event plugin modules.
- */
-var namesToPlugins = {};
-
-/**
- * Recomputes the plugin list using the injected plugins and plugin ordering.
- *
- * @private
- */
-function recomputePluginOrdering() {
-  if (!eventPluginOrder) {
-    // Wait until an `eventPluginOrder` is injected.
-    return;
-  }
-  for (var pluginName in namesToPlugins) {
-    var pluginModule = namesToPlugins[pluginName];
-    var pluginIndex = eventPluginOrder.indexOf(pluginName);
-    !(pluginIndex > -1) ? invariant_1(false, 'EventPluginRegistry: Cannot inject event plugins that do not exist in the plugin ordering, `%s`.', pluginName) : void 0;
-    if (EventPluginRegistry.plugins[pluginIndex]) {
-      continue;
-    }
-    !pluginModule.extractEvents ? invariant_1(false, 'EventPluginRegistry: Event plugins must implement an `extractEvents` method, but `%s` does not.', pluginName) : void 0;
-    EventPluginRegistry.plugins[pluginIndex] = pluginModule;
-    var publishedEvents = pluginModule.eventTypes;
-    for (var eventName in publishedEvents) {
-      !publishEventForPlugin(publishedEvents[eventName], pluginModule, eventName) ? invariant_1(false, 'EventPluginRegistry: Failed to publish event `%s` for plugin `%s`.', eventName, pluginName) : void 0;
-    }
-  }
-}
-
-/**
- * Publishes an event so that it can be dispatched by the supplied plugin.
- *
- * @param {object} dispatchConfig Dispatch configuration for the event.
- * @param {object} PluginModule Plugin publishing the event.
- * @return {boolean} True if the event was successfully published.
- * @private
- */
-function publishEventForPlugin(dispatchConfig, pluginModule, eventName) {
-  !!EventPluginRegistry.eventNameDispatchConfigs.hasOwnProperty(eventName) ? invariant_1(false, 'EventPluginHub: More than one plugin attempted to publish the same event name, `%s`.', eventName) : void 0;
-  EventPluginRegistry.eventNameDispatchConfigs[eventName] = dispatchConfig;
-
-  var phasedRegistrationNames = dispatchConfig.phasedRegistrationNames;
-  if (phasedRegistrationNames) {
-    for (var phaseName in phasedRegistrationNames) {
-      if (phasedRegistrationNames.hasOwnProperty(phaseName)) {
-        var phasedRegistrationName = phasedRegistrationNames[phaseName];
-        publishRegistrationName(phasedRegistrationName, pluginModule, eventName);
-      }
-    }
-    return true;
-  } else if (dispatchConfig.registrationName) {
-    publishRegistrationName(dispatchConfig.registrationName, pluginModule, eventName);
-    return true;
-  }
-  return false;
-}
-
-/**
- * Publishes a registration name that is used to identify dispatched events.
- *
- * @param {string} registrationName Registration name to add.
- * @param {object} PluginModule Plugin publishing the event.
- * @private
- */
-function publishRegistrationName(registrationName, pluginModule, eventName) {
-  !!EventPluginRegistry.registrationNameModules[registrationName] ? invariant_1(false, 'EventPluginHub: More than one plugin attempted to publish the same registration name, `%s`.', registrationName) : void 0;
-  EventPluginRegistry.registrationNameModules[registrationName] = pluginModule;
-  EventPluginRegistry.registrationNameDependencies[registrationName] = pluginModule.eventTypes[eventName].dependencies;
-
-  {
-    var lowerCasedName = registrationName.toLowerCase();
-    EventPluginRegistry.possibleRegistrationNames[lowerCasedName] = registrationName;
-
-    if (registrationName === 'onDoubleClick') {
-      EventPluginRegistry.possibleRegistrationNames.ondblclick = registrationName;
-    }
-  }
-}
-
-/**
- * Registers plugins so that they can extract and dispatch events.
- *
- * @see {EventPluginHub}
- */
-var EventPluginRegistry = {
-  /**
-   * Ordered list of injected plugins.
-   */
-  plugins: [],
-
-  /**
-   * Mapping from event name to dispatch config
-   */
-  eventNameDispatchConfigs: {},
-
-  /**
-   * Mapping from registration name to plugin module
-   */
-  registrationNameModules: {},
-
-  /**
-   * Mapping from registration name to event name
-   */
-  registrationNameDependencies: {},
-
-  /**
-   * Mapping from lowercase registration names to the properly cased version,
-   * used to warn in the case of missing event handlers. Available
-   * only in true.
-   * @type {Object}
-   */
-  possibleRegistrationNames: {},
-  // Trust the developer to only use possibleRegistrationNames in true
-
-  /**
-   * Injects an ordering of plugins (by plugin name). This allows the ordering
-   * to be decoupled from injection of the actual plugins so that ordering is
-   * always deterministic regardless of packaging, on-the-fly injection, etc.
-   *
-   * @param {array} InjectedEventPluginOrder
-   * @internal
-   * @see {EventPluginHub.injection.injectEventPluginOrder}
-   */
-  injectEventPluginOrder: function (injectedEventPluginOrder) {
-    !!eventPluginOrder ? invariant_1(false, 'EventPluginRegistry: Cannot inject event plugin ordering more than once. You are likely trying to load more than one copy of React.') : void 0;
-    // Clone the ordering so it cannot be dynamically mutated.
-    eventPluginOrder = Array.prototype.slice.call(injectedEventPluginOrder);
-    recomputePluginOrdering();
-  },
-
-  /**
-   * Injects plugins to be used by `EventPluginHub`. The plugin names must be
-   * in the ordering injected by `injectEventPluginOrder`.
-   *
-   * Plugins can be injected as part of page initialization or on-the-fly.
-   *
-   * @param {object} injectedNamesToPlugins Map from names to plugin modules.
-   * @internal
-   * @see {EventPluginHub.injection.injectEventPluginsByName}
-   */
-  injectEventPluginsByName: function (injectedNamesToPlugins) {
-    var isOrderingDirty = false;
-    for (var pluginName in injectedNamesToPlugins) {
-      if (!injectedNamesToPlugins.hasOwnProperty(pluginName)) {
-        continue;
-      }
-      var pluginModule = injectedNamesToPlugins[pluginName];
-      if (!namesToPlugins.hasOwnProperty(pluginName) || namesToPlugins[pluginName] !== pluginModule) {
-        !!namesToPlugins[pluginName] ? invariant_1(false, 'EventPluginRegistry: Cannot inject two different event plugins using the same name, `%s`.', pluginName) : void 0;
-        namesToPlugins[pluginName] = pluginModule;
-        isOrderingDirty = true;
-      }
-    }
-    if (isOrderingDirty) {
-      recomputePluginOrdering();
-    }
-  }
-};
-
-var EventPluginRegistry_1 = EventPluginRegistry;
 
 function createCommonjsModule(fn, module) {
 	return module = { exports: {} }, fn(module, module.exports), module.exports;
@@ -1904,7 +1738,7 @@ var camelizeStyleName_1 = camelizeStyleName$1;
  * 
  */
 
-function getComponentName$1(instanceOrFiber) {
+function getComponentName$2(instanceOrFiber) {
   if (typeof instanceOrFiber.getName === 'function') {
     // Stack reconciler
     var instance = instanceOrFiber;
@@ -1925,7 +1759,7 @@ function getComponentName$1(instanceOrFiber) {
   return null;
 }
 
-var getComponentName_1 = getComponentName$1;
+var getComponentName_1 = getComponentName$2;
 
 var ReactInternals = react.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
 
@@ -2032,7 +1866,7 @@ var ReactFiberComponentTreeHook = {
 var ReactDebugCurrentFrame$1 = ReactGlobalSharedState_1.ReactDebugCurrentFrame;
 
 {
-  var getComponentName$2 = getComponentName_1;
+  var getComponentName$3 = getComponentName_1;
 
   var _require2$1 = ReactFiberComponentTreeHook,
       getStackAddendumByWorkInProgressFiber = _require2$1.getStackAddendumByWorkInProgressFiber;
@@ -2045,7 +1879,7 @@ function getCurrentFiberOwnerName$1() {
       return null;
     }
     if (fiber._debugOwner != null) {
-      return getComponentName$2(fiber._debugOwner);
+      return getComponentName$3(fiber._debugOwner);
     }
   }
   return null;
@@ -2091,11 +1925,11 @@ var warnValidStyle$1 = emptyFunction_1;
 
 {
   var camelizeStyleName = camelizeStyleName_1;
-  var getComponentName = getComponentName_1;
+  var getComponentName$1 = getComponentName_1;
   var warning$6 = warning_1;
 
-  var _require = ReactDebugCurrentFiber_1,
-      getCurrentFiberOwnerName = _require.getCurrentFiberOwnerName;
+  var _require$1 = ReactDebugCurrentFiber_1,
+      getCurrentFiberOwnerName = _require$1.getCurrentFiberOwnerName;
 
   // 'msTransform' is correct, but the other prefixes should be capitalized
 
@@ -2159,7 +1993,7 @@ var warnValidStyle$1 = emptyFunction_1;
     var ownerName;
     if (owner != null) {
       // Stack passes the owner manually all the way to CSSPropertyOperations.
-      ownerName = getComponentName(owner);
+      ownerName = getComponentName$1(owner);
     } else {
       // Fiber doesn't pass it but uses ReactDebugCurrentFiber to track it.
       // It is only enabled in development and tracks host components too.
@@ -2204,9 +2038,9 @@ var rARIA = new RegExp('^(aria)-[' + DOMProperty_1.ATTRIBUTE_NAME_CHAR + ']*$');
 {
   var warning$7 = warning_1;
 
-  var _require$1 = ReactGlobalSharedState_1,
-      ReactComponentTreeHook = _require$1.ReactComponentTreeHook,
-      ReactDebugCurrentFrame$2 = _require$1.ReactDebugCurrentFrame;
+  var _require$2 = ReactGlobalSharedState_1,
+      ReactComponentTreeHook = _require$2.ReactComponentTreeHook,
+      ReactDebugCurrentFrame$2 = _require$2.ReactDebugCurrentFrame;
 
   var getStackAddendumByID = ReactComponentTreeHook.getStackAddendumByID;
 }
@@ -2281,12 +2115,12 @@ var ReactDOMInvalidARIAHook = {
   validateProperties: validateProperties,
   // Stack
   onBeforeMountComponent: function (debugID, element) {
-    if ('development' !== 'production' && element != null && typeof element.type === 'string') {
+    if (true && element != null && typeof element.type === 'string') {
       validateProperties(element.type, element.props, debugID);
     }
   },
   onBeforeUpdateComponent: function (debugID, element) {
-    if ('development' !== 'production' && element != null && typeof element.type === 'string') {
+    if (true && element != null && typeof element.type === 'string') {
       validateProperties(element.type, element.props, debugID);
     }
   }
@@ -2297,9 +2131,9 @@ var ReactDOMInvalidARIAHook_1 = ReactDOMInvalidARIAHook;
 {
   var warning$8 = warning_1;
 
-  var _require$2 = ReactGlobalSharedState_1,
-      ReactComponentTreeHook$1 = _require$2.ReactComponentTreeHook,
-      ReactDebugCurrentFrame$3 = _require$2.ReactDebugCurrentFrame;
+  var _require$3 = ReactGlobalSharedState_1,
+      ReactComponentTreeHook$1 = _require$3.ReactComponentTreeHook,
+      ReactDebugCurrentFrame$3 = _require$3.ReactDebugCurrentFrame;
 
   var getStackAddendumByID$1 = ReactComponentTreeHook$1.getStackAddendumByID;
 }
@@ -2333,12 +2167,12 @@ var ReactDOMNullInputValuePropHook = {
   validateProperties: validateProperties$1,
   // Stack
   onBeforeMountComponent: function (debugID, element) {
-    if ('development' !== 'production' && element != null && typeof element.type === 'string') {
+    if (true && element != null && typeof element.type === 'string') {
       validateProperties$1(element.type, element.props, debugID);
     }
   },
   onBeforeUpdateComponent: function (debugID, element) {
-    if ('development' !== 'production' && element != null && typeof element.type === 'string') {
+    if (true && element != null && typeof element.type === 'string') {
       validateProperties$1(element.type, element.props, debugID);
     }
   }
@@ -2346,12 +2180,180 @@ var ReactDOMNullInputValuePropHook = {
 
 var ReactDOMNullInputValuePropHook_1 = ReactDOMNullInputValuePropHook;
 
+/**
+ * Injectable ordering of event plugins.
+ */
+var eventPluginOrder = null;
+
+/**
+ * Injectable mapping from names to event plugin modules.
+ */
+var namesToPlugins = {};
+
+/**
+ * Recomputes the plugin list using the injected plugins and plugin ordering.
+ *
+ * @private
+ */
+function recomputePluginOrdering() {
+  if (!eventPluginOrder) {
+    // Wait until an `eventPluginOrder` is injected.
+    return;
+  }
+  for (var pluginName in namesToPlugins) {
+    var pluginModule = namesToPlugins[pluginName];
+    var pluginIndex = eventPluginOrder.indexOf(pluginName);
+    !(pluginIndex > -1) ? invariant_1(false, 'EventPluginRegistry: Cannot inject event plugins that do not exist in the plugin ordering, `%s`.', pluginName) : void 0;
+    if (EventPluginRegistry.plugins[pluginIndex]) {
+      continue;
+    }
+    !pluginModule.extractEvents ? invariant_1(false, 'EventPluginRegistry: Event plugins must implement an `extractEvents` method, but `%s` does not.', pluginName) : void 0;
+    EventPluginRegistry.plugins[pluginIndex] = pluginModule;
+    var publishedEvents = pluginModule.eventTypes;
+    for (var eventName in publishedEvents) {
+      !publishEventForPlugin(publishedEvents[eventName], pluginModule, eventName) ? invariant_1(false, 'EventPluginRegistry: Failed to publish event `%s` for plugin `%s`.', eventName, pluginName) : void 0;
+    }
+  }
+}
+
+/**
+ * Publishes an event so that it can be dispatched by the supplied plugin.
+ *
+ * @param {object} dispatchConfig Dispatch configuration for the event.
+ * @param {object} PluginModule Plugin publishing the event.
+ * @return {boolean} True if the event was successfully published.
+ * @private
+ */
+function publishEventForPlugin(dispatchConfig, pluginModule, eventName) {
+  !!EventPluginRegistry.eventNameDispatchConfigs.hasOwnProperty(eventName) ? invariant_1(false, 'EventPluginHub: More than one plugin attempted to publish the same event name, `%s`.', eventName) : void 0;
+  EventPluginRegistry.eventNameDispatchConfigs[eventName] = dispatchConfig;
+
+  var phasedRegistrationNames = dispatchConfig.phasedRegistrationNames;
+  if (phasedRegistrationNames) {
+    for (var phaseName in phasedRegistrationNames) {
+      if (phasedRegistrationNames.hasOwnProperty(phaseName)) {
+        var phasedRegistrationName = phasedRegistrationNames[phaseName];
+        publishRegistrationName(phasedRegistrationName, pluginModule, eventName);
+      }
+    }
+    return true;
+  } else if (dispatchConfig.registrationName) {
+    publishRegistrationName(dispatchConfig.registrationName, pluginModule, eventName);
+    return true;
+  }
+  return false;
+}
+
+/**
+ * Publishes a registration name that is used to identify dispatched events.
+ *
+ * @param {string} registrationName Registration name to add.
+ * @param {object} PluginModule Plugin publishing the event.
+ * @private
+ */
+function publishRegistrationName(registrationName, pluginModule, eventName) {
+  !!EventPluginRegistry.registrationNameModules[registrationName] ? invariant_1(false, 'EventPluginHub: More than one plugin attempted to publish the same registration name, `%s`.', registrationName) : void 0;
+  EventPluginRegistry.registrationNameModules[registrationName] = pluginModule;
+  EventPluginRegistry.registrationNameDependencies[registrationName] = pluginModule.eventTypes[eventName].dependencies;
+
+  {
+    var lowerCasedName = registrationName.toLowerCase();
+    EventPluginRegistry.possibleRegistrationNames[lowerCasedName] = registrationName;
+
+    if (registrationName === 'onDoubleClick') {
+      EventPluginRegistry.possibleRegistrationNames.ondblclick = registrationName;
+    }
+  }
+}
+
+/**
+ * Registers plugins so that they can extract and dispatch events.
+ *
+ * @see {EventPluginHub}
+ */
+var EventPluginRegistry = {
+  /**
+   * Ordered list of injected plugins.
+   */
+  plugins: [],
+
+  /**
+   * Mapping from event name to dispatch config
+   */
+  eventNameDispatchConfigs: {},
+
+  /**
+   * Mapping from registration name to plugin module
+   */
+  registrationNameModules: {},
+
+  /**
+   * Mapping from registration name to event name
+   */
+  registrationNameDependencies: {},
+
+  /**
+   * Mapping from lowercase registration names to the properly cased version,
+   * used to warn in the case of missing event handlers. Available
+   * only in true.
+   * @type {Object}
+   */
+  possibleRegistrationNames: {},
+  // Trust the developer to only use possibleRegistrationNames in true
+
+  /**
+   * Injects an ordering of plugins (by plugin name). This allows the ordering
+   * to be decoupled from injection of the actual plugins so that ordering is
+   * always deterministic regardless of packaging, on-the-fly injection, etc.
+   *
+   * @param {array} InjectedEventPluginOrder
+   * @internal
+   * @see {EventPluginHub.injection.injectEventPluginOrder}
+   */
+  injectEventPluginOrder: function (injectedEventPluginOrder) {
+    !!eventPluginOrder ? invariant_1(false, 'EventPluginRegistry: Cannot inject event plugin ordering more than once. You are likely trying to load more than one copy of React.') : void 0;
+    // Clone the ordering so it cannot be dynamically mutated.
+    eventPluginOrder = Array.prototype.slice.call(injectedEventPluginOrder);
+    recomputePluginOrdering();
+  },
+
+  /**
+   * Injects plugins to be used by `EventPluginHub`. The plugin names must be
+   * in the ordering injected by `injectEventPluginOrder`.
+   *
+   * Plugins can be injected as part of page initialization or on-the-fly.
+   *
+   * @param {object} injectedNamesToPlugins Map from names to plugin modules.
+   * @internal
+   * @see {EventPluginHub.injection.injectEventPluginsByName}
+   */
+  injectEventPluginsByName: function (injectedNamesToPlugins) {
+    var isOrderingDirty = false;
+    for (var pluginName in injectedNamesToPlugins) {
+      if (!injectedNamesToPlugins.hasOwnProperty(pluginName)) {
+        continue;
+      }
+      var pluginModule = injectedNamesToPlugins[pluginName];
+      if (!namesToPlugins.hasOwnProperty(pluginName) || namesToPlugins[pluginName] !== pluginModule) {
+        !!namesToPlugins[pluginName] ? invariant_1(false, 'EventPluginRegistry: Cannot inject two different event plugins using the same name, `%s`.', pluginName) : void 0;
+        namesToPlugins[pluginName] = pluginModule;
+        isOrderingDirty = true;
+      }
+    }
+    if (isOrderingDirty) {
+      recomputePluginOrdering();
+    }
+  }
+};
+
+var EventPluginRegistry_1 = EventPluginRegistry;
+
 {
   var warning$9 = warning_1;
 
-  var _require$3 = ReactGlobalSharedState_1,
-      ReactComponentTreeHook$2 = _require$3.ReactComponentTreeHook,
-      ReactDebugCurrentFrame$4 = _require$3.ReactDebugCurrentFrame;
+  var _require$4 = ReactGlobalSharedState_1,
+      ReactComponentTreeHook$2 = _require$4.ReactComponentTreeHook,
+      ReactDebugCurrentFrame$4 = _require$4.ReactDebugCurrentFrame;
 
   var getStackAddendumByID$2 = ReactComponentTreeHook$2.getStackAddendumByID;
 }
@@ -2456,12 +2458,12 @@ var ReactDOMUnknownPropertyHook = {
   validateProperties: validateProperties$2,
   // Stack
   onBeforeMountComponent: function (debugID, element) {
-    if ('development' !== 'production' && element != null && typeof element.type === 'string') {
+    if (true && element != null && typeof element.type === 'string') {
       validateProperties$2(element.type, element.props, debugID);
     }
   },
   onBeforeUpdateComponent: function (debugID, element) {
-    if ('development' !== 'production' && element != null && typeof element.type === 'string') {
+    if (true && element != null && typeof element.type === 'string') {
       validateProperties$2(element.type, element.props, debugID);
     }
   }
@@ -2471,9 +2473,6 @@ var ReactDOMUnknownPropertyHook_1 = ReactDOMUnknownPropertyHook;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-
-
-var registrationNameModules = EventPluginRegistry_1.registrationNameModules;
 
 
 
@@ -2494,14 +2493,14 @@ var toArray = react.Children.toArray;
   var checkPropTypes = checkPropTypes_1;
   var warnValidStyle = warnValidStyle_1;
 
-  var _require2 = ReactDOMInvalidARIAHook_1,
-      validateARIAProperties = _require2.validateProperties;
+  var _require = ReactDOMInvalidARIAHook_1,
+      validateARIAProperties = _require.validateProperties;
 
-  var _require3 = ReactDOMNullInputValuePropHook_1,
-      validateInputPropertes = _require3.validateProperties;
+  var _require2 = ReactDOMNullInputValuePropHook_1,
+      validateInputPropertes = _require2.validateProperties;
 
-  var _require4 = ReactDOMUnknownPropertyHook_1,
-      validateUnknownPropertes = _require4.validateProperties;
+  var _require3 = ReactDOMUnknownPropertyHook_1,
+      validateUnknownPropertes = _require3.validateProperties;
 
   var validatePropertiesInDevelopment = function (type, props) {
     validateARIAProperties(type, props);
@@ -2513,13 +2512,13 @@ var toArray = react.Children.toArray;
   var describeStackFrame = function (element) {
     var source = element._source;
     var type = element.type;
-    var name = typeof type === 'string' ? type : typeof type === 'function' ? type.displayName || type.name : null;
+    var name = getComponentName(type);
     var ownerName = null;
     return describeComponentFrame(name, source, ownerName);
   };
 
-  var _require5 = ReactGlobalSharedState_1,
-      ReactDebugCurrentFrame = _require5.ReactDebugCurrentFrame;
+  var _require4 = ReactGlobalSharedState_1,
+      ReactDebugCurrentFrame = _require4.ReactDebugCurrentFrame;
 
   var currentDebugStack = null;
   var currentDebugElementStack = null;
@@ -2568,6 +2567,10 @@ var newlineEatingTags = {
   textarea: true
 };
 
+function getComponentName(type) {
+  return typeof type === 'string' ? type : typeof type === 'function' ? type.displayName || type.name : null;
+}
+
 // We accept any tag to be rendered but since this gets injected into arbitrary
 // HTML, we want to make sure that it's a safe tag.
 // http://www.w3.org/TR/REC-xml/#NT-Name
@@ -2611,7 +2614,7 @@ function createMarkupForStyles(styles, component) {
 function warnNoop(publicInstance, callerName) {
   {
     var constructor = publicInstance.constructor;
-    warning(false, '%s(...): Can only update a mounting component. ' + 'This usually means you called %s() outside componentWillMount() on the server. ' + 'This is a no-op.\n\nPlease check the code for the %s component.', callerName, callerName, constructor && (constructor.displayName || constructor.name) || 'ReactClass');
+    warning(false, '%s(...): Can only update a mounting component. ' + 'This usually means you called %s() outside componentWillMount() on the server. ' + 'This is a no-op.\n\nPlease check the code for the %s component.', callerName, callerName, constructor && getComponentName(constructor) || 'ReactClass');
   }
 }
 
@@ -2706,21 +2709,19 @@ function createOpenTagMarkup(tagVerbatim, tagLowercase, props, makeStaticMarkup,
     if (propValue == null) {
       continue;
     }
-    if (!registrationNameModules.hasOwnProperty(propKey)) {
-      if (propKey === STYLE) {
-        propValue = createMarkupForStyles(propValue, instForDebug);
+    if (propKey === STYLE) {
+      propValue = createMarkupForStyles(propValue, instForDebug);
+    }
+    var markup = null;
+    if (isCustomComponent(tagLowercase, props)) {
+      if (!RESERVED_PROPS.hasOwnProperty(propKey)) {
+        markup = DOMMarkupOperations_1.createMarkupForCustomAttribute(propKey, propValue);
       }
-      var markup = null;
-      if (isCustomComponent(tagLowercase, props)) {
-        if (!RESERVED_PROPS.hasOwnProperty(propKey)) {
-          markup = DOMMarkupOperations_1.createMarkupForCustomAttribute(propKey, propValue);
-        }
-      } else {
-        markup = DOMMarkupOperations_1.createMarkupForProperty(propKey, propValue);
-      }
-      if (markup) {
-        ret += ' ' + markup;
-      }
+    } else {
+      markup = DOMMarkupOperations_1.createMarkupForProperty(propKey, propValue);
+    }
+    if (markup) {
+      ret += ' ' + markup;
     }
   }
 
@@ -2733,13 +2734,16 @@ function createOpenTagMarkup(tagVerbatim, tagLowercase, props, makeStaticMarkup,
   if (isRootElement) {
     ret += ' ' + DOMMarkupOperations_1.createMarkupForRoot();
   }
-  ret += ' ' + DOMMarkupOperations_1.createMarkupForID('');
   return ret;
 }
 
+function validateRenderResult(child, type) {
+  if (child === undefined) {
+    invariant_1(false, '%s(...): Nothing was returned from render. This usually means a return statement is missing. Or, to render nothing, return null.', getComponentName(type) || 'Component');
+  }
+}
+
 function resolve(child, context) {
-  // TODO: We'll need to support Arrays (and strings) after Fiber is rolled out
-  !!Array.isArray(child) ? invariant_1(false, 'The server renderer does not implement support for array children yet.') : void 0;
   while (react.isValidElement(child)) {
     {
       pushElementToDebugStack(child);
@@ -2781,6 +2785,7 @@ function resolve(child, context) {
       inst = Component(child.props, publicContext, updater);
       if (inst == null || inst.render == null) {
         child = inst;
+        validateRenderResult(child, Component);
         continue;
       }
     }
@@ -2833,8 +2838,17 @@ function resolve(child, context) {
         child = null;
       }
     }
+    validateRenderResult(child, Component);
 
-    var childContext = inst.getChildContext && inst.getChildContext();
+    var childContext;
+    if (typeof inst.getChildContext === 'function') {
+      var childContextTypes = Component.childContextTypes;
+      !(typeof childContextTypes === 'object') ? invariant_1(false, '%s.getChildContext(): childContextTypes must be defined in order to use getChildContext().', getComponentName(Component) || 'Unknown') : void 0;
+      childContext = inst.getChildContext();
+      for (var contextKey in childContext) {
+        !(contextKey in childContextTypes) ? invariant_1(false, '%s.getChildContext(): key "%s" is not defined in childContextTypes.', getComponentName(Component) || 'Unknown', contextKey) : void 0;
+      }
+    }
     if (childContext) {
       context = index({}, context, childContext);
     }
@@ -2846,8 +2860,9 @@ var ReactDOMServerRenderer = function () {
   function ReactDOMServerRenderer(element, makeStaticMarkup) {
     _classCallCheck(this, ReactDOMServerRenderer);
 
+    var children = react.isValidElement(element) ? [element] : toArray(element);
     var topFrame = {
-      children: [element],
+      children: children,
       childIndex: 0,
       context: emptyObject_1,
       footer: ''
@@ -2919,7 +2934,22 @@ var ReactDOMServerRenderer = function () {
       if (child === null || child === false) {
         return '';
       } else {
-        return this.renderDOM(child, context);
+        if (react.isValidElement(child)) {
+          return this.renderDOM(child, context);
+        } else {
+          var children = toArray(child);
+          var frame = {
+            children: children,
+            childIndex: 0,
+            context: context,
+            footer: ''
+          };
+          {
+            frame.debugElementStack = [];
+          }
+          this.stack.push(frame);
+          return '';
+        }
       }
     }
   };
@@ -3113,12 +3143,34 @@ var ReactDOMServerRenderer = function () {
 var ReactPartialRenderer = ReactDOMServerRenderer;
 
 /**
+ * Copyright 2013-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ * @providesModule ReactFeatureFlags
+ * 
+ */
+
+var ReactFeatureFlags = {
+  disableNewFiberFeatures: false,
+  enableAsyncSubtreeAPI: false
+};
+
+var ReactFeatureFlags_1 = ReactFeatureFlags;
+
+/**
  * Render a ReactElement to its initial HTML. This should only be used on the
  * server.
  * See https://facebook.github.io/react/docs/react-dom-server.html#rendertostring
  */
 function renderToString(element) {
-  !react.isValidElement(element) ? invariant_1(false, 'renderToString(): You must pass a valid ReactElement.') : void 0;
+  var disableNewFiberFeatures = ReactFeatureFlags_1.disableNewFiberFeatures;
+  if (disableNewFiberFeatures) {
+    invariant_1(react.isValidElement(element), 'renderToString(): Invalid component element.');
+  }
   var renderer = new ReactPartialRenderer(element, false);
   var markup = renderer.read(Infinity);
   return markup;
@@ -3130,7 +3182,10 @@ function renderToString(element) {
  * See https://facebook.github.io/react/docs/react-dom-server.html#rendertostaticmarkup
  */
 function renderToStaticMarkup(element) {
-  !react.isValidElement(element) ? invariant_1(false, 'renderToStaticMarkup(): You must pass a valid ReactElement.') : void 0;
+  var disableNewFiberFeatures = ReactFeatureFlags_1.disableNewFiberFeatures;
+  if (disableNewFiberFeatures) {
+    invariant_1(react.isValidElement(element), 'renderToStaticMarkup(): Invalid component element.');
+  }
   var renderer = new ReactPartialRenderer(element, true);
   var markup = renderer.read(Infinity);
   return markup;
@@ -3152,7 +3207,7 @@ var ReactDOMStringRenderer = {
  * @providesModule ReactVersion
  */
 
-var ReactVersion = '16.0.0-beta.2';
+var ReactVersion = '16.0.0-beta.3';
 
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -3756,12 +3811,19 @@ DOMProperty_1.injection.injectDOMPropertyConfig(ARIADOMPropertyConfig_1);
 DOMProperty_1.injection.injectDOMPropertyConfig(HTMLDOMPropertyConfig_1);
 DOMProperty_1.injection.injectDOMPropertyConfig(SVGDOMPropertyConfig_1);
 
-var ReactDOMServerEntry = {
+var ReactDOMServerBrowserEntry = {
   renderToString: ReactDOMStringRenderer.renderToString,
   renderToStaticMarkup: ReactDOMStringRenderer.renderToStaticMarkup,
+  renderToStream: function () {
+    invariant_1(false, 'ReactDOMServer.renderToStream(): The streaming API is not available ' + 'in the browser. Use ReactDOMServer.renderToString() instead.');
+  },
+  renderToStaticStream: function () {
+    invariant_1(false, 'ReactDOMServer.renderToStaticStream(): The streaming API is not available ' + 'in the browser. Use ReactDOMServer.renderToStaticMarkup() instead.');
+  },
+
   version: ReactVersion
 };
 
-return ReactDOMServerEntry;
+return ReactDOMServerBrowserEntry;
 
 })));

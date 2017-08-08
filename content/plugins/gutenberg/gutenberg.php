@@ -3,15 +3,15 @@
  * Plugin Name: Gutenberg
  * Plugin URI: https://github.com/WordPress/gutenberg
  * Description: Printing since 1440. This is the development plugin for the new block editor in core. <strong>Meant for development, do not run on real sites.</strong>
- * Version: 0.6.0
+ * Version: 0.7.1
  * Author: Gutenberg Team
  *
  * @package gutenberg
  */
 
 ### BEGIN AUTO-GENERATED DEFINES
-define( 'GUTENBERG_VERSION', '0.6.0' );
-define( 'GUTENBERG_GIT_COMMIT', 'f628c32d6110f1e1a3d6aad74f34c2967ef97570' );
+define( 'GUTENBERG_VERSION', '0.7.1' );
+define( 'GUTENBERG_GIT_COMMIT', '4a59869e11ef619c4dc3d86aa7b047cc150cf7e2' );
 ### END AUTO-GENERATED DEFINES
 
 require_once dirname( __FILE__ ) . '/lib/init-checks.php';
@@ -27,5 +27,7 @@ if ( gutenberg_can_init() ) {
 	require_once dirname( __FILE__ ) . '/lib/register.php';
 
 	// Register server-side code for individual blocks.
-	require_once dirname( __FILE__ ) . '/lib/blocks/latest-posts.php';
+	foreach ( glob( dirname( __FILE__ ) . '/blocks/library/*/index.php' ) as $block_logic ) {
+		require_once $block_logic;
+	}
 }

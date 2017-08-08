@@ -1,5 +1,5 @@
 /**
- * react.development.js v16.0.0-beta.2
+ * react.development.js v16.0.0-beta.3
  */
 
 (function (global, factory) {
@@ -1249,7 +1249,7 @@ var ReactChildren_1 = ReactChildren;
  * @providesModule ReactVersion
  */
 
-var ReactVersion = '16.0.0-beta.2';
+var ReactVersion = '16.0.0-beta.3';
 
 /**
  * Returns the first child in a collection of children and verifies that there

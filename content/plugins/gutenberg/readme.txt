@@ -32,6 +32,52 @@ The more the merrier! To get started, check out our <a href="https://github.com/
 
 == Changelog ==
 
+= 0.7.1 =
+* Address problem with the freeform block and Jetpack's contact form.
+
+= 0.7.0 =
+* Hide placeholders on focus—reduces visual distractions while writing.
+* Add PostAuthor dropdown to the UI.
+* Add theme support for customized color palettes and a shared component (applies to cover text and button blocks).
+* Add theme support for wide images.
+* Report on missing headings in the document outline feature.
+* Update block validation to make it less prone to over-eagerness with trivial changes (like whitespace and new lines).
+* Attempt to create an embed block automatically when pasting URL on a single line.
+* Save post before previewing.
+* Improve operations with "lists", enter on empty item creates new paragraph block, handling backspace, etc.
+* Don't serialize attributes that match default attributes.
+* Order link suggestions by relevance.
+* Order embeds for easier discoverability.
+* Added "keywords" property for searching blocks with aliases.
+* Added responsive styles for Table block in the front end.
+* Set default list type to be unordered list.
+* Improve accessibility of UrlInput component.
+* Improve accessibility and keyboard interaction of DropdownMenu.
+* Improve Popover component and use for PostVisibility.
+* Added higher order component for managing spoken messages.
+* Localize schema for WP API, avoiding initialization delay if schema is present.
+* Do not expose editor.settings to block authors.
+* Do not remove tables on pasting.
+* Consolidate block server-side files with client ones in the same directory.
+* Removed array of paragraphs structure from text block.
+* Trim whitespace when searching for blocks.
+* Document, test, and refactor DropdownMenu component.
+* Use separate mousetrap instance per component instance.
+* Add npm organization scope to WordPress dependencies.
+* Expand utilities around fixture regeneration.
+* Renamed "Text" to "Paragraph".
+* Fix multi-selection "delete" functionality.
+* Fix text color inline style.
+* Fix issue caused by changes with React build process.
+* Fix splitting editable without child nodes.
+* Use addQueryArgs in oEmbed proxy url.
+* Update dashicons with new icons.
+* Clarify enqueuing block assets functions.
+* Added code coverage information to docs.
+* Document how to create new docs.
+* Add example of add_theme_support in docs.
+* Added opt-in mechanism for learning what blocks are being added to the content.
+
 = 0.6.0 =
 * Split paragraphs on enter—we have been exploring different behaviours here.
 * Added grid layout option for latest posts with columns slider control.

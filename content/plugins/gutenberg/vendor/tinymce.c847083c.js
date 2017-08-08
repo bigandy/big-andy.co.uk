@@ -1,4 +1,4 @@
-// 4.6.4 (2017-06-13)
+// 4.6.5 (2017-08-02)
 (function () {
 
 var defs = {}; // id -> {dependencies, definition, instance (possibly undefined)}
@@ -82,7 +82,7 @@ var defineGlobal = function (id, ref) {
   define(id, [], function () { return ref; });
 };
 /*jsc
-["tinymce.core.api.Main","ephox.katamari.api.Fun","tinymce.core.api.Tinymce","global!Array","global!Error","tinymce.core.api.Formatter","tinymce.core.geom.Rect","tinymce.core.util.Promise","tinymce.core.util.Delay","tinymce.core.Env","tinymce.core.dom.EventUtils","tinymce.core.dom.Sizzle","tinymce.core.util.Tools","tinymce.core.dom.DomQuery","tinymce.core.html.Styles","tinymce.core.dom.TreeWalker","tinymce.core.html.Entities","tinymce.core.dom.DOMUtils","tinymce.core.dom.ScriptLoader","tinymce.core.AddOnManager","tinymce.core.dom.RangeUtils","tinymce.core.html.Node","tinymce.core.html.Schema","tinymce.core.html.SaxParser","tinymce.core.html.DomParser","tinymce.core.html.Writer","tinymce.core.html.Serializer","tinymce.core.dom.Serializer","tinymce.core.util.VK","tinymce.core.dom.ControlSelection","tinymce.core.dom.BookmarkManager","tinymce.core.dom.Selection","tinymce.core.UndoManager","tinymce.core.EditorCommands","tinymce.core.util.URI","tinymce.core.util.Class","tinymce.core.util.EventDispatcher","tinymce.core.util.Observable","tinymce.core.WindowManager","tinymce.core.NotificationManager","tinymce.core.EditorObservable","tinymce.core.Shortcuts","tinymce.core.Editor","tinymce.core.util.I18n","tinymce.core.FocusManager","tinymce.core.EditorManager","tinymce.core.util.XHR","tinymce.core.util.JSON","tinymce.core.util.JSONRequest","tinymce.core.util.JSONP","tinymce.core.util.LocalStorage","tinymce.core.util.Color","tinymce.core.ui.Api","ephox.katamari.api.Cell","tinymce.core.fmt.ApplyFormat","tinymce.core.fmt.FormatChanged","tinymce.core.fmt.FormatRegistry","tinymce.core.fmt.MatchFormat","tinymce.core.fmt.Preview","tinymce.core.fmt.RemoveFormat","tinymce.core.fmt.ToggleFormat","tinymce.core.keyboard.FormatShortcuts","tinymce.core.util.Arr","tinymce.core.dom.Range","tinymce.core.dom.StyleSheetLoader","tinymce.core.dom.NodeType","tinymce.core.caret.CaretContainer","tinymce.core.text.Zwsp","tinymce.core.dom.RangePoint","tinymce.core.caret.CaretBookmark","tinymce.core.caret.CaretPosition","ephox.sugar.api.dom.Compare","ephox.sugar.api.node.Element","tinymce.core.dom.ScrollIntoView","tinymce.core.dom.TridentSelection","tinymce.core.selection.FragmentReader","tinymce.core.undo.Levels","tinymce.core.delete.DeleteCommands","tinymce.core.InsertContent","global!document","tinymce.core.ui.Window","tinymce.core.ui.MessageBox","tinymce.core.ui.Notification","tinymce.core.EditorSettings","tinymce.core.init.Render","tinymce.core.Mode","tinymce.core.ui.Sidebar","tinymce.core.util.Uuid","tinymce.core.ErrorReporter","tinymce.core.LegacyInput","tinymce.core.ui.Selector","tinymce.core.ui.Collection","tinymce.core.ui.ReflowQueue","tinymce.core.ui.Control","tinymce.core.ui.Factory","tinymce.core.ui.KeyboardNavigation","tinymce.core.ui.Container","tinymce.core.ui.DragHelper","tinymce.core.ui.Scrollable","tinymce.core.ui.Panel","tinymce.core.ui.Movable","tinymce.core.ui.Resizable","tinymce.core.ui.FloatPanel","tinymce.core.ui.Tooltip","tinymce.core.ui.Widget","tinymce.core.ui.Progress","tinymce.core.ui.Layout","tinymce.core.ui.AbsoluteLayout","tinymce.core.ui.Button","tinymce.core.ui.ButtonGroup","tinymce.core.ui.Checkbox","tinymce.core.ui.ComboBox","tinymce.core.ui.ColorBox","tinymce.core.ui.PanelButton","tinymce.core.ui.ColorButton","tinymce.core.ui.ColorPicker","tinymce.core.ui.Path","tinymce.core.ui.ElementPath","tinymce.core.ui.FormItem","tinymce.core.ui.Form","tinymce.core.ui.FieldSet","tinymce.core.ui.FilePicker","tinymce.core.ui.FitLayout","tinymce.core.ui.FlexLayout","tinymce.core.ui.FlowLayout","tinymce.core.ui.FormatControls","tinymce.core.ui.GridLayout","tinymce.core.ui.Iframe","tinymce.core.ui.InfoBox","tinymce.core.ui.Label","tinymce.core.ui.Toolbar","tinymce.core.ui.MenuBar","tinymce.core.ui.MenuButton","tinymce.core.ui.MenuItem","tinymce.core.ui.Throbber","tinymce.core.ui.Menu","tinymce.core.ui.ListBox","tinymce.core.ui.Radio","tinymce.core.ui.ResizeHandle","tinymce.core.ui.SelectBox","tinymce.core.ui.Slider","tinymce.core.ui.Spacer","tinymce.core.ui.SplitButton","tinymce.core.ui.StackLayout","tinymce.core.ui.TabPanel","tinymce.core.ui.TextBox","tinymce.core.ui.DropZone","tinymce.core.ui.BrowseButton","ephox.katamari.api.Arr","ephox.katamari.api.Future","ephox.katamari.api.Futures","ephox.katamari.api.Result","tinymce.core.util.Fun","tinymce.core.caret.CaretCandidate","tinymce.core.geom.ClientRect","tinymce.core.text.ExtendingChar","tinymce.core.dom.ElementUtils","tinymce.core.fmt.CaretFormat","tinymce.core.fmt.ExpandRange","tinymce.core.fmt.FormatUtils","tinymce.core.fmt.Hooks","tinymce.core.fmt.DefaultFormats","ephox.sand.api.Node","ephox.sand.api.PlatformDetection","ephox.sugar.api.search.Selectors","global!console","ephox.sugar.api.dom.Insert","ephox.sugar.api.dom.Replication","ephox.sugar.api.node.Fragment","ephox.sugar.api.node.Node","tinymce.core.dom.ElementType","tinymce.core.dom.Parents","tinymce.core.selection.SelectionUtils","tinymce.core.undo.Fragments","tinymce.core.delete.BlockBoundaryDelete","tinymce.core.delete.BlockRangeDelete","tinymce.core.delete.CefDelete","tinymce.core.delete.InlineBoundaryDelete","tinymce.core.caret.CaretWalker","tinymce.core.dom.RangeNormalizer","tinymce.core.InsertList","tinymce.core.data.ObservableObject","tinymce.core.ui.DomUtils","tinymce.core.ui.BoxUtils","tinymce.core.ui.ClassList","global!window","tinymce.core.init.Init","tinymce.core.PluginManager","tinymce.core.ThemeManager","tinymce.core.content.LinkTargets","tinymce.core.fmt.FontInfo","global!RegExp","ephox.katamari.api.Option","global!String","ephox.katamari.api.LazyValue","ephox.katamari.async.Bounce","ephox.katamari.async.AsyncValues","tinymce.core.dom.PaddingBr","ephox.sand.util.Global","ephox.katamari.api.Thunk","ephox.sand.core.PlatformDetection","global!navigator","ephox.sugar.api.node.NodeTypes","ephox.sugar.api.search.Traverse","ephox.sugar.api.properties.Attr","ephox.sugar.api.dom.InsertAll","ephox.sugar.api.dom.Remove","ephox.katamari.api.Options","tinymce.core.undo.Diff","tinymce.core.delete.BlockBoundary","tinymce.core.delete.MergeBlocks","tinymce.core.delete.DeleteUtils","tinymce.core.caret.CaretUtils","tinymce.core.delete.CefDeleteAction","tinymce.core.delete.DeleteElement","tinymce.core.caret.CaretFinder","tinymce.core.keyboard.BoundaryCaret","tinymce.core.keyboard.BoundaryLocation","tinymce.core.keyboard.BoundarySelection","tinymce.core.keyboard.InlineUtils","tinymce.core.data.Binding","tinymce.core.init.InitContentBody","global!Object","global!setTimeout","ephox.katamari.api.Type","ephox.katamari.api.Struct","ephox.sugar.alien.Recurse","ephox.katamari.api.Resolve","ephox.sand.core.Browser","ephox.sand.core.OperatingSystem","ephox.sand.detect.DeviceType","ephox.sand.detect.UaString","ephox.sand.info.PlatformInfo","ephox.katamari.api.Obj","ephox.sugar.api.search.PredicateFind","tinymce.core.dom.Empty","ephox.katamari.api.Adt","tinymce.core.text.Bidi","tinymce.core.caret.CaretContainerInline","tinymce.core.caret.CaretContainerRemove","tinymce.core.util.LazyEvaluator","tinymce.core.caret.CaretContainerInput","tinymce.core.EditorUpload","tinymce.core.ForceBlocks","tinymce.core.keyboard.KeyboardOverrides","tinymce.core.NodeChange","tinymce.core.SelectionOverrides","tinymce.core.util.Quirks","ephox.katamari.data.Immutable","ephox.katamari.data.MixedBag","ephox.katamari.api.Global","ephox.sand.detect.Version","ephox.katamari.api.Strings","ephox.sugar.api.node.Body","ephox.sugar.impl.ClosestOrAncestor","ephox.sugar.api.search.SelectorExists","tinymce.core.file.Uploader","tinymce.core.file.ImageScanner","tinymce.core.file.BlobCache","tinymce.core.file.UploadStatus","tinymce.core.keyboard.ArrowKeys","tinymce.core.keyboard.DeleteBackspaceKeys","tinymce.core.keyboard.EnterKey","tinymce.core.keyboard.SpaceKey","tinymce.core.caret.FakeCaret","tinymce.core.caret.LineUtils","tinymce.core.DragDropOverrides","tinymce.core.EditorView","tinymce.core.keyboard.CefUtils","tinymce.core.dom.NodePath","ephox.katamari.util.BagUtils","global!Number","ephox.katamari.str.StrAppend","ephox.katamari.str.StringParts","ephox.sugar.api.search.SelectorFind","tinymce.core.file.Conversions","global!URL","tinymce.core.keyboard.CefNavigation","tinymce.core.keyboard.MatchKeys","tinymce.core.keyboard.InsertSpace","tinymce.core.dom.Dimensions","tinymce.core.dom.MousePosition","ephox.sugar.api.properties.Css","tinymce.core.caret.LineWalker","ephox.katamari.api.Merger","ephox.sugar.impl.Style"]
+["tinymce.core.api.Main","ephox.katamari.api.Fun","tinymce.core.api.Tinymce","global!Array","global!Error","tinymce.core.api.Formatter","tinymce.core.geom.Rect","tinymce.core.util.Promise","tinymce.core.util.Delay","tinymce.core.Env","tinymce.core.dom.EventUtils","tinymce.core.dom.Sizzle","tinymce.core.util.Tools","tinymce.core.dom.DomQuery","tinymce.core.html.Styles","tinymce.core.dom.TreeWalker","tinymce.core.html.Entities","tinymce.core.dom.DOMUtils","tinymce.core.dom.ScriptLoader","tinymce.core.AddOnManager","tinymce.core.dom.RangeUtils","tinymce.core.html.Node","tinymce.core.html.Schema","tinymce.core.html.SaxParser","tinymce.core.html.DomParser","tinymce.core.html.Writer","tinymce.core.html.Serializer","tinymce.core.dom.Serializer","tinymce.core.util.VK","tinymce.core.dom.ControlSelection","tinymce.core.dom.BookmarkManager","tinymce.core.dom.Selection","tinymce.core.UndoManager","tinymce.core.EditorCommands","tinymce.core.util.URI","tinymce.core.util.Class","tinymce.core.util.EventDispatcher","tinymce.core.util.Observable","tinymce.core.WindowManager","tinymce.core.NotificationManager","tinymce.core.EditorObservable","tinymce.core.Shortcuts","tinymce.core.Editor","tinymce.core.util.I18n","tinymce.core.FocusManager","tinymce.core.EditorManager","tinymce.core.util.XHR","tinymce.core.util.JSON","tinymce.core.util.JSONRequest","tinymce.core.util.JSONP","tinymce.core.util.LocalStorage","tinymce.core.util.Color","tinymce.core.ui.Api","ephox.katamari.api.Cell","tinymce.core.fmt.ApplyFormat","tinymce.core.fmt.FormatChanged","tinymce.core.fmt.FormatRegistry","tinymce.core.fmt.MatchFormat","tinymce.core.fmt.Preview","tinymce.core.fmt.RemoveFormat","tinymce.core.fmt.ToggleFormat","tinymce.core.keyboard.FormatShortcuts","tinymce.core.util.Arr","tinymce.core.dom.Range","tinymce.core.dom.StyleSheetLoader","tinymce.core.dom.NodeType","tinymce.core.caret.CaretContainer","tinymce.core.text.Zwsp","ephox.sugar.api.node.Element","ephox.sugar.api.search.Selectors","tinymce.core.dom.RangePoint","tinymce.core.caret.CaretBookmark","tinymce.core.caret.CaretPosition","ephox.sugar.api.dom.Compare","tinymce.core.dom.ScrollIntoView","tinymce.core.dom.TridentSelection","tinymce.core.selection.FragmentReader","tinymce.core.undo.Levels","tinymce.core.delete.DeleteCommands","tinymce.core.InsertContent","global!document","tinymce.core.ui.Window","tinymce.core.ui.MessageBox","tinymce.core.ui.Notification","tinymce.core.EditorSettings","tinymce.core.init.Render","tinymce.core.Mode","tinymce.core.ui.Sidebar","tinymce.core.util.Uuid","tinymce.core.ErrorReporter","tinymce.core.LegacyInput","tinymce.core.ui.Selector","tinymce.core.ui.Collection","tinymce.core.ui.ReflowQueue","tinymce.core.ui.Control","tinymce.core.ui.Factory","tinymce.core.ui.KeyboardNavigation","tinymce.core.ui.Container","tinymce.core.ui.DragHelper","tinymce.core.ui.Scrollable","tinymce.core.ui.Panel","tinymce.core.ui.Movable","tinymce.core.ui.Resizable","tinymce.core.ui.FloatPanel","tinymce.core.ui.Tooltip","tinymce.core.ui.Widget","tinymce.core.ui.Progress","tinymce.core.ui.Layout","tinymce.core.ui.AbsoluteLayout","tinymce.core.ui.Button","tinymce.core.ui.ButtonGroup","tinymce.core.ui.Checkbox","tinymce.core.ui.ComboBox","tinymce.core.ui.ColorBox","tinymce.core.ui.PanelButton","tinymce.core.ui.ColorButton","tinymce.core.ui.ColorPicker","tinymce.core.ui.Path","tinymce.core.ui.ElementPath","tinymce.core.ui.FormItem","tinymce.core.ui.Form","tinymce.core.ui.FieldSet","tinymce.core.ui.FilePicker","tinymce.core.ui.FitLayout","tinymce.core.ui.FlexLayout","tinymce.core.ui.FlowLayout","tinymce.core.ui.FormatControls","tinymce.core.ui.GridLayout","tinymce.core.ui.Iframe","tinymce.core.ui.InfoBox","tinymce.core.ui.Label","tinymce.core.ui.Toolbar","tinymce.core.ui.MenuBar","tinymce.core.ui.MenuButton","tinymce.core.ui.MenuItem","tinymce.core.ui.Throbber","tinymce.core.ui.Menu","tinymce.core.ui.ListBox","tinymce.core.ui.Radio","tinymce.core.ui.ResizeHandle","tinymce.core.ui.SelectBox","tinymce.core.ui.Slider","tinymce.core.ui.Spacer","tinymce.core.ui.SplitButton","tinymce.core.ui.StackLayout","tinymce.core.ui.TabPanel","tinymce.core.ui.TextBox","tinymce.core.ui.DropZone","tinymce.core.ui.BrowseButton","ephox.katamari.api.Arr","ephox.katamari.api.Future","ephox.katamari.api.Futures","ephox.katamari.api.Result","tinymce.core.util.Fun","tinymce.core.caret.CaretCandidate","tinymce.core.geom.ClientRect","tinymce.core.text.ExtendingChar","tinymce.core.dom.ElementUtils","tinymce.core.dom.RangeNormalizer","tinymce.core.fmt.CaretFormat","tinymce.core.fmt.ExpandRange","tinymce.core.fmt.FormatUtils","tinymce.core.fmt.Hooks","tinymce.core.fmt.DefaultFormats","global!console","ephox.katamari.api.Option","ephox.sugar.api.node.NodeTypes","ephox.sand.api.Node","ephox.sand.api.PlatformDetection","ephox.sugar.api.dom.Insert","ephox.sugar.api.dom.Replication","ephox.sugar.api.node.Fragment","ephox.sugar.api.node.Node","tinymce.core.dom.ElementType","tinymce.core.dom.Parents","tinymce.core.selection.SelectionUtils","tinymce.core.undo.Fragments","tinymce.core.delete.BlockBoundaryDelete","tinymce.core.delete.BlockRangeDelete","tinymce.core.delete.CefDelete","tinymce.core.delete.DeleteUtils","tinymce.core.delete.InlineBoundaryDelete","tinymce.core.caret.CaretWalker","tinymce.core.InsertList","tinymce.core.data.ObservableObject","tinymce.core.ui.DomUtils","tinymce.core.ui.BoxUtils","tinymce.core.ui.ClassList","ephox.katamari.api.Type","global!window","tinymce.core.init.Init","tinymce.core.PluginManager","tinymce.core.ThemeManager","tinymce.core.content.LinkTargets","ephox.sugar.api.search.SelectorFind","tinymce.core.fmt.FontInfo","global!RegExp","global!Object","global!String","ephox.katamari.api.LazyValue","ephox.katamari.async.Bounce","ephox.katamari.async.AsyncValues","tinymce.core.caret.CaretFinder","tinymce.core.caret.CaretUtils","tinymce.core.dom.PaddingBr","ephox.sand.util.Global","ephox.katamari.api.Thunk","ephox.sand.core.PlatformDetection","global!navigator","ephox.sugar.api.search.Traverse","ephox.sugar.api.properties.Attr","ephox.sugar.api.dom.InsertAll","ephox.sugar.api.dom.Remove","ephox.katamari.api.Options","tinymce.core.undo.Diff","tinymce.core.delete.BlockBoundary","tinymce.core.delete.MergeBlocks","ephox.sugar.api.search.PredicateFind","ephox.sugar.api.search.SelectorFilter","tinymce.core.delete.CefDeleteAction","tinymce.core.delete.DeleteElement","tinymce.core.keyboard.BoundaryCaret","tinymce.core.keyboard.BoundaryLocation","tinymce.core.keyboard.BoundarySelection","tinymce.core.keyboard.InlineUtils","tinymce.core.data.Binding","tinymce.core.init.InitContentBody","ephox.sugar.impl.ClosestOrAncestor","global!setTimeout","ephox.katamari.api.Struct","ephox.sugar.alien.Recurse","ephox.katamari.api.Resolve","ephox.sand.core.Browser","ephox.sand.core.OperatingSystem","ephox.sand.detect.DeviceType","ephox.sand.detect.UaString","ephox.sand.info.PlatformInfo","ephox.sugar.api.search.PredicateFilter","ephox.katamari.api.Obj","ephox.sugar.api.node.Body","tinymce.core.dom.Empty","ephox.katamari.api.Adt","tinymce.core.caret.CaretContainerInline","tinymce.core.caret.CaretContainerRemove","tinymce.core.text.Bidi","tinymce.core.util.LazyEvaluator","tinymce.core.caret.CaretContainerInput","tinymce.core.EditorUpload","tinymce.core.ForceBlocks","tinymce.core.keyboard.KeyboardOverrides","tinymce.core.NodeChange","tinymce.core.SelectionOverrides","tinymce.core.util.Quirks","ephox.katamari.data.Immutable","ephox.katamari.data.MixedBag","ephox.katamari.api.Global","ephox.sand.detect.Version","ephox.katamari.api.Strings","ephox.sugar.api.search.SelectorExists","tinymce.core.file.Uploader","tinymce.core.file.ImageScanner","tinymce.core.file.BlobCache","tinymce.core.file.UploadStatus","tinymce.core.keyboard.ArrowKeys","tinymce.core.keyboard.DeleteBackspaceKeys","tinymce.core.keyboard.EnterKey","tinymce.core.keyboard.SpaceKey","tinymce.core.caret.FakeCaret","tinymce.core.caret.LineUtils","tinymce.core.DragDropOverrides","tinymce.core.EditorView","tinymce.core.keyboard.CefUtils","tinymce.core.dom.NodePath","ephox.katamari.util.BagUtils","global!Number","ephox.katamari.str.StrAppend","ephox.katamari.str.StringParts","tinymce.core.file.Conversions","global!URL","tinymce.core.keyboard.CefNavigation","tinymce.core.keyboard.MatchKeys","tinymce.core.keyboard.InsertSpace","tinymce.core.dom.Dimensions","tinymce.core.dom.MousePosition","ephox.sugar.api.properties.Css","tinymce.core.caret.LineWalker","ephox.katamari.api.Merger","ephox.sugar.impl.Style"]
 jsc*/
 defineGlobal("global!Array", Array);
 defineGlobal("global!Error", Error);
@@ -1554,6 +1554,9 @@ define(
  * Contributing: http://www.tinymce.com/contributing
  *
  * @ignore-file
+ *
+ * Forked changes:
+ * - Disabled all assertions since they are only used for non supported browsers and cause dom repaints see #TINY-1141
  */
 
 /*jshint bitwise:false, expr:true, noempty:false, sub:true, eqnull:true, latedef:false, maxlen:255 */
@@ -1887,7 +1890,7 @@ define(
      * Support testing using an element
      * @param {Function} fn Passed the created div and expects a boolean result
      */
-    function assert(fn) {
+    /*function assert(fn) {
       var div = document.createElement("div");
 
       try {
@@ -1902,7 +1905,7 @@ define(
         // release memory in IE
         div = null;
       }
-    }
+    }*/
 
     /**
      * Adds the same handler for all of the specified attrs
@@ -2070,19 +2073,13 @@ define(
 
       // Support: IE<8
       // Verify that getAttribute really returns attributes and not properties (excepting IE8 booleans)
-      support.attributes = assert(function (div) {
-        div.className = "i";
-        return !div.getAttribute("className");
-      });
+      support.attributes = true;
 
       /* getElement(s)By*
       ---------------------------------------------------------------------- */
 
       // Check if getElementsByTagName("*") returns only elements
-      support.getElementsByTagName = assert(function (div) {
-        div.appendChild(doc.createComment(""));
-        return !div.getElementsByTagName("*").length;
-      });
+      support.getElementsByTagName = true;
 
       // Support: IE<9
       support.getElementsByClassName = rnative.test(doc.getElementsByClassName);
@@ -2091,13 +2088,10 @@ define(
       // Check if getElementById returns elements by name
       // The broken getElementById methods don't pick up programatically-set names,
       // so use a roundabout getElementsByName test
-      support.getById = assert(function (div) {
-        docElem.appendChild(div).id = expando;
-        return !doc.getElementsByName || !doc.getElementsByName(expando).length;
-      });
+      support.getById = true;
 
       // ID find and filter
-      if (support.getById) {
+      /*if (support.getById) {*/
         Expr.find["ID"] = function (id, context) {
           if (typeof context.getElementById !== strundefined && documentIsHTML) {
             var m = context.getElementById(id);
@@ -2112,7 +2106,7 @@ define(
             return elem.getAttribute("id") === attrId;
           };
         };
-      } else {
+      /*} else {
         // Support: IE6/7
         // getElementById is not reliable as a find shortcut
         delete Expr.find["ID"];
@@ -2124,7 +2118,7 @@ define(
             return node && node.value === attrId;
           };
         };
-      }
+      }*/
 
       // Tag
       Expr.find["TAG"] = support.getElementsByTagName ?
@@ -2174,6 +2168,7 @@ define(
       // See http://bugs.jquery.com/ticket/13378
       rbuggyQSA = [];
 
+      /*
       if ((support.qsa = rnative.test(doc.querySelectorAll))) {
         // Build QSA regex
         // Regex strategy adopted from Diego Perini
@@ -2231,7 +2226,11 @@ define(
           rbuggyQSA.push(",.*:");
         });
       }
+      */
 
+      support.disconnectedMatch = true;
+
+      /*
       if ((support.matchesSelector = rnative.test((matches = docElem.matches ||
         docElem.webkitMatchesSelector ||
         docElem.mozMatchesSelector ||
@@ -2249,6 +2248,7 @@ define(
           rbuggyMatches.push("!=", pseudos);
         });
       }
+      */
 
       rbuggyQSA = rbuggyQSA.length && new RegExp(rbuggyQSA.join("|"));
       rbuggyMatches = rbuggyMatches.length && new RegExp(rbuggyMatches.join("|"));
@@ -3544,16 +3544,12 @@ define(
 
     // Support: Webkit<537.32 - Safari 6.0.3/Chrome 25 (fixed in Chrome 27)
     // Detached nodes confoundingly follow *each other*
-    support.sortDetached = assert(function (div1) {
-      // Should return 1, but returns 4 (following)
-      return div1.compareDocumentPosition(document.createElement("div")) & 1;
-    }
-    );
+    support.sortDetached = true;
 
     // Support: IE<8
     // Prevent attribute/property "interpolation"
     // http://msdn.microsoft.com/en-us/library/ms536429%28VS.85%29.aspx
-    if (!assert(function (div) {
+    /*if (!assert(function (div) {
       div.innerHTML = "<a href='#'></a>";
       return div.firstChild.getAttribute("href") === "#";
     })) {
@@ -3562,11 +3558,11 @@ define(
           return elem.getAttribute(name, name.toLowerCase() === "type" ? 1 : 2);
         }
       });
-    }
+    }*/
 
     // Support: IE<9
     // Use defaultValue in place of getAttribute("value")
-    if (!support.attributes || !assert(function (div) {
+    /*if (!support.attributes || !assert(function (div) {
       div.innerHTML = "<input/>";
       div.firstChild.setAttribute("value", "");
       return div.firstChild.getAttribute("value") === "";
@@ -3576,11 +3572,11 @@ define(
           return elem.defaultValue;
         }
       });
-    }
+    }*/
 
     // Support: IE<9
     // Use getAttributeNode to fetch booleans when getAttribute lies
-    if (!assert(function (div) {
+    /*if (!assert(function (div) {
       return div.getAttribute("disabled") == null;
     })) {
       addHandle(booleans, function (elem, name, isXML) {
@@ -3592,7 +3588,7 @@ define(
               null;
         }
       });
-    }
+    }*/
 
     // EXPOSE
     return Sizzle;
@@ -13427,6 +13423,12 @@ define(
       return trimmedOffset;
     };
 
+    var trimEmptyTextNode = function (node) {
+      if (NodeType.isText(node) && node.data.length === 0) {
+        node.parentNode.removeChild(node);
+      }
+    };
+
     /**
      * Constructs a new BookmarkManager instance for a specific selection instance.
      *
@@ -13654,12 +13656,16 @@ define(
           // Insert end marker
           if (!collapsed) {
             rng2.collapse(false);
-            rng2.insertNode(dom.create('span', { 'data-mce-type': "bookmark", id: id + '_end', style: styles }, chr));
+            var endBookmarkNode = dom.create('span', { 'data-mce-type': "bookmark", id: id + '_end', style: styles }, chr);
+            rng2.insertNode(endBookmarkNode);
+            trimEmptyTextNode(endBookmarkNode.nextSibling);
           }
 
           rng = normalizeTableCellSelection(rng);
           rng.collapse(true);
-          rng.insertNode(dom.create('span', { 'data-mce-type': "bookmark", id: id + '_start', style: styles }, chr));
+          var startBookmarkNode = dom.create('span', { 'data-mce-type': "bookmark", id: id + '_start', style: styles }, chr);
+          rng.insertNode(startBookmarkNode);
+          trimEmptyTextNode(startBookmarkNode.previousSibling);
         }
 
         selection.moveToBookmark({ id: id, keep: 1 });
@@ -13983,6 +13989,758 @@ define(
   }
 );
 
+/**
+ * CaretUtils.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
+
+/**
+ * Utility functions shared by the caret logic.
+ *
+ * @private
+ * @class tinymce.caret.CaretUtils
+ */
+define(
+  'tinymce.core.caret.CaretUtils',
+  [
+    "tinymce.core.util.Fun",
+    "tinymce.core.dom.TreeWalker",
+    "tinymce.core.dom.NodeType",
+    "tinymce.core.caret.CaretPosition",
+    "tinymce.core.caret.CaretContainer",
+    "tinymce.core.caret.CaretCandidate"
+  ],
+  function (Fun, TreeWalker, NodeType, CaretPosition, CaretContainer, CaretCandidate) {
+    var isContentEditableTrue = NodeType.isContentEditableTrue,
+      isContentEditableFalse = NodeType.isContentEditableFalse,
+      isBlockLike = NodeType.matchStyleValues('display', 'block table table-cell table-caption list-item'),
+      isCaretContainer = CaretContainer.isCaretContainer,
+      isCaretContainerBlock = CaretContainer.isCaretContainerBlock,
+      curry = Fun.curry,
+      isElement = NodeType.isElement,
+      isCaretCandidate = CaretCandidate.isCaretCandidate;
+
+    function isForwards(direction) {
+      return direction > 0;
+    }
+
+    function isBackwards(direction) {
+      return direction < 0;
+    }
+
+    function skipCaretContainers(walk, shallow) {
+      var node;
+
+      while ((node = walk(shallow))) {
+        if (!isCaretContainerBlock(node)) {
+          return node;
+        }
+      }
+
+      return null;
+    }
+
+    function findNode(node, direction, predicateFn, rootNode, shallow) {
+      var walker = new TreeWalker(node, rootNode);
+
+      if (isBackwards(direction)) {
+        if (isContentEditableFalse(node) || isCaretContainerBlock(node)) {
+          node = skipCaretContainers(walker.prev, true);
+          if (predicateFn(node)) {
+            return node;
+          }
+        }
+
+        while ((node = skipCaretContainers(walker.prev, shallow))) {
+          if (predicateFn(node)) {
+            return node;
+          }
+        }
+      }
+
+      if (isForwards(direction)) {
+        if (isContentEditableFalse(node) || isCaretContainerBlock(node)) {
+          node = skipCaretContainers(walker.next, true);
+          if (predicateFn(node)) {
+            return node;
+          }
+        }
+
+        while ((node = skipCaretContainers(walker.next, shallow))) {
+          if (predicateFn(node)) {
+            return node;
+          }
+        }
+      }
+
+      return null;
+    }
+
+    function getEditingHost(node, rootNode) {
+      for (node = node.parentNode; node && node != rootNode; node = node.parentNode) {
+        if (isContentEditableTrue(node)) {
+          return node;
+        }
+      }
+
+      return rootNode;
+    }
+
+    function getParentBlock(node, rootNode) {
+      while (node && node != rootNode) {
+        if (isBlockLike(node)) {
+          return node;
+        }
+
+        node = node.parentNode;
+      }
+
+      return null;
+    }
+
+    function isInSameBlock(caretPosition1, caretPosition2, rootNode) {
+      return getParentBlock(caretPosition1.container(), rootNode) == getParentBlock(caretPosition2.container(), rootNode);
+    }
+
+    function isInSameEditingHost(caretPosition1, caretPosition2, rootNode) {
+      return getEditingHost(caretPosition1.container(), rootNode) == getEditingHost(caretPosition2.container(), rootNode);
+    }
+
+    function getChildNodeAtRelativeOffset(relativeOffset, caretPosition) {
+      var container, offset;
+
+      if (!caretPosition) {
+        return null;
+      }
+
+      container = caretPosition.container();
+      offset = caretPosition.offset();
+
+      if (!isElement(container)) {
+        return null;
+      }
+
+      return container.childNodes[offset + relativeOffset];
+    }
+
+    function beforeAfter(before, node) {
+      var range = node.ownerDocument.createRange();
+
+      if (before) {
+        range.setStartBefore(node);
+        range.setEndBefore(node);
+      } else {
+        range.setStartAfter(node);
+        range.setEndAfter(node);
+      }
+
+      return range;
+    }
+
+    function isNodesInSameBlock(rootNode, node1, node2) {
+      return getParentBlock(node1, rootNode) == getParentBlock(node2, rootNode);
+    }
+
+    function lean(left, rootNode, node) {
+      var sibling, siblingName;
+
+      if (left) {
+        siblingName = 'previousSibling';
+      } else {
+        siblingName = 'nextSibling';
+      }
+
+      while (node && node != rootNode) {
+        sibling = node[siblingName];
+
+        if (isCaretContainer(sibling)) {
+          sibling = sibling[siblingName];
+        }
+
+        if (isContentEditableFalse(sibling)) {
+          if (isNodesInSameBlock(rootNode, sibling, node)) {
+            return sibling;
+          }
+
+          break;
+        }
+
+        if (isCaretCandidate(sibling)) {
+          break;
+        }
+
+        node = node.parentNode;
+      }
+
+      return null;
+    }
+
+    var before = curry(beforeAfter, true);
+    var after = curry(beforeAfter, false);
+
+    function normalizeRange(direction, rootNode, range) {
+      var node, container, offset, location;
+      var leanLeft = curry(lean, true, rootNode);
+      var leanRight = curry(lean, false, rootNode);
+
+      container = range.startContainer;
+      offset = range.startOffset;
+
+      if (CaretContainer.isCaretContainerBlock(container)) {
+        if (!isElement(container)) {
+          container = container.parentNode;
+        }
+
+        location = container.getAttribute('data-mce-caret');
+
+        if (location == 'before') {
+          node = container.nextSibling;
+          if (isContentEditableFalse(node)) {
+            return before(node);
+          }
+        }
+
+        if (location == 'after') {
+          node = container.previousSibling;
+          if (isContentEditableFalse(node)) {
+            return after(node);
+          }
+        }
+      }
+
+      if (!range.collapsed) {
+        return range;
+      }
+
+      if (NodeType.isText(container)) {
+        if (isCaretContainer(container)) {
+          if (direction === 1) {
+            node = leanRight(container);
+            if (node) {
+              return before(node);
+            }
+
+            node = leanLeft(container);
+            if (node) {
+              return after(node);
+            }
+          }
+
+          if (direction === -1) {
+            node = leanLeft(container);
+            if (node) {
+              return after(node);
+            }
+
+            node = leanRight(container);
+            if (node) {
+              return before(node);
+            }
+          }
+
+          return range;
+        }
+
+        if (CaretContainer.endsWithCaretContainer(container) && offset >= container.data.length - 1) {
+          if (direction === 1) {
+            node = leanRight(container);
+            if (node) {
+              return before(node);
+            }
+          }
+
+          return range;
+        }
+
+        if (CaretContainer.startsWithCaretContainer(container) && offset <= 1) {
+          if (direction === -1) {
+            node = leanLeft(container);
+            if (node) {
+              return after(node);
+            }
+          }
+
+          return range;
+        }
+
+        if (offset === container.data.length) {
+          node = leanRight(container);
+          if (node) {
+            return before(node);
+          }
+
+          return range;
+        }
+
+        if (offset === 0) {
+          node = leanLeft(container);
+          if (node) {
+            return after(node);
+          }
+
+          return range;
+        }
+      }
+
+      return range;
+    }
+
+    function isNextToContentEditableFalse(relativeOffset, caretPosition) {
+      return isContentEditableFalse(getChildNodeAtRelativeOffset(relativeOffset, caretPosition));
+    }
+
+    return {
+      isForwards: isForwards,
+      isBackwards: isBackwards,
+      findNode: findNode,
+      getEditingHost: getEditingHost,
+      getParentBlock: getParentBlock,
+      isInSameBlock: isInSameBlock,
+      isInSameEditingHost: isInSameEditingHost,
+      isBeforeContentEditableFalse: curry(isNextToContentEditableFalse, 0),
+      isAfterContentEditableFalse: curry(isNextToContentEditableFalse, -1),
+      normalizeRange: normalizeRange
+    };
+  }
+);
+
+/**
+ * CaretWalker.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
+
+/**
+ * This module contains logic for moving around a virtual caret in logical order within a DOM element.
+ *
+ * It ignores the most obvious invalid caret locations such as within a script element or within a
+ * contentEditable=false element but it will return locations that isn't possible to render visually.
+ *
+ * @private
+ * @class tinymce.caret.CaretWalker
+ * @example
+ * var caretWalker = new CaretWalker(rootElm);
+ *
+ * var prevLogicalCaretPosition = caretWalker.prev(CaretPosition.fromRangeStart(range));
+ * var nextLogicalCaretPosition = caretWalker.next(CaretPosition.fromRangeEnd(range));
+ */
+define(
+  'tinymce.core.caret.CaretWalker',
+  [
+    "tinymce.core.dom.NodeType",
+    "tinymce.core.caret.CaretCandidate",
+    "tinymce.core.caret.CaretPosition",
+    "tinymce.core.caret.CaretUtils",
+    "tinymce.core.util.Arr",
+    "tinymce.core.util.Fun"
+  ],
+  function (NodeType, CaretCandidate, CaretPosition, CaretUtils, Arr, Fun) {
+    var isContentEditableFalse = NodeType.isContentEditableFalse,
+      isText = NodeType.isText,
+      isElement = NodeType.isElement,
+      isBr = NodeType.isBr,
+      isForwards = CaretUtils.isForwards,
+      isBackwards = CaretUtils.isBackwards,
+      isCaretCandidate = CaretCandidate.isCaretCandidate,
+      isAtomic = CaretCandidate.isAtomic,
+      isEditableCaretCandidate = CaretCandidate.isEditableCaretCandidate;
+
+    function getParents(node, rootNode) {
+      var parents = [];
+
+      while (node && node != rootNode) {
+        parents.push(node);
+        node = node.parentNode;
+      }
+
+      return parents;
+    }
+
+    function nodeAtIndex(container, offset) {
+      if (container.hasChildNodes() && offset < container.childNodes.length) {
+        return container.childNodes[offset];
+      }
+
+      return null;
+    }
+
+    function getCaretCandidatePosition(direction, node) {
+      if (isForwards(direction)) {
+        if (isCaretCandidate(node.previousSibling) && !isText(node.previousSibling)) {
+          return CaretPosition.before(node);
+        }
+
+        if (isText(node)) {
+          return CaretPosition(node, 0);
+        }
+      }
+
+      if (isBackwards(direction)) {
+        if (isCaretCandidate(node.nextSibling) && !isText(node.nextSibling)) {
+          return CaretPosition.after(node);
+        }
+
+        if (isText(node)) {
+          return CaretPosition(node, node.data.length);
+        }
+      }
+
+      if (isBackwards(direction)) {
+        if (isBr(node)) {
+          return CaretPosition.before(node);
+        }
+
+        return CaretPosition.after(node);
+      }
+
+      return CaretPosition.before(node);
+    }
+
+    // Jumps over BR elements <p>|<br></p><p>a</p> -> <p><br></p><p>|a</p>
+    function isBrBeforeBlock(node, rootNode) {
+      var next;
+
+      if (!NodeType.isBr(node)) {
+        return false;
+      }
+
+      next = findCaretPosition(1, CaretPosition.after(node), rootNode);
+      if (!next) {
+        return false;
+      }
+
+      return !CaretUtils.isInSameBlock(CaretPosition.before(node), CaretPosition.before(next), rootNode);
+    }
+
+    function findCaretPosition(direction, startCaretPosition, rootNode) {
+      var container, offset, node, nextNode, innerNode,
+        rootContentEditableFalseElm, caretPosition;
+
+      if (!isElement(rootNode) || !startCaretPosition) {
+        return null;
+      }
+
+      if (startCaretPosition.isEqual(CaretPosition.after(rootNode)) && rootNode.lastChild) {
+        caretPosition = CaretPosition.after(rootNode.lastChild);
+        if (isBackwards(direction) && isCaretCandidate(rootNode.lastChild) && isElement(rootNode.lastChild)) {
+          return isBr(rootNode.lastChild) ? CaretPosition.before(rootNode.lastChild) : caretPosition;
+        }
+      } else {
+        caretPosition = startCaretPosition;
+      }
+
+      container = caretPosition.container();
+      offset = caretPosition.offset();
+
+      if (isText(container)) {
+        if (isBackwards(direction) && offset > 0) {
+          return CaretPosition(container, --offset);
+        }
+
+        if (isForwards(direction) && offset < container.length) {
+          return CaretPosition(container, ++offset);
+        }
+
+        node = container;
+      } else {
+        if (isBackwards(direction) && offset > 0) {
+          nextNode = nodeAtIndex(container, offset - 1);
+          if (isCaretCandidate(nextNode)) {
+            if (!isAtomic(nextNode)) {
+              innerNode = CaretUtils.findNode(nextNode, direction, isEditableCaretCandidate, nextNode);
+              if (innerNode) {
+                if (isText(innerNode)) {
+                  return CaretPosition(innerNode, innerNode.data.length);
+                }
+
+                return CaretPosition.after(innerNode);
+              }
+            }
+
+            if (isText(nextNode)) {
+              return CaretPosition(nextNode, nextNode.data.length);
+            }
+
+            return CaretPosition.before(nextNode);
+          }
+        }
+
+        if (isForwards(direction) && offset < container.childNodes.length) {
+          nextNode = nodeAtIndex(container, offset);
+          if (isCaretCandidate(nextNode)) {
+            if (isBrBeforeBlock(nextNode, rootNode)) {
+              return findCaretPosition(direction, CaretPosition.after(nextNode), rootNode);
+            }
+
+            if (!isAtomic(nextNode)) {
+              innerNode = CaretUtils.findNode(nextNode, direction, isEditableCaretCandidate, nextNode);
+              if (innerNode) {
+                if (isText(innerNode)) {
+                  return CaretPosition(innerNode, 0);
+                }
+
+                return CaretPosition.before(innerNode);
+              }
+            }
+
+            if (isText(nextNode)) {
+              return CaretPosition(nextNode, 0);
+            }
+
+            return CaretPosition.after(nextNode);
+          }
+        }
+
+        node = caretPosition.getNode();
+      }
+
+      if ((isForwards(direction) && caretPosition.isAtEnd()) || (isBackwards(direction) && caretPosition.isAtStart())) {
+        node = CaretUtils.findNode(node, direction, Fun.constant(true), rootNode, true);
+        if (isEditableCaretCandidate(node)) {
+          return getCaretCandidatePosition(direction, node);
+        }
+      }
+
+      nextNode = CaretUtils.findNode(node, direction, isEditableCaretCandidate, rootNode);
+
+      rootContentEditableFalseElm = Arr.last(Arr.filter(getParents(container, rootNode), isContentEditableFalse));
+      if (rootContentEditableFalseElm && (!nextNode || !rootContentEditableFalseElm.contains(nextNode))) {
+        if (isForwards(direction)) {
+          caretPosition = CaretPosition.after(rootContentEditableFalseElm);
+        } else {
+          caretPosition = CaretPosition.before(rootContentEditableFalseElm);
+        }
+
+        return caretPosition;
+      }
+
+      if (nextNode) {
+        return getCaretCandidatePosition(direction, nextNode);
+      }
+
+      return null;
+    }
+
+    return function (rootNode) {
+      return {
+        /**
+         * Returns the next logical caret position from the specificed input
+         * caretPoisiton or null if there isn't any more positions left for example
+         * at the end specified root element.
+         *
+         * @method next
+         * @param {tinymce.caret.CaretPosition} caretPosition Caret position to start from.
+         * @return {tinymce.caret.CaretPosition} CaretPosition or null if no position was found.
+         */
+        next: function (caretPosition) {
+          return findCaretPosition(1, caretPosition, rootNode);
+        },
+
+        /**
+         * Returns the previous logical caret position from the specificed input
+         * caretPoisiton or null if there isn't any more positions left for example
+         * at the end specified root element.
+         *
+         * @method prev
+         * @param {tinymce.caret.CaretPosition} caretPosition Caret position to start from.
+         * @return {tinymce.caret.CaretPosition} CaretPosition or null if no position was found.
+         */
+        prev: function (caretPosition) {
+          return findCaretPosition(-1, caretPosition, rootNode);
+        }
+      };
+    };
+  }
+);
+/**
+ * CaretFinder.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
+
+define(
+  'tinymce.core.caret.CaretFinder',
+  [
+    'ephox.katamari.api.Fun',
+    'ephox.katamari.api.Option',
+    'tinymce.core.caret.CaretCandidate',
+    'tinymce.core.caret.CaretPosition',
+    'tinymce.core.caret.CaretUtils',
+    'tinymce.core.caret.CaretWalker',
+    'tinymce.core.dom.NodeType'
+  ],
+  function (Fun, Option, CaretCandidate, CaretPosition, CaretUtils, CaretWalker, NodeType) {
+    var walkToPositionIn = function (forward, rootNode, startNode) {
+      var position = forward ? CaretPosition.before(startNode) : CaretPosition.after(startNode);
+      return fromPosition(forward, rootNode, position);
+    };
+
+    var afterElement = function (node) {
+      return NodeType.isBr(node) ? CaretPosition.before(node) : CaretPosition.after(node);
+    };
+
+    var isBeforeOrStart = function (position) {
+      if (CaretPosition.isTextPosition(position)) {
+        return position.offset() === 0;
+      } else {
+        return CaretCandidate.isCaretCandidate(position.getNode());
+      }
+    };
+
+    var isAfterOrEnd = function (position) {
+      if (CaretPosition.isTextPosition(position)) {
+        return position.offset() === position.container().data.length;
+      } else {
+        return CaretCandidate.isCaretCandidate(position.getNode(true));
+      }
+    };
+
+    var isBeforeAfterSameElement = function (from, to) {
+      return !CaretPosition.isTextPosition(from) && !CaretPosition.isTextPosition(to) && from.getNode() === to.getNode(true);
+    };
+
+    var isAtBr = function (position) {
+      return !CaretPosition.isTextPosition(position) && NodeType.isBr(position.getNode());
+    };
+
+    var shouldSkipPosition = function (forward, from, to) {
+      if (forward) {
+        return !isBeforeAfterSameElement(from, to) && !isAtBr(from) && isAfterOrEnd(from) && isBeforeOrStart(to);
+      } else {
+        return !isBeforeAfterSameElement(to, from) && isBeforeOrStart(from) && isAfterOrEnd(to);
+      }
+    };
+
+    // Finds: <p>a|<b>b</b></p> -> <p>a<b>|b</b></p>
+    var fromPosition = function (forward, rootNode, position) {
+      var walker = new CaretWalker(rootNode);
+      return Option.from(forward ? walker.next(position) : walker.prev(position));
+    };
+
+    // Finds: <p>a|<b>b</b></p> -> <p>a<b>b|</b></p>
+    var navigate = function (forward, rootNode, from) {
+      return fromPosition(forward, rootNode, from).bind(function (to) {
+        if (CaretUtils.isInSameBlock(from, to, rootNode) && shouldSkipPosition(forward, from, to)) {
+          return fromPosition(forward, rootNode, to);
+        } else {
+          return Option.some(to);
+        }
+      });
+    };
+
+    var positionIn = function (forward, element) {
+      var startNode = forward ? element.firstChild : element.lastChild;
+      if (NodeType.isText(startNode)) {
+        return Option.some(new CaretPosition(startNode, forward ? 0 : startNode.data.length));
+      } else if (startNode) {
+        if (CaretCandidate.isCaretCandidate(startNode)) {
+          return Option.some(forward ? CaretPosition.before(startNode) : afterElement(startNode));
+        } else {
+          return walkToPositionIn(forward, element, startNode);
+        }
+      } else {
+        return Option.none();
+      }
+    };
+
+    return {
+      fromPosition: fromPosition,
+      nextPosition: Fun.curry(fromPosition, true),
+      prevPosition: Fun.curry(fromPosition, false),
+      navigate: navigate,
+      positionIn: positionIn,
+      firstPositionIn: Fun.curry(positionIn, true),
+      lastPositionIn: Fun.curry(positionIn, false)
+    };
+  }
+);
+
+/**
+ * RangeNormalizer.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
+
+define(
+  'tinymce.core.dom.RangeNormalizer',
+  [
+    'tinymce.core.caret.CaretFinder',
+    'tinymce.core.caret.CaretPosition',
+    'tinymce.core.caret.CaretUtils',
+    'tinymce.core.dom.NodeType'
+  ],
+  function (CaretFinder, CaretPosition, CaretUtils, NodeType) {
+    var isTextBlockLike = function (elm) {
+      return NodeType.isElement(elm) && /^(P|H[1-6]|DIV|LI|DT|DD)$/.test(elm.nodeName);
+    };
+
+    var matchEndContainer = function (rng, predicate) {
+      return predicate(rng.endContainer);
+    };
+
+    var createRange = function (sc, so, ec, eo) {
+      var rng = document.createRange();
+      rng.setStart(sc, so);
+      rng.setEnd(ec, eo);
+      return rng;
+    };
+
+    // If you triple click a paragraph in this case:
+    //   <blockquote><p>a</p></blockquote><p>b</p>
+    // It would become this range in webkit:
+    //   <blockquote><p>[a</p></blockquote><p>]b</p>
+    // We would want it to be:
+    //   <blockquote><p>[a]</p></blockquote><p>b</p>
+    // Since it would otherwise produces spans out of thin air on insertContent for example.
+    var normalizeBlockSelectionRange = function (rng) {
+      var startPos = CaretPosition.fromRangeStart(rng);
+      var endPos = CaretPosition.fromRangeEnd(rng);
+      var rootNode = rng.commonAncestorContainer;
+
+      return CaretFinder.fromPosition(false, rootNode, endPos)
+        .map(function (newEndPos) {
+          if (!CaretUtils.isInSameBlock(startPos, endPos, rootNode) && CaretUtils.isInSameBlock(startPos, newEndPos, rootNode)) {
+            return createRange(startPos.container(), startPos.offset(), newEndPos.container(), newEndPos.offset());
+          } else {
+            return rng;
+          }
+        }).getOr(rng);
+    };
+
+    var isEndAtStartOfTextLikeBlock = function (rng) {
+      return matchEndContainer(rng, isTextBlockLike) && rng.endOffset === 0;
+    };
+
+    var normalizeBlockSelection = function (rng) {
+      return rng.collapsed && isEndAtStartOfTextLikeBlock(rng) ? rng : normalizeBlockSelectionRange(rng);
+    };
+
+    var normalize = function (rng) {
+      return normalizeBlockSelection(rng);
+    };
+
+    return {
+      normalize: normalize
+    };
+  }
+);
 define("global!console", [], function () { if (typeof console === "undefined") console = { log: function () {} }; return console; });
 defineGlobal("global!document", document);
 define(
@@ -15650,6 +16408,156 @@ define(
   }
 );
 
+define(
+  'ephox.sugar.api.node.Body',
+
+  [
+    'ephox.katamari.api.Thunk',
+    'ephox.sugar.api.node.Element',
+    'ephox.sugar.api.node.Node',
+    'global!document'
+  ],
+
+  function (Thunk, Element, Node, document) {
+
+    // Node.contains() is very, very, very good performance
+    // http://jsperf.com/closest-vs-contains/5
+    var inBody = function (element) {
+      // Technically this is only required on IE, where contains() returns false for text nodes.
+      // But it's cheap enough to run everywhere and Sugar doesn't have platform detection (yet).
+      var dom = Node.isText(element) ? element.dom().parentNode : element.dom();
+
+      // use ownerDocument.body to ensure this works inside iframes.
+      // Normally contains is bad because an element "contains" itself, but here we want that.
+      return dom !== undefined && dom !== null && dom.ownerDocument.body.contains(dom);
+    };
+
+    var body = Thunk.cached(function() {
+      return getBody(Element.fromDom(document));
+    });
+
+    var getBody = function (doc) {
+      var body = doc.dom().body;
+      if (body === null || body === undefined) throw 'Body is not available yet';
+      return Element.fromDom(body);
+    };
+
+    return {
+      body: body,
+      getBody: getBody,
+      inBody: inBody
+    };
+  }
+);
+
+define(
+  'ephox.sugar.api.search.PredicateFilter',
+
+  [
+    'ephox.katamari.api.Arr',
+    'ephox.sugar.api.node.Body',
+    'ephox.sugar.api.search.Traverse'
+  ],
+
+  function (Arr, Body, Traverse) {
+    // maybe TraverseWith, similar to traverse but with a predicate?
+
+    var all = function (predicate) {
+      return descendants(Body.body(), predicate);
+    };
+
+    var ancestors = function (scope, predicate, isRoot) {
+      return Arr.filter(Traverse.parents(scope, isRoot), predicate);
+    };
+
+    var siblings = function (scope, predicate) {
+      return Arr.filter(Traverse.siblings(scope), predicate);
+    };
+
+    var children = function (scope, predicate) {
+      return Arr.filter(Traverse.children(scope), predicate);
+    };
+
+    var descendants = function (scope, predicate) {
+      var result = [];
+
+      // Recurse.toArray() might help here
+      Arr.each(Traverse.children(scope), function (x) {
+        if (predicate(x)) {
+          result = result.concat([ x ]);
+        }
+        result = result.concat(descendants(x, predicate));
+      });
+      return result;
+    };
+
+    return {
+      all: all,
+      ancestors: ancestors,
+      siblings: siblings,
+      children: children,
+      descendants: descendants
+    };
+  }
+);
+
+define(
+  'ephox.sugar.api.search.SelectorFilter',
+
+  [
+    'ephox.sugar.api.search.PredicateFilter',
+    'ephox.sugar.api.search.Selectors'
+  ],
+
+  function (PredicateFilter, Selectors) {
+    var all = function (selector) {
+      return Selectors.all(selector);
+    };
+
+    // For all of the following:
+    //
+    // jQuery does siblings of firstChild. IE9+ supports scope.dom().children (similar to Traverse.children but elements only).
+    // Traverse should also do this (but probably not by default).
+    //
+
+    var ancestors = function (scope, selector, isRoot) {
+      // It may surprise you to learn this is exactly what JQuery does
+      // TODO: Avoid all this wrapping and unwrapping
+      return PredicateFilter.ancestors(scope, function (e) {
+        return Selectors.is(e, selector);
+      }, isRoot);
+    };
+
+    var siblings = function (scope, selector) {
+      // It may surprise you to learn this is exactly what JQuery does
+      // TODO: Avoid all the wrapping and unwrapping
+      return PredicateFilter.siblings(scope, function (e) {
+        return Selectors.is(e, selector);
+      });
+    };
+
+    var children = function (scope, selector) {
+      // It may surprise you to learn this is exactly what JQuery does
+      // TODO: Avoid all the wrapping and unwrapping
+      return PredicateFilter.children(scope, function (e) {
+        return Selectors.is(e, selector);
+      });
+    };
+
+    var descendants = function (scope, selector) {
+      return Selectors.all(selector, scope);
+    };
+
+    return {
+      all: all,
+      ancestors: ancestors,
+      siblings: siblings,
+      children: children,
+      descendants: descendants
+    };
+  }
+);
+
 /**
  * ElementType.js
  *
@@ -15741,10 +16649,10 @@ define(
     'ephox.sugar.api.dom.Insert',
     'ephox.sugar.api.dom.Remove',
     'ephox.sugar.api.node.Element',
-    'ephox.sugar.api.search.Selectors',
+    'ephox.sugar.api.search.SelectorFilter',
     'tinymce.core.dom.ElementType'
   ],
-  function (Arr, Insert, Remove, Element, Selectors, ElementType) {
+  function (Arr, Insert, Remove, Element, SelectorFilter, ElementType) {
     var getLastChildren = function (elm) {
       var children = [], rawNode = elm.dom();
 
@@ -15757,7 +16665,7 @@ define(
     };
 
     var removeTrailingBr = function (elm) {
-      var allBrs = Selectors.all('br', elm);
+      var allBrs = SelectorFilter.descendants(elm, 'br');
       var brs = Arr.filter(getLastChildren(elm).slice(-1), ElementType.isBr);
       if (allBrs.length === brs.length) {
         Arr.each(brs, Remove.remove);
@@ -16212,10 +17120,11 @@ define(
 
         // Expand to first wrappable block element or any block element
         if (!node) {
+          var scopeRoot = dom.getParent(container, 'LI,TD,TH');
           node = dom.getParent(container.nodeType === 3 ? container.parentNode : container, function (node) {
             // Fixes #6183 where it would expand to editable parent element in inline mode
             return node !== root && isTextBlock(editor, node);
-          });
+          }, scopeRoot);
         }
 
         // Exclude inner lists from wrapping
@@ -17585,6 +18494,7 @@ define(
     'tinymce.core.dom.BookmarkManager',
     'tinymce.core.dom.ElementUtils',
     'tinymce.core.dom.NodeType',
+    'tinymce.core.dom.RangeNormalizer',
     'tinymce.core.dom.RangeUtils',
     'tinymce.core.dom.TreeWalker',
     'tinymce.core.fmt.CaretFormat',
@@ -17596,7 +18506,10 @@ define(
     'tinymce.core.util.Fun',
     'tinymce.core.util.Tools'
   ],
-  function (BookmarkManager, ElementUtils, NodeType, RangeUtils, TreeWalker, CaretFormat, ExpandRange, FormatUtils, Hooks, MatchFormat, RemoveFormat, Fun, Tools) {
+  function (
+    BookmarkManager, ElementUtils, NodeType, RangeNormalizer, RangeUtils, TreeWalker, CaretFormat, ExpandRange, FormatUtils, Hooks, MatchFormat, RemoveFormat,
+    Fun, Tools
+  ) {
     var each = Tools.each;
 
     var isElementNode = function (node) {
@@ -17726,7 +18639,7 @@ define(
     var adjustSelectionToVisibleSelection = function (ed) {
       // Adjust selection so that a end container with a end offset of zero is not included in the selection
       // as this isn't visible to the user.
-      var rng = ed.selection.getRng();
+      var rng = RangeNormalizer.normalize(ed.selection.getRng());
       var start = rng.startContainer;
       var end = rng.endContainer;
 
@@ -22763,6 +23676,8 @@ define(
   'tinymce.core.dom.ControlSelection',
   [
     'ephox.katamari.api.Fun',
+    'ephox.sugar.api.node.Element',
+    'ephox.sugar.api.search.Selectors',
     'tinymce.core.dom.NodeType',
     'tinymce.core.dom.RangePoint',
     'tinymce.core.Env',
@@ -22770,7 +23685,7 @@ define(
     'tinymce.core.util.Tools',
     'tinymce.core.util.VK'
   ],
-  function (Fun, NodeType, RangePoint, Env, Delay, Tools, VK) {
+  function (Fun, Element, Selectors, NodeType, RangePoint, Env, Delay, Tools, VK) {
     var isContentEditableFalse = NodeType.isContentEditableFalse;
     var isContentEditableTrue = NodeType.isContentEditableTrue;
 
@@ -22886,7 +23801,7 @@ define(
           return false;
         }
 
-        return editor.dom.is(elm, selector);
+        return Selectors.is(Element.fromDom(elm), selector);
       }
 
       function resizeGhostElement(e) {
@@ -26232,48 +27147,6 @@ define(
 );
 
 define(
-  'ephox.sugar.api.node.Body',
-
-  [
-    'ephox.katamari.api.Thunk',
-    'ephox.sugar.api.node.Element',
-    'ephox.sugar.api.node.Node',
-    'global!document'
-  ],
-
-  function (Thunk, Element, Node, document) {
-
-    // Node.contains() is very, very, very good performance
-    // http://jsperf.com/closest-vs-contains/5
-    var inBody = function (element) {
-      // Technically this is only required on IE, where contains() returns false for text nodes.
-      // But it's cheap enough to run everywhere and Sugar doesn't have platform detection (yet).
-      var dom = Node.isText(element) ? element.dom().parentNode : element.dom();
-
-      // use ownerDocument.body to ensure this works inside iframes.
-      // Normally contains is bad because an element "contains" itself, but here we want that.
-      return dom !== undefined && dom !== null && dom.ownerDocument.body.contains(dom);
-    };
-
-    var body = Thunk.cached(function() {
-      return getBody(Element.fromDom(document));
-    });
-
-    var getBody = function (doc) {
-      var body = doc.dom().body;
-      if (body === null || body === undefined) throw 'Body is not available yet';
-      return Element.fromDom(body);
-    };
-
-    return {
-      body: body,
-      getBody: getBody,
-      inBody: inBody
-    };
-  }
-);
-
-define(
   'ephox.sugar.impl.ClosestOrAncestor',
 
   [
@@ -26376,681 +27249,6 @@ define(
 );
 
 /**
- * CaretUtils.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
-/**
- * Utility functions shared by the caret logic.
- *
- * @private
- * @class tinymce.caret.CaretUtils
- */
-define(
-  'tinymce.core.caret.CaretUtils',
-  [
-    "tinymce.core.util.Fun",
-    "tinymce.core.dom.TreeWalker",
-    "tinymce.core.dom.NodeType",
-    "tinymce.core.caret.CaretPosition",
-    "tinymce.core.caret.CaretContainer",
-    "tinymce.core.caret.CaretCandidate"
-  ],
-  function (Fun, TreeWalker, NodeType, CaretPosition, CaretContainer, CaretCandidate) {
-    var isContentEditableTrue = NodeType.isContentEditableTrue,
-      isContentEditableFalse = NodeType.isContentEditableFalse,
-      isBlockLike = NodeType.matchStyleValues('display', 'block table table-cell table-caption list-item'),
-      isCaretContainer = CaretContainer.isCaretContainer,
-      isCaretContainerBlock = CaretContainer.isCaretContainerBlock,
-      curry = Fun.curry,
-      isElement = NodeType.isElement,
-      isCaretCandidate = CaretCandidate.isCaretCandidate;
-
-    function isForwards(direction) {
-      return direction > 0;
-    }
-
-    function isBackwards(direction) {
-      return direction < 0;
-    }
-
-    function skipCaretContainers(walk, shallow) {
-      var node;
-
-      while ((node = walk(shallow))) {
-        if (!isCaretContainerBlock(node)) {
-          return node;
-        }
-      }
-
-      return null;
-    }
-
-    function findNode(node, direction, predicateFn, rootNode, shallow) {
-      var walker = new TreeWalker(node, rootNode);
-
-      if (isBackwards(direction)) {
-        if (isContentEditableFalse(node) || isCaretContainerBlock(node)) {
-          node = skipCaretContainers(walker.prev, true);
-          if (predicateFn(node)) {
-            return node;
-          }
-        }
-
-        while ((node = skipCaretContainers(walker.prev, shallow))) {
-          if (predicateFn(node)) {
-            return node;
-          }
-        }
-      }
-
-      if (isForwards(direction)) {
-        if (isContentEditableFalse(node) || isCaretContainerBlock(node)) {
-          node = skipCaretContainers(walker.next, true);
-          if (predicateFn(node)) {
-            return node;
-          }
-        }
-
-        while ((node = skipCaretContainers(walker.next, shallow))) {
-          if (predicateFn(node)) {
-            return node;
-          }
-        }
-      }
-
-      return null;
-    }
-
-    function getEditingHost(node, rootNode) {
-      for (node = node.parentNode; node && node != rootNode; node = node.parentNode) {
-        if (isContentEditableTrue(node)) {
-          return node;
-        }
-      }
-
-      return rootNode;
-    }
-
-    function getParentBlock(node, rootNode) {
-      while (node && node != rootNode) {
-        if (isBlockLike(node)) {
-          return node;
-        }
-
-        node = node.parentNode;
-      }
-
-      return null;
-    }
-
-    function isInSameBlock(caretPosition1, caretPosition2, rootNode) {
-      return getParentBlock(caretPosition1.container(), rootNode) == getParentBlock(caretPosition2.container(), rootNode);
-    }
-
-    function isInSameEditingHost(caretPosition1, caretPosition2, rootNode) {
-      return getEditingHost(caretPosition1.container(), rootNode) == getEditingHost(caretPosition2.container(), rootNode);
-    }
-
-    function getChildNodeAtRelativeOffset(relativeOffset, caretPosition) {
-      var container, offset;
-
-      if (!caretPosition) {
-        return null;
-      }
-
-      container = caretPosition.container();
-      offset = caretPosition.offset();
-
-      if (!isElement(container)) {
-        return null;
-      }
-
-      return container.childNodes[offset + relativeOffset];
-    }
-
-    function beforeAfter(before, node) {
-      var range = node.ownerDocument.createRange();
-
-      if (before) {
-        range.setStartBefore(node);
-        range.setEndBefore(node);
-      } else {
-        range.setStartAfter(node);
-        range.setEndAfter(node);
-      }
-
-      return range;
-    }
-
-    function isNodesInSameBlock(rootNode, node1, node2) {
-      return getParentBlock(node1, rootNode) == getParentBlock(node2, rootNode);
-    }
-
-    function lean(left, rootNode, node) {
-      var sibling, siblingName;
-
-      if (left) {
-        siblingName = 'previousSibling';
-      } else {
-        siblingName = 'nextSibling';
-      }
-
-      while (node && node != rootNode) {
-        sibling = node[siblingName];
-
-        if (isCaretContainer(sibling)) {
-          sibling = sibling[siblingName];
-        }
-
-        if (isContentEditableFalse(sibling)) {
-          if (isNodesInSameBlock(rootNode, sibling, node)) {
-            return sibling;
-          }
-
-          break;
-        }
-
-        if (isCaretCandidate(sibling)) {
-          break;
-        }
-
-        node = node.parentNode;
-      }
-
-      return null;
-    }
-
-    var before = curry(beforeAfter, true);
-    var after = curry(beforeAfter, false);
-
-    function normalizeRange(direction, rootNode, range) {
-      var node, container, offset, location;
-      var leanLeft = curry(lean, true, rootNode);
-      var leanRight = curry(lean, false, rootNode);
-
-      container = range.startContainer;
-      offset = range.startOffset;
-
-      if (CaretContainer.isCaretContainerBlock(container)) {
-        if (!isElement(container)) {
-          container = container.parentNode;
-        }
-
-        location = container.getAttribute('data-mce-caret');
-
-        if (location == 'before') {
-          node = container.nextSibling;
-          if (isContentEditableFalse(node)) {
-            return before(node);
-          }
-        }
-
-        if (location == 'after') {
-          node = container.previousSibling;
-          if (isContentEditableFalse(node)) {
-            return after(node);
-          }
-        }
-      }
-
-      if (!range.collapsed) {
-        return range;
-      }
-
-      if (NodeType.isText(container)) {
-        if (isCaretContainer(container)) {
-          if (direction === 1) {
-            node = leanRight(container);
-            if (node) {
-              return before(node);
-            }
-
-            node = leanLeft(container);
-            if (node) {
-              return after(node);
-            }
-          }
-
-          if (direction === -1) {
-            node = leanLeft(container);
-            if (node) {
-              return after(node);
-            }
-
-            node = leanRight(container);
-            if (node) {
-              return before(node);
-            }
-          }
-
-          return range;
-        }
-
-        if (CaretContainer.endsWithCaretContainer(container) && offset >= container.data.length - 1) {
-          if (direction === 1) {
-            node = leanRight(container);
-            if (node) {
-              return before(node);
-            }
-          }
-
-          return range;
-        }
-
-        if (CaretContainer.startsWithCaretContainer(container) && offset <= 1) {
-          if (direction === -1) {
-            node = leanLeft(container);
-            if (node) {
-              return after(node);
-            }
-          }
-
-          return range;
-        }
-
-        if (offset === container.data.length) {
-          node = leanRight(container);
-          if (node) {
-            return before(node);
-          }
-
-          return range;
-        }
-
-        if (offset === 0) {
-          node = leanLeft(container);
-          if (node) {
-            return after(node);
-          }
-
-          return range;
-        }
-      }
-
-      return range;
-    }
-
-    function isNextToContentEditableFalse(relativeOffset, caretPosition) {
-      return isContentEditableFalse(getChildNodeAtRelativeOffset(relativeOffset, caretPosition));
-    }
-
-    return {
-      isForwards: isForwards,
-      isBackwards: isBackwards,
-      findNode: findNode,
-      getEditingHost: getEditingHost,
-      getParentBlock: getParentBlock,
-      isInSameBlock: isInSameBlock,
-      isInSameEditingHost: isInSameEditingHost,
-      isBeforeContentEditableFalse: curry(isNextToContentEditableFalse, 0),
-      isAfterContentEditableFalse: curry(isNextToContentEditableFalse, -1),
-      normalizeRange: normalizeRange
-    };
-  }
-);
-
-/**
- * CaretWalker.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
-/**
- * This module contains logic for moving around a virtual caret in logical order within a DOM element.
- *
- * It ignores the most obvious invalid caret locations such as within a script element or within a
- * contentEditable=false element but it will return locations that isn't possible to render visually.
- *
- * @private
- * @class tinymce.caret.CaretWalker
- * @example
- * var caretWalker = new CaretWalker(rootElm);
- *
- * var prevLogicalCaretPosition = caretWalker.prev(CaretPosition.fromRangeStart(range));
- * var nextLogicalCaretPosition = caretWalker.next(CaretPosition.fromRangeEnd(range));
- */
-define(
-  'tinymce.core.caret.CaretWalker',
-  [
-    "tinymce.core.dom.NodeType",
-    "tinymce.core.caret.CaretCandidate",
-    "tinymce.core.caret.CaretPosition",
-    "tinymce.core.caret.CaretUtils",
-    "tinymce.core.util.Arr",
-    "tinymce.core.util.Fun"
-  ],
-  function (NodeType, CaretCandidate, CaretPosition, CaretUtils, Arr, Fun) {
-    var isContentEditableFalse = NodeType.isContentEditableFalse,
-      isText = NodeType.isText,
-      isElement = NodeType.isElement,
-      isBr = NodeType.isBr,
-      isForwards = CaretUtils.isForwards,
-      isBackwards = CaretUtils.isBackwards,
-      isCaretCandidate = CaretCandidate.isCaretCandidate,
-      isAtomic = CaretCandidate.isAtomic,
-      isEditableCaretCandidate = CaretCandidate.isEditableCaretCandidate;
-
-    function getParents(node, rootNode) {
-      var parents = [];
-
-      while (node && node != rootNode) {
-        parents.push(node);
-        node = node.parentNode;
-      }
-
-      return parents;
-    }
-
-    function nodeAtIndex(container, offset) {
-      if (container.hasChildNodes() && offset < container.childNodes.length) {
-        return container.childNodes[offset];
-      }
-
-      return null;
-    }
-
-    function getCaretCandidatePosition(direction, node) {
-      if (isForwards(direction)) {
-        if (isCaretCandidate(node.previousSibling) && !isText(node.previousSibling)) {
-          return CaretPosition.before(node);
-        }
-
-        if (isText(node)) {
-          return CaretPosition(node, 0);
-        }
-      }
-
-      if (isBackwards(direction)) {
-        if (isCaretCandidate(node.nextSibling) && !isText(node.nextSibling)) {
-          return CaretPosition.after(node);
-        }
-
-        if (isText(node)) {
-          return CaretPosition(node, node.data.length);
-        }
-      }
-
-      if (isBackwards(direction)) {
-        if (isBr(node)) {
-          return CaretPosition.before(node);
-        }
-
-        return CaretPosition.after(node);
-      }
-
-      return CaretPosition.before(node);
-    }
-
-    // Jumps over BR elements <p>|<br></p><p>a</p> -> <p><br></p><p>|a</p>
-    function isBrBeforeBlock(node, rootNode) {
-      var next;
-
-      if (!NodeType.isBr(node)) {
-        return false;
-      }
-
-      next = findCaretPosition(1, CaretPosition.after(node), rootNode);
-      if (!next) {
-        return false;
-      }
-
-      return !CaretUtils.isInSameBlock(CaretPosition.before(node), CaretPosition.before(next), rootNode);
-    }
-
-    function findCaretPosition(direction, startCaretPosition, rootNode) {
-      var container, offset, node, nextNode, innerNode,
-        rootContentEditableFalseElm, caretPosition;
-
-      if (!isElement(rootNode) || !startCaretPosition) {
-        return null;
-      }
-
-      if (startCaretPosition.isEqual(CaretPosition.after(rootNode)) && rootNode.lastChild) {
-        caretPosition = CaretPosition.after(rootNode.lastChild);
-        if (isBackwards(direction) && isCaretCandidate(rootNode.lastChild) && isElement(rootNode.lastChild)) {
-          return isBr(rootNode.lastChild) ? CaretPosition.before(rootNode.lastChild) : caretPosition;
-        }
-      } else {
-        caretPosition = startCaretPosition;
-      }
-
-      container = caretPosition.container();
-      offset = caretPosition.offset();
-
-      if (isText(container)) {
-        if (isBackwards(direction) && offset > 0) {
-          return CaretPosition(container, --offset);
-        }
-
-        if (isForwards(direction) && offset < container.length) {
-          return CaretPosition(container, ++offset);
-        }
-
-        node = container;
-      } else {
-        if (isBackwards(direction) && offset > 0) {
-          nextNode = nodeAtIndex(container, offset - 1);
-          if (isCaretCandidate(nextNode)) {
-            if (!isAtomic(nextNode)) {
-              innerNode = CaretUtils.findNode(nextNode, direction, isEditableCaretCandidate, nextNode);
-              if (innerNode) {
-                if (isText(innerNode)) {
-                  return CaretPosition(innerNode, innerNode.data.length);
-                }
-
-                return CaretPosition.after(innerNode);
-              }
-            }
-
-            if (isText(nextNode)) {
-              return CaretPosition(nextNode, nextNode.data.length);
-            }
-
-            return CaretPosition.before(nextNode);
-          }
-        }
-
-        if (isForwards(direction) && offset < container.childNodes.length) {
-          nextNode = nodeAtIndex(container, offset);
-          if (isCaretCandidate(nextNode)) {
-            if (isBrBeforeBlock(nextNode, rootNode)) {
-              return findCaretPosition(direction, CaretPosition.after(nextNode), rootNode);
-            }
-
-            if (!isAtomic(nextNode)) {
-              innerNode = CaretUtils.findNode(nextNode, direction, isEditableCaretCandidate, nextNode);
-              if (innerNode) {
-                if (isText(innerNode)) {
-                  return CaretPosition(innerNode, 0);
-                }
-
-                return CaretPosition.before(innerNode);
-              }
-            }
-
-            if (isText(nextNode)) {
-              return CaretPosition(nextNode, 0);
-            }
-
-            return CaretPosition.after(nextNode);
-          }
-        }
-
-        node = caretPosition.getNode();
-      }
-
-      if ((isForwards(direction) && caretPosition.isAtEnd()) || (isBackwards(direction) && caretPosition.isAtStart())) {
-        node = CaretUtils.findNode(node, direction, Fun.constant(true), rootNode, true);
-        if (isEditableCaretCandidate(node)) {
-          return getCaretCandidatePosition(direction, node);
-        }
-      }
-
-      nextNode = CaretUtils.findNode(node, direction, isEditableCaretCandidate, rootNode);
-
-      rootContentEditableFalseElm = Arr.last(Arr.filter(getParents(container, rootNode), isContentEditableFalse));
-      if (rootContentEditableFalseElm && (!nextNode || !rootContentEditableFalseElm.contains(nextNode))) {
-        if (isForwards(direction)) {
-          caretPosition = CaretPosition.after(rootContentEditableFalseElm);
-        } else {
-          caretPosition = CaretPosition.before(rootContentEditableFalseElm);
-        }
-
-        return caretPosition;
-      }
-
-      if (nextNode) {
-        return getCaretCandidatePosition(direction, nextNode);
-      }
-
-      return null;
-    }
-
-    return function (rootNode) {
-      return {
-        /**
-         * Returns the next logical caret position from the specificed input
-         * caretPoisiton or null if there isn't any more positions left for example
-         * at the end specified root element.
-         *
-         * @method next
-         * @param {tinymce.caret.CaretPosition} caretPosition Caret position to start from.
-         * @return {tinymce.caret.CaretPosition} CaretPosition or null if no position was found.
-         */
-        next: function (caretPosition) {
-          return findCaretPosition(1, caretPosition, rootNode);
-        },
-
-        /**
-         * Returns the previous logical caret position from the specificed input
-         * caretPoisiton or null if there isn't any more positions left for example
-         * at the end specified root element.
-         *
-         * @method prev
-         * @param {tinymce.caret.CaretPosition} caretPosition Caret position to start from.
-         * @return {tinymce.caret.CaretPosition} CaretPosition or null if no position was found.
-         */
-        prev: function (caretPosition) {
-          return findCaretPosition(-1, caretPosition, rootNode);
-        }
-      };
-    };
-  }
-);
-/**
- * CaretFinder.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
-define(
-  'tinymce.core.caret.CaretFinder',
-  [
-    'ephox.katamari.api.Fun',
-    'ephox.katamari.api.Option',
-    'tinymce.core.caret.CaretCandidate',
-    'tinymce.core.caret.CaretPosition',
-    'tinymce.core.caret.CaretUtils',
-    'tinymce.core.caret.CaretWalker',
-    'tinymce.core.dom.NodeType'
-  ],
-  function (Fun, Option, CaretCandidate, CaretPosition, CaretUtils, CaretWalker, NodeType) {
-    var walkToPositionIn = function (forward, rootNode, startNode) {
-      var position = forward ? CaretPosition.before(startNode) : CaretPosition.after(startNode);
-      return fromPosition(forward, rootNode, position);
-    };
-
-    var afterElement = function (node) {
-      return NodeType.isBr(node) ? CaretPosition.before(node) : CaretPosition.after(node);
-    };
-
-    var isBeforeOrStart = function (position) {
-      if (CaretPosition.isTextPosition(position)) {
-        return position.offset() === 0;
-      } else {
-        return CaretCandidate.isCaretCandidate(position.getNode());
-      }
-    };
-
-    var isAfterOrEnd = function (position) {
-      if (CaretPosition.isTextPosition(position)) {
-        return position.offset() === position.container().data.length;
-      } else {
-        return CaretCandidate.isCaretCandidate(position.getNode(true));
-      }
-    };
-
-    var isBeforeAfterSameElement = function (from, to) {
-      return !CaretPosition.isTextPosition(from) && !CaretPosition.isTextPosition(to) && from.getNode() === to.getNode(true);
-    };
-
-    var isAtBr = function (position) {
-      return !CaretPosition.isTextPosition(position) && NodeType.isBr(position.getNode());
-    };
-
-    var shouldSkipPosition = function (forward, from, to) {
-      if (forward) {
-        return !isBeforeAfterSameElement(from, to) && !isAtBr(from) && isAfterOrEnd(from) && isBeforeOrStart(to);
-      } else {
-        return !isBeforeAfterSameElement(to, from) && isBeforeOrStart(from) && isAfterOrEnd(to);
-      }
-    };
-
-    // Finds: <p>a|<b>b</b></p> -> <p>a<b>|b</b></p>
-    var fromPosition = function (forward, rootNode, position) {
-      var walker = new CaretWalker(rootNode);
-      return Option.from(forward ? walker.next(position) : walker.prev(position));
-    };
-
-    // Finds: <p>a|<b>b</b></p> -> <p>a<b>b|</b></p>
-    var navigate = function (forward, rootNode, from) {
-      return fromPosition(forward, rootNode, from).bind(function (to) {
-        if (CaretUtils.isInSameBlock(from, to, rootNode) && shouldSkipPosition(forward, from, to)) {
-          return fromPosition(forward, rootNode, to);
-        } else {
-          return Option.some(to);
-        }
-      });
-    };
-
-    var positionIn = function (forward, element) {
-      var startNode = forward ? element.firstChild : element.lastChild;
-      if (NodeType.isText(startNode)) {
-        return Option.some(new CaretPosition(startNode, forward ? 0 : startNode.data.length));
-      } else if (startNode) {
-        if (CaretCandidate.isCaretCandidate(startNode)) {
-          return Option.some(forward ? CaretPosition.before(startNode) : afterElement(startNode));
-        } else {
-          return walkToPositionIn(forward, element, startNode);
-        }
-      } else {
-        return Option.none();
-      }
-    };
-
-    return {
-      fromPosition: fromPosition,
-      navigate: navigate,
-      positionIn: positionIn
-    };
-  }
-);
-
-/**
  * DeleteUtils.js
  *
  * Released under LGPL License.
@@ -27097,8 +27295,22 @@ define(
       return Compare.contains(rootNode, elm) ? PredicateFind.closest(elm, isTextBlock, isBeforeRoot(rootNode)) : Option.none();
     };
 
+    var placeCaretInEmptyBody = function (editor) {
+      var body = editor.getBody();
+      var node = body.firstChild && editor.dom.isBlock(body.firstChild) ? body.firstChild : body;
+      editor.selection.setCursorLocation(node, 0);
+    };
+
+    var paddEmptyBody = function (editor) {
+      if (editor.dom.isEmpty(editor.getBody())) {
+        editor.setContent('');
+        placeCaretInEmptyBody(editor);
+      }
+    };
+
     return {
-      getParentTextBlock: getParentTextBlock
+      getParentTextBlock: getParentTextBlock,
+      paddEmptyBody: paddEmptyBody
     };
   }
 );
@@ -27518,11 +27730,13 @@ define(
     'ephox.katamari.api.Options',
     'ephox.sugar.api.dom.Compare',
     'ephox.sugar.api.node.Element',
+    'tinymce.core.caret.CaretFinder',
+    'tinymce.core.caret.CaretPosition',
     'tinymce.core.delete.DeleteUtils',
     'tinymce.core.delete.MergeBlocks'
   ],
-  function (Options, Compare, Element, DeleteUtils, MergeBlocks) {
-    var deleteRange = function (rootNode, selection) {
+  function (Options, Compare, Element, CaretFinder, CaretPosition, DeleteUtils, MergeBlocks) {
+    var deleteRangeMergeBlocks = function (rootNode, selection) {
       var rng = selection.getRng();
 
       return Options.liftN([
@@ -27543,14 +27757,26 @@ define(
       }).getOr(false);
     };
 
-    var backspaceDelete = function (editor, forward) {
-      var rootNode = Element.fromDom(editor.getBody());
+    var isEverythingSelected = function (rootNode, rng) {
+      var noPrevious = CaretFinder.prevPosition(rootNode.dom(), CaretPosition.fromRangeStart(rng)).isNone();
+      var noNext = CaretFinder.nextPosition(rootNode.dom(), CaretPosition.fromRangeEnd(rng)).isNone();
+      return noPrevious && noNext;
+    };
 
-      if (editor.selection.isCollapsed() === false) {
-        return deleteRange(rootNode, editor.selection);
-      } else {
-        return false;
-      }
+    var emptyEditor = function (editor) {
+      editor.setContent('');
+      editor.selection.setCursorLocation();
+      return true;
+    };
+
+    var deleteRange = function (editor) {
+      var rootNode = Element.fromDom(editor.getBody());
+      var rng = editor.selection.getRng();
+      return isEverythingSelected(rootNode, rng) ? emptyEditor(editor) : deleteRangeMergeBlocks(rootNode, editor.selection);
+    };
+
+    var backspaceDelete = function (editor, forward) {
+      return editor.selection.isCollapsed() ? false : deleteRange(editor, editor.selection.getRng());
     };
 
     return {
@@ -27780,155 +28006,6 @@ define(
 );
 
 /**
- * Bidi.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
-define(
-  'tinymce.core.text.Bidi',
-  [
-  ],
-  function () {
-    var strongRtl = /[\u0591-\u07FF\uFB1D-\uFDFF\uFE70-\uFEFC]/;
-
-    var hasStrongRtl = function (text) {
-      return strongRtl.test(text);
-    };
-
-    return {
-      hasStrongRtl: hasStrongRtl
-    };
-  }
-);
-/**
- * InlineUtils.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
-define(
-  'tinymce.core.keyboard.InlineUtils',
-  [
-    'ephox.katamari.api.Arr',
-    'ephox.katamari.api.Fun',
-    'ephox.katamari.api.Option',
-    'ephox.katamari.api.Options',
-    'tinymce.core.caret.CaretContainer',
-    'tinymce.core.caret.CaretFinder',
-    'tinymce.core.caret.CaretPosition',
-    'tinymce.core.caret.CaretUtils',
-    'tinymce.core.caret.CaretWalker',
-    'tinymce.core.dom.DOMUtils',
-    'tinymce.core.dom.NodeType',
-    'tinymce.core.text.Bidi'
-  ],
-  function (Arr, Fun, Option, Options, CaretContainer, CaretFinder, CaretPosition, CaretUtils, CaretWalker, DOMUtils, NodeType, Bidi) {
-    var isInlineTarget = function (elm) {
-      return DOMUtils.DOM.is(elm, 'a[href],code');
-    };
-
-    var isRtl = function (element) {
-      return DOMUtils.DOM.getStyle(element, 'direction', true) === 'rtl' || Bidi.hasStrongRtl(element.textContent);
-    };
-
-    var findInlineParents = function (rootNode, pos) {
-      return Arr.filter(DOMUtils.DOM.getParents(pos.container(), '*', rootNode), isInlineTarget);
-    };
-
-    var findInline = function (rootNode, pos) {
-      var parents = findInlineParents(rootNode, pos);
-      return Option.from(parents[0]);
-    };
-
-    var findRootInline = function (rootNode, pos) {
-      var parents = findInlineParents(rootNode, pos);
-      return Option.from(parents[parents.length - 1]);
-    };
-
-    var hasSameParentBlock = function (rootNode, node1, node2) {
-      var block1 = CaretUtils.getParentBlock(node1, rootNode);
-      var block2 = CaretUtils.getParentBlock(node2, rootNode);
-      return block1 && block1 === block2;
-    };
-
-    var isInInline = function (rootNode, pos) {
-      return pos ? findRootInline(rootNode, pos).isSome() : false;
-    };
-
-    var isAtInlineEndPoint = function (rootNode, pos) {
-      return findRootInline(rootNode, pos).map(function (inline) {
-        return findCaretPosition(inline, false, pos).isNone() || findCaretPosition(inline, true, pos).isNone();
-      }).getOr(false);
-    };
-
-    var isAtZwsp = function (pos) {
-      return CaretContainer.isBeforeInline(pos) || CaretContainer.isAfterInline(pos);
-    };
-
-    var findCaretPositionIn = function (node, forward) {
-      return CaretFinder.positionIn(forward, node);
-    };
-
-    var findCaretPosition = function (rootNode, forward, from) {
-      return CaretFinder.fromPosition(forward, rootNode, from);
-    };
-
-    var normalizePosition = function (forward, pos) {
-      var container = pos.container(), offset = pos.offset();
-
-      if (forward) {
-        if (CaretContainer.isCaretContainerInline(container)) {
-          if (NodeType.isText(container.nextSibling)) {
-            return new CaretPosition(container.nextSibling, 0);
-          } else {
-            return CaretPosition.after(container);
-          }
-        } else {
-          return CaretContainer.isBeforeInline(pos) ? new CaretPosition(container, offset + 1) : pos;
-        }
-      } else {
-        if (CaretContainer.isCaretContainerInline(container)) {
-          if (NodeType.isText(container.previousSibling)) {
-            return new CaretPosition(container.previousSibling, container.previousSibling.data.length);
-          } else {
-            return CaretPosition.before(container);
-          }
-        } else {
-          return CaretContainer.isAfterInline(pos) ? new CaretPosition(container, offset - 1) : pos;
-        }
-      }
-    };
-
-    var normalizeForwards = Fun.curry(normalizePosition, true);
-    var normalizeBackwards = Fun.curry(normalizePosition, false);
-
-    return {
-      isInlineTarget: isInlineTarget,
-      findInline: findInline,
-      findRootInline: findRootInline,
-      isInInline: isInInline,
-      isRtl: isRtl,
-      isAtInlineEndPoint: isAtInlineEndPoint,
-      isAtZwsp: isAtZwsp,
-      findCaretPositionIn: findCaretPositionIn,
-      findCaretPosition: findCaretPosition,
-      normalizePosition: normalizePosition,
-      normalizeForwards: normalizeForwards,
-      normalizeBackwards: normalizeBackwards,
-      hasSameParentBlock: hasSameParentBlock
-    };
-  }
-);
-/**
  * DeleteElement.js
  *
  * Released under LGPL License.
@@ -27951,12 +28028,12 @@ define(
     'ephox.sugar.api.search.PredicateFind',
     'ephox.sugar.api.search.Traverse',
     'tinymce.core.caret.CaretCandidate',
+    'tinymce.core.caret.CaretFinder',
     'tinymce.core.caret.CaretPosition',
     'tinymce.core.dom.Empty',
-    'tinymce.core.dom.NodeType',
-    'tinymce.core.keyboard.InlineUtils'
+    'tinymce.core.dom.NodeType'
   ],
-  function (Fun, Option, Options, Insert, Remove, Element, Node, PredicateFind, Traverse, CaretCandidate, CaretPosition, Empty, NodeType, InlineUtils) {
+  function (Fun, Option, Options, Insert, Remove, Element, Node, PredicateFind, Traverse, CaretCandidate, CaretFinder, CaretPosition, Empty, NodeType) {
     var needsReposition = function (pos, elm) {
       var container = pos.container();
       var offset = pos.offset();
@@ -27979,7 +28056,7 @@ define(
       if (CaretCandidate.isCaretCandidate(elm.previousSibling)) {
         return Option.some(afterOrEndOf(elm.previousSibling));
       } else {
-        return elm.previousSibling ? InlineUtils.findCaretPositionIn(elm.previousSibling, false) : Option.none();
+        return elm.previousSibling ? CaretFinder.lastPositionIn(elm.previousSibling) : Option.none();
       }
     };
 
@@ -27987,24 +28064,24 @@ define(
       if (CaretCandidate.isCaretCandidate(elm.nextSibling)) {
         return Option.some(beforeOrStartOf(elm.nextSibling));
       } else {
-        return elm.nextSibling ? InlineUtils.findCaretPositionIn(elm.nextSibling, true) : Option.none();
+        return elm.nextSibling ? CaretFinder.firstPositionIn(elm.nextSibling) : Option.none();
       }
     };
 
     var findCaretPositionBackwardsFromElm = function (rootElement, elm) {
       var startPosition = CaretPosition.before(elm.previousSibling ? elm.previousSibling : elm.parentNode);
-      return InlineUtils.findCaretPosition(rootElement, false, startPosition).fold(
+      return CaretFinder.prevPosition(rootElement, startPosition).fold(
         function () {
-          return InlineUtils.findCaretPosition(rootElement, true, CaretPosition.after(elm));
+          return CaretFinder.nextPosition(rootElement, CaretPosition.after(elm));
         },
         Option.some
       );
     };
 
     var findCaretPositionForwardsFromElm = function (rootElement, elm) {
-      return InlineUtils.findCaretPosition(rootElement, true, CaretPosition.after(elm)).fold(
+      return CaretFinder.nextPosition(rootElement, CaretPosition.after(elm)).fold(
         function () {
-          return InlineUtils.findCaretPosition(rootElement, false, CaretPosition.before(elm));
+          return CaretFinder.prevPosition(rootElement, CaretPosition.before(elm));
         },
         Option.some
       );
@@ -28124,16 +28201,20 @@ define(
 define(
   'tinymce.core.delete.CefDelete',
   [
+    'ephox.katamari.api.Arr',
+    'ephox.sugar.api.dom.Remove',
     'ephox.sugar.api.node.Element',
+    'ephox.sugar.api.search.SelectorFilter',
     'tinymce.core.caret.CaretPosition',
     'tinymce.core.caret.CaretUtils',
     'tinymce.core.delete.BlockBoundary',
     'tinymce.core.delete.CefDeleteAction',
     'tinymce.core.delete.DeleteElement',
+    'tinymce.core.delete.DeleteUtils',
     'tinymce.core.delete.MergeBlocks',
     'tinymce.core.dom.NodeType'
   ],
-  function (Element, CaretPosition, CaretUtils, BlockBoundary, CefDeleteAction, DeleteElement, MergeBlocks, NodeType) {
+  function (Arr, Remove, Element, SelectorFilter, CaretPosition, CaretUtils, BlockBoundary, CefDeleteAction, DeleteElement, DeleteUtils, MergeBlocks, NodeType) {
     var deleteElement = function (editor, forward) {
       return function (element) {
         DeleteElement.deleteElement(editor, forward, Element.fromDom(element));
@@ -28168,10 +28249,16 @@ define(
       return result.getOr(false);
     };
 
+    var deleteOffscreenSelection = function (rootElement) {
+      Arr.each(SelectorFilter.descendants(rootElement, '.mce-offscreen-selection'), Remove.remove);
+    };
+
     var backspaceDeleteRange = function (editor, forward) {
       var selectedElement = editor.selection.getNode();
       if (NodeType.isContentEditableFalse(selectedElement)) {
+        deleteOffscreenSelection(Element.fromDom(editor.getBody()));
         DeleteElement.deleteElement(editor, forward, Element.fromDom(editor.selection.getNode()));
+        DeleteUtils.paddEmptyBody(editor);
         return true;
       } else {
         return false;
@@ -28423,6 +28510,233 @@ define(
   }
 );
 /**
+ * DefaultSettings.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
+
+define(
+  'tinymce.core.EditorSettings',
+  [
+    'ephox.katamari.api.Fun',
+    'ephox.katamari.api.Option',
+    'ephox.katamari.api.Type',
+    'tinymce.core.util.Tools'
+  ],
+  function (Fun, Option, Type, Tools) {
+    var getEditorSettings = function (editor, id, documentBaseUrl, defaultOverrideSettings, settings) {
+      settings = Tools.extend(
+        // Default settings
+        {
+          id: id,
+          theme: 'modern',
+          delta_width: 0,
+          delta_height: 0,
+          popup_css: '',
+          plugins: '',
+          document_base_url: documentBaseUrl,
+          add_form_submit_trigger: true,
+          submit_patch: true,
+          add_unload_trigger: true,
+          convert_urls: true,
+          relative_urls: true,
+          remove_script_host: true,
+          object_resizing: true,
+          doctype: '<!DOCTYPE html>',
+          visual: true,
+          font_size_style_values: 'xx-small,x-small,small,medium,large,x-large,xx-large',
+
+          // See: http://www.w3.org/TR/CSS2/fonts.html#propdef-font-size
+          font_size_legacy_values: 'xx-small,small,medium,large,x-large,xx-large,300%',
+          forced_root_block: 'p',
+          hidden_input: true,
+          padd_empty_editor: true,
+          render_ui: true,
+          indentation: '30px',
+          inline_styles: true,
+          convert_fonts_to_spans: true,
+          indent: 'simple',
+          indent_before: 'p,h1,h2,h3,h4,h5,h6,blockquote,div,title,style,pre,script,td,th,ul,ol,li,dl,dt,dd,area,table,thead,' +
+          'tfoot,tbody,tr,section,article,hgroup,aside,figure,figcaption,option,optgroup,datalist',
+          indent_after: 'p,h1,h2,h3,h4,h5,h6,blockquote,div,title,style,pre,script,td,th,ul,ol,li,dl,dt,dd,area,table,thead,' +
+          'tfoot,tbody,tr,section,article,hgroup,aside,figure,figcaption,option,optgroup,datalist',
+          entity_encoding: 'named',
+          url_converter: editor.convertURL,
+          url_converter_scope: editor,
+          ie7_compat: true
+        },
+
+        // tinymce.overrideDefaults settings
+        defaultOverrideSettings,
+
+        // User settings
+        settings,
+
+        // Forced settings
+        {
+          validate: true,
+          content_editable: settings.inline
+        }
+      );
+
+      // Merge external_plugins
+      if (defaultOverrideSettings && defaultOverrideSettings.external_plugins && settings.external_plugins) {
+        settings.external_plugins = Tools.extend({}, defaultOverrideSettings.external_plugins, settings.external_plugins);
+      }
+
+      return settings;
+    };
+
+    var get = function (editor, name) {
+      return Option.from(editor.settings[name]);
+    };
+
+    var getFiltered = function (predicate, editor, name) {
+      return Option.from(editor.settings[name]).filter(predicate);
+    };
+
+    return {
+      getEditorSettings: getEditorSettings,
+      get: get,
+      getString: Fun.curry(getFiltered, Type.isString)
+    };
+  }
+);
+
+/**
+ * Bidi.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
+
+define(
+  'tinymce.core.text.Bidi',
+  [
+  ],
+  function () {
+    var strongRtl = /[\u0591-\u07FF\uFB1D-\uFDFF\uFE70-\uFEFC]/;
+
+    var hasStrongRtl = function (text) {
+      return strongRtl.test(text);
+    };
+
+    return {
+      hasStrongRtl: hasStrongRtl
+    };
+  }
+);
+/**
+ * InlineUtils.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
+
+define(
+  'tinymce.core.keyboard.InlineUtils',
+  [
+    'ephox.katamari.api.Arr',
+    'ephox.katamari.api.Fun',
+    'ephox.katamari.api.Option',
+    'ephox.katamari.api.Options',
+    'ephox.katamari.api.Type',
+    'ephox.sugar.api.node.Element',
+    'ephox.sugar.api.search.Selectors',
+    'tinymce.core.caret.CaretContainer',
+    'tinymce.core.caret.CaretFinder',
+    'tinymce.core.caret.CaretPosition',
+    'tinymce.core.caret.CaretUtils',
+    'tinymce.core.caret.CaretWalker',
+    'tinymce.core.dom.DOMUtils',
+    'tinymce.core.dom.NodeType',
+    'tinymce.core.EditorSettings',
+    'tinymce.core.text.Bidi'
+  ],
+  function (
+    Arr, Fun, Option, Options, Type, Element, Selectors, CaretContainer, CaretFinder, CaretPosition, CaretUtils, CaretWalker, DOMUtils, NodeType, EditorSettings,
+    Bidi
+  ) {
+    var isInlineTarget = function (editor, elm) {
+      var selector = EditorSettings.getString(editor, 'inline_boundaries_selector').getOr('a[href],code');
+      return Selectors.is(Element.fromDom(elm), selector);
+    };
+
+    var isRtl = function (element) {
+      return DOMUtils.DOM.getStyle(element, 'direction', true) === 'rtl' || Bidi.hasStrongRtl(element.textContent);
+    };
+
+    var findInlineParents = function (isInlineTarget, rootNode, pos) {
+      return Arr.filter(DOMUtils.DOM.getParents(pos.container(), '*', rootNode), isInlineTarget);
+    };
+
+    var findRootInline = function (isInlineTarget, rootNode, pos) {
+      var parents = findInlineParents(isInlineTarget, rootNode, pos);
+      return Option.from(parents[parents.length - 1]);
+    };
+
+    var hasSameParentBlock = function (rootNode, node1, node2) {
+      var block1 = CaretUtils.getParentBlock(node1, rootNode);
+      var block2 = CaretUtils.getParentBlock(node2, rootNode);
+      return block1 && block1 === block2;
+    };
+
+    var isAtZwsp = function (pos) {
+      return CaretContainer.isBeforeInline(pos) || CaretContainer.isAfterInline(pos);
+    };
+
+    var normalizePosition = function (forward, pos) {
+      var container = pos.container(), offset = pos.offset();
+
+      if (forward) {
+        if (CaretContainer.isCaretContainerInline(container)) {
+          if (NodeType.isText(container.nextSibling)) {
+            return new CaretPosition(container.nextSibling, 0);
+          } else {
+            return CaretPosition.after(container);
+          }
+        } else {
+          return CaretContainer.isBeforeInline(pos) ? new CaretPosition(container, offset + 1) : pos;
+        }
+      } else {
+        if (CaretContainer.isCaretContainerInline(container)) {
+          if (NodeType.isText(container.previousSibling)) {
+            return new CaretPosition(container.previousSibling, container.previousSibling.data.length);
+          } else {
+            return CaretPosition.before(container);
+          }
+        } else {
+          return CaretContainer.isAfterInline(pos) ? new CaretPosition(container, offset - 1) : pos;
+        }
+      }
+    };
+
+    var normalizeForwards = Fun.curry(normalizePosition, true);
+    var normalizeBackwards = Fun.curry(normalizePosition, false);
+
+    return {
+      isInlineTarget: isInlineTarget,
+      findRootInline: findRootInline,
+      isRtl: isRtl,
+      isAtZwsp: isAtZwsp,
+      normalizePosition: normalizePosition,
+      normalizeForwards: normalizeForwards,
+      normalizeBackwards: normalizeBackwards,
+      hasSameParentBlock: hasSameParentBlock
+    };
+  }
+);
+/**
  * BoundaryCaret.js
  *
  * Released under LGPL License.
@@ -28439,11 +28753,12 @@ define(
     'tinymce.core.caret.CaretContainer',
     'tinymce.core.caret.CaretContainerInline',
     'tinymce.core.caret.CaretContainerRemove',
+    'tinymce.core.caret.CaretFinder',
     'tinymce.core.caret.CaretPosition',
     'tinymce.core.dom.NodeType',
     'tinymce.core.keyboard.InlineUtils'
   ],
-  function (Option, CaretContainer, CaretContainerInline, CaretContainerRemove, CaretPosition, NodeType, InlineUtils) {
+  function (Option, CaretContainer, CaretContainerInline, CaretContainerRemove, CaretFinder, CaretPosition, NodeType, InlineUtils) {
     var insertInlinePos = function (pos, before) {
       if (NodeType.isText(pos.container())) {
         return CaretContainerInline.insertInline(before, pos.container());
@@ -28466,7 +28781,7 @@ define(
           return Option.some(new CaretPosition(text, text.length - 1));
         },
         function (element) { // Start
-          return InlineUtils.findCaretPositionIn(element, true).map(function (pos) {
+          return CaretFinder.firstPositionIn(element).map(function (pos) {
             if (!isPosCaretContainer(pos, caret)) {
               CaretContainerRemove.remove(caret.get());
               var text = insertInlinePos(pos, true);
@@ -28478,7 +28793,7 @@ define(
           });
         },
         function (element) { // End
-          return InlineUtils.findCaretPositionIn(element, false).map(function (pos) {
+          return CaretFinder.lastPositionIn(element).map(function (pos) {
             if (!isPosCaretContainer(pos, caret)) {
               CaretContainerRemove.remove(caret.get());
               var text = insertInlinePos(pos, false);
@@ -28553,13 +28868,14 @@ define(
     'ephox.katamari.api.Option',
     'ephox.katamari.api.Options',
     'tinymce.core.caret.CaretContainer',
+    'tinymce.core.caret.CaretFinder',
     'tinymce.core.caret.CaretPosition',
     'tinymce.core.caret.CaretUtils',
     'tinymce.core.dom.NodeType',
     'tinymce.core.keyboard.InlineUtils',
     'tinymce.core.util.LazyEvaluator'
   ],
-  function (Adt, Fun, Option, Options, CaretContainer, CaretPosition, CaretUtils, NodeType, InlineUtils, LazyEvaluator) {
+  function (Adt, Fun, Option, Options, CaretContainer, CaretFinder, CaretPosition, CaretUtils, NodeType, InlineUtils, LazyEvaluator) {
     var Location = Adt.generate([
       { before: [ 'element' ] },
       { start: [ 'element' ] },
@@ -28572,13 +28888,13 @@ define(
       return parentBlock ? parentBlock : rootNode;
     };
 
-    var before = function (rootNode, pos) {
+    var before = function (isInlineTarget, rootNode, pos) {
       var nPos = InlineUtils.normalizeForwards(pos);
       var scope = rescope(rootNode, nPos.container());
-      return InlineUtils.findRootInline(scope, nPos).fold(
+      return InlineUtils.findRootInline(isInlineTarget, scope, nPos).fold(
         function () {
-          return InlineUtils.findCaretPosition(scope, true, nPos)
-            .bind(Fun.curry(InlineUtils.findRootInline, scope))
+          return CaretFinder.nextPosition(scope, nPos)
+            .bind(Fun.curry(InlineUtils.findRootInline, isInlineTarget, scope))
             .map(function (inline) {
               return Location.before(inline);
             });
@@ -28587,29 +28903,29 @@ define(
       );
     };
 
-    var start = function (rootNode, pos) {
+    var start = function (isInlineTarget, rootNode, pos) {
       var nPos = InlineUtils.normalizeBackwards(pos);
-      return InlineUtils.findRootInline(rootNode, nPos).bind(function (inline) {
-        var prevPos = InlineUtils.findCaretPosition(inline, false, nPos);
+      return InlineUtils.findRootInline(isInlineTarget, rootNode, nPos).bind(function (inline) {
+        var prevPos = CaretFinder.prevPosition(inline, nPos);
         return prevPos.isNone() ? Option.some(Location.start(inline)) : Option.none();
       });
     };
 
-    var end = function (rootNode, pos) {
+    var end = function (isInlineTarget, rootNode, pos) {
       var nPos = InlineUtils.normalizeForwards(pos);
-      return InlineUtils.findRootInline(rootNode, nPos).bind(function (inline) {
-        var nextPos = InlineUtils.findCaretPosition(inline, true, nPos);
+      return InlineUtils.findRootInline(isInlineTarget, rootNode, nPos).bind(function (inline) {
+        var nextPos = CaretFinder.nextPosition(inline, nPos);
         return nextPos.isNone() ? Option.some(Location.end(inline)) : Option.none();
       });
     };
 
-    var after = function (rootNode, pos) {
+    var after = function (isInlineTarget, rootNode, pos) {
       var nPos = InlineUtils.normalizeBackwards(pos);
       var scope = rescope(rootNode, nPos.container());
-      return InlineUtils.findRootInline(scope, nPos).fold(
+      return InlineUtils.findRootInline(isInlineTarget, scope, nPos).fold(
         function () {
-          return InlineUtils.findCaretPosition(scope, false, nPos)
-            .bind(Fun.curry(InlineUtils.findRootInline, scope))
+          return CaretFinder.prevPosition(scope, nPos)
+            .bind(Fun.curry(InlineUtils.findRootInline, isInlineTarget, scope))
             .map(function (inline) {
               return Location.after(inline);
             });
@@ -28622,13 +28938,13 @@ define(
       return InlineUtils.isRtl(getElement(location)) === false;
     };
 
-    var readLocation = function (rootNode, pos) {
+    var readLocation = function (isInlineTarget, rootNode, pos) {
       var location = LazyEvaluator.evaluateUntil([
         before,
         start,
         end,
         after
-      ], [rootNode, pos]);
+      ], [isInlineTarget, rootNode, pos]);
 
       return location.filter(isValidLocation);
     };
@@ -28673,10 +28989,10 @@ define(
       return getName(location1) === getName(location2) && getElement(location1) === getElement(location2);
     };
 
-    var betweenInlines = function (forward, rootNode, from, to, location) {
+    var betweenInlines = function (forward, isInlineTarget, rootNode, from, to, location) {
       return Options.liftN([
-        InlineUtils.findRootInline(rootNode, from),
-        InlineUtils.findRootInline(rootNode, to)
+        InlineUtils.findRootInline(isInlineTarget, rootNode, from),
+        InlineUtils.findRootInline(isInlineTarget, rootNode, to)
       ], function (fromInline, toInline) {
         if (fromInline !== toInline && InlineUtils.hasSameParentBlock(rootNode, fromInline, toInline)) {
           // Force after since some browsers normalize and lean left into the closest inline
@@ -28696,17 +29012,17 @@ define(
       );
     };
 
-    var findLocationTraverse = function (forward, rootNode, fromLocation, pos) {
+    var findLocationTraverse = function (forward, isInlineTarget, rootNode, fromLocation, pos) {
       var from = InlineUtils.normalizePosition(forward, pos);
-      var to = InlineUtils.findCaretPosition(rootNode, forward, from).map(Fun.curry(InlineUtils.normalizePosition, forward));
+      var to = CaretFinder.fromPosition(forward, rootNode, from).map(Fun.curry(InlineUtils.normalizePosition, forward));
 
       var location = to.fold(
         function () {
           return fromLocation.map(outside);
         },
         function (to) {
-          return readLocation(rootNode, to)
-            .map(Fun.curry(betweenInlines, forward, rootNode, from, to))
+          return readLocation(isInlineTarget, rootNode, to)
+            .map(Fun.curry(betweenInlines, forward, isInlineTarget, rootNode, from, to))
             .filter(Fun.curry(skipNoMovement, fromLocation));
         }
       );
@@ -28732,17 +29048,18 @@ define(
       }
     };
 
-    var findLocation = function (forward, rootNode, pos) {
+    var findLocation = function (forward, isInlineTarget, rootNode, pos) {
       var from = InlineUtils.normalizePosition(forward, pos);
-      var fromLocation = readLocation(rootNode, from);
+      var fromLocation = readLocation(isInlineTarget, rootNode, from);
 
-      return readLocation(rootNode, from).bind(Fun.curry(findLocationSimple, forward)).orThunk(function () {
-        return findLocationTraverse(forward, rootNode, fromLocation, pos);
+      return readLocation(isInlineTarget, rootNode, from).bind(Fun.curry(findLocationSimple, forward)).orThunk(function () {
+        return findLocationTraverse(forward, isInlineTarget, rootNode, fromLocation, pos);
       });
     };
 
     return {
       readLocation: readLocation,
+      findLocation: findLocation,
       prevLocation: Fun.curry(findLocation, false),
       nextLocation: Fun.curry(findLocation, true),
       getElement: getElement,
@@ -28803,15 +29120,16 @@ define(
     var findLocation = function (editor, caret, forward) {
       var rootNode = editor.getBody();
       var from = CaretPosition.fromRangeStart(editor.selection.getRng());
-      var location = forward ? BoundaryLocation.nextLocation(rootNode, from) : BoundaryLocation.prevLocation(rootNode, from);
+      var isInlineTarget = Fun.curry(InlineUtils.isInlineTarget, editor);
+      var location = BoundaryLocation.findLocation(forward, isInlineTarget, rootNode, from);
       return location.bind(function (location) {
         return renderCaretLocation(editor, caret, location);
       });
     };
 
-    var toggleInlines = function (dom, elms) {
-      var selectedInlines = dom.select('a[href][data-mce-selected],code[data-mce-selected]');
-      var targetInlines = Arr.filter(elms, InlineUtils.isInlineTarget);
+    var toggleInlines = function (isInlineTarget, dom, elms) {
+      var selectedInlines = Arr.filter(dom.select('*[data-mce-selected]'), isInlineTarget);
+      var targetInlines = Arr.filter(elms, isInlineTarget);
       Arr.each(Arr.difference(selectedInlines, targetInlines), Fun.curry(setSelected, false));
       Arr.each(Arr.difference(targetInlines, selectedInlines), Fun.curry(setSelected, true));
     };
@@ -28826,12 +29144,12 @@ define(
       }
     };
 
-    var renderInsideInlineCaret = function (editor, caret, elms) {
+    var renderInsideInlineCaret = function (isInlineTarget, editor, caret, elms) {
       if (editor.selection.isCollapsed()) {
-        var inlines = Arr.filter(elms, InlineUtils.isInlineTarget);
+        var inlines = Arr.filter(elms, isInlineTarget);
         Arr.each(inlines, function (inline) {
           var pos = CaretPosition.fromRangeStart(editor.selection.getRng());
-          BoundaryLocation.readLocation(editor.getBody(), pos).bind(function (location) {
+          BoundaryLocation.readLocation(isInlineTarget, editor.getBody(), pos).bind(function (location) {
             return renderCaretLocation(editor, caret, location);
           });
         });
@@ -28846,12 +29164,13 @@ define(
 
     var setupSelectedState = function (editor) {
       var caret = new Cell(null);
+      var isInlineTarget = Fun.curry(InlineUtils.isInlineTarget, editor);
 
       editor.on('NodeChange', function (e) {
         if (isFeatureEnabled(editor)) {
-          toggleInlines(editor.dom, e.parents);
+          toggleInlines(isInlineTarget, editor.dom, e.parents);
           safeRemoveCaretContainer(editor, caret);
-          renderInsideInlineCaret(editor, caret, e.parents);
+          renderInsideInlineCaret(isInlineTarget, editor, caret, e.parents);
         }
       });
 
@@ -28912,13 +29231,13 @@ define(
     // Checks for delete at <code>|a</code> when there is only one item left except the zwsp caret container nodes
     var hasOnlyTwoOrLessPositionsLeft = function (elm) {
       return Options.liftN([
-        InlineUtils.findCaretPositionIn(elm, true),
-        InlineUtils.findCaretPositionIn(elm, false)
+        CaretFinder.firstPositionIn(elm),
+        CaretFinder.lastPositionIn(elm)
       ], function (firstPos, lastPos) {
         var normalizedFirstPos = InlineUtils.normalizePosition(true, firstPos);
         var normalizedLastPos = InlineUtils.normalizePosition(false, lastPos);
 
-        return InlineUtils.findCaretPosition(elm, true, normalizedFirstPos).map(function (pos) {
+        return CaretFinder.nextPosition(elm, normalizedFirstPos).map(function (pos) {
           return pos.isEqual(normalizedLastPos);
         }).getOr(true);
       }).getOr(true);
@@ -28935,12 +29254,13 @@ define(
 
     var deleteFromTo = function (editor, caret, from, to) {
       var rootNode = editor.getBody();
+      var isInlineTarget = Fun.curry(InlineUtils.isInlineTarget, editor);
 
       editor.undoManager.ignore(function () {
         editor.selection.setRng(rangeFromPositions(from, to));
         editor.execCommand('Delete');
 
-        BoundaryLocation.readLocation(rootNode, CaretPosition.fromRangeStart(editor.selection.getRng()))
+        BoundaryLocation.readLocation(isInlineTarget, rootNode, CaretPosition.fromRangeStart(editor.selection.getRng()))
           .map(BoundaryLocation.inside)
           .map(setCaretLocation(editor, caret));
       });
@@ -28955,7 +29275,8 @@ define(
 
     var backspaceDeleteCollapsed = function (editor, caret, forward, from) {
       var rootNode = rescope(editor.getBody(), from.container());
-      var fromLocation = BoundaryLocation.readLocation(rootNode, from);
+      var isInlineTarget = Fun.curry(InlineUtils.isInlineTarget, editor);
+      var fromLocation = BoundaryLocation.readLocation(isInlineTarget, rootNode, from);
 
       return fromLocation.bind(function (location) {
         if (forward) {
@@ -28978,11 +29299,11 @@ define(
       .getOrThunk(function () {
         var toPosition = CaretFinder.navigate(forward, rootNode, from);
         var toLocation = toPosition.bind(function (pos) {
-          return BoundaryLocation.readLocation(rootNode, pos);
+          return BoundaryLocation.readLocation(isInlineTarget, rootNode, pos);
         });
 
         if (fromLocation.isSome() && toLocation.isSome()) {
-          return InlineUtils.findRootInline(rootNode, from).map(function (elm) {
+          return InlineUtils.findRootInline(isInlineTarget, rootNode, from).map(function (elm) {
             if (hasOnlyTwoOrLessPositionsLeft(elm)) {
               DeleteElement.deleteElement(editor, forward, Element.fromDom(elm));
               return true;
@@ -29036,30 +29357,12 @@ define(
     'tinymce.core.delete.BlockBoundaryDelete',
     'tinymce.core.delete.BlockRangeDelete',
     'tinymce.core.delete.CefDelete',
+    'tinymce.core.delete.DeleteUtils',
     'tinymce.core.delete.InlineBoundaryDelete'
   ],
-  function (BlockBoundaryDelete, BlockRangeDelete, CefDelete, BoundaryDelete) {
+  function (BlockBoundaryDelete, BlockRangeDelete, CefDelete, DeleteUtils, BoundaryDelete) {
     var nativeCommand = function (editor, command) {
       editor.getDoc().execCommand(command, false, null);
-    };
-
-    var paddEmptyBody = function (editor) {
-      var dom = editor.dom;
-
-      // Check if body is empty after the delete call if so then set the contents
-      // to an empty string and move the caret to any block produced by that operation
-      // this fixes the issue with root blocks not being properly produced after a delete call on IE
-      var body = editor.getBody();
-
-      if (dom.isEmpty(body)) {
-        editor.setContent('');
-
-        if (body.firstChild && dom.isBlock(body.firstChild)) {
-          editor.selection.setCursorLocation(body.firstChild, 0);
-        } else {
-          editor.selection.setCursorLocation(body, 0);
-        }
-      }
     };
 
     var deleteCommand = function (editor) {
@@ -29073,7 +29376,7 @@ define(
         return;
       } else {
         nativeCommand(editor, 'Delete');
-        paddEmptyBody(editor);
+        DeleteUtils.paddEmptyBody(editor);
       }
     };
 
@@ -29094,75 +29397,6 @@ define(
     return {
       deleteCommand: deleteCommand,
       forwardDeleteCommand: forwardDeleteCommand
-    };
-  }
-);
-/**
- * RangeNormalizer.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
-define(
-  'tinymce.core.dom.RangeNormalizer',
-  [
-    'tinymce.core.caret.CaretFinder',
-    'tinymce.core.caret.CaretPosition',
-    'tinymce.core.caret.CaretUtils',
-    'tinymce.core.dom.NodeType'
-  ],
-  function (CaretFinder, CaretPosition, CaretUtils, NodeType) {
-    var isTextBlock = function (elm) {
-      return NodeType.isElement(elm) && /^(P|H[1-6]|DIV)$/.test(elm.nodeName);
-    };
-
-    var matchEndContainer = function (rng, predicate) {
-      return predicate(rng.endContainer);
-    };
-
-    var createRange = function (sc, so, ec, eo) {
-      var rng = document.createRange();
-      rng.setStart(sc, so);
-      rng.setEnd(ec, eo);
-      return rng;
-    };
-
-    // If you tripple click a paragraph in this case:
-    //   <blockquote><p>a</p></blockquote><p>b</p>
-    // It would become this range in webkit:
-    //   <blockquote><p>[a</p></blockquote><p>]b</p>
-    // We would want it to be:
-    //   <blockquote><p>[a]</p></blockquote><p>b</p>
-    // Since it would otherwise produces spans out of thin air on insertContent for example.
-    var normalizeBlockSelection = function (rng) {
-      var startPos = CaretPosition.fromRangeStart(rng);
-      var endPos = CaretPosition.fromRangeEnd(rng);
-      var rootNode = rng.commonAncestorContainer;
-
-      if (rng.collapsed === false && matchEndContainer(rng, isTextBlock) && rng.endOffset === 0) {
-        return CaretFinder.fromPosition(false, rootNode, endPos)
-          .map(function (newEndPos) {
-            if (!CaretUtils.isInSameBlock(startPos, endPos, rootNode) && CaretUtils.isInSameBlock(startPos, newEndPos, rootNode)) {
-              return createRange(startPos.container(), startPos.offset(), newEndPos.container(), newEndPos.offset());
-            } else {
-              return rng;
-            }
-          }).getOr(rng);
-      } else {
-        return rng;
-      }
-    };
-
-    var normalize = function (rng) {
-      return normalizeBlockSelection(rng);
-    };
-
-    return {
-      normalize: normalize
     };
   }
 );
@@ -37834,6 +38068,10 @@ define(
     "tinymce.core.util.Delay"
   ],
   function (Control, Movable, Progress, Delay) {
+    var updateLiveRegion = function (ctx, text) {
+      ctx.getEl().lastChild.textContent = text + (ctx.progressBar ? ' ' + ctx.progressBar.value() + '%' : '');
+    };
+
     return Control.extend({
       Mixins: [Movable],
 
@@ -37911,6 +38149,8 @@ define(
           '<div class="' + prefix + 'notification-inner">' + self.state.get('text') + '</div>' +
           progressBar +
           closeButton +
+          '<div style="clip: rect(1px, 1px, 1px, 1px);height: 1px;overflow: hidden;position: absolute;width: 1px;"' +
+          ' aria-live="assertive" aria-relevant="additions" aria-atomic="true"></div>' +
           '</div>'
         );
       },
@@ -37920,7 +38160,8 @@ define(
 
         Delay.setTimeout(function () {
           self.$el.addClass(self.classPrefix + 'in');
-        });
+          updateLiveRegion(self, self.state.get('text'));
+        }, 100);
 
         return self._super();
       },
@@ -37929,10 +38170,14 @@ define(
         var self = this;
 
         self.state.on('change:text', function (e) {
-          self.getEl().childNodes[1].innerHTML = e.value;
+          self.getEl().firstChild.innerHTML = e.value;
+          updateLiveRegion(self, e.value);
         });
         if (self.progressBar) {
           self.progressBar.bindStates();
+          self.progressBar.state.on('change:value', function (e) {
+            updateLiveRegion(self, self.state.get('text'));
+          });
         }
         return self._super();
       },
@@ -38616,91 +38861,6 @@ define(
   }
 );
 
-/**
- * DefaultSettings.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
-define(
-  'tinymce.core.EditorSettings',
-  [
-    'tinymce.core.util.Tools'
-  ],
-  function (Tools) {
-    var getEditorSettings = function (editor, id, documentBaseUrl, defaultOverrideSettings, settings) {
-      settings = Tools.extend(
-        // Default settings
-        {
-          id: id,
-          theme: 'modern',
-          delta_width: 0,
-          delta_height: 0,
-          popup_css: '',
-          plugins: '',
-          document_base_url: documentBaseUrl,
-          add_form_submit_trigger: true,
-          submit_patch: true,
-          add_unload_trigger: true,
-          convert_urls: true,
-          relative_urls: true,
-          remove_script_host: true,
-          object_resizing: true,
-          doctype: '<!DOCTYPE html>',
-          visual: true,
-          font_size_style_values: 'xx-small,x-small,small,medium,large,x-large,xx-large',
-
-          // See: http://www.w3.org/TR/CSS2/fonts.html#propdef-font-size
-          font_size_legacy_values: 'xx-small,small,medium,large,x-large,xx-large,300%',
-          forced_root_block: 'p',
-          hidden_input: true,
-          padd_empty_editor: true,
-          render_ui: true,
-          indentation: '30px',
-          inline_styles: true,
-          convert_fonts_to_spans: true,
-          indent: 'simple',
-          indent_before: 'p,h1,h2,h3,h4,h5,h6,blockquote,div,title,style,pre,script,td,th,ul,ol,li,dl,dt,dd,area,table,thead,' +
-          'tfoot,tbody,tr,section,article,hgroup,aside,figure,figcaption,option,optgroup,datalist',
-          indent_after: 'p,h1,h2,h3,h4,h5,h6,blockquote,div,title,style,pre,script,td,th,ul,ol,li,dl,dt,dd,area,table,thead,' +
-          'tfoot,tbody,tr,section,article,hgroup,aside,figure,figcaption,option,optgroup,datalist',
-          entity_encoding: 'named',
-          url_converter: editor.convertURL,
-          url_converter_scope: editor,
-          ie7_compat: true
-        },
-
-        // tinymce.overrideDefaults settings
-        defaultOverrideSettings,
-
-        // User settings
-        settings,
-
-        // Forced settings
-        {
-          validate: true,
-          content_editable: settings.inline
-        }
-      );
-
-      // Merge external_plugins
-      if (defaultOverrideSettings && defaultOverrideSettings.external_plugins && settings.external_plugins) {
-        settings.external_plugins = Tools.extend({}, defaultOverrideSettings.external_plugins, settings.external_plugins);
-      }
-
-      return settings;
-    };
-
-    return {
-      getEditorSettings: getEditorSettings
-    };
-  }
-);
-
 defineGlobal("global!window", window);
 /**
  * ErrorReporter.js
@@ -38810,11 +38970,15 @@ define(
   'tinymce.core.caret.CaretContainerInput',
   [
     'ephox.katamari.api.Fun',
+    'ephox.sugar.api.node.Element',
+    'ephox.sugar.api.search.SelectorFind',
     'tinymce.core.caret.CaretContainer'
   ],
-  function (Fun, CaretContainer) {
+  function (Fun, Element, SelectorFind, CaretContainer) {
     var findBlockCaretContainer = function (editor) {
-      return editor.dom.select('*[data-mce-caret]')[0];
+      return SelectorFind.descendant(Element.fromDom(editor.getBody()), '*[data-mce-caret]').fold(Fun.constant(null), function (elm) {
+        return elm.dom();
+      });
     };
 
     var removeIeControlRect = function (editor) {
@@ -40858,9 +41022,16 @@ define(
       };
     };
 
+    var execute = function (patterns, evt) {
+      return Arr.find(match(patterns, evt), function (pattern) {
+        return pattern.action();
+      });
+    };
+
     return {
       match: match,
-      action: action
+      action: action,
+      execute: execute
     };
   }
 );
@@ -40877,27 +41048,21 @@ define(
 define(
   'tinymce.core.keyboard.ArrowKeys',
   [
-    'ephox.katamari.api.Arr',
-    'ephox.katamari.api.Cell',
     'tinymce.core.keyboard.BoundarySelection',
     'tinymce.core.keyboard.CefNavigation',
     'tinymce.core.keyboard.MatchKeys',
     'tinymce.core.util.VK'
   ],
-  function (Arr, Cell, BoundarySelection, CefNavigation, MatchKeys, VK) {
+  function (BoundarySelection, CefNavigation, MatchKeys, VK) {
     var executeKeydownOverride = function (editor, caret, evt) {
-      var matches = MatchKeys.match([
+      MatchKeys.execute([
         { keyCode: VK.RIGHT, action: CefNavigation.moveH(editor, true) },
         { keyCode: VK.LEFT, action: CefNavigation.moveH(editor, false) },
         { keyCode: VK.UP, action: CefNavigation.moveV(editor, false) },
         { keyCode: VK.DOWN, action: CefNavigation.moveV(editor, true) },
         { keyCode: VK.RIGHT, action: BoundarySelection.move(editor, caret, true) },
         { keyCode: VK.LEFT, action: BoundarySelection.move(editor, caret, false) }
-      ], evt);
-
-      Arr.find(matches, function (pattern) {
-        return pattern.action();
-      }).each(function (_) {
+      ], evt).each(function (_) {
         evt.preventDefault();
       });
     };
@@ -40929,7 +41094,6 @@ define(
 define(
   'tinymce.core.keyboard.DeleteBackspaceKeys',
   [
-    'ephox.katamari.api.Arr',
     'tinymce.core.delete.BlockBoundaryDelete',
     'tinymce.core.delete.BlockRangeDelete',
     'tinymce.core.delete.CefDelete',
@@ -40937,9 +41101,9 @@ define(
     'tinymce.core.keyboard.MatchKeys',
     'tinymce.core.util.VK'
   ],
-  function (Arr, BlockBoundaryDelete, BlockRangeDelete, CefDelete, InlineBoundaryDelete, MatchKeys, VK) {
+  function (BlockBoundaryDelete, BlockRangeDelete, CefDelete, InlineBoundaryDelete, MatchKeys, VK) {
     var executeKeydownOverride = function (editor, caret, evt) {
-      var matches = MatchKeys.match([
+      MatchKeys.execute([
         { keyCode: VK.BACKSPACE, action: MatchKeys.action(CefDelete.backspaceDelete, editor, false) },
         { keyCode: VK.DELETE, action: MatchKeys.action(CefDelete.backspaceDelete, editor, true) },
         { keyCode: VK.BACKSPACE, action: MatchKeys.action(InlineBoundaryDelete.backspaceDelete, editor, caret, false) },
@@ -40948,24 +41112,16 @@ define(
         { keyCode: VK.DELETE, action: MatchKeys.action(BlockRangeDelete.backspaceDelete, editor, true) },
         { keyCode: VK.BACKSPACE, action: MatchKeys.action(BlockBoundaryDelete.backspaceDelete, editor, false) },
         { keyCode: VK.DELETE, action: MatchKeys.action(BlockBoundaryDelete.backspaceDelete, editor, true) }
-      ], evt);
-
-      Arr.find(matches, function (pattern) {
-        return pattern.action();
-      }).each(function (_) {
+      ], evt).each(function (_) {
         evt.preventDefault();
       });
     };
 
     var executeKeyupOverride = function (editor, evt) {
-      var matches = MatchKeys.match([
+      MatchKeys.execute([
         { keyCode: VK.BACKSPACE, action: MatchKeys.action(CefDelete.paddEmptyElement, editor) },
         { keyCode: VK.DELETE, action: MatchKeys.action(CefDelete.paddEmptyElement, editor) }
       ], evt);
-
-      Arr.find(matches, function (pattern) {
-        return pattern.action();
-      });
     };
 
     var setup = function (editor, caret) {
@@ -41749,9 +41905,10 @@ define(
     'ephox.katamari.api.Fun',
     'tinymce.core.caret.CaretPosition',
     'tinymce.core.dom.NodeType',
-    'tinymce.core.keyboard.BoundaryLocation'
+    'tinymce.core.keyboard.BoundaryLocation',
+    'tinymce.core.keyboard.InlineUtils'
   ],
-  function (Fun, CaretPosition, NodeType, BoundaryLocation) {
+  function (Fun, CaretPosition, NodeType, BoundaryLocation, InlineUtils) {
     var isValidInsertPoint = function (location, caretPosition) {
       return isAtStartOrEnd(location) && NodeType.isText(caretPosition.container());
     };
@@ -41774,8 +41931,9 @@ define(
     };
 
     var insertAtCaret = function (editor) {
+      var isInlineTarget = Fun.curry(InlineUtils.isInlineTarget, editor);
       var caretPosition = CaretPosition.fromRangeStart(editor.selection.getRng());
-      var boundaryLocation = BoundaryLocation.readLocation(editor.getBody(), caretPosition);
+      var boundaryLocation = BoundaryLocation.readLocation(isInlineTarget, editor.getBody(), caretPosition);
       return boundaryLocation.map(Fun.curry(insertAtLocation, editor, caretPosition)).getOr(false);
     };
 
@@ -41811,20 +41969,15 @@ define(
 define(
   'tinymce.core.keyboard.SpaceKey',
   [
-    'ephox.katamari.api.Arr',
     'tinymce.core.keyboard.InsertSpace',
     'tinymce.core.keyboard.MatchKeys',
     'tinymce.core.util.VK'
   ],
-  function (Arr, InsertSpace, MatchKeys, VK) {
+  function (InsertSpace, MatchKeys, VK) {
     var executeKeydownOverride = function (editor, evt) {
-      var matches = MatchKeys.match([
+      MatchKeys.execute([
         { keyCode: VK.SPACEBAR, action: MatchKeys.action(InsertSpace.insertAtSelection, editor) }
-      ], evt);
-
-      Arr.find(matches, function (pattern) {
-        return pattern.action();
-      }).each(function (_) {
+      ], evt).each(function (_) {
         evt.preventDefault();
       });
     };
@@ -42910,6 +43063,12 @@ define(
 define(
   'tinymce.core.SelectionOverrides',
   [
+    'ephox.katamari.api.Arr',
+    'ephox.sugar.api.dom.Remove',
+    'ephox.sugar.api.node.Element',
+    'ephox.sugar.api.properties.Attr',
+    'ephox.sugar.api.search.SelectorFilter',
+    'ephox.sugar.api.search.SelectorFind',
     'tinymce.core.caret.CaretContainer',
     'tinymce.core.caret.CaretPosition',
     'tinymce.core.caret.CaretUtils',
@@ -42926,8 +43085,8 @@ define(
     'tinymce.core.util.VK'
   ],
   function (
-    CaretContainer, CaretPosition, CaretUtils, CaretWalker, FakeCaret, LineUtils, NodeType, RangePoint, DragDropOverrides, EditorView, Env, CefUtils, Delay,
-    VK
+    Arr, Remove, Element, Attr, SelectorFilter, SelectorFind, CaretContainer, CaretPosition, CaretUtils, CaretWalker, FakeCaret, LineUtils, NodeType, RangePoint,
+    DragDropOverrides, EditorView, Env, CefUtils, Delay, VK
   ) {
     var isContentEditableTrue = NodeType.isContentEditableTrue,
       isContentEditableFalse = NodeType.isContentEditableFalse,
@@ -43317,8 +43476,16 @@ define(
           return null;
         }
 
+        $realSelectionContainer = SelectorFind.descendant(Element.fromDom(editor.getBody()), '#' + realSelectionId).fold(
+          function () {
+            return $([]);
+          },
+          function (elm) {
+            return $([elm.dom()]);
+          }
+        );
+
         targetClone = e.targetClone;
-        $realSelectionContainer = $('#' + realSelectionId);
         if ($realSelectionContainer.length === 0) {
           $realSelectionContainer = $(
             '<div data-mce-bogus="all" class="mce-offscreen-selection"></div>'
@@ -43351,7 +43518,10 @@ define(
         sel.removeAllRanges();
         sel.addRange(range);
 
-        editor.$('*[data-mce-selected]').removeAttr('data-mce-selected');
+        Arr.each(SelectorFilter.descendants(Element.fromDom(editor.getBody()), '*[data-mce-selected]'), function (elm) {
+          Attr.remove(elm, 'data-mce-selected');
+        });
+
         node.setAttribute('data-mce-selected', 1);
         selectedContentEditableNode = node;
         hideFakeCaret();
@@ -43362,7 +43532,7 @@ define(
       function removeContentEditableSelection() {
         if (selectedContentEditableNode) {
           selectedContentEditableNode.removeAttribute('data-mce-selected');
-          editor.$('#' + realSelectionId).remove();
+          SelectorFind.descendant(Element.fromDom(editor.getBody()), '#' + realSelectionId).each(Remove.remove);
           selectedContentEditableNode = null;
         }
       }
@@ -44497,50 +44667,6 @@ define(
         return (!sel || !sel.rangeCount || sel.rangeCount === 0);
       }
 
-      /**
-       * Properly empties the editor if all contents is selected and deleted this to
-       * prevent empty paragraphs from being produced at beginning/end of contents.
-       */
-      function emptyEditorOnDeleteEverything() {
-        function isEverythingSelected(editor) {
-          var caretWalker = new CaretWalker(editor.getBody());
-          var rng = editor.selection.getRng();
-          var startCaretPos = CaretPosition.fromRangeStart(rng);
-          var endCaretPos = CaretPosition.fromRangeEnd(rng);
-          var prev = caretWalker.prev(startCaretPos);
-          var next = caretWalker.next(endCaretPos);
-
-          return !editor.selection.isCollapsed() &&
-            (!prev || (prev.isAtStart() && startCaretPos.isEqual(prev))) &&
-            (!next || (next.isAtEnd() && startCaretPos.isEqual(next)));
-        }
-
-        // Type over case delete and insert this won't cover typeover with a IME but at least it covers the common case
-        editor.on('keypress', function (e) {
-          if (!isDefaultPrevented(e) && !selection.isCollapsed() && e.charCode > 31 && !VK.metaKeyPressed(e)) {
-            if (isEverythingSelected(editor)) {
-              e.preventDefault();
-              editor.setContent(String.fromCharCode(e.charCode));
-              editor.selection.select(editor.getBody(), true);
-              editor.selection.collapse(false);
-              editor.nodeChanged();
-            }
-          }
-        });
-
-        editor.on('keydown', function (e) {
-          var keyCode = e.keyCode;
-
-          if (!isDefaultPrevented(e) && (keyCode == DELETE || keyCode == BACKSPACE)) {
-            if (isEverythingSelected(editor)) {
-              e.preventDefault();
-              editor.setContent('');
-              editor.nodeChanged();
-            }
-          }
-        });
-      }
-
       // All browsers
       removeBlockQuoteOnBackSpace();
       emptyEditorWhenDeleting();
@@ -44553,7 +44679,6 @@ define(
 
       // WebKit
       if (isWebKit) {
-        emptyEditorOnDeleteEverything();
         inputMethodFocus();
         selectControlElements();
         setDefaultBlockType();
@@ -44598,7 +44723,6 @@ define(
 
       // Gecko
       if (isGecko) {
-        emptyEditorOnDeleteEverything();
         removeHrOnBackspace();
         focusBody();
         removeStylesWhenDeletingAcrossBlockElements();
@@ -47607,7 +47731,7 @@ define(
        * @property minorVersion
        * @type String
        */
-      minorVersion: '6.4',
+      minorVersion: '6.5',
 
       /**
        * Release date of TinyMCE build.
@@ -47615,7 +47739,7 @@ define(
        * @property releaseDate
        * @type String
        */
-      releaseDate: '2017-06-13',
+      releaseDate: '2017-08-02',
 
       /**
        * Collection of editor instances.
@@ -51235,6 +51359,8 @@ define(
 define(
   'tinymce.core.content.LinkTargets',
   [
+    'ephox.sugar.api.node.Element',
+    'ephox.sugar.api.search.SelectorFilter',
     'tinymce.core.dom.DOMUtils',
     'tinymce.core.dom.NodeType',
     'tinymce.core.util.Arr',
@@ -51242,7 +51368,7 @@ define(
     'tinymce.core.util.Tools',
     'tinymce.core.util.Uuid'
   ],
-  function (DOMUtils, NodeType, Arr, Fun, Tools, Uuid) {
+  function (Element, SelectorFilter, DOMUtils, NodeType, Arr, Fun, Tools, Uuid) {
     var trim = Tools.trim;
 
     var create = function (type, title, url, level, attach) {
@@ -51267,7 +51393,9 @@ define(
     };
 
     var select = function (selector, root) {
-      return DOMUtils.DOM.select(selector, root);
+      return Arr.map(SelectorFilter.descendants(Element.fromDom(root), selector), function (element) {
+        return element.dom();
+      });
     };
 
     var getElementText = function (elm) {
@@ -52108,17 +52236,20 @@ define(
 define(
   'tinymce.core.ui.FormatControls',
   [
-    "tinymce.core.ui.Control",
-    "tinymce.core.ui.Widget",
-    "tinymce.core.ui.FloatPanel",
-    "tinymce.core.util.Tools",
-    "tinymce.core.util.Arr",
-    "tinymce.core.dom.DOMUtils",
-    "tinymce.core.EditorManager",
-    "tinymce.core.Env",
-    "tinymce.core.fmt.FontInfo"
+    'ephox.katamari.api.Fun',
+    'ephox.sugar.api.node.Element',
+    'ephox.sugar.api.search.SelectorFind',
+    'tinymce.core.dom.DOMUtils',
+    'tinymce.core.EditorManager',
+    'tinymce.core.Env',
+    'tinymce.core.fmt.FontInfo',
+    'tinymce.core.ui.Control',
+    'tinymce.core.ui.FloatPanel',
+    'tinymce.core.ui.Widget',
+    'tinymce.core.util.Arr',
+    'tinymce.core.util.Tools'
   ],
-  function (Control, Widget, FloatPanel, Tools, Arr, DOMUtils, EditorManager, Env, FontInfo) {
+  function (Fun, Element, SelectorFind, DOMUtils, EditorManager, Env, FontInfo, Control, FloatPanel, Widget, Arr, Tools) {
     var each = Tools.each;
 
     var flatten = function (ar) {
@@ -52143,7 +52274,9 @@ define(
 
     function setupContainer(editor) {
       if (editor.settings.ui_container) {
-        Env.container = DOMUtils.DOM.select(editor.settings.ui_container)[0];
+        Env.container = SelectorFind.descendant(Element.fromDom(document.body), editor.settings.ui_container).fold(Fun.constant(null), function (elm) {
+          return elm.dom();
+        });
       }
     }
 

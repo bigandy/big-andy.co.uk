@@ -494,6 +494,17 @@ define(
     'tinymce.plugins.lists.core.NodeType'
   ],
   function (DomQuery, Tools, NodeType) {
+    var getParentList = function (editor) {
+      return editor.dom.getParent(editor.selection.getStart(true), 'OL,UL,DL');
+    };
+
+    var getSelectedSubLists = function (editor) {
+      var parentList = getParentList(editor);
+      return Tools.grep(editor.selection.getSelectedBlocks(), function (elm) {
+        return NodeType.isListNode(elm) && parentList !== elm;
+      });
+    };
+
     var findParentListItemsNodes = function (elms) {
       var listItemsElms = Tools.map(elms, function (elm) {
         var parentNode = elm.parentNode;
@@ -511,6 +522,8 @@ define(
     };
 
     return {
+      getParentList: getParentList,
+      getSelectedSubLists: getSelectedSubLists,
       getSelectedListItems: getSelectedListItems
     };
   }
@@ -1269,17 +1282,40 @@ define(
       }
     };
 
-    var toggleList = function (editor, listName, detail) {
-      var parentList = editor.dom.getParent(editor.selection.getStart(), 'OL,UL,DL');
+    var updateList = function (dom, list, listName, detail) {
+      if (list.nodeName !== listName) {
+        var newList = dom.rename(list, listName);
+        updateListWithDetails(dom, newList, detail);
+      } else {
+        updateListWithDetails(dom, list, detail);
+      }
+    };
 
-      detail = detail ? detail : {};
+    var toggleMultipleLists = function (editor, parentList, lists, listName, detail) {
+      if (parentList.nodeName === listName && !hasListStyleDetail(detail)) {
+        removeList(editor, listName);
+      } else {
+        var bookmark = Bookmark.createBookmark(editor.selection.getRng(true));
 
+        Tools.each([parentList].concat(lists), function (elm) {
+          updateList(editor.dom, elm, listName, detail);
+        });
+
+        editor.selection.setRng(Bookmark.resolveBookmark(bookmark));
+      }
+    };
+
+    var hasListStyleDetail = function (detail) {
+      return 'list-style-type' in detail;
+    };
+
+    var toggleSingleList = function (editor, parentList, listName, detail) {
       if (parentList === editor.getBody()) {
         return;
       }
 
       if (parentList) {
-        if (parentList.nodeName === listName) {
+        if (parentList.nodeName === listName && !hasListStyleDetail(detail)) {
           removeList(editor, listName);
         } else {
           var bookmark = Bookmark.createBookmark(editor.selection.getRng(true));
@@ -1289,6 +1325,19 @@ define(
         }
       } else {
         applyList(editor, listName, detail);
+      }
+    };
+
+    var toggleList = function (editor, listName, detail) {
+      var parentList = Selection.getParentList(editor);
+      var selectedSubLists = Selection.getSelectedSubLists(editor);
+
+      detail = detail ? detail : {};
+
+      if (parentList && selectedSubLists.length > 0) {
+        toggleMultipleLists(editor, parentList, selectedSubLists, listName, detail);
+      } else {
+        toggleSingleList(editor, parentList, listName, detail);
       }
     };
 
