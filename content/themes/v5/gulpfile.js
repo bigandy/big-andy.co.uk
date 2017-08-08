@@ -1,3 +1,5 @@
+/* eslint no-console: 0 */
+/* global require */
 'use strict';
 
 const gulp = require('gulp');
@@ -31,9 +33,9 @@ const replace = require('gulp-replace-task');
 const fs = require('fs');
 const hash = require('gulp-hash');
 
-var envLive = 'https://big-andy.co.uk/',
-	// envDev = 'http://big-andy.dev/',
-	env = envLive,
+const envLive = 'https://big-andy.co.uk/',
+	envDev = 'http://big-andy.dev/',
+	env = envDev,
 	pages = [
 		env + 'contact/',
 		env + 'cv/',
@@ -49,19 +51,19 @@ var envLive = 'https://big-andy.co.uk/',
 
 gulp.task('brotli', () => {
 	const src  = ['build/**/*.{js,css,svg}'];
-    gulp.src(src)
-        .pipe(brotli.compress({
-            extension: "br",
-            quality: 11
-        }))
-        .pipe(gulp.dest('build'));
+	gulp.src(src)
+		.pipe(brotli.compress({
+			extension: 'br',
+			quality: 11
+		}))
+		.pipe(gulp.dest('build'));
 
 	gulp.src('style.css')
-        .pipe(brotli.compress({
-            extension: "br",
-            quality: 11
-        }))
-        .pipe(gulp.dest('.'));
+		.pipe(brotli.compress({
+			extension: 'br',
+			quality: 11
+		}))
+		.pipe(gulp.dest('.'));
 });
 
 
@@ -80,6 +82,7 @@ gulp.task('sprites', () => {
 		}))
 		.pipe(gulp.dest('build/svg'));
 });
+
 
 gulp.task('critical-css', () => {
 	const outputCSS = (criticalCSS, file) => {
@@ -248,7 +251,7 @@ gulp.task('hash', () => {
 		})) // Add hashes to the files' names
 		// .pipe(gulp.dest('public/js')) // Write the renamed files
 		.pipe(hash.manifest('assets.json', {
-		  	deleteOld: true
+			deleteOld: true
 		})) // Switch to the manifest file
 		.pipe(gulp.dest('build')); // Write the manifest file
 })

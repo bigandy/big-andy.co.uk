@@ -4,22 +4,9 @@
 	if ( have_posts() ) {
 		while ( have_posts() ) {
 			the_post();
-			if ( has_category( 'picture' ) ) {
-				$class = 'large-12';
-			} else {
-				$class = 'large-6 large-push-3 small-12';
-			}
 			?>
-			<div class="links">
-				<div class="left">
-					<?php previous_post_link( '&laquo; <span class="visuallyhidden">Previous Post: </span>%link' ); ?>
-				</div>
-				<div class="right">
-					<?php next_post_link( '<span class="visuallyhidden">Next Post: </span>%link &raquo;' ); ?>
-				</div>
-			</div>
 
-			<article role="article" class="columns <?php echo esc_attr( $class ); ?>">
+			<article class="article">
 				<header class="article__header">
 					<?php
 					if ( has_post_thumbnail() ) {
@@ -45,6 +32,15 @@
 					?>
 				</section>
 			</article>
+
+			<div class="links">
+				<div class="left">
+					<?php previous_post_link( '&laquo; <span class="visuallyhidden">Previous Post: </span>%link' ); ?>
+				</div>
+				<div class="right">
+					<?php next_post_link( '<span class="visuallyhidden">Next Post: </span>%link &raquo;' ); ?>
+				</div>
+			</div>
 		<?php
 		}
 	}

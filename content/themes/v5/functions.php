@@ -2,7 +2,7 @@
 $functions = get_template_directory() . '/functions/';
 
 include( $functions . 'misc.php' );
-include( $functions . 'ss.php' );
+include( $functions . 'script-style.php' );
 include( $functions . 'images.php' );
 include( $functions . 'responsive-images.php' );
 include( $functions . 'nav.php' );

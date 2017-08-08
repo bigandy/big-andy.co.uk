@@ -1,0 +1,20 @@
+.article {
+	&__header--front-page {
+		margin-bottom: 1rem;
+		margin-right: 55px;
+	}
+
+	&__time {
+		font-weight: 800;
+		font-size: 80%;
+		display: block;
+		margin-top: 2em;
+		margin-bottom: 2em;
+	}
+
+	&__title {
+		padding-right: .5rem;
+	}
+
+}
+

@@ -10,8 +10,14 @@
 
 	<link rel="manifest" href="<?php echo esc_url( TEMPLATEURI ); ?>manifest.json">
 	<link rel="icon" sizes="192x192" href="<?php echo esc_url( TEMPLATEURI ); ?>images/ba.png">
-	<style><?php include_once( 'style.css' ); ?></style>
-	<?php wp_head(); ?>
+	<?php
+	if ( ! is_user_logged_in() ) {
+		?>
+		<style><?php include_once( 'style.css' ); ?></style>
+		<?php
+	}
+	wp_head();
+	?>
 </head>
 <body>
 	<header class="header">
