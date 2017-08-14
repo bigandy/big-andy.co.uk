@@ -1,5 +1,5 @@
 /**
- * react-dom.development.js v16.0.0-beta.3
+ * react-dom.development.js v16.0.0-beta.5
  */
 
 (function (global, factory) {
@@ -484,101 +484,6 @@ var EventListener = {
 };
 
 var EventListener_1 = EventListener;
-
-/**
- * Static poolers. Several custom versions for each potential number of
- * arguments. A completely generic pooler is easy to implement, but would
- * require accessing the `arguments` object. In each of these, `this` refers to
- * the Class itself, not an instance. If any others are needed, simply add them
- * here, or in their own files.
- */
-var oneArgumentPooler = function (copyFieldsFrom) {
-  var Klass = this;
-  if (Klass.instancePool.length) {
-    var instance = Klass.instancePool.pop();
-    Klass.call(instance, copyFieldsFrom);
-    return instance;
-  } else {
-    return new Klass(copyFieldsFrom);
-  }
-};
-
-var twoArgumentPooler = function (a1, a2) {
-  var Klass = this;
-  if (Klass.instancePool.length) {
-    var instance = Klass.instancePool.pop();
-    Klass.call(instance, a1, a2);
-    return instance;
-  } else {
-    return new Klass(a1, a2);
-  }
-};
-
-var threeArgumentPooler = function (a1, a2, a3) {
-  var Klass = this;
-  if (Klass.instancePool.length) {
-    var instance = Klass.instancePool.pop();
-    Klass.call(instance, a1, a2, a3);
-    return instance;
-  } else {
-    return new Klass(a1, a2, a3);
-  }
-};
-
-var fourArgumentPooler = function (a1, a2, a3, a4) {
-  var Klass = this;
-  if (Klass.instancePool.length) {
-    var instance = Klass.instancePool.pop();
-    Klass.call(instance, a1, a2, a3, a4);
-    return instance;
-  } else {
-    return new Klass(a1, a2, a3, a4);
-  }
-};
-
-var standardReleaser = function (instance) {
-  var Klass = this;
-  !(instance instanceof Klass) ? invariant_1(false, 'Trying to release an instance into a pool of a different type.') : void 0;
-  instance.destructor();
-  if (Klass.instancePool.length < Klass.poolSize) {
-    Klass.instancePool.push(instance);
-  }
-};
-
-var DEFAULT_POOL_SIZE = 10;
-var DEFAULT_POOLER = oneArgumentPooler;
-
-/**
- * Augments `CopyConstructor` to be a poolable class, augmenting only the class
- * itself (statically) not adding any prototypical fields. Any CopyConstructor
- * you give this may have a `poolSize` property, and will look for a
- * prototypical `destructor` on instances.
- *
- * @param {Function} CopyConstructor Constructor that can be used to reset.
- * @param {Function} pooler Customizable pooler.
- */
-var addPoolingTo = function (CopyConstructor, pooler) {
-  // Casting as any so that flow ignores the actual implementation and trusts
-  // it to match the type we declared
-  var NewKlass = CopyConstructor;
-  NewKlass.instancePool = [];
-  NewKlass.getPooled = pooler || DEFAULT_POOLER;
-  if (!NewKlass.poolSize) {
-    NewKlass.poolSize = DEFAULT_POOL_SIZE;
-  }
-  NewKlass.release = standardReleaser;
-  return NewKlass;
-};
-
-var PooledClass = {
-  addPoolingTo: addPoolingTo,
-  oneArgumentPooler: oneArgumentPooler,
-  twoArgumentPooler: twoArgumentPooler,
-  threeArgumentPooler: threeArgumentPooler,
-  fourArgumentPooler: fourArgumentPooler
-};
-
-var PooledClass_1 = PooledClass;
 
 function checkMask(value, bitmask) {
   return (value & bitmask) === bitmask;
@@ -2055,12 +1960,15 @@ var getEventTarget_1 = getEventTarget;
 
 var HostRoot = ReactTypeOfWork.HostRoot;
 
+
+var CALLBACK_BOOKKEEPING_POOL_SIZE = 10;
+var callbackBookkeepingPool = [];
+
 /**
  * Find the deepest React component completely containing the root of the
  * passed-in instance (for use when entire React trees are nested within each
  * other). If React trees are not nested, returns null.
  */
-
 function findRootContainerNode(inst) {
   // TODO: It may be a good idea to cache this to prevent unnecessary DOM
   // traversal, but caching is difficult to do correctly without using a
@@ -2084,21 +1992,31 @@ function findRootContainerNode(inst) {
 }
 
 // Used to store ancestor hierarchy in top level callback
-function TopLevelCallbackBookKeeping(topLevelType, nativeEvent, targetInst) {
-  this.topLevelType = topLevelType;
-  this.nativeEvent = nativeEvent;
-  this.targetInst = targetInst;
-  this.ancestors = [];
-}
-index(TopLevelCallbackBookKeeping.prototype, {
-  destructor: function () {
-    this.topLevelType = null;
-    this.nativeEvent = null;
-    this.targetInst = null;
-    this.ancestors.length = 0;
+function getTopLevelCallbackBookKeeping(topLevelType, nativeEvent, targetInst) {
+  if (callbackBookkeepingPool.length) {
+    var instance = callbackBookkeepingPool.pop();
+    instance.topLevelType = topLevelType;
+    instance.nativeEvent = nativeEvent;
+    instance.targetInst = targetInst;
+    return instance;
   }
-});
-PooledClass_1.addPoolingTo(TopLevelCallbackBookKeeping, PooledClass_1.threeArgumentPooler);
+  return {
+    topLevelType: topLevelType,
+    nativeEvent: nativeEvent,
+    targetInst: targetInst,
+    ancestors: []
+  };
+}
+
+function releaseTopLevelCallbackBookKeeping(instance) {
+  instance.topLevelType = null;
+  instance.nativeEvent = null;
+  instance.targetInst = null;
+  instance.ancestors.length = 0;
+  if (callbackBookkeepingPool.length < CALLBACK_BOOKKEEPING_POOL_SIZE) {
+    callbackBookkeepingPool.push(instance);
+  }
+}
 
 function handleTopLevelImpl(bookKeeping) {
   var targetInst = bookKeeping.targetInst;
@@ -2192,14 +2110,14 @@ var ReactDOMEventListener = {
       targetInst = null;
     }
 
-    var bookKeeping = TopLevelCallbackBookKeeping.getPooled(topLevelType, nativeEvent, targetInst);
+    var bookKeeping = getTopLevelCallbackBookKeeping(topLevelType, nativeEvent, targetInst);
 
     try {
       // Event queue being processed in the same cycle allows
       // `preventDefault`.
       ReactGenericBatching_1.batchedUpdates(handleTopLevelImpl, bookKeeping);
     } finally {
-      TopLevelCallbackBookKeeping.release(bookKeeping);
+      releaseTopLevelCallbackBookKeeping(bookKeeping);
     }
   }
 };
@@ -4138,8 +4056,6 @@ var DOMPropertyOperations = {
             return stringValue;
           }
         }
-      } else if (DOMProperty_1.isCustomAttribute(name)) {
-        return DOMPropertyOperations.diffValueForAttribute(node, name, expected);
       }
     }
   },
@@ -5529,14 +5445,10 @@ var omittedCloseTags = {
 
 var omittedCloseTags_1 = omittedCloseTags;
 
-var _extends = index || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-
-
 // For HTML, certain tags cannot have children. This has the same purpose as
 // `omittedCloseTags` except that `menuitem` should still have its closing tag.
 
-var voidElementTags = _extends({
+var voidElementTags = index({
   menuitem: true
 }, omittedCloseTags_1);
 
@@ -6882,14 +6794,8 @@ var ReactDOMFiberComponent = {
         // TODO: Do we need to lower case this to get case insensitive matches?
         var name = attributes[i].name;
         switch (name) {
-          // Built-in attributes are whitelisted
-          // TODO: Once these are gone from the server renderer, we don't need
-          // this whitelist aynymore.
+          // Built-in SSR attribute is whitelisted
           case 'data-reactroot':
-            break;
-          case 'data-reactid':
-            break;
-          case 'data-react-checksum':
             break;
           // Controlled attributes are not validated
           // TODO: Only ignore them on controlled tags.
@@ -8118,14 +8024,6 @@ var ReactDebugFiberPerf = null;
 
 var ReactDebugFiberPerf_1 = ReactDebugFiberPerf;
 
-var _extends$1 = index || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-
-
-
-
-
-
 var isFiberMounted$1 = ReactFiberTreeReflection.isFiberMounted;
 
 var ClassComponent$3 = ReactTypeOfWork.ClassComponent;
@@ -8285,7 +8183,7 @@ function processChildContext$1(fiber, parentContext, isReconciling) {
     ReactDebugCurrentFiber$2.resetCurrentFiber();
   }
 
-  return _extends$1({}, parentContext, childContext);
+  return index({}, parentContext, childContext);
 }
 var processChildContext_1 = processChildContext$1;
 
@@ -9032,6 +8930,10 @@ function throwOnInvalidObjectType(returnFiber, newChild) {
   }
 }
 
+function warnOnFunctionType() {
+  warning$26(false, 'Functions are not valid as a React child. This may happen if ' + 'you return a Component instead of <Component /> from render. ' + 'Or maybe you meant to call this function rather than return it.%s', getCurrentFiberStackAddendum$4() || '');
+}
+
 // This wrapper function exists because I expect to clone the code in each path
 // to be able to optimize each path individually by branching early. This needs
 // a compiler or we can do it manually. Helpers that don't need this branching
@@ -9303,6 +9205,13 @@ function ChildReconciler(shouldClone, shouldTrackSideEffects) {
       throwOnInvalidObjectType(returnFiber, newChild);
     }
 
+    {
+      var disableNewFiberFeatures = ReactFeatureFlags_1.disableNewFiberFeatures;
+      if (!disableNewFiberFeatures && typeof newChild === 'function') {
+        warnOnFunctionType();
+      }
+    }
+
     return null;
   }
 
@@ -9375,6 +9284,13 @@ function ChildReconciler(shouldClone, shouldTrackSideEffects) {
       throwOnInvalidObjectType(returnFiber, newChild);
     }
 
+    {
+      var disableNewFiberFeatures = ReactFeatureFlags_1.disableNewFiberFeatures;
+      if (!disableNewFiberFeatures && typeof newChild === 'function') {
+        warnOnFunctionType();
+      }
+    }
+
     return null;
   }
 
@@ -9421,6 +9337,13 @@ function ChildReconciler(shouldClone, shouldTrackSideEffects) {
       }
 
       throwOnInvalidObjectType(returnFiber, newChild);
+    }
+
+    {
+      var disableNewFiberFeatures = ReactFeatureFlags_1.disableNewFiberFeatures;
+      if (!disableNewFiberFeatures && typeof newChild === 'function') {
+        warnOnFunctionType();
+      }
     }
 
     return null;
@@ -9961,6 +9884,11 @@ function ChildReconciler(shouldClone, shouldTrackSideEffects) {
       throwOnInvalidObjectType(returnFiber, newChild);
     }
 
+    {
+      if (!disableNewFiberFeatures && typeof newChild === 'function') {
+        warnOnFunctionType();
+      }
+    }
     if (!disableNewFiberFeatures && typeof newChild === 'undefined') {
       // If the new child is undefined, and the return fiber is a composite
       // component, throw an error. If Fiber return types are disabled,
@@ -13116,7 +13044,7 @@ var ReactFiberScheduler = function (config) {
     // The loop stops once the children have unmounted and error lifecycles are
     // called. Then we return to the regular flow.
 
-    if (capturedErrors !== null && capturedErrors.size > 0) {
+    if (capturedErrors !== null && capturedErrors.size > 0 && nextPriorityLevel === TaskPriority$1) {
       while (nextUnitOfWork !== null) {
         if (hasCapturedError(nextUnitOfWork)) {
           // Use a forked version of performUnitOfWork
@@ -13131,14 +13059,13 @@ var ReactFiberScheduler = function (config) {
           commitAllWork(pendingCommit);
           priorityContext = nextPriorityLevel;
 
-          if (capturedErrors === null || capturedErrors.size === 0) {
+          if (capturedErrors === null || capturedErrors.size === 0 || nextPriorityLevel !== TaskPriority$1) {
             // There are no more unhandled errors. We can exit this special
             // work loop. If there's still additional work, we'll perform it
             // using one of the normal work loops.
             break;
           }
           // The commit phase produced additional errors. Continue working.
-          !(nextPriorityLevel === TaskPriority$1) ? invariant_1(false, 'Commit phase errors should be scheduled to recover with task priority. This error is likely caused by a bug in React. Please file an issue.') : void 0;
         }
       }
     }
@@ -13407,7 +13334,7 @@ var ReactFiberScheduler = function (config) {
             willRetry = true;
           }
         } else if (node.tag === HostRoot$6) {
-          // Treat the root like a no-op error boundary.
+          // Treat the root like a no-op error boundary
           boundary = node;
         }
 
@@ -13606,6 +13533,10 @@ var ReactFiberScheduler = function (config) {
   }
 
   function scheduleUpdate(fiber, priorityLevel) {
+    return scheduleUpdateImpl(fiber, priorityLevel, false);
+  }
+
+  function scheduleUpdateImpl(fiber, priorityLevel, isErrorRecovery) {
     {
       recordScheduleUpdate();
     }
@@ -13623,7 +13554,7 @@ var ReactFiberScheduler = function (config) {
     }
 
     {
-      if (fiber.tag === ClassComponent$5) {
+      if (!isErrorRecovery && fiber.tag === ClassComponent$5) {
         var instance = fiber.stateNode;
         warnAboutInvalidUpdates(instance);
       }
@@ -13679,7 +13610,7 @@ var ReactFiberScheduler = function (config) {
           }
         } else {
           {
-            if (fiber.tag === ClassComponent$5) {
+            if (!isErrorRecovery && fiber.tag === ClassComponent$5) {
               warnAboutUpdateOnUnmounted(fiber.stateNode);
             }
           }
@@ -13709,7 +13640,7 @@ var ReactFiberScheduler = function (config) {
   }
 
   function scheduleErrorRecovery(fiber) {
-    scheduleUpdate(fiber, TaskPriority$1);
+    scheduleUpdateImpl(fiber, TaskPriority$1, true);
   }
 
   function performWithPriority(priorityLevel, fn) {
@@ -14449,7 +14380,7 @@ var ReactInputSelection_1 = ReactInputSelection;
  * @providesModule ReactVersion
  */
 
-var ReactVersion = '16.0.0-beta.3';
+var ReactVersion = '16.0.0-beta.5';
 
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -15220,57 +15151,43 @@ var EventPropagators = {
 var EventPropagators_1 = EventPropagators;
 
 /**
- * This helper class stores information about text content of a target node,
+ * This helper object stores information about text content of a target node,
  * allowing comparison of content before and after a given event.
  *
  * Identify the node where selection currently begins, then observe
  * both its text content and its current position in the DOM. Since the
  * browser may natively replace the target node during composition, we can
  * use its position to find its replacement.
+ * 
  *
- * @param {DOMEventTarget} root
  */
-function FallbackCompositionState(root) {
-  this._root = root;
-  this._startText = this.getText();
-  this._fallbackText = null;
-}
+var compositionState = {
+  _root: null,
+  _startText: null,
+  _fallbackText: null
+};
 
-index(FallbackCompositionState.prototype, {
-  destructor: function () {
-    this._root = null;
-    this._startText = null;
-    this._fallbackText = null;
+var FallbackCompositionState = {
+  initialize: function (nativeEventTarget) {
+    compositionState._root = nativeEventTarget;
+    compositionState._startText = FallbackCompositionState.getText();
+    return true;
   },
-
-  /**
-   * Get current text of input.
-   *
-   * @return {string}
-   */
-  getText: function () {
-    if ('value' in this._root) {
-      return this._root.value;
-    }
-    return this._root[getTextContentAccessor_1()];
+  reset: function () {
+    compositionState._root = null;
+    compositionState._startText = null;
+    compositionState._fallbackText = null;
   },
-
-  /**
-   * Determine the differing substring between the initially stored
-   * text content and the current content.
-   *
-   * @return {string}
-   */
   getData: function () {
-    if (this._fallbackText) {
-      return this._fallbackText;
+    if (compositionState._fallbackText) {
+      return compositionState._fallbackText;
     }
 
     var start;
-    var startValue = this._startText;
+    var startValue = compositionState._startText;
     var startLength = startValue.length;
     var end;
-    var endValue = this.getText();
+    var endValue = FallbackCompositionState.getText();
     var endLength = endValue.length;
 
     for (start = 0; start < startLength; start++) {
@@ -15287,17 +15204,22 @@ index(FallbackCompositionState.prototype, {
     }
 
     var sliceTail = end > 1 ? 1 - end : undefined;
-    this._fallbackText = endValue.slice(start, sliceTail);
-    return this._fallbackText;
+    compositionState._fallbackText = endValue.slice(start, sliceTail);
+    return compositionState._fallbackText;
+  },
+  getText: function () {
+    if ('value' in compositionState._root) {
+      return compositionState._root.value;
+    }
+    return compositionState._root[getTextContentAccessor_1()];
   }
-});
-
-PooledClass_1.addPoolingTo(FallbackCompositionState);
+};
 
 var FallbackCompositionState_1 = FallbackCompositionState;
 
 var didWarnForAddedNewProperty = false;
 var isProxySupported = typeof Proxy === 'function';
+var EVENT_POOL_SIZE = 10;
 
 {
   var warning$32 = warning_1;
@@ -15478,8 +15400,7 @@ SyntheticEvent.augmentClass = function (Class, Interface) {
 
   Class.Interface = index({}, Super.Interface, Interface);
   Class.augmentClass = Super.augmentClass;
-
-  PooledClass_1.addPoolingTo(Class, PooledClass_1.fourArgumentPooler);
+  addEventPoolingTo(Class);
 };
 
 /** Proxying after everything set on SyntheticEvent
@@ -15510,7 +15431,7 @@ SyntheticEvent.augmentClass = function (Class, Interface) {
   }
 }
 
-PooledClass_1.addPoolingTo(SyntheticEvent, PooledClass_1.fourArgumentPooler);
+addEventPoolingTo(SyntheticEvent);
 
 var SyntheticEvent_1 = SyntheticEvent;
 
@@ -15546,6 +15467,31 @@ function getPooledWarningPropertyDefinition(propName, getVal) {
     var warningCondition = false;
     warning$32(warningCondition, "This synthetic event is reused for performance reasons. If you're seeing this, " + "you're %s `%s` on a released/nullified synthetic event. %s. " + 'If you must keep the original synthetic event around, use event.persist(). ' + 'See https://fb.me/react-event-pooling for more information.', action, propName, result);
   }
+}
+
+function getPooledEvent(dispatchConfig, targetInst, nativeEvent, nativeInst) {
+  var EventConstructor = this;
+  if (EventConstructor.eventPool.length) {
+    var instance = EventConstructor.eventPool.pop();
+    EventConstructor.call(instance, dispatchConfig, targetInst, nativeEvent, nativeInst);
+    return instance;
+  }
+  return new EventConstructor(dispatchConfig, targetInst, nativeEvent, nativeInst);
+}
+
+function releasePooledEvent(event) {
+  var EventConstructor = this;
+  !(event instanceof EventConstructor) ? invariant_1(false, 'Trying to release an event instance  into a pool of a different type.') : void 0;
+  event.destructor();
+  if (EventConstructor.eventPool.length < EVENT_POOL_SIZE) {
+    EventConstructor.eventPool.push(event);
+  }
+}
+
+function addEventPoolingTo(EventConstructor) {
+  EventConstructor.eventPool = [];
+  EventConstructor.getPooled = getPooledEvent;
+  EventConstructor.release = releasePooledEvent;
 }
 
 /**
@@ -15743,8 +15689,8 @@ function getDataFromCustomEvent(nativeEvent) {
   return null;
 }
 
-// Track the current IME composition fallback object, if any.
-var currentComposition = null;
+// Track the current IME composition status, if any.
+var isComposing = false;
 
 /**
  * @return {?object} A SyntheticCompositionEvent.
@@ -15755,7 +15701,7 @@ function extractCompositionEvent(topLevelType, targetInst, nativeEvent, nativeEv
 
   if (canUseCompositionEvent) {
     eventType = getCompositionEventType(topLevelType);
-  } else if (!currentComposition) {
+  } else if (!isComposing) {
     if (isFallbackCompositionStart(topLevelType, nativeEvent)) {
       eventType = eventTypes.compositionStart;
     }
@@ -15770,11 +15716,11 @@ function extractCompositionEvent(topLevelType, targetInst, nativeEvent, nativeEv
   if (useFallbackCompositionData) {
     // The current composition is stored statically and must not be
     // overwritten while composition continues.
-    if (!currentComposition && eventType === eventTypes.compositionStart) {
-      currentComposition = FallbackCompositionState_1.getPooled(nativeEventTarget);
+    if (!isComposing && eventType === eventTypes.compositionStart) {
+      isComposing = FallbackCompositionState_1.initialize(nativeEventTarget);
     } else if (eventType === eventTypes.compositionEnd) {
-      if (currentComposition) {
-        fallbackData = currentComposition.getData();
+      if (isComposing) {
+        fallbackData = FallbackCompositionState_1.getData();
       }
     }
   }
@@ -15860,11 +15806,11 @@ function getFallbackBeforeInputChars(topLevelType, nativeEvent) {
   // try to extract the composed characters from the fallback object.
   // If composition event is available, we extract a string only at
   // compositionevent, otherwise extract it at fallback events.
-  if (currentComposition) {
+  if (isComposing) {
     if (topLevelType === 'topCompositionEnd' || !canUseCompositionEvent && isFallbackCompositionEnd(topLevelType, nativeEvent)) {
-      var chars = currentComposition.getData();
-      FallbackCompositionState_1.release(currentComposition);
-      currentComposition = null;
+      var chars = FallbackCompositionState_1.getData();
+      FallbackCompositionState_1.reset();
+      isComposing = false;
       return chars;
     }
     return null;
@@ -18017,7 +17963,7 @@ ReactGenericBatching_1.injection.injectFiberBatchedUpdates(DOMRenderer.batchedUp
 var warnedAboutHydrateAPI = false;
 
 function renderSubtreeIntoContainer(parentComponent, children, container, forceHydrate, callback) {
-  invariant_1(isValidContainer(container), 'Target container is not a DOM element.');
+  !isValidContainer(container) ? invariant_1(false, 'Target container is not a DOM element.') : void 0;
 
   {
     if (container._reactRootContainer && container.nodeType !== COMMENT_NODE) {
@@ -18083,12 +18029,12 @@ var ReactDOMFiber = {
       // allows arrays.
       if (!isValidElement(element)) {
         if (typeof element === 'string') {
-          invariant_1(false, 'ReactDOM.render(): Invalid component element. Instead of ' + "passing a string like 'div', pass " + "React.createElement('div') or <div />.");
+          invariant_1(false, 'ReactDOM.render(): Invalid component element. Instead of passing a string like \'div\', pass React.createElement(\'div\') or <div />.');
         } else if (typeof element === 'function') {
-          invariant_1(false, 'ReactDOM.render(): Invalid component element. Instead of ' + 'passing a class like Foo, pass React.createElement(Foo) ' + 'or <Foo />.');
+          invariant_1(false, 'ReactDOM.render(): Invalid component element. Instead of passing a class like Foo, pass React.createElement(Foo) or <Foo />.');
         } else if (element != null && typeof element.props !== 'undefined') {
           // Check if it quacks like an element
-          invariant_1(false, 'ReactDOM.render(): Invalid component element. This may be ' + 'caused by unintentionally loading two independent copies ' + 'of React.');
+          invariant_1(false, 'ReactDOM.render(): Invalid component element. This may be caused by unintentionally loading two independent copies of React.');
         } else {
           invariant_1(false, 'ReactDOM.render(): Invalid component element.');
         }

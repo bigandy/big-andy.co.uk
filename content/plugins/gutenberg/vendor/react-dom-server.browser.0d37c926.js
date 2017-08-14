@@ -1,5 +1,5 @@
 /**
- * react-dom-server.browser.development.js v16.0.0-beta.3
+ * react-dom-server.browser.development.js v16.0.0-beta.5
  */
 
 (function (global, factory) {
@@ -7,6 +7,18 @@
 	typeof define === 'function' && define.amd ? define(['react'], factory) :
 	(global.ReactDOMServer = factory(global.React));
 }(this, (function (react) { 'use strict';
+
+/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ * @providesModule reactProdInvariant
+ * 
+ */
 
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
@@ -61,18 +73,6 @@ function invariant(condition, format, a, b, c, d, e, f) {
 }
 
 var invariant_1 = invariant;
-
-/**
- * Copyright (c) 2013-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- *
- * @providesModule reactProdInvariant
- * 
- */
 
 /*
 object-assign
@@ -1328,14 +1328,10 @@ var omittedCloseTags = {
 
 var omittedCloseTags_1 = omittedCloseTags;
 
-var _extends = index || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-
-
 // For HTML, certain tags cannot have children. This has the same purpose as
 // `omittedCloseTags` except that `menuitem` should still have its closing tag.
 
-var voidElementTags = _extends({
+var voidElementTags = index({
   menuitem: true
 }, omittedCloseTags_1);
 
@@ -3169,7 +3165,7 @@ var ReactFeatureFlags_1 = ReactFeatureFlags;
 function renderToString(element) {
   var disableNewFiberFeatures = ReactFeatureFlags_1.disableNewFiberFeatures;
   if (disableNewFiberFeatures) {
-    invariant_1(react.isValidElement(element), 'renderToString(): Invalid component element.');
+    !react.isValidElement(element) ? invariant_1(false, 'renderToString(): Invalid component element.') : void 0;
   }
   var renderer = new ReactPartialRenderer(element, false);
   var markup = renderer.read(Infinity);
@@ -3184,7 +3180,7 @@ function renderToString(element) {
 function renderToStaticMarkup(element) {
   var disableNewFiberFeatures = ReactFeatureFlags_1.disableNewFiberFeatures;
   if (disableNewFiberFeatures) {
-    invariant_1(react.isValidElement(element), 'renderToStaticMarkup(): Invalid component element.');
+    !react.isValidElement(element) ? invariant_1(false, 'renderToStaticMarkup(): Invalid component element.') : void 0;
   }
   var renderer = new ReactPartialRenderer(element, true);
   var markup = renderer.read(Infinity);
@@ -3207,7 +3203,7 @@ var ReactDOMStringRenderer = {
  * @providesModule ReactVersion
  */
 
-var ReactVersion = '16.0.0-beta.3';
+var ReactVersion = '16.0.0-beta.5';
 
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -3815,10 +3811,10 @@ var ReactDOMServerBrowserEntry = {
   renderToString: ReactDOMStringRenderer.renderToString,
   renderToStaticMarkup: ReactDOMStringRenderer.renderToStaticMarkup,
   renderToStream: function () {
-    invariant_1(false, 'ReactDOMServer.renderToStream(): The streaming API is not available ' + 'in the browser. Use ReactDOMServer.renderToString() instead.');
+    invariant_1(false, 'ReactDOMServer.renderToStream(): The streaming API is not available in the browser. Use ReactDOMServer.renderToString() instead.');
   },
   renderToStaticStream: function () {
-    invariant_1(false, 'ReactDOMServer.renderToStaticStream(): The streaming API is not available ' + 'in the browser. Use ReactDOMServer.renderToStaticMarkup() instead.');
+    invariant_1(false, 'ReactDOMServer.renderToStaticStream(): The streaming API is not available in the browser. Use ReactDOMServer.renderToStaticMarkup() instead.');
   },
 
   version: ReactVersion

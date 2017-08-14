@@ -32,6 +32,62 @@ The more the merrier! To get started, check out our <a href="https://github.com/
 
 == Changelog ==
 
+= 0.8.0 =
+* New Categories Block (based on existing widget).
+* New Text Columns Block (initial exploration of text-only multiple columns).
+* New Video Block.
+* New Shortcode Block.
+* New Audio Block.
+* Added resizing handlers to Image Block.
+* Added direct image upload button to Image Block and Gallery Block.
+* Give option to transform a block to Classic when it encounters problems.
+* Give option to Overwrite changes on a block detected as invalid.
+* Added "link to" option in galleries.
+* Added support for custom taxonomies.
+* Added post formats selector to post settings.
+* Added keywords support (aliases) to various blocks to improve search discovery.
+* Significant improvements to the way attributes are specified in the Block API and its clarity (handles defaults and types).
+* Added Tooltip component displaying aria-labels from buttons.
+* Removed stats tracking code.
+* Updated design document.
+* Capture and recover from block rendering runtime errors.
+* Handle enter when focusing on outer boundary of a block.
+* Reduce galleries json attributes data to a minimum.
+* Added caption styles to the front-end for images and embeds.
+* Added missing front-end alignment classes for table and cover-text blocks.
+* Only reset blocks on initial load to prevent state fluctuations.
+* Improve calculation of dirty state by making a diff against saved post.
+* Improve visual weight of toolbar by reducing its silhouette.
+* Improve rendering of galleries on the front-end.
+* Improve Cover Image placeholder visual presentation.
+* Improve front-end display of quotes.
+* Improve responsive design of galleries on the front-end.
+* Allow previewing new posts that are yet to be saved.
+* Reset scrolling position within inserter when switching tabs.
+* Refactor popover to render at root of document.
+* Refactor withFocusReturn to handle accessibility better in more contexts.
+* Prevent overlap between multi-selection and within-block selection.
+* Clear save notices when triggering a new save.
+* Disable "preview" button if post is not saveable.
+* Renamed blocks.query to blocks.source for clarity and updated documentation.
+* Rearrange block stylesheets to reflect display and editor styles.
+* Use @wordpress dependencies consistently.
+* Added validation checks for specifying a block's category.
+* Fix problems with quote initialization and list transformation.
+* Fix issue where Cover Image was being considered invalid after edits.
+* Fix errors in editable coming from Table block commands.
+* Fix error in latest posts block when date is not set for a post.
+* Fix issue with active color in ColorPalette component.
+* Prevent class=false serialization issue in covert-text.
+* Treat range control value as numeric.
+* Added warning when using Editable and passing non-array values.
+* Show block switcher above link input.
+* Updated rememo dependency.
+* Start consuming from separate @wordpress dependencies.
+* Fix problem with inserting new galleries.
+* Fix issue with embeds and missing captions.
+* Added outreach section to docs.
+
 = 0.7.1 =
 * Address problem with the freeform block and Jetpack's contact form.
 

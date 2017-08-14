@@ -1,5 +1,5 @@
 /**
- * react.development.js v16.0.0-beta.3
+ * react.development.js v16.0.0-beta.5
  */
 
 (function (global, factory) {
@@ -1249,7 +1249,7 @@ var ReactChildren_1 = ReactChildren;
  * @providesModule ReactVersion
  */
 
-var ReactVersion = '16.0.0-beta.3';
+var ReactVersion = '16.0.0-beta.5';
 
 /**
  * Returns the first child in a collection of children and verifies that there
@@ -1895,7 +1895,7 @@ var ReactComponentTreeHook = {
     var info = '';
     var currentOwner = ReactCurrentOwner_1.current;
     if (currentOwner) {
-      invariant_1(typeof currentOwner.tag !== 'number', 'Fiber owners should not show up in Stack stack traces.');
+      !(typeof currentOwner.tag !== 'number') ? invariant_1(false, 'Fiber owners should not show up in Stack stack traces.') : void 0;
       if (typeof currentOwner._debugID === 'number') {
         info += ReactComponentTreeHook.getStackAddendumByID(currentOwner._debugID);
       }
