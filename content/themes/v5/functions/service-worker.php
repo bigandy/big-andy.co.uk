@@ -47,7 +47,7 @@ function ah_add_serviceworker_in_root() {
 	}
 	wp_reset_postdata();
 
-	$data = "importScripts('" . esc_url( $template_uri ) . "build/js/" . $assets['sw-helpers.js'] . "');
+	$data = "importScripts('" . esc_url( $template_uri ) . "build/js/sw-helpers.js');
 
 var cacheName = 'ahsw-" . date( 'd-m-Y-H-i-s', filemtime( SITEROOT . 'serviceWorker.js' ) ) . "';
 
