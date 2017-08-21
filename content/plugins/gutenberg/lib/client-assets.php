@@ -318,7 +318,7 @@ function gutenberg_register_vendor_script( $handle, $src, $deps = array() ) {
 		if ( ! $f ) {
 			// Failed to open the file for writing, probably due to server
 			// permissions.  Enqueue the script directly from the URL instead.
-			wp_register_script( $handle, $src, $deps );
+			wp_register_script( $handle, $src, $deps, null );
 			return;
 		}
 		fclose( $f );
@@ -327,7 +327,7 @@ function gutenberg_register_vendor_script( $handle, $src, $deps = array() ) {
 			// The request failed; just enqueue the script directly from the
 			// URL.  This will probably fail too, but surfacing the error to
 			// the browser is probably the best we can do.
-			wp_register_script( $handle, $src, $deps );
+			wp_register_script( $handle, $src, $deps, null );
 			// If our file was newly created above, it will have a size of
 			// zero, and we need to delete it so that we don't think it's
 			// already cached on the next request.
@@ -344,7 +344,8 @@ function gutenberg_register_vendor_script( $handle, $src, $deps = array() ) {
 	wp_register_script(
 		$handle,
 		gutenberg_url( 'vendor/' . $filename ),
-		$deps
+		$deps,
+		null
 	);
 }
 
@@ -490,7 +491,7 @@ add_action( 'admin_enqueue_scripts', 'gutenberg_common_scripts_and_styles' );
 function gutenberg_color_palette() {
 	return array(
 		'#f78da7',
-		'#eb144c',
+		'#cf2e2e',
 		'#ff6900',
 		'#fcb900',
 		'#7bdcb5',
@@ -499,8 +500,7 @@ function gutenberg_color_palette() {
 		'#0693e3',
 		'#eee',
 		'#abb8c3',
-		'#444',
-		'#111',
+		'#313131',
 	);
 }
 

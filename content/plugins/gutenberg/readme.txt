@@ -32,6 +32,32 @@ The more the merrier! To get started, check out our <a href="https://github.com/
 
 == Changelog ==
 
+= 0.9.0 =
+* Added ability to change font-size in cover text using slider and number input.
+* Added support for custom anchors (ids) on blocks, allowing to link directly to a section of the post.
+* Updated pull-quote design.
+* Created custom color palette component with "clear" option and "custom color" option. (And better markup and accessibility.)
+* Improve pasting: recognizing more elements, adding tests, stripping non-semantic markup, etc.
+* Improve gallery visual design and fix cropping in Safari.
+* Allow selecting a heading block from the table-of-contents panel directly.
+* Make toolbar slide horizontally for mobile.
+* Improve range-input control with a number input.
+* Fix pasting problems (handling of block attributes).
+* More stripping of unhandled elements during paste.
+* Show post format selector only for posts.
+* Display nicer URLs when editing links.
+* More compact save indicator.
+* Disabled arrow key navigation between blocks as we refine implementation.
+* Removed blank target from "view post" in notices.
+* Fix empty links still rendering ont he front-end.
+* Fix shadow on inline toolbars.
+* Fix problem with inserting pull-quotes.
+* Fix drag and drop on image block.
+* Removed warning when publishing.
+* Don't provide version for vendor scripts.
+* Clean category code in block registration.
+* Added history and resources docs.
+
 = 0.8.0 =
 * New Categories Block (based on existing widget).
 * New Text Columns Block (initial exploration of text-only multiple columns).
