@@ -1,5 +1,5 @@
 === Gutenberg ===
-Contributors: matveb, joen
+Contributors: matveb, joen, karmatosed
 Requires at least: 4.8
 Tested up to: 4.8
 Stable tag: trunk
@@ -31,6 +31,47 @@ We'd love to hear your bug reports, feature suggestions and any other feedback! 
 The more the merrier! To get started, check out our <a href="https://github.com/WordPress/gutenberg/blob/master/CONTRIBUTING.md">guide for contributors</a>.
 
 == Changelog ==
+
+= 1.0.0 =
+* Restored keyboard navigation with more robust implementation, addressing previous browser issues.
+* Added drag and drop for media with pointer to create new blocks.
+* Merged paragraph and cover text blocks (includes the colors and font size options).
+* Reworked color palette picker with a "clear" and a "custom color" option.
+* Further improvements to inline pasting and fixing errant empty blocks.
+* Added thumbnail size selector to image blocks.
+* Added support for url input and align and edit buttons to audio block.
+* Persist the state of the sidebar across page refresh.
+* Persist state of sidebar panels on page refresh.
+* Persist editor mode on page refresh.
+* New withAPIData higher-order component for making it easier to manage data needs.
+* Preserve unknown block and remove "freeform" comment delimiters (unrecognized HTML is handled without comment delimiters).
+* Show "add new term" in hierarchical taxonomies (including categories).
+* Show tooltip only after mouseover delay.
+* Show post formats only if the post type supports them.
+* Added align and edit buttons to video block.
+* Preload data in withApiData to improve perceived performance.
+* Improve accessibility of sidebar modes.
+* Allow changing cover-image settings before uploading an image.
+* Improve validation leniency around non-meaningful differences.
+* Take into account capabilities for publishing action.
+* Update author selector to show only users capable of authoring posts.
+* Normalize pasted blockquote contents.
+* Refactored featured image, page attributes to use withApiData
+* Added a fix to avoid cloning nodes by passing pasted HTML string.
+* Added a fix to avoid re-encoding on encoded posts.
+* Fixed resetting the focus config when block already selected.
+* Allowing adding of plain text after insert link at the end of a paragraph.
+* Update to latest TinyMCE version.
+* Show only users capable of authoring posts.
+* Add submit for review to publish for contributor.
+* Delete or backspace in an empty "classic text" block now removes it.
+* Check for type in block transformations logic.
+* Fixed drop-down menu issue on classic text.
+* Added filter to allow post types to disable "edit in gutenberg" links.
+* Made UrlInput and UrlInputButton available as reusable components.
+* Use wordpress/a11y package instead of global.
+* Added npm5 package-lock.
+* We welcome all your feedback and contributions on the project repository, or ping us in #core-editor. Follow the "gutenberg" tag for past updates.
 
 = 0.9.0 =
 * Added ability to change font-size in cover text using slider and number input.
