@@ -32,6 +32,32 @@ The more the merrier! To get started, check out our <a href="https://github.com/
 
 == Changelog ==
 
+= 1.1.0 =
+
+* Add blocks "slash" autocomplete—shortcut to continue adding new block without leaving the keyboard.
+* Add ability to remove an image from a gallery from within the block (selecting image).
+* Add option to open a created link in a new window.
+* Support and bootstrap server-registered block attribute schemas.
+* Improve accessibility of add-new-category form.
+* Documentation gets an updated design and content improvements.
+* Adjust column width calculation in gallery block to properly respect column count.
+* Move pending review control together with sticky toggle at the bottom.
+* Add caption styling for video block.
+* Allow removing a "classic text" block with backspaces.
+* Allow Button block to show placeholder text.
+* Drop the deprecated button-secondary class name.
+* Fix link dialog not showing in Safari when caret is in the middle of the word.
+* Fix adding new categories and position newly added term at the top.
+* Fix the resetting of drop-zone states after dropping a file.
+* Fix embed saving "undefined" text when URL is not set.
+* Fix placeholder styling on Text when background color is set.
+* Update Composer + PHPCS.
+* Rename default block handlers.
+* Update code syntax tabs in docutron.
+* Link to plugin download and github repo from docutron.
+* Added block API document.
+* Add "Edit and Save" document.
+
 = 1.0.0 =
 * Restored keyboard navigation with more robust implementation, addressing previous browser issues.
 * Added drag and drop for media with pointer to create new blocks.
