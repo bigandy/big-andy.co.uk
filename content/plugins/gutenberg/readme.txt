@@ -32,6 +32,40 @@ The more the merrier! To get started, check out our <a href="https://github.com/
 
 == Changelog ==
 
+= 1.2.1 =
+
+- Fix issue where invalid block resolution options were not clickable.
+
+= 1.2.0 =
+
+- Resolve block conflicts when editing a block post in the classic editor. Gutenberg's strict content validation has helped identify formatting incompatibilities, and continued improvements are planned for future releases.
+- Add word and block count to table of contents.
+- Add support for meta attributes (custom fields) in block attributes. This allows block authors to specify attributes to live outside of post_content entirely.
+- Allow Gutenberg to be the default editor for posts with blocks and add links to classic editor.
+- Accessibility: add landmark regions.
+- Add metabox placeholder shell.
+- Add crash recovery for blocks which error while saving.
+- Hide Sidebar panels if the user doesn't have the right capabilities.
+- Refactor PostTaxonomies to use 'withApiData'.
+- Create 'withApiData' higher order component for managing API data.
+- Make casing consistent.
+- Allow toolbar wrapper to be clicked through.
+- Support and bootstrap server-registered block attribute schemas.
+- Shift focus into popover when opened.
+- Reuse the tabbable utility to retrieve the tabbables elements in WritingFlow.
+- Change placeholder text on button.
+- Persist the sate of the sidebar across refresh.
+- Use a small multiselect buffer zone, improving multiple block selection.
+- Close popover by escape keypress.
+- Improve dropzone contrast ratio.
+- Improve search message to add context.
+- Improve string extraction for localized strings.
+- Fixed z-index issue of gallery image inline menu.
+- Fixed image block resizing to set the figure wrapper.
+- Fixed column widths in gallery block.
+- Fixed parsing in do_blocks() and rendering of blocks on frontend in the_content.
+- Fixed position of upload svg on mobile.
+
 = 1.1.0 =
 
 * Add blocks "slash" autocomplete—shortcut to continue adding new block without leaving the keyboard.
