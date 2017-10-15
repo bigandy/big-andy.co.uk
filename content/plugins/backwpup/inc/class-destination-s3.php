@@ -35,6 +35,7 @@ class BackWPup_Destination_S3 extends BackWPup_Destinations {
 						<option value="us-west-1" <?php selected( 'us-west-1', BackWPup_Option::get( $jobid, 's3region' ), TRUE ) ?>><?php esc_html_e( 'Amazon S3: US West (Northern California)', 'backwpup' ); ?></option>
 						<option value="us-west-2" <?php selected( 'us-west-2', BackWPup_Option::get( $jobid, 's3region' ), TRUE ) ?>><?php esc_html_e( 'Amazon S3: US West (Oregon)', 'backwpup' ); ?></option>
 						<option value="eu-west-1" <?php selected( 'eu-west-1', BackWPup_Option::get( $jobid, 's3region' ), TRUE ) ?>><?php esc_html_e( 'Amazon S3: EU (Ireland)', 'backwpup' ); ?></option>
+						<option value="eu-west-2" <?php selected( 'eu-west-2', BackWPup_Option::get( $jobid, 's3region' ), TRUE ) ?>><?php esc_html_e( 'Amazon S3: EU (London)', 'backwpup' ); ?></option>
 						<option value="eu-central-1" <?php selected( 'eu-central-1', BackWPup_Option::get( $jobid, 's3region' ), TRUE ) ?>><?php esc_html_e( 'Amazon S3: EU (Germany)', 'backwpup' ); ?></option>
 						<option value="ap-south-1" <?php selected( 'ap-south-1', BackWPup_Option::get( $jobid, 's3region' ), TRUE ) ?>><?php esc_html_e( 'Amazon S3: Asia Pacific (Mumbai)', 'backwpup' ); ?></option>
 						<option value="ap-northeast-1" <?php selected( 'ap-northeast-1', BackWPup_Option::get( $jobid, 's3region' ), TRUE ) ?>><?php esc_html_e( 'Amazon S3: Asia Pacific (Tokyo)', 'backwpup' ); ?></option>
@@ -194,7 +195,7 @@ class BackWPup_Destination_S3 extends BackWPup_Destinations {
 
 		if ( ! empty( $args[ 's3accesskey' ] ) && ! empty( $args[ 's3secretkey' ] ) ) {
 			try {
-				$s3 = Aws\S3\S3Client::factory( array( 	'key'		=> $args[ 's3accesskey' ],
+				$s3 = Aws\S3\S3Client::factory( array( 'signature' => 'v4', 'key'		=> $args[ 's3accesskey' ],
 														'secret'	=> BackWPup_Encryption::decrypt( $args[ 's3secretkey' ] ),
 														'region'	=> $args[ 's3region' ],
 														'base_url'	=> $this->get_s3_base_url( $args[ 's3region' ], $args[ 's3base_url' ]),
@@ -262,6 +263,8 @@ class BackWPup_Destination_S3 extends BackWPup_Destinations {
 				return 'https://s3-us-west-2.amazonaws.com';
 			case 'eu-west-1':
 				return 'https://s3-eu-west-1.amazonaws.com';
+			case 'eu-west-2':
+				return 'https://s3-eu-west-2.amazonaws.com';
 			case 'eu-central-1':
 				return 'https://s3-eu-central-1.amazonaws.com';
 			case 'ap-south-1':
@@ -320,7 +323,7 @@ class BackWPup_Destination_S3 extends BackWPup_Destinations {
 		//create new bucket
 		if ( ! empty( $_POST[ 's3newbucket' ] ) ) {
 			try {
-				$s3 = Aws\S3\S3Client::factory( array( 	 'key'	    => sanitize_text_field( $_POST[ 's3accesskey' ] ),
+				$s3 = Aws\S3\S3Client::factory( array( 'signature' => 'v4', 'key'	    => sanitize_text_field( $_POST[ 's3accesskey' ] ),
 														 'secret'	=> sanitize_text_field( $_POST[ 's3secretkey' ] ),
 														 'region'	=> sanitize_text_field( $_POST[ 's3region' ] ),
 														 'base_url'	=> $this->get_s3_base_url( sanitize_text_field( $_POST[ 's3region' ] ), esc_url_raw( $_POST[ 's3base_url' ] ) ),
@@ -366,7 +369,7 @@ class BackWPup_Destination_S3 extends BackWPup_Destinations {
 
 		if ( BackWPup_Option::get( $jobid, 's3accesskey' ) && BackWPup_Option::get( $jobid, 's3secretkey' ) && BackWPup_Option::get( $jobid, 's3bucket' ) ) {
 			try {
-				$s3 = Aws\S3\S3Client::factory( array( 	 'key'		=> BackWPup_Option::get( $jobid, 's3accesskey' ),
+				$s3 = Aws\S3\S3Client::factory( array( 'signature' => 'v4', 'key'		=> BackWPup_Option::get( $jobid, 's3accesskey' ),
 														 'secret'	=> BackWPup_Encryption::decrypt( BackWPup_Option::get( $jobid, 's3secretkey' ) ),
 														 'region'	=> BackWPup_Option::get( $jobid, 's3region' ),
 														 'base_url'	=> $this->get_s3_base_url( BackWPup_Option::get( $jobid, 's3region' ), BackWPup_Option::get( $jobid, 's3base_url' ) ),
@@ -400,7 +403,7 @@ class BackWPup_Destination_S3 extends BackWPup_Destinations {
 	public function file_download( $jobid, $get_file ) {
 
 		try {
-			$s3 = Aws\S3\S3Client::factory( array( 	 'key'		=> BackWPup_Option::get( $jobid, 's3accesskey' ),
+			$s3 = Aws\S3\S3Client::factory( array( 'signature' => 'v4', 'key'		=> BackWPup_Option::get( $jobid, 's3accesskey' ),
 													 'secret'	=> BackWPup_Encryption::decrypt( BackWPup_Option::get( $jobid, 's3secretkey' ) ),
 													 'region'	=> BackWPup_Option::get( $jobid, 's3region' ),
 													 'base_url'	=> $this->get_s3_base_url( BackWPup_Option::get( $jobid, 's3region' ), BackWPup_Option::get( $jobid, 's3base_url' ) ),
@@ -457,7 +460,7 @@ class BackWPup_Destination_S3 extends BackWPup_Destinations {
 			$job_object->log( sprintf( __( '%d. Trying to send backup file to S3 Service&#160;&hellip;', 'backwpup' ), $job_object->steps_data[ $job_object->step_working ][ 'STEP_TRY' ] ), E_USER_NOTICE );
 
 		try {
-			$s3 = Aws\S3\S3Client::factory( array( 	'key'		=> $job_object->job[ 's3accesskey' ],
+			$s3 = Aws\S3\S3Client::factory( array( 'signature' => 'v4', 'key'		=> $job_object->job[ 's3accesskey' ],
 												  	'secret'	=> BackWPup_Encryption::decrypt( $job_object->job[ 's3secretkey' ] ),
 													'region'	=> $job_object->job[ 's3region' ],
 													'base_url'	=> $this->get_s3_base_url( $job_object->job[ 's3region' ], $job_object->job[ 's3base_url' ] ),

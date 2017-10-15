@@ -5,7 +5,7 @@
  * Description: WordPress Backup Plugin
  * Author: Inpsyde GmbH
  * Author URI: http://inpsyde.com
- * Version: 3.4.2
+ * Version: 3.4.3
  * Text Domain: backwpup
  * Domain Path: /languages/
  * Network: true
@@ -64,7 +64,7 @@ if ( ! class_exists( 'BackWPup' ) ) {
 		private function __construct() {
 
 			// Nothing else matters if we're not on the main site
-			if ( ! is_main_site() ) {
+			if ( ! is_main_network() && ! is_main_site() ) {
 				return;
 			}
 			//auto loader
@@ -263,6 +263,11 @@ if ( ! class_exists( 'BackWPup' ) ) {
 				if ( file_exists( $filePath ) ) {
 					require $filePath;
 				}
+			}
+			
+			// Base32 autoloading
+			if ( strpos( $class, 'Base32' ) !== false ) {
+				require_once self::get_plugin_data( 'plugindir' ) . '/vendor/base32/src/Base32.php';
 			}
 
 		}

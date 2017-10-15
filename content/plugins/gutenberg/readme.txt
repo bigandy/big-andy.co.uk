@@ -32,39 +32,92 @@ The more the merrier! To get started, check out our <a href="https://github.com/
 
 == Changelog ==
 
+= 1.4.0 =
+
+* Redesigned the header area of the editor for clarity—groups content actions in the left, and post action in the right.
+* Initial REST API infrastructure for reusable global blocks.
+* Group block settings (delete, inspector, edit HTML) on an ellipsis button.
+* Added new reusable Dropdown component.
+* Show frequently used blocks in the inserter shortcuts (at the bottom of the post).
+* Offer option for the button block to clear content.
+* Refactor block toolbar component in preparation for some iterations (docked toolbar, for example).
+* Allow partial URLs in link input.
+* Avoid using state for tracking arrow key navigation in WritingFlow to prevent re-renders.
+* Improve mobile header after design cleanup.
+* Add focusReturn for Dropdown component.
+* Updated Audio block markup to use figure element.
+* Removed transition on multi-select affecting the perception of speed of the interaction.
+* Show Gallery block description even if there are no images.
+* Persist custom class names.
+* Merge initialization actions into a single action.
+* Fix scroll position when reordering blocks.
+* Fix case where the responsive treatment of the header area was hiding valuable actions.
+* Fix focus styles on the inserter.
+* Fix submenu visibility issue for certain users.
+* Cleanup no longer used code.
+* Document useOnce block API feature.
+
+= 1.3.0 =
+
+* Add an opacity range slider to the cover image block.
+* Offer the option to convert a single block to an HTML block when conflicting content is detected.
+* Persist recently used blocks through sessions.
+* Added support for pasting plain text markdown content and converting to blocks.
+* The block inspector groups features and settings in expandable panels.
+* Accessibility improvements to the color palette component.
+* Added a “feedback” link in the Gutenberg side menu.
+* Use expandable panels for advanced block features (class name and anchor).
+* Removed touch listeners from multi select.
+* Added block descriptions to blocks that didn’t have them.
+* Allow stored values to be updated with new defaults.
+* Refactor image block to use withApiData and fix issues with .tiff images.
+* Clean up non inline elements when pasting inline content.
+* Remove unused code in BlockList component.
+* Added “transform into” text to block switcher.
+* Fixed sidebar overflow causing extra scrollbars.
+* Fixed multi-select inside new scroll container.
+* Fixed image block error with .tiff image.
+* Fixed the content overflowing outside the verse block container.
+* Fixed issues with sticky quick toolbar position.
+* Fixed hitting enter when a block is selected creating a default block after selected block.
+* Fixed teaser markup in demo content.
+* Clean working directory before packaging plugin.
+* Updated Webpack dependencies.
+* Updated Jest and React.
+
 = 1.2.1 =
 
-- Fix issue where invalid block resolution options were not clickable.
+* Fix issue where invalid block resolution options were not clickable.
 
 = 1.2.0 =
 
-- Resolve block conflicts when editing a block post in the classic editor. Gutenberg's strict content validation has helped identify formatting incompatibilities, and continued improvements are planned for future releases.
-- Add word and block count to table of contents.
-- Add support for meta attributes (custom fields) in block attributes. This allows block authors to specify attributes to live outside of post_content entirely.
-- Allow Gutenberg to be the default editor for posts with blocks and add links to classic editor.
-- Accessibility: add landmark regions.
-- Add metabox placeholder shell.
-- Add crash recovery for blocks which error while saving.
-- Hide Sidebar panels if the user doesn't have the right capabilities.
-- Refactor PostTaxonomies to use 'withApiData'.
-- Create 'withApiData' higher order component for managing API data.
-- Make casing consistent.
-- Allow toolbar wrapper to be clicked through.
-- Support and bootstrap server-registered block attribute schemas.
-- Shift focus into popover when opened.
-- Reuse the tabbable utility to retrieve the tabbables elements in WritingFlow.
-- Change placeholder text on button.
-- Persist the sate of the sidebar across refresh.
-- Use a small multiselect buffer zone, improving multiple block selection.
-- Close popover by escape keypress.
-- Improve dropzone contrast ratio.
-- Improve search message to add context.
-- Improve string extraction for localized strings.
-- Fixed z-index issue of gallery image inline menu.
-- Fixed image block resizing to set the figure wrapper.
-- Fixed column widths in gallery block.
-- Fixed parsing in do_blocks() and rendering of blocks on frontend in the_content.
-- Fixed position of upload svg on mobile.
+* Resolve block conflicts when editing a block post in the classic editor. Gutenberg's strict content validation has helped identify formatting incompatibilities, and continued improvements are planned for future releases.
+* Add word and block count to table of contents.
+* Add support for meta attributes (custom fields) in block attributes. This allows block authors to specify attributes to live outside of post_content entirely.
+* Allow Gutenberg to be the default editor for posts with blocks and add links to classic editor.
+* Accessibility: add landmark regions.
+* Add metabox placeholder shell.
+* Add crash recovery for blocks which error while saving.
+* Hide Sidebar panels if the user doesn't have the right capabilities.
+* Refactor PostTaxonomies to use 'withApiData'.
+* Create 'withApiData' higher order component for managing API data.
+* Make casing consistent.
+* Allow toolbar wrapper to be clicked through.
+* Support and bootstrap server-registered block attribute schemas.
+* Shift focus into popover when opened.
+* Reuse the tabbable utility to retrieve the tabbables elements in WritingFlow.
+* Change placeholder text on button.
+* Persist the sate of the sidebar across refresh.
+* Use a small multiselect buffer zone, improving multiple block selection.
+* Close popover by escape keypress.
+* Improve dropzone contrast ratio.
+* Improve search message to add context.
+* Improve string extraction for localized strings.
+* Fixed z-index issue of gallery image inline menu.
+* Fixed image block resizing to set the figure wrapper.
+* Fixed column widths in gallery block.
+* Fixed parsing in do_blocks() and rendering of blocks on frontend in the_content.
+* Fixed position of upload svg on mobile.
 
 = 1.1.0 =
 
