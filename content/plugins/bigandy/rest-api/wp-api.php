@@ -34,7 +34,7 @@ function ah_rest_prepare_post( $data, $post ) {
 	$data->data = $_data;
 	return $data;
 }
-add_filter( 'rest_prepare_post', 'ah_rest_prepare_post', 10, 2 );
+// add_filter( 'rest_prepare_post', 'ah_rest_prepare_post', 10, 2 );
 
 /**
  * Register Custom Fields that are also Available via REST API
