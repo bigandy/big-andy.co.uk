@@ -6,13 +6,13 @@ Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Block editor for WordPress. This is the development plugin for the new block editor in core. Warning: This is beta software, do not run on real sites!
+A new editing experience for WordPress is in the works, with the goal of making it easier than ever to make your words, pictures, and layout look just right. This is the beta plugin for the project.
 
 == Description ==
 
 The goal of the block editor is to make adding rich content to WordPress simple and enjoyable.
 
-<strong>Warning: This is beta software, do not run on production sites!</strong>
+<strong>This is beta software.</strong>
 
 The new post and page building experience will make writing rich posts effortless, making it easy to do what today might take shortcodes, custom HTML, or "mystery meat" embed discovery.
 
@@ -31,6 +31,59 @@ We'd love to hear your bug reports, feature suggestions and any other feedback! 
 The more the merrier! To get started, check out our <a href="https://github.com/WordPress/gutenberg/blob/master/CONTRIBUTING.md">guide for contributors</a>.
 
 == Changelog ==
+
+= 1.5.1 =
+
+* New design for the inserter with tabs at the top and more space for text.
+* Fix problem with Firefox and the meta-boxes resize script.
+* Fix issue with Classic Text description showing without focus.
+
+= 1.5.0 =
+
+* Set Gutenberg as the default editor (still allow creating new posts in Classic Editor).
+* Add metabox support—this is an initial pass at supporting existing meta-boxes without intervention.
+* Display inserter button between blocks.
+* Improve block navigation performance.
+* Hide core namespace in comment serialization. wp:core/gallery becomes wp:gallery.
+* Implement a dropdown for Publish flow.
+* Allow multiselect to work on shift-click.
+* Insert new block from title on enter.
+* Use a dropdown for the block menu (settings, delete, edit as HTML).
+* Add expandable panel for post visibility.
+* Add expandable panel for post scheduling.
+* Implement more inline formatting boundaries.
+* Better clearing of block selection.
+* Show placeholder hint for slash autocomplete on new text blocks.
+* Remove multi-selection header in favor of default block controls (mover and menu).
+* Allow blocks to disable HTML edit mode.
+* Adjust transition and delay of inserter between blocks.
+* Added text color option for button block.
+* Hide extended settings if sidebar is closed.
+* New embed icons.
+* Move the store initialization to a dedicated component.
+* Improve scroll position of scrollable elements.
+* Drop undefined blocks from recent blocks.
+* Update HTML block description.
+* Update embed block description.
+* Add description for classic block.
+* PHPCS-specific improvements.
+* Add a default block icon.
+* Adjust line height of classic text to match paragraph blocks.
+* Adjust filter order in classic block so plugins that extend it can work properly.
+* Set textarea value as prop and not children.
+* Fix mobile issues with block setting menu.
+* Fix undefined colors warning.
+* Fix broken upload button on image placeholder.
+* Fix post edit URL when saving a post/page/CPT.
+* Fix conflict with new TinyMCE version and heading blocks.
+* Tweak block sibling element for better target surface.
+* Avoid loading Gutenberg assets on non-Gutenberg pages.
+* Adjust Jest configuration.
+* Document supportAnchor in block API.
+* Updated TinyMCE to latest.
+* Document block name usage in serialization and add example of serialized block.
+* Updated FAQ section.
+* Upgrade React and Enzyme dependencies.
 
 = 1.4.0 =
 
