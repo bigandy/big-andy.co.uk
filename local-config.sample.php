@@ -8,11 +8,11 @@ You may include other settings here that you only want enabled on your local dev
 
 define( 'DB_NAME', 'ba' );
 define( 'DB_USER', 'root' );
-define( 'DB_PASSWORD', '' );
+define( 'DB_PASSWORD', 'root' );
 define( 'DB_HOST', 'localhost' );
 
-define( 'WP_HOME', 'http://big-andy.dev' );
-define( 'WP_SITEURL', 'http://big-andy.dev/wp' );
+define( 'WP_HOME', 'http://big-andy.test' );
+define( 'WP_SITEURL', 'http://big-andy.test/wp' );
 
 define( 'WP_DEBUG', true );
 define( 'WP_DEBUG_DISPLAY', false );
