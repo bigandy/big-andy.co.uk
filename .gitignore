@@ -1,3 +1,4 @@
+log/*
 /shared
 local-config.php
 wp-config.php
