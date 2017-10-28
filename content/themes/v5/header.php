@@ -12,6 +12,9 @@
 	<link rel="icon" sizes="192x192" href="<?php echo esc_url( TEMPLATEURI ); ?>images/ba.png">
 	<link href="https://twitter.com/bigandy" rel="me">
 	<link href="https://github.com/bigandy" rel="me">
+	<link href="https://instagram.com/bigandyhudson" rel="me">
+	<link rel="authorization_endpoint" href="https://indieauth.com/auth">
+	<link rel="token_endpoint" href="https://big-andy.co.uk/token">
 	<?php
 	if ( ! is_user_logged_in() ) {
 		?>
