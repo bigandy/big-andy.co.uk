@@ -200,4 +200,4 @@ add_filter( 'login_headerurl', 'ba_login_logo_url' );
 function ba_login_logo_url_title() {
 	return 'Andrew JD Hudson';
 }
-add_filter( 'login_headertitle', 'my_login_logo_url_title' );
+add_filter( 'login_headertitle', 'ba_login_logo_url_title' );
