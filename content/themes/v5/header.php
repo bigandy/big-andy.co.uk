@@ -14,7 +14,7 @@
 	<link href="https://github.com/bigandy" rel="me">
 	<link href="https://instagram.com/bigandyhudson" rel="me">
 	<link rel="authorization_endpoint" href="https://indieauth.com/auth">
-	<link rel="token_endpoint" href="https://big-andy.co.uk/token">
+	<link rel="token_endpoint" href="https://tokens.indieauth.com/token">
 	<?php
 	if ( ! is_user_logged_in() ) {
 		?>
