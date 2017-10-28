@@ -3,15 +3,15 @@
  * Plugin Name: Gutenberg
  * Plugin URI: https://github.com/WordPress/gutenberg
  * Description: Printing since 1440. This is the development plugin for the new block editor in core. <strong>Meant for development, do not run on real sites.</strong>
- * Version: 1.5.1
+ * Version: 1.5.2
  * Author: Gutenberg Team
  *
  * @package gutenberg
  */
 
 ### BEGIN AUTO-GENERATED DEFINES
-define( 'GUTENBERG_VERSION', '1.5.1' );
-define( 'GUTENBERG_GIT_COMMIT', '8b558661d1392bd9927130abc61576a807b9cde0' );
+define( 'GUTENBERG_VERSION', '1.5.2' );
+define( 'GUTENBERG_GIT_COMMIT', 'dcc3341c78c29d9379428273a07ff575134ec637' );
 ### END AUTO-GENERATED DEFINES
 
 gutenberg_pre_init();
@@ -137,18 +137,7 @@ function gutenberg_init( $return, $post ) {
 		return false;
 	}
 
-	$post_type        = $post->post_type;
-	$post_type_object = get_post_type_object( $post_type );
-
-	if ( 'attachment' === $post_type ) {
-		return false;
-	}
-
-	if ( ! $post_type_object->show_in_rest ) {
-		return false;
-	}
-
-	if ( ! post_type_supports( $post_type, 'editor' ) ) {
+	if ( ! gutenberg_can_edit_post( $post ) ) {
 		return false;
 	}
 
@@ -350,7 +339,7 @@ add_action( 'admin_init', 'gutenberg_add_edit_link_filters' );
  * @return array          Updated post actions.
  */
 function gutenberg_add_edit_link( $actions, $post ) {
-	if ( 'trash' === $post->post_status || ! post_type_supports( $post->post_type, 'editor' ) ) {
+	if ( ! gutenberg_can_edit_post( $post ) ) {
 		return $actions;
 	}
 
@@ -421,6 +410,10 @@ add_filter( 'admin_url', 'gutenberg_modify_add_new_button_url', 10, 2 );
  * @since 1.5.0
  */
 function gutenberg_replace_default_add_new_button() {
+	global $typenow;
+	if ( ! gutenberg_can_edit_post_type( $typenow ) ) {
+		return;
+	}
 	?>
 	<style type="text/css">
 		.split-page-title-action {
@@ -482,6 +475,7 @@ function gutenberg_replace_default_add_new_button() {
 			display: block;
 			position: absolute;
 			margin-top: 3px;
+			z-index: 1;
 		}
 
 		.split-page-title-action .dropdown.visible a {

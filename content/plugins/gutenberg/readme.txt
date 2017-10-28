@@ -32,6 +32,14 @@ The more the merrier! To get started, check out our <a href="https://github.com/
 
 == Changelog ==
 
+= 1.5.2 =
+
+* Add the `gutenberg_can_edit_post_type` filter for plugins to add or remove support for custom post types.
+* Fix Classic Editor redirecting to Gutenberg when saving a post.
+* Fix Classic Editor dropdown showing on post types that don't support Gutenberg.
+* Fix Classic Editor dropdown hiding behind notices.
+* Fix an issue with collapsing popover content.
+
 = 1.5.1 =
 
 * New design for the inserter with tabs at the top and more space for text.
