@@ -173,6 +173,7 @@ function ba_custom_admin_logo() {
 				color: white;
 				font-weight: bold;
 				text-indent: 0;
+				font-size: 0.5em;
 			}
 
 			#login [type="submit"] {
@@ -190,3 +191,13 @@ function ba_custom_admin_logo() {
 		</style>';
 }
 add_action( 'login_enqueue_scripts', 'ba_custom_admin_logo' );
+
+function ba_login_logo_url() {
+	return home_url();
+}
+add_filter( 'login_headerurl', 'ba_login_logo_url' );
+
+function ba_login_logo_url_title() {
+	return 'Andrew JD Hudson';
+}
+add_filter( 'login_headertitle', 'my_login_logo_url_title' );
