@@ -130,6 +130,8 @@ function ah_add_service_worker_to_footer() {
 
 }
 
-if ( ! is_user_logged_in() ) {
+$options = get_option( 'ah_plugin_options' );
+
+if ( ! is_user_logged_in() && 'Y' === $options['ah_plugin_options'] ) {
 	add_action( 'wp_footer', 'ah_add_service_worker_to_footer' );
 }

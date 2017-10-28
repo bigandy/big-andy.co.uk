@@ -34,6 +34,7 @@ $ah_plugin_options = array(
 	'shortcodes' => 'no',
 	'menu' => 'yes',
 	'footer' => 'yes',
+	'show_service_worker' => 'yes',
 );
 
 add_action( 'admin_menu', 'ah_plugin_admin_menu' );
@@ -100,6 +101,14 @@ function ah_plugin_admin_options_page() {
 				</select>
 			</fieldset>
 
+			<fieldset <?php if ( 'Y' === $options['show_service_worker'] ) echo 'class="is-active"'; ?>>
+				<label for="ahServiceWorker">Use Service Worker: </label>
+				<select name="ah_plugin_options[show_service_worker]" id="ahServiceWorker">
+					<option value="N" <?php selected( $options['show_service_worker'], "N" ); ?> >No</option>
+					<option value="Y" <?php selected( $options['show_service_worker'], "Y" ); ?> >Yes</option>
+				</select>
+			</fieldset>
+
 			<input type="hidden" name="action" value="update" />
 			<input type="hidden" name="page_options" value="ah_plugin_options" />
 			<input type="submit" value="Save Changes" class="button" />
@@ -114,6 +123,7 @@ function ah_plugin_admin_options_page() {
 					'shortcodes' => 'N',
 					'menu' => 'N',
 					'images' => 'Y',
+					'show_service_worker' => 'Y',
 				);
 				update_option( 'ah_plugin_options', $options );
 			}
