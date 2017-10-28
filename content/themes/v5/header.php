@@ -10,6 +10,8 @@
 
 	<link rel="manifest" href="<?php echo esc_url( TEMPLATEURI ); ?>manifest.json">
 	<link rel="icon" sizes="192x192" href="<?php echo esc_url( TEMPLATEURI ); ?>images/ba.png">
+	<link href="https://twitter.com/bigandy" rel="me">
+	<link href="https://github.com/bigandy" rel="me">
 	<?php
 	if ( ! is_user_logged_in() ) {
 		?>
