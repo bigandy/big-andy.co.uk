@@ -36,6 +36,8 @@ $paged = get_query_var( 'page' );
 				while ( $home_loop->have_posts() ) {
 					$home_loop->the_post();
 
+					$title = get_the_title();
+
 					if ( has_post_format( 'aside' ) ) {
 						$aside = true;
 					} else {
@@ -55,15 +57,28 @@ $paged = get_query_var( 'page' );
 								<blockquote>
 								<?php
 							}
-							the_title();
-							if ( false === $aside ) {
+							if ( '' !== get_the_title() ) {
+								echo esc_html( $title );
+							} else {
 								?>
-								</a>
-								</h2>
 								<time class="article__time" datetime="<?php the_time( 'c' ); ?>">
 									<?php the_time( 'd/m/Y' ); ?>
 								</time>
 								<?php
+							}
+
+							if ( false === $aside ) {
+								?>
+								</a>
+								</h2>
+								<?php
+								if ( '' !== $title ) {
+									?>
+									<time class="article__time" datetime="<?php the_time( 'c' ); ?>">
+										<?php the_time( 'd/m/Y' ); ?>
+									</time>
+									<?php
+								}
 							} else {
 								?>
 								</blockquote>
