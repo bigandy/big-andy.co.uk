@@ -8,10 +8,10 @@
 // 	// ah_preit( $input, $wp_args );
 // }
 
-// add_action( 'after_micropub', 'ah_micropub_plugin_override' );
+// add_action( 'after_micropub', 'ah_micropub_plugin_override', 10, 2 );
 
 function ah_before_micropub( $input ) {
 	return 'this cool' . $input;
 }
 
-add_action( 'before_micropub' 'ah_before_micropub', 1 );
+add_action( 'before_micropub', 'ah_before_micropub', 10, 1 );
