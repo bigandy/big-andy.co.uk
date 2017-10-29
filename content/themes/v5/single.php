@@ -4,6 +4,9 @@
 	if ( have_posts() ) {
 		while ( have_posts() ) {
 			the_post();
+
+			$custom = get_post_custom();
+			ah_silent( $custom );
 			?>
 
 			<article class="article">
