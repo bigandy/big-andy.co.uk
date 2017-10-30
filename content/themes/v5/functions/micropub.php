@@ -1,6 +1,6 @@
 <?php
 
-// $categories = array( 210, 200 );
+$categories = array( 210, 200 );
 // array( 'categories' => $categories );
 
 // function ah_micropub_plugin_override( $input, $wp_args ) {
@@ -10,8 +10,12 @@
 
 // add_action( 'after_micropub', 'ah_micropub_plugin_override', 10, 2 );
 
-function ah_before_micropub( $input ) {
-	return 'this cool' . $input;
+function ah_after_micropub( $input, $args ) {
+	$args = array(
+		'post_category' => $categories,
+		'post_type' => 'created by micropub',
+	);
+	return $args;
 }
 
-add_action( 'before_micropub', 'ah_before_micropub', 10, 1 );
+add_action( 'after_micropub', 'ah_after_micropub', 10, 2 );
