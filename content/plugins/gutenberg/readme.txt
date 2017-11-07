@@ -32,6 +32,81 @@ The more the merrier! To get started, check out our <a href="https://github.com/
 
 == Changelog ==
 
+= 1.6.1 =
+
+* Handle pasting shortcodes and converting to blocks.
+* Show loading message when opening preview.
+* Fix inline pasting (auto-link feature).
+* Fix undoing multi-selection delete operation.
+* Remove focus state after a selection is finished during multi-select.
+* Remove the "command" shortcut to navigate to the editor toolbar.
+
+= 1.6.0 =
+
+* Move the block toolbar to the editor's top header. This experiment seeks to reduce the presence of UI obscuring content.
+* Alternate style for block boundaries and multi-selection. Also engages "edit" mode when using arrow keys (hides UI).
+* Complete rework of arrow keys navigation between blocks—faster, clearer, and respects caret position while traversing text blocks.
+* Added keyboard shortcuts to navigate regions.
+* Implement multi-selection mode using just arrow with shift keys and support horizontal arrows.
+* Suggest a post format for additional blocks (embeds, gallery, audio, video) and expand on the heuristics to include case of one format-block at the top plus a paragraph of text below as valid.
+* Allow converting a classic block (post) into several Gutenblocks.
+* Several performance improvements 🎉
+* * Avoid re-rendering all blocks on selection changes.
+* * Add memoization for multi-select selectors.
+* * Rework implementation of blockRef to avoid render cascade from block list.
+* * Use flatMap when allocating the block list for rendering.
+* * Reorganize logic to determine when a post can be saved to be less expensive.
+* Refactor handling of revisions to avoid loading them up-front, significantly reducing load time on long posts with many revisions.
+* Further memoization on selectors based on specific state keys.
+* Render meta-boxes as part of the main column, not as a collapsible box.
+* Improve handling of undo action stack by resetting only on setup. This makes undo a lot more usable in general.
+* Changes to block inserter design positioning tabs at the top. (1.5.1)
+* Remove multi-select buffer zone and throttle delay for a faster response.
+* API for handling custom formats/tokens in Editable.
+* Improve withApiData component to be able to serve cached data (if available) during an initial render.
+* Show block toolbar in HTML mode for mobile.
+* Update Shortcode block to use a textarea instead of single line input.
+* Increase width of invalid block message.
+* Avoid redirecting to Gutenberg when saving on classic editor. (1.5.2)
+* Don't show "edit as HTML" for the Code and Shortcode blocks.
+* Refactor notices state reducer as array optimizing performance.
+* Disable front-end styles for basic quote block.
+* Reorganize the meta-boxes components for code clarity.
+* Extract reusable PostSticky, PostFormat, PostPendingStatus, PostAuthor, PostTrash, PostExcerpt components.
+* Resolve issue with having to tab twice on the toolbar due to focusReturn utility interfering with button tooltips.
+* Reset min-width of Tooltip component.
+* Avoid function instantiation in render of WritingFlow component.
+* Add the gutenberg_can_edit_post_type filter for plugins to add or remove support for custom post types.
+* Update header toolbar keyboard navigation to include undo and redo buttons.
+* Don't show the classic editor dropdown on unsupported post types.
+* Drop resizable-box in favor of re-resizable to use in the image block resize handlers.
+* Correct placement of link-dialog after moving toolbar to the top.
+* Adjust revisions logic to link to latest entry.
+* Allow editable to accept aria attributes.
+* Add generic focus effect to popovers.
+* Remove unused focus prop from Button component.
+* Remove core namespace from demo content.
+* Enable iOS smooth scrolling within scroll containers.
+* Make sure link menu appears above sibling inserter.
+* Improve layout paneling for short-height viewports.
+* Fix problem with multi-select not working again after a group of blocks has been moved.
+* Fix problem with deleting a block in HTML mode.
+* Fix issue with keyboard navigation entering textareas (non contentEditable) and losing caret position.
+* Fix issue where clicking on an item within autocomplete would dismiss the popover and not select anything.
+* Fix visual issue with the document info popover. (1.5.2)
+* Fix bug with deleting featured image on a post.
+* Fix error with removing a block placeholder.
+* Fix problem with FF and meta-boxes.
+* Fix issue with Classic Text description showing all the time.
+* Fix issue with the color picker width.
+* Fix quick inserter display of custom block icons.
+* Fix missing node check when blurring a paragraph block.
+* Warn about misuses of z-index mappings.
+* Make use of the "build stages" feature in the travis config file.
+* Upgrade ESLint dependencies.
+* Move test configuration files to test/unit.
+* Add easy local environment setup and Cypress e2e tests.
+
 = 1.5.2 =
 
 * Add the `gutenberg_can_edit_post_type` filter for plugins to add or remove support for custom post types.
