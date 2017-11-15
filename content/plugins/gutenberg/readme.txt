@@ -32,6 +32,75 @@ The more the merrier! To get started, check out our <a href="https://github.com/
 
 == Changelog ==
 
+= 1.7.0 =
+
+* Add toggle to switch between top-level toolbar and toolbars attached to each block. We have gotten great feedback on the benefits of both approaches and want to expand testing of each.
+* Ability to transform multiple-selected blocks at once — multiple images into a gallery, multiple paragraphs into lists.
+* Add @-mention autocomplete for users in a site.
+* Add data layer for reusable blocks and wp_blocks post type name.
+* Allow pasting standalone images and uploading them (also supports pasting base64 encoded images).
+* Allow block nesting from a parser point of view. This is the foundation for handling nested blocks in the UI.
+* Full design update to focus styles around the UI.
+* Block Extensibility (Hooks): filters may inspect and mutate block settings before the block is registered using hooks available at wp.blocks.addFilter. Testing with internal functionality first.
+* Moved docs to https://wordpress.org/gutenberg/handbook/
+* Refactor "changed post" functionality into higher order component and fix issue with wrongly reporting unsaved changes.
+* Refactor meta-boxes to render inline, without iframes.
+* Disable auto-p for block based posts, solving various issues around conflicting paragraph structures, freeform content, and text blocks.
+* Placed "table of contents" button in the header area and disable when there are no blocks in the content.
+* Redesigned the button block with inline URL field.
+* Improve performance by refactoring block-multi-controls out of VisualEditorBlock.
+* Replace react-slot-fill with our own first-party implementation. Part one, and part two for better handling of event bubbling within portals.
+* Improve autocomplete behaviour by using focus outside utility. This solves an issue with selecting items on mobile.
+* Capture and recover from application errors, offering the option to copy the existing contents to the clipboard.
+* Expose editor reusable components. These will allow editor variations to be constructed with more ease.
+* Add polyfill for permalink_structure option to wp-json. (Corresponding trac ticket.) Several REST API compat issues are going to be addressed like this. This allows Gutenberg to implement permalink editing.
+* Unslash post content before parsing during save, fixing bugs with block attributes.
+* Keyboard navigation overhaul of the inserter with accessibility improvements (accessing tabs, etc).
+* Add paragraph count to table of contents element.
+* General Navigable family of components.
+* Add contrast checker message when color combinations are hard to read.
+* Add "no posts found" message to latest posts block.
+* Improve color highlight selection and browser consistency.
+* Add aria-expanded attribute to settings button.
+* Add loading message to preview window.
+* Extract PostFeaturedImage, PostLastRevision, PostComments, PostTaxonomies, PageAttributes, PostTextEditor, BlockInspector, into reusable modules.
+* Collapse advanced block controls by default.
+* Update max number of columns when removing an image from a gallery.
+* Prevent the post schedule component from having invalid dates.
+* Make sure the inspector for a gallery block is shown when it has just one image.
+* Accessibility improvements for inline autocomplete components.
+* Update caption color for contrast.
+* Update visual display of the "remove x" button on gallery-items.
+* Improve classic block toolbar display and behaviour.
+* Dismiss tooltip when clicking a button or when wrapper node becomes disabled.
+* Restore block movers on floated items.
+* Add spacing around date and label.
+* Adjust raw handler "mode" option for readability.
+* Improve e2e testing performance.
+* Add fixture for undelimited freeform block.
+* Hold jQuery ready only when there are metaboxes and ignore advanced ones.
+* Make sure image size values are integers.
+* Fix floated gallery styles in the front-end.
+* Fix issue with image block not loading properly.
+* Fix issue with missing function in IE11.
+* Fix transformation of empty images into gallery and back.
+* Fix overflow issues on mobile.
+* Fix accidental block hover on iOS.
+* Fix toolbar state issue with slot-fill utility.
+* Fix case of too many undo levels building up.
+* Fix stylesheet load ordering issue.
+* Prevent input events from URLInput from being captured by Editable.
+* Force onChange to be updated with TinyMCE content before merge.
+* Polish heading toolbar buttons.
+* Remove image resizing on mobile.
+* Remove findDOMNode usage from Autocomplete component.
+* Rename references of rawContent as innerHTML.
+* Add tests and handle empty fills in slot-fill.
+* Add tests for block mover.
+* Add multi-select e2e test and fix issue with escape key.
+* Bump node version to active LTS.
+* Update TinyMCE to 4.7.2, fixing several bugs like toolbar flickering, visible placeholders when there is text, navigation breaks when encountering format boundaries, typing in FF after starting a bullet-list.
+
 = 1.6.1 =
 
 * Handle pasting shortcodes and converting to blocks.

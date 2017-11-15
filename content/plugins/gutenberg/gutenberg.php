@@ -3,15 +3,15 @@
  * Plugin Name: Gutenberg
  * Plugin URI: https://github.com/WordPress/gutenberg
  * Description: Printing since 1440. This is the development plugin for the new block editor in core. <strong>Meant for development, do not run on real sites.</strong>
- * Version: 1.6.1
+ * Version: 1.7.0
  * Author: Gutenberg Team
  *
  * @package gutenberg
  */
 
 ### BEGIN AUTO-GENERATED DEFINES
-define( 'GUTENBERG_VERSION', '1.6.1' );
-define( 'GUTENBERG_GIT_COMMIT', '7dc18a06ccb47296997643534d9616eef73ea45c' );
+define( 'GUTENBERG_VERSION', '1.7.0' );
+define( 'GUTENBERG_GIT_COMMIT', '3f31557f91b1b65e0258533a2c4126931e4e207c' );
 ### END AUTO-GENERATED DEFINES
 
 gutenberg_pre_init();
@@ -73,7 +73,7 @@ function gutenberg_menu() {
 		$submenu['gutenberg'][] = array(
 			__( 'Documentation', 'gutenberg' ),
 			'edit_posts',
-			'http://gutenberg-devdoc.surge.sh/',
+			'https://wordpress.org/gutenberg/handbook/',
 		);
 	}
 }
