@@ -1,5 +1,15 @@
 $white: #FFFFFF;
 $black: #000000;
+$blue: hsla(200, 100%, 50%, 0.4);
+$blue-dark: hsla(200, 100%, 50%, 0.8);
+$montserrat: "Montserrat", sans-serif;
+$noto: "Noto Sans", sans-serif;
+
+
 
 $body-color: $black;
-$main-font-family: 'opensans', sans-serif;
+$main-font-family: $montserrat;
+$header-font-family: $noto;
+
+
+$grey: grey;

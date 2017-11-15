@@ -27,7 +27,9 @@ const autoprefixer = require('autoprefixer');
 const stylelint = require('stylelint');
 const syntax_scss = require('postcss-scss');
 const reporter = require('postcss-reporter');
-const babili = require("gulp-babili");
+const babili = require('gulp-babel-minify');
+
+const env = 'http://big-andy.test';
 // var
 	// envLive = 'https://big-andy.co.uk/',
 	// envDev = 'http://big-andy.dev/',
@@ -220,7 +222,7 @@ gulp.task('js-lint', () => {
 
 gulp.task('browser-sync', function() {
 	browserSync.init({
-		proxy: 'big-andy.dev'
+		proxy: env
 	});
 
 	gulp.watch('**/*.php').on('change', browserSync.reload);

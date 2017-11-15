@@ -11,9 +11,6 @@
 						<h1 class="article__title">
 							<?php the_title(); ?>
 						</h1>
-						<time class="article__date" datetime="<?php the_time( 'c' ); ?>">
-							<?php the_time( 'd/m/Y' ); ?>
-						</time>
 					</header>
 					<div class="article__content">
 						<?php the_content(); ?>

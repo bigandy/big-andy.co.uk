@@ -1,8 +1,9 @@
 .header {
-	background-color: hsla(200, 100%, 50%, .4);
-	border-bottom: 5px solid hsla(200, 100%, 50%, .4);
+	background-color: $grey;
+	border-bottom: 5px solid $grey;
 	padding-top: 3em;
 	padding-bottom: 2.5em;
+	margin-bottom: 2em;
 
 	&__title {
 		margin-top: 0;
@@ -10,17 +11,22 @@
 		font-weight: bold;
 	}
 
+	&__link,
+	&__nav a {
+		color: $white;
+
+		@include hocus {
+			color: $white;
+			text-decoration: underline;
+		}
+	}
+
 	&__nav {
 		a {
 			text-decoration: none;
 			margin-right: 10px;
-			padding-bottom: .5em;
+			padding-bottom: 0.5em;
 			border-bottom: 3px solid transparent;
-
-			&:hover,
-			&:focus {
-				color: red;
-			}
 		}
 
 		.link--active {

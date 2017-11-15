@@ -1,0 +1,26 @@
+.article {
+	&__link,
+	&__content a {
+		color: grey;
+	}
+
+	&__link {
+		@include hocus {
+			color: $blue;
+			text-decoration: underline;
+		}
+	}
+
+	&__date {
+		padding-top: 0.25em;
+		padding-bottom: 0.25em;
+		display: block;
+		font-size: 0.8em;
+	}
+
+	&__content {
+		a {
+			text-decoration: underline;
+		}
+	}
+}
