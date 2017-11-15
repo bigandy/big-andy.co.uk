@@ -1,0 +1,14 @@
+.wp-pagenavi {
+	text-align: center;
+
+	span,
+	a {
+		display: inline-block;
+		padding: 1em;
+	}
+
+	.current {
+		color: $white;
+		background-color: $grey;
+	}
+}

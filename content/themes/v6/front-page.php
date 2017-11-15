@@ -6,9 +6,10 @@ $paged = get_query_var( 'page' );
 	<div class="container">
 		<section class="front-page__articles">
 			<?php
-			$front_page_args = array(
+			$front_page_args = [
 				'posts_per_page' => 20,
-			);
+				'paged' => $paged,
+			];
 
 			$front_page_loop = new WP_Query( $front_page_args );
 
@@ -20,9 +21,7 @@ $paged = get_query_var( 'page' );
 						<header class="article__header">
 							<h2 class="article__title">
 								<a href="<?php the_permalink(); ?>" class="article__link">
-									<?php
-									the_title();
-									?>
+									<?php the_title(); ?>
 								</a>
 							</h2>
 							<time class="article__date" datetime="<?php the_time( 'c' ); ?>">
