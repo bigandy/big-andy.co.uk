@@ -4,7 +4,7 @@ Tags: Amazon, Amazon S3, back up, backup, chinese, cloud, cloud files, database,
 Requires at least: 3.9
 Tested up to: 4.8.2
 Requires PHP: 5.3
-Stable tag: 3.4.3
+Stable tag: 3.4.4
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -14,6 +14,7 @@ Schedule complete automatic backups of your WordPress installation. Decide which
 
 The **backup plugin** **[BackWPup](https://backwpup.com/)** can be used to save your complete installation including /wp-content/ and push them to an external Backup Service, like **Dropbox**, **S3**, **FTP** and many more, see list below. With a single backup .zip file you are able to easily restore an installation. Please understand: this free version will not be supported as good as the [BackWPup Pro version](https://backwpup.com). With our premium version you get first class support and more features.
 
+Already seen? **You downloaded BackWPup more than 5 million times!** We want to celebrate that! With a **50% discount** on all our BackWPup PRO licences! Until October 31st, you get all BackWPup PRO licences with further functionalities at half price. [More information](https://backwpup.com/?utm_source=wordpress.org&utm_campaign=5MillDownloads&utm_medium=Link#buy). 
 
 * Database Backup  *(needs mysqli)*
 * WordPress XML Export
@@ -158,6 +159,10 @@ Yes. You need to have writing access to the wp-config.php file (usually residing
 [You can find a detailed tutorial in the BackWPup documentation.](http://docs.backwpup.com/article/118-install-backwpup)
 
 == Changelog ==
+= Version 3.4.4 =
+* Fixed: Security issue that created too many sessions.
+* Fixed: Correct decryption of passwords when escaped.
+
 = Version 3.4.3 =
 * Fixed: No longer show hashes on job edit page.
 * Fixed: Compatibility with Sunrise.
