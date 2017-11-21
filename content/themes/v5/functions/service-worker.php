@@ -7,7 +7,7 @@ function ah_add_serviceworker_in_root() {
 
 	$posts_urls = '';
 	$posts_args = [
-		'posts_per_page'	=> 10,
+		'posts_per_page'	=> 2,
 		'post_type'			=> [
 			'post',
 		],
