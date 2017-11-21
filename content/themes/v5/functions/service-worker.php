@@ -52,7 +52,7 @@ function ah_add_serviceworker_in_root() {
 var cacheName = 'ahsw-" . date( 'd-m-Y-H-i-s', filemtime( SITEROOT . 'serviceWorker.js' ) ) . "';
 
 // https://ponyfoo.com/articles/serviceworker-revolution
-self.addEventListener('activate', (event) => {
+addEventListener('activate', (event) => {
 	event.waitUntil(
 		caches.keys().then((keys) => {
 			return Promise.all(
@@ -66,8 +66,6 @@ self.addEventListener('activate', (event) => {
 
 toolbox.precache([
 	// Assets
-	// '" . esc_url( $template_uri ) . $assets['style.css'] . "',
-	// '" . esc_url( $template_uri ) . "build/js/" . $assets['script.js'] . "',
 	'" . esc_url( $template_uri ) . "build/js/" . $assets['singular.js'] . "',
 	'" . esc_url( $template_uri ) . "build/js/" . $assets['sw-helpers.js'] . "',
 	'" . esc_url( $template_uri ) . "fonts/open-sans-v13-latin-regular.woff2',
@@ -76,7 +74,7 @@ toolbox.precache([
 	'" . esc_url( $template_uri ) . "manifest.json',
 ]);
 
-self.addEventListener('install', (e) => {
+addEventListener('install', (e) => {
 	e.waitUntil(
 		caches.open(cacheName).then((cache) => {
 			return cache.addAll([
@@ -85,25 +83,23 @@ self.addEventListener('install', (e) => {
 				// Pages
 				" . $page_urls . "
 			]).then(() => {
-				return self.skipWaiting();
+				return skipWaiting();
 			});
 		})
 	);
 });
 
-self.addEventListener('activate', (event) => event.waitUntil(self.clients.claim()));
+addEventListener('activate', e => e.waitUntil(clients.claim()));
 
-self.addEventListener('fetch', (event) => {
-	// console.log(event.request.url);
-
+addEventListener('fetch', e => {
 	// This service worker won't touch the admin area and preview pages
 	// https://justmarkup.com/log/2016/01/add-service-worker-for-wordpress/
-	if (event.request.url.match(/wp-admin/) || event.request.url.match(/preview=true/)) {
+	if (e.request.url.match(/wp-admin/) || e.request.url.match(/preview=true/)) {
 		return;
 	}
 
 	event.respondWith(
-		caches.match(event.request).then((response) => response || fetch(event.request))
+		caches.match(e.request).then(response => response || fetch(event.request))
 	);
 });
 	";
@@ -121,7 +117,7 @@ function ah_add_service_worker_to_footer() {
 	$html = "
 	<script>
 		if ('serviceWorker' in navigator) {
-			window.addEventListener('load', function() {
+			window.addEventListener('load', () => {
 				navigator.serviceWorker.register( '" . esc_url( HOMEURL ) . "serviceWorker.js', { scope: '" . esc_url( HOMEURL ) . "' });
 			});
 		}
