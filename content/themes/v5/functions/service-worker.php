@@ -132,6 +132,6 @@ function ah_add_service_worker_to_footer() {
 
 $options = get_option( 'ah_plugin_options' );
 
-if ( ! is_user_logged_in() && 'Y' === $options['ah_plugin_options'] ) {
+if ( ! is_user_logged_in() && 'Y' === $options['show_service_worker'] ) {
 	add_action( 'wp_footer', 'ah_add_service_worker_to_footer' );
 }
