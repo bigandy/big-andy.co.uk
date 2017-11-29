@@ -1,8 +1,8 @@
 === Gutenberg ===
 Contributors: matveb, joen, karmatosed
 Requires at least: 4.8
-Tested up to: 4.8
-Stable tag: trunk
+Tested up to: 4.9
+Stable tag: 1.8.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -31,6 +31,83 @@ We'd love to hear your bug reports, feature suggestions and any other feedback! 
 The more the merrier! To get started, check out our <a href="https://github.com/WordPress/gutenberg/blob/master/CONTRIBUTING.md">guide for contributors</a>.
 
 == Changelog ==
+
+= 1.8.1 =
+
+* Add ability to switch published post back to draft.
+* Fix issue with when changing column count in "text columns" block.
+* Prioritize common items in the autocomplete inserter.
+* Avoid changing publish/update button label when saving draft.
+* Add bottom padding to the editor container to improve experience of writing long posts.
+* Adjust the Classic block toolbar so it's doesn't jump.
+* Colorize the little arrow on the left of the admin menu to white to match body content.
+* Abort focus update when editor is not yet initialized.
+* Update autocomplete suggestions colors to have a sufficient color contrast ratio.
+
+= 1.8.0 =
+
+* Introduce block-templates as a list of blocks specification. Allows a custom post type to define a pre-configured set of blocks to be render upon creation of a new item.
+* New tools menu design, preparing the way for more extensibility options.
+* Block API change: use simpler JS object notation for declaring attribute sources.
+* Add function to allow filtering allowed block types.
+* Show popovers full screen on mobile, improving several mobile interactions.
+* Began work on publishing flow improvements with an indication of publishing (or updating a published post) action by introducing a button state and label updates.
+* Made docked-toolbar the default after different rounds of feedback and testing. Both options are still present.
+* Provide mechanism for plugin authors to fallback to classic editor when registering meta-boxes. Also includes the ability to disable a specific meta-box in the context of Gutenberg alone.
+* Updated color pickers with color indications and collapsible panels.
+* Update icon and tooltip for table of contents menu.
+* Added contrast checker for paragraph color options.
+* Improve pasting plaintext and shortcode data.
+* Convert unknown shortcode into shortcode block when pasting.
+* Updated notices design and positioning.
+* Move the URL handler when pasting to the raw handler mechanism.
+* Define custom classNames support for blocks using the new extensibility hooks with opt-out behaviour.
+* Add reusable blocks state effects.
+* Remove sibling inserter from inside multi-selection blocks.
+* Image block alt text enhancements.
+* Increase minimum width and height of resized images.
+* Allow using escape key to deselect a multi-selection.
+* Preserve settings when rebooting from crash.
+* Improve structure of store persist mechanism.
+* Extract reusable BlockList component to allow nesting compositions.
+* Extract BlockToolbar, BlockMover, BlockSwitcher, PostTitle, WritingFlow, TableOfContents, Undo/Redo Buttons, MultiBlockSwitcher, PostPublishWithDropdown, KeyboardShortcuts, DocumentOutlineCheck, PostTrashCheck, Notices,  as reusable components.
+* Consolidate block naming requirements.
+* Avoid persisting sidebar state on mobile devices.
+* Ensure backwards compatibility to matchers syntax.
+* Show untitled posts as (no title) in url auto-complete.
+* Extract fixedToolbar as a prop of BlockList.
+* Restore insertion point blue line.
+* Display outline tree even if only one heading is used.
+* Allow media upload button to specify a custom title (and fix grammar issue).
+* Fix issue with block mover showing on top of url input.
+* Fix case where tooltips would get stuck on buttons.
+* Fix transformations between quote and list blocks.
+* Fix issue with converting empty classic text to multiple blocks.
+* Fix issue with audio block not updating the toolbar area.
+* Fix contrast issues in button block.
+* Fix change detection to maintain multiple instances of state.
+* Fix text columns focus style.
+* Fix embed category example in docs.
+* Fix button link modal not closing.
+* Fix styling issue with sibling inserter.
+* Fix alignment of block toolbar in wide and full-width.
+* Fix issue when inserting image with empty caption.
+* Fix issue with sibling inserter not appearing in IE11.
+* Fix issue when inserting pullquotes.
+* Fix horizontal scrollbar when floating images to the left.
+* Fix alignment issue with embed videos.
+* Drop withContext optional mapSettingsToProps and fix issue when inserting new image.
+* Require @wordpress import path for application entry points.
+* Resolve errors in IE11 when using the inserter.
+* Added tests for Notice and UrlInput components.
+* Added tests for DefaultBlockAppender.
+* Log debugging messages for invalid blocks.
+* Reduce build size significantly by fixing import statements.
+* Update re-resizeable dependency.
+* Initial document page for extensibility purposes.
+* Added documentation for Editable component.
+* Move all components related to the specific post-edit page into its own folder.
+* Introduce snapshots for testing.
 
 = 1.7.0 =
 
