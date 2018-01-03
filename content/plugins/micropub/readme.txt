@@ -1,18 +1,19 @@
 === Micropub ===
 Contributors: snarfed, dshanske
-Tags: micropub
+Tags: micropub, publish
 Requires at least: 4.4
-Tested up to: 4.6.1
+Requires PHP: 5.3
+Tested up to: 4.9.1
 Stable tag: trunk
 License: CC0
 License URI: http://creativecommons.org/publicdomain/zero/1.0/
 Donate link: -
 
-A Micropub server plugin.
+A [Micropub](http://micropub.net/) server plugin. Available in the WordPress plugin directory at [wordpress.org/plugins/micropub](https://wordpress.org/plugins/micropub/).
 
 == Description ==
 
-A [Micropub](http://micropub.net/) server plugin. From [micropub.net](http://micropub.net/):
+[![Circle CI](https://circleci.com/gh/snarfed/wordpress-micropub.svg?style=svg)](https://circleci.com/gh/snarfed/wordpress-micropub)
 
 > Micropub is an open API standard that is used to create posts on one's own domain using third-party clients. Web apps and native apps (e.g. iPhone, Android) can use Micropub to post short notes, photos, events or other posts to your own site, similar to a Twitter client posting to Twitter.com.
 
@@ -20,27 +21,63 @@ Once you've installed and activated the plugin, try using [Quill](http://quill.p
 
 Supports the [full W3C Micropub CR spec](https://www.w3.org/TR/micropub/) as of 2016-10-18, except for the optional media endpoint. Media may be uploaded directly to the wordpress-micropub endpoint as multipart/form-data, or sideloaded from URLs.
 
+== License ==
+
+This project is placed in the public domain. You may also use it under the [CC0 license](http://creativecommons.org/publicdomain/zero/1.0/).
+
 == WordPress details ==
 
 = Filters and hooks =
-Adds one filter: `before_micropub( $input )`
+Adds four filters:
 
-Called before handling a Micropub request. Returns $input, possibly modified.
+`before_micropub( $input )`
 
-...and one hook: `after_micropub( $input, $wp_args = null)`
+Called before handling a Micropub request. Returns `$input`, possibly modified.
+
+`micropub_post_content( $post_content, $input )` 
+
+Called during the handling of a Micropub request. The content generation function is attached to this filter by default. Returns `$post_content`, possibly modified.
+
+`micropub_syndicate-to( $synd_urls, $user_id )`
+
+Called to generate the list of `syndicate-to` targets to return in response to a query. Returns `$synd_urls`, an array, possibly modified.
+
+`micropub_query( $resp, $input )`
+
+$resp defaults to null. If the return value is non-null, it should be an associative array that is encoded as JSON and will be returned in place of the normal micropub response.
+
+...and one hook:
+
+`after_micropub( $input, $wp_args = null)`
 
 Called after handling a Micropub request. Not called if the request fails (ie doesn't return HTTP 2xx).
 
 Arguments:
 
 * `$input`: associative array, the Micropub request in [JSON format](http://micropub.net/draft/index.html#json-syntax). If the request was form-encoded or a multipart file upload, it's converted to JSON format.
-* `$wp_args`: optional associative array. For creates and updates, this is the arguments passed to wp_insert_post or wp_update_post. For deletes and undeletes, args['ID'] contains the post id to be (un)deleted. Null for queries.
+* `$wp_args`: optional associative array. For creates and updates, this is the arguments passed to `wp_insert_post` or `wp_update_post`. For deletes and undeletes, `args['ID']` contains the post id to be (un)deleted. Null for queries.
 
 = Other =
 
 Stores [microformats2](http://microformats.org/wiki/microformats2) properties in [post metadata](http://codex.wordpress.org/Function_Reference/post_meta_Function_Examples) with keys prefixed by `mf2_`. [Details here.](https://indiewebcamp.com/WordPress_Data#Microformats_data) All values are arrays; use `unserialize()` to deserialize them.
 
 Does *not* support multithreading. PHP doesn't really either, so it generally won't matter, but just for the record.
+
+Supports Experimental Properties for [Post Status](https://indieweb.org/Micropub-extensions#Post_Status) and [Visibility](https://indieweb.org/Micropub-extensions#Visibility). Visibility can be either
+`public` or `private`. Setting it to `private` will set the post status to private. Post Status may be set to either `published` or `draft`. If visibility or post status are not set to one of these 
+options, the plugin will return HTTP 400 with body:
+
+    {
+      "error": "invalid_request",
+      "error_description": "Invalid Post Status"
+    }
+
+WordPress has a [whitelist of file extensions that it allows in uploads](https://codex.wordpress.org/Uploading_Files#About_Uploading_Files_on_Dashboard). If you upload a file in a Micropub extension that doesn't have an allowed extension, the plugin will return HTTP 400 with body:
+
+    {
+      "error": "invalid request",
+      "error_description": "Sorry, this file is not permitted for security reasons."
+    }
 
 
 == Authentication and authorization ==
@@ -64,7 +101,6 @@ These configuration options can be enabled by adding them to your wp-config.php
 * `define('MICROPUB_LOCAL_AUTH', '1')` - Bypasses Micropub authentication in favor of WordPress authentication
 * `define('MICROPUB_AUTHENTICATION_ENDPOINT', 'https://indieauth.com/auth')` - Define a custom authentication endpoint
 * `define('MICROPUB_TOKEN_ENDPOINT', 'https://tokens.indieauth.com/token')` - Define a custom token endpoint
-* `define('MICROPUB_DRAFT_MODE', '1')` - Set all Micropub posts to draft mode
 
 == Frequently Asked Questions ==
 
@@ -72,7 +108,7 @@ If your Micropub client includes an `Authorization` HTTP request header but you 
 
     SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1
 
-If that doesn't work, try this line:
+If that doesn't work, [try this line](https://github.com/georgestephanis/application-passwords/wiki/Basic-Authorization-Header----Missing):
 
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
 
@@ -100,22 +136,38 @@ To set up your local environment to run the unit tests:
 1. Open `wordpress-tests-lib/wp-tests-config.php` and add a slash to the end of the ABSPATH value. No clue why it leaves off the slash; it doesn't work without it.
 1. Run `phpunit` in the repo root dir. If you set `WP_CORE_DIR` and `WP_TESTS_DIR` above, you'll need to set them for this too. You should see output like this:
 
+    ```
     Installing...
     ...
     1 / 1 (100%)
     Time: 703 ms, Memory: 33.75Mb
     OK (1 test, 3 assertions)
+    ```
 
-To set up PHPCodesniffer to test adherence to [WordPress Coding Standards](https://make.wordpress.org/core/handbook/coding-standards/php/):
+To set up PHPCodesniffer to test adherence to [WordPress Coding Standards](https://make.wordpress.org/core/handbook/coding-standards/php/) and [PHP 5.3 Compatibility](https://github.com/wimg/PHPCompatibility):
 
-1. Install [PHPCS](https://github.com/squizlabs/PHP_CodeSniffer).
-1. Install and connect [WordPress-Coding-Standards](https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards).
-1. Run in command line or install a plugin for your favorite editor.
-1. To list coding standard issues in a file, run `phpcs --standard=phpcs.ruleset.xml micropub.php`.
+1. Install [Composer](https://getcomposer.org).
+1. Run `composer install` which will install all dependencies for PHP Codesniffer and the standards required
+1. To list coding standard issues in a file, run `phpcs --standard=phpcs.xml`
 1. If you want to try to automatically fix issues, run `phpcbf` with the same arguments as `phpcs`.
 
+To automatically convert the readme.txt file to readme.md, you may, if you have installed composer as noted in the previous section, enter `composer update-readme` to have the .txt file converted
+into markdown and saved to readme.md.
 
 == Changelog ==
+
+= 1.3 (2017-12-31) =
+* Saves [access token response](https://tokens.indieauth.com/) in a post meta field `micropub_auth_response`.
+* Bug fix for `post_date_gmt`
+* Store timezone from published in arguments passed to micropub filter
+* Correctly handle published times that are in a different timezone than the site.
+* Set minimum version to PHP 5.3
+* Adhere to WordPress Coding Standards
+* Add `micropub_query` filter
+* Support Nested Properties in Content Generation 
+* Deprecate `MICROPUB_DRAFT_MODE` configuration option in favor of setting option
+* Remove post content generation override in case of microformats2 capable theme or Post Kinds plugin installed
+* Introduce `micropub_post_content` filter to which post content generation is attached so that a theme or plugin can modify/remove the post generation as needed
 
 = 1.2 (2017-06-25) =
 * Support [OwnYourSwarm](https://ownyourswarm.p3k.io/)'s [custom `checkin` microformats2 property](https://ownyourswarm.p3k.io/docs#checkins), including auto-generating content if necessary.
