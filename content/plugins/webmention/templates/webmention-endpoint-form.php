@@ -141,6 +141,7 @@
 			<p>
 				<input id="webmention-submit" type="submit" name="submit" value="<?php _e( 'Ping me!', 'webmention' ); ?>" />
 			</p>
+			<input id="webmention-format" type="hidden" name="format" value="html" />
 			<?php do_action( 'webmention_endpoint_form_after_input_fields' ); ?>
 		</form>
 
