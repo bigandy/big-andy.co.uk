@@ -5,7 +5,7 @@ const { Builder, By, Key, until } = require('selenium-webdriver');
 	var xpath = '//*[@id="rso"]/div[1]/div/div[1]/div/div/h3/a';  // reference to first link in google SRP.
 
 	try {
-		const name = 'big-andy';
+		const name = 'Andrew Hudson: Home';
 		await driver.get('http://www.google.com/ncr'); // opens google
 		await driver.findElement(By.name('q')).sendKeys(name, Key.RETURN); // searches for name
 		await driver.getTitle()
