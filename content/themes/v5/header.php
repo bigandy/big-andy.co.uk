@@ -5,7 +5,7 @@
 	<meta name="robots" content="all" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <link rel="preload" href="<?php echo esc_url( TEMPLATEURI . 'fonts/open-sans-v13-latin-regular.woff2' ); ?>" as="font" type="font/woff2" crossorigin>
+	<link rel="preload" href="<?php echo esc_url( TEMPLATEURI . 'fonts/open-sans-v13-latin-regular.woff2' ); ?>" as="font" type="font/woff2" crossorigin>
 	<link rel="preload" href="<?php echo esc_url( TEMPLATEURI . 'fonts/open-sans-v13-latin-800.woff2' ); ?>" as="font" type="font/woff2" crossorigin>
 
 	<link rel="manifest" href="<?php echo esc_url( TEMPLATEURI ); ?>manifest.json">
@@ -36,8 +36,8 @@
 						'container_id'    => false,
 						'container_class' => 'header__nav',
 						'menu_class'      => 'list--inline header__menu',
-						'menu_id'		  => '',
-						'walker' => new AH_Walker_Nav_Menu(),
+						'menu_id'         => '',
+						'walker'          => new AH_Walker_Nav_Menu(),
 					);
 
 					wp_nav_menu( $menu_args );

@@ -5,18 +5,18 @@
 		while ( have_posts() ) {
 			the_post();
 			?>
-		    <article role="article" class="large-6 columns">
+			<article role="article" class="large-6 columns">
 				<header class="article__header">
-				    <h1>
+					<h1>
 						<a href="<?php the_permalink(); ?>">
 							<?php the_title(); ?>
-				   		</a>
+						</a>
 					</h1>
-		    	</header>
+				</header>
 				<div class="post-content clearfix">
 					<?php the_content(); ?>
-			    </div>
-		    </article>
+				</div>
+			</article>
 		<?php
 		}
 	}

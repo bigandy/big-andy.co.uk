@@ -26,7 +26,7 @@ $paged = get_query_var( 'page' );
 		<section class="home__articles">
 			<?php
 			$home_args = array(
-				'cat' => -31,
+				'cat'   => -31,
 				'paged' => $paged,
 			);
 

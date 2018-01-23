@@ -26,3 +26,5 @@ content/themes/v5/functions/vendor
 *.map
 
 test.php
+/content/themes/v5/vendor
+wpcs
