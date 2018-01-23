@@ -18,7 +18,7 @@ jobs:
 
     steps:
       - checkout
-	  # Install Mysql-server
+    # Install Mysql-server
       - run: sudo apt-get install mysql-server
       # Restart mysql
       - run: sudo service mysql restart
