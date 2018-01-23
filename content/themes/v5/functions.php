@@ -9,6 +9,10 @@ include( $functions . 'nav.php' );
 include( $functions . 'customizer.php' );
 include( $functions . 'admin.php' );
 include( $functions . 'service-worker.php' );
-// include( $functions . 'publish-post.php' );
+
+if ( true === $publish_post ) {
+	include( $functions . 'publish-post.php' );
+}
+
 include( $functions . 'micropub.php' );
 

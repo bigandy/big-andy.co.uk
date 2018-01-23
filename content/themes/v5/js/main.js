@@ -7,7 +7,7 @@ var links = document.getElementsByClassName('article__link'),
 
 // http://joelcalifa.com/blog/revisiting-visited
 
-var pathname = window.location.pathname
+var pathname = window.location.pathname;
 
 // Don't want to track whether we're on a page, only posts need to be tracked
 if (pathname !== '/' || pathname !== '/about' || pathname !== '/cv' || pathname !== '/style-guide') {

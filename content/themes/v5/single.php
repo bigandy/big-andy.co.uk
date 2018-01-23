@@ -28,7 +28,7 @@
 					the_content();
 
 					if ( is_user_logged_in() && function_exists( 'gutenberg_can_init' ) ) {
-						echo '<p><a href="' . esc_url( get_admin_url( null, "admin.php?page=gutenberg&post_id=" . get_the_ID() ) ) . '">Edit with Gutenberg</a></p>';
+						echo '<p><a href="' . esc_url( get_admin_url( null, 'admin.php?page=gutenberg&post_id=' . get_the_ID() ) ) . '">Edit with Gutenberg</a></p>';
 					} else {
 						edit_post_link( 'Edit Post', '<p>', '</p>' );
 					}

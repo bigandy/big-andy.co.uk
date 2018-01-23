@@ -8,7 +8,7 @@ jobs:
     docker:
       # specify the version you desire here
       - image: circleci/php:7.1.5-browsers
-      
+
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
       # documented at https://circleci.com/docs/2.0/circleci-images/
@@ -18,6 +18,33 @@ jobs:
 
     steps:
       - checkout
+	  # Install Mysql-server
+      - run: sudo apt-get install mysql-server
+      # Restart mysql
+      - run: sudo service mysql restart
+
+      # Create vh_ventureharbour database
+    #   - run: mysql -u root -e "create database test_ba"
+    #   # Change root password to root.
+    #   - run: mysql -u root -e "SET PASSWORD FOR 'root'@'localhost' = PASSWORD('root'); flush privileges;"
+    #   # Import test database
+    #   - run: cd tests/db && mysql -u root -proot test_ba < test_ba.sql
+
+      # Add ventureharbour.test to hosts.
+      - run: echo 127.0.0.1 big-andy.test | sudo tee -a /etc/hosts && cat /etc/hosts
+      # - run: cd content/themes/v5/ && composer install
+      # - run: cd content/themes/v5/ && composer create-project wp-coding-standards/wpcs --no-dev
+      # - run: cd content/themes/v5 && ./vendor/bin/phpcs --config-set installed_paths wpcs
+      # - run: cd content/themes/v5/ && npm install && npm run test
+
+      # Use cURL to fetch WP-CLI
+      - run: curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+      # Change Permissions so that can execute on wp-cli.phar
+      - run: chmod +x wp-cli.phar
+      # Move wp-cli so can be run globally
+      - run: sudo mv wp-cli.phar /usr/local/bin/wp
+
+
 
       # Download and cache dependencies
       #- restore_cache:
@@ -32,6 +59,6 @@ jobs:
         #  paths:
         #    - ./vendor
         #  key: v1-dependencies-{{ checksum "composer.json" }}
-        
+
       # run tests!
       # - run: phpunit

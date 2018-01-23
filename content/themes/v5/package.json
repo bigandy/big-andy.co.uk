@@ -7,9 +7,10 @@
     "url": "https://github.com/bigandy/big-andy.co.uk.git"
   },
   "scripts": {
-    "clean": "rm -rf build",
-    "build": "npm run clean && gulp build",
-    "watch": "gulp"
+	"test": "npm run sass-lint && npm run js-lint && npm run wordpress-lint",
+	"js-lint": "eslint ./js/**/*.js --ignore-pattern 'js/**/*.min.js' --ignore-pattern 'js/lib/*.js'",
+	"sass-lint": "stylelint scss/*.scss --syntax scss && stylelint scss/**/*.scss --syntax scss",
+	"wordpress-lint": "./vendor/bin/phpcs --standard=code.ruleset.xml *.php"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
