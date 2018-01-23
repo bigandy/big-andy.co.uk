@@ -19,9 +19,9 @@ jobs:
     steps:
       - checkout
     # Install Mysql-server
-      - run: sudo apt-get install mysql-server
+      # - run: sudo apt-get install mysql-server
       # Restart mysql
-      - run: sudo service mysql restart
+      # - run: sudo service mysql restart
 
       # Create vh_ventureharbour database
     #   - run: mysql -u root -e "create database test_ba"
@@ -32,10 +32,10 @@ jobs:
 
       # Add ventureharbour.test to hosts.
       - run: echo 127.0.0.1 big-andy.test | sudo tee -a /etc/hosts && cat /etc/hosts
-      # - run: cd content/themes/v5/ && composer install
-      # - run: cd content/themes/v5/ && composer create-project wp-coding-standards/wpcs --no-dev
-      # - run: cd content/themes/v5 && ./vendor/bin/phpcs --config-set installed_paths wpcs
-      # - run: cd content/themes/v5/ && npm install && npm run test
+      - run: cd content/themes/v5/ && composer install
+      - run: cd content/themes/v5/ && composer create-project wp-coding-standards/wpcs --no-dev
+      - run: cd content/themes/v5 && ./vendor/bin/phpcs --config-set installed_paths wpcs
+      - run: cd content/themes/v5/ && npm install && npm test
 
       # Use cURL to fetch WP-CLI
       - run: curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
@@ -43,6 +43,8 @@ jobs:
       - run: chmod +x wp-cli.phar
       # Move wp-cli so can be run globally
       - run: sudo mv wp-cli.phar /usr/local/bin/wp
+
+      - run: cd tests && npm install && node search.test.js
 
 
 
