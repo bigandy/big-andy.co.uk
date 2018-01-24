@@ -96,9 +96,17 @@ jobs:
 
       - run: touch sw.js && chmod 755 sw.js
 
+      - restore_cache:
+          key: npm-tests-cache-{{ checksum "tests/package.json" }}
+
       - run:
           name: tests with selenium
           command: cd tests && npm i && npm test
+
+      - save_cache:
+          key: npm-tests-cache-{{ checksum "tests/package.json" }}
+          paths:
+            - tests/node_modules
 
       # # Use cURL to fetch WP-CLI
       # - run: curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
@@ -106,80 +114,3 @@ jobs:
       # - run: chmod +x wp-cli.phar
       # # Move wp-cli so can be run globally
       # - run: sudo mv wp-cli.phar /usr/local/bin/wp
-
-# notify:
-#   branches:
-#     only:
-#       - master
-#       - develop
-#   webhooks:
-#     # A list of hook hashes, containing the URL field
-#     - url: https://hooks.zapier.com/hooks/catch/103653/8wc7af/
-
-
-# # PHP CircleCI 2.0 configuration file
-# #
-# # Check https://circleci.com/docs/2.0/language-php/ for more details
-# #
-# version: 2
-# jobs:
-#   build:
-#     docker:
-#       # specify the version you desire here
-#       - image: circleci/php:7.1-node-browsers
-
-#       # Specify service dependencies here if necessary
-#       # CircleCI maintains a library of pre-built images
-#       # documented at https://circleci.com/docs/2.0/circleci-images/
-#       # - image: circleci/mysql:9.4
-
-#     working_directory: ~/repo
-
-#     steps:
-#       - checkout
-#     # Install Mysql-server
-#       - run: sudo apt-get install mysql-server
-#       # Restart mysql
-#       - run: sudo service mysql restart
-
-#       # Create vh_big-andy database
-#     #   - run: mysql -u root -e "create database test_ba"
-#     #   # Change root password to root.
-#     #   - run: mysql -u root -e "SET PASSWORD FOR 'root'@'localhost' = PASSWORD('root'); flush privileges;"
-#     #   # Import test database
-#     #   - run: cd tests/db && mysql -u root -proot test_ba < test_ba.sql
-
-#       # Add big-andy.test to hosts.
-#       - run: echo 127.0.0.1 big-andy.test | sudo tee -a /etc/hosts && cat /etc/hosts
-#       - run: cd content/themes/v5/ && composer install
-#       - run: cd content/themes/v5/ && composer create-project wp-coding-standards/wpcs --no-dev
-#       - run: cd content/themes/v5 && ./vendor/bin/phpcs --config-set installed_paths wpcs
-#       - run: cd content/themes/v5/ && npm install && npm test
-
-#       # Use cURL to fetch WP-CLI
-#       - run: curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
-#       # Change Permissions so that can execute on wp-cli.phar
-#       - run: chmod +x wp-cli.phar
-#       # Move wp-cli so can be run globally
-#       - run: sudo mv wp-cli.phar /usr/local/bin/wp
-
-#       - run: cd tests && npm install && node search.test.js
-
-
-
-#       # Download and cache dependencies
-#       #- restore_cache:
-#        #   keys:
-#        #   - v1-dependencies-{{ checksum "composer.json" }}
-#        #   # fallback to using the latest cache if no exact match is found
-#        #   - v1-dependencies-
-
-#       #- run: composer install -n --prefer-dist
-
-#       # - save_cache:
-#         #  paths:
-#         #    - ./vendor
-#         #  key: v1-dependencies-{{ checksum "composer.json" }}
-
-#       # run tests!
-#       # - run: phpunit
