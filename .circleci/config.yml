@@ -6,61 +6,182 @@ version: 2
 jobs:
   build:
     docker:
-      # specify the version you desire here
-      - image: circleci/php:7.1-node-browsers
-
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/mysql:9.4
-
-    working_directory: ~/repo
+      - image: circleci/php:7.2.1-apache-node-browsers
 
     steps:
       - checkout
-    # Install Mysql-server
-      - run: sudo apt-get install mysql-server
-      # Restart mysql
-      - run: sudo service mysql restart
+      - run:
+          name: install mysql-server
+          command: sudo apt-get install mysql-server
 
-      # Create vh_ventureharbour database
-    #   - run: mysql -u root -e "create database test_ba"
-    #   # Change root password to root.
-    #   - run: mysql -u root -e "SET PASSWORD FOR 'root'@'localhost' = PASSWORD('root'); flush privileges;"
-    #   # Import test database
-    #   - run: cd tests/db && mysql -u root -proot test_ba < test_ba.sql
+      - run:
+          name: Restart mysql
+          command: sudo service mysql restart
 
-      # Add ventureharbour.test to hosts.
-      - run: echo 127.0.0.1 big-andy.test | sudo tee -a /etc/hosts && cat /etc/hosts
-      - run: cd content/themes/v5/ && composer install
-      - run: cd content/themes/v5/ && composer create-project wp-coding-standards/wpcs --no-dev
-      - run: cd content/themes/v5 && ./vendor/bin/phpcs --config-set installed_paths wpcs
-      - run: cd content/themes/v5/ && npm install && npm test
+      - run:
+          name: Change root password to root.
+          command: sudo mysql -u root -proot -e "UPDATE mysql.user SET plugin = 'mysql_native_password', Password = PASSWORD('root') WHERE User = 'root'; FLUSH PRIVILEGES;"
 
-      # Use cURL to fetch WP-CLI
-      - run: curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
-      # Change Permissions so that can execute on wp-cli.phar
-      - run: chmod +x wp-cli.phar
-      # Move wp-cli so can be run globally
-      - run: sudo mv wp-cli.phar /usr/local/bin/wp
+      - run:
+          name: Create ba_test database
+          command: mysql -u root -proot -e "create database ba_test"
 
-      - run: cd tests && npm install && node search.test.js
+      - run:
+          name: Import test database
+          command: cd tests/db && sudo mysql -u root -proot ba_test < ba_test.sql
 
 
 
-      # Download and cache dependencies
-      #- restore_cache:
-       #   keys:
-       #   - v1-dependencies-{{ checksum "composer.json" }}
-       #   # fallback to using the latest cache if no exact match is found
-       #   - v1-dependencies-
+      - run:
+          name: install theme composer deps
+          command: cd content/themes/v5/ && composer install
 
-      #- run: composer install -n --prefer-dist
+      - run:
+          name: wpcs in theme
+          command: cd content/themes/v5/ && composer create-project wp-coding-standards/wpcs --no-dev
 
-      # - save_cache:
-        #  paths:
-        #    - ./vendor
-        #  key: v1-dependencies-{{ checksum "composer.json" }}
+      - run:
+          name: config-set wpcs
+          command: cd content/themes/v5 && ./vendor/bin/phpcs --config-set installed_paths wpcs
 
-      # run tests!
-      # - run: phpunit
+      - restore_cache:
+          key: npm-dependency-cache-{{ checksum "content/themes/v5/package.json" }}
+
+      - run:
+          name: install npm deps
+          command:  cd content/themes/v5/ && npm install
+
+      - save_cache:
+          key: npm-dependency-cache-{{ checksum "content/themes/v5/package.json" }}
+          paths:
+            - content/themes/v5/node_modules
+
+      - run:
+          name: run wordpress lint
+          command: cd content/themes/v5/ && npm run wordpress-lint
+
+      - run:
+          name: run sass lint
+          command: cd content/themes/v5/ && npm run sass-lint
+
+      - run:
+          name: run js lint
+          command: cd content/themes/v5/ && npm run js-lint
+
+      - run:
+          name: install apache2
+          command: sudo apt-get install apache2
+
+      - run:
+          name: permissions for folder
+          command: sudo chown -R $USER:$USER /home/circleci/project
+
+      - run:
+          name: Add big-andy.test to hosts.
+          command: echo 127.0.0.1 big-andy.test | sudo tee /etc/hosts && cat /etc/hosts
+
+      - run:
+          name: apache config
+          command: sudo cp tests/apache/big-andy.conf /etc/apache2/sites-available && sudo sudo a2ensite big-andy.conf && sudo a2dissite 000-default.conf && sudo service apache2 restart
+
+      - run:
+          name: php extensions
+          command: sudo docker-php-ext-install pdo pdo_mysql mysqli && sudo service apache2 restart
+
+      - run:
+          name: install ngrok
+          command: wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip && unzip ngrok-stable-linux-amd64.zip && ./ngrok authtoken 7GDENoRsBHCTJCzbsfkzN_33paVuz9G4k4hAVkSMYXL
+
+      - run:
+          name: run ngrok
+          command: ./ngrok http big-andy.test:80
+
+      - run: touch sw.js && chmod 755 sw.js
+
+      - run:
+          name: tests with selenium
+          command: cd tests && npm i && node test-home.js
+
+      # # Use cURL to fetch WP-CLI
+      # - run: curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+      # # Change Permissions so that can execute on wp-cli.phar
+      # - run: chmod +x wp-cli.phar
+      # # Move wp-cli so can be run globally
+      # - run: sudo mv wp-cli.phar /usr/local/bin/wp
+
+# notify:
+#   branches:
+#     only:
+#       - master
+#       - develop
+#   webhooks:
+#     # A list of hook hashes, containing the URL field
+#     - url: https://hooks.zapier.com/hooks/catch/103653/8wc7af/
+
+
+# # PHP CircleCI 2.0 configuration file
+# #
+# # Check https://circleci.com/docs/2.0/language-php/ for more details
+# #
+# version: 2
+# jobs:
+#   build:
+#     docker:
+#       # specify the version you desire here
+#       - image: circleci/php:7.1-node-browsers
+
+#       # Specify service dependencies here if necessary
+#       # CircleCI maintains a library of pre-built images
+#       # documented at https://circleci.com/docs/2.0/circleci-images/
+#       # - image: circleci/mysql:9.4
+
+#     working_directory: ~/repo
+
+#     steps:
+#       - checkout
+#     # Install Mysql-server
+#       - run: sudo apt-get install mysql-server
+#       # Restart mysql
+#       - run: sudo service mysql restart
+
+#       # Create vh_big-andy database
+#     #   - run: mysql -u root -e "create database test_ba"
+#     #   # Change root password to root.
+#     #   - run: mysql -u root -e "SET PASSWORD FOR 'root'@'localhost' = PASSWORD('root'); flush privileges;"
+#     #   # Import test database
+#     #   - run: cd tests/db && mysql -u root -proot test_ba < test_ba.sql
+
+#       # Add big-andy.test to hosts.
+#       - run: echo 127.0.0.1 big-andy.test | sudo tee -a /etc/hosts && cat /etc/hosts
+#       - run: cd content/themes/v5/ && composer install
+#       - run: cd content/themes/v5/ && composer create-project wp-coding-standards/wpcs --no-dev
+#       - run: cd content/themes/v5 && ./vendor/bin/phpcs --config-set installed_paths wpcs
+#       - run: cd content/themes/v5/ && npm install && npm test
+
+#       # Use cURL to fetch WP-CLI
+#       - run: curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+#       # Change Permissions so that can execute on wp-cli.phar
+#       - run: chmod +x wp-cli.phar
+#       # Move wp-cli so can be run globally
+#       - run: sudo mv wp-cli.phar /usr/local/bin/wp
+
+#       - run: cd tests && npm install && node search.test.js
+
+
+
+#       # Download and cache dependencies
+#       #- restore_cache:
+#        #   keys:
+#        #   - v1-dependencies-{{ checksum "composer.json" }}
+#        #   # fallback to using the latest cache if no exact match is found
+#        #   - v1-dependencies-
+
+#       #- run: composer install -n --prefer-dist
+
+#       # - save_cache:
+#         #  paths:
+#         #    - ./vendor
+#         #  key: v1-dependencies-{{ checksum "composer.json" }}
+
+#       # run tests!
+#       # - run: phpunit
