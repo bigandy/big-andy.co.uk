@@ -30,8 +30,6 @@ jobs:
           name: Import test database
           command: cd tests/db && sudo mysql -u root -proot ba_test < ba_test.sql
 
-
-
       - run:
           name: install theme composer deps
           command: cd content/themes/v5/ && composer install
@@ -100,7 +98,7 @@ jobs:
 
       - run:
           name: tests with selenium
-          command: cd tests && npm i && node test-home.js
+          command: cd tests && npm i && npm test
 
       # # Use cURL to fetch WP-CLI
       # - run: curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
