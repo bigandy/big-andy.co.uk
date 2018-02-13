@@ -181,11 +181,34 @@ jQuery( function ( $ ) {
 	 * @param $container .rwmb-input container
 	 */
 	function toggleAddButton( $container ) {
-		var $button = $container.find( '.add-clone' ),
+		var $button = $container.children( '.add-clone' ),
 			maxClone = parseInt( $container.data( 'max-clone' ) ),
-			numClone = $container.find( '.rwmb-clone' ).length;
+			numClone = $container.children( '.rwmb-clone' ).length;
 
 		$button.toggle( isNaN( maxClone ) || ( maxClone && numClone < maxClone ) );
+	}
+
+	/**
+	 * Initialize clone sorting.
+	 */
+	function initSortable() {
+		$( '.rwmb-input' ).each( function () {
+			var $container = $( this );
+
+			if ( undefined !== $container.sortable( 'instance' ) ) {
+				return;
+			}
+
+			$container.sortable( {
+				handle: '.rwmb-clone-icon',
+				placeholder: ' rwmb-clone rwmb-sortable-placeholder',
+				items: '> .rwmb-clone',
+				start: function ( event, ui ) {
+					// Make the placeholder has the same height as dragged item
+					ui.placeholder.height( ui.item.outerHeight() );
+				}
+			} );
+		} );
 	}
 
 	$( document )
@@ -198,6 +221,7 @@ jQuery( function ( $ ) {
 
 			toggleRemoveButtons( $container );
 			toggleAddButton( $container );
+			initSortable();
 		} )
 		// Remove clones
 		.on( 'click', '.remove-clone', function ( e ) {
@@ -226,7 +250,7 @@ jQuery( function ( $ ) {
 			.sortable( {
 				handle: '.rwmb-clone-icon',
 				placeholder: ' rwmb-clone rwmb-sortable-placeholder',
-				items: '.rwmb-clone',
+				items: '> .rwmb-clone',
 				start: function ( event, ui ) {
 					// Make the placeholder has the same height as dragged item
 					ui.placeholder.height( ui.item.outerHeight() );
