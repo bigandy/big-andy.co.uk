@@ -21,6 +21,7 @@ function ah_enqueue_scripts() {
 
 	// don't want the script on front-page or pages.
 	wp_deregister_script( 'wp-embed' );
+	wp_deregister_style( 'wp-blocks' );
 
 	if ( is_user_logged_in() ) {
 		wp_register_script( 'main', ah_md5_file( TEMPLATEURI . 'build/js/script', '.js' ), false, null, true );

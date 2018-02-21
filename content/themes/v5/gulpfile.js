@@ -9,13 +9,15 @@ const concat = require('gulp-concat');
 const eslint = require('gulp-eslint');
 const sass = require('gulp-sass');
 const scsslint = require('gulp-scss-lint');
+
 const browserSync = require('browser-sync');
-const uncss = require('gulp-uncss');
+const uncss = require('postcss-uncss');
 const penthouse = require('penthouse');
-const Promise = require('bluebird');
 const phpcs = require('gulp-phpcs');
+
 const critical = require('critical');
-const nano = require('gulp-cssnano');
+
+const cssnano = require('cssnano');
 const cleanCSS = require('clean-css');
 const svgStore = require('gulp-svgstore');
 const svgmin = require('gulp-svgmin');
@@ -34,8 +36,8 @@ const fs = require('fs');
 const hash = require('gulp-hash');
 
 const envLive = 'https://big-andy.co.uk/',
-	envDev = 'http://big-andy.dev/',
-	env = envDev,
+	envDev = 'http://big-andy.test/',
+	env = envLive,
 	pages = [
 		env + 'contact/',
 		env + 'cv/',
@@ -46,8 +48,7 @@ const envLive = 'https://big-andy.co.uk/',
 		env + 'style-guide/',
 		env + 'https/',
 		env + 'breaking-borders-3/'
-	],
-	penthouseAsync = Promise.promisify(penthouse);
+	];
 
 gulp.task('brotli', () => {
 	const src  = ['build/**/*.{js,css,svg}'];
@@ -65,8 +66,6 @@ gulp.task('brotli', () => {
 		}))
 		.pipe(gulp.dest('.'));
 });
-
-
 
 gulp.task('sprites', () => {
 	return gulp.src([
@@ -86,8 +85,10 @@ gulp.task('sprites', () => {
 
 gulp.task('critical-css', () => {
 	const outputCSS = (criticalCSS, file) => {
+		console.log(criticalCSS);
+		console.log(file);
 		const output = new cleanCSS().minify(criticalCSS).styles;
-		fs.writeFile(`build/css/${file}.css`, output, (err) => {
+		fs.writeFileSync(`build/css/${file}.css`, output, (err) => {
 			if (err) {
 				console.log('outputcss error: ', err);
 			}
@@ -95,39 +96,47 @@ gulp.task('critical-css', () => {
 	};
 
 	const runPenthouse = (outputFile, envExtra = '') => {
-		penthouseAsync({
-			url: [
-				env + envExtra
-			],
+		penthouse({
+			url: env + envExtra,
 			css: './style.css',
 			height: 1200, // 600
 			width: 400, // 400
 			minify: true,
-		}).then(criticalCSS => {
-			outputCSS(criticalCSS, outputFile);
-		});
+		})
+			.then(criticalCSS => {
+				outputCSS(criticalCSS, outputFile);
+			})
+			.catch(e => console.error('penthouse error', e));
 	};
 
 	// TODO way of writing this so don't call twice
 	runPenthouse('critical');
-	runPenthouse('post', '/30-running-days-september/');
+	// runPenthouse('post', '/30-running-days-september/');
+
+	return Promise.all([runPenthouse('critical'), runPenthouse('post', '/30-running-days-september/')]);
 });
 
 gulp.task('uncss', ['sass:prod'], () => {
 	return gulp.src('./style.css')
-		.pipe(uncss({
-			html: pages,
-			ignore: [
-				'[data-visited]',
-				'[data-visited] .post-content',
-				'.svg-sprite',
-				'.previouspostslink',
-				/pre.*/,
-				/code.*/,
-				/token.*/,
-				'.article__header__image'
-			]
-		}))
+		.pipe(postcss([
+			autoprefixer(),
+			uncss({
+				html: pages,
+				ignore: [
+					'[data-visited]',
+					'[data-visited] .post-content',
+					'.svg-sprite',
+					'.previouspostslink',
+					/pre.*/,
+					/code.*/,
+					/token.*/,
+					'.article__header__image'
+				]
+			}),
+			cssnano({
+				discardComments: { removeAll: true }
+			})
+		]))
 		.pipe(gulp.dest('.'));
 });
 
@@ -179,11 +188,11 @@ gulp.task('js', () => {
 		// 'js/lazy-load-css.js',
 		'js/main.js',
 	])
-	.pipe(uglify().on('error', e => {
-		console.log(e);
-	}))
-	.pipe(concat('script.js'))
-	.pipe(gulp.dest('build/js'));
+		.pipe(uglify().on('error', e => {
+			console.log(e);
+		}))
+		.pipe(concat('script.js'))
+		.pipe(gulp.dest('build/js'));
 });
 
 // concat and minify the js
@@ -266,7 +275,7 @@ gulp.task('wordpress-lint', () => {
 
 gulp.task('browser-sync', function() {
 	browserSync.init({
-		proxy: 'big-andy.dev'
+		proxy: 'big-andy.test'
 	});
 
 	gulp.watch('**/*.php').on('change', browserSync.reload);

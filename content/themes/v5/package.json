@@ -7,10 +7,10 @@
     "url": "https://github.com/bigandy/big-andy.co.uk.git"
   },
   "scripts": {
-	"test": "npm run sass-lint && npm run js-lint && npm run wordpress-lint",
-	"js-lint": "eslint ./js/**/*.js --ignore-pattern 'js/**/*.min.js' --ignore-pattern 'js/lib/*.js'",
-	"sass-lint": "stylelint scss/*.scss --syntax scss && stylelint scss/**/*.scss --syntax scss",
-	"wordpress-lint": "./vendor/bin/phpcs --standard=code.ruleset.xml *.php"
+    "test": "npm run sass-lint && npm run js-lint && npm run wordpress-lint",
+    "js-lint": "eslint ./js/**/*.js --ignore-pattern 'js/**/*.min.js' --ignore-pattern 'js/lib/*.js'",
+    "sass-lint": "stylelint scss/*.scss --syntax scss && stylelint scss/**/*.scss --syntax scss",
+    "wordpress-lint": "./vendor/bin/phpcs --standard=code.ruleset.xml *.php"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
@@ -25,6 +25,7 @@
     "clean-css": "^4.1.7",
     "critical": "^0.9.0",
     "crypto": "0.0.3",
+    "cssnano": "^3.10.0",
     "eslint": "^4.4.1",
     "gulp": "^3.9.0",
     "gulp-babel": "^7.0.0",
@@ -45,8 +46,9 @@
     "gulp-uglify": "^3.0.0",
     "gulp-uncss": "^1.0.5",
     "gulp-util": "^3.0.6",
-    "penthouse": "^0.11.9",
+    "penthouse": "^1.4.0",
     "postcss-reporter": "^5.0.0",
+    "postcss-uncss": "^0.16.1",
     "stylelint": "^8.0.0"
   },
   "author": "Andrew JD Hudson",
