@@ -5,7 +5,7 @@
  * Description: Webmention support for WordPress posts
  * Author: Matthias Pfefferle
  * Author URI: https://notiz.blog/
- * Version: 3.5.0
+ * Version: 3.6.0
  * License: MIT
  * License URI: http://opensource.org/licenses/MIT
  * Text Domain: webmention
@@ -19,9 +19,6 @@ define( 'WEBMENTION_PROCESS_TYPE_ASYNC', 'async' );
 define( 'WEBMENTION_PROCESS_TYPE_SYNC', 'sync' );
 
 defined( 'WEBMENTION_PROCESS_TYPE' ) || define( 'WEBMENTION_PROCESS_TYPE', WEBMENTION_PROCESS_TYPE_SYNC );
-
-// remove old WebMentionFormPlugin code
-remove_action( 'init', array( 'WebMentionFormPlugin', 'init' ) );
 
 add_action( 'plugins_loaded', array( 'Webmention_Plugin', 'init' ) );
 
@@ -48,6 +45,10 @@ class Webmention_Plugin {
 		// list of various public helper functions
 		require_once dirname( __FILE__ ) . '/includes/functions.php';
 
+		// load HTTP 410 support
+		require_once dirname( __FILE__ ) . '/includes/class-webmention-410.php';
+		add_action( 'init', array( 'Webmention_410', 'init' ) );
+
 		// initialize Webmention Sender
 		require_once dirname( __FILE__ ) . '/includes/class-webmention-sender.php';
 		add_action( 'init', array( 'Webmention_Sender', 'init' ) );
@@ -67,6 +68,8 @@ class Webmention_Plugin {
 		self::plugin_textdomain();
 
 		add_action( 'admin_comment_types_dropdown', array( 'Webmention_Plugin', 'comment_types_dropdown' ) );
+		add_filter( 'manage_edit-comments_columns', array( 'Webmention_Plugin', 'comment_columns' ) );
+		add_filter( 'manage_comments_custom_column', array( 'Webmention_Plugin', 'manage_comments_custom_column' ), 10, 2 );
 		add_action( 'comment_form_after', array( 'Webmention_Plugin', 'comment_form' ), 11 );
 
 		register_setting(
@@ -109,6 +112,9 @@ class Webmention_Plugin {
 				'default'      => 0,
 			)
 		);
+
+		// remove old WebMentionFormPlugin code
+		remove_action( 'init', array( 'WebMentionFormPlugin', 'init' ) );
 	}
 
 	public static function get_default_comment_status( $status, $post_type, $comment_type ) {
@@ -166,6 +172,29 @@ class Webmention_Plugin {
 		$types['webmention'] = __( 'Webmentions', 'webmention' );
 
 		return $types;
+	}
+
+	/**
+	 * Add comment-type as column in WP-Admin
+	 *
+	 * @param array $columns the list of column names
+	 */
+	public static function comment_columns( $columns ) {
+		$columns['comment_type'] = __( 'Comment-Type', 'webmention' );
+
+		return $columns;
+	}
+
+	/**
+	 * Add comment-type as column in WP-Admin
+	 *
+	 * @param array $column the column to implement
+	 * @param int $comment_ID the comment id
+	 */
+	public static function manage_comments_custom_column( $column, $comment_ID ) {
+		if ( 'comment_type' == $column ) {
+			_e( get_comment_type( $comment_ID ), 'webmention' );
+		}
 	}
 
 	/**
