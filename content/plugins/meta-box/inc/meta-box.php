@@ -210,7 +210,9 @@ class RW_Meta_Box {
 	 * Callback function to show fields in meta box
 	 */
 	public function show() {
-		$this->set_object_id( $this->get_current_object_id() );
+		if ( ! $this->object_id ) {
+			$this->set_object_id( $this->get_current_object_id() );
+		}
 		$saved = $this->is_saved();
 
 		// Container.
@@ -294,6 +296,9 @@ class RW_Meta_Box {
 				$new = RWMB_Field::filter( 'sanitize', $new, $field );
 			}
 			$new = RWMB_Field::filter( 'value', $new, $field, $old );
+
+			// Filter to allow the field to be modified.
+			$field = RWMB_Field::filter( 'field', $field, $field, $new, $old );
 
 			// Call defined method to save meta value, if there's no methods, call common one.
 			RWMB_Field::call( $field, 'save', $new, $old, $post_id );

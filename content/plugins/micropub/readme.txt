@@ -1,9 +1,9 @@
 === Micropub ===
 Contributors: snarfed, dshanske
 Tags: micropub, publish
-Requires at least: 4.4
+Requires at least: 4.7
 Requires PHP: 5.3
-Tested up to: 4.9.1
+Tested up to: 4.9.5
 Stable tag: trunk
 License: CC0
 License URI: http://creativecommons.org/publicdomain/zero/1.0/
@@ -46,11 +46,15 @@ Called to generate the list of `syndicate-to` targets to return in response to a
 
 $resp defaults to null. If the return value is non-null, it should be an associative array that is encoded as JSON and will be returned in place of the normal micropub response.
 
-...and one hook:
+...and two hooks:
 
 `after_micropub( $input, $wp_args = null)`
 
 Called after handling a Micropub request. Not called if the request fails (ie doesn't return HTTP 2xx).
+
+`micropub_syndication( $ID, $syndicate_to )`
+
+Called only if there are syndication targets $syndicate_to for post $ID. $syndicate_to will be an array of UIDs that are verified as one or more of the UIDs added using the `micropub_syndicate-to` filter.
 
 Arguments:
 
@@ -82,9 +86,12 @@ WordPress has a [whitelist of file extensions that it allows in uploads](https:/
 
 == Authentication and authorization ==
 
-Supports the full OAuth2/IndieAuth authentication and authorization flow. Defaults to IndieAuth. Custom auth and token endpoints can be used by overriding the `MICROPUB_AUTHENTICATION_ENDPOINT` and `MICROPUB_TOKEN_ENDPOINT` endpoints. If the token's `me` value matches a WordPress user's URL, that user will be used. Otherwise, the token must match the site's URL, and no user will be used.
+Supports the full OAuth2/IndieAuth authentication and authorization flow. Defaults to IndieAuth. Custom auth and token endpoints can be used by overriding the `MICROPUB_AUTHENTICATION_ENDPOINT` and `MICROPUB_TOKEN_ENDPOINT` endpoints or by setting the options `indieauth_authorization_endpoint` and `indieauth_token_endpoint` which are also set by the IndieAuth Plugin. 
 
-Alternatively, you can set `MICROPUB_LOCAL_AUTH` to 1 to use WordPress's internal user login instead of tokens.
+If the token's `me` value matches a WordPress user's URL, that user will be used. Otherwise, the token must match the site's URL, and no user will be used.
+
+Alternatively, you can set `MICROPUB_LOCAL_AUTH` to 1 to disable the plugin's authorization function, for example if you want authorization to be done by WordPress or another plugin. It will also 
+be disabled if the IndieAuth plugin is installed.
 
 Finally, for ease of development, if the WordPress site is running on `localhost`, it logs a warning if the access token is missing or invalid and still allows the request.
 
@@ -98,9 +105,14 @@ Install from the WordPress plugin directory or put `micropub.php` in your plugin
 
 These configuration options can be enabled by adding them to your wp-config.php
 
-* `define('MICROPUB_LOCAL_AUTH', '1')` - Bypasses Micropub authentication in favor of WordPress authentication
-* `define('MICROPUB_AUTHENTICATION_ENDPOINT', 'https://indieauth.com/auth')` - Define a custom authentication endpoint
+* `define('MICROPUB_LOCAL_AUTH', '1')` - Disable this plugins built-in authentication.
+* `define('MICROPUB_AUTHENTICATION_ENDPOINT', 'https://indieauth.com/auth')` - Define a custom authentication endpoint.
 * `define('MICROPUB_TOKEN_ENDPOINT', 'https://tokens.indieauth.com/token')` - Define a custom token endpoint
+
+These configuration options can be enabled by setting them in the WordPress options table or will appear under General if you install the IndieAuth plugin.
+* `indieauth_authorization_endpoint` - if set will override MICROPUB_AUTHENTICATION_ENDPOINT for setting a custom endpoint
+* `indieauth_token_endpoint` - if set will override MICROPUB_TOKEN_ENDPOINT for setting a custom endpoint
+* `micropub_default_post_status` - if set, Micropub posts will be set to this status by default( publish, draft, or private ). Can also be set in the Writing settings.
 
 == Frequently Asked Questions ==
 
@@ -156,6 +168,15 @@ into markdown and saved to readme.md.
 
 == Changelog ==
 
+= 1.4 (2018-04-08) =
+* Separate functions that generate headers into micropub and IndieAuth
+* Add support for an option now used by the IndieAuth plugin to set alternate token and authorization endpoints
+* MICROPUB_LOCAL_AUTH configuration option adjusted to reflect that this disables the plugin built in authentication. This can hand it back to WordPress or allow another plugin to take over
+* MICROPUB_LOCAL_AUTH now disables adding auth headers to the page.
+* Fix post status issue by checking for valid defaults
+* Add configuration option under writing settings to set default post status
+* Add `micropub_syndication` hook that only fires on a request to syndicate to make it easier for third-party plugins to hook in
+
 = 1.3 (2017-12-31) =
 * Saves [access token response](https://tokens.indieauth.com/) in a post meta field `micropub_auth_response`.
 * Bug fix for `post_date_gmt`
@@ -194,7 +215,7 @@ media endpoint.
 * Store all properties in post meta except those in a blacklist.
 * Support setting authentication and token endpoint in wp-config by setting `MICROPUB_AUTHENTICATION_ENDPOINT` and `MICROPUB_TOKEN_ENDPOINT`.
 * Support setting all micropub posts to draft in wp-config for testing by setting `MICROPUB_DRAFT_MODE` in wp-config.
-* Support using local auth to authenticate as opposed to Indieauth as by setting `MICROPUB_LOCAL_AUTH` in wp-config.
+* Support using local auth to authenticate as opposed to IndieAuth as by setting `MICROPUB_LOCAL_AUTH` in wp-config.
 * Set content to summary if no content provided.
 * Support querying for syndicate-to and future query options.
 

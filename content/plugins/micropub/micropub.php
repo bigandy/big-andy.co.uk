@@ -7,7 +7,7 @@
  * Author: Ryan Barrett
  * Author URI: https://snarfed.org/
  * Text Domain: micropub
- * Version: 1.3
+ * Version: 1.4
  */
 
 /* See README for supported filters and actions.
@@ -49,7 +49,7 @@ if ( ! defined( 'MICROPUB_DRAFT_MODE' ) ) {
 	define( 'MICROPUB_DRAFT_MODE', '0' );
 }
 
-add_action( 'init', array( 'Micropub_Plugin', 'init' ) );
+add_action( 'plugins_loaded', array( 'Micropub_Plugin', 'init' ) );
 
 /**
  * Micropub Plugin Class
@@ -70,6 +70,8 @@ class Micropub_Plugin {
 	public static function init() {
 		$cls = get_called_class();
 
+		add_action( 'admin_init', array( $cls, 'admin_init' ) );
+
 		// register endpoint
 		// (I originally used add_rewrite_endpoint() to serve on /micropub instead
 		// of ?micropub=endpoint, but that had problems. details in
@@ -78,11 +80,18 @@ class Micropub_Plugin {
 		add_action( 'parse_query', array( $cls, 'parse_query' ) );
 
 		// endpoint discovery
-		add_action( 'wp_head', array( $cls, 'html_header' ), 99 );
-		add_action( 'send_headers', array( $cls, 'http_header' ) );
-		add_filter( 'host_meta', array( $cls, 'jrd_links' ) );
-		add_filter( 'webfinger_user_data', array( $cls, 'jrd_links' ) );
+		add_action( 'wp_head', array( $cls, 'micropub_html_header' ), 99 );
+		add_action( 'send_headers', array( $cls, 'micropub_http_header' ) );
+		add_filter( 'host_meta', array( $cls, 'micropub_jrd_links' ) );
+		add_filter( 'webfinger_user_data', array( $cls, 'micropub_jrd_links' ) );
 
+		// Disable adding headers if local auth is set
+		if ( MICROPUB_LOCAL_AUTH || ! class_exists( 'IndieAuth_Plugin' ) ) {
+			add_action( 'wp_head', array( $cls, 'indieauth_html_header' ), 99 );
+			add_action( 'send_headers', array( $cls, 'indieauth_http_header' ) );
+			add_filter( 'host_meta', array( $cls, 'indieauth_jrd_links' ) );
+			add_filter( 'webfinger_user_data', array( $cls, 'indieauth_jrd_links' ) );
+		}
 		// Post Content Filter
 		add_filter( 'micropub_post_content', array( $cls, 'generate_post_content' ), 1, 2 );
 
@@ -95,9 +104,31 @@ class Micropub_Plugin {
 				'description'       => 'Default Post Status for Micropub Server',
 				'sanitize_callback' => 'sanitize_text_field',
 				'show_in_rest'      => false,
-				'default'           => MICROPUB_DRAFT_MODE ? 'draft' : 'publish', // If not set can be set with deprecated property
+				'default'           => static::default_post_status(),
 			)
 		);
+	}
+
+	public static function admin_init() {
+		$cls = get_called_class();
+		add_settings_field(
+			'micropub_writing_settings',
+			__( 'Default Status for Micropub Posts', 'micropub' ),
+			array( $cls, 'writing_settings' ),
+			'writing',
+			'default'
+		);
+	}
+
+	public static function writing_settings() {
+		load_template( plugin_dir_path( __FILE__ ) . 'templates/micropub-writing-settings.php' );
+	}
+
+	public static function get( $array, $key, $default = array() ) {
+		if ( is_array( $array ) ) {
+			return isset( $array[ $key ] ) ? $array[ $key ] : $default;
+		}
+		return $default;
 	}
 
 	/**
@@ -126,18 +157,18 @@ class Micropub_Plugin {
 		static::load_input();
 		if ( WP_DEBUG ) {
 			error_log(
-				'Micropub Data: ' . serialize( $_GET ) . ' ' .
-					serialize( static::$input )
+				'Micropub Data: ' . wp_json_encode( $_GET ) . ' ' .
+					wp_json_encode( static::$input )
 			);
 		}
 		static::$input = apply_filters( 'before_micropub', static::$input );
 
-		// For debug purposes be able to bypass Micropub auth with WordPress auth
-		if ( MICROPUB_LOCAL_AUTH ) {
-			if ( ! is_user_logged_in() ) {
-				auth_redirect();
-			}
+		// Be able to bypass Micropub auth with other auth
+		if ( MICROPUB_LOCAL_AUTH || class_exists( 'IndieAuth_Plugin' ) ) {
 			$user_id = get_current_user_id();
+			if ( ! $user_id ) {
+				static::handle_authorize_error( 401, 'Unauthorized' );
+			}
 		} else {
 			$user_id = static::authorize();
 		}
@@ -154,28 +185,33 @@ class Micropub_Plugin {
 	/**
 	 * Validate the access token at the token endpoint.
 	 *
+	 * https://indieauth.spec.indieweb.org/#access-token-verification
 	 * If the token is valid, returns the user id to use as the post's author, or
 	 * NULL if the token only matched the site URL and no specific user.
 	 */
 	private static function authorize() {
 		// find the access token
 		$auth  = static::get_header( 'authorization' );
-		$token = isset( $_POST['access_token'] ) ? $_POST['access_token'] : null;
+		$token = self::get( $_POST, 'access_token' );
 		if ( ! $auth && ! $token ) {
 			static::handle_authorize_error( 401, 'missing access token' );
 		}
 
 		$resp = wp_remote_get(
-			MICROPUB_TOKEN_ENDPOINT, array(
+			get_option( 'indieauth_token_endpoint', MICROPUB_TOKEN_ENDPOINT ), array(
 				'headers' => array(
-					'Content-Type'  => 'application/x-www-form-urlencoded',
+					'Accept'        => 'application/json',
 					'Authorization' => $auth ?: 'Bearer ' . $token,
 				),
 			)
 		);
-		$code = wp_remote_retrieve_response_code( $resp );
-		$body = wp_remote_retrieve_body( $resp );
-		parse_str( $body, $params );
+		if ( is_wp_error( $resp ) ) {
+			static::handle_authorize_error( 502, "couldn't validate token: " . implode( ' , ', $resp->get_error_messages() ) );
+		}
+
+		$code   = wp_remote_retrieve_response_code( $resp );
+		$body   = wp_remote_retrieve_body( $resp );
+		$params = json_decode( $body, true );
 		$scopes = explode( ' ', $params['scope'] );
 
 		if ( (int) ( $code / 100 ) !== 2 ) {
@@ -188,10 +224,9 @@ class Micropub_Plugin {
 			);
 		}
 
-		parse_str( $body, $resp );
-		$me = untrailingslashit( $resp['me'] );
+		$me = untrailingslashit( $params['me'] );
 
-		static::$micropub_auth_response = $resp;
+		static::$micropub_auth_response = $params;
 
 		// look for a user with the same url as the token's `me` value.
 		$user = static::user_url( $me );
@@ -219,6 +254,9 @@ class Micropub_Plugin {
 	 * @return null|int Return user ID if matched or null
 	**/
 	public static function user_url( $me ) {
+		if ( ! isset( $me ) ) {
+			return null;
+		}
 		$search = array(
 			'search'         => $me,
 			'search_columns' => array( 'url' ),
@@ -243,16 +281,21 @@ class Micropub_Plugin {
 	 */
 	public static function post_handler( $user_id ) {
 		$status = 200;
-		$action = static::$input['action'];
-		$url    = static::$input['url'];
+		$action = self::get( static::$input, 'action', 'create' );
+		$url    = self::get( static::$input, 'url' );
 
 		// check that we support all requested syndication targets
 		$synd_supported = apply_filters( 'micropub_syndicate-to', array(), $user_id );
-		$synd_requested = static::$input['properties']['syndicate-to'];
-		$unknown        = array_diff( $synd_requested, $synd_supported );
+		$uids           = array();
+		foreach ( $synd_supported as $syn ) {
+			$uids[] = self::get( $syn, 'uid' );
+		}
+		$properties     = self::get( static::$input, 'properties' );
+		$synd_requested = self::get( $properties, 'mp-syndicate-to' );
+		$unknown        = array_diff( $synd_requested, $uids );
 
 		if ( $unknown ) {
-			static::error( 400, 'Unknown syndicate-to targets: ' . implode( ', ', $unknown ) );
+			static::error( 400, 'Unknown mp-syndicate-to targets: ' . implode( ', ', $unknown ) );
 
 		} elseif ( ! $url || 'create' === $action ) { // create
 			if ( $user_id && ! user_can( $user_id, 'publish_posts' ) ) {
@@ -303,7 +346,9 @@ class Micropub_Plugin {
 		} else {
 			static::error( 400, 'unknown action ' . $action );
 		}
-
+		if ( ! empty( $synd_requested ) ) {
+			do_action( 'micropub_syndication', $args['ID'], $synd_requested );
+		}
 		do_action( 'after_micropub', static::$input, $args );
 		static::respond( $status, null, $args );
 	}
@@ -319,10 +364,15 @@ class Micropub_Plugin {
 			switch ( static::$input['q'] ) {
 				case 'config':
 				case 'syndicate-to':
-				case 'mp-syndicate-to':
 					// return empty syndication target with filter
 					$syndicate_tos = apply_filters( 'micropub_syndicate-to', array(), $user_id );
 					$resp          = array( 'syndicate-to' => $syndicate_tos );
+					break;
+				case 'category':
+					$resp = array_merge( 
+						get_tags( array( 'fields' => 'names' ) ), 
+						get_terms( array( 'taxonomy' => 'category', 'fields' => 'names' ) ) 
+					);
 					break;
 				case 'source':
 					$post_id = url_to_postid( static::$input['url'] );
@@ -358,7 +408,7 @@ class Micropub_Plugin {
 		$args = static::mp_to_wp( static::$input );
 		$args = static::store_micropub_auth_response( $args );
 
-		$post_content = isset( $args['post_content'] ) ? $args['post_content'] : '';
+		$post_content = self::get( $args, 'post_content', '' );
 		$post_content = apply_filters( 'micropub_post_content', $post_content, static::$input );
 		if ( $post_content ) {
 			$args['post_content'] = $post_content;
@@ -375,7 +425,7 @@ class Micropub_Plugin {
 			static::error( 400, 'Invalid Post Status' );
 		}
 		if ( WP_DEBUG ) {
-			error_log( 'wp_insert_post with args: ' . serialize( $args ) );
+			error_log( 'wp_insert_post with args: ' . wp_json_encode( $args ) );
 		}
 
 		kses_remove_filters();  // prevent sanitizing HTML tags in post_content
@@ -476,7 +526,7 @@ class Micropub_Plugin {
 		$args['edit_date'] = true;
 
 		// Generate Post Content
-		$post_content = isset( $args['post_content'] ) ? $args['post_content'] : '';
+		$post_content = self::get( $args, 'post_content', '' );
 		$post_content = apply_filters( 'micropub_post_content', $post_content, static::$input );
 		if ( $post_content ) {
 			$args['post_content'] = $post_content;
@@ -487,7 +537,7 @@ class Micropub_Plugin {
 		$args = static::store_geodata( $args );
 
 		if ( WP_DEBUG ) {
-			error_log( 'wp_update_post with args: ' . serialize( $args ) );
+			error_log( 'wp_update_post with args: ' . wp_json_encode( $args ) );
 		}
 
 		kses_remove_filters();
@@ -510,10 +560,22 @@ class Micropub_Plugin {
 		static::respond( $code, $msg );
 	}
 
+	private static function default_post_status() {
+		return MICROPUB_DRAFT_MODE ? 'draft' : 'publish';
+	}
+
 	private static function post_status( $mf2 ) {
-		$props          = $mf2['properties'];
-		$visibilitylist = array( array( 'private' ), array( 'public' ) );
+		$props = $mf2['properties'];
+		// If both are not set immediately return
+		if ( ! isset( $props['post-status'] ) && ! isset( $props['visibility'] ) ) {
+			$status = get_option( 'micropub_default_post_status', static::default_post_status() );
+			if ( ! in_array( $status, array( 'publish', 'draft', 'private' ), true ) ) {
+				return static::default_post_status();
+			}
+			return $status;
+		}
 		if ( isset( $props['visibility'] ) ) {
+			$visibilitylist = array( array( 'private' ), array( 'public' ) );
 			if ( ! in_array( $props['visibility'], $visibilitylist, true ) ) {
 				// Returning null will cause the server to return a 400 error
 				return null;
@@ -522,9 +584,7 @@ class Micropub_Plugin {
 				return 'private';
 			}
 		}
-		if ( ! isset( $props['post-status'] ) ) {
-			return get_option( 'micropub_default_post_status' );
-		} else {
+		if ( isset( $props['post-status'] ) ) {
 			//  According to the proposed specification these are the only two properties supported.
 			// https://indieweb.org/Micropub-extensions#Post_Status
 			// For now these are the only two we will support even though WordPress defaults to 8 and allows custom
@@ -560,12 +620,12 @@ class Micropub_Plugin {
 		$args  = array();
 
 		foreach ( array(
-			'slug'    => 'post_name',
+			'mp-slug' => 'post_name',
 			'name'    => 'post_title',
 			'summary' => 'post_excerpt',
-		) as $mf2 => $wp ) {
-			if ( $props[ $mf2 ] ) {
-				$args[ $wp ] = $props[ $mf2 ][0];
+		) as $mf => $wp ) {
+			if ( isset( $props[ $mf ] ) ) {
+				$args[ $wp ] = static::get( $props[ $mf ], 0 );
 			}
 		}
 
@@ -833,12 +893,43 @@ class Micropub_Plugin {
 	 * https://ownyourswarm.p3k.io/docs#checkins
 	 *
 	 * WordPress geo data is stored in post meta: geo_address (free text),
-	 * geo_latitude, and geo_longitude:
+	 * geo_latitude, geo_longitude, and geo_public:
 	 * https://codex.wordpress.org/Geodata
+	 * It is noted that should the HTML5 style geolocation properties of altitude, accuracy, speed, and heading are
+	 * used they would use the same geo prefix. Simple Location stores these when available using accuracy to estimate
+	 * map zoom when displayed.
 	 */
 	public static function store_geodata( $args ) {
-		$location = static::$input['properties']['location'][0] ?:
-				static::$input['properties']['checkin'][0];
+		$properties = static::get( static::$input, 'properties' );
+		$location   = static::get( $properties, 'location', static::get( $properties, 'checkin' ) );
+		$location   = static::get( $location, 0, null );
+		// Location-visibility is an experimental property https://indieweb.org/Micropub-extensions#Location_Visibility
+		// It attempts to mimic the geo_public property
+		$visibility = static::get( $properties, 'location-visibility', null );
+		if ( $visibility ) {
+			$visibility = array_pop( $visibility );
+			if ( ! isset( $args['meta_input'] ) ) {
+				$args['meta_input'] = array();
+			}
+			switch ( $visibility ) {
+				// Currently supported by https://github.com/dshanske/simple-location as part of the Geodata store noted in codex link above
+				// Public indicates coordinates, map, and textual description displayed
+				case 'public':
+					$args['meta_input']['geo_public'] = 1;
+					break;
+				// Private indicates no display
+				case 'private':
+					$args['meta_input']['geo_public'] = 0;
+					break;
+				// Protected which is not in the original geodata spec is used by Simple Location to indicate textual description only
+				case 'protected':
+					$args['meta_input']['geo_public'] = 2;
+					break;
+				default:
+					static::error( 400, 'unsupported location visibility ' . $visibility );
+
+			}
+		}
 		if ( $location ) {
 			if ( ! isset( $args['meta_input'] ) ) {
 				$args['meta_input'] = array();
@@ -867,17 +958,24 @@ class Micropub_Plugin {
 				}
 				$args['meta_input']['geo_latitude']  = $props['latitude'][0];
 				$args['meta_input']['geo_longitude'] = $props['longitude'][0];
+				$args['meta_input']['geo_altitude']  = $props['altitude'][0];
 			} elseif ( 'geo:' === substr( $location, 0, 4 ) ) {
 				// Geo URI format:
 				// http://en.wikipedia.org/wiki/Geo_URI#Example
-				// https://indiewebcamp.com/micropub##location
+				// https://indieweb.org/Micropub#h-entry
 				//
 				// e.g. geo:37.786971,-122.399677;u=35
-				$geo                                 = explode( ':', substr( urldecode( $location ), 4 ) );
-				$geo                                 = explode( ';', $geo[0] );
+				$geo = explode( ':', substr( urldecode( $location ), 4 ) );
+				$geo = explode( ';', $geo[0] );
+				// Store the accuracy/uncertainty
+				$args['meta_input']['geo_accuracy']  = substr( $geo[1], 2 );
 				$coords                              = explode( ',', $geo[0] );
 				$args['meta_input']['geo_latitude']  = trim( $coords[0] );
 				$args['meta_input']['geo_longitude'] = trim( $coords[1] );
+				// Geo URI optionally allows for altitude to be stored as a third csv
+				if ( isset( $coords[2] ) ) {
+					$args['meta_input']['geo_altitude'] = trim( $coords[2] );
+				}
 			} elseif ( 'http' !== substr( $location, 0, 4 ) ) {
 				$args['meta_input']['geo_address'] = $location;
 			}
@@ -892,9 +990,7 @@ class Micropub_Plugin {
 	public static function store_micropub_auth_response( $args ) {
 		$micropub_auth_response = static::$micropub_auth_response;
 		if ( $micropub_auth_response || ( is_assoc_array( $micropub_auth_response ) ) ) {
-			if ( ! isset( $args['meta_input'] ) ) {
-				$args['meta_input'] = array();
-			}
+			$args['meta_input']                           = self::get( $args, 'meta_input' );
 			$args['meta_input']['micropub_auth_response'] = $micropub_auth_response;
 		}
 		return $args;
@@ -911,20 +1007,19 @@ class Micropub_Plugin {
 	 */
 	public static function store_mf2( $args ) {
 		$props = static::$input['properties'];
-		if ( $props ) {
-			if ( ! isset( $args['meta_input'] ) ) {
-				$args['meta_input'] = array();
-			}
-			$type = static::$input['type'];
+		if ( ! isset( $args['ID'] ) && $props ) {
+			$args['meta_input'] = self::get( $args, 'meta_input' );
+			$type               = static::$input['type'];
 			if ( $type ) {
 				$args['meta_input']['mf2_type'] = $type;
 			}
 			foreach ( $props as $key => $val ) {
 				$args['meta_input'][ 'mf2_' . $key ] = $val;
 			}
+			return $args;
 		}
 
-		$replace = static::$input['replace'];
+		$replace = static::get( static::$input, 'replace', null );
 		if ( $replace ) {
 			foreach ( $replace as $prop => $val ) {
 				update_post_meta( $args['ID'], 'mf2_' . $prop, $val );
@@ -932,7 +1027,7 @@ class Micropub_Plugin {
 		}
 
 		$meta = get_post_meta( $args['ID'] );
-		$add  = static::$input['add'];
+		$add  = static::get( static::$input, 'add', null );
 		if ( $add ) {
 			foreach ( $add as $prop => $val ) {
 				$key = 'mf2_' . $prop;
@@ -941,7 +1036,7 @@ class Micropub_Plugin {
 			}
 		}
 
-		$delete = static::$input['delete'];
+		$delete = static::get( static::$input, 'delete', null );
 		if ( $delete ) {
 			if ( is_assoc_array( $delete ) ) {
 				foreach ( $delete as $prop => $to_delete ) {
@@ -1009,36 +1104,46 @@ class Micropub_Plugin {
 	/**
 	 * The micropub autodicovery meta tags
 	 */
-	public static function html_header() {
-		echo '<link rel="micropub" href="' . site_url( '?micropub=endpoint' ) . '">', PHP_EOL;
-		echo '<link rel="authorization_endpoint" href="' . MICROPUB_AUTHENTICATION_ENDPOINT . '">', PHP_EOL;
-		echo '<link rel="token_endpoint" href="' . MICROPUB_TOKEN_ENDPOINT . '">', PHP_EOL;
+	public static function micropub_html_header() {
+		printf( '<link rel="micropub" href="%s" />' . PHP_EOL, site_url( '?micropub=endpoint' ) );
+	}
+
+	public static function indieauth_html_header() {
+		printf( '<link rel="authorization_endpoint" href="%s" />' . PHP_EOL, get_option( 'indieauth_authorization_endpoint', MICROPUB_AUTHENTICATION_ENDPOINT ) );
+		printf( '<link rel="token_endpoint" href="%s" />' . PHP_EOL, get_option( 'indieauth_token_endpoint', MICROPUB_TOKEN_ENDPOINT ) );
 	}
 
 	/**
 	 * The micropub autodicovery http-header
 	 */
-	public static function http_header() {
-		static::header( 'Link', '<' . site_url( '?micropub=endpoint' ) . '>; rel="micropub"', false );
-		static::header( 'Link', '<' . MICROPUB_AUTHENTICATION_ENDPOINT . '>; rel="authorization_endpoint"', false );
-		static::header( 'Link', '<' . MICROPUB_TOKEN_ENDPOINT . '>; rel="token_endpoint"', false );
+	public static function micropub_http_header() {
+		static::header( 'Link', '<' . site_url( '?micropub=endpoint' ) . '>; rel="micropub"' );
+	}
+
+	public static function indieauth_http_header() {
+		static::header( 'Link', '<' . get_option( 'indieauth_authorization_endpoint', MICROPUB_AUTHENTICATION_ENDPOINT ) . '>; rel="authorization_endpoint"' );
+		static::header( 'Link', '<' . get_option( 'indieauth_token_endpoint', MICROPUB_TOKEN_ENDPOINT ) . '>; rel="token_endpoint"' );
 	}
 
 	/**
 	 * Generates webfinger/host-meta links
 	 */
-	public static function jrd_links( $array ) {
+	public static function micropub_jrd_links( $array ) {
 		$array['links'][] = array(
 			'rel'  => 'micropub',
 			'href' => site_url( '?micropub=endpoint' ),
 		);
+		return $array;
+	}
+
+	public static function indieauth_jrd_links( $array ) {
 		$array['links'][] = array(
 			'rel'  => 'authorization_endpoint',
-			'href' => MICROPUB_AUTHENTICATION_ENDPOINT,
+			'href' => get_option( 'indieauth_authorization_endpoint', MICROPUB_AUTHENTICATION_ENDPOINT ),
 		);
 		$array['links'][] = array(
 			'rel'  => 'token_endpoint',
-			'href' => MICROPUB_TOKEN_ENDPOINT,
+			'href' => get_option( 'indieauth_token_endpoint', MICROPUB_TOKEN_ENDPOINT ),
 		);
 
 		return $array;
@@ -1063,9 +1168,7 @@ class Micropub_Plugin {
 				} elseif ( 'access_token' === $key ) {
 					continue;
 				} else {
-					if ( ! isset( static::$input['properties'] ) ) {
-						static::$input['properties'] = array();
-					}
+					static::$input['properties']         = self::get( static::$input, 'properties' );
 					static::$input['properties'][ $key ] =
 					( is_array( $val ) && ! is_assoc_array( $val ) )
 					? $val : array( $val );
@@ -1089,7 +1192,7 @@ class Micropub_Plugin {
 	}
 
 	public static function header( $header, $value ) {
-		header( $header . ': ' . $value );
+		header( $header . ': ' . $value, false );
 	}
 
 	protected static function get_header( $name ) {
