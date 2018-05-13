@@ -29,12 +29,17 @@ class Webmention_Receiver {
 		add_filter( 'webmention_comment_data', array( 'Webmention_Receiver', 'webmention_verify' ), 11, 1 );
 		add_filter( 'webmention_comment_data', array( 'Webmention_Receiver', 'check_dupes' ), 12, 1 );
 
+		// Webmention whitelist
+		add_filter( 'webmention_comment_data', array( 'Webmention_Receiver', 'auto_approve' ), 13, 1 );
+
 		// Webmention data handler
 		add_filter( 'webmention_comment_data', array( 'Webmention_Receiver', 'default_title_filter' ), 21, 1 );
 		add_filter( 'webmention_comment_data', array( 'Webmention_Receiver', 'default_content_filter' ), 22, 1 );
 
 		// Allow for avatars on webmention comment types
-		add_filter( 'get_avatar_comment_types', array( 'Webmention_Receiver', 'get_avatar_comment_types' ) );
+		if ( 1 === (int) get_option( 'webmention_avatars' ) ) {
+			add_filter( 'get_avatar_comment_types', array( 'Webmention_Receiver', 'get_avatar_comment_types' ), 99 );
+		}
 
 		// Threaded comments support
 		add_filter( 'template_include', array( 'Webmention_Receiver', 'comment_template_include' ) );
@@ -97,6 +102,7 @@ class Webmention_Receiver {
 	 * adds some query vars
 	 *
 	 * @param array $vars
+	 *
 	 * @return array
 	 */
 	public static function query_var( $vars ) {
@@ -109,7 +115,7 @@ class Webmention_Receiver {
 	 *
 	 * @param array $types list of avatar enabled comment types
 	 *
-	 * @return array show avatars also on trackbacks and pingbacks
+	 * @return array show avatars on webmentions
 	 */
 	public static function get_avatar_comment_types( $types ) {
 		$types[] = 'webmention';
@@ -278,7 +284,8 @@ class Webmention_Receiver {
 
 		$commentdata['comment_parent'] = '';
 		// check if there is a parent comment
-		if ( $query_string = parse_url( $commentdata['target'], PHP_URL_QUERY ) ) {
+		$query_string = wp_parse_url( $commentdata['target'], PHP_URL_QUERY );
+		if ( $query_string ) {
 			$query_array = array();
 			parse_str( $query_string, $query_array );
 			if ( isset( $query_array['replytocom'] ) && get_comment( $query_array['replytocom'] ) ) {
@@ -312,6 +319,7 @@ class Webmention_Receiver {
 		 * All verification functions and content generation functions are added to the comment data.
 		 *
 		 * @param array $commentdata
+		 *
 		 * @return array|null|WP_Error $commentdata The Filtered Comment Array or a WP_Error object.
 		 */
 		$commentdata = apply_filters( 'webmention_comment_data', $commentdata );
@@ -711,18 +719,20 @@ class Webmention_Receiver {
 	 * @param WP_Error $error
 	 */
 	public static function delete( $error ) {
-		$error_codes = apply_filters( 'webmention_supported_delete_codes', array(
-			'resource_not_found',
-			'resource_deleted',
-			'resource_removed',
-		) );
+		$error_codes = apply_filters(
+			'webmention_supported_delete_codes', array(
+				'resource_not_found',
+				'resource_deleted',
+				'resource_removed',
+			)
+		);
 
 		if ( ! in_array( $error->get_error_code(), $error_codes ) ) {
 			return;
 		}
 
 		$commentdata = $error->get_error_data();
-		$commentdata = self::check_dupes($commentdata);
+		$commentdata = self::check_dupes( $commentdata );
 
 		if ( isset( $commentdata['comment_ID'] ) ) {
 			wp_delete_comment( $commentdata['comment_ID'] );
@@ -730,9 +740,56 @@ class Webmention_Receiver {
 	}
 
 	/**
+	 * Use the whitelist check function to approve a comment if the source domain is on the whitelist.
+	 *
+	 * @param array $commentdata
+	 *
+	 * @return array $commentdata
+	 */
+	public static function auto_approve( $commentdata ) {
+		if ( ! $commentdata || is_wp_error( $commentdata ) ) {
+			return $commentdata;
+		}
+		if ( self::is_source_whitelisted( $commentdata['source'] ) ) {
+			$commentdata['comment_approved'] = 1;
+		}
+		return $commentdata;
+	}
+
+	/**
+	 * Check the source $url to see if it is on the domain whitelist.
+	 *
+	 * @param array $author_url
+	 *
+	 * @return boolean
+	 */
+	public static function is_source_whitelisted( $url ) {
+		$whitelist = get_option( 'webmention_approve_domains' );
+		$whitelist = trim( $whitelist );
+		$host      = wp_parse_url( $url, PHP_URL_HOST );
+		// strip leading www, if any
+		$host = preg_replace( '/^www\./', '', $host );
+		if ( '' === $whitelist ) {
+			return false;
+		}
+		$domains = explode( '\n', $whitelist );
+		foreach ( (array) $domains as $domain ) {
+			$domain = trim( $domain );
+			if ( empty( $domain ) ) {
+				continue;
+			}
+			if ( 0 === strcasecmp( $domain, $host ) ) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
 	 * replace the template for all URLs with a "replytocom" query-param
 	 *
 	 * @param string $template the template url
+	 *
 	 * @return string
 	 */
 	public static function comment_template_include( $template ) {

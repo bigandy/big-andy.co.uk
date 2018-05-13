@@ -18,7 +18,18 @@ function send_webmention( $source, $target ) {
  *
  */
 function get_webmention_form_text( $post_id ) {
-	return apply_filters( 'webmention_form_text', __( 'Respond on your own site? Send me a <a href="http://indieweb.org/webmention">Webmention</a> by writing something on your website that links to this post and then enter your post URL below.', 'webmention' ), $post_id );
+	return apply_filters( 'webmention_form_text', __( 'To respond on your own website, enter the URL of your response which should contain a link to this post\'s permalink URL. Your response will then appear (possibly after moderation) on this page. Want to update or remove your response? Update or delete your post and re-enter your post\'s URL again. (<a href="http://indieweb.org/webmention">Learn More</a>)', 'webmention' ), $post_id );
+}
+
+/**
+ * Check the $url to see if it is on the domain whitelist.
+ *
+ * @param array $author_url
+ *
+ * @return boolean
+ */
+function is_webmention_source_whitelisted( $url ) {
+	return Webmention_Receiver::is_source_whitelisted( $url );
 }
 
 /**

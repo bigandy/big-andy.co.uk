@@ -3,8 +3,8 @@ Contributors: pfefferle, dshanske
 Donate link: https://notiz.blog/donate/
 Tags: webmention, pingback, trackback, linkback, indieweb, comment, response
 Requires at least: 4.7
-Tested up to: 4.9.4
-Stable tag: 3.7.0
+Tested up to: 4.9.6
+Stable tag: 3.8.0
 License: MIT
 License URI: http://opensource.org/licenses/MIT
 
@@ -76,6 +76,17 @@ As Webmention uses the REST API endpoint system, most up to date caching plugins
 == Changelog ==
 
 Project and support maintained on github at [pfefferle/wordpress-webmention](https://github.com/pfefferle/wordpress-webmention).
+
+= 3.8.0 =
+
+* Added GDPR recommendation text
+* Implemented help tab
+* Form Improvements
+* Domain whitelist
+* Add avatar settings control
+* Text improvements
+
+Thanks David Shanske and Chris Aldrich
 
 = 3.7.0 =
 
