@@ -13,7 +13,8 @@
 				<header class="article__header">
 					<?php
 					if ( has_post_thumbnail() ) {
-						ah_featured_resp_image_replacement( 'article__header__image' );
+						// ah_featured_resp_image_replacement( 'article__header__image' );
+						the_post_thumbnail();
 					}
 					?>
 					<h1 class="article__title">

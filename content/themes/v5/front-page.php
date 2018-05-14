@@ -47,6 +47,9 @@ $paged = get_query_var( 'page' );
 					<article role="article" class="article--home">
 						<header class="article__header article__header--front-page">
 							<?php
+							if ( has_post_thumbnail() ) {
+								the_post_thumbnail( 'blog-listing' );
+							}
 							if ( false === $aside ) {
 								?>
 								<h2 class="article__title">
