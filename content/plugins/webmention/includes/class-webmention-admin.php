@@ -1,4 +1,5 @@
 <?php
+add_action( 'admin_init', array( 'Webmention_Admin', 'init' ) );
 add_action( 'admin_menu', array( 'Webmention_Admin', 'admin_menu' ) );
 
 /**
@@ -32,7 +33,13 @@ class Webmention_Admin {
 	 * Add Webmention options to the WordPress discussion settings page.
 	 */
 	public static function discussion_settings() {
-		printf ( __( 'Based on your feedback and to improve the user experience, we decided to move the settings to a separate <a href="%1$s">settings-page</a>.', 'webmention' ), admin_url( '/admin.php?page=webmention' ) );
+		if ( class_exists( 'Indieweb_Plugin' ) ) {
+			$path = 'admin.php?page=webmention';
+		} else {
+			$path = 'options-general.php?page=webmention';
+		}
+
+		printf ( __( 'Based on your feedback and to improve the user experience, we decided to move the settings to a separate <a href="%1$s">settings-page</a>.', 'webmention' ), $path );
 	}
 
 	public static function meta_boxes( $object, $box ) {
@@ -263,7 +270,7 @@ class Webmention_Admin {
 		register_setting(
 			'webmention', 'webmention_disable_selfpings_same_url', array(
 				'type'         => 'boolean',
-				'description'  => __( 'Disable Self Webmentions on the Same URL', 'webmention' ),
+				'description'  => __( 'Disable self Webmentions on the same URL', 'webmention' ),
 				'show_in_rest' => true,
 				'default'      => 1,
 			)
@@ -271,7 +278,7 @@ class Webmention_Admin {
 		register_setting(
 			'webmention', 'webmention_disable_selfpings_same_domain', array(
 				'type'         => 'boolean',
-				'description'  => __( 'Disable Self Webmentions on the Same Domain', 'webmention' ),
+				'description'  => __( 'Disable self Webmentions on the same domain', 'webmention' ),
 				'show_in_rest' => true,
 				'default'      => 0,
 			)
@@ -279,7 +286,7 @@ class Webmention_Admin {
 		register_setting(
 			'webmention', 'webmention_support_pages', array(
 				'type'         => 'boolean',
-				'description'  => __( 'Enable Webmention Support for Pages', 'webmention' ),
+				'description'  => __( 'Enable Webmention support for pages', 'webmention' ),
 				'show_in_rest' => true,
 				'default'      => 1,
 			)
@@ -287,23 +294,31 @@ class Webmention_Admin {
 		register_setting(
 			'webmention', 'webmention_show_comment_form', array(
 				'type'         => 'boolean',
-				'description'  => __( 'Show Webmention Comment Form', 'webmention' ),
+				'description'  => __( 'Show Webmention comment-form', 'webmention' ),
 				'show_in_rest' => true,
 				'default'      => 1,
 			)
 		);
 		register_setting(
+			'webmention', 'webmention_comment_form_text', array(
+				'type'         => 'string',
+				'description'  => __( 'Change the text of the Webmention comment-form', 'webmention' ),
+				'show_in_rest' => true,
+				'default'      => '',
+			)
+		);
+		register_setting(
 			'webmention', 'webmention_home_mentions', array(
 				'type'         => 'int',
-				'description'  => __( 'Where to Direct Mentions of the Home Page', 'webmention' ),
+				'description'  => __( 'Where to direct Mentions of the home page', 'webmention' ),
 				'show_in_rest' => true,
 				'default'      => 0,
 			)
 		);
 		register_setting(
 			'webmention', 'webmention_approve_domains', array(
-				'type'         => 'array',
-				'description'  => __( 'Automatically Approve Webmentions from These Domains', 'webmention' ),
+				'type'         => 'string',
+				'description'  => __( 'Automatically approve Webmentions from these domains', 'webmention' ),
 				'show_in_rest' => false,
 				'default'      => 'indieweb.org',
 			)
@@ -324,7 +339,23 @@ class Webmention_Admin {
 	public static function add_privacy_policy_content() {
 		$content =
 			'<p>' . __( 'Webmentions are an explicit feature of your content management system: by sending a webmention to the webmention endpoint of this website, you request the server to take notice of that referral and process it. As long as public content is concerned (i.e. you are not sending a private webmention), such use of this website’s webmention endpoint implies that you are aware of it being published.', 'webmention' ) . '</p>' .
-			'<p>' . __( 'You can at any time request the removal of one or all webmentions originating from your website.', 'webmention' ) . '</p>';
+			'<p>' . __( 'You can at any time request the removal of one or all webmentions originating from your website.', 'webmention' ) . '</p>' .
+
+			'<h3>' . __( 'Processing', 'webmention' ) . '</h3>' .
+			'<p>' . __( 'Incoming Webmentions are handled as a request to process personal data that you make available by explicitly providing metadata in your website\'s markup.', 'webmention' ) . '</p>' .
+
+			'<h3>' . __( 'Publishing', 'webmention' ) . '</h3>' .
+			'<p>' . __( 'An incoming Webmention request is by design a request for publishing a comment from elsewhere on the web; this is what the protocol was designed for and why it is active on your website.', 'webmention' ) . '</p>' .
+
+			'<h3>' . __( 'Personal data', 'webmention' ) . '</h3>' .
+			'<p>' . __( 'The Webmention plugin processes the following data (if available):', 'webmention' ) . '</p>' .
+
+			'<ul>' .
+				'<li>' . __( 'Your name', 'webmention' ) . '</li>' .
+				'<li>' . __( 'The profile picture from your website', 'webmention' ) . '</li>' .
+				'<li>' . __( 'The URL of your website', 'webmention' ) . '</li>' .
+				'<li>' . __( 'Personal information you include in your post', 'webmention' ) . '</li>' .
+			'<ul>';
 
 		if ( function_exists( 'wp_add_privacy_policy_content' ) ) {
 			wp_add_privacy_policy_content( __( 'Webmention', 'webmention' ), $content );

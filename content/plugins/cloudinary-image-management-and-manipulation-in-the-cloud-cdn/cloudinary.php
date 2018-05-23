@@ -4,18 +4,17 @@ Plugin Name: Cloudinary
 Plugin URI: http://cloudinary.com/
 Description: Cloudinary allows you to upload your images to the cloud. They'll be available to your visitors through a fast content delivery network, improving your website's loading speed and overall user experience. With Cloudinary, you can transform uploaded images without leaving Wordpress - apply effects (sharpen, gray scale, sepia, and more), smart cropping and re-sizing (including face detection based cropping), and much more.
 
-Version:  1.1.9
+Version:  1.1.10
 Author: Cloudinary Ltd.
 Author URI: http://cloudinary.com/
 */
-define('cloudinary_VERSION', '1.1.9');
-define('cloudinary_PLUGIN_URL', plugin_dir_url( __FILE__ ));
-require plugin_dir_path( __FILE__ ) . "cloudinary_api.php" ;
-require plugin_dir_path( __FILE__ ) . "api.php" ;
-require plugin_dir_path( __FILE__ ) . "uploader.php" ;
+require_once plugin_dir_path( __FILE__ ) . 'autoload.php';
 
+define('cloudinary_VERSION', '1.1.10');
+define('cloudinary_PLUGIN_URL', plugin_dir_url( __FILE__ ));
 define ('CLOUDINARY_BASE_URL', "https://cloudinary.com");
 define ('CLOUDINARY_UNIQUE_ID', "cloudinary-image-management-and-manipulation-in-the-cloud-cdn");
+define ('CLOUDINARY_USER_PLATFORM_TEMPLATE', "CloudinaryWordPress/%s (WordPress %s)");
 
 function cloudinary_include_assets() {
   $cloudinary_js_dir = plugins_url('/js', __FILE__);
@@ -152,6 +151,12 @@ class CloudinaryPlugin
     $fullpathfilename = $uploads['path'] . "/" . $filename;
 
     $response = wp_remote_get($url);
+
+    if( is_wp_error( $response ) ) {
+      $error = $response->get_error_message();      
+      return $public_id . ' cannot be migrate away. ' . $error ;
+    }
+
     if ($response["response"]["code"] != 200) {
       $error = $response["headers"]["x-cld-error"];
       if (!$error) $error = "Unable to migrate away $url";
@@ -408,7 +413,19 @@ class CloudinaryPlugin
     $cloudinary_url = get_option('cloudinary_url');
     if($cloudinary_url){
       Cloudinary::config_from_url($cloudinary_url);
+      Cloudinary::$USER_PLATFORM = self::get_user_platform();
     }
+  }
+
+  /**
+   * Provides USER_PLATFORM string that is prepended to USER_AGENT string that is passed to the Cloudinary servers.
+   *
+   * Sample value: CloudinaryWordPress/1.2.3 (WordPress 4.5.6)
+   *
+   * @return string USER_PLATFORM
+   */
+  private static function get_user_platform(){
+    return sprintf(CLOUDINARY_USER_PLATFORM_TEMPLATE, cloudinary_VERSION, get_bloginfo('version'));
   }
 
   function configured() {
@@ -454,11 +471,17 @@ class CloudinaryPlugin
   }
 
   function update_image_src_all($attachment_id, $attachment_metadata, $old_url, $new_url, $migrate_in, &$errors) {
-    $posts = get_posts(array("post_type"=>"any", 'numberposts' => -1, "post_status"=>'publish,pending,draft,auto-draft,future,private'));
-    foreach($posts as $post) {
-      if (strpos($post->post_content, "wp-image-$attachment_id") !== false) {
-        $this->update_image_src($post, $attachment_id, $attachment_metadata, $old_url, $new_url, $migrate_in, $errors);
-      }
+    $query = new WP_Query(
+      array(
+        'post_type' => 'any',
+        'post_status' => 'publish,pending,draft,auto-draft,future,private',
+        's' => "wp-image-{$attachment_id}"
+      )
+    );
+
+    while ($query->have_posts()) {
+      $query->the_post();
+      $this->update_image_src($query->post, $attachment_id, $attachment_metadata, $old_url, $new_url, $migrate_in, $errors);
     }
   }
 
@@ -496,7 +519,8 @@ class CloudinaryPlugin
             # Migrate Out
             list($old_img_src) = $this->build_resize_url($old_url, $attachment_metadata, $wanted_size);
             if ($old_img_src) {
-              if ($old_img_src != $src[1]) {
+              //Compare URLs ignoring secure protocol
+              if (str_replace('https://', 'http://', $old_img_src) != str_replace('https://', 'http://', $src[1])) {
                 error_log("Cannot automatically migrate image - non-standard image url detected " . $src[1] . " expected $old_img_src requested size $wanted_size");
                 $errors[$post->ID] = true;
                 return false;
@@ -542,13 +566,12 @@ class CloudinaryPlugin
   }
 
   function media_cloudinary($editor_id = 'content') {
-    $context = apply_filters('media_buttons_context', __('Cloudinary Upload/Insert'));
     $xdmremote = $this->prepare_cloudinary_media_lib_url("wp_post");
     if (!$xdmremote) return "";
 
     echo $this->init_media_lib_integration($xdmremote, false) .
-         '<a href="#" class="cloudinary_add_media" id="' . esc_attr( $editor_id ) . '-add_media" ' .
-         'title="' . esc_attr__( 'Add Media from Cloudinary' ) . '">' . $context . '</a><span class="cloudinary_message"></span>';
+         '<a href="#" class="cloudinary_add_media button" id="' . esc_attr( $editor_id ) . '-add_media" ' .
+         'title="' . esc_attr__( 'Add Media from Cloudinary' ) . '">' . __('Cloudinary Upload/Insert') . '</a><span class="cloudinary_message"></span>';
 
     return null;
   }
@@ -607,7 +630,7 @@ class CloudinaryPlugin
     }
 
     try {
-      $result = CloudinaryUploader::upload($full_path, array('use_filename'=>true));
+      $result = \Cloudinary\Uploader::upload($full_path,array('use_filename'=>true));
     } catch(Exception $e) {
       return $e->getMessage();
     }
@@ -624,7 +647,7 @@ class CloudinaryPlugin
 
     if ($migrate) {
       $errors = array();
-      $this->update_image_src_all($attachment_id, $result, $old_url, $result["url"], true, $errors);
+      $this->update_image_src_all($attachment_id, $result, $old_url, $result["secure_url"], true, $errors);
       if (count($errors) > 0) {
         return "Cannot migrate the following posts - " . implode(", ", $errors);
       }
