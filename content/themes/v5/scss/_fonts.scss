@@ -2,6 +2,7 @@
 	font-family: 'Open Sans';
 	font-style: normal;
 	font-weight: 400;
+	font-display: auto;
 	src: local('Open Sans'), local('OpenSans'),
 		url('/content/themes/v5/fonts/open-sans-v13-latin-regular.woff2') format('woff2');
 }
@@ -10,6 +11,7 @@
 	font-family: 'Open Sans';
 	font-style: normal;
 	font-weight: 800;
+	font-display: auto;
 	src: local('Open Sans Extrabold'), local('OpenSans-Extrabold'),
 		url('/content/themes/v5/fonts/open-sans-v13-latin-800.woff2') format('woff2');
 }
