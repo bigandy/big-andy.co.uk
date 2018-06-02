@@ -3,7 +3,7 @@ Contributors: snarfed, dshanske
 Tags: micropub, publish
 Requires at least: 4.7
 Requires PHP: 5.3
-Tested up to: 4.9.5
+Tested up to: 4.9.6
 Stable tag: trunk
 License: CC0
 License URI: http://creativecommons.org/publicdomain/zero/1.0/
@@ -13,7 +13,7 @@ A [Micropub](http://micropub.net/) server plugin. Available in the WordPress plu
 
 == Description ==
 
-[![Circle CI](https://circleci.com/gh/snarfed/wordpress-micropub.svg?style=svg)](https://circleci.com/gh/snarfed/wordpress-micropub)
+[![Travis CI](https://travis-ci.org/snarfed/wordpress-micropub.svg?branch=master)](https://travis-ci.org/snarfed/wordpress-micropub)
 
 > Micropub is an open API standard that is used to create posts on one's own domain using third-party clients. Web apps and native apps (e.g. iPhone, Android) can use Micropub to post short notes, photos, events or other posts to your own site, similar to a Twitter client posting to Twitter.com.
 
@@ -24,6 +24,17 @@ Supports the [full W3C Micropub CR spec](https://www.w3.org/TR/micropub/) as of 
 == License ==
 
 This project is placed in the public domain. You may also use it under the [CC0 license](http://creativecommons.org/publicdomain/zero/1.0/).
+
+== Scope ==
+
+Supports the following [scope](https://indieweb.org/scope) parameters requested by Micropub clients.
+* post (legacy) - Grants all user delegated access
+* create - Allows the client to create posts on behalf of the user
+* update - Allows the client to update posts on behalf of the user
+* delete - Allows the client to delete posts on behalf of the user
+* indelete - Allows the client to undelete posts on behalf of the user
+
+Does not currently support the 'media' scope due lack of adoption by clients. At this time, create or update grants permission for file uploads.
 
 == WordPress details ==
 
@@ -167,6 +178,13 @@ To automatically convert the readme.txt file to readme.md, you may, if you have 
 into markdown and saved to readme.md.
 
 == Changelog ==
+
+= 1.4.3 (2018-05-27) =
+* Change scopes to filter
+* Get token response when IndieAuth plugin is installed
+
+= 1.4.2 (2018-04-19) =
+* Enforce scopes
 
 = 1.4.1 (2018-04-15) =
 * Version bump due some individuals not getting template file

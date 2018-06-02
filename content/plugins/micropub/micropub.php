@@ -7,7 +7,7 @@
  * Author: Ryan Barrett
  * Author URI: https://snarfed.org/
  * Text Domain: micropub
- * Version: 1.4.1
+ * Version: 1.4.3
  */
 
 /* See README for supported filters and actions.
@@ -63,6 +63,9 @@ class Micropub_Plugin {
 
 	// associative array, populated by authorize().
 	protected static $micropub_auth_response;
+
+	// Array of Scopes
+	protected static $scopes;
 
 	/**
 	 * Initialize the plugin.
@@ -166,6 +169,11 @@ class Micropub_Plugin {
 		// Be able to bypass Micropub auth with other auth
 		if ( MICROPUB_LOCAL_AUTH || class_exists( 'IndieAuth_Plugin' ) ) {
 			$user_id = get_current_user_id();
+
+			// The WordPress IndieAuth plugin uses filters for this
+			static::$scopes = apply_filters( 'indieauth_scopes', static::$scopes );
+			static::$micropub_auth_response = apply_filters( 'indieauth_response',  static::$micropub_auth_response );
+			
 			if ( ! $user_id ) {
 				static::handle_authorize_error( 401, 'Unauthorized' );
 			}
@@ -209,18 +217,18 @@ class Micropub_Plugin {
 			static::handle_authorize_error( 502, "couldn't validate token: " . implode( ' , ', $resp->get_error_messages() ) );
 		}
 
-		$code   = wp_remote_retrieve_response_code( $resp );
-		$body   = wp_remote_retrieve_body( $resp );
-		$params = json_decode( $body, true );
-		$scopes = explode( ' ', $params['scope'] );
+		$code           = wp_remote_retrieve_response_code( $resp );
+		$body           = wp_remote_retrieve_body( $resp );
+		$params         = json_decode( $body, true );
+		static::$scopes = explode( ' ', $params['scope'] );
 
 		if ( (int) ( $code / 100 ) !== 2 ) {
 			static::handle_authorize_error(
 				$code, 'invalid access token: ' . $body
 			);
-		} elseif ( ! in_array( 'post', $scopes, true ) && ! in_array( 'create', $scopes, true ) ) {
+		} elseif ( empty( static::$scopes ) ) {
 			static::handle_authorize_error(
-				401, 'access token is missing post or create scope; got `' . $params['scope'] . '`'
+				401, 'access token is missing scope'
 			);
 		}
 
@@ -244,6 +252,20 @@ class Micropub_Plugin {
 		}
 
 		return null;
+	}
+
+	/**
+	 * Check scope
+	 *
+	 * @param string $scope
+	 *
+	 * @return boolean
+	**/
+	protected static function check_scope( $scope ) {
+		if ( in_array( 'post', static::$scopes, true ) ) {
+			return true;
+		}
+		return in_array( $scope, static::$scopes, true );
 	}
 
 	/**
@@ -282,7 +304,10 @@ class Micropub_Plugin {
 	public static function post_handler( $user_id ) {
 		$status = 200;
 		$action = self::get( static::$input, 'action', 'create' );
-		$url    = self::get( static::$input, 'url' );
+		if ( ! self::check_scope( $action ) ) {
+			static::error( 403, sprintf( 'scope insufficient to %1$s posts', $action ) );
+		}
+		$url = self::get( static::$input, 'url' );
 
 		// check that we support all requested syndication targets
 		$synd_supported = apply_filters( 'micropub_syndicate-to', array(), $user_id );
@@ -369,9 +394,14 @@ class Micropub_Plugin {
 					$resp          = array( 'syndicate-to' => $syndicate_tos );
 					break;
 				case 'category':
-					$resp = array_merge( 
-						get_tags( array( 'fields' => 'names' ) ), 
-						get_terms( array( 'taxonomy' => 'category', 'fields' => 'names' ) ) 
+					$resp = array_merge(
+						get_tags( array( 'fields' => 'names' ) ),
+						get_terms(
+							array(
+								'taxonomy' => 'category',
+								'fields'   => 'names',
+							)
+						)
 					);
 					break;
 				case 'source':
