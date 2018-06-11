@@ -1,8 +1,8 @@
 === Gutenberg ===
 Contributors: matveb, joen, karmatosed
-Requires at least: 4.9
+Requires at least: 4.9.6
 Tested up to: 4.9.6
-Stable tag: 2.9.1
+Stable tag: 3.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -81,7 +81,6 @@ See also <a href="https://github.com/WordPress/gutenberg/blob/master/CONTRIBUTIN
 
 = Latest =
 
-* Ensure the Title uses the same max-width as blocks
-* Center the background of the cover image block
-* Fix formatting controls regression
-* Fix classic editor visual mode regression
+* Fix regression in Columns block's front-end style
+* Fix regression in SVG support for block icons
+* Build tooling: Add linting for package.json files
