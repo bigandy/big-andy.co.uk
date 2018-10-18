@@ -114,6 +114,18 @@ self.addEventListener('fetch', (event) => {
 // 	ah_add_serviceworker_in_root();
 // }
 
+function ah_webhook_netlify_post() {
+	$url = 'https://api.netlify.com/build_hooks/5bc0923302ed836392c08784';	
+	
+	
+	$args =	array(
+		'method' => 'POST',
+		'timeout' => 5,
+		'blocking' => false,
+    );
+	wp_remote_post($url, $args);
+}
+add_action( 'publish_post', 'ah_webhook_netlify_post' );
 add_action( 'publish_post', 'ah_add_serviceworker_in_root' );
 add_action( 'publish_page', 'ah_add_serviceworker_in_root' );
 
