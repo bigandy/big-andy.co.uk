@@ -50,147 +50,148 @@ const envLive = 'https://big-andy.co.uk/',
 		env + 'breaking-borders-3/'
 	];
 
-gulp.task('brotli', () => {
-	const src  = ['build/**/*.{js,css,svg}'];
-	gulp.src(src)
-		.pipe(brotli.compress({
-			extension: 'br',
-			quality: 11
-		}))
-		.pipe(gulp.dest('build'));
+// gulp.task('brotli', () => {
+// 	const src  = ['build/**/*.{js,css,svg}'];
+// 	gulp.src(src)
+// 		.pipe(brotli.compress({
+// 			extension: 'br',
+// 			quality: 11
+// 		}))
+// 		.pipe(gulp.dest('build'));
 
-	gulp.src('style.css')
-		.pipe(brotli.compress({
-			extension: 'br',
-			quality: 11
-		}))
-		.pipe(gulp.dest('.'));
-});
+// 	gulp.src('style.css')
+// 		.pipe(brotli.compress({
+// 			extension: 'br',
+// 			quality: 11
+// 		}))
+// 		.pipe(gulp.dest('.'));
+// });
 
-gulp.task('sprites', () => {
-	return gulp.src([
-		'images/svg/*.svg'
-	])
-		.pipe(svgStore({ inlineSvg: true }))
+// gulp.task('sprites', () => {
+// 	return gulp.src([
+// 		'images/svg/*.svg'
+// 	])
+// 		.pipe(svgStore({ inlineSvg: true }))
 
-		.pipe(svgmin({
-			plugins:
-			[{
-				cleanupIDs: false
-			}]
-		}))
-		.pipe(gulp.dest('build/svg'));
-});
+// 		.pipe(svgmin({
+// 			plugins:
+// 			[{
+// 				cleanupIDs: false
+// 			}]
+// 		}))
+// 		.pipe(gulp.dest('build/svg'));
+// });
 
+// gulp.task('critical-css', () => {
+// 	const outputCSS = (criticalCSS, file) => {
+// 		console.log(criticalCSS);
+// 		console.log(file);
+// 		const output = new cleanCSS().minify(criticalCSS).styles;
+// 		fs.writeFileSync(`build/css/${file}.css`, output, (err) => {
+// 			if (err) {
+// 				console.log('outputcss error: ', err);
+// 			}
+// 		});
+// 	};
 
-gulp.task('critical-css', () => {
-	const outputCSS = (criticalCSS, file) => {
-		console.log(criticalCSS);
-		console.log(file);
-		const output = new cleanCSS().minify(criticalCSS).styles;
-		fs.writeFileSync(`build/css/${file}.css`, output, (err) => {
-			if (err) {
-				console.log('outputcss error: ', err);
-			}
-		});
-	};
+// 	const runPenthouse = (outputFile, envExtra = '') => {
+// 		penthouse({
+// 			url: env + envExtra,
+// 			css: './style.css',
+// 			height: 1200, // 600
+// 			width: 400, // 400
+// 			minify: true,
+// 		})
+// 			.then(criticalCSS => {
+// 				outputCSS(criticalCSS, outputFile);
+// 			})
+// 			.catch(e => console.error('penthouse error', e));
+// 	};
 
-	const runPenthouse = (outputFile, envExtra = '') => {
-		penthouse({
-			url: env + envExtra,
-			css: './style.css',
-			height: 1200, // 600
-			width: 400, // 400
-			minify: true,
-		})
-			.then(criticalCSS => {
-				outputCSS(criticalCSS, outputFile);
-			})
-			.catch(e => console.error('penthouse error', e));
-	};
+// 	// TODO way of writing this so don't call twice
+// 	runPenthouse('critical');
+// 	// runPenthouse('post', '/30-running-days-september/');
 
-	// TODO way of writing this so don't call twice
-	runPenthouse('critical');
-	// runPenthouse('post', '/30-running-days-september/');
+// 	return Promise.all([runPenthouse('critical'), runPenthouse('post', '/30-running-days-september/')]);
+// });
 
-	return Promise.all([runPenthouse('critical'), runPenthouse('post', '/30-running-days-september/')]);
-});
-
-gulp.task('uncss', ['sass:prod'], () => {
-	return gulp.src('./style.css')
-		.pipe(postcss([
-			autoprefixer(),
-			uncss({
-				html: pages,
-				ignore: [
-					'[data-visited]',
-					'[data-visited] .post-content',
-					'.svg-sprite',
-					'.previouspostslink',
-					/pre.*/,
-					/code.*/,
-					/token.*/,
-					'.article__header__image'
-				]
-			}),
-			cssnano({
-				discardComments: { removeAll: true }
-			})
-		]))
-		.pipe(gulp.dest('.'));
-});
+// gulp.task('uncss', ['sass:prod'], () => {
+// 	return gulp.src('./style.css')
+// 		.pipe(postcss([
+// 			autoprefixer(),
+// 			uncss({
+// 				html: pages,
+// 				ignore: [
+// 					'[data-visited]',
+// 					'[data-visited] .post-content',
+// 					'.svg-sprite',
+// 					'.previouspostslink',
+// 					/pre.*/,
+// 					/code.*/,
+// 					/token.*/,
+// 					'.article__header__image'
+// 				]
+// 			}),
+// 			cssnano({
+// 				discardComments: { removeAll: true }
+// 			})
+// 		]))
+// 		.pipe(gulp.dest('.'));
+// });
 
 gulp.task('sass', () => {
-	gulp.src([
-		'./scss/style.scss',
-	])
-		.pipe( sourcemaps.init() )
-		.pipe(sass({
-			'outputStyle': 'compressed',
-		}).on('error', sass.logError))
+	gulp.src(['./scss/style.scss'])
+		.pipe(sourcemaps.init())
+		.pipe(
+			sass({
+				outputStyle: 'compressed'
+			}).on('error', sass.logError)
+		)
 		.pipe(sourcemaps.write('.'))
 		.pipe(gulp.dest('.'))
 		.pipe(browserSync.stream());
 
 	gulp.src('./scss/fonts/opensans.scss')
-		.pipe(sass({
-			'outputStyle': 'compressed',
-		}).on('error', sass.logError))
+		.pipe(
+			sass({
+				outputStyle: 'compressed'
+			}).on('error', sass.logError)
+		)
 		.pipe(gulp.dest('./build/css/fonts'));
 });
 
 gulp.task('sass:prod', () => {
-	gulp.src([
-		'./scss/style.scss',
-	])
-		.pipe(sass({
-			'outputStyle': 'compressed',
-		}).on('error', sass.logError))
+	gulp.src(['./scss/style.scss'])
+		.pipe(
+			sass({
+				outputStyle: 'compressed'
+			}).on('error', sass.logError)
+		)
 		.pipe(gulp.dest('.'));
 });
 
 gulp.task('scss-lint', () => {
-	gulp.src([
-		'./scss/**/*.scss',
-		'!./scss/fonts/*.scss'
-	])
-		.pipe(postcss([
+	gulp.src(['./scss/**/*.scss', '!./scss/fonts/*.scss']).pipe(
+		postcss([
 			stylelint(),
 			reporter({
-				clearMessages: true,
+				clearMessages: true
 			})
-		]));
+		])
+	);
 });
 
 // concat and minify the js
 gulp.task('js', () => {
 	gulp.src([
 		// 'js/lazy-load-css.js',
-		'js/main.js',
+		'js/main.js'
 	])
-		.pipe(uglify().on('error', e => {
-			console.log(e);
-		}))
+		.pipe(
+			uglify().on('error', e => {
+				console.log(e);
+			})
+		)
 		.pipe(concat('script.js'))
 		.pipe(gulp.dest('build/js'));
 });
@@ -201,7 +202,7 @@ gulp.task('js:prod', ['hash'], () => {
 
 	gulp.src([
 		// 'js/lazy-load-css.js',
-		'js/main.js',
+		'js/main.js'
 	])
 		// .pipe(replace({
 		// 	patterns: [
@@ -211,15 +212,15 @@ gulp.task('js:prod', ['hash'], () => {
 		// 		}
 		// 	]
 		// }))
-		.pipe(uglify().on('error', e => {
-			console.log(e);
-		}))
+		.pipe(
+			uglify().on('error', e => {
+				console.log(e);
+			})
+		)
 		.pipe(concat('script.js'))
 		.pipe(gulp.dest('build/js'));
 
-	gulp.src([
-		'js/prism.min.js',
-	])
+	gulp.src(['js/prism.min.js'])
 		.pipe(uglify())
 		.pipe(concat('singular.min.js'))
 		.pipe(gulp.dest('build/js'));
@@ -234,9 +235,7 @@ gulp.task('js:prod', ['hash'], () => {
 });
 
 gulp.task('js-lint', () => {
-	gulp.src([
-		'js/main.js'
-	])
+	gulp.src(['js/main.js'])
 		// eslint() attaches the lint output to the eslint property
 		// of the file object so it can be used by other modules.
 		.pipe(eslint())
@@ -248,28 +247,30 @@ gulp.task('js-lint', () => {
 		.pipe(eslint.failAfterError());
 });
 
-
-
 gulp.task('hash', () => {
-	gulp.src([
-		'./style.css',
-		'./build/js/*.js'
-	])
-		.pipe(hash({
-			template: '<%= name %>.<%= hash %><%= ext %>'
-		})) // Add hashes to the files' names
+	gulp.src(['./style.css', './build/js/*.js'])
+		.pipe(
+			hash({
+				template: '<%= name %>.<%= hash %><%= ext %>'
+			})
+		) // Add hashes to the files' names
 		// .pipe(gulp.dest('public/js')) // Write the renamed files
-		.pipe(hash.manifest('assets.json', {
-			deleteOld: true
-		})) // Switch to the manifest file
+		.pipe(
+			hash.manifest('assets.json', {
+				deleteOld: true
+			})
+		) // Switch to the manifest file
 		.pipe(gulp.dest('build')); // Write the manifest file
-})
+});
 
 gulp.task('wordpress-lint', () => {
-	return gulp.src(['./**/*.php', '!node_modules/**/*.php'])
-		.pipe(phpcs({
-			standard: 'code.ruleset.xml'
-		}))
+	return gulp
+		.src(['./**/*.php', '!node_modules/**/*.php'])
+		.pipe(
+			phpcs({
+				standard: 'code.ruleset.xml'
+			})
+		)
 		.pipe(phpcs.reporter('log'));
 });
 
@@ -289,22 +290,13 @@ gulp.task('watch', () => {
 });
 
 // The default task (called when you run `gulp` from cli)
-gulp.task('default', [
-	'browser-sync',
-	'js',
-	'sass',
-	'watch'
-]);
+gulp.task('default', ['browser-sync', 'js', 'sass', 'watch']);
 
 gulp.task('deploy', [
 	'uncss',
 	'js:prod',
-	'critical-css',
+	'critical-css'
 	// 'sprites',
 ]);
 
-gulp.task('lint', [
-	'scss-lint',
-	'js-lint',
-	'wordpress-lint'
-]);
+gulp.task('lint', ['scss-lint', 'js-lint', 'wordpress-lint']);

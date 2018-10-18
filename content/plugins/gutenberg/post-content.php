@@ -27,9 +27,11 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"align":"center"} -->
-<figure class="wp-block-image aligncenter"><img src="https://cldup.com/cXyG__fTLN.jpg" alt="Beautiful landscape" />
-	<figcaption><?php _e( 'If your theme supports it, you&#8217;ll see the "wide" button on the image toolbar. Give it a try.', 'gutenberg' ); ?></figcaption>
-</figure>
+<div class="wp-block-image">
+	<figure class="aligncenter"><img src="https://cldup.com/cXyG__fTLN.jpg" alt="<?php esc_attr_e( 'Beautiful landscape', 'gutenberg' ); ?>" />
+		<figcaption><?php _e( 'If your theme supports it, you&#8217;ll see the "wide" button on the image toolbar. Give it a try.', 'gutenberg' ); ?></figcaption>
+	</figure>
+</div>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -129,8 +131,10 @@
 <p><?php _e( 'Any block can opt into these alignments. The embed block has them also, and is responsive out of the box:', 'gutenberg' ); ?></p>
 <!-- /wp:paragraph -->
 
-<!-- wp:core-embed/vimeo {"url":"https://vimeo.com/22439234","align":"wide","type":"video","providerNameSlug":"vimeo"} -->
-<figure class="wp-block-embed-vimeo wp-block-embed alignwide is-type-video is-provider-vimeo">https://vimeo.com/22439234</figure>
+<!-- wp:core-embed/vimeo {"url":"https://vimeo.com/22439234","type":"video","providerNameSlug":"vimeo","align":"wide","className":"wp-has-aspect-ratio wp-embed-aspect-16-9"} -->
+<figure class="wp-block-embed-vimeo alignwide wp-block-embed is-type-video is-provider-vimeo wp-has-aspect-ratio wp-embed-aspect-16-9"><div class="wp-block-embed__wrapper">
+https://vimeo.com/22439234
+</div></figure>
 <!-- /wp:core-embed/vimeo -->
 
 <!-- wp:paragraph -->
@@ -138,16 +142,16 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:pullquote -->
-<blockquote class="wp-block-pullquote"><p><?php _e( 'Code is Poetry', 'gutenberg' ); ?></p><cite><?php _e( 'The WordPress community', 'gutenberg' ); ?></cite></blockquote>
+<figure class="wp-block-pullquote"><blockquote><p><?php _e( 'Code is Poetry', 'gutenberg' ); ?></p><cite><?php _e( 'The WordPress community', 'gutenberg' ); ?></cite></blockquote></figure>
 <!-- /wp:pullquote -->
 
 <!-- wp:paragraph {"align":"center"} -->
 <p style="text-align:center">
 	<em>
 		<?php
-		sprintf(
+		echo sprintf(
 			/* translators: %s: Gutenberg GitHub repository URL */
-			_e( 'If you want to learn more about how to build additional blocks, or if you are interested in helping with the project, head over to the <a href="%s">GitHub repository</a>.', 'gutenberg' ),
+			__( 'If you want to learn more about how to build additional blocks, or if you are interested in helping with the project, head over to the <a href="%s">GitHub repository</a>.', 'gutenberg' ),
 			'https://github.com/WordPress/gutenberg'
 		);
 		?>
