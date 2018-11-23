@@ -4,7 +4,7 @@ Tags: backup, database backup, cloud backup, restore, wordpress backup
 Requires at least: 3.9
 Tested up to: 4.9.8
 Requires PHP: 5.3
-Stable tag: 3.6.2
+Stable tag: 3.6.5
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -12,8 +12,9 @@ Schedule complete automatic backups of your WordPress installation. Decide which
 
 == Description ==
 
-The **backup plugin** **[BackWPup](https://backwpup.com/)** can be used to save your complete installation including /wp-content/ and push them to an external Backup Service, like **Dropbox**, **S3**, **FTP** and many more, see list below. With a single backup .zip file you are able to easily restore an installation. Please understand: this free version will not be supported as good as the [BackWPup Pro version](https://backwpup.com). With our premium version you get first class support and more features.
+**30% Black Friday - Cyber Monday discount for BackWPup PRO - only valid from 23 to 26 November [Save 30% and get the PRO now!](https://backwpup.com/#buy)**
 
+The **backup plugin** **[BackWPup](https://backwpup.com/)** can be used to save your complete installation including /wp-content/ and push them to an external Backup Service, like **Dropbox**, **S3**, **FTP** and many more, see list below. With a single backup .zip file you are able to easily restore an installation. Please understand: this free version will not be supported as good as the [BackWPup Pro version](https://backwpup.com). With our premium version you get first class support and more features.
 
 * Database Backup  *(needs mysqli)*
 * WordPress XML Export
@@ -161,12 +162,39 @@ Yes. You need to have writing access to the wp-config.php file (usually residing
 [You can find a detailed tutorial in the BackWPup documentation.](https://backwpup.com/docs/install-backwpup-pro-activate-licence/)
 
 == Changelog ==
+= Version 3.6.5 =
+Release Date: Nov 23, 2018
+
+* Fixed: Admin notice won't update correctly
+
+= Version 3.6.4 =
+Release Date: Nov 22, 2018
+
+* Fixed: Encrypted backup must force users to download the encryption keys
+* Fixed: Warning mime type when a backup is going to be downloaded
+* Fixed: Admin Notice in free version is sometimes empty
+* Fixed: Random restore error about SQL syntax when restoring a database
+* Fixed: Exclude restore directories to be copied during a restore phase
+* Fixed: Standalone App has no encryption support
+* Fixed: Open basedir, backup dir is not within the allowed path
+* Fixed: Unable to download backup file because of mime_content_type function missing in some enviroment
+* Tweak: Encryption Settings UI
+* Tweak: Minor translations issues
+* Tweak: Remove languages files from the free version, the plugin will use translation.wordpress.org
+
+= Version 3.6.3 =
+Release Date: Nov 5, 2018
+
+* Fixed: "Failed to restore file": file restore progress stop working and jump directly to database restore step
+* Fixed: Restore progress stuck on "restoring database" with archive backup contains files only
+* Fixed: All config.php files are not in backup archive
+
 = Version 3.6.2 =
 Release Date: Oct 17, 2018
 
 * Fixed: Not recognized file extensions get an additional underscore in the file name in zip file
 * Fixed: Backup archive file have dot folder contains all web root files
-* Fixed: Ftp destination downloader repetitively open a new handler for the source file causing corrupted backup.
+* Fixed: Ftp destination downloader repetitively open a new handler for the source file causing corrupted backup
 
 = Version 3.6.1 =
 Release Date: Sep 25, 2018
