@@ -6,7 +6,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/php:7.2.1-apache-node-browsers
+      - image: circleci/7.2-apache-stretch-node-browsers-legacy
 
     steps:
       - checkout
@@ -47,7 +47,7 @@ jobs:
 
       - run:
           name: install npm deps
-          command:  cd content/themes/v5/ && npm install
+          command: cd content/themes/v5/ && npm install
 
       - save_cache:
           key: npm-dependency-cache-{{ checksum "content/themes/v5/package.json" }}
@@ -107,7 +107,6 @@ jobs:
           key: npm-tests-cache-{{ checksum "tests/package.json" }}
           paths:
             - tests/node_modules
-
       # # Use cURL to fetch WP-CLI
       # - run: curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
       # # Change Permissions so that can execute on wp-cli.phar
