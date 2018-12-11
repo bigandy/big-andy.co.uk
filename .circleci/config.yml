@@ -6,7 +6,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/7.2-apache-stretch-node-browsers-legacy
+      - image: circleci/php:7.2-apache-stretch-node-browsers-legacy
 
     steps:
       - checkout
