@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit30be2a33c4da94a99ba8a12a83eddc9b
+class ComposerStaticInit851978813e3c902733243192aba48f53
 {
     public static $files = array (
         '2c102faa651ef8ea5874edb585946bce' => __DIR__ . '/..' . '/swiftmailer/swiftmailer/lib/swift_required.php',
@@ -28,6 +28,7 @@ class ComposerStaticInit30be2a33c4da94a99ba8a12a83eddc9b
         'S' => 
         array (
             'Symfony\\Polyfill\\Mbstring\\' => 26,
+            'Symfony\\Contracts\\' => 18,
             'Symfony\\Component\\Translation\\' => 30,
             'Symfony\\Component\\EventDispatcher\\' => 34,
         ),
@@ -42,7 +43,6 @@ class ComposerStaticInit30be2a33c4da94a99ba8a12a83eddc9b
         ),
         'I' => 
         array (
-            'Inpsyde\\BackWPup\\Tests\\' => 23,
             'Inpsyde\\BackWPup\\' => 17,
         ),
         'F' => 
@@ -72,6 +72,10 @@ class ComposerStaticInit30be2a33c4da94a99ba8a12a83eddc9b
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
         ),
+        'Symfony\\Contracts\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/contracts',
+        ),
         'Symfony\\Component\\Translation\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/translation',
@@ -91,10 +95,6 @@ class ComposerStaticInit30be2a33c4da94a99ba8a12a83eddc9b
         'Monolog\\' => 
         array (
             0 => __DIR__ . '/..' . '/monolog/monolog/src/Monolog',
-        ),
-        'Inpsyde\\BackWPup\\Tests\\' => 
-        array (
-            0 => __DIR__ . '/../..' . '/tests/php',
         ),
         'Inpsyde\\BackWPup\\' => 
         array (
@@ -152,12 +152,10 @@ class ComposerStaticInit30be2a33c4da94a99ba8a12a83eddc9b
             'Guzzle\\Tests' => 
             array (
                 0 => __DIR__ . '/..' . '/guzzle/guzzle/tests',
-                1 => __DIR__ . '/..' . '/guzzlehttp/guzzle/tests',
             ),
             'Guzzle' => 
             array (
                 0 => __DIR__ . '/..' . '/guzzle/guzzle/src',
-                1 => __DIR__ . '/..' . '/guzzlehttp/guzzle/src',
             ),
         ),
         'C' => 
@@ -2058,10 +2056,10 @@ class ComposerStaticInit30be2a33c4da94a99ba8a12a83eddc9b
         'Psr\\Log\\Test\\DummyTest' => __DIR__ . '/..' . '/psr/log/Psr/Log/Test/LoggerInterfaceTest.php',
         'Psr\\Log\\Test\\LoggerInterfaceTest' => __DIR__ . '/..' . '/psr/log/Psr/Log/Test/LoggerInterfaceTest.php',
         'Psr\\Log\\Test\\TestLogger' => __DIR__ . '/..' . '/psr/log/Psr/Log/Test/TestLogger.php',
-        'Symfony\\Component\\EventDispatcher\\ContainerAwareEventDispatcher' => __DIR__ . '/..' . '/symfony/event-dispatcher/ContainerAwareEventDispatcher.php',
         'Symfony\\Component\\EventDispatcher\\Debug\\TraceableEventDispatcher' => __DIR__ . '/..' . '/symfony/event-dispatcher/Debug/TraceableEventDispatcher.php',
         'Symfony\\Component\\EventDispatcher\\Debug\\TraceableEventDispatcherInterface' => __DIR__ . '/..' . '/symfony/event-dispatcher/Debug/TraceableEventDispatcherInterface.php',
         'Symfony\\Component\\EventDispatcher\\Debug\\WrappedListener' => __DIR__ . '/..' . '/symfony/event-dispatcher/Debug/WrappedListener.php',
+        'Symfony\\Component\\EventDispatcher\\DependencyInjection\\ExtractingEventDispatcher' => __DIR__ . '/..' . '/symfony/event-dispatcher/DependencyInjection/RegisterListenersPass.php',
         'Symfony\\Component\\EventDispatcher\\DependencyInjection\\RegisterListenersPass' => __DIR__ . '/..' . '/symfony/event-dispatcher/DependencyInjection/RegisterListenersPass.php',
         'Symfony\\Component\\EventDispatcher\\Event' => __DIR__ . '/..' . '/symfony/event-dispatcher/Event.php',
         'Symfony\\Component\\EventDispatcher\\EventDispatcher' => __DIR__ . '/..' . '/symfony/event-dispatcher/EventDispatcher.php',
@@ -2121,6 +2119,26 @@ class ComposerStaticInit30be2a33c4da94a99ba8a12a83eddc9b
         'Symfony\\Component\\Translation\\TranslatorInterface' => __DIR__ . '/..' . '/symfony/translation/TranslatorInterface.php',
         'Symfony\\Component\\Translation\\Util\\ArrayConverter' => __DIR__ . '/..' . '/symfony/translation/Util/ArrayConverter.php',
         'Symfony\\Component\\Translation\\Writer\\TranslationWriter' => __DIR__ . '/..' . '/symfony/translation/Writer/TranslationWriter.php',
+        'Symfony\\Contracts\\Cache\\CacheInterface' => __DIR__ . '/..' . '/symfony/contracts/Cache/CacheInterface.php',
+        'Symfony\\Contracts\\Cache\\CacheTrait' => __DIR__ . '/..' . '/symfony/contracts/Cache/CacheTrait.php',
+        'Symfony\\Contracts\\Cache\\CallbackInterface' => __DIR__ . '/..' . '/symfony/contracts/Cache/CallbackInterface.php',
+        'Symfony\\Contracts\\Cache\\ItemInterface' => __DIR__ . '/..' . '/symfony/contracts/Cache/ItemInterface.php',
+        'Symfony\\Contracts\\Cache\\TagAwareCacheInterface' => __DIR__ . '/..' . '/symfony/contracts/Cache/TagAwareCacheInterface.php',
+        'Symfony\\Contracts\\Service\\ResetInterface' => __DIR__ . '/..' . '/symfony/contracts/Service/ResetInterface.php',
+        'Symfony\\Contracts\\Service\\ServiceLocatorTrait' => __DIR__ . '/..' . '/symfony/contracts/Service/ServiceLocatorTrait.php',
+        'Symfony\\Contracts\\Service\\ServiceSubscriberInterface' => __DIR__ . '/..' . '/symfony/contracts/Service/ServiceSubscriberInterface.php',
+        'Symfony\\Contracts\\Service\\ServiceSubscriberTrait' => __DIR__ . '/..' . '/symfony/contracts/Service/ServiceSubscriberTrait.php',
+        'Symfony\\Contracts\\Tests\\Cache\\CacheTraitTest' => __DIR__ . '/..' . '/symfony/contracts/Tests/Cache/CacheTraitTest.php',
+        'Symfony\\Contracts\\Tests\\Cache\\TestPool' => __DIR__ . '/..' . '/symfony/contracts/Tests/Cache/CacheTraitTest.php',
+        'Symfony\\Contracts\\Tests\\Service\\ChildTestService' => __DIR__ . '/..' . '/symfony/contracts/Tests/Service/ServiceSubscriberTraitTest.php',
+        'Symfony\\Contracts\\Tests\\Service\\ParentTestService' => __DIR__ . '/..' . '/symfony/contracts/Tests/Service/ServiceSubscriberTraitTest.php',
+        'Symfony\\Contracts\\Tests\\Service\\ServiceLocatorTest' => __DIR__ . '/..' . '/symfony/contracts/Tests/Service/ServiceLocatorTest.php',
+        'Symfony\\Contracts\\Tests\\Service\\ServiceSubscriberTraitTest' => __DIR__ . '/..' . '/symfony/contracts/Tests/Service/ServiceSubscriberTraitTest.php',
+        'Symfony\\Contracts\\Tests\\Service\\TestService' => __DIR__ . '/..' . '/symfony/contracts/Tests/Service/ServiceSubscriberTraitTest.php',
+        'Symfony\\Contracts\\Tests\\Translation\\TranslatorTest' => __DIR__ . '/..' . '/symfony/contracts/Tests/Translation/TranslatorTest.php',
+        'Symfony\\Contracts\\Translation\\LocaleAwareInterface' => __DIR__ . '/..' . '/symfony/contracts/Translation/LocaleAwareInterface.php',
+        'Symfony\\Contracts\\Translation\\TranslatorInterface' => __DIR__ . '/..' . '/symfony/contracts/Translation/TranslatorInterface.php',
+        'Symfony\\Contracts\\Translation\\TranslatorTrait' => __DIR__ . '/..' . '/symfony/contracts/Translation/TranslatorTrait.php',
         'Symfony\\Polyfill\\Mbstring\\Mbstring' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/Mbstring.php',
         'System' => __DIR__ . '/..' . '/pear/pear-core-minimal/src/System.php',
         'WindowsAzure\\Blob\\BlobRestProxy' => __DIR__ . '/..' . '/microsoft/windowsazure/WindowsAzure/Blob/BlobRestProxy.php',
@@ -2491,11 +2509,11 @@ class ComposerStaticInit30be2a33c4da94a99ba8a12a83eddc9b
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit30be2a33c4da94a99ba8a12a83eddc9b::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit30be2a33c4da94a99ba8a12a83eddc9b::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit30be2a33c4da94a99ba8a12a83eddc9b::$prefixesPsr0;
-            $loader->fallbackDirsPsr0 = ComposerStaticInit30be2a33c4da94a99ba8a12a83eddc9b::$fallbackDirsPsr0;
-            $loader->classMap = ComposerStaticInit30be2a33c4da94a99ba8a12a83eddc9b::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit851978813e3c902733243192aba48f53::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit851978813e3c902733243192aba48f53::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit851978813e3c902733243192aba48f53::$prefixesPsr0;
+            $loader->fallbackDirsPsr0 = ComposerStaticInit851978813e3c902733243192aba48f53::$fallbackDirsPsr0;
+            $loader->classMap = ComposerStaticInit851978813e3c902733243192aba48f53::$classMap;
 
         }, null, ClassLoader::class);
     }
