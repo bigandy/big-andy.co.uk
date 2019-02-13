@@ -18,7 +18,7 @@ class RWMB_Loader {
 	 */
 	protected function constants() {
 		// Script version, used to add version for scripts and styles.
-		define( 'RWMB_VER', '4.15.9' );
+		define( 'RWMB_VER', '4.16.3' );
 
 		list( $path, $url ) = self::get_path( dirname( dirname( __FILE__ ) ) );
 
@@ -86,8 +86,10 @@ class RWMB_Loader {
 		$core = new RWMB_Core();
 		$core->init();
 
-		$about = new RWMB_About();
-		$about->init();
+		if ( is_admin() ) {
+			$about = new RWMB_About();
+			$about->init();
+		}
 
 		// Validation module.
 		new RWMB_Validation();
