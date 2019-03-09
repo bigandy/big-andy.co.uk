@@ -1,9 +1,9 @@
 ﻿=== Reveal IDs ===
 Contributors: Alphawolf
-Donate link: http://www.schloebe.de/donate/
-Tags: reveal, id, wp-admin, hidden, category, post, page, media, links, capability, user, restore, comments, taxonomy, custom posts
+Donate link: https://www.schloebe.de/donate/
+Tags: reveal, id, wp-admin, hidden, category, post, page, media, links, capability, user, restore, comments, taxonomy, custom posts, post type, multisite, ms
 Requires at least: 3.0
-Tested up to: 3.9
+Tested up to: 5.1.9999
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -18,10 +18,9 @@ What this plugin does is to reveal most removed entry IDs on admin pages, showin
 
 **Features:**
 
-* Following IDs can be revealed: posts, pages, categories, links, media, users, comments, link categories, custom taxonomies, custom post types, tags
 * Sortable columns for WP 3.1 or higher
 
-[Developer on Google+](https://plus.google.com/118074611982254715031 "Developer on Google+") | [Developer on Twitter](http://twitter.com/wpseek "Developer on Twitter")
+[Developer on Twitter](https://twitter.com/wpseek "Developer on Twitter")
 
 **Included languages:**
 
@@ -38,8 +37,9 @@ What this plugin does is to reveal most removed entry IDs on admin pages, showin
 * Romanian (ro_RO) (Thanks for contributing romanian language goes to [Anunturi Jibo](http://www.jibo.ro))
 * Georgian (ge_KA) (Thanks for contributing georgian language goes to [Online Casino Bluebook](http://www.onlinecasinobluebook.com/))
 * Swedish (sv_SE) (Thanks for contributing swedish language goes to [Tor-Bjorn Fjellner](http://fjellner.com/))
+* Ukrainian (uk) (Thanks for contributing ukrainian language goes to [Everycloud](http://www.everycloudtech.com/))
 
-**Looking for more WordPress plugins? Visit [www.schloebe.de/portfolio/](http://www.schloebe.de/portfolio/)**
+**Looking for more WordPress plugins? Visit [www.schloebe.de/portfolio/](https://www.schloebe.de/portfolio/)**
 
 == Frequently Asked Questions ==
 
@@ -54,6 +54,33 @@ None.
 
 == Changelog ==
 
+= 1.5.3 =
+* Showing ID columns for plugins that register non-public post types and taxonomies
+
+= 1.5.2 =
+* Workaround for third-party plugin incompatibilities
+
+= 1.5.1 =
+* Sortable columns for users listing on multisite/network
+
+= 1.5.0 =
+* Full support for multisite
+* Code cleanup
+
+= 1.4.7 =
+* WordPress 4.7 compatibility
+* PHP 7 compatibility
+
+= 1.4.6.2 =
+* Added ukrainian localization (Thanks to Alisa Bagrii!)
+
+= 1.4.6.1 =
+* Backend cleanup
+* Added uninstall.php
+
+= 1.4.6 =
+* Fixed an issue that caused a redirection loop in some environments
+
 = 1.4.5 =
 * Fixed a 'Redefining already defined constructor' bug that occured on several configurations
 * Prepwork for Language Packs
@@ -66,7 +93,7 @@ None.
 
 = 1.3.0 =
 * Complete Code rewrite
-* Full wupport for custom post types
+* Full support for custom post types
 * Full support for custom taxonomies
 
 = 1.2.7 =
