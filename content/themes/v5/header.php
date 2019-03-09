@@ -1,3 +1,11 @@
+<?php
+/**
+ * Header.php
+ *
+ * @package bigandy
+ */
+
+?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -17,7 +25,7 @@
 	<link rel="authorization_endpoint" href="https://indieauth.com/auth">
 	<link rel="token_endpoint" href="https://tokens.indieauth.com/token">
 
-	<style><?php include_once( 'style.css' ); ?></style>
+	<style><?php require_once 'style.css'; ?></style>
 
 	<?php wp_head(); ?>
 </head>

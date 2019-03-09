@@ -1,6 +1,8 @@
 {
 	"require-dev": {
-		"squizlabs/php_codesniffer": "3.*",
-		"dealerdirect/phpcodesniffer-composer-installer": "^0.4.4"
+		"dealerdirect/phpcodesniffer-composer-installer": "*",
+		"object-calisthenics/phpcs-calisthenics-rules": "*",
+		"phpcompatibility/php-compatibility": "*",
+		"wp-coding-standards/wpcs": "^1.1.0"
 	}
 }

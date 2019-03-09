@@ -1,18 +1,24 @@
 <?php
+/**
+ * Functions.php
+ *
+ * @package bigandy
+ */
+
 $functions = get_template_directory() . '/functions/';
 
-include( $functions . 'misc.php' );
-include( $functions . 'script-style.php' );
-include( $functions . 'images.php' );
-include( $functions . 'responsive-images.php' );
-include( $functions . 'nav.php' );
-include( $functions . 'customizer.php' );
-include( $functions . 'admin.php' );
-include( $functions . 'service-worker.php' );
+require $functions . 'misc.php';
+require $functions . 'script-style.php';
+require $functions . 'images.php';
+require $functions . 'responsive-images.php';
+require $functions . 'nav.php';
+require $functions . 'customizer.php';
+require $functions . 'admin.php';
+require $functions . 'service-worker.php';
 
 if ( true === $publish_post ) {
-	include( $functions . 'publish-post.php' );
+	require $functions . 'publish-post.php';
 }
 
-include( $functions . 'micropub.php' );
+require $functions . 'micropub.php';
 

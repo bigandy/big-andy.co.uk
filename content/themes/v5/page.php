@@ -1,4 +1,12 @@
-<?php get_header(); ?>
+<?php
+/**
+ * Page.php
+ *
+ * @package bigandy
+ */
+
+get_header();
+?>
 <main class="row content-container" id="main">
 	<?php
 	if ( have_posts() ) {

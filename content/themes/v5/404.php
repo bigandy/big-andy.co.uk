@@ -1,4 +1,12 @@
-<?php get_header(); ?>
+<?php
+/**
+ * 404.php
+ *
+ * @package bigandy
+ */
+
+get_header();
+?>
 <main class="row content-container" id="main">
 	<article role="article" class="large-12 columns">
 		<section class="post-content clearfix">

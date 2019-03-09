@@ -1,12 +1,18 @@
 <?php
+/**
+ * Front-page.php
+ *
+ * @package bigandy
+ */
+
 get_header();
-$paged = get_query_var( 'page' );
+$page_number = get_query_var( 'page' );
 ?>
 <main class="row content-container" id="main">
 	<div class="large-8 large-push-2 small-12 columns">
 		<section class="home__intro">
 			<?php
-			if ( have_posts() && '' === $paged ) {
+			if ( have_posts() && '' === $page_number ) {
 				while ( have_posts() ) {
 					the_post();
 					?>
@@ -17,7 +23,7 @@ $paged = get_query_var( 'page' );
 				}
 			} else {
 				?>
-				<h2 class="home__intro--archive">Post Archive: Page <?php echo esc_html( $paged ); ?></h2>
+				<h2 class="home__intro--archive">Post Archive: Page <?php echo esc_html( $page_number ); ?></h2>
 				<?php
 			}
 			?>
@@ -27,7 +33,7 @@ $paged = get_query_var( 'page' );
 			<?php
 			$home_args = array(
 				'cat'   => -31,
-				'paged' => $paged,
+				'paged' => $page_number,
 			);
 
 			$home_loop = new WP_Query( $home_args );
@@ -36,7 +42,7 @@ $paged = get_query_var( 'page' );
 				while ( $home_loop->have_posts() ) {
 					$home_loop->the_post();
 
-					$title = get_the_title();
+					$page_title = get_the_title();
 
 					if ( has_post_format( 'aside' ) ) {
 						$aside = true;
@@ -61,7 +67,7 @@ $paged = get_query_var( 'page' );
 								<?php
 							}
 							if ( '' !== get_the_title() ) {
-								echo esc_html( $title );
+								echo esc_html( $page_title );
 							} else {
 								?>
 								<time class="article__time" datetime="<?php the_time( 'c' ); ?>">
@@ -75,7 +81,7 @@ $paged = get_query_var( 'page' );
 								</a>
 								</h2>
 								<?php
-								if ( '' !== $title ) {
+								if ( '' !== $page_title ) {
 									?>
 									<time class="article__time" datetime="<?php the_time( 'c' ); ?>">
 										<?php the_time( 'd/m/Y' ); ?>
