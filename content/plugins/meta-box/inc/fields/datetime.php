@@ -79,7 +79,7 @@ class RWMB_Datetime_Field extends RWMB_Text_Field {
 			'localeShort' => $locale_short,
 		);
 		foreach ( $handles as $handle ) {
-			self::localize_script( "rwmb-$handle", 'RWMB_' . ucfirst( $handle ), $data );
+			RWMB_Helpers_Field::localize_script_once( "rwmb-$handle", 'RWMB_' . ucfirst( $handle ), $data );
 		}
 	}
 
@@ -145,7 +145,7 @@ class RWMB_Datetime_Field extends RWMB_Text_Field {
 
 		if ( $field['save_format'] ) {
 			$date = DateTime::createFromFormat( self::call( 'translate_format', $field ), $new );
-			$new  = $date->format( $field['save_format'] );
+			$new  = false === $date ? $new : $date->format( $field['save_format'] );
 		}
 
 		return $new;
@@ -173,7 +173,7 @@ class RWMB_Datetime_Field extends RWMB_Text_Field {
 		}
 
 		$date = DateTime::createFromFormat( $field['save_format'], $meta );
-		$meta = $date->format( self::call( 'translate_format', $field ) );
+		$meta = false === $date ? $meta : $date->format( self::call( 'translate_format', $field ) );
 
 		return $meta;
 	}

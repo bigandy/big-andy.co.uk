@@ -66,7 +66,7 @@ class RWMB_Post_Field extends RWMB_Object_Choice_Field {
 	 * @return array        Field options array.
 	 */
 	public static function query( $field ) {
-		$args    = wp_parse_args(
+		$args = wp_parse_args(
 			$field['query_args'],
 			array(
 				'post_type'              => $field['post_type'],
@@ -79,8 +79,11 @@ class RWMB_Post_Field extends RWMB_Object_Choice_Field {
 		);
 
 		// Get from cache to prevent same queries.
-		$cache_key = md5( serialize( $args ) );
-		$options = wp_cache_get( $cache_key, 'meta-box-post-field' );
+		$last_changed = wp_cache_get_last_changed( 'posts' );
+		$key          = md5( serialize( $args ) );
+		$cache_key    = "$key:$last_changed";
+		$options      = wp_cache_get( $cache_key, 'meta-box-post-field' );
+
 		if ( false !== $options ) {
 			return $options;
 		}

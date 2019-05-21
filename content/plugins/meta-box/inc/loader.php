@@ -18,7 +18,7 @@ class RWMB_Loader {
 	 */
 	protected function constants() {
 		// Script version, used to add version for scripts and styles.
-		define( 'RWMB_VER', '4.16.3' );
+		define( 'RWMB_VER', '4.18.1' );
 
 		list( $path, $url ) = self::get_path( dirname( dirname( __FILE__ ) ) );
 
@@ -80,6 +80,7 @@ class RWMB_Loader {
 		$autoloader->add( RWMB_INC_DIR . 'walkers', 'RWMB_Walker_' );
 		$autoloader->add( RWMB_INC_DIR . 'interfaces', 'RWMB_', '_Interface' );
 		$autoloader->add( RWMB_INC_DIR . 'storages', 'RWMB_', '_Storage' );
+		$autoloader->add( RWMB_INC_DIR . 'helpers', 'RWMB_Helpers_' );
 		$autoloader->register();
 
 		// Plugin core.

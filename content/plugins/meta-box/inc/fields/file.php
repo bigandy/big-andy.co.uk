@@ -16,7 +16,7 @@ class RWMB_File_Field extends RWMB_Field {
 		wp_enqueue_style( 'rwmb-file', RWMB_CSS_URL . 'file.css', array(), RWMB_VER );
 		wp_enqueue_script( 'rwmb-file', RWMB_JS_URL . 'file.js', array( 'jquery-ui-sortable' ), RWMB_VER, true );
 
-		self::localize_script(
+		RWMB_Helpers_Field::localize_script_once(
 			'rwmb-file',
 			'rwmbFile',
 			array(
@@ -89,12 +89,27 @@ class RWMB_File_Field extends RWMB_Field {
 		$html      = self::get_uploaded_files( $meta, $field );
 
 		// Show form upload.
+		$attributes          = self::get_attributes( $field, $meta );
+		$attributes['type']  = 'file';
+		$attributes['name']  = "{$field['file_input_name']}[]";
+		$attributes['class'] = 'rwmb-file-input';
+
+		/*
+		 * Use JavaScript to toggle 'required' attribute, because:
+		 * - Field might already have value (uploaded files).
+		 * - Be able to detect when uploading multiple files.
+		 */
+		if ( $attributes['required'] ) {
+			$attributes['data-required'] = 1;
+			$attributes['required']      = false;
+		}
+
 		$html .= sprintf(
 			'<div class="rwmb-file-new">
-				<input type="file" name="%s[]" class="rwmb-file-input">
+				<input %s>
 				<a class="rwmb-file-add" href="#"><strong>%s</strong></a>
 			</div>',
-			$field['file_input_name'],
+			self::render_attributes( $attributes ),
 			$i18n_more
 		);
 
@@ -152,13 +167,17 @@ class RWMB_File_Field extends RWMB_Field {
 		if ( $field['upload_dir'] ) {
 			$data = self::file_info_custom_dir( $file, $field );
 		} else {
-			$data = array(
+			$data      = array(
 				'icon'      => wp_get_attachment_image( $file, array( 60, 60 ), true ),
 				'name'      => basename( get_attached_file( $file ) ),
 				'url'       => wp_get_attachment_url( $file ),
 				'title'     => get_the_title( $file ),
-				'edit_link' => sprintf( '<a href="%s" class="rwmb-file-edit" target="_blank"><span class="dashicons dashicons-edit"></span>%s</a>', get_edit_post_link( $file ), $i18n_edit ),
+				'edit_link' => '',
 			);
+			$edit_link = get_edit_post_link( $file );
+			if ( $edit_link ) {
+				$data['edit_link'] = sprintf( '<a href="%s" class="rwmb-file-edit" target="_blank"><span class="dashicons dashicons-edit"></span>%s</a>', $edit_link, $i18n_edit );
+			}
 		}
 
 		return sprintf(
@@ -271,7 +290,7 @@ class RWMB_File_Field extends RWMB_Field {
 	 * @return \WP_Error|int|string WP_Error if has error, attachment ID if upload in Media Library, URL to file if upload to custom folder.
 	 */
 	protected static function handle_upload( $file_id, $post_id, $field ) {
-		return $field['upload_dir'] ? self::handle_upload_custom_dir( $file_id, $post_id, $field ) : media_handle_upload( $file_id, $post_id );
+		return $field['upload_dir'] ? self::handle_upload_custom_dir( $file_id, $field ) : media_handle_upload( $file_id, $post_id );
 	}
 
 	/**
@@ -446,12 +465,11 @@ class RWMB_File_Field extends RWMB_Field {
 	 * Handle upload for files in custom directory.
 	 *
 	 * @param string $file_id File ID in $_FILES when uploading.
-	 * @param int    $post_id Post ID.
 	 * @param array  $field   Field settings.
 	 *
 	 * @return string URL to uploaded file.
 	 */
-	public static function handle_upload_custom_dir( $file_id, $post_id, $field ) {
+	public static function handle_upload_custom_dir( $file_id, $field ) {
 		// @codingStandardsIgnoreStart
 		if ( empty( $_FILES[ $file_id ] ) ) {
 			return;

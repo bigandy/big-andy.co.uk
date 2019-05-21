@@ -28,18 +28,17 @@ jQuery( function ( $ ) {
 			var max = this.controller.get( 'maxFiles' ),
 				left = max - this.length;
 
-			if ( max > 0 && left <= 0 ) {
+			if ( ! models || ( max > 0 && left <= 0 ) ) {
 				return this;
 			}
-			if( models) {
-				if ( ! models.hasOwnProperty( 'length' ) ) {
-					models = [models];
-				} else if ( models instanceof media.model.Attachments ) {
-					models = models.models;
-				}
+			if ( ! models.hasOwnProperty( 'length' ) ) {
+				models = [models];
+			} else if ( models instanceof media.model.Attachments ) {
+				models = models.models;
 			}
+
+			models = _.difference( models, this.models );
 			if ( left > 0 ) {
-				models = _.difference( models, this.models );
 				models = _.first( models, left );
 			}
 
@@ -234,19 +233,17 @@ jQuery( function ( $ ) {
 			this.listenTo( itemView, 'click:edit', this.editItem );
 		},
 
-		//Add item view
 		addItemView: function ( item ) {
 			var index = this.collection.indexOf( item ),
-				itemEl = this.getItemView( item ).el;
+				itemEl = this.getItemView( item ).el,
+				$children = this.$el.children();
 
 			if ( 0 >= index ) {
 				this.$el.prepend( itemEl );
-			}
-			else if ( this.$el.children().length <= index ) {
+			} else if ( $children.length <= index ) {
 				this.$el.append( itemEl )
-			}
-			else {
-				this.$el.children().eq( index - 1 ).after( itemEl );
+			} else {
+				$children.eq( index - 1 ).after( itemEl );
 			}
 		},
 
@@ -261,28 +258,21 @@ jQuery( function ( $ ) {
 
 		resetItemViews: function( items ){
 			var that = this;
-			_.each( that.models, function( item ){
-				 that.removeItemView( item );
-			 } );
-			items.each( function( item ) {
-				that.addItemView( item );
-			} );
+			_.each( that.models, that.removeItemView );
+			items.each( that.addItemView );
 		},
 
 		switchItem: function ( item ) {
 			if ( this._switchFrame ) {
-				//this.stopListening( this._frame );
 				this._switchFrame.dispose();
 			}
 			this._switchFrame = new MediaSelect( {
-				className: 'media-frame rwmb-media-frame',
 				multiple: false,
-				title: i18nRwmbMedia.select,
 				editing: true,
 				library: {
 					type: this.controller.get( 'mimeType' )
 				},
-				edit: this.controller.get( 'items' )
+				edit: this.collection
 			} );
 
 			this._switchFrame.on( 'select', function () {
@@ -301,17 +291,15 @@ jQuery( function ( $ ) {
 		},
 
 		editItem: function ( item ) {
-			// Destroy the previous collection frame.
 			if ( this._editFrame ) {
-				//this.stopListening( this._frame );
 				this._editFrame.dispose();
 			}
 
-			// Trigger the media frame to open the correct item
+			// Trigger the media frame to open the correct item.
 			this._editFrame = new EditMedia( {
 				frame: 'edit-attachments',
 				controller: {
-					// Needed to trick Edit modal to think there is a gridRouter
+					// Needed to trick Edit modal to think there is a gridRouter.
 					gridRouter: {
 						navigate: function ( destination ) {
 						},
@@ -354,8 +342,7 @@ jQuery( function ( $ ) {
 		},
 
 		render: function () {
-			var attributes = _.clone( this.controller.attributes );
-			this.$el.html( this.template( attributes ) );
+			this.$el.html( this.template( this.controller.toJSON() ) );
 		}
 	} );
 
@@ -369,26 +356,22 @@ jQuery( function ( $ ) {
 		template: wp.template( 'rwmb-media-button' ),
 		events: {
 			'click .button': function () {
-				// Destroy the previous collection frame.
 				if ( this._frame ) {
-					//this.stopListening( this._frame );
 					this._frame.dispose();
 				}
 				var maxFiles = this.controller.get( 'maxFiles' );
 				this._frame = new MediaSelect( {
-					className: 'media-frame rwmb-media-frame',
 					multiple: maxFiles > 1 || maxFiles <= 0 ? 'add' : false,
-					title: i18nRwmbMedia.select,
 					editing: true,
 					library: {
 						type: this.controller.get( 'mimeType' )
 					},
-					edit: this.controller.get( 'items' )
+					edit: this.collection
 				} );
 
 				this._frame.on( 'select', function () {
 					var selection = this._frame.state().get( 'selection' );
-					this.controller.get( 'items' ).add( selection.models );
+					this.collection.add( selection.models );
 				}, this );
 
 				this._frame.open();
@@ -422,10 +405,9 @@ jQuery( function ( $ ) {
 		template: wp.template( 'rwmb-media-item' ),
 		initialize: function ( options ) {
 			this.controller = options.controller;
+			this.collection = this.controller.get( 'items' );
 			this.render();
-			this.listenTo( this.model, 'change', function () {
-				this.render();
-			} );
+			this.listenTo( this.model, 'change', this.render );
 
 			this.$el.data( 'id', this.model.cid );
 		},
@@ -449,9 +431,9 @@ jQuery( function ( $ ) {
 		},
 
 		render: function () {
-			var attrs = _.clone( this.model.attributes );
-			attrs.controller = _.clone( this.controller.attributes );
-			this.$el.html( this.template( attrs ) );
+			var data = this.model.toJSON();
+			data.controller = this.controller.toJSON();
+			this.$el.html( this.template( data ) );
 			return this;
 		}
 	} );
@@ -486,7 +468,7 @@ jQuery( function ( $ ) {
 	MediaLibrary = media.controller.Library.extend( {
 		defaults: _.defaults( {
 			multiple: 'add',
-			filterable: 'uploaded',
+			filterable: 'all',
 			priority: 100,
 			syncSelection: false
 		}, media.controller.Library.prototype.defaults ),
@@ -537,7 +519,6 @@ jQuery( function ( $ ) {
 				new MediaLibrary( {
 					library: media.query( options.library ),
 					multiple: options.multiple,
-					title: options.title,
 					priority: 20
 				} )
 			] );
